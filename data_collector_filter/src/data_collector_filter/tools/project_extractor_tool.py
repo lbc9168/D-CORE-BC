@@ -235,7 +235,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     }}
 
     ### 字段填写补充说明
-    - **Project Name**: "国家+区域+装机容量(MW)+项目类型+"项目"+补充信息"
+    - **Project Name**: 【必须使用中文填写】格式："国家+区域/省份+装机容量(MW)+项目类型+"项目"+补充说明"。示例："巴基斯坦旁遮普省200MW光伏项目"、"埃塞俄比亚500MW水电项目（二期）"。国家名、项目类型必须用中文；区域/省份无通用中文译名时可保留英文（如"Sindh省"）；【严禁】直接照抄英文原文（如"Pakistan 200MW Solar Project"）。
     - **Category**: 只能选 [光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]。
     - **status**: 枚举值 "valid_project" | "no_chinese_participation" | "irrelevant"
     - **Type of involvement of Chinese Entities**: 只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, Unknown]。
