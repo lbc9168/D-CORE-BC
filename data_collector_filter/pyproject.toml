@@ -1,0 +1,30 @@
+[project]
+name = "data_collector_filter"
+version = "0.1.0"
+description = "Data_collector_filter using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools,google-genai]==1.9.3",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.0",
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "python-dotenv>=1.0.0",
+    "google-genai>=1.49.0",
+]
+
+[project.scripts]
+data_collector_filter = "data_collector_filter.main:run"
+run_crew = "data_collector_filter.main:run"
+train = "data_collector_filter.main:train"
+replay = "data_collector_filter.main:replay"
+test = "data_collector_filter.main:test"
+run_with_trigger = "data_collector_filter.main:run_with_trigger"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"

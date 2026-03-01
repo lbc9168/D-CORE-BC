@@ -1,0 +1,30 @@
+crawl_news_task:
+  description: >
+    使用新闻爬取工具，从新闻源 {source_url} 抓取 {start_date} 至 {end_date} 期间的新闻文章。
+    关键词过滤条件（正文包含任意一个即保留）：{keywords}。
+    将符合条件的新闻保存为 Excel 文件，存放于 {raw_data_dir} 目录下。
+    完成后报告最终保存的文件完整路径和抓取到的新闻数量。
+  expected_output: >
+    一段文字摘要，包含：成功保存的 Excel 文件的完整路径，以及抓取并保留的新闻总条数。
+    例如："采集完成。共抓取 127 条符合条件的新闻。文件已保存至：/path/to/data/raw/Energy_News_Raw_20260301_1430.xlsx"
+  agent: news_crawler
+
+extract_projects_task:
+  description: >
+    读取上一步采集任务生成的 Excel 数据文件（文件路径见上文任务输出），
+    对每篇新闻进行 AI 智能分析，识别并提取其中涉及中国企业参与的海外可再生能源项目信息。
+    将结果分三类保存至 {processed_data_dir} 目录：
+      1. 有效项目数据库（含中方参与的可再生能源电站项目）
+      2. 无中方参与项目（可再生能源项目但无中方）
+      3. 被剔除无关新闻（制造厂、输变电、化石能源等）
+    同时保存所有 AI 分析原始结果的 JSON 文件。
+    完成后报告各类别的数量和所有输出文件的路径。
+  expected_output: >
+    一段文字摘要，包含：各分类的条目数量，以及所有输出文件的完整路径列表。
+    例如：
+    "提取完成。输出文件：
+      - 有效项目 (43 行): /path/to/data/processed/BRI_RE_Final_Database_20260301_1500.xlsx
+      - 无中方参与 (12 条): /path/to/...
+      - 被剔除新闻 (72 条): /path/to/...
+      - AI原始结果 (127 条): /path/to/..."
+  agent: project_extractor
