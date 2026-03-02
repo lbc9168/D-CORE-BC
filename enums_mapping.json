@@ -1,0 +1,50 @@
+{
+  "_comment": "枚举字段中英文映射表。数据库只存代码/中文键，网站渲染时通过此表转换显示语言。",
+
+  "category": {
+    "光伏":     { "zh": "光伏",     "en": "Solar (PV)",                    "code": "PV" },
+    "风电":     { "zh": "风电",     "en": "Wind",                          "code": "WD" },
+    "水电":     { "zh": "水电",     "en": "Hydroelectric",                 "code": "HY" },
+    "地热及余热": { "zh": "地热及余热", "en": "Geothermal & Waste Heat",    "code": "GT" },
+    "生物质":   { "zh": "生物质",   "en": "Biomass",                       "code": "BM" },
+    "储能":     { "zh": "储能",     "en": "Energy Storage",                "code": "ES" },
+    "综合能源": { "zh": "综合能源", "en": "Hybrid / Integrated Energy",    "code": "HB" }
+  },
+
+  "project_stage": {
+    "收购":     { "zh": "收购",     "en": "Acquisition" },
+    "中标":     { "zh": "中标",     "en": "Awarded" },
+    "签约":     { "zh": "签约",     "en": "Signed" },
+    "开工":     { "zh": "开工",     "en": "Construction Started" },
+    "在建":     { "zh": "在建",     "en": "Under Construction" },
+    "竣工":     { "zh": "竣工",     "en": "Completed" },
+    "投入运营": { "zh": "投入运营", "en": "Operational" },
+    "Unknown":  { "zh": "未知",     "en": "Unknown" }
+  },
+
+  "financing_model": {
+    "信贷融资": { "zh": "信贷融资", "en": "Debt Financing (Credit)" },
+    "债券融资": { "zh": "债券融资", "en": "Bond Financing" },
+    "股权融资": { "zh": "股权融资", "en": "Equity Financing" },
+    "混合融资": { "zh": "混合融资", "en": "Blended Financing" },
+    "其他":     { "zh": "其他",     "en": "Other" },
+    "Unknown":  { "zh": "未知",     "en": "Unknown" }
+  },
+
+  "involvement_type": {
+    "BOT/BOOT":     { "zh": "BOT/BOOT",     "en": "BOT/BOOT" },
+    "EPC总承包":    { "zh": "EPC总承包",    "en": "EPC Contractor" },
+    "设计/施工服务方": { "zh": "设计/施工服务方", "en": "Design & Construction Service" },
+    "股权投资方":   { "zh": "股权投资方",   "en": "Equity Investor" },
+    "设备供应商":   { "zh": "设备供应商",   "en": "Equipment Supplier" },
+    "投融资+EPC":   { "zh": "投融资+EPC",   "en": "Invest-Finance + EPC" },
+    "Unknown":      { "zh": "未知",         "en": "Unknown" }
+  },
+
+  "name_en_quality": {
+    "ai_translated":    { "zh": "AI翻译",   "en": "AI Translated",   "display_tag": "[译]" },
+    "source_verified":  { "zh": "信源确认", "en": "Source Verified", "display_tag": "" },
+    "manual_verified":  { "zh": "人工确认", "en": "Manually Verified", "display_tag": "" },
+    "official":         { "zh": "官方名称", "en": "Official Name",   "display_tag": "" }
+  }
+}

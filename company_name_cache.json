@@ -1,0 +1,48 @@
+{
+  "_comment": "中国企业名称中英文对照缓存。verified=true 表示英文名已通过官方信源或人工确认。Phase B（外部验证模块）中将实现自动更新。",
+
+  "中国电建":   { "en": "Power Construction Corporation of China (PowerChina)", "en_abbr": "PowerChina", "verified": true,  "source": "official" },
+  "中国能建":   { "en": "China Energy Engineering Corporation (CEEC)",           "en_abbr": "CEEC",       "verified": true,  "source": "official" },
+  "葛洲坝集团": { "en": "China Gezhouba Group Corporation (CGGC)",               "en_abbr": "CGGC",       "verified": true,  "source": "official" },
+
+  "国家电投":   { "en": "State Power Investment Corporation (SPIC)",             "en_abbr": "SPIC",       "verified": true,  "source": "official" },
+  "国家能源集团": { "en": "China Energy Investment Corporation (CHN Energy)",    "en_abbr": "CHN Energy", "verified": true,  "source": "official" },
+  "中国华能":   { "en": "China Huaneng Group (Huaneng)",                         "en_abbr": "Huaneng",    "verified": true,  "source": "official" },
+  "中国大唐":   { "en": "China Datang Corporation (Datang)",                     "en_abbr": "Datang",     "verified": true,  "source": "official" },
+  "中国华电":   { "en": "China Huadian Corporation (Huadian)",                   "en_abbr": "Huadian",    "verified": true,  "source": "official" },
+  "三峡集团":   { "en": "China Three Gorges Corporation (CTG)",                  "en_abbr": "CTG",        "verified": true,  "source": "official" },
+  "长江电力":   { "en": "Yangtze Power (CYPC)",                                  "en_abbr": "CYPC",       "verified": true,  "source": "official" },
+  "三峡能源":   { "en": "CTG New Energy (CTGNE)",                                "en_abbr": "CTGNE",      "verified": true,  "source": "official" },
+  "三峡国际":   { "en": "CTG International (CTGI)",                              "en_abbr": "CTGI",       "verified": true,  "source": "official" },
+  "中广核":     { "en": "China General Nuclear Power Group (CGN)",               "en_abbr": "CGN",        "verified": true,  "source": "official" },
+  "中核集团":   { "en": "China National Nuclear Corporation (CNNC)",             "en_abbr": "CNNC",       "verified": true,  "source": "official" },
+  "华润电力":   { "en": "China Resources Power (CR Power)",                      "en_abbr": "CR Power",   "verified": true,  "source": "official" },
+  "上海电力":   { "en": "Shanghai Electric Power (SEP)",                         "en_abbr": "SEP",        "verified": true,  "source": "official" },
+  "龙源电力":   { "en": "Longyuan Power Group",                                  "en_abbr": "Longyuan",   "verified": true,  "source": "official" },
+
+  "国家电网":   { "en": "State Grid Corporation of China (SGCC)",                "en_abbr": "SGCC",       "verified": true,  "source": "official" },
+  "南方电网":   { "en": "China Southern Power Grid (CSG)",                       "en_abbr": "CSG",        "verified": true,  "source": "official" },
+  "东方电气":   { "en": "Dongfang Electric Corporation (DEC)",                   "en_abbr": "DEC",        "verified": true,  "source": "official" },
+  "哈电集团":   { "en": "Harbin Electric Corporation (HEC)",                     "en_abbr": "HEC",        "verified": true,  "source": "official" },
+  "上海电气":   { "en": "Shanghai Electric Group (SEC)",                         "en_abbr": "SEC",        "verified": true,  "source": "official" },
+
+  "宁德时代":   { "en": "Contemporary Amperex Technology Co. (CATL)",            "en_abbr": "CATL",       "verified": true,  "source": "official" },
+  "比亚迪":     { "en": "BYD Company Limited",                                   "en_abbr": "BYD",        "verified": true,  "source": "official" },
+  "隆基绿能":   { "en": "LONGi Green Energy Technology (LONGi)",                 "en_abbr": "LONGi",      "verified": true,  "source": "official" },
+  "晶科能源":   { "en": "JinkoSolar Holding (Jinko)",                            "en_abbr": "Jinko",      "verified": true,  "source": "official" },
+  "晶澳科技":   { "en": "JA Solar Technology (JA Solar)",                        "en_abbr": "JA Solar",   "verified": true,  "source": "official" },
+  "阳光电源":   { "en": "Sungrow Power Supply (Sungrow)",                        "en_abbr": "Sungrow",    "verified": true,  "source": "official" },
+  "天合光能":   { "en": "Trina Solar (Trina)",                                   "en_abbr": "Trina",      "verified": true,  "source": "official" },
+  "通威股份":   { "en": "Tongwei Co., Ltd. (Tongwei)",                           "en_abbr": "Tongwei",    "verified": true,  "source": "official" },
+  "金风科技":   { "en": "Xinjiang Goldwind Science & Technology (Goldwind)",     "en_abbr": "Goldwind",   "verified": true,  "source": "official" },
+  "远景能源":   { "en": "Envision Energy",                                        "en_abbr": "Envision",   "verified": true,  "source": "official" },
+  "亿纬锂能":   { "en": "EVE Energy Co., Ltd.",                                   "en_abbr": "EVE",        "verified": true,  "source": "official" },
+
+  "中国进出口银行": { "en": "Export-Import Bank of China (EXIM Bank)",           "en_abbr": "EXIM Bank",  "verified": true,  "source": "official" },
+  "国家开发银行":   { "en": "China Development Bank (CDB)",                      "en_abbr": "CDB",        "verified": true,  "source": "official" },
+  "中国银行":       { "en": "Bank of China (BOC)",                               "en_abbr": "BOC",        "verified": true,  "source": "official" },
+  "中国建设银行":   { "en": "China Construction Bank (CCB)",                     "en_abbr": "CCB",        "verified": true,  "source": "official" },
+  "中国工商银行":   { "en": "Industrial and Commercial Bank of China (ICBC)",    "en_abbr": "ICBC",       "verified": true,  "source": "official" },
+  "中国农业银行":   { "en": "Agricultural Bank of China (ABC)",                  "en_abbr": "ABC",        "verified": true,  "source": "official" },
+  "中国出口信用保险公司": { "en": "China Export & Credit Insurance Corporation (Sinosure)", "en_abbr": "Sinosure", "verified": true, "source": "official" }
+}

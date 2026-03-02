@@ -46,15 +46,17 @@ GEMINI_MODEL = "gemini-2.5-flash-lite"
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS canonical_projects (
-    id           TEXT PRIMARY KEY,   -- e.g. IND-PV-0001
-    project_name TEXT,
-    country      TEXT,
-    country_iso  TEXT,
-    bri_country  TEXT,
-    ldc          TEXT,
-    location     TEXT,
-    category     TEXT,
-    created_at   TEXT
+    id               TEXT PRIMARY KEY,   -- e.g. IND-PV-0001
+    project_name     TEXT,
+    project_name_en  TEXT,
+    name_en_quality  TEXT DEFAULT 'ai_translated',  -- ai_translated | source_verified | manual_verified | official
+    country          TEXT,
+    country_iso      TEXT,
+    bri_country      TEXT,
+    ldc              TEXT,
+    location         TEXT,
+    category         TEXT,
+    created_at       TEXT
 );
 
 CREATE TABLE IF NOT EXISTS project_events (
@@ -74,16 +76,24 @@ CREATE TABLE IF NOT EXISTS project_events (
     source_links            TEXT,   -- JSON 数组
     publish_date            TEXT,
     additional_remarks      TEXT,
-    created_at              TEXT
+    created_at              TEXT,
+    -- 外部信源交叉验证字段（由 cross_verification_tool 填写）
+    verification_status     TEXT DEFAULT 'unverified',  -- unverified | verified | unmatched | pending_review
+    verification_confidence TEXT,                       -- high | medium | low
+    verification_sources    TEXT,                       -- JSON 数组，外部信源 URL
+    needs_manual_review     INTEGER DEFAULT 0           -- 0 | 1
 );
 
 CREATE TABLE IF NOT EXISTS chinese_entities (
-    id                   INTEGER PRIMARY KEY AUTOINCREMENT,
-    event_id             TEXT NOT NULL REFERENCES project_events(id),
-    implementing_entity  TEXT,
-    subsidiary_name      TEXT,
-    involvement_type     TEXT,
-    subcontract_amount   TEXT
+    id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+    event_id                TEXT NOT NULL REFERENCES project_events(id),
+    implementing_entity     TEXT,
+    implementing_entity_en  TEXT,
+    subsidiary_name         TEXT,
+    subsidiary_name_en      TEXT,
+    entity_en_quality       TEXT DEFAULT 'ai_translated',  -- ai_translated | source_verified | manual_verified
+    involvement_type        TEXT,
+    subcontract_amount      TEXT
 );
 """
 
@@ -193,15 +203,19 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             if ent_key[0] and ent_key not in seen_entities:
                 seen_entities.add(ent_key)
                 entities.append({
-                    "implementing_entity": ent_key[0],
-                    "subsidiary_name":     _clean(row.get("Subsidiary Name", "")),
-                    "involvement_type":    ent_key[1],
-                    "subcontract_amount":  _clean(row.get("Subcontract Amount (Million USD)", "")),
+                    "implementing_entity":    ent_key[0],
+                    "implementing_entity_en": _clean(row.get("Implementing Chinese Entity (EN)", "")),
+                    "subsidiary_name":        _clean(row.get("Subsidiary Name", "")),
+                    "subsidiary_name_en":     _clean(row.get("Subsidiary Name (EN)", "")),
+                    "involvement_type":       ent_key[1],
+                    "subcontract_amount":     _clean(row.get("Subcontract Amount (Million USD)", "")),
                 })
 
         src = _clean(first.get("Source Link", ""))
         logical_projects.append({
             "project_name":         _clean(first.get("Project Name", "")),
+            "project_name_en":      _clean(first.get("Project Name (EN)", "")),
+            "name_en_quality":      _clean(first.get("Name EN Quality", "ai_translated")) or "ai_translated",
             "country":              _clean(first.get("Country", "")),
             "country_iso":          _clean(first.get("Country ISO", "")) or "UNK",
             "bri_country":          _clean(first.get("BRI country", "")),
@@ -362,6 +376,12 @@ def _merge_group(
                 merged_entities.append(e)
     base["entities"] = merged_entities
 
+    # EN 翻译字段：取首个非空值，无需 LLM 仲裁
+    for en_field in ["project_name_en"]:
+        vals = [r.get(en_field, "") for r in records if r.get(en_field)]
+        if vals:
+            base[en_field] = vals[0]
+
     # 字段冲突处理
     conflict_fields = [
         "capacity_mw", "project_developer",
@@ -469,10 +489,13 @@ def _find_or_create_canonical(
     new_id = _gen_canonical_id(conn, iso, _get_cat_code(cat))
     conn.execute(
         """INSERT INTO canonical_projects
-           (id, project_name, country, country_iso, bri_country, ldc, location, category, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+           (id, project_name, project_name_en, name_en_quality,
+            country, country_iso, bri_country, ldc, location, category, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             new_id, name,
+            project.get("project_name_en", ""),
+            project.get("name_en_quality", "ai_translated"),
             project["country"], iso,
             project["bri_country"], project["ldc"],
             project["location"], cat,
@@ -552,13 +575,19 @@ def _write_to_db(
             if not dupe:
                 conn.execute(
                     """INSERT INTO chinese_entities
-                       (event_id, implementing_entity, subsidiary_name,
+                       (event_id, implementing_entity, implementing_entity_en,
+                        subsidiary_name, subsidiary_name_en, entity_en_quality,
                         involvement_type, subcontract_amount)
-                       VALUES (?, ?, ?, ?, ?)""",
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         event_id,
-                        ent["implementing_entity"], ent["subsidiary_name"],
-                        ent["involvement_type"],    ent["subcontract_amount"],
+                        ent["implementing_entity"],
+                        ent.get("implementing_entity_en", ""),
+                        ent["subsidiary_name"],
+                        ent.get("subsidiary_name_en", ""),
+                        ent.get("entity_en_quality", "ai_translated"),
+                        ent["involvement_type"],
+                        ent["subcontract_amount"],
                     ),
                 )
                 cnt["entity_new"] += 1

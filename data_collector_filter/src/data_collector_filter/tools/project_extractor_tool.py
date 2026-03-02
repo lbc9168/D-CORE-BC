@@ -204,6 +204,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
         {{
           "common_info": {{
             "Project Name": "String",
+            "Project Name (EN)": "String",
             "Country": "String",
             "Location(State)": "String",
             "Category": "String",
@@ -225,7 +226,9 @@ def _build_prompt(title: str, content: str, date: str) -> str:
           "chinese_entities": [
             {{
               "Implementing Chinese Entity": "String",
+              "Implementing Chinese Entity (EN)": "String",
               "Subsidiary Name": "String",
+              "Subsidiary Name (EN)": "String",
               "Type of involvement of Chinese Entities": "String",
               "Subcontract Amount (Million USD)": "String"
             }}
@@ -236,11 +239,14 @@ def _build_prompt(title: str, content: str, date: str) -> str:
 
     ### 字段填写补充说明
     - **Project Name**: 【必须使用中文填写】格式："国家+区域/省份+装机容量(MW)+项目类型+"项目"+补充说明"。示例："巴基斯坦旁遮普省200MW光伏项目"、"埃塞俄比亚500MW水电项目（二期）"。国家名、项目类型必须用中文；区域/省份无通用中文译名时可保留英文（如"Sindh省"）；【严禁】直接照抄英文原文（如"Pakistan 200MW Solar Project"）。
+    - **Project Name (EN)**: 项目名称的英文版本。优先使用项目的官方英文名（如"Karot Hydropower Project"）；若无官方名，则按格式翻译："Country + Capacity MW + Energy Type + Project/Plant [补充说明]"，示例："Pakistan 200MW Solar PV Project (Punjab Province)"、"Ethiopia 500MW Hydropower Project (Phase II)"。
     - **Category**: 只能选 [光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]。
     - **status**: 枚举值 "valid_project" | "no_chinese_participation" | "irrelevant"
     - **Type of involvement of Chinese Entities**: 只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, Unknown]。
     - **Financing Model**: 只能选 [信贷融资, 债券融资, 股权融资, 混合融资, 其他, Unknown]。
     - **Project Stage**: 只能选 [收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
+    - **Implementing Chinese Entity (EN)**: 中方企业的官方英文名。请优先使用上方知识库括号内的英文名称，如"PowerChina"、"China Three Gorges Corporation (CTG)"、"CEEC"、"Huaneng"等。知识库未收录的企业，提供合理的英文译名。
+    - **Subsidiary Name (EN)**: 子公司的官方英文名或英文译名。如"Sinohydro Bureau 5"、"SEPCO III"等。
     - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。
     - **Official/Non-official Website link** 和 **Additional Remarks**: 不填写任何信息。
     """
@@ -378,6 +384,8 @@ class ProjectExtractorTool(BaseTool):
 
                         base = {
                             "Project Name": common.get("Project Name", ""),
+                            "Project Name (EN)": common.get("Project Name (EN)", ""),
+                            "Name EN Quality": "ai_translated",
                             "Country": country_name,
                             "Country ISO": meta["iso"],
                             "BRI country": meta["bri"],
@@ -415,7 +423,9 @@ class ProjectExtractorTool(BaseTool):
                             row_data = base.copy()
                             row_data.update({
                                 "Implementing Chinese Entity": "",
+                                "Implementing Chinese Entity (EN)": "",
                                 "Subsidiary Name": "",
+                                "Subsidiary Name (EN)": "",
                                 "Type of involvement of Chinese Entities": "",
                                 "Subcontract Amount (Million USD)": "",
                             })
@@ -427,7 +437,11 @@ class ProjectExtractorTool(BaseTool):
                                     "Implementing Chinese Entity": entity.get(
                                         "Implementing Chinese Entity", ""
                                     ),
+                                    "Implementing Chinese Entity (EN)": entity.get(
+                                        "Implementing Chinese Entity (EN)", ""
+                                    ),
                                     "Subsidiary Name": entity.get("Subsidiary Name", ""),
+                                    "Subsidiary Name (EN)": entity.get("Subsidiary Name (EN)", ""),
                                     "Type of involvement of Chinese Entities": entity.get(
                                         "Type of involvement of Chinese Entities", ""
                                     ),
@@ -451,10 +465,12 @@ class ProjectExtractorTool(BaseTool):
         saved_files = []
 
         col_order = [
-            "Project Name", "Country", "Country ISO", "BRI country", "LDCs",
+            "Project Name", "Project Name (EN)", "Name EN Quality",
+            "Country", "Country ISO", "BRI country", "LDCs",
             "Location (State)", "Category", "Capacity (MW)", "Capacity Details",
             "Project Stage", "Project Developer", "Multiple Chinese Enterprises Involved",
-            "Implementing Chinese Entity", "Subsidiary Name",
+            "Implementing Chinese Entity", "Implementing Chinese Entity (EN)",
+            "Subsidiary Name", "Subsidiary Name (EN)",
             "Type of involvement of Chinese Entities",
             "(Planned) Start Date", "(Planned) Complete Date",
             "Total Project Investment (Million USD)", "Subcontract Amount (Million USD)",
