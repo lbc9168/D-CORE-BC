@@ -11,11 +11,14 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "google-genai>=1.49.0",
     "rapidfuzz>=3.0.0",
+    "requests>=2.31.0",
 ]
 
 [project.scripts]
 data_verification = "data_verification.main:run"
-run_crew = "data_verification.main:run"
+run_crew          = "data_verification.main:run"
+merge_only        = "data_verification.main:merge_only"
+verify_only       = "data_verification.main:verify_only"
 
 [build-system]
 requires = ["hatchling"]

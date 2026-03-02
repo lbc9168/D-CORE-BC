@@ -21,7 +21,7 @@ def run():
     inputs = {
         # ── 爬虫参数 ──
         'source_url': 'https://news.goalfore.cn/topstories/project',
-        'start_date': '2026-02-23',
+        'start_date': '2026-02-20',
         'end_date': '2026-02-28',
         'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
         # ── 输出目录 ──
