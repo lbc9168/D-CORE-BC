@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root {
+    @apply h-full;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-800 antialiased;
+    font-family: "Inter", "Noto Sans SC", system-ui, sans-serif;
+  }
+
+  /* 自定义滚动条 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+  }
+}
+
+@layer components {
+  /* 通用卡片样式 */
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-slate-100;
+  }
+
+  /* 地图 geography 默认样式 */
+  .rsm-geography {
+    outline: none;
+    transition: fill 0.15s ease;
+  }
+
+  /* 按钮基础 */
+  .btn {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium
+           transition-colors cursor-pointer select-none;
+  }
+  .btn-primary {
+    @apply btn bg-brand-600 text-white hover:bg-brand-700;
+  }
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100;
+  }
+  .btn-outline {
+    @apply btn border border-slate-200 text-slate-700 hover:bg-slate-50;
+  }
+
+  /* 标签 */
+  .badge {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+}

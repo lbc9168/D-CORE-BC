@@ -1,0 +1,114 @@
+const zh = {
+  // 导航
+  nav: {
+    title: '"一带一路"可再生能源项目数据库',
+    map: "地图视图",
+    table: "数据表格",
+    about: "关于",
+  },
+  // 筛选栏
+  filter: {
+    title: "筛选",
+    yearRange: "年份范围",
+    category: "能源类型",
+    stage: "项目阶段",
+    entity: "中方企业",
+    briOnly: "仅 BRI 国家",
+    reset: "重置筛选",
+    allCategories: "全部类型",
+    allStages: "全部阶段",
+    allEntities: "全部企业",
+    projectsCount: "{{count}} 个项目",
+  },
+  // 地图
+  map: {
+    colorBy: "着色方式",
+    byCount: "项目数量",
+    byCapacity: "装机容量 (MW)",
+    clickCountry: "点击国家查看省级详情",
+    clickProvince: "点击省/州查看项目列表",
+    noProvince: "无省级信息的项目",
+    backToWorld: "返回世界地图",
+    noData: "暂无数据",
+    projects: "个项目",
+    mw: "MW",
+    provinceLoading: "正在加载省级地图...",
+    provinceUnavailable: "该国家暂无省级地图数据",
+  },
+  // 项目列表
+  projectList: {
+    title: "项目列表",
+    noProjects: "没有符合条件的项目",
+    capacity: "装机容量",
+    stage: "当前阶段",
+    entity: "中方主体",
+    year: "年份",
+  },
+  // 项目详情
+  projectDetail: {
+    title: "项目详情",
+    close: "关闭",
+    basicInfo: "基本信息",
+    projectId: "项目编号",
+    projectName: "项目名称",
+    country: "所在国家",
+    province: "省/州",
+    category: "能源类型",
+    capacity: "装机容量",
+    stage: "最新阶段",
+    stageDate: "日期",
+    financing: "融资模式",
+    timeline: "进展时间线",
+    entities: "中方参与实体",
+    entity: "企业名称",
+    subsidiary: "子公司",
+    involvement: "参与方式",
+    sources: "信息来源",
+    verification: "核验状态",
+    eventCount: "事件数",
+    noProvince: "无",
+    unverified: "未核验",
+    verified: "已核验",
+  },
+  // 图表
+  chart: {
+    timelineTitle: "各年项目数趋势",
+    entityTitle: "中方企业项目数排名",
+    projects: "项目数",
+    capacity: "容量 (MW)",
+    topN: "前 {{n}} 家企业",
+    noData: "暂无统计数据",
+    year: "年份",
+    entity: "企业",
+  },
+  // 表格
+  table: {
+    title: "全部项目数据",
+    search: "搜索项目名称或企业...",
+    export: "导出 CSV",
+    columns: {
+      id: "项目编号",
+      name: "项目名称",
+      country: "国家",
+      province: "省/州",
+      category: "类型",
+      capacity: "容量 (MW)",
+      stage: "阶段",
+      year: "年份",
+      entity: "中方主体",
+      verification: "核验",
+    },
+    empty: "没有符合条件的数据",
+    total: "共 {{count}} 条",
+  },
+  // 通用
+  common: {
+    loading: "加载中...",
+    error: "加载失败，请刷新页面",
+    unknown: "未知",
+    na: "—",
+  },
+};
+
+export default zh;
+export type Translations = typeof zh;

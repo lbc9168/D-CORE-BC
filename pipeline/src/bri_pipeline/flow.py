@@ -2,13 +2,16 @@
 BRI RE Database — 完整流水线编排（crewAI Flows）
 
 架构：
-    阶段一 (s01) → 阶段二A (s02a) ─┬─→ 阶段二B (s02b，可选）
-                                    └─→ 结束（跳过交叉验证）
+    阶段一 (s01) → 阶段二A (s02a) ─┬─→ 阶段二B (s02b，可选）─┐
+                                └─→（跳过交叉验证）────────┘
+                                                       ↓
+                                         阶段三 (s03) 数据库整理与导出
 
 用法：
     cd pipeline
-    uv run run_pipeline                         # 完整流水线（含交叉验证）
-    uv run run_merge_only                       # 仅采集 + 去重（跳过交叉验证）
+    uv run run_pipeline                         # 完整流水线（含交叉验证 + 导出）
+    uv run run_merge_only                       # 采集 + 去重 + 导出（跳过交叉验证）
+    uv run run_export_only                      # 仅重新导出（数据库已有）
 
 直接调用：
     from bri_pipeline.flow import BRIPipelineFlow
@@ -16,6 +19,7 @@ BRI RE Database — 完整流水线编排（crewAI Flows）
     flow.kickoff()                              # 使用默认参数
     flow.kickoff(inputs={"run_cross_verification": False})  # 跳过交叉验证
     flow.kickoff(inputs={"skip_collection": True})          # 跳过采集（数据已有）
+    flow.kickoff(inputs={"run_export": False})              # 跳过阶段三导出
 """
 
 import shutil
@@ -33,14 +37,16 @@ load_dotenv(_PROJECT_ROOT / ".env")
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 # ── 各子项目根目录（绝对路径，保证跨 CWD 一致性）──────────────────────────
-_S01 = _PROJECT_ROOT / "s01_data_collector_filter"
+_S01  = _PROJECT_ROOT / "s01_data_collector_filter"
 _S02A = _PROJECT_ROOT / "s02a_duplicate_merger"
 _S02B = _PROJECT_ROOT / "s02b_cross_verification"
+_S03  = _PROJECT_ROOT / "s03_data_exporter"
 
 # 延迟导入：必须在 load_dotenv 之后，避免 crewai 在 API Key 加载前初始化
 from s01_data_collector_filter.crew import DataCollectorFilter  # noqa: E402
 from s02a_duplicate_merger.crew import DuplicateMerger          # noqa: E402
 from s02b_cross_verification.crew import CrossVerification      # noqa: E402
+from s03_data_exporter.main import run as _run_s03              # noqa: E402
 
 
 # ════════════════════════════════════════════════════════════════
@@ -50,8 +56,8 @@ from s02b_cross_verification.crew import CrossVerification      # noqa: E402
 class PipelineState(BaseModel):
     # ── 阶段一：数据采集 ────────────────────────────────────────
     source_url:          str   = "https://news.goalfore.cn/topstories/project"
-    start_date:          str   = "2026-02-10"
-    end_date:            str   = "2026-02-28"
+    start_date:          str   = "2026-02-01"
+    end_date:            str   = "2026-03-08"
     keywords:            str   = "能源,电力,MW,GW,风电,水电,光伏,储能"
     raw_data_dir:        str   = str(_S01 / "data" / "raw")
     processed_data_dir:  str   = str(_S01 / "data" / "processed")
@@ -70,6 +76,7 @@ class PipelineState(BaseModel):
     # ── 流程控制 ─────────────────────────────────────────────────
     skip_collection:        bool = False   # True = 已有采集数据，跳过阶段一
     run_cross_verification:  bool = True   # False = 跳过阶段二B
+    run_export:              bool = True   # False = 跳过阶段三导出
 
 
 # ════════════════════════════════════════════════════════════════
@@ -139,14 +146,25 @@ class BRIPipelineFlow(Flow[PipelineState]):
             "similarity_threshold": self.state.similarity_threshold,
             "use_news_api":         self.state.use_news_api,
         })
+        self._run_stage_03()
 
-        print("\n[Flow] ✅ 完整流水线执行完毕（含交叉验证）")
-        print(f"       数据库路径：{self.state.db_path}")
-
-    # ── "done" 路由无对应 listener → Flow 自然终止，此方法仅打印摘要 ──
+    # ── "done" 路由：跳过交叉验证，直接进入阶段三 ────────────────
     @listen("done")
     def finish_no_verify(self):
-        print("\n[Flow] ✅ 流水线执行完毕（跳过交叉验证）")
+        print("\n[Flow] ⏭  阶段二B：已跳过交叉验证")
+        self._run_stage_03()
+
+    # ── 阶段三：数据库整理与导出（共享，两条路径均调用）─────────
+    def _run_stage_03(self):
+        if not self.state.run_export:
+            print("\n[Flow] ⏭  阶段三：已跳过（run_export=False）")
+            print(f"\n[Flow] ✅ 流水线执行完毕")
+            print(f"       数据库路径：{self.state.db_path}")
+            return
+
+        _print_stage_header(3, "数据库整理与前端导出（s03）")
+        _run_s03()
+        print(f"\n[Flow] ✅ 完整流水线执行完毕")
         print(f"       数据库路径：{self.state.db_path}")
 
 
@@ -178,16 +196,17 @@ def _archive_s01_files(raw_dir: Path, processed_dir: Path):
 # ════════════════════════════════════════════════════════════════
 
 def run_full():
-    """
-    运行完整流水线：阶段一 → 阶段二A → 阶段二B（交叉验证）。
-    修改 PipelineState 默认值或在此处传入 inputs 字典以调整参数。
-    """
+    """完整流水线：阶段一 → 阶段二A → 阶段二B（交叉验证）→ 阶段三（导出）"""
     BRIPipelineFlow().kickoff()
 
 
 def run_merge_only():
-    """
-    运行采集 + 去重合并，跳过交叉验证（阶段一 → 阶段二A）。
-    适合日常运行；交叉验证可事后单独执行（uv run s02b_cross_verification）。
-    """
+    """采集 + 去重合并 + 导出，跳过交叉验证（阶段一 → 阶段二A → 阶段三）"""
     BRIPipelineFlow().kickoff(inputs={"run_cross_verification": False})
+
+
+def run_export_only():
+    """仅重新执行阶段三导出（数据库已有时使用），跳过采集与去重"""
+    _print_stage_header(3, "数据库整理与前端导出（s03，独立运行）")
+    _run_s03()
+    print("\n[Flow] ✅ 阶段三导出完毕")

@@ -3,7 +3,21 @@
     "allow": [
       "Bash(python -c \":*)",
       "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f''entries: {len\\(d\\)}''\\)\")",
-      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f''keys: {list\\(d.keys\\(\\)\\)}''\\)\")"
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f''keys: {list\\(d.keys\\(\\)\\)}''\\)\")",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/backend/src/s04_web_visualization)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/i18n)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/types)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/api)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/store)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/components)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/pages/MapPage)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/pages/TablePage)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/src/pages/ProjectDetail)",
+      "Bash(mkdir -p /e/Projects/BRI_RE_Database_v2/s04_web_visualization/frontend/public/geojson)",
+      "Bash(python3 -c \":*)",
+      "Bash(make --version)",
+      "Bash(where node)",
+      "Bash(where npm)"
     ]
   }
 }

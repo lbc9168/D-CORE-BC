@@ -294,6 +294,132 @@ uv run run_export
 
 ---
 
+## 2026-03-08（续）
+
+### · `feat: add s04_web_visualization subproject`
+
+#### 新增 `s04_web_visualization/` 子项目（阶段四：网页可视化）
+
+**技术栈：** React 18 + TypeScript + Vite + Tailwind CSS + react-simple-maps + recharts
+
+**子项目结构：**
+```
+s04_web_visualization/
+├── package.json / tsconfig*.json / vite.config.ts
+├── tailwind.config.js / postcss.config.js
+├── index.html
+├── .gitignore                    # 排除 node_modules/, dist/, public/data/, public/geo/provinces/
+├── scripts/
+│   └── download_geo.py           # 下载 Natural Earth admin1，按国家拆分为 {ISO3}.geojson
+├── public/
+│   ├── data/                     # 运行 s03 后自动同步的 JSON（不入 git）
+│   └── geo/provinces/            # 省级 GeoJSON（由 download_geo.py 生成，不入 git）
+└── src/
+    ├── types/index.ts             # 数据类型 + 枚举常量（CATEGORIES, STAGES, 颜色）
+    ├── i18n/{zh,en,index}.ts      # 中英文翻译（自制轻量 i18n，无第三方库）
+    ├── contexts/
+    │   ├── LanguageContext.tsx    # 语言上下文 + t() 翻译函数
+    │   └── DataContext.tsx        # 数据加载、过滤逻辑、useCountryStats
+    ├── hooks/useProvinceGeo.ts    # 省级 GeoJSON 按需加载（带缓存）
+    ├── utils/
+    │   ├── colorScale.ts          # 对数色阶计算（浅蓝→深蓝）
+    │   └── isoMapping.ts          # ISO 数字代码 → alpha-3 映射（供 world-atlas 使用）
+    ├── components/
+    │   ├── layout/Header.tsx      # 顶部导航 + 语言切换按钮
+    │   ├── map/WorldMap.tsx       # 世界热力图（react-simple-maps + world-atlas TopoJSON）
+    │   ├── map/ProvinceMap.tsx    # 省级热力图（按需加载 GeoJSON）
+    │   ├── filters/FilterBar.tsx  # 筛选栏（年份滑块/类型/阶段/企业多选/BRI开关/着色方式）
+    │   ├── projects/ProjectList.tsx    # 项目列表面板
+    │   ├── projects/ProjectDetail.tsx  # 项目详情（含实体列表、时间线、来源链接）
+    │   ├── charts/TimelineChart.tsx    # 年份趋势堆叠柱状图
+    │   └── charts/EntityChart.tsx      # 企业排名水平柱状图
+    ├── pages/MapPage.tsx          # 地图页（世界→省级→项目列表→详情 层级导航）
+    ├── pages/TablePage.tsx        # 表格页（全量数据 + 搜索/排序/分页/CSV导出）
+    ├── App.tsx / main.tsx / index.css
+```
+
+**已实现功能：**
+1. 世界热力图：country_iso 匹配，按项目数/装机容量着色（对数色阶），hover 显示数值
+2. 省级热力图：点击国家进入，按需加载该国 GeoJSON，点击省份过滤项目列表
+3. "无省级信息"按钮：单独显示 province=null 的项目
+4. 项目列表 → 项目详情（含中英文双语显示）
+5. 筛选栏：年份范围、能源类型、项目阶段、中方企业多选、BRI 国家筛选
+6. 图表面板（世界视图右侧）：年份趋势图 + 企业排名图
+7. 数据表格：全量项目、搜索、多列排序、分页（50条/页）、CSV 导出
+8. 中英文切换：整个界面（菜单、标签、字段名、数据内容）全部双语
+
+**省级地图数据准备（首次）：**
+```bash
+cd s04_web_visualization
+python scripts/download_geo.py    # 下载 Natural Earth admin1（约 3MB），按国家拆分
+```
+
+**启动方式：**
+```bash
+cd s04_web_visualization
+npm install && npm run dev
+```
+
+---
+
+### · `feat: s03 json_exporter + auto sync to s04`
+
+#### `s03_data_exporter/src/s03_data_exporter/json_exporter.py` ✨ 新文件
+- 从 `bri_re_export.db` 导出四个静态 JSON 文件供前端使用：
+  - `projects_flat.json`：所有项目完整字段（`all_entities` 反序列化为数组）
+  - `stats_country.json`：国家维度聚合（地图热力图）
+  - `stats_entity.json`：企业维度聚合（排名图表）
+  - `stats_timeline.json`：时间维度聚合（趋势图）
+
+#### `s03_data_exporter/src/s03_data_exporter/main.py`
+- 新增 Step 5：调用 `export_json()` 导出静态 JSON
+- 同时自动同步到 `s04_web_visualization/public/data/`（若目录存在）
+- Excel 导出加 `PermissionError` 捕获：文件被 Excel 打开时跳过而不崩溃
+- 步骤编号更新为 1/5 … 5/5
+
+---
+
+### · `feat: add s03 to pipeline`
+
+#### `pipeline/pyproject.toml`
+- `dependencies` 新增 `s03_data_exporter`
+- `[tool.uv.sources]` 新增 `s03_data_exporter = { path = "../s03_data_exporter", editable = true }`
+- `[project.scripts]` 新增 `run_export_only = "bri_pipeline.flow:run_export_only"`
+- `[tool.pyright].extraPaths` 新增 `"../s03_data_exporter/src"`
+
+#### `pipeline/src/bri_pipeline/flow.py`
+- 导入 `s03_data_exporter.main.run` 为 `_run_s03`
+- `PipelineState` 新增 `run_export: bool = True` 流程控制开关
+- `stage_02b_verify`：执行完交叉验证后调用 `self._run_stage_03()`
+- `finish_no_verify`：跳过交叉验证后同样调用 `self._run_stage_03()`
+- 新增 `_run_stage_03()` 共享方法：打印阶段头，调用 `_run_s03()`，支持 `run_export=False` 跳过
+- 新增 `run_export_only()` 入口：直接调用 `_run_s03()`，不经过 Flow
+- 文档字符串更新，新增 `run_export=False` 示例
+
+**新增流水线架构（完整）：**
+```
+s01 → s02a → router ──→ s02b ──┐
+                   └──────────┘
+                               ↓ _run_stage_03()
+                              s03（省份提取 + 扁平表 + JSON 导出 + 同步到 s04）
+```
+
+---
+
+### · `feat: add Makefile + bri.sh for root-level shortcuts`
+
+#### 新增 `Makefile`（根目录）
+- 目标：`pipeline` / `merge` / `export-only` / `collect` / `s03` / `dev` / `build` / `geo`
+- 内部使用 `uv run --directory <subproject> <script>` 实现无 cd 执行
+- `make help` 显示所有可用命令
+
+#### 新增 `bri.sh`（根目录）
+- 与 Makefile 功能完全一致，供未安装 make 的 Windows 用户使用
+- 用法：`bash bri.sh <命令>`，支持 `pipeline` / `merge` / `export-only` / `collect` / `s03` / `dev` / `build` / `geo`
+- 使用绝对路径（`$ROOT`），在任意工作目录下均可调用
+
+---
+
 ## 说明
 
 - 所有 crewai agent 均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型

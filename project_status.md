@@ -11,7 +11,7 @@
 **流水线架构：**
 ```
 数据收集 → 去重合并 ──→ 数据库整理 → 网页可视化 → 数据分析 → 报告撰写
-   ✅       ✅    ↓      ⬜         ⬜         ⬜        ⬜
+   ✅       ✅    ↓      ✅         🚧         ⬜        ⬜
             交叉验证（可选）✅
 ```
 > 阶段二已拆分为两个独立子项目：`s02a_duplicate_merger`（必选）+ `s02b_cross_verification`（可选）。
@@ -171,9 +171,71 @@ uv run run_export
 
 ---
 
-## 阶段四：网页可视化 ⬜ 未开始
+## 阶段四：网页可视化 🚧 基本完成（待测试与优化）
 
-计划：前端可视化界面，支持地图展示、中英文切换、项目筛选。
+**子项目路径：** `s04_web_visualization/`
+
+### 技术栈
+- React 18 + TypeScript + Vite
+- Tailwind CSS（自定义品牌色/类别色）
+- react-simple-maps（地图）+ recharts（图表）
+- 无重型 UI 库，纯 Tailwind 实现组件
+- 双语 i18n（中/英，自制轻量实现，无 react-i18next）
+
+### 数据流
+```
+s03_data_exporter（uv run run_export）
+  → data/output/projects_flat.json
+  → data/output/stats_country.json
+  → data/output/stats_entity.json
+  → data/output/stats_timeline.json
+        ↓ 手动复制到 s04_web_visualization/public/data/
+s04 前端直接 fetch 静态 JSON（纯前端，零后端）
+```
+
+### 已实现功能
+1. **世界热力图**：country_iso 匹配，支持按项目数/装机容量着色，对数色阶
+2. **省级热力图**：按需加载 `/geo/provinces/{ISO3}.geojson`，点击省份过滤项目
+3. **无省级信息按钮**：单独列出省份字段为空的项目
+4. **项目列表**：国家/省份级别项目列表，含能源类型标签/阶段标签/容量
+5. **项目详情**：中英文切换、实体列表、时间线、来源链接
+6. **筛选栏**：年份滑块、多选（类型/阶段/企业）、BRI 筛选、着色方式切换
+7. **图表面板**（世界视图）：堆叠柱状图（年份趋势）+ 水平柱状图（企业排名）
+8. **数据表格**：全量数据，支持搜索、多列排序、分页（50条/页）、CSV 导出
+9. **中英文切换**：整个界面（菜单、标签、字段名）全部双语
+
+### 省级地图数据准备
+```bash
+cd s04_web_visualization
+python scripts/download_geo.py    # 下载 Natural Earth admin1，按国家拆分
+```
+输出到 `public/geo/provinces/{ISO3}.geojson`（~220 个国家）
+
+### 启动方式
+```bash
+# 1. 生成 JSON 数据（会自动同步到 s04/public/data/）
+cd s03_data_exporter && uv run run_export
+# 或通过 pipeline 一键完成所有阶段：
+# cd pipeline && uv run run_pipeline
+
+# 2. 下载省级地图（首次）
+cd s04_web_visualization && python scripts/download_geo.py
+
+# 3. 启动开发服务器
+npm install && npm run dev
+```
+
+### 构建发布
+```bash
+cd s04_web_visualization
+npm run build    # 输出到 dist/
+```
+
+### 待优化（后续讨论）
+- 地图 hover tooltip 样式和数据展示
+- 省级匹配精度（AI 提取省名与 GeoJSON feature 名的模糊匹配）
+- 移动端响应式布局
+- 省级地图 projection 自动居中
 
 ---
 
@@ -189,7 +251,7 @@ uv run run_export
 
 **子项目路径：** `pipeline/`
 
-一次命令运行完整三阶段流水线，支持条件跳转：
+一次命令运行完整四阶段流水线，支持条件跳转：
 
 ```
 BRIPipelineFlow
@@ -198,16 +260,21 @@ BRIPipelineFlow
   stage_02a_merge   (@listen)
        ↓
   route_cross_verification (@router)
-    ├── "run_verify" → stage_02b_verify (@listen)   ← run_cross_verification=True（默认）
-    └── "done"       → finish_no_verify (@listen)   ← run_cross_verification=False
+    ├── "run_verify" → stage_02b_verify ← run_cross_verification=True（默认）
+    └── "done"       → finish_no_verify ← run_cross_verification=False
+              ↓ (两路均汇入)
+         _run_stage_03()               ← 可通过 run_export=False 跳过
+              ↓
+         s03_data_exporter.run()       ← 省份提取 + 扁平表 + JSON 同步到 s04
 ```
 
 **运行方式：**
 ```bash
 cd pipeline
-uv sync                      # 首次安装（会自动安装三个本地子项目）
-uv run run_pipeline          # 完整流水线（含交叉验证）
-uv run run_merge_only        # 仅采集 + 去重（跳过交叉验证）
+uv sync                      # 首次安装（会自动安装四个本地子项目）
+uv run run_pipeline          # 完整流水线（含交叉验证 + 导出）
+uv run run_merge_only        # 采集 + 去重 + 导出（跳过交叉验证）
+uv run run_export_only       # 仅重新导出（数据库已有时）
 ```
 
 ---

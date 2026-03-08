@@ -26,17 +26,21 @@ load_dotenv()  # fallback：搜索父目录
 from s03_data_exporter.province_extractor import extract_provinces  # noqa: E402
 from s03_data_exporter.flat_builder import build_flat               # noqa: E402
 from s03_data_exporter.stats_builder import build_stats             # noqa: E402
+from s03_data_exporter.json_exporter import export_json             # noqa: E402
 
 import pandas as pd  # noqa: E402
 
 # ── 路径配置 ──────────────────────────────────────────────────────────────────
 
-SRC_DB = (
-    _S03_ROOT.parent / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
-)
+_WORKSPACE = _S03_ROOT.parent
+
+SRC_DB = _WORKSPACE / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
 DST_DIR    = _S03_ROOT / "data" / "output"
 DST_DB     = DST_DIR / "bri_re_export.db"
 CACHE_PATH = _S03_ROOT / "data" / "province_cache.json"
+
+# s04 前端静态数据目录（JSON 同时写入此处，省去手动复制）
+S04_DATA_DIR = _WORKSPACE / "s04_web_visualization" / "public" / "data"
 
 
 def run() -> None:
@@ -90,7 +94,7 @@ def run() -> None:
     build_stats(DST_DB)
 
     # ── Step 4: 导出 Excel / CSV ──────────────────────────────────────────────
-    print("\n[4/4] 导出 Excel / CSV...")
+    print("\n[4/5] 导出 Excel / CSV...")
 
     conn = sqlite3.connect(DST_DB)
     df = pd.read_sql("SELECT * FROM projects_flat", conn)
@@ -99,11 +103,26 @@ def run() -> None:
     xlsx_path = DST_DIR / "projects_flat.xlsx"
     csv_path  = DST_DIR / "projects_flat.csv"
 
-    df.to_excel(xlsx_path, index=False)
-    df.to_csv(csv_path, index=False, encoding="utf-8-sig")
+    try:
+        df.to_excel(xlsx_path, index=False)
+        print(f"  ✓ Excel : {xlsx_path.name}  ({len(df)} 行)")
+    except PermissionError:
+        print(f"  ⚠ Excel 写入跳过（文件可能已在 Excel 中打开）: {xlsx_path.name}")
 
-    print(f"  ✓ Excel : {xlsx_path.name}  ({len(df)} 行)")
+    df.to_csv(csv_path, index=False, encoding="utf-8-sig")
     print(f"  ✓ CSV   : {csv_path.name}")
+
+    # ── Step 5: 导出静态 JSON（供 s04 前端使用）──────────────────────────────
+    print("\n[5/5] 导出静态 JSON 文件（供前端可视化）...")
+    export_json(DST_DB, DST_DIR)
+
+    # 同时写入 s04 public/data/（自动同步，无需手动复制）
+    if S04_DATA_DIR.parent.exists():
+        S04_DATA_DIR.mkdir(parents=True, exist_ok=True)
+        export_json(DST_DB, S04_DATA_DIR)
+        print(f"  ✓ 已同步到 s04: {S04_DATA_DIR}")
+    else:
+        print("  ℹ s04_web_visualization 目录不存在，跳过同步")
 
     print(f"\n✅ 导出完成 → {DST_DIR}")
     print(f"   主数据库  : {DST_DB.name}")

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+
+# 运行时生成的数据文件（不入 git，需本地生成）
+public/data/*.json
+public/geo/provinces/
+scripts/_ne_admin1_cache.geojson

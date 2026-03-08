@@ -10,16 +10,19 @@ dependencies = [
     "s01_data_collector_filter",
     "s02a_duplicate_merger",
     "s02b_cross_verification",
+    "s03_data_exporter",
 ]
 
 [project.scripts]
 run_pipeline       = "bri_pipeline.flow:run_full"
 run_merge_only     = "bri_pipeline.flow:run_merge_only"
+run_export_only    = "bri_pipeline.flow:run_export_only"
 
 [tool.uv.sources]
 s01_data_collector_filter = { path = "../s01_data_collector_filter", editable = true }
 s02a_duplicate_merger     = { path = "../s02a_duplicate_merger",     editable = true }
 s02b_cross_verification   = { path = "../s02b_cross_verification",   editable = true }
+s03_data_exporter         = { path = "../s03_data_exporter",         editable = true }
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/bri_pipeline"]
@@ -36,4 +39,5 @@ extraPaths = [
     "../s01_data_collector_filter/src",
     "../s02a_duplicate_merger/src",
     "../s02b_cross_verification/src",
+    "../s03_data_exporter/src",
 ]
