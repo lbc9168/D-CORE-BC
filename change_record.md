@@ -180,6 +180,120 @@ data_collector_filter (Excel)
 
 ---
 
+### · `feat: replace WorldCountryList.csv with JSON + aliases`
+
+#### 新增 `s01_data_collector_filter/WorldCountryList.json`
+- 由 `WorldCountryList.csv` 转换生成（233 个国家）
+- 每条记录新增 `aliases_cn` 字段，收录 30 个国家的 38 条常见中文别名，例如：
+  - `印度尼西亚` → `["印尼"]`
+  - `沙特阿拉伯` → `["沙特", "沙特阿拉伯王国"]`
+  - `刚果（金）` → `["刚果民主共和国", "民主刚果", "刚果金"]`
+  - `科特迪瓦` → `["象牙海岸"]`
+  - `中国香港 / 澳门 / 台湾` → `["香港"] / ["澳门"] / ["台湾"]`
+  - 中亚五国（哈萨克、乌兹别克、土库曼、吉尔吉斯、塔吉克）等
+- 字段结构：`iso / name_cn / name_en / continent / subregion / bri / ldc / aliases_cn`
+
+#### `s01_data_collector_filter/tools/project_extractor_tool.py`
+- `_load_country_db(json_path)`：改为读取 JSON（不再依赖 pandas 的 `read_csv`），所有 `aliases_cn` 展开为独立键，精确匹配即可覆盖别名场景
+- `ProjectExtractorInput.country_db_path` 默认值：`WorldCountryList.csv` → `WorldCountryList.json`
+- `ProjectExtractorTool._run()` 同步更新默认值
+
+---
+
+### · `feat: improve duplicate candidate detection with multi-signal matching`
+
+#### `s02a_duplicate_merger/tools/duplicate_merger_tool.py`
+
+**新增常量**
+| 常量 | 值 | 说明 |
+|------|----|------|
+| `FUZZY_THRESHOLD_EN` | 80 | EN 名称 token_sort_ratio 阈值（略低，因 AI 翻译质量参差） |
+| `FUZZY_PARTIAL_THRESHOLD` | 90 | CN 名称 partial_ratio 阈值（捕获子串包含关系） |
+| `FUZZY_ENTITY_ASSIST` | 60 | 实体重叠辅助：名称达此分 + 共有中方实体 → 送 LLM 确认 |
+| `CAPACITY_BYPASS_SCORE` | 92 | 任一名称信号 ≥ 此分时豁免容量硬过滤 |
+
+**新增辅助函数**
+- `_name_similarity(a, b) → (bool, int)`：三信号 OR 逻辑，返回是否通过及最高分
+  - 信号一：CN 名称 `token_sort_ratio ≥ 85`（原有逻辑）
+  - 信号二：EN 名称 `token_sort_ratio ≥ 80`（双语互验，新增）
+  - 信号三：CN 名称 `partial_ratio ≥ 90`（子串包含，新增）
+- `_entity_overlap(a, b) → bool`：检查两条记录是否共有同名中方实体（集合交集）
+
+**`_find_duplicate_candidates` 重写**
+- 名称匹配从单一 `token_sort_ratio` 升级为调用 `_name_similarity`（三信号 OR 逻辑）
+- 新增实体重叠辅助通道：`entity_boost = 实体重叠 AND 名称 ≥ 60`
+- 容量豁免：`best_score ≥ 92` 时跳过容量差检查，放行至 LLM 确认
+- 整体逻辑：`(name_ok OR entity_boost) AND 容量检查（或豁免）→ 进入候选`
+
+**`_llm_confirm` 补充上下文**
+- Prompt 新增两行：`项目名称（英）` 和 `中方实体` → LLM 拥有更多证据，减少误判
+
+---
+
+### · `feat: add archive_old_files to s01 run()`
+
+#### `s01_data_collector_filter/src/s01_data_collector_filter/main.py`
+- 新增 `archive_old_files()` 函数：每次 `run()` / `run_parallel()` 前，将 `data/raw/` 和 `data/processed/` 中的旧文件移入各自的 `Archived/` 子目录（跳过 `.gitkeep`）
+- 新增模块级常量 `_S01_ROOT`（避免重复调用 `Path(__file__).resolve().parents[2]`）
+
+---
+
+### · `feat: add s03_data_exporter subproject`
+
+#### 新增 `s03_data_exporter/` 子项目（阶段三：数据库整理）
+
+**子项目结构：**
+```
+s03_data_exporter/
+├── pyproject.toml               # 依赖：pandas, openpyxl, google-genai, python-dotenv
+└── src/s03_data_exporter/
+    ├── main.py                  # 入口，4步流程编排
+    ├── province_extractor.py    # Gemini 批量省份提取（带本地缓存 + 3次重试）
+    ├── flat_builder.py          # 构建 projects_flat 扁平表
+    └── stats_builder.py         # 构建 3 张聚合统计表
+```
+
+**`province_extractor.py`**：
+- 输入：`canonical_projects.location` + `country`
+- 逻辑：location 为空 → null；已缓存 → 读取；其余 → 批量送 Gemini（每批 30 条）
+- 缓存：结果写入 `data/province_cache.json`；失败不写缓存（下次可重试）
+- 重试：每批最多 3 次，指数退避（2s, 4s）
+
+**`flat_builder.py`**：
+- 每个 `canonical_project` 对应一行
+- 阶段优先级：投入运营(7) > 竣工(6) > 在建(5) > 开工(4) > 签约(3) > 中标(2) > 收购(1)
+- `capacity_mw`：取最终状态事件的容量（若为空则向下顺延）
+- `timeline_notes`：多事件时生成"签约: 2022-03 → 开工: 2023-06"格式文字备注
+- `all_entities`：所有事件的中方实体合并去重（JSON 字符串）
+- `primary_entity`：最终状态事件的第一个实体
+
+**`stats_builder.py`**：构建 3 张聚合表（幂等，每次 DROP + 重建）
+| 表名 | 维度 | 指标 |
+|------|------|------|
+| `stats_country` | country_iso × category × year | project_count, total_capacity_mw |
+| `stats_entity` | primary_entity × category × year | project_count, total_capacity_mw |
+| `stats_timeline` | year × category × latest_stage | count, capacity_mw |
+
+**输出文件（均在 `data/output/`）：**
+- `bri_re_export.db`：主导出数据库（4张表，Streamlit 直接读）
+- `projects_flat.xlsx`：供 Excel / R 分析
+- `projects_flat.csv`：供 Python pandas 分析
+
+**运行方式：**
+```bash
+cd s03_data_exporter
+uv sync
+uv run run_export
+```
+
+#### `.gitignore`
+- 新增 `s03_data_exporter/data/` 排除规则
+
+#### Bug 修复（发现于测试运行）
+- **`stats_builder.py`**：`stats_entity` PRIMARY KEY 为 `(primary_entity, category, year)`，但原 GROUP BY 含 `primary_entity_en`，导致同一实体有不同英文名时主键冲突 → 改为 `GROUP BY primary_entity, category, year`，英文名用 `MAX()` 聚合
+
+---
+
 ## 说明
 
 - 所有 crewai agent 均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型

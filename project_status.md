@@ -95,7 +95,7 @@ PK: 自增整数，FK → project_events.id
 
 ---
 
-## 阶段二B：外部交叉验证（cross_verification）✅ 已完成（可选步骤）
+## 阶段二B：外部交叉验证（cross_verification）⚠️ 未完成（待修改，可选步骤）
 
 **子项目路径：** `s02b_cross_verification/`
 
@@ -110,6 +110,9 @@ PK: 自增整数，FK → project_events.id
 3. **LLM 确认**：逐对判断文章是否报道该项目（high/medium/low 置信度）
 4. **写回数据库 + 导出清单**：低置信度记录输出 Excel 人工核查清单
 
+### 问题
+- **GDELT 批量查询问题**：GDELT数据库中找不到与BRI数据库中匹配的数据（至少近期的数据找不到），需要以其他方式寻找其他信源
+
 ### 数据接口
 - **输入**：读取 `../s02a_duplicate_merger/data/db/bri_re_database.db`（`verification_status = 'unverified'`）
 - **输出**：更新同一 SQLite 中的验证字段；低置信度记录输出 Excel 至 `data/manual_review/`
@@ -120,9 +123,51 @@ PK: 自增整数，FK → project_events.id
 
 ---
 
-## 阶段三：数据库整理 ⬜ 未开始
+## 阶段三：数据库整理 ✅ 已完成 （基本功能已完成，细节待调整）
 
-计划：构建面向可视化和分析的数据导出/转换层。
+**子项目路径：** `s03_data_exporter/`
+
+### 已实现功能
+
+#### 四步导出流程
+1. **省份提取**（`province_extractor.py`）：Gemini 从 `location` 字段提取一级行政区英文名，结果缓存至 `data/province_cache.json`，空值直接跳过
+2. **扁平表构建**（`flat_builder.py`）：将 s02a 三表结构（canonical_projects / project_events / chinese_entities）合并为每项目一行的 `projects_flat` 表
+3. **聚合统计**（`stats_builder.py`）：构建 3 张预聚合表，供可视化前端直接查询
+4. **导出**：输出 `projects_flat.xlsx` 和 `projects_flat.csv` 供离线分析
+
+#### projects_flat 核心字段
+| 字段 | 说明 |
+|------|------|
+| `project_id / project_name / _en` | 项目标识与中英文名 |
+| `country_iso / bri_country / ldc` | 国家信息 |
+| `province` | AI提取的省级行政区英文名（可为null） |
+| `category` | 能源类型 |
+| `capacity_mw` | 最终状态事件的装机容量 |
+| `latest_stage / latest_stage_date / event_year` | 最终里程碑信息 |
+| `timeline_notes` | 多事件时的阶段时间线文字摘要 |
+| `primary_entity / _en / all_entities` | 中方实体（主体 + 全列表JSON） |
+| `verification_status` | 来自 s02b 的交叉验证状态 |
+
+#### 聚合统计表（3张）
+| 表名 | 维度 | 用途 |
+|------|------|------|
+| `stats_country` | country_iso × category × year | 地图热力图 |
+| `stats_entity` | primary_entity × category × year | 企业排名图表 |
+| `stats_timeline` | year × category × latest_stage | 时间趋势图 |
+
+#### 阶段优先级（"最终状态"判定）
+`投入运营 > 竣工 > 在建 > 开工 > 签约 > 中标 > 收购`
+
+### 数据接口
+- **输入**：`../s02a_duplicate_merger/data/db/bri_re_database.db`
+- **输出**：`data/output/bri_re_export.db`（主）/ `projects_flat.xlsx` / `projects_flat.csv`
+
+### 运行方式
+```bash
+cd s03_data_exporter
+uv sync       # 首次安装
+uv run run_export
+```
 
 ---
 

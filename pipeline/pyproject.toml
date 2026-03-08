@@ -21,9 +21,19 @@ s01_data_collector_filter = { path = "../s01_data_collector_filter", editable = 
 s02a_duplicate_merger     = { path = "../s02a_duplicate_merger",     editable = true }
 s02b_cross_verification   = { path = "../s02b_cross_verification",   editable = true }
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/bri_pipeline"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.crewai]
 type = "flow"
+
+[tool.pyright]
+extraPaths = [
+    "../s01_data_collector_filter/src",
+    "../s02a_duplicate_merger/src",
+    "../s02b_cross_verification/src",
+]

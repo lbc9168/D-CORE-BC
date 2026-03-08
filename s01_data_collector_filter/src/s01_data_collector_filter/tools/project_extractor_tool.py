@@ -16,23 +16,32 @@ load_dotenv()
 
 # ── 国家数据库 ─────────────────────────────────────────────────────────────────
 
-def _load_country_db(csv_path: str) -> dict:
-    """从 CSV 文件加载国家映射表，失败时返回最小化内置表。"""
+def _load_country_db(json_path: str) -> dict:
+    """
+    从 JSON 文件加载国家映射表。
+    每个国家的正式中文名和所有 aliases_cn 均展开为独立键，指向同一条记录。
+    失败时返回最小化内置表。
+    """
     try:
-        df = pd.read_csv(csv_path)
+        with open(json_path, encoding="utf-8") as f:
+            countries = json.load(f)
         db = {}
-        for _, row in df.iterrows():
-            name_cn = str(row["Country_CN"]).strip()
-            db[name_cn] = {
-                "iso": str(row["CountryISO"]).strip(),
-                "bri": str(row["BRI_Country"]).strip(),
-                "ldc": str(row["LDCs"]).strip(),
-                "name_en": str(row.get("Country_EN", "")).strip(),
+        for c in countries:
+            record = {
+                "iso":     c["iso"],
+                "bri":     c["bri"],
+                "ldc":     c["ldc"],
+                "name_en": c.get("name_en", ""),
             }
-        print(f">>> 已加载国家列表，共 {len(db)} 条记录")
+            db[c["name_cn"]] = record
+            for alias in c.get("aliases_cn", []):
+                db[alias] = record
+        n_countries = len(countries)
+        n_keys = len(db)
+        print(f">>> 已加载国家列表：{n_countries} 个国家，{n_keys} 个名称/别名键")
         return db
     except Exception as e:
-        print(f">>> [警告] 无法读取国家列表 {csv_path}: {e}，使用内置最小列表")
+        print(f">>> [警告] 无法读取国家列表 {json_path}: {e}，使用内置最小列表")
         return {"中国": {"iso": "CHN", "bri": "Yes", "ldc": "No", "name_en": "China"}}
 
 
@@ -264,8 +273,8 @@ class ProjectExtractorInput(BaseModel):
         description="输出文件保存目录",
     )
     country_db_path: str = Field(
-        default="WorldCountryList.csv",
-        description="国家数据库 CSV 文件路径，用于补充 ISO、BRI、LDC 信息",
+        default="WorldCountryList.json",
+        description="国家数据库 JSON 文件路径，用于补充 ISO、BRI、LDC 信息及别名匹配",
     )
 
 
@@ -284,7 +293,7 @@ class ProjectExtractorTool(BaseTool):
         self,
         input_file: str,
         output_dir: str = "data/processed",
-        country_db_path: str = "WorldCountryList.csv",
+        country_db_path: str = "WorldCountryList.json",
     ) -> str:
         # 初始化 Gemini
         api_key = os.getenv("GEMINI_API_KEY")

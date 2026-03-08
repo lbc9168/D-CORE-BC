@@ -1,0 +1,20 @@
+[project]
+name = "s03_data_exporter"
+version = "0.1.0"
+description = "BRI RE Database Stage 3 - Data Export & Aggregation"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "python-dotenv>=1.0.0",
+    "google-genai>=1.49.0",
+]
+
+[project.scripts]
+s03_data_exporter = "s03_data_exporter.main:run"
+run_export        = "s03_data_exporter.main:run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

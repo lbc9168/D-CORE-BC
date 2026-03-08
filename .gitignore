@@ -24,6 +24,7 @@ env/
 s01_data_collector_filter/data/
 s02a_duplicate_merger/data/
 s02b_cross_verification/data/
+s03_data_exporter/data/
 # 例外：保留目录占位符（如有）
 !**/data/.gitkeep
 !**/data/**/.gitkeep

@@ -38,8 +38,12 @@ CATEGORY_CODE: Dict[str, str] = {
     "储能": "ES",
     "综合能源": "HB",
 }
-FUZZY_THRESHOLD = 85      # Project Name 相似度阈值（0-100）
-CAPACITY_TOLERANCE = 0.10  # 装机容量容错率（10%）
+FUZZY_THRESHOLD = 85          # CN 名称 token_sort_ratio 阈值
+FUZZY_THRESHOLD_EN = 80       # EN 名称 token_sort_ratio 阈值（AI 生成，略低）
+FUZZY_PARTIAL_THRESHOLD = 90  # CN 名称 partial_ratio 阈值（捕获子串包含关系）
+FUZZY_ENTITY_ASSIST = 60      # 实体重叠辅助：名称达到此分 + 实体重叠 → 送 LLM
+CAPACITY_TOLERANCE = 0.10     # 装机容量容错率（10%）
+CAPACITY_BYPASS_SCORE = 92    # 任一名称信号 ≥ 此分时豁免容量检查
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
@@ -244,9 +248,66 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
 
 # ── 阶段二：候选筛查 ───────────────────────────────────────────────────────────
 
+def _name_similarity(a: Dict, b: Dict) -> Tuple[bool, int]:
+    """
+    多信号名称相似度检查，任一信号通过即返回 True。
+
+    信号优先级：
+      1. CN token_sort_ratio  ≥ FUZZY_THRESHOLD        （词序无关整体相似）
+      2. EN token_sort_ratio  ≥ FUZZY_THRESHOLD_EN      （AI 英文名互验）
+      3. CN partial_ratio     ≥ FUZZY_PARTIAL_THRESHOLD  （子串包含关系）
+
+    Returns:
+        (通过, 最高分) — 最高分用于决定是否豁免容量检查
+    """
+    best = 0
+
+    # 信号 1：中文名 token_sort_ratio
+    score_cn = fuzz.token_sort_ratio(a["project_name"], b["project_name"])
+    best = max(best, score_cn)
+    if score_cn >= FUZZY_THRESHOLD:
+        return True, best
+
+    # 信号 2：英文名 token_sort_ratio（两者均非空时才计算）
+    en_a = a.get("project_name_en", "").strip()
+    en_b = b.get("project_name_en", "").strip()
+    if en_a and en_b:
+        score_en = fuzz.token_sort_ratio(en_a, en_b)
+        best = max(best, score_en)
+        if score_en >= FUZZY_THRESHOLD_EN:
+            return True, best
+
+    # 信号 3：中文名 partial_ratio（捕获一个名称是另一个子串的情况）
+    score_partial = fuzz.partial_ratio(a["project_name"], b["project_name"])
+    best = max(best, score_partial)
+    if score_partial >= FUZZY_PARTIAL_THRESHOLD:
+        return True, best
+
+    return False, best
+
+
+def _entity_overlap(a: Dict, b: Dict) -> bool:
+    """检查两条记录是否有共同的中方主体（实体名称精确匹配）。"""
+    ents_a = {e["implementing_entity"] for e in a.get("entities", []) if e["implementing_entity"]}
+    ents_b = {e["implementing_entity"] for e in b.get("entities", []) if e["implementing_entity"]}
+    return bool(ents_a & ents_b)
+
+
 def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
     """
-    找出潜在的跨源重复对（同阶段 + 同国家 + 同类别 + 相近容量 + 相似名称）。
+    找出潜在的跨源重复对，采用多信号 OR 逻辑以最大化召回率。
+
+    硬过滤（必须同时满足）：
+      - 相同国家 + 能源类型 + 项目阶段
+      - 不共享信源链接
+
+    软信号（满足任一即送 LLM 确认）：
+      - 名称信号：CN token_sort_ratio / EN token_sort_ratio / CN partial_ratio
+      - 实体辅助：共有中方实体 + 名称中度相似（≥ FUZZY_ENTITY_ASSIST）
+
+    容量豁免：
+      - 任一名称信号得分 ≥ CAPACITY_BYPASS_SCORE 时跳过容量检查
+        （名称已高度吻合，容量差异由 LLM 判断）
     """
     candidates: List[Tuple[int, int]] = []
     n = len(projects)
@@ -254,34 +315,53 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
         for j in range(i + 1, n):
             a, b = projects[i], projects[j]
 
-            # 相同国家 + 能源类型 + 阶段
+            # ── 硬过滤 ──────────────────────────────────────────────────────
             if a["country"] != b["country"]:
                 continue
             if a["category"] != b["category"]:
                 continue
             if a["project_stage"] != b["project_stage"]:
                 continue
-
-            # 不同信源（有共同信源则不是跨源重复）
             if set(a["source_links"]) & set(b["source_links"]):
                 continue
 
-            # 装机容量相差 ≤10%（均有数值时才检查）
-            cap_a = _parse_capacity(a["capacity_mw"])
-            cap_b = _parse_capacity(b["capacity_mw"])
-            if cap_a and cap_b and cap_a > 0 and cap_b > 0:
-                if abs(cap_a - cap_b) / max(cap_a, cap_b) > CAPACITY_TOLERANCE:
-                    continue
+            # ── 名称多信号匹配 ───────────────────────────────────────────────
+            name_ok, best_score = _name_similarity(a, b)
 
-            # 项目名称模糊相似度
-            score = fuzz.token_sort_ratio(a["project_name"], b["project_name"])
-            if score >= FUZZY_THRESHOLD:
-                candidates.append((i, j))
+            # ── 实体重叠辅助（名称中度相似 + 同一中方实体）────────────────
+            entity_boost = (
+                not name_ok
+                and best_score >= FUZZY_ENTITY_ASSIST
+                and _entity_overlap(a, b)
+            )
+
+            if not name_ok and not entity_boost:
+                continue
+
+            # ── 容量检查（名称高度相似时豁免）──────────────────────────────
+            if best_score < CAPACITY_BYPASS_SCORE:
+                cap_a = _parse_capacity(a["capacity_mw"])
+                cap_b = _parse_capacity(b["capacity_mw"])
+                if cap_a and cap_b and cap_a > 0 and cap_b > 0:
+                    if abs(cap_a - cap_b) / max(cap_a, cap_b) > CAPACITY_TOLERANCE:
+                        continue
+
+            candidates.append((i, j))
 
     return candidates
 
 
 # ── 阶段三：LLM 确认 & 合并 ────────────────────────────────────────────────────
+
+def _fmt_entities(project: Dict) -> str:
+    """格式化中方实体列表为可读字符串。"""
+    ents = [
+        e["implementing_entity"]
+        for e in project.get("entities", [])
+        if e.get("implementing_entity")
+    ]
+    return "、".join(ents) if ents else "未知"
+
 
 def _llm_confirm(
     client: genai.Client,
@@ -296,17 +376,21 @@ def _llm_confirm(
 请判断以下两条记录是否描述同一个可再生能源项目（同一工程、同一阶段）。
 
 记录A：
-- 项目名称：{a['project_name']}
+- 项目名称（中）：{a['project_name']}
+- 项目名称（英）：{a.get('project_name_en', '—')}
 - 国家/地区：{a['country']} / {a['location']}
 - 能源类型：{a['category']}，装机容量：{a['capacity_mw']} MW
 - 项目阶段：{a['project_stage']}
+- 中方实体：{_fmt_entities(a)}
 - 信源：{src_a}
 
 记录B：
-- 项目名称：{b['project_name']}
+- 项目名称（中）：{b['project_name']}
+- 项目名称（英）：{b.get('project_name_en', '—')}
 - 国家/地区：{b['country']} / {b['location']}
 - 能源类型：{b['category']}，装机容量：{b['capacity_mw']} MW
 - 项目阶段：{b['project_stage']}
+- 中方实体：{_fmt_entities(b)}
 - 信源：{src_b}
 
 严格返回 JSON（无其他内容）：
