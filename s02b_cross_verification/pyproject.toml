@@ -1,7 +1,7 @@
 [project]
-name = "data_verification"
+name = "s02b_cross_verification"
 version = "0.1.0"
-description = "BRI RE Database Data Verification using crewAI"
+description = "BRI RE Database Stage 2B - External Cross-Verification using crewAI"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
@@ -10,15 +10,12 @@ dependencies = [
     "openpyxl>=3.1.0",
     "python-dotenv>=1.0.0",
     "google-genai>=1.49.0",
-    "rapidfuzz>=3.0.0",
     "requests>=2.31.0",
 ]
 
 [project.scripts]
-data_verification = "data_verification.main:run"
-run_crew          = "data_verification.main:run"
-merge_only        = "data_verification.main:merge_only"
-verify_only       = "data_verification.main:verify_only"
+s02b_cross_verification = "s02b_cross_verification.main:run"
+run_crew                = "s02b_cross_verification.main:run"
 
 [build-system]
 requires = ["hatchling"]

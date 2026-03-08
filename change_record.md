@@ -127,9 +127,62 @@ data_collector_filter (Excel)
 
 ---
 
+### · `refactor: rename subprojects with numeric stage prefix`
+
+#### 命名规范
+所有子项目统一改为 `sNN_name` 格式（s = stage，NN = 两位数字），目录名、pyproject.toml 包名、src/ 模块名三者保持一致。
+
+| 旧名 | 新名 |
+|------|------|
+| `data_collector_filter/` | `s01_data_collector_filter/` |
+| `duplicate_merger/` | `s02a_duplicate_merger/` |
+| `cross_verification/` | `s02b_cross_verification/` |
+| `data_verification/` | 已删除 |
+
+#### 改动内容（每个子项目）
+- 根目录重命名
+- `src/` 下模块目录重命名
+- `pyproject.toml`：`name` 字段 + `[project.scripts]` 入口路径
+- `main.py`：绝对 import 路径 + 跨项目相对路径（`input_dir` / `db_path`）
+- `crew.py`：绝对 import 路径
+
+#### 其他
+- **`.gitignore`**：数据目录排除规则更新为新路径
+- **`project_status.md` / `MEMORY.md`**：路径引用全部更新
+
+---
+
+### · `feat: add crewai Flows pipeline + kickoff_for_each parallel collection`
+
+#### 新增 `pipeline/` 子项目（crewAI Flow 全流水线编排）
+- **新建 `pipeline/pyproject.toml`**：
+  - 类型 `[tool.crewai] type = "flow"`
+  - 通过 `[tool.uv.sources]` 以 editable 方式依赖三个本地子项目
+  - 入口：`run_pipeline`（完整流水线）/ `run_merge_only`（跳过交叉验证）
+- **新建 `pipeline/src/bri_pipeline/flow.py`**：
+  - `PipelineState`（Pydantic 模型）：统一管理全流水线参数，含阶段一/二A/二B 配置及流程控制开关（`skip_collection` / `run_cross_verification`）
+  - `BRIPipelineFlow`（`Flow[PipelineState]`）：三阶段 Flow：
+    - `@start() stage_01_collect` → 调用 `DataCollectorFilter().crew().kickoff()`
+    - `@listen(stage_01_collect) stage_02a_merge` → 调用 `DuplicateMerger().crew().kickoff()`
+    - `@router(stage_02a_merge) route_cross_verification` → 返回 `"run_verify"` 或 `"done"`
+    - `@listen("run_verify") stage_02b_verify` → 调用 `CrossVerification().crew().kickoff()`
+    - `@listen("done") finish_no_verify` → 打印完成摘要
+  - 所有子项目路径均从 `__file__` 推算为绝对路径，确保跨 CWD 一致性
+  - `run_full()` / `run_merge_only()` 入口函数供 pyproject.toml 调用
+
+#### `s01_data_collector_filter` — 新增批量并发采集
+- **`main.py`** 新增四个函数：
+  - `_add_months(d, months)`：月份安全加法（自动处理月末边界）
+  - `split_date_range(start, end, chunk_months, base_inputs)`：将大日期范围拆分为多组 kickoff inputs
+  - `_kickoff_parallel_async(inputs_list)`：内部 async 包装器，调用 `kickoff_for_each_async`
+  - `run_parallel(start_date, end_date, chunk_months)`：并发批量历史补录入口，通过 `asyncio.run()` 驱动
+- **`pyproject.toml`**：新增 `run_parallel = "s01_data_collector_filter.main:run_parallel"` 脚本入口
+
+---
+
 ## 说明
 
-- 所有 crewai agent 现均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型
-- `data_verification` 子项目现包含完整的两阶段流程：去重入库 + 外部交叉验证
+- 所有 crewai agent 均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型
+- 子项目命名规范：`sNN_name`（目录、包名、模块名三者一致）
 - 双语字段（EN）贯穿整个流水线：AI 提取阶段输出 → SQLite 存储 → 向量匹配使用
 - `.db` 数据库文件已排除 git，需本地运行生成

@@ -4,8 +4,8 @@ from crewai import Agent, Crew, Process, Task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from crewai.project import CrewBase, agent, crew, task
 
-from data_collector_filter.tools.news_crawler_tool import NewsCrawlerTool
-from data_collector_filter.tools.project_extractor_tool import ProjectExtractorTool
+from s01_data_collector_filter.tools.news_crawler_tool import NewsCrawlerTool
+from s01_data_collector_filter.tools.project_extractor_tool import ProjectExtractorTool
 
 
 @CrewBase

@@ -2,7 +2,7 @@ from typing import List
 
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from duplicate_merger.tools.duplicate_merger_tool import DuplicateMergerTool
+from s02a_duplicate_merger.tools.duplicate_merger_tool import DuplicateMergerTool
 
 
 @CrewBase

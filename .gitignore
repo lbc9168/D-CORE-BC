@@ -21,10 +21,9 @@ env/
 !example_data.xlsx  # 感叹号表示：除了这个文件例外，我要上传它作为示例
 
 # 6. 运行时生成的数据目录（体积大，不上传）
-data_verification/data/
-data_collector_filter/data/
-duplicate_merger/data/
-cross_verification/data/
+s01_data_collector_filter/data/
+s02a_duplicate_merger/data/
+s02b_cross_verification/data/
 # 例外：保留目录占位符（如有）
 !**/data/.gitkeep
 !**/data/**/.gitkeep

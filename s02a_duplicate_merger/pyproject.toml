@@ -1,7 +1,7 @@
 [project]
-name = "duplicate_merger"
+name = "s02a_duplicate_merger"
 version = "0.1.0"
-description = "BRI RE Database Deduplication & Storage using crewAI"
+description = "BRI RE Database Stage 2A - Deduplication & Storage using crewAI"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
@@ -15,8 +15,8 @@ dependencies = [
 ]
 
 [project.scripts]
-duplicate_merger = "duplicate_merger.main:run"
-run_crew         = "duplicate_merger.main:run"
+s02a_duplicate_merger = "s02a_duplicate_merger.main:run"
+run_crew              = "s02a_duplicate_merger.main:run"
 
 [build-system]
 requires = ["hatchling"]

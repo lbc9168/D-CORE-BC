@@ -1,0 +1,29 @@
+[project]
+name = "bri-re-pipeline"
+version = "0.1.0"
+description = "BRI RE Database — Full Pipeline Orchestration via crewAI Flows"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools,google-genai]==1.9.3",
+    "python-dotenv>=1.0.0",
+    "s01_data_collector_filter",
+    "s02a_duplicate_merger",
+    "s02b_cross_verification",
+]
+
+[project.scripts]
+run_pipeline       = "bri_pipeline.flow:run_full"
+run_merge_only     = "bri_pipeline.flow:run_merge_only"
+
+[tool.uv.sources]
+s01_data_collector_filter = { path = "../s01_data_collector_filter", editable = true }
+s02a_duplicate_merger     = { path = "../s02a_duplicate_merger",     editable = true }
+s02b_cross_verification   = { path = "../s02b_cross_verification",   editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "flow"

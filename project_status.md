@@ -11,17 +11,17 @@
 **流水线架构：**
 ```
 数据收集 → 去重合并 ──→ 数据库整理 → 网页可视化 → 数据分析 → 报告撰写
-    ✅          ✅    ↓       ⬜           ⬜           ⬜          ⬜
-               交叉验证（可选）✅
+   ✅       ✅    ↓      ⬜         ⬜         ⬜        ⬜
+            交叉验证（可选）✅
 ```
-> 阶段二已拆分为两个独立子项目：`duplicate_merger`（必选）+ `cross_verification`（可选）。
+> 阶段二已拆分为两个独立子项目：`s02a_duplicate_merger`（必选）+ `s02b_cross_verification`（可选）。
 > 去重合并后可直接进入数据库整理，也可先做交叉验证再整理。
 
 ---
 
 ## 阶段一：数据收集（data_collector_filter）✅ 已完成
 
-**子项目路径：** `data_collector_filter/`
+**子项目路径：** `s01_data_collector_filter/`
 
 ### 已实现功能
 - **新闻爬虫**：`Crawler.py`（独立脚本）+ `tools/news_crawler_tool.py`（crewai 工具）
@@ -57,7 +57,7 @@
 
 ## 阶段二A：数据去重合并（duplicate_merger）✅ 已完成
 
-**子项目路径：** `duplicate_merger/`
+**子项目路径：** `s02a_duplicate_merger/`
 
 ### 已实现功能
 
@@ -68,7 +68,7 @@
 3. **字段仲裁**（Python + LLM）：合并实体列表、LLM 解决冲突字段
 4. **SQLite 写入**：规范化三表结构，支持幂等运行
 
-### SQLite 数据模型（duplicate_merger/data/db/bri_re_database.db）
+### SQLite 数据模型（s02a_duplicate_merger/data/db/bri_re_database.db）
 三张关系表：
 
 **canonical_projects**（物理工程，唯一）
@@ -91,13 +91,13 @@ PK: 自增整数，FK → project_events.id
 
 ### crewai 配置
 - **一个 Agent**：`data_verifier`（指定 `llm: gemini/gemini-2.5-flash-lite`）
-- **运行方式**：`crewai run` / `uv run duplicate_merger`
+- **运行方式**：`crewai run` / `uv run s02a_duplicate_merger`
 
 ---
 
 ## 阶段二B：外部交叉验证（cross_verification）✅ 已完成（可选步骤）
 
-**子项目路径：** `cross_verification/`
+**子项目路径：** `s02b_cross_verification/`
 
 > 此步骤可选：去重合并后可直接进入「数据库整理」，也可先做交叉验证再整理。
 
@@ -111,19 +111,12 @@ PK: 自增整数，FK → project_events.id
 4. **写回数据库 + 导出清单**：低置信度记录输出 Excel 人工核查清单
 
 ### 数据接口
-- **输入**：读取 `../duplicate_merger/data/db/bri_re_database.db`（`verification_status = 'unverified'`）
+- **输入**：读取 `../s02a_duplicate_merger/data/db/bri_re_database.db`（`verification_status = 'unverified'`）
 - **输出**：更新同一 SQLite 中的验证字段；低置信度记录输出 Excel 至 `data/manual_review/`
 
 ### crewai 配置
 - **一个 Agent**：`cross_verifier`（指定 `llm: gemini/gemini-2.5-flash-lite`）
-- **运行方式**：`crewai run` / `uv run cross_verification`
-
----
-
-## 〔已归档〕data_verification/ ✅ 备份保留
-
-原合并子项目，已拆分为 `duplicate_merger/` + `cross_verification/`。
-代码保留作为参考，新开发请使用拆分后的子项目。
+- **运行方式**：`crewai run` / `uv run s02b_cross_verification`
 
 ---
 
@@ -147,42 +140,91 @@ PK: 自增整数，FK → project_events.id
 
 ---
 
+## 流水线编排（crewAI Flows）
+
+**子项目路径：** `pipeline/`
+
+一次命令运行完整三阶段流水线，支持条件跳转：
+
+```
+BRIPipelineFlow
+  stage_01_collect  (@start)          ← 可通过 skip_collection=True 跳过
+       ↓
+  stage_02a_merge   (@listen)
+       ↓
+  route_cross_verification (@router)
+    ├── "run_verify" → stage_02b_verify (@listen)   ← run_cross_verification=True（默认）
+    └── "done"       → finish_no_verify (@listen)   ← run_cross_verification=False
+```
+
+**运行方式：**
+```bash
+cd pipeline
+uv sync                      # 首次安装（会自动安装三个本地子项目）
+uv run run_pipeline          # 完整流水线（含交叉验证）
+uv run run_merge_only        # 仅采集 + 去重（跳过交叉验证）
+```
+
+---
+
+## 批量并发采集（kickoff_for_each_async）
+
+在 `s01_data_collector_filter` 中新增，用于历史数据补录：
+
+```bash
+cd s01_data_collector_filter
+uv run run_parallel          # 使用默认参数（2023-01-01 → 2026-03-08，按月拆分）
+```
+
+或在代码中调用：
+```python
+from s01_data_collector_filter.main import run_parallel, split_date_range
+
+run_parallel("2024-01-01", "2025-12-31", chunk_months=1)   # 24批并发
+run_parallel("2023-01-01", "2026-03-08", chunk_months=3)   # ~13批（限速时推荐）
+```
+
+---
+
 ## 项目结构
 
 ```
 BRI_RE_Database_v2/
-├── data_collector_filter/          # 阶段一 crewai 子项目
+├── pipeline/                           # 全流水线 crewai Flow 编排
+│   ├── pyproject.toml
+│   └── src/bri_pipeline/
+│       └── flow.py                 # BRIPipelineFlow + PipelineState
+│
+├── s01_data_collector_filter/          # 阶段一 crewai 子项目
 │   ├── pyproject.toml
 │   ├── Crawler.py                  # 独立爬虫脚本
 │   ├── filter.py                   # 独立 AI 筛选脚本
-│   └── src/data_collector_filter/
-│       ├── main.py
+│   └── src/s01_data_collector_filter/
+│       ├── main.py                 # run() + run_parallel() + split_date_range()
 │       ├── crew.py
 │       ├── config/{agents,tasks}.yaml
 │       ├── tools/news_crawler_tool.py
 │       ├── tools/project_extractor_tool.py
 │       └── knowledge/user_preference.txt
 │
-├── duplicate_merger/               # 阶段二A crewai 子项目（去重合并与入库）
+├── s02a_duplicate_merger/               # 阶段二A crewai 子项目（去重合并与入库）
 │   ├── pyproject.toml
 │   ├── data/db/                    # SQLite 数据库（bri_re_database.db）
-│   └── src/duplicate_merger/
+│   └── src/s02a_duplicate_merger/
 │       ├── main.py
 │       ├── crew.py
 │       ├── config/{agents,tasks}.yaml
 │       └── tools/duplicate_merger_tool.py
 │
-├── cross_verification/             # 阶段二B crewai 子项目（外部交叉验证，可选）
+├── s02b_cross_verification/             # 阶段二B crewai 子项目（外部交叉验证，可选）
 │   ├── pyproject.toml
 │   ├── data/verification_cache/    # GDELT 文章 & 向量嵌入缓存
 │   ├── data/manual_review/         # 低置信度人工核查 Excel
-│   └── src/cross_verification/
+│   └── src/s02b_cross_verification/
 │       ├── main.py
 │       ├── crew.py
 │       ├── config/{agents,tasks}.yaml
 │       └── tools/cross_verification_tool.py
-│
-├── data_verification/              # 〔已归档〕原合并子项目，保留作为备份
 │
 ├── company_name_cache.json         # 中文公司名 → 英文缓存（41条）
 ├── enums_mapping.json              # 枚举字段映射表
@@ -214,5 +256,6 @@ BRI_RE_Database_v2/
 |------|--------|------|
 | 根目录 `pyproject.toml` 的 `requires-python = ">=3.14"` 错误 | 低 | 未修复 |
 | `Crawler.py` 第178行重复的 `is_relevant` 赋值 | 低 | 未修复 |
-| `data_collector_filter/custom_tool.py` 仍为模板占位符 | 低 | 未修复 |
+| `s01_data_collector_filter/custom_tool.py` 仍为模板占位符 | 低 | 未修复 |
 | Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线） | 低 | 未修复（仅影响显示） |
+| `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖 | 低 | 已知，文档说明 |
