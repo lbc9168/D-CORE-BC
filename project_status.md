@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目状态文档
 
-> 最后更新：2026-03-08
+> 最后更新：2026-03-09
 
 ---
 
@@ -171,7 +171,7 @@ uv run run_export
 
 ---
 
-## 阶段四：网页可视化 🚧 基本完成（待测试与优化）
+## 阶段四：网页可视化 🚧 调试中（基本功能可用，部分问题已修复）
 
 **子项目路径：** `s04_web_visualization/`
 
@@ -207,35 +207,42 @@ s04 前端直接 fetch 静态 JSON（纯前端，零后端）
 ### 省级地图数据准备
 ```bash
 cd s04_web_visualization
-python scripts/download_geo.py    # 下载 Natural Earth admin1，按国家拆分
+pip install pyshp            # 首次：安装 shapefile 解析依赖
+python scripts/download_geo.py    # 下载 Natural Earth 10m admin1，按国家拆分
 ```
-输出到 `public/geo/provinces/{ISO3}.geojson`（~220 个国家）
+- 数据源：Natural Earth 10m admin1（NACI CDN / Amazon S3，zip 约 10-15 MB）
+- 注意：50m 版本仅含 9 个大国，必须用 10m 版才有全球完整覆盖（~4500+ feature）
+- 输出到 `public/geo/provinces/{ISO3}.geojson`（~242 个国家）
 
 ### 启动方式
 ```bash
 # 1. 生成 JSON 数据（会自动同步到 s04/public/data/）
 cd s03_data_exporter && uv run run_export
-# 或通过 pipeline 一键完成所有阶段：
-# cd pipeline && uv run run_pipeline
 
-# 2. 下载省级地图（首次）
+# 2. 下载省级地图（首次，需 pip install pyshp）
 cd s04_web_visualization && python scripts/download_geo.py
 
 # 3. 启动开发服务器
 npm install && npm run dev
 ```
 
-### 构建发布
+### 构建发布（本地离线运行）
 ```bash
 cd s04_web_visualization
-npm run build    # 输出到 dist/
+npm run build    # 输出到 dist/（已配置 base="./" 支持相对路径）
+
+# 启动本地服务（无需 Node.js，Python 即可）
+cd dist && python -m http.server 8080
+# 访问 http://localhost:8080
 ```
+> 注意：dist/ 必须通过 HTTP 服务器访问，不可直接双击 index.html（fetch 请求受浏览器 CORS 限制）
 
 ### 待优化（后续讨论）
 - 地图 hover tooltip 样式和数据展示
 - 省级匹配精度（AI 提取省名与 GeoJSON feature 名的模糊匹配）
 - 移动端响应式布局
 - 省级地图 projection 自动居中
+- 省级地图数据：需 VPN 或国内镜像源下载 10m zip（两个官方源在国内均有访问限制）
 
 ---
 
@@ -371,3 +378,4 @@ BRI_RE_Database_v2/
 | `s01_data_collector_filter/custom_tool.py` 仍为模板占位符 | 低 | 未修复 |
 | Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线） | 低 | 未修复（仅影响显示） |
 | `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖 | 低 | 已知，文档说明 |
+| s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN | 中 | 已知，待解决 |

@@ -2,6 +2,7 @@
   "extraPaths": [
     "s01_data_collector_filter/src",
     "s02a_duplicate_merger/src",
-    "s02b_cross_verification/src"
+    "s02b_cross_verification/src",
+    "s03_data_exporter/src"
   ]
 }

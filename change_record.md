@@ -420,6 +420,82 @@ s01 → s02a → router ──→ s02b ──┐
 
 ---
 
+## 2026-03-08（续）
+
+### · `fix: use absolute path for WorldCountryList.json in ProjectExtractorTool`
+
+#### `s01_data_collector_filter/src/s01_data_collector_filter/tools/project_extractor_tool.py`
+
+**问题根因：**
+`country_db_path` 的默认值为相对路径 `"WorldCountryList.json"`。当 crewai agent 调用该 tool 时，CWD 不一定是 `s01_data_collector_filter/` 根目录，导致 JSON 文件加载失败，静默回退到仅含"中国"的最小列表，所有其他国家均返回 `iso = "NA"`。s02a 的 `_clean("NA")` 会将 "NA" 转为空字符串，再经 `or "UNK"` 默认值，最终导致数据库中所有项目的 `country_iso` 均为 `"UNK"`。
+
+**修复内容：**
+- 新增模块级常量：
+  - `_S01_ROOT = Path(__file__).resolve().parents[3]`（从 tool 文件上溯三层到子项目根目录）
+  - `_DEFAULT_COUNTRY_DB = str(_S01_ROOT / "WorldCountryList.json")`（绝对路径）
+- `ProjectExtractorInput.country_db_path` 默认值改为 `_DEFAULT_COUNTRY_DB`
+- `ProjectExtractorTool._run()` 对应参数默认值同步更新
+- 新增 `from pathlib import Path` 导入
+
+**影响范围：** 修复后新运行的 s01 将正确匹配国家并写入 ISO 代码；已有数据库中的 `"UNK"` 记录需重新跑 s01 → s02a → s03 才能修正。
+
+---
+
+## 2026-03-09
+
+### · `fix: add repair_country_iso.py to fix UNK country_iso in existing database`
+
+#### 新增 `repair_country_iso.py`（根目录，一次性修复脚本）
+
+**背景：**
+数据库中存在大量 `country_iso = "UNK"` 的记录，原因是历史上部分 s01 运行（20260308_1232、20260308_2007 两批）因 CWD 不在 s01 根目录导致 country_db 加载失败，Excel 中写入 `"NA"`，pandas 读取时将 `"NA"` 视为 NaN，s02a `_clean(NaN)` → `""` → `"" or "UNK"` → `"UNK"`。同一国家在数据库中既有正确 ISO（来自其他运行批次）又有 UNK（来自问题批次），导致省级热力图无法显示。
+
+**脚本功能（四步）：**
+1. 加载 `WorldCountryList.json`（233 国，273 个名称/别名键）
+2. 对所有 `BRI_RE_Final_Database_*.xlsx`（含 Archived/）中 `Country ISO` 为空/NaN 的行，重新执行国家名匹配并回填 Country ISO / BRI country / LDCs；合计修复 76 行
+3. 将 Archived/ 中 5 个历史文件复制回 `processed/`，供 s02a 重建数据库
+4. 删除旧数据库 `s02a_duplicate_merger/data/db/bri_re_database.db`
+
+**运行方式：**
+```bash
+cd s03_data_exporter   # 借用已有 pandas venv
+uv run python ../repair_country_iso.py
+# 完成后：uv run --directory s02a_duplicate_merger s02a_duplicate_merger
+#         uv run --directory s03_data_exporter run_export
+```
+
+---
+
+### · `fix: rewrite download_geo.py to use 10m admin1 via zip+pyshp`
+
+#### `s04_web_visualization/scripts/download_geo.py`
+
+**问题根因（两个）：**
+1. 原脚本从 `raw.githubusercontent.com` 下载 GeoJSON，但该仓库使用 Git LFS，raw CDN 仅返回 LFS 指针文件（~2.4 MB），只含 294 个 feature / 9 个国家
+2. 经确认，Natural Earth **50m** admin1 本身就只包含 9 个大国省级数据；必须使用 **10m** 版本才有全球完整覆盖（~4500+ feature / 242 国）
+
+**修复内容：**
+- 改为下载官方 zip 包（naciscdn.org / Amazon S3 双源备用）
+- 使用 `pyshp`（`pip install pyshp`）解析 zip 内 shapefile，转为 GeoJSON feature 列表
+- 数据源从 50m 升级为 **10m**：`ne_10m_admin_1_states_provinces.zip`（约 10-15 MB）
+- 新增缓存完整性检查：zip < 2 MB 视为截断，自动重新下载
+- 新增 feature 数量校验：< 4000 时报错提示用 VPN 重试
+- 多源下载：优先 naciscdn.org，失败时自动切换 Amazon S3
+
+**已知限制：** 两个下载源在国内均有访问限制，需 VPN 或手动下载后放入 `scripts/_ne_admin1_cache.zip`。
+
+---
+
+### · `feat: add base="./" to vite.config.ts for portable build`
+
+#### `s04_web_visualization/vite.config.ts`
+
+- 新增 `base: "./"` 配置，使构建产物 `dist/` 使用相对路径
+- `dist/` 可移动到任意目录，通过 `python -m http.server 8080` 启动即可访问
+- 注意：不可直接双击 `index.html`（fetch 请求受浏览器 CORS 限制，需 HTTP 服务器）
+
+---
+
 ## 说明
 
 - 所有 crewai agent 均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型

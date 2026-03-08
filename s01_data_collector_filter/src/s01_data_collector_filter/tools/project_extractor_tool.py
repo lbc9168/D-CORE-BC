@@ -2,6 +2,7 @@ import json
 import os
 import time
 from datetime import datetime
+from pathlib import Path
 from typing import Type
 
 import pandas as pd
@@ -12,6 +13,10 @@ from google.genai import types
 from pydantic import BaseModel, Field
 
 load_dotenv()
+
+# 工具文件位于 src/s01_data_collector_filter/tools/，上溯三层到子项目根目录
+_S01_ROOT = Path(__file__).resolve().parents[3]
+_DEFAULT_COUNTRY_DB = str(_S01_ROOT / "WorldCountryList.json")
 
 
 # ── 国家数据库 ─────────────────────────────────────────────────────────────────
@@ -273,7 +278,7 @@ class ProjectExtractorInput(BaseModel):
         description="输出文件保存目录",
     )
     country_db_path: str = Field(
-        default="WorldCountryList.json",
+        default=_DEFAULT_COUNTRY_DB,
         description="国家数据库 JSON 文件路径，用于补充 ISO、BRI、LDC 信息及别名匹配",
     )
 
@@ -293,7 +298,7 @@ class ProjectExtractorTool(BaseTool):
         self,
         input_file: str,
         output_dir: str = "data/processed",
-        country_db_path: str = "WorldCountryList.json",
+        country_db_path: str = _DEFAULT_COUNTRY_DB,
     ) -> str:
         # 初始化 Gemini
         api_key = os.getenv("GEMINI_API_KEY")

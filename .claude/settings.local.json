@@ -17,7 +17,9 @@
       "Bash(python3 -c \":*)",
       "Bash(make --version)",
       "Bash(where node)",
-      "Bash(where npm)"
+      "Bash(where npm)",
+      "Bash(python3 repair_country_iso.py)",
+      "Bash(uv run python ../repair_country_iso.py)"
     ]
   }
 }

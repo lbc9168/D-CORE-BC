@@ -11,4 +11,6 @@ export default defineConfig({
   },
   // 静态数据文件从 public/ 提供
   publicDir: "public",
+  // 使用相对路径，使 dist/ 可在任意位置通过本地服务器访问
+  base: "./",
 });
