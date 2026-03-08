@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(python -c \":*)"
+      "Bash(python -c \":*)",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f''entries: {len\\(d\\)}''\\)\")",
+      "Bash(python -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(f''keys: {list\\(d.keys\\(\\)\\)}''\\)\")"
     ]
   }
 }

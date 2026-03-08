@@ -23,8 +23,11 @@ env/
 # 6. 运行时生成的数据目录（体积大，不上传）
 data_verification/data/
 data_collector_filter/data/
+duplicate_merger/data/
+cross_verification/data/
 # 例外：保留目录占位符（如有）
 !**/data/.gitkeep
+!**/data/**/.gitkeep
 
 # 7. 交叉验证缓存（体积大，GDELT 文章数据 + 向量嵌入）
 **/verification_cache/
