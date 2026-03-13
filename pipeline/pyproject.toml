@@ -14,9 +14,10 @@ dependencies = [
 ]
 
 [project.scripts]
-run_pipeline       = "bri_pipeline.flow:run_full"
-run_merge_only     = "bri_pipeline.flow:run_merge_only"
-run_export_only    = "bri_pipeline.flow:run_export_only"
+run_pipeline           = "bri_pipeline.flow:run_full"
+run_merge_only         = "bri_pipeline.flow:run_merge_only"
+run_collect_and_merge  = "bri_pipeline.flow:run_collect_and_merge"
+run_export_only        = "bri_pipeline.flow:run_export_only"
 
 [tool.uv.sources]
 s01_data_collector_filter = { path = "../s01_data_collector_filter", editable = true }

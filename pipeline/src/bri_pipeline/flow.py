@@ -11,6 +11,7 @@ BRI RE Database — 完整流水线编排（crewAI Flows）
     cd pipeline
     uv run run_pipeline                         # 完整流水线（含交叉验证 + 导出）
     uv run run_merge_only                       # 采集 + 去重 + 导出（跳过交叉验证）
+    uv run run_collect_and_merge                # 仅采集 + 去重合并，不导出（阶段一 → 阶段二A）
     uv run run_export_only                      # 仅重新导出（数据库已有）
 
 直接调用：
@@ -56,14 +57,15 @@ from s03_data_exporter.main import run as _run_s03              # noqa: E402
 class PipelineState(BaseModel):
     # ── 阶段一：数据采集 ────────────────────────────────────────
     source_url:          str   = "https://news.goalfore.cn/topstories/project"
-    start_date:          str   = "2026-02-01"
-    end_date:            str   = "2026-03-08"
+    start_date:          str   = "2026-03-07"
+    end_date:            str   = "2026-03-10"
     keywords:            str   = "能源,电力,MW,GW,风电,水电,光伏,储能"
     raw_data_dir:        str   = str(_S01 / "data" / "raw")
-    processed_data_dir:  str   = str(_S01 / "data" / "processed")
+    projects_db_path:    str   = str(_S01 / "data" / "projects.db")
+    review_db_path:      str   = str(_S01 / "data" / "review.db")
 
     # ── 阶段二A：去重合并 ────────────────────────────────────────
-    input_dir:           str   = str(_S01 / "data" / "processed")
+    input_db:            str   = str(_S01 / "data" / "projects.db")
     db_path:             str   = str(_S02A / "data" / "db" / "bri_re_database.db")
 
     # ── 阶段二B：交叉验证（可选）────────────────────────────────
@@ -98,18 +100,16 @@ class BRIPipelineFlow(Flow[PipelineState]):
                             f"{self.state.start_date} → {self.state.end_date}")
 
         # 将旧文件归档，避免累积
-        _archive_s01_files(
-            Path(self.state.raw_data_dir),
-            Path(self.state.processed_data_dir),
-        )
+        _archive_s01_files(Path(self.state.raw_data_dir))
 
         DataCollectorFilter().crew().kickoff(inputs={
-            "source_url":         self.state.source_url,
-            "start_date":         self.state.start_date,
-            "end_date":           self.state.end_date,
-            "keywords":           self.state.keywords,
-            "raw_data_dir":       self.state.raw_data_dir,
-            "processed_data_dir": self.state.processed_data_dir,
+            "source_url":       self.state.source_url,
+            "start_date":       self.state.start_date,
+            "end_date":         self.state.end_date,
+            "keywords":         self.state.keywords,
+            "raw_data_dir":     self.state.raw_data_dir,
+            "projects_db_path": self.state.projects_db_path,
+            "review_db_path":   self.state.review_db_path,
         })
 
     # ── 阶段二A：去重合并 ─────────────────────────────────────────
@@ -119,8 +119,8 @@ class BRIPipelineFlow(Flow[PipelineState]):
         _print_stage_header("2A", "数据去重合并与入库")
 
         DuplicateMerger().crew().kickoff(inputs={
-            "input_dir": self.state.input_dir,
-            "db_path":   self.state.db_path,
+            "input_db": self.state.input_db,
+            "db_path":  self.state.db_path,
         })
 
     # ── 路由：是否运行交叉验证 ────────────────────────────────────
@@ -181,9 +181,9 @@ def _print_stage_header(stage_id, title: str, subtitle: str = ""):
     print(sep)
 
 
-def _archive_s01_files(raw_dir: Path, processed_dir: Path):
-    """将 s01 data/ 下的旧文件移入 Archived/ 子目录。"""
-    for data_dir in [raw_dir, processed_dir]:
+def _archive_s01_files(raw_dir: Path):
+    """将 s01 data/raw/ 下的旧爬虫文件移入 Archived/ 子目录。"""
+    for data_dir in [raw_dir]:
         archived = data_dir / "Archived"
         archived.mkdir(parents=True, exist_ok=True)
         for f in data_dir.iterdir():
@@ -203,6 +203,11 @@ def run_full():
 def run_merge_only():
     """采集 + 去重合并 + 导出，跳过交叉验证（阶段一 → 阶段二A → 阶段三）"""
     BRIPipelineFlow().kickoff(inputs={"run_cross_verification": False})
+
+
+def run_collect_and_merge():
+    """仅采集 + 去重合并，不导出（阶段一 → 阶段二A）"""
+    BRIPipelineFlow().kickoff(inputs={"run_cross_verification": False, "run_export": False})
 
 
 def run_export_only():

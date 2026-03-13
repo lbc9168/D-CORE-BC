@@ -409,6 +409,28 @@ class ProjectExtractorTool(BaseTool):
         ts = datetime.now().strftime("%Y%m%d_%H%M")
         batch_id = Path(input_file).stem  # 例：Energy_News_Raw_20260301_1430
 
+        # 加载已处理过的 URL（去重：跳过已在 projects.db 或 review.db 中记录的链接）
+        already_processed: set[str] = set()
+        try:
+            _chk = _init_projects_db(projects_db_path)
+            cur = _chk.cursor()
+            cur.execute("SELECT DISTINCT source_link FROM extracted_projects WHERE source_link IS NOT NULL AND source_link != ''")
+            already_processed.update(r[0] for r in cur.fetchall())
+            _chk.close()
+        except Exception:
+            pass
+        try:
+            _chk2 = _init_review_db(review_db_path)
+            cur2 = _chk2.cursor()
+            cur2.execute("SELECT source_link FROM no_chinese_records WHERE source_link IS NOT NULL AND source_link != '' "
+                         "UNION SELECT source_link FROM discarded_records WHERE source_link IS NOT NULL AND source_link != ''")
+            already_processed.update(r[0] for r in cur2.fetchall())
+            _chk2.close()
+        except Exception:
+            pass
+        if already_processed:
+            print(f">>> 增量模式：已跳过 {len(already_processed)} 个已处理 URL")
+
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
         total = len(df)
         print(f"开始处理 {total} 条数据...")
@@ -418,11 +440,26 @@ class ProjectExtractorTool(BaseTool):
             "电力", "电站", "发电", "MW", "GW",
         ]
 
+        last_valid_pub_date = ""
+
         for idx, row in df.iterrows():
             title = str(row.get("文章标题", ""))
             content = str(row.get("正文内容", ""))
             pub_date = str(row.get("发布日期", ""))
             orig_link = str(row.get("原文链接", ""))
+
+            # 增量去重：跳过已处理的 URL
+            if orig_link and orig_link not in ("nan", "NA", "None") and orig_link in already_processed:
+                print(f"[{idx+1}/{total}] 跳过（已处理）: {title[:25]}...")
+                continue
+
+            # publish_date 前向填充：无法正确读取时用上一条有效日期
+            if pub_date and pub_date not in ("nan", "NA", "None", "") and any(c.isdigit() for c in pub_date):
+                last_valid_pub_date = pub_date
+            else:
+                if last_valid_pub_date:
+                    print(f"[{idx+1}/{total}] publish_date 无效（原值='{pub_date}'），使用前一条日期: {last_valid_pub_date}")
+                    pub_date = last_valid_pub_date
 
             # Python 端预筛，节省 API 调用
             if not any(k in content for k in pre_filter_keywords):
@@ -440,14 +477,34 @@ class ProjectExtractorTool(BaseTool):
             print(f"[{idx+1}/{total}] AI处理中: {title[:25]}...")
             prompt = _build_prompt(title, content, pub_date)
 
-            try:
-                response = client.models.generate_content(
-                    model="gemini-2.5-flash-lite",
-                    contents=prompt,
-                    config=generation_config,
-                )
-                result = json.loads(response.text)
+            MAX_RETRIES = 3
+            result = None
+            last_error = ""
+            for attempt in range(1, MAX_RETRIES + 1):
+                try:
+                    response = client.models.generate_content(
+                        model="gemini-2.5-flash-lite",
+                        contents=prompt,
+                        config=generation_config,
+                    )
+                    result = json.loads(response.text)
+                    break  # 成功则跳出重试循环
+                except Exception as e:
+                    last_error = str(e)
+                    if attempt < MAX_RETRIES:
+                        wait = 2 ** attempt  # 2s, 4s
+                        print(f"  -> 处理出错（第{attempt}次）: {e}，{wait}s 后重试...")
+                        time.sleep(wait)
+                    else:
+                        print(f"  -> 处理出错（已重试{MAX_RETRIES}次，放弃）: {e}")
 
+            if result is None:
+                discarded_rows.append({
+                    "文章标题": title,
+                    "正文内容": content,
+                    "拒绝原因": f"程序异常（重试{MAX_RETRIES}次失败）: {last_error}",
+                })
+            else:
                 analysis = result.get("analysis", {})
                 status = result.get("status")
                 reasoning = analysis.get("reasoning", "无详细理由")
@@ -551,13 +608,9 @@ class ProjectExtractorTool(BaseTool):
                                 })
                                 valid_rows.append(row_data)
 
-            except Exception as e:
-                print(f"  -> 处理出错: {e}")
-                discarded_rows.append({
-                    "文章标题": title,
-                    "正文内容": content,
-                    "拒绝原因": f"程序异常: {str(e)}",
-                })
+            # 处理完毕后标记该 URL（防止同一批次内同一链接出现多次）
+            if orig_link and orig_link not in ("nan", "NA", "None"):
+                already_processed.add(orig_link)
 
             time.sleep(1)
 

@@ -496,6 +496,115 @@ uv run python ../repair_country_iso.py
 
 ---
 
+## 2026-03-13
+
+### · `refactor: s01 output → SQLite; s02a input → projects.db; s03 province constraint`
+
+#### 架构动机
+原来 s01 输出 Excel 文件、s02a 读取 Excel 目录，每次运行会覆盖旧文件，批次间无法累积。
+改为 SQLite 后，s01 增量写入、s02a 按标志位增量消费，多批次数据自然合并，无需手动管理文件。
+
+#### s01_data_collector_filter
+
+**`tools/news_crawler_tool.py`**
+- 新增 `_init_raw_news_db()`：初始化 `data/raw_news.db`（原始新闻备案库）
+  - 表 `raw_news`：URL 唯一去重，跨批次持久化，含 `passed_keyword_filter`、`batch_id` 字段
+- `NewsCrawlerInput` 新增 `raw_news_db_path` 字段（默认 `data/raw_news.db`）
+- `_run()` 每条新闻写入 raw_news.db（`INSERT OR IGNORE`，DB 写入失败不影响主流程）
+
+**`tools/project_extractor_tool.py`**
+- 新增 `_init_projects_db()`：初始化 `data/projects.db`（有效项目库）
+  - 表 `extracted_projects`：33 个字段，含 `batch_id`、`imported_to_s02a`（默认 0）、`created_at`
+- 新增 `_init_review_db()`：初始化 `data/review.db`（审核记录库）
+  - 表 `no_chinese_records`：URL 唯一，记录无中方参与文章
+  - 表 `discarded_records`：URL 唯一，记录被过滤文章（含 `discard_reason`）
+- `ProjectExtractorInput`：`output_dir` → `projects_db_path` + `review_db_path`
+- `_run()`：提取结果由写 Excel 改为写 SQLite；AI 原始 JSON 存放路径改为 `projects.db` 同级目录
+
+**`main.py`**
+- 所有入口函数（`run/train/test/run_parallel/run_with_trigger`）：`processed_data_dir` → `projects_db_path` + `review_db_path`
+- `archive_old_files()`：只归档 `data/raw/`（`data/processed/` 已废弃）
+
+**`config/tasks.yaml`**
+- `extract_projects_task` 描述更新：输出目标改为 SQLite 数据库路径
+
+#### s02a_duplicate_merger
+
+**`tools/duplicate_merger_tool.py`**
+- 新增 `_load_from_db(input_db)`：从 `extracted_projects` 表读取 `imported_to_s02a=0` 的记录，重命名列为 Excel 格式列名（兼容后续逻辑），返回 `(DataFrame, record_ids)`
+- 新增 `_mark_imported(input_db, record_ids)`：处理完成后将已处理记录标记为 `imported_to_s02a=1`
+- `_find_duplicate_candidates()` 新增 **Signal 4（跨语言容量信道）**：
+  - 触发条件：名称 Signals 1-3 均未命中 + 容量误差 ≤ 1% 且 ≥ 0.5MW
+  - 解决历史数据中一方以英文为 project_name、另一方以中文导致名称分低（5~30）的漏判问题
+  - 新增常量 `CAPACITY_EXACT_TOLERANCE = 0.01`、`CAPACITY_MIN_MW = 0.5`
+- `_find_or_create_canonical()` 扩展为 **4 路名称对比较**（取最高分）：
+  - incoming CN vs DB CN（原有）
+  - incoming EN vs DB CN
+  - incoming EN vs DB EN
+  - incoming CN vs DB EN
+- `DuplicateMergerInput`：`input_dir` → `input_db`（路径指向 `projects.db`）
+- `_run()`：调用 `_load_from_db` 替代 `_load_excel_files`；新增阶段五调用 `_mark_imported`
+
+**`main.py`**
+- `run()` 中 `input_dir` → `input_db`，路径指向 `../s01_data_collector_filter/data/projects.db`
+
+**`config/tasks.yaml`**
+- 描述更新：从 Excel 目录改为从 SQLite 读取，新增第 5 步（标记已导入）
+
+#### s03_data_exporter
+
+**`admin1_lookup.py`** ✨ 新文件
+- 从 `s04_web_visualization/scripts/_ne_admin1_cache.zip` 读取 Natural Earth 10m admin1 shapefile
+- 构建 `{ISO3: [省份英文名, ...]}` 字典，模块级单例缓存（进程内只读一次 zip）
+- zip 不存在或未安装 `pyshp` 时静默返回空字典（省份验证退化为无约束行为）
+
+**`province_extractor.py`**
+- 集成 `admin1_lookup.build_admin1_dict()`，为每个项目附加 `known_provinces` 列表
+- Prompt 更新：Gemini 输出必须来自 `known_provinces` 列表或 null，不得自行创造列表外名称
+- `records` 新增 `country_iso` 字段（供 admin1_lookup 查找对应省份列表）
+
+**`main.py`**
+- `canonical_projects` 查询新增 `country_iso` 字段
+
+**`pyproject.toml`**
+- 新增依赖 `pyshp>=2.3.0`（admin1_lookup 解析 shapefile 所需）
+
+#### pipeline
+
+**`flow.py`**
+- `PipelineState`：移除 `processed_data_dir`、`input_dir`，新增 `projects_db_path`、`review_db_path`、`input_db`
+- `stage_01_collect()`：kickoff inputs 换用新参数
+- `stage_02a_merge()`：`input_dir` → `input_db`
+- `_archive_s01_files()`：签名从 `(raw_dir, processed_dir)` 改为仅 `(raw_dir,)`，只归档原始爬虫文件
+
+---
+
+## 2026-03-13（续）
+
+### · `feat: add retry mechanism to project_extractor_tool`
+
+#### `s01_data_collector_filter/tools/project_extractor_tool.py`
+
+- AI 调用 + JSON 解析部分新增最多 3 次指数退避重试：
+  - 第 1 次失败：等 2s 后重试
+  - 第 2 次失败：等 4s 后重试
+  - 第 3 次失败：放弃，记入 `discarded_records`（原因注明"重试3次失败"）
+- 覆盖所有异常类型（API 超时、限流、JSON 解析失败等）
+- `result` 先初始化为 `None`，成功解析后赋值；后续逻辑改为 `if result is None / else` 结构
+
+---
+
+### · `feat: add run_collect_and_merge entry point to pipeline`
+
+#### `pipeline/src/bri_pipeline/flow.py`
+- 新增 `run_collect_and_merge()` 入口函数：仅执行阶段一（数据采集）+ 阶段二A（去重合并），跳过交叉验证和导出
+- 文件头部用法注释新增 `uv run run_collect_and_merge` 说明
+
+#### `pipeline/pyproject.toml`
+- `[project.scripts]` 新增 `run_collect_and_merge = "bri_pipeline.flow:run_collect_and_merge"`
+
+---
+
 ## 说明
 
 - 所有 crewai agent 均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型

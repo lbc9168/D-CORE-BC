@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目状态文档
 
-> 最后更新：2026-03-09
+> 最后更新：2026-03-13
 
 ---
 
@@ -28,26 +28,33 @@
   - 数据源：goalfore.cn 项目新闻页
   - 支持自定义日期范围、关键词过滤
   - 输出：`data/raw/Energy_News_Raw_*.xlsx`
+  - **原始新闻备案**：所有抓取新闻同时写入 `data/raw_news.db`（URL 唯一去重，跨批次持久化）
 - **AI 提取筛选**：`filter.py`（独立脚本）+ `tools/project_extractor_tool.py`（crewai 工具）
   - 模型：Gemini gemini-2.5-flash-lite（google.genai SDK）
   - 包含完整的 9 条筛选规则（剔除非电站、制造业、招标阶段等）
   - 中文项目名强制约束（防止 LLM 输出英文）
   - **双语支持**：LLM 同时输出 `Project Name (EN)`、`Implementing Chinese Entity (EN)` 等英文字段
-  - 输出三类文件：有效项目库、无中方参与项目、被剔除新闻，以及 AI 原始 JSON
+  - **输出改为 SQLite**（原 Excel 三文件已废弃）：
+    - `data/projects.db` — 有效项目（`extracted_projects` 表，含 `imported_to_s02a` 增量标志）
+    - `data/review.db` — 无中方参与（`no_chinese_records`）+ 被过滤文章（`discarded_records`）
+    - `data/All_AI_Results_*.json` — AI 原始结果（存放在 projects.db 同级目录）
+  - **重试机制**：AI 调用失败时最多重试 3 次（指数退避 2s/4s），全部失败才记入 `discarded_records`
 
-### 输出字段（BRI_RE_Final_Database_*.xlsx）
+### 输出字段（projects.db → extracted_projects 表）
 | 字段 | 说明 |
 |------|------|
-| Project Name / Project Name (EN) | 中英文项目名 |
-| Name EN Quality | ai_translated（当前默认） |
-| Country / Country ISO / BRI country / LDCs | 国家信息 |
-| Category | 光伏/风电/水电/地热及余热/生物质/储能/综合能源 |
-| Capacity (MW) / Capacity Details | 装机容量 |
-| Project Stage | 收购/中标/签约/开工/在建/竣工/投入运营 |
-| Implementing Chinese Entity / (EN) | 中方实体（中英文） |
-| Subsidiary Name / (EN) | 子公司（中英文） |
-| Type of involvement | 参与方式 |
+| project_name / project_name_en | 中英文项目名 |
+| name_en_quality | ai_translated（当前默认） |
+| country / country_iso / bri_country / ldc | 国家信息 |
+| category | 光伏/风电/水电/地热及余热/生物质/储能/综合能源 |
+| capacity_mw / capacity_details | 装机容量 |
+| project_stage | 收购/中标/签约/开工/在建/竣工/投入运营 |
+| implementing_entity / _en | 中方实体（中英文） |
+| subsidiary_name / _en | 子公司（中英文） |
+| involvement_type | 参与方式 |
 | 日期、投融资、信源等 | 其他结构化字段 |
+| batch_id | 来源批次（Excel 文件名） |
+| imported_to_s02a | 0=未导入，1=已导入（s02a 处理后标记） |
 
 ### crewai 配置
 - **两个 Agent**：`news_crawler`、`project_extractor`（均指定 `llm: gemini/gemini-2.5-flash-lite`）
@@ -62,11 +69,17 @@
 ### 已实现功能
 
 #### DuplicateMergerTool（去重合并与入库）
-四阶段流程：
-1. **候选筛查**（Python）：按国家+类别+容量+阶段分组，rapidfuzz 模糊匹配（阈值 85%）
-2. **LLM 确认**（Gemini）：确认候选对是否为同一物理项目
-3. **字段仲裁**（Python + LLM）：合并实体列表、LLM 解决冲突字段
-4. **SQLite 写入**：规范化三表结构，支持幂等运行
+五阶段流程：
+1. **数据加载**（Python）：从 `s01/data/projects.db` 读取 `imported_to_s02a=0` 的未处理记录
+2. **候选筛查**（Python）：多信号去重检测（四路信号 OR 逻辑）：
+   - Signal 1：CN 名称 `token_sort_ratio ≥ 85`
+   - Signal 2：EN 名称 `token_sort_ratio ≥ 80`
+   - Signal 3：CN 名称 `partial_ratio ≥ 90`（子串包含）
+   - Signal 4：容量精确匹配（误差 ≤ 1%，≥ 0.5MW）— 专用于跨语言历史数据安全网
+   - 实体辅助通道：共有中方实体 + 名称中度相似（≥ 60）
+3. **LLM 确认**（Gemini）：确认候选对是否为同一物理项目
+4. **字段仲裁**（Python + LLM）：合并实体列表、LLM 解决冲突字段
+5. **SQLite 写入 + 标记已导入**：规范化三表结构写入；处理完成后将 `projects.db` 中对应记录标记为 `imported_to_s02a=1`
 
 ### SQLite 数据模型（s02a_duplicate_merger/data/db/bri_re_database.db）
 三张关系表：
@@ -88,6 +101,10 @@ PK: {canonical_id}-{NN}  e.g. IND-PV-0001-01
 PK: 自增整数，FK → project_events.id
 字段: implementing_entity, implementing_entity_en, subsidiary_name, subsidiary_name_en, entity_en_quality, involvement_type, subcontract_amount
 ```
+
+### 数据接口
+- **输入**：`s01_data_collector_filter/data/projects.db`（读取 `imported_to_s02a=0` 的记录）
+- **输出**：`data/db/bri_re_database.db`；处理完成后回写 `projects.db` 标记已导入记录
 
 ### crewai 配置
 - **一个 Agent**：`data_verifier`（指定 `llm: gemini/gemini-2.5-flash-lite`）
@@ -129,8 +146,9 @@ PK: 自增整数，FK → project_events.id
 
 ### 已实现功能
 
-#### 四步导出流程
+#### 五步导出流程
 1. **省份提取**（`province_extractor.py`）：Gemini 从 `location` 字段提取一级行政区英文名，结果缓存至 `data/province_cache.json`，空值直接跳过
+   - **Natural Earth 约束**（`admin1_lookup.py`）：从 `s04/scripts/_ne_admin1_cache.zip` 加载各国已知省份列表（`{ISO3: [name_en, ...]}`），随 Prompt 传入 Gemini，输出必须来自列表或 null，防止幻觉；zip 不存在时退化为无约束行为
 2. **扁平表构建**（`flat_builder.py`）：将 s02a 三表结构（canonical_projects / project_events / chinese_entities）合并为每项目一行的 `projects_flat` 表
 3. **聚合统计**（`stats_builder.py`）：构建 3 张预聚合表，供可视化前端直接查询
 4. **导出**：输出 `projects_flat.xlsx` 和 `projects_flat.csv` 供离线分析
@@ -281,6 +299,7 @@ cd pipeline
 uv sync                      # 首次安装（会自动安装四个本地子项目）
 uv run run_pipeline          # 完整流水线（含交叉验证 + 导出）
 uv run run_merge_only        # 采集 + 去重 + 导出（跳过交叉验证）
+uv run run_collect_and_merge # 仅采集 + 去重合并（阶段一 → 阶段二A，不导出）
 uv run run_export_only       # 仅重新导出（数据库已有时）
 ```
 
