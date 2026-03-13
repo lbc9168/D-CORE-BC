@@ -1,5 +1,6 @@
 import json
 import os
+import sqlite3
 import time
 from datetime import datetime
 from pathlib import Path
@@ -16,7 +17,9 @@ load_dotenv()
 
 # 工具文件位于 src/s01_data_collector_filter/tools/，上溯三层到子项目根目录
 _S01_ROOT = Path(__file__).resolve().parents[3]
-_DEFAULT_COUNTRY_DB = str(_S01_ROOT / "WorldCountryList.json")
+_DEFAULT_COUNTRY_DB  = str(_S01_ROOT / "WorldCountryList.json")
+_DEFAULT_PROJECTS_DB = str(_S01_ROOT / "data" / "projects.db")
+_DEFAULT_REVIEW_DB   = str(_S01_ROOT / "data" / "review.db")
 
 
 # ── 国家数据库 ─────────────────────────────────────────────────────────────────
@@ -74,6 +77,83 @@ def _get_country_meta(country_name: str, db: dict) -> dict:
             return data
 
     return empty
+
+
+# ── SQLite 初始化 ──────────────────────────────────────────────────────────────
+
+def _init_projects_db(db_path: str) -> sqlite3.Connection:
+    """初始化 projects.db，存储有效提取项目（含增量导入标志）。"""
+    os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
+    conn = sqlite3.connect(db_path)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS extracted_projects (
+            id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+            project_name            TEXT,
+            project_name_en         TEXT,
+            name_en_quality         TEXT,
+            country                 TEXT,
+            country_iso             TEXT,
+            bri_country             TEXT,
+            ldc                     TEXT,
+            location                TEXT,
+            category                TEXT,
+            capacity_mw             TEXT,
+            capacity_details        TEXT,
+            project_stage           TEXT,
+            project_developer       TEXT,
+            multiple_chinese        TEXT,
+            implementing_entity     TEXT,
+            implementing_entity_en  TEXT,
+            subsidiary_name         TEXT,
+            subsidiary_name_en      TEXT,
+            involvement_type        TEXT,
+            subcontract_amount_usd  TEXT,
+            planned_start_date      TEXT,
+            planned_complete_date   TEXT,
+            total_investment_usd    TEXT,
+            investment_date         TEXT,
+            chinese_banks           TEXT,
+            financing_model         TEXT,
+            financing_model_details TEXT,
+            source_link             TEXT,
+            publish_date            TEXT,
+            official_website        TEXT,
+            non_official_website    TEXT,
+            additional_remarks      TEXT,
+            batch_id                TEXT,
+            imported_to_s02a        INTEGER DEFAULT 0,
+            created_at              TEXT
+        )
+    """)
+    conn.commit()
+    return conn
+
+
+def _init_review_db(db_path: str) -> sqlite3.Connection:
+    """初始化 review.db，存储无中方参与和被过滤的文章记录。"""
+    os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
+    conn = sqlite3.connect(db_path)
+    conn.executescript("""
+        CREATE TABLE IF NOT EXISTS no_chinese_records (
+            id             INTEGER PRIMARY KEY AUTOINCREMENT,
+            title          TEXT,
+            source_link    TEXT UNIQUE,
+            publish_date   TEXT,
+            batch_id       TEXT,
+            created_at     TEXT
+        );
+        CREATE TABLE IF NOT EXISTS discarded_records (
+            id             INTEGER PRIMARY KEY AUTOINCREMENT,
+            title          TEXT,
+            source_link    TEXT UNIQUE,
+            publish_date   TEXT,
+            discard_reason TEXT,
+            batch_id       TEXT,
+            created_at     TEXT
+        );
+    """)
+    conn.commit()
+    return conn
 
 
 # ── Prompt 构建 ────────────────────────────────────────────────────────────────
@@ -273,9 +353,13 @@ class ProjectExtractorInput(BaseModel):
         ...,
         description="爬虫产出的 Excel 文件路径（含发布日期、文章标题、正文内容、原文链接字段）",
     )
-    output_dir: str = Field(
-        default="data/processed",
-        description="输出文件保存目录",
+    projects_db_path: str = Field(
+        default=_DEFAULT_PROJECTS_DB,
+        description="有效项目输出数据库路径（SQLite，跨批次增量累积）",
+    )
+    review_db_path: str = Field(
+        default=_DEFAULT_REVIEW_DB,
+        description="审核记录数据库路径（无中方参与 + 被剔除文章，SQLite）",
     )
     country_db_path: str = Field(
         default=_DEFAULT_COUNTRY_DB,
@@ -289,15 +373,17 @@ class ProjectExtractorTool(BaseTool):
     name: str = "project_extractor_tool"
     description: str = (
         "读取爬虫产出的新闻 Excel 文件，逐条调用 AI 进行筛选和结构化提取，"
-        "将结果分三类输出：有效项目数据库、无中方参与项目、被剔除无关新闻。"
-        "返回各类文件路径和数量摘要。"
+        "将结果分三类写入 SQLite 数据库：有效项目（→ projects_db_path）、"
+        "无中方参与项目和被剔除无关新闻（→ review_db_path）。"
+        "返回各类别数量摘要和数据库路径。"
     )
     args_schema: Type[BaseModel] = ProjectExtractorInput
 
     def _run(
         self,
         input_file: str,
-        output_dir: str = "data/processed",
+        projects_db_path: str = _DEFAULT_PROJECTS_DB,
+        review_db_path: str = _DEFAULT_REVIEW_DB,
         country_db_path: str = _DEFAULT_COUNTRY_DB,
     ) -> str:
         # 初始化 Gemini
@@ -320,8 +406,8 @@ class ProjectExtractorTool(BaseTool):
         except FileNotFoundError:
             return f"错误：找不到输入文件 {input_file}"
 
-        os.makedirs(output_dir, exist_ok=True)
         ts = datetime.now().strftime("%Y%m%d_%H%M")
+        batch_id = Path(input_file).stem  # 例：Energy_News_Raw_20260301_1430
 
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
         total = len(df)
@@ -475,49 +561,122 @@ class ProjectExtractorTool(BaseTool):
 
             time.sleep(1)
 
-        # ── 保存结果 ──────────────────────────────────────────────────────────
-        saved_files = []
+        # ── 写入 SQLite 数据库 ────────────────────────────────────────────────
+        created_at  = datetime.now().isoformat()
+        proj_conn   = _init_projects_db(projects_db_path)
+        review_conn = _init_review_db(review_db_path)
 
-        col_order = [
-            "Project Name", "Project Name (EN)", "Name EN Quality",
-            "Country", "Country ISO", "BRI country", "LDCs",
-            "Location (State)", "Category", "Capacity (MW)", "Capacity Details",
-            "Project Stage", "Project Developer", "Multiple Chinese Enterprises Involved",
-            "Implementing Chinese Entity", "Implementing Chinese Entity (EN)",
-            "Subsidiary Name", "Subsidiary Name (EN)",
-            "Type of involvement of Chinese Entities",
-            "(Planned) Start Date", "(Planned) Complete Date",
-            "Total Project Investment (Million USD)", "Subcontract Amount (Million USD)",
-            "Investment (or Financial Close) Date",
-            "Involvement of Chinese Banks", "Financing Model", "Financing Model Details",
-            "Source Link", "Publish Date",
-            "Official Website link", "Non-official website link", "Additional Remarks",
-        ]
+        # 写入 projects.db（有中国主体的有效项目）
+        for row_data in valid_rows:
+            proj_conn.execute(
+                """INSERT INTO extracted_projects
+                   (project_name, project_name_en, name_en_quality, country, country_iso,
+                    bri_country, ldc, location, category, capacity_mw, capacity_details,
+                    project_stage, project_developer, multiple_chinese, implementing_entity,
+                    implementing_entity_en, subsidiary_name, subsidiary_name_en,
+                    involvement_type, subcontract_amount_usd, planned_start_date,
+                    planned_complete_date, total_investment_usd, investment_date,
+                    chinese_banks, financing_model, financing_model_details,
+                    source_link, publish_date, official_website, non_official_website,
+                    additional_remarks, batch_id, imported_to_s02a, created_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                (
+                    row_data.get("Project Name", ""),
+                    row_data.get("Project Name (EN)", ""),
+                    row_data.get("Name EN Quality", ""),
+                    row_data.get("Country", ""),
+                    row_data.get("Country ISO", ""),
+                    row_data.get("BRI country", ""),
+                    row_data.get("LDCs", ""),
+                    row_data.get("Location (State)", ""),
+                    row_data.get("Category", ""),
+                    row_data.get("Capacity (MW)", ""),
+                    row_data.get("Capacity Details", ""),
+                    row_data.get("Project Stage", ""),
+                    row_data.get("Project Developer", ""),
+                    row_data.get("Multiple Chinese Enterprises Involved", ""),
+                    row_data.get("Implementing Chinese Entity", ""),
+                    row_data.get("Implementing Chinese Entity (EN)", ""),
+                    row_data.get("Subsidiary Name", ""),
+                    row_data.get("Subsidiary Name (EN)", ""),
+                    row_data.get("Type of involvement of Chinese Entities", ""),
+                    row_data.get("Subcontract Amount (Million USD)", ""),
+                    row_data.get("(Planned) Start Date", ""),
+                    row_data.get("(Planned) Complete Date", ""),
+                    row_data.get("Total Project Investment (Million USD)", ""),
+                    row_data.get("Investment (or Financial Close) Date", ""),
+                    row_data.get("Involvement of Chinese Banks", ""),
+                    row_data.get("Financing Model", ""),
+                    row_data.get("Financing Model Details", ""),
+                    row_data.get("Source Link", ""),
+                    row_data.get("Publish Date", ""),
+                    row_data.get("Official Website link", ""),
+                    row_data.get("Non-official website link", ""),
+                    row_data.get("Additional Remarks", ""),
+                    batch_id,
+                    created_at,
+                ),
+            )
+        proj_conn.commit()
+        proj_conn.close()
 
-        if valid_rows:
-            path = os.path.join(output_dir, f"BRI_RE_Final_Database_{ts}.xlsx")
-            df_v = pd.DataFrame(valid_rows)
-            final_cols = [c for c in col_order if c in df_v.columns]
-            df_v[final_cols].to_excel(path, index=False)
-            saved_files.append(f"有效项目 ({len(df_v)} 行): {os.path.abspath(path)}")
+        # 写入 review.db → no_chinese_records（无中方参与）
+        for row in no_chinese_rows:
+            try:
+                review_conn.execute(
+                    """INSERT OR IGNORE INTO no_chinese_records
+                       (title, source_link, publish_date, batch_id, created_at)
+                       VALUES (?, ?, ?, ?, ?)""",
+                    (
+                        row.get("文章标题", ""),
+                        row.get("原文链接", ""),
+                        row.get("发布日期", ""),
+                        batch_id,
+                        created_at,
+                    ),
+                )
+            except Exception:
+                pass
+        review_conn.commit()
 
-        if no_chinese_rows:
-            path = os.path.join(output_dir, f"BRI_RE_No_Chinese_{ts}.xlsx")
-            pd.DataFrame(no_chinese_rows).to_excel(path, index=False)
-            saved_files.append(f"无中方参与 ({len(no_chinese_rows)} 条): {os.path.abspath(path)}")
+        # 写入 review.db → discarded_records（被过滤文章）
+        for row in discarded_rows:
+            try:
+                review_conn.execute(
+                    """INSERT OR IGNORE INTO discarded_records
+                       (title, source_link, publish_date, discard_reason, batch_id, created_at)
+                       VALUES (?, ?, ?, ?, ?, ?)""",
+                    (
+                        row.get("文章标题", ""),
+                        row.get("原文链接", ""),
+                        row.get("发布日期", ""),
+                        row.get("拒绝原因", ""),
+                        batch_id,
+                        created_at,
+                    ),
+                )
+            except Exception:
+                pass
+        review_conn.commit()
+        review_conn.close()
 
-        if discarded_rows:
-            path = os.path.join(output_dir, f"BRI_RE_Discarded_{ts}.xlsx")
-            pd.DataFrame(discarded_rows).to_excel(path, index=False)
-            saved_files.append(f"被剔除新闻 ({len(discarded_rows)} 条): {os.path.abspath(path)}")
-
+        # AI 原始结果 JSON（存放在 projects.db 同级目录）
+        json_path_str = ""
         if all_ai_results:
-            path = os.path.join(output_dir, f"All_AI_Results_{ts}.json")
-            with open(path, "w", encoding="utf-8") as f:
+            json_dir = Path(projects_db_path).parent
+            json_path = json_dir / f"All_AI_Results_{ts}.json"
+            with open(json_path, "w", encoding="utf-8") as f:
                 json.dump(all_ai_results, f, ensure_ascii=False, indent=2)
-            saved_files.append(f"AI原始结果 ({len(all_ai_results)} 条): {os.path.abspath(path)}")
+            json_path_str = f"\n  AI原始结果: {len(all_ai_results)} 条 → {json_path}"
 
-        if not saved_files:
-            return "处理完成，但未生成任何输出文件（无符合条件的数据）。"
+        if not valid_rows and not no_chinese_rows and not discarded_rows:
+            return "处理完成，但未生成任何输出（无符合条件的数据）。"
 
-        return "提取完成。输出文件：\n" + "\n".join(f"  - {f}" for f in saved_files)
+        return (
+            f"提取完成。\n"
+            f"  有效项目:  {len(valid_rows)} 条 → {os.path.abspath(projects_db_path)}\n"
+            f"  无中方参与: {len(no_chinese_rows)} 条 → {os.path.abspath(review_db_path)}\n"
+            f"  被剔除新闻: {len(discarded_rows)} 条 → {os.path.abspath(review_db_path)}"
+            + json_path_str
+        )

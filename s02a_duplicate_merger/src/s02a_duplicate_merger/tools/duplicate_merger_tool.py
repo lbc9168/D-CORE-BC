@@ -44,6 +44,8 @@ FUZZY_PARTIAL_THRESHOLD = 90  # CN 名称 partial_ratio 阈值（捕获子串包
 FUZZY_ENTITY_ASSIST = 60      # 实体重叠辅助：名称达到此分 + 实体重叠 → 送 LLM
 CAPACITY_TOLERANCE = 0.10     # 装机容量容错率（10%）
 CAPACITY_BYPASS_SCORE = 92    # 任一名称信号 ≥ 此分时豁免容量检查
+CAPACITY_EXACT_TOLERANCE = 0.01  # Signal 4 容量精确匹配误差上限（1%）
+CAPACITY_MIN_MW = 0.5            # Signal 4 最低容量门槛（过滤无容量或极小容量项目）
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
@@ -156,20 +158,83 @@ def _gen_event_id(conn: sqlite3.Connection, canonical_id: str) -> str:
 
 # ── 阶段一：加载 & 归组为逻辑项目 ─────────────────────────────────────────────
 
-def _load_excel_files(input_dir: str) -> pd.DataFrame:
-    pattern = os.path.join(input_dir, "BRI_RE_Final_Database_*.xlsx")
-    files = sorted(glob.glob(pattern))
-    if not files:
-        return pd.DataFrame()
-    dfs = []
-    for f in files:
-        try:
-            df = pd.read_excel(f)
-            dfs.append(df)
-            print(f"  已加载: {os.path.basename(f)} ({len(df)} 行)")
-        except Exception as e:
-            print(f"  [警告] 无法读取 {f}: {e}")
-    return pd.concat(dfs, ignore_index=True) if dfs else pd.DataFrame()
+def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
+    """从 s01 projects.db 读取未导入记录（imported_to_s02a=0）。
+
+    Returns:
+        (DataFrame with Excel-style column names, list of record IDs to mark later)
+    """
+    if not os.path.exists(input_db):
+        print(f"  [警告] 未找到 projects.db: {input_db}")
+        return pd.DataFrame(), []
+
+    conn = sqlite3.connect(input_db)
+    df = pd.read_sql(
+        "SELECT * FROM extracted_projects WHERE imported_to_s02a = 0", conn
+    )
+    conn.close()
+
+    if df.empty:
+        return df, []
+
+    record_ids: list[int] = df["id"].tolist()
+
+    # 将 SQLite 列名映射回 s02a 内部期望的 Excel 列名格式
+    df = df.rename(columns={
+        "project_name":            "Project Name",
+        "project_name_en":         "Project Name (EN)",
+        "name_en_quality":         "Name EN Quality",
+        "country":                 "Country",
+        "country_iso":             "Country ISO",
+        "bri_country":             "BRI country",
+        "ldc":                     "LDCs",
+        "location":                "Location (State)",
+        "category":                "Category",
+        "capacity_mw":             "Capacity (MW)",
+        "capacity_details":        "Capacity Details",
+        "project_stage":           "Project Stage",
+        "project_developer":       "Project Developer",
+        "multiple_chinese":        "Multiple Chinese Enterprises Involved",
+        "implementing_entity":     "Implementing Chinese Entity",
+        "implementing_entity_en":  "Implementing Chinese Entity (EN)",
+        "subsidiary_name":         "Subsidiary Name",
+        "subsidiary_name_en":      "Subsidiary Name (EN)",
+        "involvement_type":        "Type of involvement of Chinese Entities",
+        "subcontract_amount_usd":  "Subcontract Amount (Million USD)",
+        "planned_start_date":      "(Planned) Start Date",
+        "planned_complete_date":   "(Planned) Complete Date",
+        "total_investment_usd":    "Total Project Investment (Million USD)",
+        "investment_date":         "Investment (or Financial Close) Date",
+        "chinese_banks":           "Involvement of Chinese Banks",
+        "financing_model":         "Financing Model",
+        "financing_model_details": "Financing Model Details",
+        "source_link":             "Source Link",
+        "publish_date":            "Publish Date",
+        "official_website":        "Official Website link",
+        "non_official_website":    "Non-official website link",
+        "additional_remarks":      "Additional Remarks",
+    })
+
+    print(f"  已从 projects.db 加载 {len(df)} 条未导入记录（imported_to_s02a=0）")
+    return df, record_ids
+
+
+def _mark_imported(input_db: str, record_ids: list[int]) -> None:
+    """将已处理记录标记为 imported_to_s02a = 1（防止重复导入）。"""
+    if not record_ids:
+        return
+    try:
+        conn = sqlite3.connect(input_db)
+        placeholders = ",".join("?" * len(record_ids))
+        conn.execute(
+            f"UPDATE extracted_projects SET imported_to_s02a = 1 WHERE id IN ({placeholders})",
+            record_ids,
+        )
+        conn.commit()
+        conn.close()
+        print(f"  已标记 {len(record_ids)} 条记录为 imported_to_s02a=1")
+    except Exception as e:
+        print(f"  [警告] 标记 imported 失败: {e}")
 
 
 def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
@@ -304,10 +369,14 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
     软信号（满足任一即送 LLM 确认）：
       - 名称信号：CN token_sort_ratio / EN token_sort_ratio / CN partial_ratio
       - 实体辅助：共有中方实体 + 名称中度相似（≥ FUZZY_ENTITY_ASSIST）
+      - Signal 4（跨语言容量信道）：容量在 1% 误差内且 ≥ 0.5MW
+        适用于翻译机制加入前的历史数据：一方以英文作 project_name，
+        另一方以中文，名称模糊得分极低（5~30），但容量精确匹配。
 
     容量豁免：
       - 任一名称信号得分 ≥ CAPACITY_BYPASS_SCORE 时跳过容量检查
         （名称已高度吻合，容量差异由 LLM 判断）
+      - Signal 4 路径已在触发时完成容量验证，不再重复检查
     """
     candidates: List[Tuple[int, int]] = []
     n = len(projects)
@@ -335,11 +404,27 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
                 and _entity_overlap(a, b)
             )
 
+            # ── Signal 4：跨语言容量信道（安全网）──────────────────────────
+            # 触发条件：名称信号均未命中 + 容量在 1% 误差内且 ≥ 0.5MW
+            # 跨语言名称（中文 vs 英文）的 token_sort_ratio 通常仅 5~30，
+            # 无法通过 Signals 1-3，改用精确容量匹配作为触发条件
+            cross_lang_boost = False
             if not name_ok and not entity_boost:
+                cap_a = _parse_capacity(a.get("capacity_mw"))
+                cap_b = _parse_capacity(b.get("capacity_mw"))
+                if (
+                    cap_a and cap_b
+                    and cap_a >= CAPACITY_MIN_MW
+                    and cap_b >= CAPACITY_MIN_MW
+                    and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_EXACT_TOLERANCE
+                ):
+                    cross_lang_boost = True
+
+            if not name_ok and not entity_boost and not cross_lang_boost:
                 continue
 
-            # ── 容量检查（名称高度相似时豁免）──────────────────────────────
-            if best_score < CAPACITY_BYPASS_SCORE:
+            # ── 容量检查（名称高度相似时豁免；Signal 4 路径已验证容量）──
+            if not cross_lang_boost and best_score < CAPACITY_BYPASS_SCORE:
                 cap_a = _parse_capacity(a["capacity_mw"])
                 cap_b = _parse_capacity(b["capacity_mw"])
                 if cap_a and cap_b and cap_a > 0 and cap_b > 0:
@@ -547,22 +632,40 @@ def _find_or_create_canonical(
 ) -> Tuple[str, bool]:
     """
     查找已有的 canonical_project，或新建一条。
-    匹配条件：相同 country_iso + category + Project Name 模糊度 ≥ 85%
+    匹配条件：相同 country_iso + category + 任一名称对模糊度 ≥ 85%
+
+    比较的四个名称对（取最高分）：
+      1. incoming CN  vs DB CN   — 原有逻辑
+      2. incoming EN  vs DB CN   — 旧批次英文 project_name vs 库中英文名（跨语言）
+      3. incoming EN  vs DB EN   — 双方均有英文名
+      4. incoming CN  vs DB EN   — 新批次中文名 vs 库中已有英文名
+
     返回 (canonical_id, is_new)。
     """
     iso = project["country_iso"] or "UNK"
     cat = project["category"]
     name = project["project_name"]
+    incoming_en = (project.get("project_name_en") or "").strip()
 
     rows = conn.execute(
-        "SELECT id, project_name FROM canonical_projects WHERE country_iso = ? AND category = ?",
+        "SELECT id, project_name, project_name_en FROM canonical_projects WHERE country_iso = ? AND category = ?",
         (iso, cat),
     ).fetchall()
 
     best_id: Optional[str] = None
     best_score = 0
-    for row_id, row_name in rows:
-        score = fuzz.token_sort_ratio(name, row_name)
+    for row_id, row_name, row_name_en in rows:
+        # 1. incoming CN vs DB CN（原有）
+        score = fuzz.token_sort_ratio(name, row_name or "")
+        # 2. incoming EN vs DB CN（旧批次以英文为 project_name 时命中）
+        if incoming_en and row_name:
+            score = max(score, fuzz.token_sort_ratio(incoming_en, row_name))
+        # 3. incoming EN vs DB EN
+        if incoming_en and row_name_en:
+            score = max(score, fuzz.token_sort_ratio(incoming_en, row_name_en))
+        # 4. incoming CN vs DB EN
+        if name and row_name_en:
+            score = max(score, fuzz.token_sort_ratio(name, row_name_en))
         if score >= FUZZY_THRESHOLD and score > best_score:
             best_id, best_score = row_id, score
 
@@ -683,9 +786,9 @@ def _write_to_db(
 # ── Input Schema & Tool ────────────────────────────────────────────────────────
 
 class DuplicateMergerInput(BaseModel):
-    input_dir: str = Field(
-        default="../data_collector_filter/data/processed",
-        description="包含 BRI_RE_Final_Database_*.xlsx 文件的目录路径",
+    input_db: str = Field(
+        default="../s01_data_collector_filter/data/projects.db",
+        description="s01 提取结果数据库路径（extracted_projects 表，imported_to_s02a=0 的记录为待处理）",
     )
     db_path: str = Field(
         default="data/db/bri_re_database.db",
@@ -696,16 +799,17 @@ class DuplicateMergerInput(BaseModel):
 class DuplicateMergerTool(BaseTool):
     name: str = "duplicate_merger_tool"
     description: str = (
-        "读取爬虫产出的 BRI_RE_Final_Database_*.xlsx 文件，执行四阶段去重合并流程，"
+        "从 s01 的 projects.db 读取未导入记录，执行四阶段去重合并流程，"
         "将规范化数据写入 SQLite 三表结构"
         "（canonical_projects + project_events + chinese_entities）。"
+        "处理完成后标记已导入记录（imported_to_s02a=1），防止重复入库。"
         "返回处理摘要和数据库路径。"
     )
     args_schema: Type[BaseModel] = DuplicateMergerInput
 
     def _run(
         self,
-        input_dir: str = "../data_collector_filter/data/processed",
+        input_db: str = "../s01_data_collector_filter/data/projects.db",
         db_path: str = "data/db/bri_re_database.db",
     ) -> str:
         # 初始化 Gemini
@@ -720,10 +824,10 @@ class DuplicateMergerTool(BaseTool):
         )
 
         # ── 阶段一：加载 & 归组 ──────────────────────────────────────────────
-        print(f"\n>>> [阶段一] 加载数据：{input_dir}")
-        df = _load_excel_files(input_dir)
+        print(f"\n>>> [阶段一] 加载数据：{input_db}")
+        df, record_ids = _load_from_db(input_db)
         if df.empty:
-            return f"错误：在 {input_dir} 中未找到 BRI_RE_Final_Database_*.xlsx 文件。"
+            return f"未发现待处理记录（{input_db} 中 imported_to_s02a=0 的记录为零）。"
         raw_count = len(df)
         print(f"  原始行数: {raw_count}")
 
@@ -749,6 +853,10 @@ class DuplicateMergerTool(BaseTool):
         conn = _init_db(db_path)
         counts = _write_to_db(conn, merged)
         conn.close()
+
+        # ── 阶段五：标记已导入记录 ───────────────────────────────────────────
+        print(f"\n>>> [阶段五] 标记 projects.db 中已导入记录...")
+        _mark_imported(input_db, record_ids)
 
         db_abs = os.path.abspath(db_path)
         return (

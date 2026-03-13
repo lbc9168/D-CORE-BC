@@ -20,8 +20,12 @@ _S01_ROOT = Path(__file__).resolve().parents[2]
 
 
 def archive_old_files():
-    """将 data/raw 和 data/processed 中的旧文件移入各自的 Archived/ 子目录。"""
-    for data_dir in [_S01_ROOT / "data" / "raw", _S01_ROOT / "data" / "processed"]:
+    """将 data/raw 中的旧爬虫文件移入 Archived/ 子目录。
+
+    注意：data/processed/ 已废弃，提取结果现改写入 projects.db 和 review.db。
+    只需归档原始爬虫 Excel 文件（Energy_News_Raw_*.xlsx）。
+    """
+    for data_dir in [_S01_ROOT / "data" / "raw"]:
         archived_dir = data_dir / "Archived"
         archived_dir.mkdir(parents=True, exist_ok=True)
         for f in data_dir.iterdir():
@@ -40,9 +44,10 @@ def run():
         'start_date': '2026-02-10',
         'end_date': '2026-02-28',
         'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
-        # ── 输出目录 ──
+        # ── 输出路径 ──
         'raw_data_dir': 'data/raw',
-        'processed_data_dir': 'data/processed',
+        'projects_db_path': str(_S01_ROOT / 'data' / 'projects.db'),
+        'review_db_path':   str(_S01_ROOT / 'data' / 'review.db'),
     }
 
     archive_old_files()
@@ -61,7 +66,8 @@ def train():
         'end_date': '2024-01-31',
         'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
         'raw_data_dir': 'data/raw',
-        'processed_data_dir': 'data/processed',
+        'projects_db_path': str(_S01_ROOT / 'data' / 'projects.db'),
+        'review_db_path':   str(_S01_ROOT / 'data' / 'review.db'),
     }
     try:
         DataCollectorFilter().crew().train(
@@ -89,7 +95,8 @@ def test():
         'end_date': '2026-01-07',
         'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
         'raw_data_dir': 'data/raw',
-        'processed_data_dir': 'data/processed',
+        'projects_db_path': str(_S01_ROOT / 'data' / 'projects.db'),
+        'review_db_path':   str(_S01_ROOT / 'data' / 'review.db'),
     }
     try:
         DataCollectorFilter().crew().test(
@@ -136,10 +143,11 @@ def split_date_range(
     end = date.fromisoformat(end_date)
 
     base: dict = {
-        "source_url":         "https://news.goalfore.cn/topstories/project",
-        "keywords":           "能源,电力,MW,GW,风电,水电,光伏,储能",
-        "raw_data_dir":       "data/raw",
-        "processed_data_dir": "data/processed",
+        "source_url":       "https://news.goalfore.cn/topstories/project",
+        "keywords":         "能源,电力,MW,GW,风电,水电,光伏,储能",
+        "raw_data_dir":     "data/raw",
+        "projects_db_path": str(_S01_ROOT / "data" / "projects.db"),
+        "review_db_path":   str(_S01_ROOT / "data" / "review.db"),
     }
     if base_inputs:
         base.update(base_inputs)
@@ -217,12 +225,13 @@ def run_with_trigger():
 
     inputs = {
         "crewai_trigger_payload": trigger_payload,
-        'source_url': trigger_payload.get('source_url', 'https://news.goalfore.cn/topstories/project'),
-        'start_date': trigger_payload.get('start_date', '2024-01-01'),
-        'end_date': trigger_payload.get('end_date', '2025-09-30'),
-        'keywords': trigger_payload.get('keywords', '能源,电力,MW,GW,风电,水电,光伏,储能'),
-        'raw_data_dir': trigger_payload.get('raw_data_dir', 'data/raw'),
-        'processed_data_dir': trigger_payload.get('processed_data_dir', 'data/processed'),
+        'source_url':       trigger_payload.get('source_url', 'https://news.goalfore.cn/topstories/project'),
+        'start_date':       trigger_payload.get('start_date', '2024-01-01'),
+        'end_date':         trigger_payload.get('end_date', '2025-09-30'),
+        'keywords':         trigger_payload.get('keywords', '能源,电力,MW,GW,风电,水电,光伏,储能'),
+        'raw_data_dir':     trigger_payload.get('raw_data_dir', 'data/raw'),
+        'projects_db_path': trigger_payload.get('projects_db_path', str(_S01_ROOT / 'data' / 'projects.db')),
+        'review_db_path':   trigger_payload.get('review_db_path', str(_S01_ROOT / 'data' / 'review.db')),
     }
 
     try:
