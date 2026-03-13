@@ -99,7 +99,7 @@ def download_zip() -> Path:
 def _load_shapefile(zip_path: Path) -> list[dict]:
     """从 zip 中解析 shapefile，转为 GeoJSON feature 列表。"""
     try:
-        import shapefile  # pyshp
+        import shapefile  # pyshp  # type: ignore[import-untyped]
     except ImportError:
         print("\n  [错误] 缺少依赖 pyshp，请先安装：")
         print("      pip install pyshp")
