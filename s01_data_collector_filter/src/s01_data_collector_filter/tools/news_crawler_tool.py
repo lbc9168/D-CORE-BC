@@ -1,7 +1,9 @@
 import os
 import re
+import sqlite3
 import time
 from datetime import datetime
+from pathlib import Path
 from typing import Type
 
 import pandas as pd
@@ -9,6 +11,31 @@ import requests
 from bs4 import BeautifulSoup
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
+
+
+_S01_ROOT = Path(__file__).resolve().parents[3]
+_DEFAULT_RAW_NEWS_DB = str(_S01_ROOT / "data" / "raw_news.db")
+
+
+def _init_raw_news_db(db_path: str) -> sqlite3.Connection:
+    """初始化原始新闻备案数据库（跨批次持久化）。"""
+    os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
+    conn = sqlite3.connect(db_path)
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS raw_news (
+            id                    INTEGER PRIMARY KEY AUTOINCREMENT,
+            url                   TEXT UNIQUE,
+            title                 TEXT,
+            content               TEXT,
+            author                TEXT,
+            publish_date          TEXT,
+            crawl_time            TEXT,
+            passed_keyword_filter INTEGER DEFAULT 0,
+            batch_id              TEXT
+        )
+    """)
+    conn.commit()
+    return conn
 
 
 class NewsCrawlerInput(BaseModel):
@@ -25,6 +52,10 @@ class NewsCrawlerInput(BaseModel):
     output_dir: str = Field(
         default="data/raw",
         description="输出 Excel 文件的保存目录（相对于运行目录）",
+    )
+    raw_news_db_path: str = Field(
+        default=_DEFAULT_RAW_NEWS_DB,
+        description="原始新闻备案数据库路径（SQLite，跨批次持久化，URL 唯一去重）",
     )
 
 
@@ -100,12 +131,17 @@ class NewsCrawlerTool(BaseTool):
         end_date: str,
         keywords: str,
         output_dir: str = "data/raw",
+        raw_news_db_path: str = _DEFAULT_RAW_NEWS_DB,
     ) -> str:
         start_dt = datetime.strptime(start_date, "%Y-%m-%d")
         end_dt = datetime.strptime(end_date, "%Y-%m-%d")
         keyword_list = [k.strip() for k in keywords.split(",") if k.strip()]
 
         os.makedirs(output_dir, exist_ok=True)
+
+        # 初始化原始新闻备案 DB（跨批次持久化）
+        raw_db = _init_raw_news_db(raw_news_db_path)
+        batch_id = f"{start_date}_{end_date}"
 
         all_data = []
         page = 1
@@ -182,6 +218,24 @@ class NewsCrawlerTool(BaseTool):
                         k.upper() in d_content.upper() for k in keyword_list
                     )
 
+                    # 写入原始新闻备案 DB（URL 已存在则跳过，不覆盖）
+                    try:
+                        raw_db.execute(
+                            """INSERT OR IGNORE INTO raw_news
+                               (url, title, content, author, publish_date, crawl_time,
+                                passed_keyword_filter, batch_id)
+                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                            (
+                                link, d_title, d_content, d_author, d_time,
+                                datetime.now().isoformat(),
+                                1 if is_relevant else 0,
+                                batch_id,
+                            ),
+                        )
+                        raw_db.commit()
+                    except Exception:
+                        pass  # DB 写入失败不影响主流程
+
                     if is_relevant:
                         if d_time == "NA" and last_valid_date:
                             d_time = last_valid_date
@@ -211,12 +265,14 @@ class NewsCrawlerTool(BaseTool):
                 break
 
         if not all_data:
+            raw_db.close()
             return "未抓取到符合条件的新闻。请检查 URL、日期范围和关键词设置。"
 
         file_name = f"Energy_News_Raw_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
         file_path = os.path.join(output_dir, file_name)
         pd.DataFrame(all_data).to_excel(file_path, index=False)
 
+        raw_db.close()
         return (
             f"采集完成。共抓取 {len(all_data)} 条符合条件的新闻。\n"
             f"文件已保存至：{os.path.abspath(file_path)}"

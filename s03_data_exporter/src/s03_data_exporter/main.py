@@ -66,16 +66,17 @@ def run() -> None:
     raw_projects = [
         dict(r)
         for r in conn.execute(
-            "SELECT id, location, country FROM canonical_projects"
+            "SELECT id, location, country, country_iso FROM canonical_projects"
         ).fetchall()
     ]
     conn.close()
 
     records = [
         {
-            "project_id": r["id"],
-            "location":   r.get("location") or "",
-            "country":    r.get("country") or "",
+            "project_id":  r["id"],
+            "location":    r.get("location") or "",
+            "country":     r.get("country") or "",
+            "country_iso": r.get("country_iso") or "",
         }
         for r in raw_projects
     ]

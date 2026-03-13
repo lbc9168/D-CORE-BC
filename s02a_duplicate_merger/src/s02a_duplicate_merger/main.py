@@ -19,12 +19,12 @@ warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 def run():
     """
     执行去重合并与入库（完整流程）。
-    input_dir: data_collector_filter 产出的 Excel 目录
-    db_path:   SQLite 数据库输出路径（同目录下的 cross_verification 子项目可读取此文件）
+    input_db: s01 提取结果数据库（projects.db），读取 imported_to_s02a=0 的记录
+    db_path:  SQLite 数据库输出路径（同目录下的 cross_verification 子项目可读取此文件）
     """
     inputs = {
-        "input_dir": "../s01_data_collector_filter/data/processed",
-        "db_path":   "data/db/bri_re_database.db",
+        "input_db": "../s01_data_collector_filter/data/projects.db",
+        "db_path":  "data/db/bri_re_database.db",
     }
     try:
         DuplicateMerger().crew().kickoff(inputs=inputs)

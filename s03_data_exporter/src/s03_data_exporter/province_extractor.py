@@ -5,6 +5,11 @@
 - location 为空 → 直接返回 None，不调用 API
 - 已有缓存 → 从 province_cache.json 读取，不重复调用
 - 其余 → 批量送 Gemini，结果写回缓存
+
+省份约束：
+- 从 Natural Earth admin1 数据加载该国已知省份列表，随 prompt 传入 Gemini
+- Gemini 输出必须来自列表，或 null（防止幻觉）
+- zip 不存在或 pyshp 未安装时退化为原有无约束行为
 """
 
 import json
@@ -14,6 +19,8 @@ from typing import Optional
 
 from google import genai
 from google.genai import types
+
+from s03_data_exporter.admin1_lookup import build_admin1_dict
 
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 BATCH_SIZE = 30  # 每次 API 调用处理的项目数
@@ -40,10 +47,13 @@ def extract_provinces(
     批量提取省份，返回 {project_id: province_en_or_None}。
 
     Args:
-        records:    [{"project_id": ..., "location": ..., "country": ...}, ...]
+        records:    [{"project_id": ..., "location": ..., "country": ..., "country_iso": ...}, ...]
         cache_path: province_cache.json 路径（运行时自动创建）
         api_key:    Gemini API Key
     """
+    # 加载 Natural Earth 省份约束表（模块级单例，首次调用时读取 zip）
+    admin1_dict = build_admin1_dict()
+
     cache = _load_cache(cache_path)
     result: dict[str, Optional[str]] = {}
     to_process: list[dict] = []
@@ -75,6 +85,10 @@ def extract_provinces(
                     "id": r["project_id"],
                     "location": r["location"],
                     "country": r["country"],
+                    # 已知省份列表约束：无数据时为 null，Gemini 须按常识判断
+                    "known_provinces": admin1_dict.get(
+                        (r.get("country_iso") or "").strip().upper()
+                    ) or None,
                 }
                 for r in batch
             ],
@@ -83,11 +97,18 @@ def extract_provinces(
 
         prompt = f"""你是地理信息专家。对于以下每个项目，从 location 字段中提取所在地的一级行政区（省/州/邦/大区等）的标准英文名称。
 
+每个项目包含字段：id（项目ID）、location（位置描述）、country（国家）、known_provinces（该国已知一级行政区英文名列表，可为 null）。
+
 规则：
-1. 若 location 中有明确的省/州/邦名称，提取其国际通用英文名（如"旁遮普省" → "Punjab"，"西爪哇省" → "West Java"）
-2. 若 location 只包含国家名或城市名、无省级信息，返回 null
-3. 若 location 为空或无法判断，返回 null
-4. 直辖市/首都地区（如"内罗毕"、"拉各斯"）可直接返回其英文名
+1. 若 location 中有明确的省/州/邦名称，从 known_provinces 中选取最接近的名称返回（精确或近似匹配均可）
+2. 若 location 只包含城市名，判断该城市属于哪个一级行政区，从 known_provinces 中返回对应省份名
+3. 若 location 是本身即为一级行政区的首都或直辖市（如"内罗毕"、"拉各斯"、"曼谷"），从 known_provinces 中返回对应名称
+4. 若 known_provinces 为 null，按常识判断省份英文名并直接返回
+5. 若确实无法判断所在省级行政区，或 location 仅为国家名，返回 null
+
+输出要求：
+- 若 known_provinces 不为 null，输出的 province 必须是 known_provinces 列表中的某个值，或 null
+- 不得自行创造列表外的名称
 
 输入（JSON 数组）：
 {items_json}
