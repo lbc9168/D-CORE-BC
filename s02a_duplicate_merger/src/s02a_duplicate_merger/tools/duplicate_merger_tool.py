@@ -37,15 +37,18 @@ CATEGORY_CODE: Dict[str, str] = {
     "生物质": "BM",
     "储能": "ES",
     "综合能源": "HB",
+    "火电": "TH",
+    "新能源制造业": "MF",
+    "输变电建设": "TX",
 }
 FUZZY_THRESHOLD = 85          # CN 名称 token_sort_ratio 阈值
 FUZZY_THRESHOLD_EN = 80       # EN 名称 token_sort_ratio 阈值（AI 生成，略低）
 FUZZY_PARTIAL_THRESHOLD = 90  # CN 名称 partial_ratio 阈值（捕获子串包含关系）
 FUZZY_ENTITY_ASSIST = 60      # 实体重叠辅助：名称达到此分 + 实体重叠 → 送 LLM
-CAPACITY_TOLERANCE = 0.10     # 装机容量容错率（10%）
-CAPACITY_BYPASS_SCORE = 92    # 任一名称信号 ≥ 此分时豁免容量检查
+CAPACITY_TOLERANCE = 0.05     # 装机容量容错率（5%，收紧自 10%）
+CAPACITY_BYPASS_SCORE = 97    # 任一名称信号 ≥ 此分时豁免容量检查（收紧自 92）
 CAPACITY_EXACT_TOLERANCE = 0.01  # Signal 4 容量精确匹配误差上限（1%）
-CAPACITY_MIN_MW = 0.5            # Signal 4 最低容量门槛（过滤无容量或极小容量项目）
+CAPACITY_MIN_MW = 50             # Signal 4 最低容量门槛（收紧自 0.5MW，减少常见容量误触发）
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
@@ -76,7 +79,6 @@ CREATE TABLE IF NOT EXISTS project_events (
     planned_complete_date   TEXT,
     total_investment_usd    TEXT,
     investment_date         TEXT,
-    chinese_banks_involved  TEXT,
     financing_model         TEXT,
     financing_model_details TEXT,
     source_links            TEXT,   -- JSON 数组
@@ -205,7 +207,6 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
         "planned_complete_date":   "(Planned) Complete Date",
         "total_investment_usd":    "Total Project Investment (Million USD)",
         "investment_date":         "Investment (or Financial Close) Date",
-        "chinese_banks":           "Involvement of Chinese Banks",
         "financing_model":         "Financing Model",
         "financing_model_details": "Financing Model Details",
         "source_link":             "Source Link",
@@ -299,7 +300,6 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "planned_complete_date":_clean(first.get("(Planned) Complete Date", "")),
             "total_investment_usd": _clean(first.get("Total Project Investment (Million USD)", "")),
             "investment_date":      _clean(first.get("Investment (or Financial Close) Date", "")),
-            "chinese_banks":        _clean(first.get("Involvement of Chinese Banks", "")),
             "financing_model":      _clean(first.get("Financing Model", "")),
             "financing_details":    _clean(first.get("Financing Model Details", "")),
             "source_links":         [src] if src else [],
@@ -458,25 +458,32 @@ def _llm_confirm(
     src_a = a["source_links"][0] if a["source_links"] else "未知"
     src_b = b["source_links"][0] if b["source_links"] else "未知"
     prompt = f"""
-请判断以下两条记录是否描述同一个可再生能源项目（同一工程、同一阶段）。
+请判断以下两条记录是否描述同一个能源项目（同一工程、同一阶段）。
 
 记录A：
 - 项目名称（中）：{a['project_name']}
 - 项目名称（英）：{a.get('project_name_en', '—')}
-- 国家/地区：{a['country']} / {a['location']}
-- 能源类型：{a['category']}，装机容量：{a['capacity_mw']} MW
+- 国家：{a['country']}，省/地区：{a['location'] or '未知'}
+- 能源类型：{a['category']}，装机容量：{a['capacity_mw'] or '未知'} MW
 - 项目阶段：{a['project_stage']}
+- 项目开发商：{a.get('project_developer') or '未知'}
 - 中方实体：{_fmt_entities(a)}
 - 信源：{src_a}
 
 记录B：
 - 项目名称（中）：{b['project_name']}
 - 项目名称（英）：{b.get('project_name_en', '—')}
-- 国家/地区：{b['country']} / {b['location']}
-- 能源类型：{b['category']}，装机容量：{b['capacity_mw']} MW
+- 国家：{b['country']}，省/地区：{b['location'] or '未知'}
+- 能源类型：{b['category']}，装机容量：{b['capacity_mw'] or '未知'} MW
 - 项目阶段：{b['project_stage']}
+- 项目开发商：{b.get('project_developer') or '未知'}
 - 中方实体：{_fmt_entities(b)}
 - 信源：{src_b}
+
+判断依据（按优先级）：
+1. 省/地区、装机容量均一致 → 支持合并
+2. 项目开发商明显不同（非同一企业或集团）→ 倾向不合并
+3. 装机容量差异较大（>10%）→ 倾向不合并
 
 严格返回 JSON（无其他内容）：
 {{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
@@ -730,10 +737,10 @@ def _write_to_db(
                 """INSERT INTO project_events
                    (id, canonical_id, project_stage, capacity_mw, capacity_details,
                     project_developer, planned_start_date, planned_complete_date,
-                    total_investment_usd, investment_date, chinese_banks_involved,
+                    total_investment_usd, investment_date,
                     financing_model, financing_model_details, source_links,
                     publish_date, additional_remarks, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     event_id, canonical_id,
                     project["project_stage"],
@@ -741,7 +748,6 @@ def _write_to_db(
                     project["project_developer"],
                     project["planned_start_date"], project["planned_complete_date"],
                     project["total_investment_usd"], project["investment_date"],
-                    project["chinese_banks"],
                     project["financing_model"],    project["financing_details"],
                     json.dumps(project["source_links"], ensure_ascii=False),
                     project["publish_date"],   project["additional_remarks"],

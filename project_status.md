@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目状态文档
 
-> 最后更新：2026-03-13
+> 最后更新：2026-03-14
 
 ---
 
@@ -39,6 +39,9 @@
     - `data/review.db` — 无中方参与（`no_chinese_records`）+ 被过滤文章（`discarded_records`）
     - `data/All_AI_Results_*.json` — AI 原始结果（存放在 projects.db 同级目录）
   - **重试机制**：AI 调用失败时最多重试 3 次（指数退避 2s/4s），全部失败才记入 `discarded_records`
+  - **增量去重**：每次运行前从 `projects.db` + `review.db` 预加载已处理 URL，跳过重复项，防止重复入库
+  - **发布日期前向填充**：URL 日期无法解析时自动沿用上一条有效发布日期
+  - **金融机构处理**：中方金融机构统一写入 `chinese_entities`，`involvement_type = 融资方`（不再有独立 `chinese_banks` 字段）
 
 ### 输出字段（projects.db → extracted_projects 表）
 | 字段 | 说明 |
@@ -46,12 +49,12 @@
 | project_name / project_name_en | 中英文项目名 |
 | name_en_quality | ai_translated（当前默认） |
 | country / country_iso / bri_country / ldc | 国家信息 |
-| category | 光伏/风电/水电/地热及余热/生物质/储能/综合能源 |
+| category | 光伏/风电/水电/地热及余热/生物质/储能/综合能源/**火电/新能源制造业/输变电建设** |
 | capacity_mw / capacity_details | 装机容量 |
 | project_stage | 收购/中标/签约/开工/在建/竣工/投入运营 |
 | implementing_entity / _en | 中方实体（中英文） |
 | subsidiary_name / _en | 子公司（中英文） |
-| involvement_type | 参与方式 |
+| involvement_type | BOT/BOOT / EPC总承包 / 设计/施工服务方 / 股权投资方 / 设备供应商 / 投融资+EPC / **融资方** / Unknown |
 | 日期、投融资、信源等 | 其他结构化字段 |
 | batch_id | 来源批次（Excel 文件名） |
 | imported_to_s02a | 0=未导入，1=已导入（s02a 处理后标记） |
@@ -77,6 +80,8 @@
    - Signal 3：CN 名称 `partial_ratio ≥ 90`（子串包含）
    - Signal 4：容量精确匹配（误差 ≤ 1%，≥ 0.5MW）— 专用于跨语言历史数据安全网
    - 实体辅助通道：共有中方实体 + 名称中度相似（≥ 60）
+   - **去重阈值（已收紧）**：容量误差容忍 ≤ 5%（原10%），豁免容量检查门槛 ≥ 97分（原92），容量检查最小装机 50MW（原0.5MW）
+   - **LLM 确认上下文**：增加 `省/地区`、`项目开发商` 字段，新增判断优先级说明
 3. **LLM 确认**（Gemini）：确认候选对是否为同一物理项目
 4. **字段仲裁**（Python + LLM）：合并实体列表、LLM 解决冲突字段
 5. **SQLite 写入 + 标记已导入**：规范化三表结构写入；处理完成后将 `projects.db` 中对应记录标记为 `imported_to_s02a=1`
@@ -90,16 +95,25 @@ PK: {ISO3}-{CAT}-{NNNN}  e.g. IND-PV-0001
 字段: project_name, project_name_en, name_en_quality, country, country_iso, bri_country, ldc, location, category
 ```
 
+类别代码（CATEGORY_CODE）：
+| 中文类别 | 代码 |
+|----------|------|
+| 光伏 | PV | 风电 | WD | 水电 | HY | 地热及余热 | GT |
+| 生物质 | BM | 储能 | ES | 综合能源 | HB |
+| 火电 | TH | 新能源制造业 | MF | 输变电建设 | TX |
+
 **project_events**（里程碑事件）
 ```
 PK: {canonical_id}-{NN}  e.g. IND-PV-0001-01
 字段: 容量/日期/投融资/信源 + 验证字段(verification_status/confidence/sources/needs_manual_review)
+注：已移除 chinese_banks_involved 字段（金融机构改由 chinese_entities 表统一管理）
 ```
 
-**chinese_entities**（中方主体）
+**chinese_entities**（中方主体，含金融机构）
 ```
 PK: 自增整数，FK → project_events.id
 字段: implementing_entity, implementing_entity_en, subsidiary_name, subsidiary_name_en, entity_en_quality, involvement_type, subcontract_amount
+involvement_type 枚举: BOT/BOOT / EPC总承包 / 设计/施工服务方 / 股权投资方 / 设备供应商 / 投融资+EPC / 融资方 / Unknown
 ```
 
 ### 数据接口

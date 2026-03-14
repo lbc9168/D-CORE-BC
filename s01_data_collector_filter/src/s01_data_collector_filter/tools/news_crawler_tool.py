@@ -8,7 +8,7 @@ from typing import Type
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
 
@@ -97,7 +97,7 @@ class NewsCrawlerTool(BaseTool):
 
             author, publish_time = "NA", "NA"
             list_top_div = soup.find("div", class_="list_top")
-            if list_top_div:
+            if isinstance(list_top_div, Tag):
                 for candidate in list_top_div.find_all("div", class_="pull-left"):
                     text = candidate.get_text(strip=True)
                     if "首页" in text or "走出去" in text:
@@ -144,7 +144,7 @@ class NewsCrawlerTool(BaseTool):
         batch_id = f"{start_date}_{end_date}"
 
         all_data = []
-        page = 1
+        page = 1670
         stop_crawling = False
         consecutive_old_count = 0
         last_valid_date = None

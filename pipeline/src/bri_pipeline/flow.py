@@ -10,8 +10,8 @@ BRI RE Database — 完整流水线编排（crewAI Flows）
 用法：
     cd pipeline
     uv run run_pipeline                         # 完整流水线（含交叉验证 + 导出）
-    uv run run_merge_only                       # 采集 + 去重 + 导出（跳过交叉验证）
     uv run run_collect_and_merge                # 仅采集 + 去重合并，不导出（阶段一 → 阶段二A）
+    uv run run_merge_only                       # 采集 + 去重 + 导出（跳过交叉验证）
     uv run run_export_only                      # 仅重新导出（数据库已有）
 
 直接调用：
@@ -57,8 +57,8 @@ from s03_data_exporter.main import run as _run_s03              # noqa: E402
 class PipelineState(BaseModel):
     # ── 阶段一：数据采集 ────────────────────────────────────────
     source_url:          str   = "https://news.goalfore.cn/topstories/project"
-    start_date:          str   = "2026-03-07"
-    end_date:            str   = "2026-03-10"
+    start_date:          str   = "2018-01-01"
+    end_date:            str   = "2018-12-31"
     keywords:            str   = "能源,电力,MW,GW,风电,水电,光伏,储能"
     raw_data_dir:        str   = str(_S01 / "data" / "raw")
     projects_db_path:    str   = str(_S01 / "data" / "projects.db")

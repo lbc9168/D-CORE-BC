@@ -112,7 +112,6 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             planned_complete_date   TEXT,
             total_investment_usd    TEXT,
             investment_date         TEXT,
-            chinese_banks           TEXT,
             financing_model         TEXT,
             financing_model_details TEXT,
             source_link             TEXT,
@@ -160,7 +159,7 @@ def _init_review_db(db_path: str) -> sqlite3.Connection:
 
 def _build_prompt(title: str, content: str, date: str) -> str:
     return f"""
-    你是一个能源项目审核专家。请阅读输入的新闻标题和正文，提取符合要求的中国海外新能源电站项目信息，同时需要注意剔除与新能源电站无关的项目。
+    你是一个能源项目审核专家。请阅读输入的新闻标题和正文，按要求提取符合要求的中国海外能源项目信息，同时需要注意剔除无关的项目。
 
     文章发布日期：{date}
     文章标题：{title}
@@ -169,8 +168,8 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     (内容截断)
 
     ### 任务目标
-    1. **筛选**：剔除无关新闻。
-    2. **判断**：确认项目中是否有中国企业参与（包括作为业主、承包商、供应商等）。
+    1. **判断**：确认项目中是否有中国企业参与（包括作为业主、承包商、供应商等）。
+    2. **筛选**：剔除无关新闻。
     3. **提取**：提取项目详细信息，特别是多方参与和多子项的复杂情况。
 
     ### 中国企业参与判断规则（该规则优先级最高）
@@ -179,36 +178,21 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     ### 内容筛选规则
     在提取数据前，请务必执行以下"去除无关信息"规则。符合任一规则的，直接标记为 "irrelevant"：
 
-    1. **去除"纯化石能源电站"**：
-       - 如电站只涉及化石能源（如燃气、煤电、火电、燃气轮机、天然气等），且未与其他新能源发电形式结合，应视为无关。
-
-    2. **去除"非电站基建"**：
+    1. **去除"与能源无关的基建项目"**：
        - 如果项目主体是学校、医院、机场、铁路、港口、农业灌溉、供水管网、工业园区等。
        - 即使文中提到"电力配套"、"供电工程"、"屋顶光伏改造"（若仅作为附属设施且未提及具体装机容量），也视为无关。
        - **原则**：我们要找的是"发电厂"，而不是"用电户"。
-       
-    3. **去除"新能源制造业"**：
-       - 如果项目是建设"光伏组件厂"、"锂电池制造基地"、"多晶硅工厂"、"新能源装备产业园"。
-       - **区分关键**：看产出单位。如果是"GW/年（产能）"、"万吨/年"，则是工厂（无关）。如果是"MW/GW（装机容量）"且并网发电，才是电站（有效）。
 
-    4. **去除"纯输变电"**：
-       - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等。
-       - **例外**：只有当输变电工程是**专门配套**文中明确提及的某个**具体新能源电站**时，才保留，并提取那个**电站**的信息。
-
-    5. **去除"项目检修信息"**：
+    2. **去除"项目检修信息"**：
         - 如果项目是进行"检修"、"维护"等，且未提及具体装机容量，则视为无关。
 
-    6. **去除"模糊的组件供应信息"**：
+    3. **去除"模糊的组件供应信息"**：
         - 如项目只涉及"组件供应"、"组件销售"等，且未提及具体装机容量或电站项目信息，则视为无关。
 
-    7. **去除仍在投标竞标阶段的信息**：
-        - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为无关。
-        - 如果能够明确项目已经达成意向、中标、或签约，则视为有效。
-
-    8. **去除只在获批阶段的项目信息**
+    4. **去除只在获批阶段，且无中企参与信息的项目信息**
         - 如果新闻中只提到某国政府部门"批准"或"审批通过"一系列项目，或者某些项目"获批"或"获得批准"，且未提及与中国企业相关的具体的中标或签约信息，则视为无关。
 
-    9. **去除"商务会谈信息"**
+    5. **去除"商务会谈信息"**
         - 如果新闻中只提到各企业领导之间、或者企业与政府部门领导之间的访问、会议交流等，没有提到具体的项目信息，则视为无关。
 
     ### 关键处理规则
@@ -220,15 +204,15 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     2. **单一能源项目**：
        - **Category**: 选对应的能源种类（如"光伏"）。
        - **Capacity (MW)**: 填数字。
-       - **Capacity Details**: 重复具体描述，如没有信息则不填。
+       - **Capacity Details**: 从新闻原文中提取与能源种类和装机容量相关的信息填入，如没有信息则不填。
 
-    3. **联合开发商**：
-       - 多个业主用分号 ";" 隔开。
+    3. **联合开发商（multiple project developers）**：
+       - 多个业主或开发商用分号 ";" 隔开。
 
     4. **中方企业填写规则**：
-       - 中方金融机构不需要填写在"Implementing Chinese Entity"当中，但需要在"Financing Model Details"字段中填写金融机构名称。
-       - 中方金融机构包括进出口银行、中国银行、中国建设银行、中国工商银行、中国农业银行、中国民生银行、中国出口信用保险公司等。
-       - 其他所有参与的中方企业（除金融机构外），如总包、分包、设备商等，都必须列入 `chinese_entities`。
+       - 所有参与的中方企业（包括总包、分包、设备商、股权投资方、金融机构等）均需列入 `chinese_entities`。
+       - 对于中方金融机构（如进出口银行、国家开发银行、中国银行、工商银行、建设银行、农业银行、民生银行、中国出口信用保险公司等），其 "Type of involvement" 必须填写 **"融资方"**，同时在 "Financing Model Details" 中填写该机构名称。
+       - 注意区分：**"融资方"** 仅用于纯金融机构（只提供贷款/担保，不参与工程实施）；**"投融资+EPC"** 用于同一企业既作为股权投资方又承担 EPC 工程任务的情况。
 
     5. **日期推断与回填规则 (Date Inference)**：
        - **优先级 1 (明确日期)**：如果文中包含具体日期（如"2025年11月15日"），直接填入 `YYYY-MM-DD`。
@@ -310,7 +294,6 @@ def _build_prompt(title: str, content: str, date: str) -> str:
             "(Planned) Complete Date": "String",
             "Total Project Investment (Million USD)": "String",
             "Investment (or Financial Close) Date": "String",
-            "Involvement of Chinese Financial Insitution": "String",
             "Financing Model": "String",
             "Financing Model Details": "String",
             "Official Website link": "String",
@@ -334,11 +317,17 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     ### 字段填写补充说明
     - **Project Name**: 【必须使用中文填写】格式："国家+区域/省份+装机容量(MW)+项目类型+"项目"+补充说明"。示例："巴基斯坦旁遮普省200MW光伏项目"、"埃塞俄比亚500MW水电项目（二期）"。国家名、项目类型必须用中文；区域/省份无通用中文译名时可保留英文（如"Sindh省"）；【严禁】直接照抄英文原文（如"Pakistan 200MW Solar Project"）。
     - **Project Name (EN)**: 项目名称的英文版本。优先使用项目的官方英文名（如"Karot Hydropower Project"）；若无官方名，则按格式翻译："Country + Capacity MW + Energy Type + Project/Plant [补充说明]"，示例："Pakistan 200MW Solar PV Project (Punjab Province)"、"Ethiopia 500MW Hydropower Project (Phase II)"。
-    - **Category**: 只能选 [光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]。
+    - **Category**: 只能选 [新能源制造业，输变电建设，火电，光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]。
+        - 如果项目是建设"光伏组件厂"、"锂电池制造基地"、"多晶硅工厂"、"新能源装备产业园"，则视为“新能源制造业”。
+            - **区分关键**：看产出单位。如果是"GW/年（产能）"、"万吨/年"，则是工厂。如果是"MW/GW（装机容量）"，才是电站。
+        - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等，则选择“输变电”。
+        - 如果项目是建设"火电厂"、"燃气轮机厂"、"天然气发电厂"、“煤电”，且不涉及与其他新能源发电形式结合，则视为“火电”。
     - **status**: 枚举值 "valid_project" | "no_chinese_participation" | "irrelevant"
-    - **Type of involvement of Chinese Entities**: 只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, Unknown]。
+    - **Type of involvement of Chinese Entities**: 只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, 融资方, Unknown]。
     - **Financing Model**: 只能选 [信贷融资, 债券融资, 股权融资, 混合融资, 其他, Unknown]。
-    - **Project Stage**: 只能选 [收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
+    - **Project Stage**: 只能选 [拟开发，收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
+        - Project Stage判断标准补充：“完工”被视为“竣工”；“并网发电”被视为“投入运营”；“收购, 中标, 签约, 开工, 在建”你自行判断，以新闻原文为准。
+        - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为“拟开发”。
     - **Implementing Chinese Entity (EN)**: 中方企业的官方英文名。请优先使用上方知识库括号内的英文名称，如"PowerChina"、"China Three Gorges Corporation (CTG)"、"CEEC"、"Huaneng"等。知识库未收录的企业，提供合理的英文译名。
     - **Subsidiary Name (EN)**: 子公司的官方英文名或英文译名。如"Sinohydro Bureau 5"、"SEPCO III"等。
     - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。
@@ -442,7 +431,7 @@ class ProjectExtractorTool(BaseTool):
 
         last_valid_pub_date = ""
 
-        for idx, row in df.iterrows():
+        for row_num, (_, row) in enumerate(df.iterrows(), start=1):
             title = str(row.get("文章标题", ""))
             content = str(row.get("正文内容", ""))
             pub_date = str(row.get("发布日期", ""))
@@ -450,7 +439,7 @@ class ProjectExtractorTool(BaseTool):
 
             # 增量去重：跳过已处理的 URL
             if orig_link and orig_link not in ("nan", "NA", "None") and orig_link in already_processed:
-                print(f"[{idx+1}/{total}] 跳过（已处理）: {title[:25]}...")
+                print(f"[{row_num}/{total}] 跳过（已处理）: {title[:25]}...")
                 continue
 
             # publish_date 前向填充：无法正确读取时用上一条有效日期
@@ -458,12 +447,12 @@ class ProjectExtractorTool(BaseTool):
                 last_valid_pub_date = pub_date
             else:
                 if last_valid_pub_date:
-                    print(f"[{idx+1}/{total}] publish_date 无效（原值='{pub_date}'），使用前一条日期: {last_valid_pub_date}")
+                    print(f"[{row_num}/{total}] publish_date 无效（原值='{pub_date}'），使用前一条日期: {last_valid_pub_date}")
                     pub_date = last_valid_pub_date
 
             # Python 端预筛，节省 API 调用
             if not any(k in content for k in pre_filter_keywords):
-                print(f"[{idx+1}/{total}] Python预筛剔除: {title[:25]}...")
+                print(f"[{row_num}/{total}] Python预筛剔除: {title[:25]}...")
                 discarded_rows.append({
                     "文章标题": title,
                     "发布日期": pub_date,
@@ -474,7 +463,7 @@ class ProjectExtractorTool(BaseTool):
                 continue
 
             print("--------------------------------")
-            print(f"[{idx+1}/{total}] AI处理中: {title[:25]}...")
+            print(f"[{row_num}/{total}] AI处理中: {title[:25]}...")
             prompt = _build_prompt(title, content, pub_date)
 
             MAX_RETRIES = 3
@@ -513,7 +502,7 @@ class ProjectExtractorTool(BaseTool):
                 print(f"  -> 分析: [{subject}] - {reasoning}")
                 print(f"  -> 结论: {status}")
 
-                all_ai_results.append({"index": idx + 1, "title": title, "result": result})
+                all_ai_results.append({"index": row_num, "title": title, "result": result})
 
                 if status == "irrelevant":
                     discarded_rows.append({
@@ -563,9 +552,6 @@ class ProjectExtractorTool(BaseTool):
                             ),
                             "Investment (or Financial Close) Date": common.get(
                                 "Investment (or Financial Close) Date", ""
-                            ),
-                            "Involvement of Chinese Banks": common.get(
-                                "Involvement of Chinese Financial Insitution", ""
                             ),
                             "Financing Model": common.get("Financing Model", ""),
                             "Financing Model Details": common.get("Financing Model Details", ""),
@@ -629,11 +615,11 @@ class ProjectExtractorTool(BaseTool):
                     implementing_entity_en, subsidiary_name, subsidiary_name_en,
                     involvement_type, subcontract_amount_usd, planned_start_date,
                     planned_complete_date, total_investment_usd, investment_date,
-                    chinese_banks, financing_model, financing_model_details,
+                    financing_model, financing_model_details,
                     source_link, publish_date, official_website, non_official_website,
                     additional_remarks, batch_id, imported_to_s02a, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
                 (
                     row_data.get("Project Name", ""),
                     row_data.get("Project Name (EN)", ""),
@@ -659,7 +645,6 @@ class ProjectExtractorTool(BaseTool):
                     row_data.get("(Planned) Complete Date", ""),
                     row_data.get("Total Project Investment (Million USD)", ""),
                     row_data.get("Investment (or Financial Close) Date", ""),
-                    row_data.get("Involvement of Chinese Banks", ""),
                     row_data.get("Financing Model", ""),
                     row_data.get("Financing Model Details", ""),
                     row_data.get("Source Link", ""),

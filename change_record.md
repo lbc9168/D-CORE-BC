@@ -605,6 +605,91 @@ uv run python ../repair_country_iso.py
 
 ---
 
+---
+
+## 2026-03-14
+
+### · `fix+feat: dedup/forward-fill/new-categories/FI-refactor`
+
+#### s01_data_collector_filter — `tools/project_extractor_tool.py`
+
+**1. 增量去重修复（避免重复入库）**
+
+原 `_run()` 每次启动都会重新处理所有 Excel 行，无法跳过已处理的新闻 URL，导致 `projects.db` 中出现重复记录。
+
+修复方案：在主循环开始前，从 `projects.db`（`extracted_projects.source_link`）和 `review.db`（`no_chinese_records.source_link` + `discarded_records.source_link` UNION）各加载已处理 URL，合并为 `already_processed: set[str]`。主循环中检测到 URL 已在集合内则跳过；处理完一条后立即将 URL 加入集合。
+
+**2. 发布日期前向填充（publish_date forward-fill）**
+
+原逻辑：当新闻 `publish_date` 无法正确解析（"NA"/"nan"/空）时，直接保留 "NA" 写入数据库。
+
+修复方案：在主循环外初始化 `last_valid_pub_date = ""`；每条记录处理时：
+- 若 `pub_date` 含数字字符且非 "NA" → 更新 `last_valid_pub_date`
+- 否则若 `last_valid_pub_date` 非空 → 用其填充当前 `pub_date`
+
+**3. 新增项目类别：火电、新能源制造业、输变电建设**
+
+Prompt 中 `category` 枚举由原有 7 类扩展为 10 类：
+```
+[新能源制造业，输变电建设，火电，光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]
+```
+
+**4. 中方金融机构处理方式重构（FI Refactor）**
+
+问题：Prompt 规则要求"不在 chinese_entities 中列金融机构"，但 LLM 仍持续将银行/基金写入 chinese_entities 并赋予 `投融资+EPC` 类型，导致混淆。
+
+解决方案：改为允许金融机构进入 `chinese_entities`，以 `融资方` 作为专属 involvement_type，同时移除冗余的独立字段 `Involvement of Chinese Financial Institution` / `chinese_banks`。
+
+具体改动：
+- **`extracted_projects` 表 Schema**：删除 `chinese_banks TEXT` 列（34→33个字段）
+- **Prompt JSON schema**：从 `common_info` 中删除 `"Involvement of Chinese Financial Insitution": "String"` 字段
+- **Prompt involvement_type 枚举**：新增 `融资方`（纯金融机构专用）
+  ```
+  [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, 融资方, Unknown]
+  ```
+- **Prompt 规则 4（中方企业填写规则）**：重写为"所有参与中方企业（含金融机构）均填入 chinese_entities；金融机构 involvement_type 必须为 '融资方'；'投融资+EPC' 仅用于同一企业既投股权又承担EPC的情况"
+- **`base` dict**：删除 `"Involvement of Chinese Banks"` 键
+- **INSERT 语句**：删除 `chinese_banks` 列和对应值（34→33个参数）
+
+---
+
+#### s02a_duplicate_merger — `tools/duplicate_merger_tool.py`
+
+**1. 新增类别代码：TH / MF / TX**
+
+`CATEGORY_CODE` 字典新增三条：
+```python
+"火电": "TH", "新能源制造业": "MF", "输变电建设": "TX"
+```
+
+**2. 去重阈值收紧（Recommendation A）**
+
+| 常量 | 旧值 | 新值 | 说明 |
+|------|------|------|------|
+| `CAPACITY_TOLERANCE` | 0.10 | 0.05 | 容量误差容忍度（10%→5%） |
+| `CAPACITY_BYPASS_SCORE` | 92 | 97 | 豁免容量检查的名称分数门槛 |
+| `CAPACITY_MIN_MW` | 0.5 | 50 | 容量检查最小装机（避免小容量误判） |
+
+**3. LLM 确认 Prompt 增强（Recommendation B）**
+
+Prompt 新增上下文字段：`省/地区`（location）、`项目开发商`（project_developer）。
+
+新增判断依据说明（按优先级）：
+1. 省/地区、装机容量均一致 → 支持合并
+2. 项目开发商明显不同（非同一企业或集团）→ 倾向不合并
+3. 装机容量差异较大（>10%）→ 倾向不合并
+
+**4. 金融机构重构（与 s01 同步）**
+
+- **`project_events` 表 Schema**：删除 `chinese_banks_involved TEXT` 列
+- **`_load_from_db()` 列名映射**：删除 `"chinese_banks": "Involvement of Chinese Banks"` 条目
+- **`_group_into_logical_projects()`**：删除 `"chinese_banks": _clean(...)` 字段
+- **`_write_to_db()` INSERT**：删除 `chinese_banks_involved` 列和 `project["chinese_banks"]` 值（17→16个参数）
+
+> 注意：以上改动需重新从零建库（删除旧 `bri_re_database.db` 并重跑 s02a）。
+
+---
+
 ## 说明
 
 - 所有 crewai agent 均显式指定 `llm: gemini/gemini-2.5-flash-lite`，确保不使用默认 OpenAI 模型
