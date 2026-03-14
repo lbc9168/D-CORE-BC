@@ -49,11 +49,40 @@ CAPACITY_TOLERANCE = 0.05     # 装机容量容错率（5%，收紧自 10%）
 CAPACITY_BYPASS_SCORE = 97    # 任一名称信号 ≥ 此分时豁免容量检查（收紧自 92）
 CAPACITY_EXACT_TOLERANCE = 0.01  # Signal 4 容量精确匹配误差上限（1%）
 CAPACITY_MIN_MW = 50             # Signal 4 最低容量门槛（收紧自 0.5MW，减少常见容量误触发）
-GEMINI_MODEL = "gemini-2.5-flash-lite"
+BROAD_LLM_SCORE = 40             # Signal 5：名称 ≥ 此分 + 实体重叠或容量接近 → 送 LLM
+CAPACITY_BROAD_TOLERANCE = 0.15  # Signal 5 容量"接近"判定（15% 以内）
+CANONICAL_AUTO_MATCH_SCORE = 97  # 跨批次：名称 ≥ 此分 → 自动匹配，无需 LLM
+CANONICAL_LLM_MIN_SCORE    = 70  # 跨批次：[70, 97) → LLM 确认是否匹配已有 canonical
+GEMINI_MODEL      = "gemini-2.5-flash-lite"  # 字段仲裁等非关键 LLM 调用
+LLM_CONFIRM_MODEL = "gemini-3-flash-preview"  # 项目合并确认（可改为 gemini-3-flash-preview 提升准确率）
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
 
 SCHEMA_SQL = """
+CREATE TABLE IF NOT EXISTS non_project_records (
+    id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+    record_type             TEXT,           -- 设备订单 | 一般合作
+    project_name            TEXT,
+    country                 TEXT,
+    country_iso             TEXT,
+    category                TEXT,
+    capacity_mw             TEXT,
+    capacity_details        TEXT,
+    project_stage           TEXT,
+    implementing_entity     TEXT,
+    implementing_entity_en  TEXT,
+    subsidiary_name         TEXT,
+    subsidiary_name_en      TEXT,
+    involvement_type        TEXT,
+    subcontract_amount      TEXT,
+    financing_model         TEXT,
+    financing_model_details TEXT,
+    source_link             TEXT,
+    publish_date            TEXT,
+    additional_remarks      TEXT,
+    created_at              TEXT
+);
+
 CREATE TABLE IF NOT EXISTS canonical_projects (
     id               TEXT PRIMARY KEY,   -- e.g. IND-PV-0001
     project_name     TEXT,
@@ -183,6 +212,7 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
 
     # 将 SQLite 列名映射回 s02a 内部期望的 Excel 列名格式
     df = df.rename(columns={
+        "record_type":             "Record Type",
         "project_name":            "Project Name",
         "project_name_en":         "Project Name (EN)",
         "name_en_quality":         "Name EN Quality",
@@ -283,6 +313,7 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
 
         src = _clean(first.get("Source Link", ""))
         logical_projects.append({
+            "record_type":          _clean(first.get("Record Type", "具体项目")) or "具体项目",
             "project_name":         _clean(first.get("Project Name", "")),
             "project_name_en":      _clean(first.get("Project Name (EN)", "")),
             "name_en_quality":      _clean(first.get("Name EN Quality", "ai_translated")) or "ai_translated",
@@ -420,11 +451,32 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
                 ):
                     cross_lang_boost = True
 
+            # ── Signal 5：宽松 LLM 候选（所有前置信号均未命中的补救）──────
+            # 触发条件：名称中度相似（≥ 40）+ 实体重叠 OR 容量在 15% 以内
+            broad_llm_boost = False
             if not name_ok and not entity_boost and not cross_lang_boost:
+                if best_score >= BROAD_LLM_SCORE:
+                    cap_a = _parse_capacity(a.get("capacity_mw"))
+                    cap_b = _parse_capacity(b.get("capacity_mw"))
+                    capacity_close = (
+                        cap_a and cap_b
+                        and cap_a >= CAPACITY_MIN_MW
+                        and cap_b >= CAPACITY_MIN_MW
+                        and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_BROAD_TOLERANCE
+                    )
+                    if _entity_overlap(a, b) or capacity_close:
+                        broad_llm_boost = True
+                        print(
+                            f"  [Signal 5] 宽松候选: "
+                            f"[{a['project_name'][:20]}] vs [{b['project_name'][:20]}] "
+                            f"(name={best_score})"
+                        )
+
+            if not name_ok and not entity_boost and not cross_lang_boost and not broad_llm_boost:
                 continue
 
-            # ── 容量检查（名称高度相似时豁免；Signal 4 路径已验证容量）──
-            if not cross_lang_boost and best_score < CAPACITY_BYPASS_SCORE:
+            # ── 容量检查（名称高度相似时豁免；Signal 4/5 路径已验证容量）──
+            if not cross_lang_boost and not broad_llm_boost and best_score < CAPACITY_BYPASS_SCORE:
                 cap_a = _parse_capacity(a["capacity_mw"])
                 cap_b = _parse_capacity(b["capacity_mw"])
                 if cap_a and cap_b and cap_a > 0 and cap_b > 0:
@@ -463,7 +515,7 @@ def _llm_confirm(
 记录A：
 - 项目名称（中）：{a['project_name']}
 - 项目名称（英）：{a.get('project_name_en', '—')}
-- 国家：{a['country']}，省/地区：{a['location'] or '未知'}
+- 国家：{a['country']}，省/地区/城市：{a['location'] or '未知'}
 - 能源类型：{a['category']}，装机容量：{a['capacity_mw'] or '未知'} MW
 - 项目阶段：{a['project_stage']}
 - 项目开发商：{a.get('project_developer') or '未知'}
@@ -473,7 +525,7 @@ def _llm_confirm(
 记录B：
 - 项目名称（中）：{b['project_name']}
 - 项目名称（英）：{b.get('project_name_en', '—')}
-- 国家：{b['country']}，省/地区：{b['location'] or '未知'}
+- 国家：{b['country']}，省/地区/城市：{b['location'] or '未知'}
 - 能源类型：{b['category']}，装机容量：{b['capacity_mw'] or '未知'} MW
 - 项目阶段：{b['project_stage']}
 - 项目开发商：{b.get('project_developer') or '未知'}
@@ -481,21 +533,85 @@ def _llm_confirm(
 - 信源：{src_b}
 
 判断依据（按优先级）：
-1. 省/地区、装机容量均一致 → 支持合并
-2. 项目开发商明显不同（非同一企业或集团）→ 倾向不合并
-3. 装机容量差异较大（>10%）→ 倾向不合并
+1. 如果两个项目均没有“location”和“capacity_mw”信息 → 不匹配
+2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
+    2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
+3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
+4. 装机容量差异较大（>10%）→ 倾向不匹配
+5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略"项目""电站"等后缀）而不同，不应视为不同项目的依据
+
 
 严格返回 JSON（无其他内容）：
 {{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
     """
     try:
         resp = client.models.generate_content(
-            model=GEMINI_MODEL, contents=prompt, config=config
+            model=LLM_CONFIRM_MODEL, contents=prompt, config=config
         )
         result = json.loads(resp.text)
-        return result.get("same_project") is True and result.get("confidence") != "low"
+        if result.get("same_project") is True and result.get("confidence") != "low":
+            return True
+        if result.get("same_project") is True and result.get("confidence") == "low":
+            print(f"    → [低置信度，不合并] {result.get('reasoning', '')}")
+        return False
     except Exception as e:
         print(f"    [LLM 确认失败] {e}")
+        return False
+
+
+def _llm_confirm_canonical(
+    client: genai.Client,
+    config: types.GenerateContentConfig,
+    project: Dict,
+    db_id: str,
+    db_name: str,
+    db_name_en: str,
+    db_location: str,
+    db_capacity: str,
+) -> bool:
+    """调用 Gemini 确认新记录是否与库中已有 canonical project 为同一物理项目。"""
+    prompt = f"""
+请判断以下"新记录"与"库中已有项目"是否描述同一个能源项目（同一物理工程）。
+
+新记录：
+- 项目名称（中）：{project['project_name']}
+- 项目名称（英）：{project.get('project_name_en', '—')}
+- 国家：{project['country']}，省/地区/城市：{project['location'] or '未知'}
+- 能源类型：{project['category']}，装机容量：{project['capacity_mw'] or '未知'} MW
+- 项目阶段：{project['project_stage']}
+- 项目开发商：{project.get('project_developer') or '未知'}
+- 中方实体：{_fmt_entities(project)}
+
+库中已有项目（ID: {db_id}）：
+- 项目名称（中）：{db_name}
+- 项目名称（英）：{db_name_en or '—'}
+- 国家：{project['country']}，省/地区/城市：{db_location or '未知'}
+- 能源类型：{project['category']}，装机容量（代表值）：{db_capacity or '未知'} MW
+
+判断依据（按优先级）：
+1. 如果两个项目均没有”location”和”capacity_mw”信息 → 不匹配
+2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
+    2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
+3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
+4. 装机容量差异较大（>10%）→ 倾向不匹配
+5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略"项目""电站"等后缀）而不同，不应视为不同项目的依据
+
+
+严格返回 JSON（无其他内容）：
+{{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
+    """
+    try:
+        resp = client.models.generate_content(
+            model=LLM_CONFIRM_MODEL, contents=prompt, config=config
+        )
+        result = json.loads(resp.text)
+        if result.get("same_project") is True and result.get("confidence") != "low":
+            return True
+        if result.get("same_project") is True and result.get("confidence") == "low":
+            print(f"    → [低置信度，不匹配] {result.get('reasoning', '')}")
+        return False
+    except Exception as e:
+        print(f"    [LLM canonical 确认失败] {e}")
         return False
 
 
@@ -636,16 +752,23 @@ def _deduplicate_projects(
 def _find_or_create_canonical(
     conn: sqlite3.Connection,
     project: Dict,
+    client: Optional[genai.Client] = None,
+    config: Optional[types.GenerateContentConfig] = None,
 ) -> Tuple[str, bool]:
     """
     查找已有的 canonical_project，或新建一条。
-    匹配条件：相同 country_iso + category + 任一名称对模糊度 ≥ 85%
 
-    比较的四个名称对（取最高分）：
-      1. incoming CN  vs DB CN   — 原有逻辑
-      2. incoming EN  vs DB CN   — 旧批次英文 project_name vs 库中英文名（跨语言）
-      3. incoming EN  vs DB EN   — 双方均有英文名
-      4. incoming CN  vs DB EN   — 新批次中文名 vs 库中已有英文名
+    名称匹配：相同 country_iso + category，比较四个名称对（取最高分）：
+      1. incoming CN  vs DB CN
+      2. incoming EN  vs DB CN
+      3. incoming EN  vs DB EN
+      4. incoming CN  vs DB EN
+
+    三级决策：
+      score ≥ CANONICAL_AUTO_MATCH_SCORE (97) → 自动匹配
+      CANONICAL_LLM_MIN_SCORE (70) ≤ score < 97 且 client 非空 → LLM 确认
+      client 为空时降级：score ≥ FUZZY_THRESHOLD (85) → 自动匹配
+      其余 → 新建
 
     返回 (canonical_id, is_new)。
     """
@@ -662,22 +785,54 @@ def _find_or_create_canonical(
     best_id: Optional[str] = None
     best_score = 0
     for row_id, row_name, row_name_en in rows:
-        # 1. incoming CN vs DB CN（原有）
         score = fuzz.token_sort_ratio(name, row_name or "")
-        # 2. incoming EN vs DB CN（旧批次以英文为 project_name 时命中）
         if incoming_en and row_name:
             score = max(score, fuzz.token_sort_ratio(incoming_en, row_name))
-        # 3. incoming EN vs DB EN
         if incoming_en and row_name_en:
             score = max(score, fuzz.token_sort_ratio(incoming_en, row_name_en))
-        # 4. incoming CN vs DB EN
         if name and row_name_en:
             score = max(score, fuzz.token_sort_ratio(name, row_name_en))
-        if score >= FUZZY_THRESHOLD and score > best_score:
+        # 收集满足 LLM 最低阈值的最高分候选（兼容降级模式）
+        if score >= CANONICAL_LLM_MIN_SCORE and score > best_score:
             best_id, best_score = row_id, score
 
     if best_id:
-        return best_id, False
+        if best_score >= CANONICAL_AUTO_MATCH_SCORE:
+            # 高度相似，直接匹配
+            return best_id, False
+        elif client is not None:
+            # 中度相似，LLM 确认
+            print(
+                f"  [LLM canonical 核验] {best_id} vs "
+                f"[{name[:25]}] (score={best_score})"
+            )
+            db_row = conn.execute(
+                """SELECT cp.project_name, cp.project_name_en, cp.location,
+                          pe.capacity_mw
+                   FROM canonical_projects cp
+                   LEFT JOIN project_events pe ON pe.canonical_id = cp.id
+                   WHERE cp.id = ?
+                   LIMIT 1""",
+                (best_id,),
+            ).fetchone()
+            db_name, db_name_en, db_location, db_capacity = (
+                db_row if db_row else ("", "", "", "")
+            )
+            confirmed = _llm_confirm_canonical(
+                client, config, project,
+                best_id,
+                db_name or "", db_name_en or "",
+                db_location or "", db_capacity or "",
+            )
+            time.sleep(0.5)
+            if confirmed:
+                print(f"    → LLM 确认匹配 {best_id}")
+                return best_id, False
+            else:
+                print(f"    → LLM 判断为不同项目，新建 canonical")
+        elif best_score >= FUZZY_THRESHOLD:
+            # 无 LLM 降级模式：保持原有 ≥ 85 自动匹配行为
+            return best_id, False
 
     # 新建 canonical_project
     new_id = _gen_canonical_id(conn, iso, _get_cat_code(cat))
@@ -702,13 +857,15 @@ def _find_or_create_canonical(
 def _write_to_db(
     conn: sqlite3.Connection,
     projects: List[Dict],
+    client: Optional[genai.Client] = None,
+    config: Optional[types.GenerateContentConfig] = None,
 ) -> Dict[str, int]:
     """将合并后的逻辑项目写入三张 SQLite 表，返回各表新增条数。"""
     cnt = {"canonical_new": 0, "event_new": 0, "entity_new": 0}
 
     for project in projects:
         # ── canonical_projects ──────────────────────────────────────────────
-        canonical_id, is_new = _find_or_create_canonical(conn, project)
+        canonical_id, is_new = _find_or_create_canonical(conn, project, client, config)
         if is_new:
             cnt["canonical_new"] += 1
 
@@ -789,6 +946,68 @@ def _write_to_db(
     return cnt
 
 
+# ── 非项目记录写入 ────────────────────────────────────────────────────────────
+
+def _write_non_project_records(
+    conn: sqlite3.Connection,
+    records: List[Dict],
+) -> int:
+    """将设备订单、一般合作类记录写入 non_project_records 表（扁平化，一实体一行）。"""
+    now = datetime.now().isoformat()
+    count = 0
+    for rec in records:
+        entities = rec.get("entities", [])
+        src = rec["source_links"][0] if rec["source_links"] else ""
+        if not entities:
+            conn.execute(
+                """INSERT INTO non_project_records
+                   (record_type, project_name, country, country_iso, category,
+                    capacity_mw, capacity_details, project_stage,
+                    implementing_entity, implementing_entity_en,
+                    subsidiary_name, subsidiary_name_en, involvement_type, subcontract_amount,
+                    financing_model, financing_model_details,
+                    source_link, publish_date, additional_remarks, created_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    rec["record_type"], rec["project_name"],
+                    rec["country"], rec["country_iso"], rec["category"],
+                    rec["capacity_mw"], rec["capacity_details"], rec["project_stage"],
+                    "", "", "", "", "", "",
+                    rec["financing_model"], rec["financing_details"],
+                    src, rec["publish_date"], rec["additional_remarks"], now,
+                ),
+            )
+            count += 1
+        else:
+            for ent in entities:
+                conn.execute(
+                    """INSERT INTO non_project_records
+                       (record_type, project_name, country, country_iso, category,
+                        capacity_mw, capacity_details, project_stage,
+                        implementing_entity, implementing_entity_en,
+                        subsidiary_name, subsidiary_name_en, involvement_type, subcontract_amount,
+                        financing_model, financing_model_details,
+                        source_link, publish_date, additional_remarks, created_at)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    (
+                        rec["record_type"], rec["project_name"],
+                        rec["country"], rec["country_iso"], rec["category"],
+                        rec["capacity_mw"], rec["capacity_details"], rec["project_stage"],
+                        ent.get("implementing_entity", ""),
+                        ent.get("implementing_entity_en", ""),
+                        ent.get("subsidiary_name", ""),
+                        ent.get("subsidiary_name_en", ""),
+                        ent.get("involvement_type", ""),
+                        ent.get("subcontract_amount", ""),
+                        rec["financing_model"], rec["financing_details"],
+                        src, rec["publish_date"], rec["additional_remarks"], now,
+                    ),
+                )
+                count += 1
+    conn.commit()
+    return count
+
+
 # ── Input Schema & Tool ────────────────────────────────────────────────────────
 
 class DuplicateMergerInput(BaseModel):
@@ -837,10 +1056,15 @@ class DuplicateMergerTool(BaseTool):
         raw_count = len(df)
         print(f"  原始行数: {raw_count}")
 
-        projects = _group_into_logical_projects(df)
-        print(f"  归组后逻辑项目数: {len(projects)}")
+        all_projects = _group_into_logical_projects(df)
+        print(f"  归组后逻辑记录数: {len(all_projects)}")
 
-        # ── 阶段二：候选筛查 ─────────────────────────────────────────────────
+        # 按 record_type 分流
+        projects = [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"]
+        non_projects = [p for p in all_projects if p.get("record_type", "具体项目") != "具体项目"]
+        print(f"  具体项目: {len(projects)} 条，非项目记录（设备订单/一般合作）: {len(non_projects)} 条")
+
+        # ── 阶段二：候选筛查（仅针对具体项目）──────────────────────────────
         print(f"\n>>> [阶段二] 候选重复筛查...")
         candidates = _find_duplicate_candidates(projects)
         print(f"  发现候选重复对: {len(candidates)}")
@@ -857,7 +1081,8 @@ class DuplicateMergerTool(BaseTool):
         # ── 阶段四：SQLite 写入 ──────────────────────────────────────────────
         print(f"\n>>> [阶段四] 写入 SQLite：{db_path}")
         conn = _init_db(db_path)
-        counts = _write_to_db(conn, merged)
+        counts = _write_to_db(conn, merged, client, gen_config)
+        non_project_count = _write_non_project_records(conn, non_projects)
         conn.close()
 
         # ── 阶段五：标记已导入记录 ───────────────────────────────────────────
@@ -868,11 +1093,12 @@ class DuplicateMergerTool(BaseTool):
         return (
             f"处理完成。\n"
             f"  原始行数:          {raw_count}\n"
-            f"  逻辑项目数:        {len(projects)}\n"
+            f"  逻辑记录数:        {len(all_projects)}（具体项目 {len(projects)} + 非项目 {len(non_projects)}）\n"
             f"  去重候选对:        {len(candidates)}\n"
             f"  入库项目事件数:    {len(merged)}\n"
             f"  新建 canonical_projects: {counts['canonical_new']} 条\n"
             f"  新建 project_events:     {counts['event_new']} 条\n"
             f"  新建 chinese_entities:   {counts['entity_new']} 条\n"
+            f"  写入 non_project_records: {non_project_count} 条\n"
             f"  数据库路径: {db_abs}"
         )

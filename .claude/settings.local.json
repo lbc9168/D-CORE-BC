@@ -19,7 +19,9 @@
       "Bash(where node)",
       "Bash(where npm)",
       "Bash(python3 repair_country_iso.py)",
-      "Bash(uv run python ../repair_country_iso.py)"
+      "Bash(uv run python ../repair_country_iso.py)",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''e:/Projects/BRI_RE_Database_v2/s02a_duplicate_merger/src/s02a_duplicate_merger/tools/duplicate_merger_tool.py''\\).read\\(\\)\\); print\\(''OK''\\)\")",
+      "Bash(python -c \"import ast; ast.parse\\(open\\(''e:/Projects/BRI_RE_Database_v2/s02a_duplicate_merger/src/s02a_duplicate_merger/tools/duplicate_merger_tool.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''OK''\\)\")"
     ]
   }
 }

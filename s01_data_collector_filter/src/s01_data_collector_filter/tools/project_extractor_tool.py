@@ -88,6 +88,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
     conn.execute("""
         CREATE TABLE IF NOT EXISTS extracted_projects (
             id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+            record_type             TEXT,
             project_name            TEXT,
             project_name_en         TEXT,
             name_en_quality         TEXT,
@@ -183,8 +184,8 @@ def _build_prompt(title: str, content: str, date: str) -> str:
        - 即使文中提到"电力配套"、"供电工程"、"屋顶光伏改造"（若仅作为附属设施且未提及具体装机容量），也视为无关。
        - **原则**：我们要找的是"发电厂"，而不是"用电户"。
 
-    2. **去除"项目检修信息"**：
-        - 如果项目是进行"检修"、"维护"等，且未提及具体装机容量，则视为无关。
+    2. **去除"项目检修和改造信息"**：
+        - 如果项目是进行"检修"、"维护"、"改造"、“升级”等，且未提及具体装机容量，则视为无关。
 
     3. **去除"模糊的组件供应信息"**：
         - 如项目只涉及"组件供应"、"组件销售"等，且未提及具体装机容量或电站项目信息，则视为无关。
@@ -281,6 +282,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
       "projects": [
         {{
           "common_info": {{
+            "Record Type": "String",
             "Project Name": "String",
             "Project Name (EN)": "String",
             "Country": "String",
@@ -315,6 +317,11 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     }}
 
     ### 字段填写补充说明
+    - **Record Type**: 描述本条记录的性质，只能选 [具体项目, 设备订单, 一般合作]。
+        - **具体项目**：新闻指向一个可识别的具体工程项目（有项目名、地点、装机容量等信息）。
+        - **设备订单**：中国企业向某国/某地区签订设备或零部件供货合同，但新闻中没有出现具体的工程项目名称或明确的目标电站。
+        - **一般合作**：MOU/框架协议/战略合作协议等，尚无具体项目可指。
+        - **判断优先级**：只要新闻中出现了具体的项目名称或电站，即判定为"具体项目"，即使中方角色是设备供应商。
     - **Project Name**: 【必须使用中文填写】格式："国家+区域/省份+装机容量(MW)+项目类型+"项目"+补充说明"。示例："巴基斯坦旁遮普省200MW光伏项目"、"埃塞俄比亚500MW水电项目（二期）"。国家名、项目类型必须用中文；区域/省份无通用中文译名时可保留英文（如"Sindh省"）；【严禁】直接照抄英文原文（如"Pakistan 200MW Solar Project"）。
     - **Project Name (EN)**: 项目名称的英文版本。优先使用项目的官方英文名（如"Karot Hydropower Project"）；若无官方名，则按格式翻译："Country + Capacity MW + Energy Type + Project/Plant [补充说明]"，示例："Pakistan 200MW Solar PV Project (Punjab Province)"、"Ethiopia 500MW Hydropower Project (Phase II)"。
     - **Category**: 只能选 [新能源制造业，输变电建设，火电，光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]。
@@ -529,6 +536,7 @@ class ProjectExtractorTool(BaseTool):
                         meta = _get_country_meta(country_name, country_db)
 
                         base = {
+                            "Record Type": common.get("Record Type", "具体项目"),
                             "Project Name": common.get("Project Name", ""),
                             "Project Name (EN)": common.get("Project Name (EN)", ""),
                             "Name EN Quality": "ai_translated",
@@ -609,7 +617,7 @@ class ProjectExtractorTool(BaseTool):
         for row_data in valid_rows:
             proj_conn.execute(
                 """INSERT INTO extracted_projects
-                   (project_name, project_name_en, name_en_quality, country, country_iso,
+                   (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
                     bri_country, ldc, location, category, capacity_mw, capacity_details,
                     project_stage, project_developer, multiple_chinese, implementing_entity,
                     implementing_entity_en, subsidiary_name, subsidiary_name_en,
@@ -619,8 +627,9 @@ class ProjectExtractorTool(BaseTool):
                     source_link, publish_date, official_website, non_official_website,
                     additional_remarks, batch_id, imported_to_s02a, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
                 (
+                    row_data.get("Record Type", "具体项目"),
                     row_data.get("Project Name", ""),
                     row_data.get("Project Name (EN)", ""),
                     row_data.get("Name EN Quality", ""),
