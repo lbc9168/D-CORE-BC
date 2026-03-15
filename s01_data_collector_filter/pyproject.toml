@@ -18,6 +18,7 @@ dependencies = [
 s01_data_collector_filter = "s01_data_collector_filter.main:run"
 run_crew                  = "s01_data_collector_filter.main:run"
 run_parallel              = "s01_data_collector_filter.main:run_parallel"
+run_bulk                  = "s01_data_collector_filter.main:run_bulk"
 train                     = "s01_data_collector_filter.main:train"
 replay                    = "s01_data_collector_filter.main:replay"
 test                      = "s01_data_collector_filter.main:test"

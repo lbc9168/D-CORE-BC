@@ -21,9 +21,28 @@ _DEFAULT_RAW_NEWS_DB = str(_S01_ROOT / "data" / "raw_news.db")
 REQUEST_TIMEOUT = 20       # 单次请求超时（秒），适当放宽
 MAX_RETRIES = 4            # 最大重试次数
 RETRY_BASE_DELAY = 3       # 指数退避基础等待秒数（×2^attempt）
-SLEEP_MIN = 1.5            # 翻页/详情页间隔最小秒数
-SLEEP_MAX = 3.5            # 翻页/详情页间隔最大秒数（加 jitter）
+SLEEP_MIN = 1.0            # 翻页/详情页间隔最小秒数
+SLEEP_MAX = 3.0            # 翻页/详情页间隔最大秒数（加 jitter）
 LIST_PAGE_MAX_ERRORS = 5   # 列表页连续失败多少次后放弃
+
+# User-Agent 轮换列表（模拟不同浏览器/系统，降低爬虫特征识别率）
+_USER_AGENTS = [
+    # Chrome - Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36",
+    # Chrome - macOS
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+    # Firefox - Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
+    # Firefox - macOS
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 14.2; rv:122.0) Gecko/20100101 Firefox/122.0",
+    # Edge - Windows
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0",
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36 Edg/130.0.0.0",
+]
 
 
 def _init_raw_news_db(db_path: str) -> sqlite3.Connection:
@@ -108,13 +127,7 @@ class NewsCrawlerTool(BaseTool):
     # ── 内部工具方法 ──────────────────────────────────────────────────────────
 
     def _headers(self) -> dict:
-        return {
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/120.0.0.0 Safari/537.36"
-            )
-        }
+        return {"User-Agent": random.choice(_USER_AGENTS)}
 
     def _request_with_retry(self, url: str, label: str = "") -> Optional[requests.Response]:
         """带指数退避重试的 GET 请求。失败 MAX_RETRIES 次后返回 None。"""
@@ -195,6 +208,7 @@ class NewsCrawlerTool(BaseTool):
         start_page: int = 1,
         output_dir: str = "data/raw",
         raw_news_db_path: str = _DEFAULT_RAW_NEWS_DB,
+        save_excel: bool = True,
     ) -> str:
         start_dt = datetime.strptime(start_date, "%Y-%m-%d")
         end_dt = datetime.strptime(end_date, "%Y-%m-%d")
@@ -357,12 +371,15 @@ class NewsCrawlerTool(BaseTool):
             raw_db.close()
             return "未抓取到符合条件的新闻。请检查 URL、日期范围和关键词设置。"
 
-        file_name = f"Energy_News_Raw_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
-        file_path = os.path.join(output_dir, file_name)
-        pd.DataFrame(all_data).to_excel(file_path, index=False)
-
         raw_db.close()
-        return (
-            f"采集完成。共抓取 {len(all_data)} 条符合条件的新闻。\n"
-            f"文件已保存至：{os.path.abspath(file_path)}"
-        )
+
+        if save_excel:
+            file_name = f"Energy_News_Raw_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
+            file_path = os.path.join(output_dir, file_name)
+            pd.DataFrame(all_data).to_excel(file_path, index=False)
+            return (
+                f"采集完成。共抓取 {len(all_data)} 条符合条件的新闻。\n"
+                f"文件已保存至：{os.path.abspath(file_path)}"
+            )
+        else:
+            return f"采集完成。共抓取 {len(all_data)} 条符合条件的新闻（已写入 raw_news.db，batch_id={batch_id}）。"

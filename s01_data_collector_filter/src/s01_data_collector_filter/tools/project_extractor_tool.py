@@ -84,7 +84,9 @@ def _get_country_meta(country_name: str, db: dict) -> dict:
 def _init_projects_db(db_path: str) -> sqlite3.Connection:
     """初始化 projects.db，存储有效提取项目（含增量导入标志）。"""
     os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path, check_same_thread=False)
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=10000")
     conn.execute("""
         CREATE TABLE IF NOT EXISTS extracted_projects (
             id                      INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -132,7 +134,9 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
 def _init_review_db(db_path: str) -> sqlite3.Connection:
     """初始化 review.db，存储无中方参与和被过滤的文章记录。"""
     os.makedirs(os.path.dirname(os.path.abspath(db_path)), exist_ok=True)
-    conn = sqlite3.connect(db_path)
+    conn = sqlite3.connect(db_path, check_same_thread=False)
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA busy_timeout=10000")
     conn.executescript("""
         CREATE TABLE IF NOT EXISTS no_chinese_records (
             id             INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -324,7 +328,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
         - **判断优先级**：只要新闻中出现了具体的项目名称或电站，即判定为"具体项目"，即使中方角色是设备供应商。
     - **Project Name**: 【必须使用中文填写】格式："国家+区域/省份+装机容量(MW)+项目类型+"项目"+补充说明"。示例："巴基斯坦旁遮普省200MW光伏项目"、"埃塞俄比亚500MW水电项目（二期）"。国家名、项目类型必须用中文；区域/省份无通用中文译名时可保留英文（如"Sindh省"）；【严禁】直接照抄英文原文（如"Pakistan 200MW Solar Project"）。
     - **Project Name (EN)**: 项目名称的英文版本。优先使用项目的官方英文名（如"Karot Hydropower Project"）；若无官方名，则按格式翻译："Country + Capacity MW + Energy Type + Project/Plant [补充说明]"，示例："Pakistan 200MW Solar PV Project (Punjab Province)"、"Ethiopia 500MW Hydropower Project (Phase II)"。
-    - **Category**: 只能选 [新能源制造业，输变电建设，火电，光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源]。
+    - **Category**: 只能选 [新能源制造业，输变电建设，火电，光伏, 风电, 水电，核电，地热及余热, 生物质, 储能, 综合能源]。
         - 如果项目是建设"光伏组件厂"、"锂电池制造基地"、"多晶硅工厂"、"新能源装备产业园"，则视为“新能源制造业”。
             - **区分关键**：看产出单位。如果是"GW/年（产能）"、"万吨/年"，则是工厂。如果是"MW/GW（装机容量）"，才是电站。
         - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等，则选择“输变电”。
@@ -382,7 +386,7 @@ class ProjectExtractorTool(BaseTool):
         review_db_path: str = _DEFAULT_REVIEW_DB,
         country_db_path: str = _DEFAULT_COUNTRY_DB,
     ) -> str:
-        # 初始化 Gemini
+        """从 Excel 文件读取新闻，调用 AI 提取项目信息并写入数据库。"""
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             return "错误：未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。"
@@ -392,20 +396,74 @@ class ProjectExtractorTool(BaseTool):
             response_mime_type="application/json",
             temperature=0.14,
         )
-
-        # 加载国家数据库
         country_db = _load_country_db(country_db_path)
 
-        # 读取输入文件
         try:
             df = pd.read_excel(input_file)
         except FileNotFoundError:
             return f"错误：找不到输入文件 {input_file}"
 
         ts = datetime.now().strftime("%Y%m%d_%H%M")
-        batch_id = Path(input_file).stem  # 例：Energy_News_Raw_20260301_1430
+        batch_id = Path(input_file).stem
+        return self._process_df(df, batch_id, ts, client, generation_config, country_db,
+                                projects_db_path, review_db_path)
 
-        # 加载已处理过的 URL（去重：跳过已在 projects.db 或 review.db 中记录的链接）
+    def _run_from_db(
+        self,
+        batch_id: str,
+        raw_news_db_path: str,
+        projects_db_path: str = _DEFAULT_PROJECTS_DB,
+        review_db_path: str = _DEFAULT_REVIEW_DB,
+        country_db_path: str = _DEFAULT_COUNTRY_DB,
+    ) -> str:
+        """从 raw_news.db 按 batch_id 读取关键词匹配的新闻，调用 AI 提取并写入数据库。
+        供 run_bulk 两阶段流程直接调用，不依赖中间 Excel 文件。
+        """
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            return "错误：未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。"
+
+        client = genai.Client(api_key=api_key)
+        generation_config = types.GenerateContentConfig(
+            response_mime_type="application/json",
+            temperature=0.14,
+        )
+        country_db = _load_country_db(country_db_path)
+
+        try:
+            conn = sqlite3.connect(raw_news_db_path)
+            rows = conn.execute(
+                "SELECT url, title, content, publish_date FROM raw_news "
+                "WHERE batch_id=? AND passed_keyword_filter=1 ORDER BY id",
+                (batch_id,),
+            ).fetchall()
+            conn.close()
+        except Exception as e:
+            return f"错误：读取 raw_news.db 失败: {e}"
+
+        if not rows:
+            return f"raw_news.db 中 batch_id={batch_id} 无关键词匹配记录，跳过。"
+
+        df = pd.DataFrame(rows, columns=["原文链接", "文章标题", "正文内容", "发布日期"])
+        ts = datetime.now().strftime("%Y%m%d_%H%M")
+        return self._process_df(df, batch_id, ts, client, generation_config, country_db,
+                                projects_db_path, review_db_path)
+
+    # ── 核心处理逻辑（供 _run 和 _run_from_db 共用）────────────────────────
+
+    def _process_df(
+        self,
+        df: "pd.DataFrame",
+        batch_id: str,
+        ts: str,
+        client: "genai.Client",
+        generation_config: "types.GenerateContentConfig",
+        country_db: dict,
+        projects_db_path: str,
+        review_db_path: str,
+    ) -> str:
+        """处理一个 DataFrame（来源可以是 Excel 或 raw_news.db），执行 AI 提取并写入数据库。"""
+        # 加载已处理过的 URL（去重）
         already_processed: set[str] = set()
         try:
             _chk = _init_projects_db(projects_db_path)
