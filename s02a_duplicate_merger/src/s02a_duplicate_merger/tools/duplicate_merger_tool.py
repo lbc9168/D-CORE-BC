@@ -53,6 +53,7 @@ BROAD_LLM_SCORE = 40             # Signal 5：名称 ≥ 此分 + 实体重叠�
 CAPACITY_BROAD_TOLERANCE = 0.15  # Signal 5 容量"接近"判定（15% 以内）
 CANONICAL_AUTO_MATCH_SCORE = 97  # 跨批次：名称 ≥ 此分 → 自动匹配，无需 LLM
 CANONICAL_LLM_MIN_SCORE    = 70  # 跨批次：[70, 97) → LLM 确认是否匹配已有 canonical
+CANONICAL_CAP_GUARD_TOLERANCE = 0.20  # ≥97分自动匹配时的容量安全检查阈值（20%）
 GEMINI_MODEL      = "gemini-2.5-flash-lite"  # 字段仲裁等非关键 LLM 调用
 LLM_CONFIRM_MODEL = "gemini-3-flash-preview"  # 项目合并确认（可改为 gemini-3-flash-preview 提升准确率）
 
@@ -749,6 +750,39 @@ def _deduplicate_projects(
 
 # ── 阶段四：SQLite 写入 ────────────────────────────────────────────────────────
 
+def _capacity_guard(
+    conn: sqlite3.Connection,
+    canonical_id: str,
+    project: Dict,
+) -> bool:
+    """容量守卫：≥97分自动匹配前检查容量差异。
+
+    若新项目与已有 canonical 的代表性容量差异超过 CANONICAL_CAP_GUARD_TOLERANCE，
+    返回 True（建议降级为 LLM 确认）。
+    以下情况返回 False（不拦截）：
+      - 新项目无容量值
+      - canonical 无任何有值的 project_event 容量
+    """
+    cap_new = _parse_capacity(project.get("capacity_mw"))
+    if not cap_new or cap_new <= 0:
+        return False   # 无法判断，不拦截
+
+    row = conn.execute(
+        """SELECT capacity_mw FROM project_events
+           WHERE canonical_id = ? AND capacity_mw IS NOT NULL AND capacity_mw != ''
+           LIMIT 1""",
+        (canonical_id,),
+    ).fetchone()
+    if not row:
+        return False   # canonical 无容量记录，不拦截
+
+    cap_db = _parse_capacity(row[0])
+    if not cap_db or cap_db <= 0:
+        return False
+
+    return abs(cap_new - cap_db) / max(cap_new, cap_db) > CANONICAL_CAP_GUARD_TOLERANCE
+
+
 def _find_or_create_canonical(
     conn: sqlite3.Connection,
     project: Dict,
@@ -765,7 +799,7 @@ def _find_or_create_canonical(
       4. incoming CN  vs DB EN
 
     三级决策：
-      score ≥ CANONICAL_AUTO_MATCH_SCORE (97) → 自动匹配
+      score ≥ CANONICAL_AUTO_MATCH_SCORE (97) → 自动匹配（容量守卫：差异 > 20% 且有 LLM 时降级确认）
       CANONICAL_LLM_MIN_SCORE (70) ≤ score < 97 且 client 非空 → LLM 确认
       client 为空时降级：score ≥ FUZZY_THRESHOLD (85) → 自动匹配
       其余 → 新建
@@ -798,21 +832,31 @@ def _find_or_create_canonical(
 
     if best_id:
         if best_score >= CANONICAL_AUTO_MATCH_SCORE:
-            # 高度相似，直接匹配
-            return best_id, False
-        elif client is not None:
-            # 中度相似，LLM 确认
+            if _capacity_guard(conn, best_id, project) and client is not None:
+                # 容量差异大，高分名称不足以自动匹配 → 降级 LLM 确认
+                print(
+                    f"  [容量守卫] {best_id} vs [{name[:25]}] "
+                    f"(score={best_score}, 容量差异>{CANONICAL_CAP_GUARD_TOLERANCE:.0%}，降级 LLM 核验)"
+                )
+                # 不 return，fall through 到下方 LLM 确认分支
+            else:
+                # 高度相似且容量无异常，直接匹配
+                return best_id, False
+
+        if best_id and client is not None and best_score >= CANONICAL_LLM_MIN_SCORE:
+            # LLM 确认（含：70-97 原有路径 + 被容量守卫降级的 ≥97 路径）
             print(
                 f"  [LLM canonical 核验] {best_id} vs "
                 f"[{name[:25]}] (score={best_score})"
             )
             db_row = conn.execute(
                 """SELECT cp.project_name, cp.project_name_en, cp.location,
-                          pe.capacity_mw
+                          (SELECT pe.capacity_mw FROM project_events pe
+                           WHERE pe.canonical_id = cp.id
+                             AND pe.capacity_mw IS NOT NULL AND pe.capacity_mw != ''
+                           LIMIT 1) AS capacity_mw
                    FROM canonical_projects cp
-                   LEFT JOIN project_events pe ON pe.canonical_id = cp.id
-                   WHERE cp.id = ?
-                   LIMIT 1""",
+                   WHERE cp.id = ?""",
                 (best_id,),
             ).fetchone()
             db_name, db_name_en, db_location, db_capacity = (
@@ -830,7 +874,7 @@ def _find_or_create_canonical(
                 return best_id, False
             else:
                 print(f"    → LLM 判断为不同项目，新建 canonical")
-        elif best_score >= FUZZY_THRESHOLD:
+        elif best_id and best_score >= FUZZY_THRESHOLD:
             # 无 LLM 降级模式：保持原有 ≥ 85 自动匹配行为
             return best_id, False
 
@@ -861,7 +905,7 @@ def _write_to_db(
     config: Optional[types.GenerateContentConfig] = None,
 ) -> Dict[str, int]:
     """将合并后的逻辑项目写入三张 SQLite 表，返回各表新增条数。"""
-    cnt = {"canonical_new": 0, "event_new": 0, "entity_new": 0}
+    cnt = {"canonical_new": 0, "event_new": 0, "entity_new": 0, "event_cross_merged": 0}
 
     for project in projects:
         # ── canonical_projects ──────────────────────────────────────────────
@@ -878,16 +922,50 @@ def _write_to_db(
 
         if existing_event:
             event_id = existing_event[0]
-            # 仅追加新信源链接
-            old_raw = conn.execute(
-                "SELECT source_links FROM project_events WHERE id = ?", (event_id,)
-            ).fetchone()[0]
-            old_links: List[str] = json.loads(old_raw) if old_raw else []
-            new_links = list(dict.fromkeys(old_links + project["source_links"]))
-            conn.execute(
-                "UPDATE project_events SET source_links = ? WHERE id = ?",
-                (json.dumps(new_links, ensure_ascii=False), event_id),
-            )
+
+            if client is not None:
+                # ── 跨批次完整合并（有 LLM 时）──────────────────────────────
+                print(f"  [跨批次合并] {event_id} 与新记录执行完整字段合并")
+                existing_dict = _fetch_event_as_dict(conn, event_id)
+                merged_rec = _merge_group(client, config, [existing_dict, project])
+                conn.execute(
+                    """UPDATE project_events SET
+                           capacity_mw = ?, capacity_details = ?,
+                           project_developer = ?,
+                           planned_start_date = ?, planned_complete_date = ?,
+                           total_investment_usd = ?, investment_date = ?,
+                           financing_model = ?, financing_model_details = ?,
+                           source_links = ?, publish_date = ?, additional_remarks = ?
+                       WHERE id = ?""",
+                    (
+                        merged_rec["capacity_mw"],
+                        merged_rec["capacity_details"],
+                        merged_rec["project_developer"],
+                        merged_rec["planned_start_date"],
+                        merged_rec["planned_complete_date"],
+                        merged_rec["total_investment_usd"],
+                        merged_rec["investment_date"],
+                        merged_rec["financing_model"],
+                        merged_rec.get("financing_details", ""),
+                        json.dumps(merged_rec["source_links"], ensure_ascii=False),
+                        merged_rec["publish_date"],
+                        merged_rec["additional_remarks"],
+                        event_id,
+                    ),
+                )
+                cnt["event_cross_merged"] += 1
+                time.sleep(1)   # LLM 调用后礼貌等待
+            else:
+                # ── 降级：无 LLM 时仅追加 source_links（原有行为）────────────
+                old_raw = conn.execute(
+                    "SELECT source_links FROM project_events WHERE id = ?", (event_id,)
+                ).fetchone()[0]
+                old_links: List[str] = json.loads(old_raw) if old_raw else []
+                new_links = list(dict.fromkeys(old_links + project["source_links"]))
+                conn.execute(
+                    "UPDATE project_events SET source_links = ? WHERE id = ?",
+                    (json.dumps(new_links, ensure_ascii=False), event_id),
+                )
         else:
             event_id = _gen_event_id(conn, canonical_id)
             conn.execute(
@@ -944,6 +1022,85 @@ def _write_to_db(
 
     conn.commit()
     return cnt
+
+
+# ── 跨批次合并辅助 ────────────────────────────────────────────────────────────
+
+def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
+    """将数据库中已有的 project_event 行重构为 _merge_group 兼容的 Dict。
+    JOIN canonical_projects（项目名/国家/类别）+ JOIN chinese_entities（实体列表）。
+    """
+    row = conn.execute("""
+        SELECT
+            pe.project_stage, pe.capacity_mw, pe.capacity_details,
+            pe.project_developer, pe.planned_start_date, pe.planned_complete_date,
+            pe.total_investment_usd, pe.investment_date,
+            pe.financing_model, pe.financing_model_details,
+            pe.source_links, pe.publish_date, pe.additional_remarks,
+            cp.project_name, cp.project_name_en, cp.name_en_quality,
+            cp.country, cp.country_iso, cp.bri_country, cp.ldc, cp.location, cp.category
+        FROM project_events pe
+        JOIN canonical_projects cp ON cp.id = pe.canonical_id
+        WHERE pe.id = ?
+    """, (event_id,)).fetchone()
+
+    if row is None:
+        return {}
+
+    ent_rows = conn.execute("""
+        SELECT implementing_entity, implementing_entity_en,
+               subsidiary_name, subsidiary_name_en, entity_en_quality,
+               involvement_type, subcontract_amount
+        FROM chinese_entities WHERE event_id = ?
+    """, (event_id,)).fetchall()
+
+    entities = [
+        {
+            "implementing_entity":    r[0] or "",
+            "implementing_entity_en": r[1] or "",
+            "subsidiary_name":        r[2] or "",
+            "subsidiary_name_en":     r[3] or "",
+            "entity_en_quality":      r[4] or "ai_translated",
+            "involvement_type":       r[5] or "",
+            "subcontract_amount":     r[6] or "",
+        }
+        for r in ent_rows
+    ]
+
+    (project_stage, capacity_mw, capacity_details,
+     project_developer, planned_start_date, planned_complete_date,
+     total_investment_usd, investment_date,
+     financing_model, financing_model_details,
+     source_links_raw, publish_date, additional_remarks,
+     project_name, project_name_en, name_en_quality,
+     country, country_iso, bri_country, ldc, location, category) = row
+
+    return {
+        "record_type":           "具体项目",
+        "project_name":          project_name or "",
+        "project_name_en":       project_name_en or "",
+        "name_en_quality":       name_en_quality or "ai_translated",
+        "country":               country or "",
+        "country_iso":           country_iso or "UNK",
+        "bri_country":           bri_country or "",
+        "ldc":                   ldc or "",
+        "location":              location or "",
+        "category":              category or "",
+        "capacity_mw":           capacity_mw or "",
+        "capacity_details":      capacity_details or "",
+        "project_stage":         project_stage or "",
+        "project_developer":     project_developer or "",
+        "planned_start_date":    planned_start_date or "",
+        "planned_complete_date": planned_complete_date or "",
+        "total_investment_usd":  total_investment_usd or "",
+        "investment_date":       investment_date or "",
+        "financing_model":       financing_model or "",
+        "financing_details":     financing_model_details or "",   # _merge_group 使用此 key
+        "source_links":          json.loads(source_links_raw) if source_links_raw else [],
+        "publish_date":          publish_date or "",
+        "additional_remarks":    additional_remarks or "",
+        "entities":              entities,
+    }
 
 
 # ── 非项目记录写入 ────────────────────────────────────────────────────────────
@@ -1098,6 +1255,7 @@ class DuplicateMergerTool(BaseTool):
             f"  入库项目事件数:    {len(merged)}\n"
             f"  新建 canonical_projects: {counts['canonical_new']} 条\n"
             f"  新建 project_events:     {counts['event_new']} 条\n"
+            f"  跨批次合并 project_events: {counts['event_cross_merged']} 条\n"
             f"  新建 chinese_entities:   {counts['entity_new']} 条\n"
             f"  写入 non_project_records: {non_project_count} 条\n"
             f"  数据库路径: {db_abs}"
