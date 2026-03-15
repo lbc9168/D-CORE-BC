@@ -54,8 +54,6 @@ BRI_RE_Database_v2/
 │
 ├── s01_data_collector_filter/          # 阶段一 crewai 子项目
 │   ├── pyproject.toml
-│   ├── Crawler.py                  # 独立爬虫脚本
-│   ├── filter.py                   # 独立 AI 筛选脚本
 │   └── src/s01_data_collector_filter/
 │       ├── main.py                 # run() + run_parallel() + split_date_range()
 │       ├── crew.py
