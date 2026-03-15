@@ -33,6 +33,7 @@ CATEGORY_CODE: Dict[str, str] = {
     "光伏": "PV",
     "风电": "WD",
     "水电": "HY",
+    "核电": "NC",
     "地热及余热": "GT",
     "生物质": "BM",
     "储能": "ES",
@@ -388,6 +389,61 @@ def _entity_overlap(a: Dict, b: Dict) -> bool:
     ents_a = {e["implementing_entity"] for e in a.get("entities", []) if e["implementing_entity"]}
     ents_b = {e["implementing_entity"] for e in b.get("entities", []) if e["implementing_entity"]}
     return bool(ents_a & ents_b)
+
+
+def _infer_location_from_name(
+    client: genai.Client,
+    config: types.GenerateContentConfig,
+    projects: List[Dict],
+    batch_size: int = 30,
+) -> None:
+    """从项目名推断 location，原地回填空 location 字段。
+
+    仅处理 location 为空的记录。提取不出则保持空字符串，不强行填写。
+    使用轻量模型 GEMINI_MODEL 批量调用（每批 batch_size 条）。
+    """
+    targets = [p for p in projects if not _clean(p.get("location", ""))]
+    if not targets:
+        return
+
+    print(f"  [location 推断] 共 {len(targets)} 条记录缺少 location，开始批量推断...")
+
+    filled = 0
+    for i in range(0, len(targets), batch_size):
+        batch = targets[i : i + batch_size]
+        items = [
+            {"id": j, "project_name": p["project_name"], "country": p["country"]}
+            for j, p in enumerate(batch)
+        ]
+        prompt = (
+            "你是能源项目数据处理专家。请从以下项目名称中提取项目所在的省/州/城市/地区名称。\n\n"
+            "规则：\n"
+            "1. 只提取项目所在地的地名（省/州/邦/城市/地区等），不包括国家名本身\n"
+            "2. 如果项目名称中没有明确地名，返回空字符串\n"
+            "3. 保留原始语言（中文名提取中文地名，英文名提取英文地名）\n"
+            "4. 只取最具体的地名（同时有省和城市时取城市，只有省则取省）\n\n"
+            f"输入（JSON 数组）：\n{json.dumps(items, ensure_ascii=False)}\n\n"
+            '只输出如下格式的 JSON，不要有其他文字：\n'
+            '{"results": [{"id": 0, "location": "地名或空字符串"}]}'
+        )
+
+        try:
+            resp = client.models.generate_content(
+                model=GEMINI_MODEL,
+                contents=prompt,
+                config=config,
+            )
+            result = json.loads(resp.text)
+            for entry in result.get("results", []):
+                idx = entry.get("id")
+                loc = _clean(entry.get("location", ""))
+                if loc and isinstance(idx, int) and 0 <= idx < len(batch):
+                    batch[idx]["location"] = loc
+                    filled += 1
+        except Exception as e:
+            print(f"  [location 推断] 批次 {i // batch_size + 1} 失败，跳过：{e}")
+
+    print(f"  [location 推断] 完成，成功填充 {filled}/{len(targets)} 条")
 
 
 def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
@@ -1215,6 +1271,13 @@ class DuplicateMergerTool(BaseTool):
 
         all_projects = _group_into_logical_projects(df)
         print(f"  归组后逻辑记录数: {len(all_projects)}")
+
+        # ── 从项目名推断空 location（Stage 1 后置补全）─────────────────────────
+        if client is not None:
+            _infer_location_from_name(
+                client, gen_config,
+                [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"],
+            )
 
         # 按 record_type 分流
         projects = [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"]
