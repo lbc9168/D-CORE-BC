@@ -36,6 +36,6 @@ export const NUMERIC_TO_ISO3: Record<string, string> = {
   "784": "ARE", "788": "TUN", "792": "TUR", "795": "TKM", "800": "UGA",
   "804": "UKR", "818": "EGY", "826": "GBR", "834": "TZA", "840": "USA",
   "854": "BFA", "858": "URY", "860": "UZB", "862": "VEN", "882": "WSM",
-  "887": "YEM", "894": "ZMB", "417": "KGZ", "887": "YEM",
-  "548": "VUT", "520": "NRU", "558": "NIC", "690": "SYC",
+  "887": "YEM", "894": "ZMB", "548": "VUT", "520": "NRU",
+  "690": "SYC",
 };
