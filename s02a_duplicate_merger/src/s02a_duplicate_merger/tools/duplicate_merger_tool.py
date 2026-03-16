@@ -509,7 +509,7 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
                     cross_lang_boost = True
 
             # ── Signal 5：宽松 LLM 候选（所有前置信号均未命中的补救）──────
-            # 触发条件：名称中度相似（≥ 40）+ 实体重叠 OR 容量在 15% 以内
+            # 触发条件：名称中度相似（≥ 56）+ 实体重叠 OR 容量在 15% 以内
             broad_llm_boost = False
             if not name_ok and not entity_boost and not cross_lang_boost:
                 if best_score >= BROAD_LLM_SCORE:
