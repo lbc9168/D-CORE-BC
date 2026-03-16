@@ -59,4 +59,46 @@
   .badge {
     @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
   }
+
+  /* 双柄年份范围滑块 */
+  .dual-range-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    pointer-events: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .dual-range-input::-webkit-slider-runnable-track {
+    background: transparent;
+    height: 4px;
+  }
+  .dual-range-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    pointer-events: all;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #0369a1;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #0369a1;
+    cursor: pointer;
+    margin-top: -5px;
+  }
+  .dual-range-input::-moz-range-thumb {
+    pointer-events: all;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #0369a1;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #0369a1;
+    cursor: pointer;
+  }
+  .dual-range-input::-moz-range-track {
+    background: transparent;
+    height: 4px;
+  }
 }

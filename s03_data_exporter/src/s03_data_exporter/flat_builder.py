@@ -24,6 +24,7 @@ STAGE_PRIORITY: dict[str, int] = {
     "签约": 3,
     "中标": 2,
     "收购": 1,
+    "拟开发": 0,
 }
 
 CREATE_TABLE_SQL = """
@@ -43,20 +44,28 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     latest_stage        TEXT,
     latest_stage_date   TEXT,
     event_year          INTEGER,
+    event_month         TEXT,
     timeline_notes      TEXT,
     event_count         INTEGER,
     financing_model     TEXT,
     primary_entity      TEXT,
     primary_entity_en   TEXT,
     all_entities        TEXT,
-    source_links        TEXT,
-    verification_status TEXT
+    verification_status TEXT,
+    record_type         TEXT
 )
 """
 
 
 def _stage_rank(stage: str) -> int:
     return STAGE_PRIORITY.get(stage or "", 0)
+
+
+def _parse_month(date_str: Optional[str]) -> Optional[str]:
+    if not date_str:
+        return None
+    s = str(date_str)[:7]
+    return s if len(s) == 7 and s[4] == "-" else None
 
 
 def _parse_year(date_str: Optional[str]) -> Optional[int]:
@@ -198,14 +207,17 @@ def build_flat(
                 "latest_stage":        latest.get("project_stage") or "",
                 "latest_stage_date":   latest.get("publish_date") or latest.get("investment_date") or "",
                 "event_year":          event_year,
+                "event_month":         _parse_month(
+                    latest.get("publish_date") or latest.get("investment_date")
+                ),
                 "timeline_notes":      timeline_notes,
                 "event_count":         len(proj_events),
-                "financing_model":     latest.get("financing_model") or "",
+                "financing_model":     "" if (fm := (latest.get("financing_model") or "").strip()) in ("Unknown", "unknown", "N/A", "n/a") else fm,
                 "primary_entity":      primary_entity,
                 "primary_entity_en":   primary_entity_en,
                 "all_entities":        json.dumps(all_entities_list, ensure_ascii=False),
-                "source_links":        latest.get("source_links") or "",
                 "verification_status": latest.get("verification_status") or "unverified",
+                "record_type":         "具体项目",
             }
         )
 

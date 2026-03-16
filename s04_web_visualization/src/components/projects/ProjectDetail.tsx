@@ -1,6 +1,6 @@
-import { X, ExternalLink } from "lucide-react";
+import { X } from "lucide-react";
 import type { Project } from "@/types";
-import { CATEGORIES, STAGE_COLORS } from "@/types";
+import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 
 interface ProjectDetailProps {
@@ -52,17 +52,17 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           className="badge text-xs"
           style={{ backgroundColor: stageColor + "20", color: stageColor }}
         >
-          {p.latest_stage}
+          {lang === "zh" ? p.latest_stage : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
         </span>
         {p.capacity_mw && (
           <span className="badge bg-slate-100 text-slate-600 text-xs">
             {p.capacity_mw.toFixed(1)} MW
           </span>
         )}
-        {p.bri_country === "TRUE" && (
+        {p.bri_country === "Yes" && (
           <span className="badge bg-green-100 text-green-700 text-xs">BRI</span>
         )}
-        {p.ldc === "TRUE" && (
+        {p.ldc === "Yes" && (
           <span className="badge bg-amber-100 text-amber-700 text-xs">LDC</span>
         )}
       </div>
@@ -80,17 +80,18 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               label={t("projectDetail.province")}
               value={p.province ?? t("projectDetail.noProvince")}
             />
-            <Row label={t("projectDetail.stageDate")} value={p.latest_stage_date || undefined} />
-            <Row label={t("projectDetail.financing")} value={p.financing_model || undefined} />
-            <Row label={t("projectDetail.eventCount")} value={p.event_count} />
             <Row
-              label={t("projectDetail.verification")}
+              label={t("projectDetail.financing")}
               value={
-                p.verification_status === "verified"
-                  ? t("projectDetail.verified")
-                  : t("projectDetail.unverified")
+                p.financing_model && p.financing_model !== "Unknown"
+                  ? p.financing_model
+                  : undefined
               }
             />
+            <Row label={t("projectDetail.eventCount")} value={p.event_count} />
+            {p.verification_status === "verified" && (
+              <Row label={t("projectDetail.verification")} value={t("projectDetail.verified")} />
+            )}
           </dl>
         </section>
 
@@ -130,34 +131,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           </section>
         )}
 
-        {/* 信息来源 */}
-        {p.source_links && (
-          <section>
-            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-              {t("projectDetail.sources")}
-            </h4>
-            <div className="space-y-1">
-              {p.source_links.split(",").map((url, i) => {
-                const trimmed = url.trim();
-                const isUrl = trimmed.startsWith("http");
-                return isUrl ? (
-                  <a
-                    key={i}
-                    href={trimmed}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-1 text-brand-600 hover:underline text-xs break-all"
-                  >
-                    <ExternalLink size={10} className="flex-shrink-0" />
-                    {trimmed}
-                  </a>
-                ) : (
-                  <p key={i} className="text-xs text-slate-600 break-words">{trimmed}</p>
-                );
-              })}
-            </div>
-          </section>
-        )}
+        {/* 信息来源（暂时隐藏，待 Bug 2 source_links JSON.parse 修复后重新启用） */}
       </div>
     </div>
   );

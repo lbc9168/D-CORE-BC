@@ -101,12 +101,19 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
         </ZoomableGroup>
       </ComposableMap>
 
-      {/* 悬浮提示 */}
+      {/* 悬浮提示（带越界检测） */}
       {tooltip.visible && (
         <div
           className="fixed z-50 pointer-events-none bg-slate-800 text-white text-xs px-2 py-1.5
                      rounded-lg shadow-lg whitespace-pre-line leading-relaxed"
-          style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
+          style={{
+            left: tooltip.x + 12 + 160 > window.innerWidth
+              ? tooltip.x - 164
+              : tooltip.x + 12,
+            top: tooltip.y - 8 + 52 > window.innerHeight
+              ? tooltip.y - 60
+              : tooltip.y - 8,
+          }}
         >
           {tooltip.content}
         </div>

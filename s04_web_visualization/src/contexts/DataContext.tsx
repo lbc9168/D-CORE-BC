@@ -39,7 +39,8 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
     if (f.categories.length > 0 && !f.categories.includes(p.category)) return false;
     if (f.stages.length > 0 && !f.stages.includes(p.latest_stage)) return false;
     if (f.entities.length > 0 && !f.entities.includes(p.primary_entity)) return false;
-    if (f.briOnly && p.bri_country !== "TRUE" && p.bri_country !== "1" && p.bri_country !== "true") return false;
+    if (f.briFilter.length === 1 && p.bri_country !== f.briFilter[0]) return false;
+    if (f.ldcFilter.length === 1 && p.ldc !== f.ldcFilter[0]) return false;
     return true;
   });
 }
@@ -77,7 +78,8 @@ const DEFAULT_FILTER: FilterState = {
   categories: [],
   stages: [],
   entities: [],
-  briOnly: false,
+  briFilter: [],
+  ldcFilter: [],
 };
 
 const DataContext = createContext<DataContextValue | null>(null);
