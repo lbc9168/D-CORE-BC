@@ -93,11 +93,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [filter, setFilter] = useState<FilterState>(DEFAULT_FILTER);
 
   useEffect(() => {
+    const base = import.meta.env.BASE_URL;
     Promise.all([
-      fetchJson<Project[]>("/data/projects_flat.json"),
-      fetchJson<StatCountry[]>("/data/stats_country.json"),
-      fetchJson<StatEntity[]>("/data/stats_entity.json"),
-      fetchJson<StatTimeline[]>("/data/stats_timeline.json"),
+      fetchJson<Project[]>(`${base}data/projects_flat.json`),
+      fetchJson<StatCountry[]>(`${base}data/stats_country.json`),
+      fetchJson<StatEntity[]>(`${base}data/stats_entity.json`),
+      fetchJson<StatTimeline[]>(`${base}data/stats_timeline.json`),
     ])
       .then(([projects, statsCountry, statsEntity, statsTimeline]) => {
         setRaw({ projects, statsCountry, statsEntity, statsTimeline });

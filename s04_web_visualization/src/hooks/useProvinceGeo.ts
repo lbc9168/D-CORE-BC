@@ -33,7 +33,7 @@ export function useProvinceGeo(iso3: string | null): GeoState {
 
     setState({ status: "loading", data: null });
 
-    fetch(`/geo/provinces/${iso3}.geojson`)
+    fetch(`${import.meta.env.BASE_URL}geo/provinces/${iso3}.geojson`)
       .then(async (res) => {
         if (res.status === 404) {
           const s: GeoState = { status: "unavailable", data: null };
