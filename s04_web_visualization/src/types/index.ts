@@ -19,19 +19,20 @@ export interface Project {
   ldc: string;
   location: string;
   province: string | null;
-  category: string;         // PV / WD / HY / GT / BM / ES / HB
+  category: string;         // 光伏 / 风电 / 水电 / 核电 / 火电 / 地热及余热 / 生物质 / 储能 / 综合能源 / 新能源制造业 / 输变电建设
   capacity_mw: number | null;
   latest_stage: string;
   latest_stage_date: string;
   event_year: number | null;
+  event_month: string | null;
   timeline_notes: string;
   event_count: number;
   financing_model: string;
   primary_entity: string;
   primary_entity_en: string;
   all_entities: Entity[];
-  source_links: string;
   verification_status: string;
+  record_type: string;
 }
 
 // ── 聚合统计 ──────────────────────────────────────────────────────────────────
@@ -72,29 +73,35 @@ export interface FilterState {
   categories: string[];                  // 空数组 = 全选
   stages: string[];                      // 空数组 = 全选
   entities: string[];                    // 空数组 = 全选
-  briOnly: boolean;
+  briFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅BRI；["No"] = 仅非BRI
+  ldcFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅LDC；["No"] = 仅非LDC
 }
 
 // ── 枚举常量 ──────────────────────────────────────────────────────────────────
 
 export const CATEGORIES: Record<string, { zh: string; en: string; color: string }> = {
-  PV: { zh: "光伏",     en: "Solar PV",    color: "#F59E0B" },
-  WD: { zh: "风电",     en: "Wind",        color: "#3B82F6" },
-  HY: { zh: "水电",     en: "Hydro",       color: "#06B6D4" },
-  GT: { zh: "地热及余热", en: "Geothermal",  color: "#EF4444" },
-  BM: { zh: "生物质",   en: "Biomass",     color: "#22C55E" },
-  ES: { zh: "储能",     en: "Storage",     color: "#8B5CF6" },
-  HB: { zh: "综合能源", en: "Hybrid",      color: "#EC4899" },
+  "光伏":         { zh: "光伏",         en: "Solar PV",        color: "#F59E0B" },
+  "风电":         { zh: "风电",         en: "Wind",            color: "#3B82F6" },
+  "水电":         { zh: "水电",         en: "Hydro",           color: "#06B6D4" },
+  "核电":         { zh: "核电",         en: "Nuclear",         color: "#6366F1" },
+  "火电":         { zh: "火电",         en: "Thermal",         color: "#78716C" },
+  "地热及余热":   { zh: "地热及余热",   en: "Geothermal",      color: "#EF4444" },
+  "生物质":       { zh: "生物质",       en: "Biomass",         color: "#22C55E" },
+  "储能":         { zh: "储能",         en: "Storage",         color: "#8B5CF6" },
+  "综合能源":     { zh: "综合能源",     en: "Hybrid",          color: "#EC4899" },
+  "新能源制造业": { zh: "新能源制造业", en: "New Energy Mfg.", color: "#14B8A6" },
+  "输变电建设":   { zh: "输变电建设",   en: "Grid Infra.",     color: "#F97316" },
 };
 
 export const STAGES: Record<string, { zh: string; en: string; priority: number }> = {
-  "投入运营": { zh: "投入运营", en: "Operational",   priority: 7 },
-  "竣工":     { zh: "竣工",     en: "Completed",     priority: 6 },
-  "在建":     { zh: "在建",     en: "Under Const.",  priority: 5 },
-  "开工":     { zh: "开工",     en: "Construction",  priority: 4 },
-  "签约":     { zh: "签约",     en: "Signed",        priority: 3 },
-  "中标":     { zh: "中标",     en: "Awarded",       priority: 2 },
-  "收购":     { zh: "收购",     en: "Acquired",      priority: 1 },
+  "投入运营": { zh: "投入运营", en: "Operational",        priority: 7 },
+  "竣工":     { zh: "竣工",     en: "Completed",          priority: 6 },
+  "在建":     { zh: "在建",     en: "Under Construction", priority: 5 },
+  "开工":     { zh: "开工",     en: "Construction Start", priority: 4 },
+  "签约":     { zh: "签约",     en: "Signed",             priority: 3 },
+  "中标":     { zh: "中标",     en: "Awarded",            priority: 2 },
+  "收购":     { zh: "收购",     en: "Acquired",           priority: 1 },
+  "拟开发":   { zh: "拟开发",   en: "Planned",            priority: 0 },
 };
 
 export const STAGE_COLORS: Record<string, string> = {
@@ -105,4 +112,5 @@ export const STAGE_COLORS: Record<string, string> = {
   "签约":     "#9333EA",
   "中标":     "#EC4899",
   "收购":     "#6B7280",
+  "拟开发":   "#94a3b8",
 };

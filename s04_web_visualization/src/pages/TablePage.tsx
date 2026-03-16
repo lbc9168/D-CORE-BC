@@ -3,7 +3,7 @@ import { Search, Download } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
-import { CATEGORIES, STAGE_COLORS } from "@/types";
+import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import FilterBar from "@/components/filters/FilterBar";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 
@@ -204,14 +204,21 @@ export default function TablePage() {
                         {p.province ?? "—"}
                       </td>
                       <td className="px-3 py-2 whitespace-nowrap">
-                        {cat && (
+                        {cat ? (
                           <span
                             className="badge text-white"
                             style={{ backgroundColor: cat.color, fontSize: "10px" }}
                           >
                             {lang === "zh" ? cat.zh : cat.en}
                           </span>
-                        )}
+                        ) : p.category ? (
+                          <span
+                            className="badge bg-slate-100 text-slate-500"
+                            style={{ fontSize: "10px" }}
+                          >
+                            {p.category}
+                          </span>
+                        ) : null}
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600 whitespace-nowrap">
                         {p.capacity_mw?.toFixed(0) ?? "—"}
@@ -225,7 +232,9 @@ export default function TablePage() {
                             fontSize: "10px",
                           }}
                         >
-                          {p.latest_stage}
+                          {lang === "zh"
+                            ? p.latest_stage
+                            : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
                         </span>
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600">{p.event_year}</td>
