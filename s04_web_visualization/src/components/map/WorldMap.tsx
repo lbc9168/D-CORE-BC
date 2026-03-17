@@ -10,8 +10,8 @@ import { valueToColor, buildLegendStops } from "@/utils/colorScale";
 import { NUMERIC_TO_ISO3 } from "@/utils/isoMapping";
 import { useLang } from "@/contexts/LanguageContext";
 
-// world-atlas 国家 TopoJSON（CDN，~80KB）
-const GEO_URL = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
+// world-atlas 国家 TopoJSON（本地，避免 CDN 访问限制）
+const GEO_URL = `${import.meta.env.BASE_URL}data/countries-110m.json`;
 
 interface TooltipState {
   visible: boolean;
@@ -52,6 +52,8 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                 const numericId = String(geo.id ?? geo.properties?.["id"] ?? "");
                 const iso3 = NUMERIC_TO_ISO3[numericId] ?? "";
                 const value = countryValues.get(iso3);
+                // hasData: 只要该国在 countryValues 中有记录，即视为有数据（value 可能为 0）
+                const hasData = iso3 !== "" && countryValues.has(iso3);
                 const fill = valueToColor(value, maxVal);
                 const name =
                   (geo.properties?.["name"] as string | undefined) ?? iso3;
@@ -66,8 +68,8 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                     style={{
                       default: { outline: "none" },
                       hover: {
-                        fill: iso3 && value ? "#0369a1" : "#cbd5e1",
-                        cursor: iso3 && value ? "pointer" : "default",
+                        fill: hasData ? "#0369a1" : "#cbd5e1",
+                        cursor: hasData ? "pointer" : "default",
                         outline: "none",
                       },
                       pressed: { outline: "none" },
@@ -91,7 +93,7 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                       setTooltip((prev) => ({ ...prev, visible: false }))
                     }
                     onClick={() => {
-                      if (iso3 && value) onCountryClick(iso3, name);
+                      if (hasData) onCountryClick(iso3, name);
                     }}
                   />
                 );

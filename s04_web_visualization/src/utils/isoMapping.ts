@@ -38,4 +38,22 @@ export const NUMERIC_TO_ISO3: Record<string, string> = {
   "854": "BFA", "858": "URY", "860": "UZB", "862": "VEN", "882": "WSM",
   "887": "YEM", "894": "ZMB", "548": "VUT", "520": "NRU",
   "690": "SYC",
+  // ── 补充缺失的国家 ───────────────────────────────────────────────────────────
+  "148": "TCD",   // 乍得 Chad
+  "262": "DJI",   // 吉布提 Djibouti
+  "296": "KIR",   // 基里巴斯 Kiribati
+  "384": "CIV",   // 科特迪瓦 Côte d'Ivoire
+  "499": "MNE",   // 黑山 Montenegro
+  "512": "OMN",   // 阿曼 Oman
+  "554": "NZL",   // 新西兰 New Zealand
+  "583": "FSM",   // 密克罗尼西亚 Micronesia
+  "584": "MHL",   // 马绍尔群岛 Marshall Islands
+  "624": "GNB",   // 几内亚比绍 Guinea-Bissau
+  "626": "TLS",   // 东帝汶 Timor-Leste
+  "678": "STP",   // 圣多美和普林西比 São Tomé and Príncipe
+  "688": "SRB",   // 塞尔维亚 Serbia
+  "702": "SGP",   // 新加坡 Singapore
+  "704": "VNM",   // 越南 Vietnam
+  "776": "TON",   // 汤加 Tonga
+  "807": "MKD",   // 北马其顿 North Macedonia
 };

@@ -4,5 +4,7 @@ dist/
 
 # 运行时生成的数据文件（不入 git，需本地生成）
 public/data/*.json
+# 但 world-atlas TopoJSON 是静态资产，需入 git
+!public/data/countries-110m.json
 public/geo/provinces/
 scripts/_ne_admin1_cache.geojson
