@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-03-14
+> 最后更新：2026-03-17
 
 ---
 
@@ -12,7 +12,7 @@
 ```
 数据收集 → 去重合并 ──→ 数据库整理 → 网页可视化 → 数据分析 → 报告撰写
    ✅       ✅    ↓      ✅         🚧         ⬜        ⬜
-            交叉验证（可选）✅
+            交叉验证（可选）⚠️
 ```
 
 > 阶段二已拆分为两个独立子项目：`s02a_duplicate_merger`（必选）+ `s02b_cross_verification`（可选）。
@@ -54,13 +54,15 @@ BRI_RE_Database_v2/
 │
 ├── s01_data_collector_filter/          # 阶段一 crewai 子项目
 │   ├── pyproject.toml
+│   ├── knowledge/user_preference.txt
+│   ├── WorldCountryList.json
 │   └── src/s01_data_collector_filter/
-│       ├── main.py                 # run() + run_parallel() + split_date_range()
+│       ├── main.py                 # run() + run_parallel() + run_bulk() + split_date_range()
 │       ├── crew.py
 │       ├── config/{agents,tasks}.yaml
 │       ├── tools/news_crawler_tool.py
 │       ├── tools/project_extractor_tool.py
-│       └── knowledge/user_preference.txt
+│       └── tools/custom_tool.py
 │
 ├── s02a_duplicate_merger/               # 阶段二A crewai 子项目（去重合并与入库）
 │   ├── pyproject.toml
@@ -109,7 +111,6 @@ BRI_RE_Database_v2/
 │
 ├── company_name_cache.json         # 中文公司名 → 英文缓存（41条）
 ├── enums_mapping.json              # 枚举字段映射表
-├── WorldCountryList.csv            # 国家数据库（ISO/BRI/LDC 信息）
 ├── project_status.md               # 状态文档快速索引
 ├── change_record.md                # 改动记录快速索引
 └── .env                            # API Key（不入 git）
@@ -141,9 +142,8 @@ BRI_RE_Database_v2/
 
 | 问题 | 优先级 | 状态 |
 |------|--------|------|
-| 根目录 `pyproject.toml` 的 `requires-python = ">=3.14"` 错误 | 低 | 未修复 |
-| `Crawler.py` 第178行重复的 `is_relevant` 赋值 | 低 | 未修复 |
 | `s01_data_collector_filter/custom_tool.py` 仍为模板占位符 | 低 | 未修复 |
+| `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步） | 低 | 未修复 |
 | Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线） | 低 | 未修复（仅影响显示） |
 | `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖 | 低 | 已知，文档说明 |
 | s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN | 中 | 已知，待解决 |
