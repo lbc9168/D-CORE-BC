@@ -1,6 +1,6 @@
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
-import { CATEGORIES, STAGE_COLORS } from "@/types";
+import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { Zap } from "lucide-react";
 
 interface ProjectListProps {
@@ -64,9 +64,9 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                     fontSize: "10px",
                   }}
                 >
-                  {p.latest_stage}
+                  {lang === "zh" ? p.latest_stage : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
                 </span>
-                {p.capacity_mw && (
+                {p.capacity_mw != null && (
                   <span className="text-slate-400" style={{ fontSize: "10px" }}>
                     {p.capacity_mw.toFixed(0)} MW
                   </span>

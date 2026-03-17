@@ -6,12 +6,13 @@ import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import FilterBar from "@/components/filters/FilterBar";
 import ProjectDetail from "@/components/projects/ProjectDetail";
+import { formatCountryName } from "@/utils/display";
 
 const PAGE_SIZE = 50;
 
 export default function TablePage() {
   const { filteredProjects, loading, error } = useData();
-  const { t, lang } = useLang();
+  const { t, lang, T } = useLang();
 
   const [colorBy, setColorBy] = useState<"count" | "capacity">("count");
   const [search, setSearch] = useState("");
@@ -106,7 +107,7 @@ export default function TablePage() {
     );
   }
 
-  const col = t("table.columns") as Record<string, string>;
+  const col = T.table.columns;
 
   return (
     <div className="flex h-full overflow-hidden">
@@ -145,28 +146,28 @@ export default function TablePage() {
                   <SortBtn k="project_id" label={col["id"] ?? "ID"} />
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 min-w-48">
-                  {col["name"]}
+                  {col.name || "Project Name"}
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  <SortBtn k="country" label={col["country"] ?? ""} />
+                  <SortBtn k="country" label={col.country || "Country"} />
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  {col["province"]}
+                  {col.province || "Province"}
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  {col["category"]}
+                  {col.category || "Category"}
                 </th>
                 <th className="text-right px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  <SortBtn k="capacity_mw" label={col["capacity"] ?? ""} />
+                  <SortBtn k="capacity_mw" label={col.capacity || "Capacity (MW)"} />
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  <SortBtn k="latest_stage" label={col["stage"] ?? ""} />
+                  <SortBtn k="latest_stage" label={col.stage || "Stage"} />
                 </th>
                 <th className="text-right px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  <SortBtn k="event_year" label={col["year"] ?? ""} />
+                  <SortBtn k="event_year" label={col.year || "Year"} />
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 min-w-32">
-                  {col["entity"]}
+                  {col.entity || "Chinese Entity"}
                 </th>
               </tr>
             </thead>
@@ -199,7 +200,9 @@ export default function TablePage() {
                       <td className="px-3 py-2 text-slate-800 line-clamp-2 max-w-xs">
                         {name}
                       </td>
-                      <td className="px-3 py-2 text-slate-600 whitespace-nowrap">{p.country}</td>
+                      <td className="px-3 py-2 text-slate-600 whitespace-nowrap">
+                        {formatCountryName(p.country, p.country_iso, lang)}
+                      </td>
                       <td className="px-3 py-2 text-slate-500 whitespace-nowrap">
                         {p.province ?? "—"}
                       </td>

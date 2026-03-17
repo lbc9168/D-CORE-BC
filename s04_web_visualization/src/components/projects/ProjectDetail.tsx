@@ -2,6 +2,7 @@ import { X } from "lucide-react";
 import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
+import { formatCountryName } from "@/utils/display";
 
 interface ProjectDetailProps {
   project: Project;
@@ -54,7 +55,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         >
           {lang === "zh" ? p.latest_stage : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
         </span>
-        {p.capacity_mw && (
+        {p.capacity_mw != null && (
           <span className="badge bg-slate-100 text-slate-600 text-xs">
             {p.capacity_mw.toFixed(1)} MW
           </span>
@@ -75,7 +76,18 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             {t("projectDetail.basicInfo")}
           </h4>
           <dl>
-            <Row label={t("projectDetail.country")} value={p.country} />
+            <Row
+              label={t("projectDetail.country")}
+              value={formatCountryName(p.country, p.country_iso, lang)}
+            />
+            <Row
+              label={t("projectDetail.category")}
+              value={cat ? (lang === "zh" ? cat.zh : cat.en) : p.category}
+            />
+            <Row
+              label={t("projectDetail.capacity")}
+              value={p.capacity_mw != null ? `${p.capacity_mw.toFixed(1)} MW` : undefined}
+            />
             <Row
               label={t("projectDetail.province")}
               value={p.province ?? t("projectDetail.noProvince")}

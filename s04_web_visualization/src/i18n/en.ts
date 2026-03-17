@@ -79,6 +79,7 @@ const en: Translations = {
     timelineTitle: "Annual Project Trend",
     entityTitle: "Top Chinese Entities by Project Count",
     projects: "Projects",
+    total: "Total",
     capacity: "Capacity (MW)",
     topN: "Top {{n}} Entities",
     noData: "No data available",

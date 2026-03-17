@@ -47,6 +47,46 @@ export default function TimelineChart({ projects }: TimelineChartProps) {
     data.some((row) => (row as Record<string, unknown>)[k] != null),
   );
 
+  const renderTooltip = ({
+    active,
+    payload,
+    label,
+  }: {
+    active?: boolean;
+    payload?: Array<{ name?: string; value?: number | string; color?: string }>;
+    label?: string | number;
+  }) => {
+    if (!active || !payload || payload.length === 0) return null;
+    const rows = payload.filter((item) => Number(item.value) > 0);
+    const total = rows.reduce((sum, item) => sum + Number(item.value || 0), 0);
+
+    return (
+      <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]">
+        <div className="font-medium text-slate-700 mb-1">
+          {t("chart.year")}: {label}
+        </div>
+        <div className="space-y-0.5">
+          {rows.map((item, idx) => {
+            const rawName = item.name || "";
+            const cat = CATEGORIES[rawName];
+            const labelText = cat ? (lang === "zh" ? cat.zh : cat.en) : rawName;
+            return (
+              <div key={`${rawName}-${idx}`} className="flex items-center gap-1.5 text-slate-600">
+                <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: item.color || "#94a3b8" }} />
+                <span>{labelText}</span>
+                <span className="ml-auto font-medium">{Number(item.value || 0)}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-1 pt-1 border-t border-slate-100 flex items-center text-slate-700">
+          <span>{t("chart.total")}</span>
+          <span className="ml-auto font-semibold">{total}</span>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="h-full flex flex-col">
       <div className="text-xs font-medium text-slate-600 mb-2">{t("chart.timelineTitle")}</div>
@@ -56,7 +96,9 @@ export default function TimelineChart({ projects }: TimelineChartProps) {
           <XAxis dataKey="year" tick={{ fontSize: 10 }} />
           <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
           <Tooltip
-            contentStyle={{ fontSize: 11, borderRadius: 8, border: "1px solid #e2e8f0" }}
+            content={renderTooltip}
+            wrapperStyle={{ zIndex: 9999, pointerEvents: "none" }}
+            allowEscapeViewBox={{ x: true, y: true }}
           />
           <Legend
             iconSize={8}
