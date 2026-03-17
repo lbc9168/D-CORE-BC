@@ -41,6 +41,7 @@ s03_data_exporter/data/
 .DS_Store
 Thumbs.db
 uv.lock
+.claude/worktrees/
 
 
 # 5. VS Code 配置 (可选，如果你不想上传你的个人编辑器配置)
