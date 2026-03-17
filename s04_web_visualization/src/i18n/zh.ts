@@ -83,6 +83,7 @@ const zh = {
     timelineTitle: "各年项目数趋势",
     entityTitle: "中方企业项目数排名",
     projects: "项目数",
+    total: "总计",
     capacity: "容量 (MW)",
     topN: "前 {{n}} 家企业",
     noData: "暂无统计数据",

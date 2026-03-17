@@ -15,6 +15,32 @@ import type {
 } from "@/types";
 
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
+const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
+const EXCLUDED_CATEGORIES = ["火电", "油气", "thermal", "oil", "gas"];
+const EXCLUDED_STAGES = new Set(["拟开发"]);
+const UNKNOWN_TEXTS = new Set(["unknown", "未知", "未披露", "n/a", "na", "-", "—"]);
+
+function isUnknownText(value: string | null | undefined): boolean {
+  if (!value) return true;
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return true;
+  return UNKNOWN_TEXTS.has(normalized);
+}
+
+function shouldExcludeByPolicy(p: Project): boolean {
+  const iso = (p.country_iso || "").toUpperCase();
+  if (EXCLUDED_ISO3.has(iso)) return true;
+  if (p.event_year == null || p.event_year < 2022) return true;
+  if (EXCLUDED_STAGES.has(p.latest_stage)) return true;
+  const category = (p.category || "").toLowerCase();
+  if (EXCLUDED_CATEGORIES.some((key) => category.includes(key))) return true;
+  if (isUnknownText(p.primary_entity)) return true;
+  return false;
+}
+
+function applyBaselinePolicy(projects: Project[]): Project[] {
+  return projects.filter((p) => !shouldExcludeByPolicy(p));
+}
 
 interface RawData {
   projects: Project[];
@@ -110,29 +136,34 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       });
   }, []);
 
+  const policyProjects = useMemo(
+    () => (raw ? applyBaselinePolicy(raw.projects) : []),
+    [raw],
+  );
+
   const filteredProjects = useMemo(
-    () => (raw ? applyFilter(raw.projects, filter) : []),
-    [raw, filter],
+    () => applyFilter(policyProjects, filter),
+    [policyProjects, filter],
   );
 
   const availableYears = useMemo(() => {
-    if (!raw) return [];
+    if (!policyProjects.length) return [];
     const years = new Set<number>();
-    raw.projects.forEach((p) => { if (p.event_year != null) years.add(p.event_year); });
+    policyProjects.forEach((p) => { if (p.event_year != null) years.add(p.event_year); });
     return Array.from(years).sort();
-  }, [raw]);
+  }, [policyProjects]);
 
   const availableEntities = useMemo(() => {
-    if (!raw) return [];
+    if (!policyProjects.length) return [];
     const entities = new Set<string>();
-    raw.projects.forEach((p) => { if (p.primary_entity) entities.add(p.primary_entity); });
+    policyProjects.forEach((p) => { if (p.primary_entity) entities.add(p.primary_entity); });
     return Array.from(entities).sort();
-  }, [raw]);
+  }, [policyProjects]);
 
   const resetFilter = useCallback(() => setFilter(DEFAULT_FILTER), []);
 
   const value: DataContextValue = {
-    allProjects: raw?.projects ?? [],
+    allProjects: policyProjects,
     statsCountry: raw?.statsCountry ?? [],
     statsEntity: raw?.statsEntity ?? [],
     statsTimeline: raw?.statsTimeline ?? [],
