@@ -17,6 +17,7 @@ dependencies = [
 [project.scripts]
 s02a_duplicate_merger = "s02a_duplicate_merger.main:run"
 run_crew              = "s02a_duplicate_merger.main:run"
+normalize_entities    = "s02a_duplicate_merger.entity_normalizer:run"
 
 [build-system]
 requires = ["hatchling"]
