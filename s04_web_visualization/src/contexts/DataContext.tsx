@@ -13,6 +13,7 @@ import type {
   StatTimeline,
   FilterState,
 } from "@/types";
+import { getDevStatus } from "@/utils/devStatus";
 
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
 const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
@@ -66,7 +67,7 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
     if (f.stages.length > 0 && !f.stages.includes(p.latest_stage)) return false;
     if (f.entities.length > 0 && !f.entities.includes(p.primary_entity)) return false;
     if (f.briFilter.length === 1 && p.bri_country !== f.briFilter[0]) return false;
-    if (f.ldcFilter.length === 1 && p.ldc !== f.ldcFilter[0]) return false;
+    if (f.ldcFilter.length > 0 && !f.ldcFilter.includes(p.dev_status ?? "Developing")) return false;
     return true;
   });
 }
@@ -127,7 +128,12 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       fetchJson<StatTimeline[]>(`${base}data/stats_timeline.json`),
     ])
       .then(([projects, statsCountry, statsEntity, statsTimeline]) => {
-        setRaw({ projects, statsCountry, statsEntity, statsTimeline });
+        // 计算每个项目的发展状态（LDC / Developing / Developed）
+        const enriched = projects.map((p) => ({
+          ...p,
+          dev_status: getDevStatus(p.ldc, p.country_iso),
+        }));
+        setRaw({ projects: enriched, statsCountry, statsEntity, statsTimeline });
         setLoading(false);
       })
       .catch((e: unknown) => {

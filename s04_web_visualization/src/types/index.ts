@@ -33,6 +33,7 @@ export interface Project {
   all_entities: Entity[];
   verification_status: string;
   record_type: string;
+  dev_status?: DevStatus;   // 计算字段，由 DataContext 基于 ldc + country_iso 填充
 }
 
 // ── 聚合统计 ──────────────────────────────────────────────────────────────────
@@ -67,6 +68,7 @@ export interface StatTimeline {
 export type ColorBy = "count" | "capacity";
 export type MapLevel = "world" | "province";
 export type Lang = "zh" | "en";
+export type DevStatus = "LDC" | "Developing" | "Developed";
 
 export interface FilterState {
   yearRange: [number, number] | null;   // null = 不限年份

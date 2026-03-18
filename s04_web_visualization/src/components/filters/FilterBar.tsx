@@ -217,13 +217,17 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         allLabel={t("filter.allBri")}
       />
 
-      {/* 最不发达国家筛选 */}
+      {/* 国家发展状态筛选（三分类） */}
       <MultiSelect
         label={t("filter.ldc")}
-        options={["Yes", "No"]}
+        options={["LDC", "Developing", "Developed"]}
         selected={filter.ldcFilter}
         onChange={(v) => setFilter((f) => ({ ...f, ldcFilter: v }))}
-        renderLabel={(v) => (v === "Yes" ? t("filter.ldcYes") : t("filter.ldcNo"))}
+        renderLabel={(v) => {
+          if (v === "LDC")        return t("filter.ldcLDC");
+          if (v === "Developing") return t("filter.ldcDeveloping");
+          return t("filter.ldcDeveloped");
+        }}
         allLabel={t("filter.allLdc")}
       />
 
