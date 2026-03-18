@@ -14,6 +14,7 @@ import type {
   FilterState,
 } from "@/types";
 import { getDevStatus } from "@/utils/devStatus";
+import { hasCapacity } from "@/utils/capacityPolicy";
 
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
 const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
@@ -205,6 +206,8 @@ export function useCountryStats(
       if (colorBy === "count") {
         map.set(iso, (map.get(iso) ?? 0) + 1);
       } else {
+        // 储能/输变电建设单位非 MW，装机容量统计时排除
+        if (!hasCapacity(p.category)) continue;
         map.set(iso, (map.get(iso) ?? 0) + (p.capacity_mw ?? 0));
       }
     }

@@ -4,6 +4,7 @@ import type { Project, ColorBy } from "@/types";
 import { valueToColor } from "@/utils/colorScale";
 import { useLang } from "@/contexts/LanguageContext";
 import { useProvinceGeo } from "@/hooks/useProvinceGeo";
+import { hasCapacity } from "@/utils/capacityPolicy";
 import { Loader2 } from "lucide-react";
 
 interface TooltipState {
@@ -53,6 +54,8 @@ export default function ProvinceMap({
       if (colorBy === "count") {
         map.set(key, (map.get(key) ?? 0) + 1);
       } else {
+        // 储能/输变电建设单位非 MW，装机容量统计时排除
+        if (!hasCapacity(p.category)) return;
         map.set(key, (map.get(key) ?? 0) + (p.capacity_mw ?? 0));
       }
     });

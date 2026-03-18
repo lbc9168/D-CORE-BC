@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import type { Project } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
+import { hasCapacity } from "@/utils/capacityPolicy";
 
 const TOP_N = 5;
 const UNKNOWN_ENTITY_NAMES = new Set([
@@ -51,7 +52,10 @@ export default function EntityChart({ projects }: EntityChartProps) {
         capacity: 0,
       };
       existing.count++;
-      existing.capacity += p.capacity_mw ?? 0;
+      // 储能/输变电建设单位非 MW，装机容量统计时不计入
+      if (hasCapacity(p.category)) {
+        existing.capacity += p.capacity_mw ?? 0;
+      }
       map.set(p.primary_entity, existing);
     });
 
