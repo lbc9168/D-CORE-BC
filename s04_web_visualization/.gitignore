@@ -6,5 +6,5 @@ dist/
 public/data/*.json
 # 但 world-atlas TopoJSON 是静态资产，需入 git
 !public/data/countries-110m.json
-public/geo/provinces/
+# public/geo/provinces/ 已改为入 git（方案A：静态资产一次性提交）
 scripts/_ne_admin1_cache.geojson

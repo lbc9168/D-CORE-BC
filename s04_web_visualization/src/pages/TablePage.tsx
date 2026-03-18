@@ -57,21 +57,65 @@ export default function TablePage() {
     setPage(0);
   };
 
-  // CSV 导出
+  // CSV 导出（英文列名 + UTF-8 BOM + remarks 备注列）
   const handleExport = () => {
-    const headers = ["project_id", "project_name", "project_name_en", "country",
-      "province", "category", "capacity_mw", "latest_stage", "event_year",
-      "primary_entity", "primary_entity_en", "verification_status"];
-    const rows = sorted.map((p) =>
-      headers.map((h) => {
-        const v = (p as Record<string, unknown>)[h];
-        const s = v == null ? "" : String(v);
-        return s.includes(",") ? `"${s}"` : s;
-      }).join(",")
-    );
-    const blob = new Blob([headers.join(",") + "\n" + rows.join("\n")], {
-      type: "text/csv;charset=utf-8;",
+    const exportHeaders: { key: string; label: string }[] = [
+      { key: "project_id",          label: "Project ID" },
+      { key: "project_name",        label: "Project Name (CN)" },
+      { key: "project_name_en",     label: "Project Name (EN)" },
+      { key: "country",             label: "Country" },
+      { key: "country_iso",         label: "Country ISO" },
+      { key: "province",            label: "Province / State" },
+      { key: "category",            label: "Energy Type" },
+      { key: "capacity_mw",         label: "Capacity (MW)" },
+      { key: "latest_stage",        label: "Stage" },
+      { key: "event_year",          label: "Year" },
+      { key: "primary_entity_en",   label: "Primary Chinese Entity (EN)" },
+      { key: "primary_entity",      label: "Primary Chinese Entity (CN)" },
+      { key: "bri_country",         label: "BRI Country" },
+      { key: "ldc",                 label: "LDC" },
+      { key: "financing_model",     label: "Financing Model" },
+      { key: "verification_status", label: "Verification Status" },
+      { key: "remarks",             label: "Remarks" },
+    ];
+
+    /** 单元格安全转义：含逗号/引号/换行时加双引号包裹 */
+    const esc = (v: unknown): string => {
+      if (v == null) return "";
+      const s = String(v);
+      return s.includes(",") || s.includes('"') || s.includes("\n")
+        ? '"' + s.replace(/"/g, '""') + '"'
+        : s;
+    };
+
+    const rows = sorted.map((p) => {
+      // 构建 remarks：其他中企 + 融资方 + 多阶段时间线
+      const others = (p.all_entities ?? [])
+        .filter((e) => e.name !== p.primary_entity && (e.name || e.name_en))
+        .map((e) => (e.name_en ? `${e.name_en} (${e.name})` : e.name))
+        .join("; ");
+      const financing = (p.all_entities ?? [])
+        .filter((e) => e.involvement_type?.includes("融资"))
+        .map((e) => e.name_en || e.name)
+        .join("; ");
+      const parts: string[] = [];
+      if (others)           parts.push(`Other entities: ${others}`);
+      if (financing)        parts.push(`Financing: ${financing}`);
+      if (p.timeline_notes) parts.push(`Timeline: ${p.timeline_notes}`);
+      const remarks = parts.join(" | ");
+
+      return exportHeaders.map(({ key }) => {
+        if (key === "remarks")       return esc(remarks);
+        if (key === "category")      return esc(CATEGORIES[p.category]?.en ?? p.category);
+        if (key === "latest_stage")  return esc(STAGES[p.latest_stage]?.en ?? p.latest_stage);
+        return esc((p as Record<string, unknown>)[key]);
+      }).join(",");
     });
+
+    // UTF-8 BOM 解决 Excel 直接打开乱码
+    const BOM = "\uFEFF";
+    const csv = BOM + exportHeaders.map((h) => h.label).join(",") + "\n" + rows.join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
