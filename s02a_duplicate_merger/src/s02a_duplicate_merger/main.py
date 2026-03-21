@@ -23,7 +23,7 @@ def run():
     db_path:  SQLite 数据库输出路径（同目录下的 cross_verification 子项目可读取此文件）
     """
     inputs = {
-        "input_db": "../s01_data_collector_filter/data/projects.db",
+        "input_db": "../s01b_project_extractor/data/projects.db",
         "db_path":  "data/db/bri_re_database.db",
     }
     try:
