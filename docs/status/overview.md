@@ -24,7 +24,9 @@
 
 | 阶段 | 子项目 | 状态 | 详情 |
 |------|--------|------|------|
-| 阶段一 | `s01_data_collector_filter` | ✅ 已完成（2026-03-21 更新知识库）| [s01.md](s01.md) |
+| 阶段一（旧） | `s01_data_collector_filter` | ✅ 已完成（2026-03-21 更新知识库）| [s01.md](s01.md) |
+| 阶段一A | `s01a_news_crawler` | ✅ 已完成 | — |
+| 阶段一B | `s01b_project_extractor` | ✅ 已完成（2026-03-21 更新知识库）| [s01b.md](s01b.md) |
 | 阶段二A | `s02a_duplicate_merger` | ✅ 已完成 | [s02a.md](s02a.md) |
 | 阶段二B | `s02b_cross_verification` | ⚠️ 待修改（可选） | [s02b.md](s02b.md) |
 | 阶段三 | `s03_data_exporter` | ✅ 已完成（细节待调整） | [s03.md](s03.md) |
@@ -52,7 +54,7 @@ BRI_RE_Database_v2/
 │   └── src/bri_pipeline/
 │       └── flow.py                 # BRIPipelineFlow + PipelineState
 │
-├── s01_data_collector_filter/          # 阶段一 crewai 子项目
+├── s01_data_collector_filter/          # 阶段一（旧版合并子项目，仍可独立使用）
 │   ├── pyproject.toml
 │   ├── knowledge/user_preference.txt
 │   ├── WorldCountryList.json
@@ -63,6 +65,26 @@ BRI_RE_Database_v2/
 │       ├── tools/news_crawler_tool.py
 │       ├── tools/project_extractor_tool.py
 │       └── tools/custom_tool.py
+│
+├── s01a_news_crawler/                  # 阶段一A：新闻爬虫（拆分版）
+│   ├── pyproject.toml
+│   ├── WorldCountryList.json
+│   └── src/s01a_news_crawler/
+│       ├── main.py
+│       ├── crew.py
+│       ├── config/{agents,tasks}.yaml
+│       └── tools/news_crawler_tool.py
+│
+├── s01b_project_extractor/             # 阶段一B：AI 提取（拆分版，含三层 Guardrail）
+│   ├── pyproject.toml
+│   ├── WorldCountryList.json
+│   └── src/s01b_project_extractor/
+│       ├── main.py
+│       ├── crew.py
+│       ├── config/{agents,tasks}.yaml
+│       ├── knowledge/user_preference.txt
+│       ├── tools/project_extractor_tool.py
+│       └── guardrails/             # format_checks / semantic_checks / batch_checks
 │
 ├── s02a_duplicate_merger/               # 阶段二A crewai 子项目（去重合并与入库）
 │   ├── pyproject.toml
@@ -105,11 +127,16 @@ BRI_RE_Database_v2/
 │       ├── components/
 │       └── utils/isoMapping.ts
 │
+├── supporting_docs/                    # 项目辅助数据（AI 提取知识库）
+│   ├── company_hierarchy.json      # 母子公司层级对照表（17集团，三级，含 is_central_soe）
+│   ├── soe.md                      # 官方100家央企名录（兜底判断）
+│   └── Archived/                   # 已归档的旧格式 Markdown 文件
+│
 ├── docs/                               # 项目文档（本目录）
 │   ├── status/                     # 各阶段详细状态
 │   └── changes/                    # 按周改动记录
 │
-├── company_name_cache.json         # 中文公司名 → 英文缓存（41条）
+├── company_name_cache.json         # 中文公司名 → 英文缓存
 ├── enums_mapping.json              # 枚举字段映射表
 ├── project_status.md               # 状态文档快速索引
 ├── change_record.md                # 改动记录快速索引
