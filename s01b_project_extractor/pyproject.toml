@@ -1,0 +1,29 @@
+[project]
+name = "s01b_project_extractor"
+version = "0.1.0"
+description = "BRI RE Database Stage 1B - Project Extractor with Quality Guardrails using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "crewai[tools,google-genai]==1.9.3",
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "python-dotenv>=1.0.0",
+    "google-genai>=1.49.0",
+    "openai>=1.0.0",
+]
+
+[project.scripts]
+s01b_project_extractor = "s01b_project_extractor.main:run"
+run_crew               = "s01b_project_extractor.main:run"
+run_bulk_extract       = "s01b_project_extractor.main:run_bulk_extract"
+train                  = "s01b_project_extractor.main:train"
+replay                 = "s01b_project_extractor.main:replay"
+test                   = "s01b_project_extractor.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"
