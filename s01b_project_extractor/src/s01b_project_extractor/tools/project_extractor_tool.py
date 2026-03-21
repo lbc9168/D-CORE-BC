@@ -24,6 +24,61 @@ _DEFAULT_RAW_NEWS_DB = str(
     _S01B_ROOT.parent / "s01a_news_crawler" / "data" / "raw_news.db"
 )
 
+# supporting_docs 位于工作区根目录（_S01B_ROOT 的父级）
+_SUPPORTING_DOCS = _S01B_ROOT.parent / "supporting_docs"
+
+# 运行期缓存（每个进程只读一次文件）
+_entity_lookup_cache: str = ""
+_soe_list_cache: str = ""
+
+
+def _get_entity_lookup_text() -> str:
+    """从 company_hierarchy.json 构建母子公司对照文本（带 [央企]/[非央企] 标记）。"""
+    global _entity_lookup_cache
+    if _entity_lookup_cache:
+        return _entity_lookup_cache
+    try:
+        data = json.loads((_SUPPORTING_DOCS / "company_hierarchy.json").read_text(encoding="utf-8"))
+        lines: list[str] = []
+        for company in data["companies"]:
+            soe_tag = "[央企]" if company.get("is_central_soe") else "[非央企]"
+            cn = company["company_name_cn"]
+            en = company.get("company_name_en", "")
+            parent_cn = company.get("parent_company_cn")
+            if not parent_cn:
+                lines.append(f"\n{cn}（{en}）{soe_tag}")
+            else:
+                lines.append(f"\n{cn}（{en}）{soe_tag}  ← 二级集团，母公司：{parent_cn}")
+            for sub2 in company.get("subsidiaries_level2", []):
+                lines.append(f"  · {sub2['name_cn']}（{sub2.get('name_en', '')}）")
+                for sub3 in sub2.get("subsidiaries_level3", []):
+                    lines.append(f"      - {sub3['name_cn']}（{sub3.get('name_en', '')}）")
+        _entity_lookup_cache = "\n".join(lines)
+        print(f">>> 已加载母子公司对照表：{len(data['companies'])} 个集团条目")
+    except Exception as e:
+        print(f">>> [警告] 无法加载 company_hierarchy.json: {e}，使用空占位符")
+        _entity_lookup_cache = "（对照表加载失败，请根据常识判断母子公司关系）"
+    return _entity_lookup_cache
+
+
+def _get_soe_list_text() -> str:
+    """从 soe.md 解析官方央企名单（两列 Markdown 表格），作为兜底判断依据。"""
+    global _soe_list_cache
+    if _soe_list_cache:
+        return _soe_list_cache
+    try:
+        names: list[str] = []
+        for line in (_SUPPORTING_DOCS / "soe.md").read_text(encoding="utf-8").splitlines():
+            parts = [p.strip() for p in line.split("|") if p.strip()]
+            if len(parts) == 2 and parts[0].isdigit():
+                names.append(parts[1])
+        _soe_list_cache = "、".join(names)
+        print(f">>> 已加载央企名录：{len(names)} 家")
+    except Exception as e:
+        print(f">>> [警告] 无法加载 soe.md: {e}")
+        _soe_list_cache = "（央企名录加载失败）"
+    return _soe_list_cache
+
 
 # ── 国家数据库 ─────────────────────────────────────────────────────────────────
 
@@ -110,6 +165,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             multiple_chinese        TEXT,
             implementing_entity     TEXT,
             implementing_entity_en  TEXT,
+            is_central_soe          INTEGER,
             subsidiary_name         TEXT,
             subsidiary_name_en      TEXT,
             involvement_type        TEXT,
@@ -131,11 +187,15 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             created_at              TEXT
         )
     """)
-    # 确保旧表也有 project_summary 列（兼容升级）
-    try:
-        conn.execute("ALTER TABLE extracted_projects ADD COLUMN project_summary TEXT")
-    except sqlite3.OperationalError:
-        pass  # 列已存在
+    # 确保旧表也有新列（兼容升级）
+    for col_def in [
+        "ALTER TABLE extracted_projects ADD COLUMN project_summary TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN is_central_soe INTEGER",
+    ]:
+        try:
+            conn.execute(col_def)
+        except sqlite3.OperationalError:
+            pass  # 列已存在
     conn.commit()
     return conn
 
@@ -172,6 +232,8 @@ def _init_review_db(db_path: str) -> sqlite3.Connection:
 # ── Prompt 构建 ────────────────────────────────────────────────────────────────
 
 def _build_prompt(title: str, content: str, date: str) -> str:
+    entity_lookup = _get_entity_lookup_text()
+    soe_list = _get_soe_list_text()
     return f"""
     你是一个能源项目审核专家。请阅读输入的新闻标题和正文，按要求提取符合要求的中国海外能源项目信息，同时需要注意剔除无关的项目。
 
@@ -245,43 +307,26 @@ def _build_prompt(title: str, content: str, date: str) -> str:
        - 如果无法判断，则填入"Unknown"。
 
     ### 实体标准化知识库 (Knowledge Base)
-    **请参考以下映射表填写 "Implementing Chinese Entity" (母公司) 和 "Subsidiary Name" (子公司)**。
-    如果文中出现下列子公司，必须将其归入对应的母公司：
+    **提取 "Implementing Chinese Entity"（母公司）、"Subsidiary Name"（子公司）和 "Is Central SOE" 时，请强制参考以下对照表和央企名录。**
 
-    **1. 工程建设双巨头**
-    - **中国电建 (PowerChina)**:
-      - 包含：中国水利水电X局 (Sinohydro), 山东电建 (SEPCO), 上海电建, 贵州工程, 华东/西北/中南/成都/昆明/贵阳等勘测设计研究院, 电建国际, 电建股份等。
-    - **中国能建 (CEEC)**:
-      - 包含：葛洲坝集团 (CGGC), 中电工程国际公司，中电工程 (CPECC, 东北/西北/西南/华东/华北/中南院), 广东火电, 浙江火电, 天津电建, 安徽电建, 中能建国际等。
+    **一、母子公司对照表**（文中出现下列任何企业名称（含简称、英文缩写），必须按层级填写）：
+    格式说明：无缩进行为顶级集团；"  · " 缩进为二级子公司；"      - " 缩进为三级子公司。
+{entity_lookup}
 
-    **2. 发电集团 (五大四小)**
-    - **国家电投 (SPIC)**: 上海电力, 远达环保, 吉电股份, 中国电力国际 (China Power), 黄河水电, 国核工程。
-    - **国家能源集团 (CHN Energy)**: 中国神华, 国电电力, **龙源电力**, 龙源技术, 长源电力。
-    - **中国华能 (Huaneng)**: 华能国际, 华能新能源, 西安热工院, 澜沧江水电。
-    - **中国大唐 (Datang)**: 大唐发电, 大唐新能源, 桂冠电力。
-    - **中国华电 (Huadian)**: 华电国际, 黔源电力, 华电海外投资。
-    - **三峡集团 (CTG)**: 长江电力, 三峡能源, 三峡国际。
-    - **中广核 (CGN)**: 中广核新能源, 中广核电力, 中广核矿业。
-    - **中核集团 (CNNC)**: 中国核电, 中核二二/二三/二四, 中国中原。
-    - **华润电力 (CR Power)**: 华润电力控股。
-
-    **3. 电网与装备**
-    - **国家电网 (SGCC)**: 中国电科院, 许继集团, 平高集团, 各省电力公司。
-    - **南方电网 (CSG)**: 广东/云南/贵州等电网公司, 广州电力交易中心。
-    - **中国电气装备**: 许继电气, 平高电气, 中国西电。
-    - **东方电气 / 哈电集团**: 及其下属电机/锅炉/汽轮机厂。
-    - **上海电气**: 上海电气电站集团, 上海电气输配电集团（华普电缆、南华兰陵电气等）, 苏州天沃科技。
-
-    **4. 知名民企**
-    - **宁德时代 (CATL)**, **比亚迪 (BYD)**, **隆基绿能 (LONGi)**, **晶科能源 (Jinko)**
-    - **晶澳科技 (JA Solar)**, **阳光电源 (Sungrow)**, **亿纬锂能 (EVE)**, **天合光能 (Trina Solar)**
-    - **通威股份 (Tongwei)**, **金风科技 (Goldwind)**, **远景能源 (Envision)**
+    **二、央企兜底名录**（若上方对照表中未找到该企业，请检查以下官方央企名单，出现在此名单中则视为央企）：
+    {soe_list}
 
     **填写规则**：
-    - 如果文中只提到以上列表里包含的子公司（如"葛洲坝集团签约..."），Implementing Entity 填对应的母公司，Subsidiary Name 填该子公司。
-    - 如果文中只提到母公司，则Subsidiary Name处不填。
-    - 如果文中公司不在上述列表中，请根据上下文自主判断母子公司关系。
-    - 如果无法判断母子公司关系，则将企业名称填入"Implementing Chinese Entity"，"Subsidiary Name"内不填。
+    - 识别到对照表中任何企业名称，按层级填写：
+      * "Implementing Chinese Entity" = 该企业所属的顶级集团（无缩进的主条目）
+      * "Subsidiary Name" = 文中实际出现的子公司名称
+    - 若文中直接出现顶级集团名称，则 Subsidiary Name 留空。
+    - 若某企业不在对照表中，根据上下文判断；无法判断则直接填入 Implementing Entity，Subsidiary Name 留空。
+    - **"Is Central SOE" 填写规则（三级优先级）**：
+      1. Implementing Chinese Entity（母公司）出现在上方母子公司对照表中 → 使用表中 [央企] 或 [非央企] 标记（true/false）
+      2. 未在对照表中，但出现在上方央企兜底名录中 → 填 true
+      3. 两处均未出现 → 填 false
+      注意：判断依据始终是 Implementing Chinese Entity（母公司），不是子公司名称。
 
     ### 输出格式 (JSON)
     请严格返回符合以下 Schema 的 JSON：
@@ -321,6 +366,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
             {{{{
               "Implementing Chinese Entity": "String",
               "Implementing Chinese Entity (EN)": "String",
+              "Is Central SOE": "Boolean (true/false)",
               "Subsidiary Name": "String",
               "Subsidiary Name (EN)": "String",
               "Type of involvement of Chinese Entities": "String",
@@ -352,6 +398,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
         - Project Stage判断标准补充："完工"被视为"竣工"；"并网发电"被视为"投入运营"；"收购, 中标, 签约, 开工, 在建"你自行判断，以新闻原文为准。
         - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为"拟开发"。
     - **Implementing Chinese Entity (EN)**: 中方企业的官方英文名。请优先使用上方知识库括号内的英文名称，如"PowerChina"、"China Three Gorges Corporation (CTG)"、"CEEC"、"Huaneng"等。知识库未收录的企业，提供合理的英文译名。
+    - **Is Central SOE**: 布尔值。按照上方"Is Central SOE 填写规则"三级优先级判断，填 true 或 false。
     - **Subsidiary Name (EN)**: 子公司的官方英文名或英文译名。如"Sinohydro Bureau 5"、"SEPCO III"等。
     - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。
     - **Official/Non-official Website link** 和 **Additional Remarks**: 不填写任何信息。
@@ -644,6 +691,7 @@ class ProjectExtractorTool(BaseTool):
                             row_data.update({
                                 "Implementing Chinese Entity": "",
                                 "Implementing Chinese Entity (EN)": "",
+                                "Is Central SOE": None,
                                 "Subsidiary Name": "",
                                 "Subsidiary Name (EN)": "",
                                 "Type of involvement of Chinese Entities": "",
@@ -652,6 +700,13 @@ class ProjectExtractorTool(BaseTool):
                             valid_rows.append(row_data)
                         else:
                             for entity in entities:
+                                soe_raw = entity.get("Is Central SOE")
+                                if soe_raw is True:
+                                    soe_int = 1
+                                elif soe_raw is False:
+                                    soe_int = 0
+                                else:
+                                    soe_int = None
                                 row_data = base.copy()
                                 row_data.update({
                                     "Implementing Chinese Entity": entity.get(
@@ -660,6 +715,7 @@ class ProjectExtractorTool(BaseTool):
                                     "Implementing Chinese Entity (EN)": entity.get(
                                         "Implementing Chinese Entity (EN)", ""
                                     ),
+                                    "Is Central SOE": soe_int,
                                     "Subsidiary Name": entity.get("Subsidiary Name", ""),
                                     "Subsidiary Name (EN)": entity.get("Subsidiary Name (EN)", ""),
                                     "Type of involvement of Chinese Entities": entity.get(
@@ -689,7 +745,7 @@ class ProjectExtractorTool(BaseTool):
                    (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
                     bri_country, ldc, location, category, capacity_mw, capacity_details,
                     project_stage, project_developer, multiple_chinese, implementing_entity,
-                    implementing_entity_en, subsidiary_name, subsidiary_name_en,
+                    implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
                     involvement_type, subcontract_amount_usd, planned_start_date,
                     planned_complete_date, total_investment_usd, investment_date,
                     financing_model, financing_model_details,
@@ -715,6 +771,7 @@ class ProjectExtractorTool(BaseTool):
                     row_data.get("Multiple Chinese Enterprises Involved", ""),
                     row_data.get("Implementing Chinese Entity", ""),
                     row_data.get("Implementing Chinese Entity (EN)", ""),
+                    row_data.get("Is Central SOE"),
                     row_data.get("Subsidiary Name", ""),
                     row_data.get("Subsidiary Name (EN)", ""),
                     row_data.get("Type of involvement of Chinese Entities", ""),

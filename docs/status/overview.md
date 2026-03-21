@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-03-19
+> 最后更新：2026-03-21
 
 ---
 
@@ -24,7 +24,7 @@
 
 | 阶段 | 子项目 | 状态 | 详情 |
 |------|--------|------|------|
-| 阶段一 | `s01_data_collector_filter` | ✅ 已完成 | [s01.md](s01.md) |
+| 阶段一 | `s01_data_collector_filter` | ✅ 已完成（2026-03-21 更新知识库）| [s01.md](s01.md) |
 | 阶段二A | `s02a_duplicate_merger` | ✅ 已完成 | [s02a.md](s02a.md) |
 | 阶段二B | `s02b_cross_verification` | ⚠️ 待修改（可选） | [s02b.md](s02b.md) |
 | 阶段三 | `s03_data_exporter` | ✅ 已完成（细节待调整） | [s03.md](s03.md) |
