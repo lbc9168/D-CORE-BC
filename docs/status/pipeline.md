@@ -1,6 +1,6 @@
 # 流水线编排与批量采集
 
-> 最后更新：2026-03-17
+> 最后更新：2026-03-22
 
 ---
 
@@ -8,96 +8,109 @@
 
 **子项目路径：** `pipeline/`
 
-一次命令运行完整四阶段流水线，支持条件跳转。
+一次命令运行完整流水线，支持按需跳过各阶段。
+
+### 当前支持路径
+
+```
+路径一（完整）：    s01a → s01b → s02a → s02b
+路径二（跳过爬虫）： s01b → s02a → s02b（使用已有 raw_news.db）
+```
 
 ### 执行流程
 
 ```
 BRIPipelineFlow
-  stage_01_collect  (@start)          ← 可通过 skip_collection=True 跳过
+  stage_01a_crawl   (@start)    ← skip_s01a=True 时跳过
+       ↓ @listen
+  stage_01b_extract             ← 始终执行
+       ↓ @listen
+  stage_02a_merge               ← 始终执行
+       ↓ @listen
+  stage_02b_normalize           ← run_entity_normalize=False 时跳过（不建议）
        ↓
-  stage_02a_merge   (@listen)
-       ↓
-  route_cross_verification (@router)
-    ├── "run_verify" → stage_02b_verify ← run_cross_verification=True（默认）
-    └── "done"       → finish_no_verify ← run_cross_verification=False
-              ↓ (两路均汇入)
-         _run_stage_03()               ← 可通过 run_export=False 跳过
-              ↓
-         s03_data_exporter.run()       ← 省份提取 + 扁平表 + JSON 同步到 s04
+  打印"✅ 流水线执行完毕"
+
+预留（后续路径扩展）：
+  stage_02c_verify              ← s02c 交叉验证（代码已预留，未挂载）
+  stage_03_export               ← s03 数据库导出（代码已预留，未挂载）
 ```
 
 ### 运行方式
 
 ```bash
 cd pipeline
-uv sync                      # 首次安装（会自动安装四个本地子项目）
-uv run run_pipeline          # 完整流水线（含交叉验证 + 导出）
-uv run run_merge_only        # 采集 + 去重 + 导出（跳过交叉验证）
-uv run run_collect_and_merge # 仅采集 + 去重合并（阶段一 → 阶段二A，不导出）
-uv run run_export_only       # 仅重新导出（数据库已有时）
+uv sync                   # 首次安装（自动安装所有本地子项目依赖）
+
+# 路径一：完整流水线（s01a→s01b→s02a→s02b）
+uv run run_pipeline
+
+# 路径二：跳过爬虫，使用已有 raw_news.db（s01b→s02a→s02b）
+uv run run_from_s01b
+
+# 仅 s03 导出（数据库已有时使用）
+uv run run_export_only
+```
+
+或使用根目录快捷命令：
+
+```bash
+make pipeline        # 等同 uv run run_pipeline
+make from-s01b       # 等同 uv run run_from_s01b
+make export-only     # 等同 uv run run_export_only
+
+# bash 脚本（Windows Git Bash / Linux）
+./bri.sh pipeline
+./bri.sh from-s01b
 ```
 
 ### PipelineState 参数
 
 | 参数 | 类型 | 默认 | 说明 |
 |------|------|------|------|
-| `skip_collection` | bool | False | 跳过阶段一（直接从现有 projects.db 开始） |
-| `run_cross_verification` | bool | True | 是否执行阶段二B |
-| `run_export` | bool | True | 是否执行阶段三导出 |
+| `skip_s01a` | bool | False | 跳过 s01a（使用已有 raw_news.db，即路径二） |
+| `run_entity_normalize` | bool | True | 是否执行 s02b 实体归一化（通常不跳过） |
+| `run_cross_verification` | bool | False | 是否执行 s02c 交叉验证（后续路径，预留） |
+| `run_export` | bool | False | 是否执行 s03 导出（后续路径，预留） |
+| `start_date` / `end_date` | str | 见代码 | s01a 爬取日期范围 |
+| `raw_news_db_path` | str | s01a/data/raw_news.db | s01a 输出 / s01b 输入 |
+| `projects_db_path` | str | s01b/data/projects.db | s01b 输出 / s02a 输入 |
+| `db_path` | str | s02a/data/db/bri_re_database.db | s02a 输出（主数据库） |
 
 ---
 
-## 批量并发采集（kickoff_for_each_async）
+## 批量并发采集（s01a run_bulk_crawl）
 
-在 `s01_data_collector_filter` 中新增，用于历史数据补录。
+**子项目路径：** `s01a_news_crawler/`
+
+用于历史数据批量补录，两阶段执行。
 
 ### 运行方式
 
 ```bash
-cd s01_data_collector_filter
-uv run run_parallel          # 使用默认参数（2023-01-01 → 2026-03-08，按月拆分）
+cd s01a_news_crawler
+uv run run_bulk_crawl    # 使用默认参数（按月拆分，顺序爬取 + checkpoint 接力）
 ```
-
-或在代码中调用：
-```python
-from s01_data_collector_filter.main import run_parallel, split_date_range
-
-run_parallel("2024-01-01", "2025-12-31", chunk_months=1)   # 24批并发
-run_parallel("2023-01-01", "2026-03-08", chunk_months=3)   # ~13批（限速时推荐）
-```
-
-### split_date_range 说明
-
-`split_date_range(start, end, chunk_months)` 将日期范围按月份数均匀拆分，返回 `[(start1, end1), (start2, end2), ...]` 列表，每个区间作为一个独立的 crewai Crew 实例并发执行。
-
-- **并发限制**：crewai 内部通过 `kickoff_for_each_async` 管理并发，默认不限制并发数
-- **推荐配置**：大范围历史补录建议使用 `chunk_months=3`，降低反爬风险
-- **断点恢复**：每批采集结果写入 `raw_news.db`，可通过 `start_page` 参数从断点恢复单批次
 
 ---
 
-## 大规模历史补录（run_bulk）
+## AI 批量提取（s01b run_bulk_extract）
 
-用于超长时间段补录（例如 2018–2026），通过“两阶段”降低封禁和限流风险：
+**子项目路径：** `s01b_project_extractor/`
 
-1. **顺序爬虫阶段**：按日期段倒序抓取，批次间延迟（默认 10s），并通过 checkpoint 进行页码接力  
-2. **并发提取阶段**：对 Phase 1 有数据的批次并发执行 AI 提取（默认 4 并发）
+并发调用 Gemini AI，从 raw_news.db 批量提取项目结构化信息。
+
+### 运行方式
 
 ```bash
-cd s01_data_collector_filter
-uv run run_bulk
+cd s01b_project_extractor
+uv run run_bulk_extract  # 默认 4 并发
 ```
-
-可调参数：
-- `chunk_months`：每批月份数（值越大，批次数越少）
-- `crawl_delay`：爬虫批次间等待秒数
-- `max_extract_workers`：AI 提取并发线程数
 
 ---
 
 ## 首次运行注意事项
 
-1. `pipeline/` 首次 `uv sync` 需要各子项目已在本地通过 `uv sync` 安装依赖
+1. `pipeline/` 首次 `uv sync` 需要各子项目目录已存在（自动以 editable 模式安装）
 2. `.env` 文件需在根目录存在，包含 `GEMINI_API_KEY`
-3. 阶段二B（交叉验证）当前存在 GDELT 数据匹配问题，建议使用 `run_merge_only` 跳过
+3. 路径二（`run_from_s01b`）需要 `s01a/data/raw_news.db` 已存在

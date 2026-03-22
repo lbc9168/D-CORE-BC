@@ -115,6 +115,7 @@ CREATE TABLE IF NOT EXISTS project_events (
     source_links            TEXT,   -- JSON 数组
     publish_date            TEXT,
     additional_remarks      TEXT,
+    project_summary         TEXT,
     created_at              TEXT,
     -- 外部信源交叉验证字段（由 cross_verification_tool 填写）
     verification_status     TEXT DEFAULT 'unverified',  -- unverified | verified | unmatched | pending_review
@@ -132,7 +133,8 @@ CREATE TABLE IF NOT EXISTS chinese_entities (
     subsidiary_name_en      TEXT,
     entity_en_quality       TEXT DEFAULT 'ai_translated',  -- ai_translated | source_verified | manual_verified
     involvement_type        TEXT,
-    subcontract_amount      TEXT
+    subcontract_amount      TEXT,
+    is_central_soe          INTEGER
 );
 """
 
@@ -165,6 +167,14 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         os.makedirs(parent, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.executescript(SCHEMA_SQL)
+    for col_def in [
+        "ALTER TABLE project_events ADD COLUMN project_summary TEXT",
+        "ALTER TABLE chinese_entities ADD COLUMN is_central_soe INTEGER",
+    ]:
+        try:
+            conn.execute(col_def)
+        except sqlite3.OperationalError:
+            pass  # 列已存在
     conn.commit()
     return conn
 
@@ -311,6 +321,7 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
                     "subsidiary_name_en":     _clean(row.get("Subsidiary Name (EN)", "")),
                     "involvement_type":       ent_key[1],
                     "subcontract_amount":     _clean(row.get("Subcontract Amount (Million USD)", "")),
+                    "is_central_soe":         row.get("is_central_soe"),
                 })
 
         src = _clean(first.get("Source Link", ""))
@@ -338,6 +349,7 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "source_links":         [src] if src else [],
             "publish_date":         _clean(first.get("Publish Date", "")),
             "additional_remarks":   _clean(first.get("Additional Remarks", "")),
+            "project_summary":      _clean(first.get("project_summary", "")),
             "entities":             entities,
         })
 
@@ -446,12 +458,12 @@ def _infer_location_from_name(
     print(f"  [location 推断] 完成，成功填充 {filled}/{len(targets)} 条")
 
 
-def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
+def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, float]]:
     """
     找出潜在的跨源重复对，采用多信号 OR 逻辑以最大化召回率。
 
     硬过滤（必须同时满足）：
-      - 相同国家 + 能源类型 + 项目阶段
+      - 相同国家 + 能源类型 + 项目阶段（由预分组保证，无需循环内检查）
       - 不共享信源链接
 
     软信号（满足任一即送 LLM 确认）：
@@ -465,87 +477,109 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int]]:
       - 任一名称信号得分 ≥ CAPACITY_BYPASS_SCORE 时跳过容量检查
         （名称已高度吻合，容量差异由 LLM 判断）
       - Signal 4 路径已在触发时完成容量验证，不再重复检查
+
+    返回 (i, j, best_score)，best_score 用于高分直接确认判断。
     """
-    candidates: List[Tuple[int, int]] = []
-    n = len(projects)
-    for i in range(n):
-        for j in range(i + 1, n):
-            a, b = projects[i], projects[j]
+    candidates: List[Tuple[int, int, float]] = []
 
-            # ── 硬过滤 ──────────────────────────────────────────────────────
-            if a["country"] != b["country"]:
-                continue
-            if a["category"] != b["category"]:
-                continue
-            if a["project_stage"] != b["project_stage"]:
-                continue
-            if set(a["source_links"]) & set(b["source_links"]):
-                continue
+    # 预分组：仅在相同国家 + 类别 + 阶段的组内两两比较（O(k²) 代替 O(n²)）
+    groups: Dict[Tuple, List[int]] = defaultdict(list)
+    for idx, p in enumerate(projects):
+        groups[(p["country"], p["category"], p["project_stage"])].append(idx)
 
-            # ── 名称多信号匹配 ───────────────────────────────────────────────
-            name_ok, best_score = _name_similarity(a, b)
+    for group_indices in groups.values():
+        ng = len(group_indices)
+        for gi in range(ng):
+            for gj in range(gi + 1, ng):
+                i, j = group_indices[gi], group_indices[gj]
+                a, b = projects[i], projects[j]
 
-            # ── 实体重叠辅助（名称中度相似 + 同一中方实体）────────────────
-            entity_boost = (
-                not name_ok
-                and best_score >= FUZZY_ENTITY_ASSIST
-                and _entity_overlap(a, b)
-            )
+                # ── 硬过滤（国家/类别/阶段已由分组保证）────────────────────
+                if set(a["source_links"]) & set(b["source_links"]):
+                    continue
 
-            # ── Signal 4：跨语言容量信道（安全网）──────────────────────────
-            # 触发条件：名称信号均未命中 + 容量在 1% 误差内且 ≥ 0.5MW
-            # 跨语言名称（中文 vs 英文）的 token_sort_ratio 通常仅 5~30，
-            # 无法通过 Signals 1-3，改用精确容量匹配作为触发条件
-            cross_lang_boost = False
-            if not name_ok and not entity_boost:
-                cap_a = _parse_capacity(a.get("capacity_mw"))
-                cap_b = _parse_capacity(b.get("capacity_mw"))
-                if (
-                    cap_a and cap_b
-                    and cap_a >= CAPACITY_MIN_MW
-                    and cap_b >= CAPACITY_MIN_MW
-                    and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_EXACT_TOLERANCE
-                ):
-                    cross_lang_boost = True
+                # ── 名称多信号匹配 ───────────────────────────────────────────
+                name_ok, best_score = _name_similarity(a, b)
 
-            # ── Signal 5：宽松 LLM 候选（所有前置信号均未命中的补救）──────
-            # 触发条件：名称中度相似（≥ 56）+ 实体重叠 OR 容量在 15% 以内
-            broad_llm_boost = False
-            if not name_ok and not entity_boost and not cross_lang_boost:
-                if best_score >= BROAD_LLM_SCORE:
+                # ── 实体重叠辅助（名称中度相似 + 同一中方实体）──────────────
+                entity_boost = (
+                    not name_ok
+                    and best_score >= FUZZY_ENTITY_ASSIST
+                    and _entity_overlap(a, b)
+                )
+
+                # ── Signal 4：跨语言容量信道（安全网）──────────────────────
+                # 触发条件：名称信号均未命中 + 容量在 1% 误差内且 ≥ 0.5MW
+                # 跨语言名称（中文 vs 英文）的 token_sort_ratio 通常仅 5~30，
+                # 无法通过 Signals 1-3，改用精确容量匹配作为触发条件
+                cross_lang_boost = False
+                if not name_ok and not entity_boost:
                     cap_a = _parse_capacity(a.get("capacity_mw"))
                     cap_b = _parse_capacity(b.get("capacity_mw"))
-                    capacity_close = (
+                    if (
                         cap_a and cap_b
                         and cap_a >= CAPACITY_MIN_MW
                         and cap_b >= CAPACITY_MIN_MW
-                        and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_BROAD_TOLERANCE
-                    )
-                    if _entity_overlap(a, b) or capacity_close:
-                        broad_llm_boost = True
-                        print(
-                            f"  [Signal 5] 宽松候选: "
-                            f"[{a['project_name'][:20]}] vs [{b['project_name'][:20]}] "
-                            f"(name={best_score})"
+                        and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_EXACT_TOLERANCE
+                    ):
+                        cross_lang_boost = True
+
+                # ── Signal 5：宽松 LLM 候选（所有前置信号均未命中的补救）──
+                # 触发条件：名称中度相似（≥ 56）+ 实体重叠 OR 容量在 15% 以内
+                broad_llm_boost = False
+                if not name_ok and not entity_boost and not cross_lang_boost:
+                    if best_score >= BROAD_LLM_SCORE:
+                        cap_a = _parse_capacity(a.get("capacity_mw"))
+                        cap_b = _parse_capacity(b.get("capacity_mw"))
+                        capacity_close = (
+                            cap_a and cap_b
+                            and cap_a >= CAPACITY_MIN_MW
+                            and cap_b >= CAPACITY_MIN_MW
+                            and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_BROAD_TOLERANCE
                         )
+                        if _entity_overlap(a, b) or capacity_close:
+                            broad_llm_boost = True
+                            print(
+                                f"  [Signal 5] 宽松候选: "
+                                f"[{a['project_name'][:20]}] vs [{b['project_name'][:20]}] "
+                                f"(name={best_score})"
+                            )
 
-            if not name_ok and not entity_boost and not cross_lang_boost and not broad_llm_boost:
-                continue
+                if not name_ok and not entity_boost and not cross_lang_boost and not broad_llm_boost:
+                    continue
 
-            # ── 容量检查（名称高度相似时豁免；Signal 4/5 路径已验证容量）──
-            if not cross_lang_boost and not broad_llm_boost and best_score < CAPACITY_BYPASS_SCORE:
-                cap_a = _parse_capacity(a["capacity_mw"])
-                cap_b = _parse_capacity(b["capacity_mw"])
-                if cap_a and cap_b and cap_a > 0 and cap_b > 0:
-                    if abs(cap_a - cap_b) / max(cap_a, cap_b) > CAPACITY_TOLERANCE:
-                        continue
+                # ── 容量检查（名称高度相似时豁免；Signal 4/5 路径已验证容量）
+                if not cross_lang_boost and not broad_llm_boost and best_score < CAPACITY_BYPASS_SCORE:
+                    cap_a = _parse_capacity(a["capacity_mw"])
+                    cap_b = _parse_capacity(b["capacity_mw"])
+                    if cap_a and cap_b and cap_a > 0 and cap_b > 0:
+                        if abs(cap_a - cap_b) / max(cap_a, cap_b) > CAPACITY_TOLERANCE:
+                            continue
 
-            candidates.append((i, j))
+                candidates.append((i, j, best_score))
 
     return candidates
 
 
 # ── 阶段三：LLM 确认 & 合并 ────────────────────────────────────────────────────
+
+def _llm_call_with_retry(fn, *args, max_retries: int = 5, **kwargs):
+    """LLM 调用包装：仅在遇到限速（429）时指数退避重试，其他异常直接上抛。"""
+    delay = 2.0
+    for attempt in range(max_retries + 1):
+        try:
+            return fn(*args, **kwargs)
+        except Exception as e:
+            if attempt >= max_retries:
+                raise
+            msg = str(e).lower()
+            if "429" in msg or "resource_exhausted" in msg or "quota" in msg or "rate" in msg:
+                print(f"  [限速重试 {attempt + 1}/{max_retries}] 等待 {delay:.0f}s…")
+                time.sleep(delay)
+                delay = min(delay * 2, 60)
+            else:
+                raise
+
 
 def _fmt_entities(project: Dict) -> str:
     """格式化中方实体列表为可读字符串。"""
@@ -602,8 +636,9 @@ def _llm_confirm(
 {{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
     """
     try:
-        resp = client.models.generate_content(
-            model=LLM_CONFIRM_MODEL, contents=prompt, config=config
+        resp = _llm_call_with_retry(
+            client.models.generate_content,
+            model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
         )
         result = json.loads(resp.text)
         if result.get("same_project") is True and result.get("confidence") != "low":
@@ -658,8 +693,9 @@ def _llm_confirm_canonical(
 {{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
     """
     try:
-        resp = client.models.generate_content(
-            model=LLM_CONFIRM_MODEL, contents=prompt, config=config
+        resp = _llm_call_with_retry(
+            client.models.generate_content,
+            model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
         )
         result = json.loads(resp.text)
         if result.get("same_project") is True and result.get("confidence") != "low":
@@ -688,8 +724,9 @@ def _llm_choose_value(
 严格返回 JSON：{{"chosen": "选择的值", "reasoning": "一句话理由"}}
     """
     try:
-        resp = client.models.generate_content(
-            model=GEMINI_MODEL, contents=prompt, config=config
+        resp = _llm_call_with_retry(
+            client.models.generate_content,
+            model=GEMINI_MODEL, contents=prompt, config=config,
         )
         return json.loads(resp.text).get("chosen", values[0])
     except Exception:
@@ -744,7 +781,6 @@ def _merge_group(
             chosen = _llm_choose_value(client, config, field, vals, base["project_name"])
             base[field] = chosen
             conflict_log.append(f"{field}:[{' vs '.join(vals)}]→{chosen}")
-            time.sleep(0.5)
         elif len(vals) == 1:
             base[field] = vals[0]
 
@@ -761,9 +797,9 @@ def _deduplicate_projects(
     client: genai.Client,
     config: types.GenerateContentConfig,
     projects: List[Dict],
-    candidates: List[Tuple[int, int]],
+    candidates: List[Tuple[int, int, float]],
 ) -> List[Dict]:
-    """Union-Find 分组后逐对 LLM 确认，合并确认重复的记录。"""
+    """Union-Find 分组后逐对确认（高分自动确认，其余 LLM 核验），合并确认重复的记录。"""
     n = len(projects)
     parent = list(range(n))
 
@@ -778,15 +814,22 @@ def _deduplicate_projects(
         if px != py:
             parent[py] = px
 
-    for i, j in candidates:
+    for i, j, best_score in candidates:
         a, b = projects[i], projects[j]
+        # 高分直接确认（同批次，与跨批次 CANONICAL_AUTO_MATCH_SCORE 逻辑对称）
+        if best_score >= CANONICAL_AUTO_MATCH_SCORE:
+            print(
+                f"  [高分自动确认 score={best_score:.0f}] "
+                f"[{a['project_name'][:25]}] vs [{b['project_name'][:25]}]"
+            )
+            union(i, j)
+            continue
         print(f"  LLM 核验: [{a['project_name'][:25]}] vs [{b['project_name'][:25]}]")
         if _llm_confirm(client, config, a, b):
             union(i, j)
             print(f"    → 确认为同一项目，待合并")
         else:
             print(f"    → 不同项目，各自保留")
-        time.sleep(1)
 
     groups: Dict[int, List[int]] = defaultdict(list)
     for i in range(n):
@@ -924,7 +967,6 @@ def _find_or_create_canonical(
                 db_name or "", db_name_en or "",
                 db_location or "", db_capacity or "",
             )
-            time.sleep(0.5)
             if confirmed:
                 print(f"    → LLM 确认匹配 {best_id}")
                 return best_id, False
@@ -1010,7 +1052,6 @@ def _write_to_db(
                     ),
                 )
                 cnt["event_cross_merged"] += 1
-                time.sleep(1)   # LLM 调用后礼貌等待
             else:
                 # ── 降级：无 LLM 时仅追加 source_links（原有行为）────────────
                 old_raw = conn.execute(
@@ -1030,8 +1071,8 @@ def _write_to_db(
                     project_developer, planned_start_date, planned_complete_date,
                     total_investment_usd, investment_date,
                     financing_model, financing_model_details, source_links,
-                    publish_date, additional_remarks, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    publish_date, additional_remarks, project_summary, created_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     event_id, canonical_id,
                     project["project_stage"],
@@ -1042,6 +1083,7 @@ def _write_to_db(
                     project["financing_model"],    project["financing_details"],
                     json.dumps(project["source_links"], ensure_ascii=False),
                     project["publish_date"],   project["additional_remarks"],
+                    project.get("project_summary", ""),
                     datetime.now().isoformat(),
                 ),
             )
@@ -1061,8 +1103,8 @@ def _write_to_db(
                     """INSERT INTO chinese_entities
                        (event_id, implementing_entity, implementing_entity_en,
                         subsidiary_name, subsidiary_name_en, entity_en_quality,
-                        involvement_type, subcontract_amount)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                        involvement_type, subcontract_amount, is_central_soe)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         event_id,
                         ent["implementing_entity"],
@@ -1072,6 +1114,7 @@ def _write_to_db(
                         ent.get("entity_en_quality", "ai_translated"),
                         ent["involvement_type"],
                         ent["subcontract_amount"],
+                        ent.get("is_central_soe"),
                     ),
                 )
                 cnt["entity_new"] += 1
@@ -1092,7 +1135,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
             pe.project_developer, pe.planned_start_date, pe.planned_complete_date,
             pe.total_investment_usd, pe.investment_date,
             pe.financing_model, pe.financing_model_details,
-            pe.source_links, pe.publish_date, pe.additional_remarks,
+            pe.source_links, pe.publish_date, pe.additional_remarks, pe.project_summary,
             cp.project_name, cp.project_name_en, cp.name_en_quality,
             cp.country, cp.country_iso, cp.bri_country, cp.ldc, cp.location, cp.category
         FROM project_events pe
@@ -1106,7 +1149,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
     ent_rows = conn.execute("""
         SELECT implementing_entity, implementing_entity_en,
                subsidiary_name, subsidiary_name_en, entity_en_quality,
-               involvement_type, subcontract_amount
+               involvement_type, subcontract_amount, is_central_soe
         FROM chinese_entities WHERE event_id = ?
     """, (event_id,)).fetchall()
 
@@ -1119,6 +1162,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
             "entity_en_quality":      r[4] or "ai_translated",
             "involvement_type":       r[5] or "",
             "subcontract_amount":     r[6] or "",
+            "is_central_soe":         r[7],
         }
         for r in ent_rows
     ]
@@ -1127,7 +1171,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
      project_developer, planned_start_date, planned_complete_date,
      total_investment_usd, investment_date,
      financing_model, financing_model_details,
-     source_links_raw, publish_date, additional_remarks,
+     source_links_raw, publish_date, additional_remarks, project_summary,
      project_name, project_name_en, name_en_quality,
      country, country_iso, bri_country, ldc, location, category) = row
 
@@ -1155,6 +1199,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
         "source_links":          json.loads(source_links_raw) if source_links_raw else [],
         "publish_date":          publish_date or "",
         "additional_remarks":    additional_remarks or "",
+        "project_summary":       project_summary or "",
         "entities":              entities,
     }
 
@@ -1225,8 +1270,8 @@ def _write_non_project_records(
 
 class DuplicateMergerInput(BaseModel):
     input_db: str = Field(
-        default="../s01_data_collector_filter/data/projects.db",
-        description="s01 提取结果数据库路径（extracted_projects 表，imported_to_s02a=0 的记录为待处理）",
+        default="../s01b_project_extractor/data/projects.db",
+        description="s01b 提取结果数据库路径（extracted_projects 表，imported_to_s02a=0 的记录为待处理）",
     )
     db_path: str = Field(
         default="data/db/bri_re_database.db",
@@ -1247,7 +1292,7 @@ class DuplicateMergerTool(BaseTool):
 
     def _run(
         self,
-        input_db: str = "../s01_data_collector_filter/data/projects.db",
+        input_db: str = "../s01b_project_extractor/data/projects.db",
         db_path: str = "data/db/bri_re_database.db",
     ) -> str:
         # 初始化 Gemini

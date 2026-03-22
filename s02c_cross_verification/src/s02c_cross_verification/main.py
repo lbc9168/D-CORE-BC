@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 """
-s02b_cross_verification — 外部信源交叉验证
+s02c_cross_verification — 外部信源交叉验证
 从 s02a_duplicate_merger 产出的 SQLite 数据库读取待验证项目，
 通过 GDELT 国际新闻库进行向量匹配和 LLM 确认，将结果写回数据库。
 
 用法：
   crewai run          # 等同于 run_crew
-  uv run s02b_cross_verification
+  uv run s02c_cross_verification
   uv run run_crew
 
 默认读取 ../s02a_duplicate_merger/data/db/bri_re_database.db。
@@ -16,7 +16,7 @@ import warnings
 
 from dotenv import load_dotenv
 
-from s02b_cross_verification.crew import CrossVerification
+from s02c_cross_verification.crew import CrossVerification
 
 load_dotenv()
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")

@@ -13,10 +13,9 @@ case "$cmd" in
     echo ""
     echo "  BRI RE Database — 可用命令"
     echo "  ──────────────────────────────────────────────"
-    echo "  ./bri.sh pipeline     完整流水线（s01→s02a→s02b→s03）"
-    echo "  ./bri.sh merge        采集+去重+导出，跳过交叉验证"
+    echo "  ./bri.sh pipeline     完整流水线（s01a→s01b→s02a→s02b）"
+    echo "  ./bri.sh from-s01b    跳过爬虫，使用已有新闻库（s01b→s02a→s02b）"
     echo "  ./bri.sh export-only  仅重新导出（数据库已有时）"
-    echo "  ./bri.sh collect      仅采集（s01）"
     echo "  ./bri.sh s03          仅运行 s03 导出"
     echo "  ./bri.sh dev          启动 s04 前端开发服务器"
     echo "  ./bri.sh build        构建 s04 前端（生产包）"
@@ -25,12 +24,10 @@ case "$cmd" in
     ;;
   pipeline)
     uv run --directory "$ROOT/pipeline" run_pipeline ;;
-  merge)
-    uv run --directory "$ROOT/pipeline" run_merge_only ;;
+  from-s01b)
+    uv run --directory "$ROOT/pipeline" run_from_s01b ;;
   export-only)
     uv run --directory "$ROOT/pipeline" run_export_only ;;
-  collect)
-    uv run --directory "$ROOT/s01_data_collector_filter" s01_data_collector_filter ;;
   s03)
     uv run --directory "$ROOT/s03_data_exporter" run_export ;;
   dev)
