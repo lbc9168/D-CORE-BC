@@ -45,28 +45,34 @@ def _parse_db_path_from_output(raw: str) -> str:
     return _DEFAULT_PROJECTS_DB
 
 
-def _load_batch_records(db_path: str, batch_id: str) -> list[dict]:
-    """从 projects.db 加载指定批次的记录。"""
+def _load_batch_records(db_path: str, batch_id: str) -> tuple[list[dict], str]:
+    """从 projects.db 加载指定批次记录，返回 (records, effective_batch_id)。"""
     if not os.path.exists(db_path):
-        return []
+        return [], batch_id
 
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     try:
-        if batch_id:
+        effective_batch_id = batch_id.strip()
+        if not effective_batch_id:
+            row = conn.execute(
+                "SELECT batch_id FROM extracted_projects "
+                "WHERE batch_id IS NOT NULL AND TRIM(batch_id) != '' "
+                "ORDER BY id DESC LIMIT 1"
+            ).fetchone()
+            effective_batch_id = str(row["batch_id"]).strip() if row and row["batch_id"] else ""
+
+        if effective_batch_id:
             rows = conn.execute(
                 "SELECT * FROM extracted_projects WHERE batch_id = ?",
-                (batch_id,),
+                (effective_batch_id,),
             ).fetchall()
         else:
-            # 取最新批次
-            rows = conn.execute(
-                "SELECT * FROM extracted_projects ORDER BY id DESC LIMIT 100"
-            ).fetchall()
-        return [dict(r) for r in rows]
+            rows = []
+        return [dict(r) for r in rows], effective_batch_id
     except Exception as e:
         print(f"[Guardrail] 加载记录失败: {e}")
-        return []
+        return [], batch_id
     finally:
         conn.close()
 
@@ -109,13 +115,17 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
 
     # ── 解析上下文 ──
     batch_id = _parse_batch_id_from_output(raw)
+    batch_id_from_output = bool(batch_id)
     db_path = _parse_db_path_from_output(raw)
 
     print(f"  batch_id: {batch_id}")
     print(f"  db_path:  {db_path}")
 
     # ── 加载本批次记录 ──
-    records = _load_batch_records(db_path, batch_id)
+    records, effective_batch_id = _load_batch_records(db_path, batch_id)
+    if effective_batch_id and effective_batch_id != batch_id:
+        print(f"  [Guardrail] 未从输出解析到 batch_id，回退使用最新批次: {effective_batch_id}")
+    batch_id = effective_batch_id
     if not records:
         print("  [Guardrail] 无记录可校验，通过")
         return True, raw
@@ -184,8 +194,11 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
     # 有错误：删除不合格记录后触发重试
     unique_failed_ids = list(set(failed_record_ids))
     if unique_failed_ids:
-        deleted = _delete_failed_records(db_path, unique_failed_ids)
-        print(f"  已删除 {deleted} 条不合格记录，等待重试")
+        if batch_id_from_output:
+            deleted = _delete_failed_records(db_path, unique_failed_ids)
+            print(f"  已删除 {deleted} 条不合格记录，等待重试")
+        else:
+            print("  [Guardrail] 跳过自动删除：本次未从输出中解析到 batch_id，避免误删非本批次数据")
 
     error_summary = f"发现 {len(all_errors)} 个质量问题:\n" + "\n".join(
         f"  - {e}" for e in all_errors[:20]  # 限制反馈长度

@@ -114,3 +114,10 @@ uv run run_bulk_extract  # 默认 4 并发
 1. `pipeline/` 首次 `uv sync` 需要各子项目目录已存在（自动以 editable 模式安装）
 2. `.env` 文件需在根目录存在，包含 `GEMINI_API_KEY`
 3. 路径二（`run_from_s01b`）需要 `s01a/data/raw_news.db` 已存在
+
+---
+
+## 2026-03-22 稳定性修复
+
+- `flow.py` 调整为按需导入 `s03_data_exporter`，降低 `run_pipeline` / `run_from_s01b` 对后续预留阶段模块的导入耦合风险。
+- `stage_01a_crawl` 归档逻辑增加目录存在性保护：`s01a/data/raw` 不存在时跳过归档，不再因 `FileNotFoundError` 中断流水线。
