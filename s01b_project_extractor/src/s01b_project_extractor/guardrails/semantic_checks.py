@@ -2,6 +2,7 @@
 
 import json
 import os
+import time
 from typing import Any
 
 
@@ -131,7 +132,7 @@ def run_semantic_checks(records: list[dict], batch_size: int = 10) -> list[str]:
         return []
 
     backend, client, model = _get_validation_client()
-    if client is None:
+    if client is None or not model:
         print("[语义校验] 无可用校验模型（检查 VALIDATION_API_KEY 或 GEMINI_API_KEY），跳过")
         return []
 
@@ -139,11 +140,18 @@ def run_semantic_checks(records: list[dict], batch_size: int = 10) -> list[str]:
 
     errors: list[str] = []
     call_fn = _call_openai if backend == "openai" else _call_gemini
+    total_batches = (len(records_with_summary) + batch_size - 1) // batch_size
 
     # 分批调用
     for i in range(0, len(records_with_summary), batch_size):
+        batch_idx = i // batch_size + 1
         batch = records_with_summary[i:i + batch_size]
         prompt = _build_validation_prompt(batch)
+        t0 = time.time()
+        print(
+            f"[语义校验] 进度 {batch_idx}/{total_batches} "
+            f"（本批 {len(batch)} 条，累计错误 {len(errors)}）"
+        )
 
         try:
             issues = call_fn(client, model, prompt)
@@ -157,7 +165,16 @@ def run_semantic_checks(records: list[dict], batch_size: int = 10) -> list[str]:
                     f"项目 #{rid} 语义不一致: {field}='{extracted}' "
                     f"(应为 '{expected}') — {reason}"
                 )
+            elapsed = time.time() - t0
+            print(
+                f"[语义校验] 批次 {batch_idx}/{total_batches} 完成，"
+                f"新增问题 {len(issues)}，累计 {len(errors)}，耗时 {elapsed:.1f}s"
+            )
         except Exception as e:
-            print(f"[语义校验] 批次 {i//batch_size + 1} 调用失败: {e}，跳过")
+            elapsed = time.time() - t0
+            print(
+                f"[语义校验] 批次 {batch_idx}/{total_batches} 调用失败: {e}，"
+                f"已跳过（耗时 {elapsed:.1f}s）"
+            )
 
     return errors
