@@ -10,7 +10,7 @@ interface ProjectListProps {
 }
 
 export default function ProjectList({ projects, onSelect, selectedId }: ProjectListProps) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
 
   if (projects.length === 0) {
     return (
@@ -31,7 +31,7 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
           const cat = CATEGORIES[p.category];
           const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
           const isSelected = p.project_id === selectedId;
-          const name = lang === "zh" ? p.project_name : (p.project_name_en || p.project_name);
+          const name = p.project_name_en || p.project_name;
 
           return (
             <li
@@ -53,7 +53,7 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                     className="badge text-white"
                     style={{ backgroundColor: cat.color, fontSize: "10px" }}
                   >
-                    {lang === "zh" ? cat.zh : cat.en}
+                    {cat.en}
                   </span>
                 )}
                 <span
@@ -64,7 +64,7 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                     fontSize: "10px",
                   }}
                 >
-                  {lang === "zh" ? p.latest_stage : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
+                  {p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}
                 </span>
                 {p.capacity_mw != null && (
                   <span className="text-slate-400" style={{ fontSize: "10px" }}>
@@ -81,7 +81,7 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
               {/* 中方实体 */}
               {p.primary_entity && (
                 <div className="text-slate-500 mt-0.5" style={{ fontSize: "11px" }}>
-                  {lang === "zh" ? p.primary_entity : (p.primary_entity_en || p.primary_entity)}
+                  {p.primary_entity_en || p.primary_entity}
                 </div>
               )}
             </li>

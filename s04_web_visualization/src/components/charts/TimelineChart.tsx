@@ -18,7 +18,7 @@ interface TimelineChartProps {
 }
 
 export default function TimelineChart({ projects }: TimelineChartProps) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
 
   const data = useMemo(() => {
     // 按年份 × 类别聚合
@@ -69,7 +69,7 @@ export default function TimelineChart({ projects }: TimelineChartProps) {
           {rows.map((item, idx) => {
             const rawName = item.name || "";
             const cat = CATEGORIES[rawName];
-            const labelText = cat ? (lang === "zh" ? cat.zh : cat.en) : rawName;
+            const labelText = cat ? cat.en : rawName;
             return (
               <div key={`${rawName}-${idx}`} className="flex items-center gap-1.5 text-slate-600">
                 <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: item.color || "#94a3b8" }} />
@@ -105,7 +105,7 @@ export default function TimelineChart({ projects }: TimelineChartProps) {
             iconType="circle"
             formatter={(value) => {
               const cat = CATEGORIES[value];
-              return cat ? (lang === "zh" ? cat.zh : cat.en) : value;
+              return cat ? cat.en : value;
             }}
             wrapperStyle={{ fontSize: 10 }}
           />

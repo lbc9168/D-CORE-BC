@@ -20,11 +20,11 @@ function Row({ label, value }: { label: string; value?: string | number | null }
 }
 
 export default function ProjectDetail({ project: p, onClose }: ProjectDetailProps) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const cat = CATEGORIES[p.category];
   const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
 
-  const name = lang === "zh" ? p.project_name : (p.project_name_en || p.project_name);
+  const name = p.project_name_en || p.project_name;
 
   return (
     <div className="flex flex-col h-full bg-white">
@@ -33,7 +33,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         <div className="flex-1">
           <div className="text-xs text-slate-400 mb-0.5">{p.project_id}</div>
           <h3 className="text-sm font-semibold text-slate-800 leading-snug">{name}</h3>
-          {lang === "en" && p.project_name && (
+          {p.project_name && p.project_name_en && p.project_name !== p.project_name_en && (
             <div className="text-xs text-slate-400 mt-0.5">{p.project_name}</div>
           )}
         </div>
@@ -46,14 +46,14 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
       <div className="flex flex-wrap gap-1.5 px-3 py-2 border-b border-slate-100">
         {cat && (
           <span className="badge text-white text-xs" style={{ backgroundColor: cat.color }}>
-            {lang === "zh" ? cat.zh : cat.en}
+            {cat.en}
           </span>
         )}
         <span
           className="badge text-xs"
           style={{ backgroundColor: stageColor + "20", color: stageColor }}
         >
-          {lang === "zh" ? p.latest_stage : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
+          {p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}
         </span>
         {p.capacity_mw != null && (
           <span className="badge bg-slate-100 text-slate-600 text-xs">
@@ -78,11 +78,11 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           <dl>
             <Row
               label={t("projectDetail.country")}
-              value={formatCountryName(p.country, p.country_iso, lang)}
+              value={formatCountryName(p.country, p.country_iso, "en")}
             />
             <Row
               label={t("projectDetail.category")}
-              value={cat ? (lang === "zh" ? cat.zh : cat.en) : p.category}
+              value={cat ? cat.en : (p.category_en || p.category)}
             />
             <Row
               label={t("projectDetail.capacity")}
@@ -95,7 +95,9 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             <Row
               label={t("projectDetail.financing")}
               value={
-                p.financing_model && p.financing_model !== "Unknown"
+                p.financing_model_en && p.financing_model_en !== "Unknown"
+                  ? p.financing_model_en
+                  : p.financing_model && p.financing_model !== "Unknown"
                   ? p.financing_model
                   : undefined
               }
@@ -126,16 +128,26 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             <div className="space-y-2">
               {p.all_entities.map((ent, i) => (
                 <div key={i} className="bg-slate-50 rounded-lg p-2.5 text-xs">
-                  <div className="font-medium text-slate-800">
-                    {lang === "zh" ? ent.name : (ent.name_en || ent.name)}
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="font-medium text-slate-800">
+                      {ent.name_en || ent.name}
+                    </span>
+                    {ent.is_central_soe === 1 && (
+                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold
+                                       bg-amber-100 text-amber-700 leading-none">
+                        Central SOE
+                      </span>
+                    )}
                   </div>
                   {ent.subsidiary && (
                     <div className="text-slate-500 mt-0.5">
-                      {lang === "zh" ? ent.subsidiary : (ent.subsidiary_en || ent.subsidiary)}
+                      {ent.subsidiary_en || ent.subsidiary}
                     </div>
                   )}
                   {ent.involvement_type && (
-                    <div className="text-slate-400 mt-0.5">{ent.involvement_type}</div>
+                    <div className="text-slate-400 mt-0.5">
+                      {ent.involvement_type_en || ent.involvement_type}
+                    </div>
                   )}
                 </div>
               ))}

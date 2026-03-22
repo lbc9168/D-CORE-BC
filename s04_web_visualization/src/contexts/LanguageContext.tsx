@@ -24,7 +24,8 @@ function getNestedValue(obj: Record<string, unknown>, path: string): string {
 }
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("zh");
+  // 固定为英文，不再支持语言切换
+  const [lang, setLang] = useState<Lang>("en");
 
   const t = useCallback(
     (path: string, values?: Record<string, string | number>): string => {
