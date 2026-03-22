@@ -774,7 +774,7 @@ class ProjectExtractorTool(BaseTool):
                     source_link, publish_date, official_website, non_official_website,
                     additional_remarks, project_summary, batch_id, imported_to_s02a, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
                 (
                     row_data.get("Record Type", "具体项目"),
                     row_data.get("Project Name", ""),
