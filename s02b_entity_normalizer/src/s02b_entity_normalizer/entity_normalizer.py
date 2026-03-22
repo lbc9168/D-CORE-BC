@@ -8,7 +8,7 @@
 
 Special:  Unknown / 未知 / 不详 等变体统一归一为 "Unknown"
 
-使用方法（在 s02a_duplicate_merger/ 目录下）：
+使用方法（在 s02b_entity_normalizer/ 目录下）：
     uv run normalize_entities            # 正式运行，写入数据库
     uv run normalize_entities --preview  # 仅预览候选对，不写入
 """
@@ -31,14 +31,14 @@ from google import genai
 from google.genai import types
 from rapidfuzz import fuzz
 
-_S02A_ROOT = Path(__file__).resolve().parents[2]
+_S02B_ROOT = Path(__file__).resolve().parents[2]  # s02b_entity_normalizer/
 
-load_dotenv(_S02A_ROOT / ".env")
+load_dotenv(_S02B_ROOT / ".env")
 load_dotenv()
 
 # ── 常量 ──────────────────────────────────────────────────────────────────────
 
-DEFAULT_DB = _S02A_ROOT / "data" / "db" / "bri_re_database.db"
+DEFAULT_DB = _S02B_ROOT.parent / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
 
 FUZZY_TOKEN_THRESHOLD   = 80   # Signal 1: token_sort_ratio 阈值
 FUZZY_PARTIAL_THRESHOLD = 90   # Signal 2: partial_ratio 阈值

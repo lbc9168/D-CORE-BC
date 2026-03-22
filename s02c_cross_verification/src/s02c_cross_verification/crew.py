@@ -2,7 +2,7 @@ from typing import List
 
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from s02b_cross_verification.tools.cross_verification_tool import CrossVerificationTool
+from s02c_cross_verification.tools.cross_verification_tool import CrossVerificationTool
 
 
 @CrewBase

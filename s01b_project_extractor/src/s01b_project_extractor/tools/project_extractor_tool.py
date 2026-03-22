@@ -319,7 +319,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     **填写规则**：
     - 识别到对照表中任何企业名称，按层级填写：
       * "Implementing Chinese Entity" = 该企业所属的顶级集团（无缩进的主条目）
-      * "Subsidiary Name" = 文中实际出现的子公司名称
+      * "Subsidiary Name" = 在对照表中找到对应的子公司条目时，填入对照表中的规范名称（"  · " 或 "      - " 条目中的名称）；若文中名称无法在对照表中匹配，则填入文中原始名称
     - 若文中直接出现顶级集团名称，则 Subsidiary Name 留空。
     - 若某企业不在对照表中，根据上下文判断；无法判断则直接填入 Implementing Entity，Subsidiary Name 留空。
     - **"Is Central SOE" 填写规则（三级优先级）**：
