@@ -1,6 +1,8 @@
+import concurrent.futures
 import json
 import os
 import sqlite3
+import threading
 import time
 from datetime import datetime
 from pathlib import Path
@@ -517,6 +519,7 @@ class ProjectExtractorTool(BaseTool):
         country_db: dict,
         projects_db_path: str,
         review_db_path: str,
+        max_workers: int = 4,
     ) -> str:
         """处理一个 DataFrame，执行 AI 提取并写入数据库。"""
         # 加载已处理过的 URL（去重）
@@ -543,45 +546,55 @@ class ProjectExtractorTool(BaseTool):
 
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
         total = len(df)
-        print(f"开始处理 {total} 条数据...")
+        print(f"开始处理 {total} 条数据（并发 {max_workers} 线程）...")
 
         pre_filter_keywords = [
             "光伏", "太阳能", "风电", "风力", "水电", "地热", "储能",
             "电力", "电站", "发电", "MW", "GW",
         ]
 
-        last_valid_pub_date = ""
+        # 预计算 publish_date 前向填充（顺序依赖，必须在并发前完成）
+        filled_dates: list[str] = []
+        _last_valid = ""
+        for _, _r in df.iterrows():
+            _d = str(_r.get("发布日期", ""))
+            if _d and _d not in ("nan", "NA", "None", "") and any(c.isdigit() for c in _d):
+                _last_valid = _d
+            elif _last_valid:
+                _d = _last_valid
+            filled_dates.append(_d)
+        df = df.copy()
+        df["发布日期"] = filled_dates
 
-        for row_num, (_, row) in enumerate(df.iterrows(), start=1):
-            title = str(row.get("文章标题", ""))
-            content = str(row.get("正文内容", ""))
-            pub_date = str(row.get("发布日期", ""))
+        _lock = threading.Lock()
+
+        def _process_article(row_num_row: tuple) -> None:
+            row_num, row = row_num_row
+            title     = str(row.get("文章标题", ""))
+            content   = str(row.get("正文内容", ""))
+            pub_date  = str(row.get("发布日期", ""))
             orig_link = str(row.get("原文链接", ""))
 
-            # 增量去重：跳过已处理的 URL
-            if orig_link and orig_link not in ("nan", "NA", "None") and orig_link in already_processed:
-                print(f"[{row_num}/{total}] 跳过（已处理）: {title[:25]}...")
-                continue
-
-            # publish_date 前向填充
-            if pub_date and pub_date not in ("nan", "NA", "None", "") and any(c.isdigit() for c in pub_date):
-                last_valid_pub_date = pub_date
-            else:
-                if last_valid_pub_date:
-                    print(f"[{row_num}/{total}] publish_date 无效（原值='{pub_date}'），使用前一条日期: {last_valid_pub_date}")
-                    pub_date = last_valid_pub_date
+            # 增量去重：原子性检查并占位，防止并发重复处理同一 URL
+            if orig_link and orig_link not in ("nan", "NA", "None"):
+                with _lock:
+                    if orig_link in already_processed:
+                        print(f"[{row_num}/{total}] 跳过（已处理）: {title[:25]}...")
+                        return
+                    already_processed.add(orig_link)
 
             # Python 端预筛，节省 API 调用
             if not any(k in content for k in pre_filter_keywords):
                 print(f"[{row_num}/{total}] Python预筛剔除: {title[:25]}...")
-                discarded_rows.append({
-                    "文章标题": title,
-                    "发布日期": pub_date,
-                    "原文链接": orig_link,
-                    "正文内容": content,
-                    "拒绝原因": "Python关键词预筛不匹配",
-                })
-                continue
+                with _lock:
+                    discarded_rows.append({
+                        "文章标题": title,
+                        "发布日期": pub_date,
+                        "原文链接": orig_link,
+                        "正文内容": content,
+                        "拒绝原因": "Python关键词预筛不匹配",
+                    })
+                return
 
             print("--------------------------------")
             print(f"[{row_num}/{total}] AI处理中: {title[:25]}...")
@@ -609,129 +622,138 @@ class ProjectExtractorTool(BaseTool):
                         print(f"  -> 处理出错（已重试{MAX_RETRIES}次，放弃）: {e}")
 
             if result is None:
-                discarded_rows.append({
-                    "文章标题": title,
-                    "正文内容": content,
-                    "拒绝原因": f"程序异常（重试{MAX_RETRIES}次失败）: {last_error}",
-                })
-            else:
-                analysis = result.get("analysis", {})
-                status = result.get("status")
-                reasoning = analysis.get("reasoning", "无详细理由")
-                subject = analysis.get("project_subject", "未知主体")
-
-                print(f"  -> 分析: [{subject}] - {reasoning}")
-                print(f"  -> 结论: {status}")
-
-                all_ai_results.append({"index": row_num, "title": title, "result": result})
-
-                if status == "irrelevant":
+                with _lock:
                     discarded_rows.append({
                         "文章标题": title,
-                        "发布日期": pub_date,
-                        "原文链接": orig_link,
                         "正文内容": content,
-                        "拒绝原因": f"[{subject}] {reasoning}",
+                        "拒绝原因": f"程序异常（重试{MAX_RETRIES}次失败）: {last_error}",
                     })
+                return
 
-                elif status == "no_chinese_participation":
-                    no_chinese_rows.append({
-                        "文章标题": title,
-                        "发布日期": pub_date,
-                        "原文链接": orig_link,
-                        "备注": "AI判定无中方参与",
-                    })
+            analysis  = result.get("analysis", {})
+            status    = result.get("status")
+            reasoning = analysis.get("reasoning", "无详细理由")
+            subject   = analysis.get("project_subject", "未知主体")
 
-                elif status == "valid_project":
-                    for proj in result.get("projects", []):
-                        common = proj.get("common_info", {})
-                        entities = proj.get("chinese_entities", [])
-                        project_summary = proj.get("project_summary", "")
-                        country_name = common.get("Country", "")
-                        meta = _get_country_meta(country_name, country_db)
+            print(f"  -> 分析: [{subject}] - {reasoning}")
+            print(f"  -> 结论: {status}")
 
-                        base = {
-                            "Record Type": common.get("Record Type", "具体项目"),
-                            "Project Name": common.get("Project Name", ""),
-                            "Project Name (EN)": common.get("Project Name (EN)", ""),
-                            "Name EN Quality": "ai_translated",
-                            "Country": country_name,
-                            "Country ISO": meta["iso"],
-                            "BRI country": meta["bri"],
-                            "LDCs": meta["ldc"],
-                            "Location (State)": common.get("Location(State)", ""),
-                            "Category": common.get("Category", ""),
-                            "Capacity (MW)": common.get("Capacity (MW)", ""),
-                            "Capacity Details": common.get("Capacity Details", ""),
-                            "Project Stage": common.get("Project Stage", ""),
-                            "Project Developer": common.get("Project Developer", ""),
-                            "Multiple Chinese Enterprises Involved": (
-                                "Yes" if len(entities) > 1 else "No"
-                            ),
-                            "(Planned) Start Date": common.get("(Planned) Start Date", ""),
-                            "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
-                            "Total Project Investment (Million USD)": common.get(
-                                "Total Project Investment (Million USD)", ""
-                            ),
-                            "Investment (or Financial Close) Date": common.get(
-                                "Investment (or Financial Close) Date", ""
-                            ),
-                            "Financing Model": common.get("Financing Model", ""),
-                            "Financing Model Details": common.get("Financing Model Details", ""),
-                            "Publish Date": pub_date,
-                            "Source Link": orig_link,
-                            "Official Website link": "",
-                            "Non-official website link": "",
-                            "Additional Remarks": "",
-                            "Project Summary": project_summary,
-                        }
+            local_valid: list[dict]      = []
+            local_no_chinese: list[dict] = []
+            local_discarded: list[dict]  = []
 
-                        if not entities:
+            if status == "irrelevant":
+                local_discarded.append({
+                    "文章标题": title,
+                    "发布日期": pub_date,
+                    "原文链接": orig_link,
+                    "正文内容": content,
+                    "拒绝原因": f"[{subject}] {reasoning}",
+                })
+
+            elif status == "no_chinese_participation":
+                local_no_chinese.append({
+                    "文章标题": title,
+                    "发布日期": pub_date,
+                    "原文链接": orig_link,
+                    "备注": "AI判定无中方参与",
+                })
+
+            elif status == "valid_project":
+                for proj in result.get("projects", []):
+                    common = proj.get("common_info", {})
+                    entities = proj.get("chinese_entities", [])
+                    project_summary = proj.get("project_summary", "")
+                    country_name = common.get("Country", "")
+                    meta = _get_country_meta(country_name, country_db)
+
+                    base = {
+                        "Record Type": common.get("Record Type", "具体项目"),
+                        "Project Name": common.get("Project Name", ""),
+                        "Project Name (EN)": common.get("Project Name (EN)", ""),
+                        "Name EN Quality": "ai_translated",
+                        "Country": country_name,
+                        "Country ISO": meta["iso"],
+                        "BRI country": meta["bri"],
+                        "LDCs": meta["ldc"],
+                        "Location (State)": common.get("Location(State)", ""),
+                        "Category": common.get("Category", ""),
+                        "Capacity (MW)": common.get("Capacity (MW)", ""),
+                        "Capacity Details": common.get("Capacity Details", ""),
+                        "Project Stage": common.get("Project Stage", ""),
+                        "Project Developer": common.get("Project Developer", ""),
+                        "Multiple Chinese Enterprises Involved": (
+                            "Yes" if len(entities) > 1 else "No"
+                        ),
+                        "(Planned) Start Date": common.get("(Planned) Start Date", ""),
+                        "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
+                        "Total Project Investment (Million USD)": common.get(
+                            "Total Project Investment (Million USD)", ""
+                        ),
+                        "Investment (or Financial Close) Date": common.get(
+                            "Investment (or Financial Close) Date", ""
+                        ),
+                        "Financing Model": common.get("Financing Model", ""),
+                        "Financing Model Details": common.get("Financing Model Details", ""),
+                        "Publish Date": pub_date,
+                        "Source Link": orig_link,
+                        "Official Website link": "",
+                        "Non-official website link": "",
+                        "Additional Remarks": "",
+                        "Project Summary": project_summary,
+                    }
+
+                    if not entities:
+                        row_data = base.copy()
+                        row_data.update({
+                            "Implementing Chinese Entity": "",
+                            "Implementing Chinese Entity (EN)": "",
+                            "Is Central SOE": None,
+                            "Subsidiary Name": "",
+                            "Subsidiary Name (EN)": "",
+                            "Type of involvement of Chinese Entities": "",
+                            "Subcontract Amount (Million USD)": "",
+                        })
+                        local_valid.append(row_data)
+                    else:
+                        for entity in entities:
+                            soe_raw = entity.get("Is Central SOE")
+                            if soe_raw is True:
+                                soe_int = 1
+                            elif soe_raw is False:
+                                soe_int = 0
+                            else:
+                                soe_int = None
                             row_data = base.copy()
                             row_data.update({
-                                "Implementing Chinese Entity": "",
-                                "Implementing Chinese Entity (EN)": "",
-                                "Is Central SOE": None,
-                                "Subsidiary Name": "",
-                                "Subsidiary Name (EN)": "",
-                                "Type of involvement of Chinese Entities": "",
-                                "Subcontract Amount (Million USD)": "",
+                                "Implementing Chinese Entity": entity.get(
+                                    "Implementing Chinese Entity", ""
+                                ),
+                                "Implementing Chinese Entity (EN)": entity.get(
+                                    "Implementing Chinese Entity (EN)", ""
+                                ),
+                                "Is Central SOE": soe_int,
+                                "Subsidiary Name": entity.get("Subsidiary Name", ""),
+                                "Subsidiary Name (EN)": entity.get("Subsidiary Name (EN)", ""),
+                                "Type of involvement of Chinese Entities": entity.get(
+                                    "Type of involvement of Chinese Entities", ""
+                                ),
+                                "Subcontract Amount (Million USD)": entity.get(
+                                    "Subcontract Amount (Million USD)", ""
+                                ),
                             })
-                            valid_rows.append(row_data)
-                        else:
-                            for entity in entities:
-                                soe_raw = entity.get("Is Central SOE")
-                                if soe_raw is True:
-                                    soe_int = 1
-                                elif soe_raw is False:
-                                    soe_int = 0
-                                else:
-                                    soe_int = None
-                                row_data = base.copy()
-                                row_data.update({
-                                    "Implementing Chinese Entity": entity.get(
-                                        "Implementing Chinese Entity", ""
-                                    ),
-                                    "Implementing Chinese Entity (EN)": entity.get(
-                                        "Implementing Chinese Entity (EN)", ""
-                                    ),
-                                    "Is Central SOE": soe_int,
-                                    "Subsidiary Name": entity.get("Subsidiary Name", ""),
-                                    "Subsidiary Name (EN)": entity.get("Subsidiary Name (EN)", ""),
-                                    "Type of involvement of Chinese Entities": entity.get(
-                                        "Type of involvement of Chinese Entities", ""
-                                    ),
-                                    "Subcontract Amount (Million USD)": entity.get(
-                                        "Subcontract Amount (Million USD)", ""
-                                    ),
-                                })
-                                valid_rows.append(row_data)
+                            local_valid.append(row_data)
 
-            # 处理完毕后标记该 URL
-            if orig_link and orig_link not in ("nan", "NA", "None"):
-                already_processed.add(orig_link)
+            with _lock:
+                all_ai_results.append({"index": row_num, "title": title, "result": result})
+                valid_rows.extend(local_valid)
+                no_chinese_rows.extend(local_no_chinese)
+                discarded_rows.extend(local_discarded)
 
-            time.sleep(1)
+        # 并发处理所有文章
+        rows_indexed = [(i + 1, row) for i, (_, row) in enumerate(df.iterrows())]
+        with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+            list(executor.map(_process_article, rows_indexed))
 
         # ── 写入 SQLite 数据库 ────────────────────────────────────────────────
         created_at  = datetime.now().isoformat()
