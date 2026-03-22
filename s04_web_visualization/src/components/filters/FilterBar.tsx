@@ -160,7 +160,7 @@ function YearRangeSlider({
 
 export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) {
   const { filter, setFilter, resetFilter, availableYears } = useData();
-  const { t, lang } = useLang();
+  const { t } = useLang();
 
   const minYear = availableYears[0] ?? 2000;
   const maxYear = availableYears[availableYears.length - 1] ?? new Date().getFullYear();
@@ -190,10 +190,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         options={Object.keys(CATEGORIES)}
         selected={filter.categories}
         onChange={(v) => setFilter((f) => ({ ...f, categories: v }))}
-        renderLabel={(k) => {
-          const cat = CATEGORIES[k];
-          return cat ? (lang === "zh" ? cat.zh : cat.en) : k;
-        }}
+        renderLabel={(k) => CATEGORIES[k]?.en ?? k}
         allLabel={t("filter.allCategories")}
       />
 
@@ -203,7 +200,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         options={Object.keys(STAGES)}
         selected={filter.stages}
         onChange={(v) => setFilter((f) => ({ ...f, stages: v }))}
-        renderLabel={(k) => STAGES[k]?.[lang] ?? k}
+        renderLabel={(k) => STAGES[k]?.en ?? k}
         allLabel={t("filter.allStages")}
       />
 
@@ -230,6 +227,26 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         }}
         allLabel={t("filter.allLdc")}
       />
+
+      {/* 央企筛选 */}
+      <div className="flex items-center gap-1.5">
+        <span className="text-slate-500">{t("filter.soe")}</span>
+        <select
+          value={filter.soeFilter}
+          onChange={(e) =>
+            setFilter((f) => ({
+              ...f,
+              soeFilter: e.target.value as "all" | "soe" | "non_soe",
+            }))
+          }
+          className="text-xs border border-slate-200 rounded-lg px-2 py-1 bg-white
+                     text-slate-700 focus:outline-none focus:ring-1 focus:ring-brand-400"
+        >
+          <option value="all">{t("filter.soeAll")}</option>
+          <option value="soe">{t("filter.soeYes")}</option>
+          <option value="non_soe">{t("filter.soeNo")}</option>
+        </select>
+      </div>
 
       <div className="w-px h-4 bg-slate-200 mx-1" />
 

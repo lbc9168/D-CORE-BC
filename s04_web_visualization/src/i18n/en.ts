@@ -28,6 +28,10 @@ const en: Translations = {
     allStages: "All Stages",
     allEntities: "All Entities",
     projectsCount: "{{count}} projects",
+    soe: "Central SOE",
+    soeAll: "All",
+    soeYes: "With Central SOE",
+    soeNo: "Without Central SOE",
   },
   map: {
     colorBy: "Color By",

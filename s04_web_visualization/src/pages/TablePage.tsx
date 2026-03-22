@@ -12,7 +12,7 @@ const PAGE_SIZE = 50;
 
 export default function TablePage() {
   const { filteredProjects, loading, error } = useData();
-  const { t, lang, T } = useLang();
+  const { t, T } = useLang();
 
   const [colorBy, setColorBy] = useState<"count" | "capacity">("count");
   const [search, setSearch] = useState("");
@@ -63,18 +63,18 @@ export default function TablePage() {
       { key: "project_id",          label: "Project ID" },
       { key: "project_name",        label: "Project Name (CN)" },
       { key: "project_name_en",     label: "Project Name (EN)" },
-      { key: "country",             label: "Country" },
       { key: "country_iso",         label: "Country ISO" },
       { key: "province",            label: "Province / State" },
-      { key: "category",            label: "Energy Type" },
+      { key: "category_en",         label: "Energy Type" },
       { key: "capacity_mw",         label: "Capacity (MW)" },
-      { key: "latest_stage",        label: "Stage" },
+      { key: "latest_stage_en",     label: "Stage" },
       { key: "event_year",          label: "Year" },
       { key: "primary_entity_en",   label: "Primary Chinese Entity (EN)" },
       { key: "primary_entity",      label: "Primary Chinese Entity (CN)" },
+      { key: "has_soe",             label: "Central SOE Involved" },
       { key: "bri_country",         label: "BRI Country" },
       { key: "ldc",                 label: "LDC" },
-      { key: "financing_model",     label: "Financing Model" },
+      { key: "financing_model_en",  label: "Financing Model" },
       { key: "verification_status", label: "Verification Status" },
       { key: "remarks",             label: "Remarks" },
     ];
@@ -95,7 +95,7 @@ export default function TablePage() {
         .map((e) => (e.name_en ? `${e.name_en} (${e.name})` : e.name))
         .join("; ");
       const financing = (p.all_entities ?? [])
-        .filter((e) => e.involvement_type?.includes("融资"))
+        .filter((e) => e.involvement_type_en?.includes("Financ") || e.involvement_type?.includes("融资"))
         .map((e) => e.name_en || e.name)
         .join("; ");
       const parts: string[] = [];
@@ -105,9 +105,8 @@ export default function TablePage() {
       const remarks = parts.join(" | ");
 
       return exportHeaders.map(({ key }) => {
-        if (key === "remarks")       return esc(remarks);
-        if (key === "category")      return esc(CATEGORIES[p.category]?.en ?? p.category);
-        if (key === "latest_stage")  return esc(STAGES[p.latest_stage]?.en ?? p.latest_stage);
+        if (key === "remarks")  return esc(remarks);
+        if (key === "has_soe")  return esc(p.has_soe === 1 ? "Yes" : "No");
         return esc((p as Record<string, unknown>)[key]);
       }).join(",");
     });
@@ -213,12 +212,15 @@ export default function TablePage() {
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 min-w-32">
                   {col.entity || "Chinese Entity"}
                 </th>
+                <th className="text-center px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  Central SOE
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {pageData.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="py-12 text-center text-slate-400">
+                  <td colSpan={10} className="py-12 text-center text-slate-400">
                     {t("table.empty")}
                   </td>
                 </tr>
@@ -226,8 +228,8 @@ export default function TablePage() {
                 pageData.map((p) => {
                   const cat = CATEGORIES[p.category];
                   const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
-                  const name = lang === "zh" ? p.project_name : (p.project_name_en || p.project_name);
-                  const entity = lang === "zh" ? p.primary_entity : (p.primary_entity_en || p.primary_entity);
+                  const name = p.project_name_en || p.project_name;
+                  const entity = p.primary_entity_en || p.primary_entity;
                   const isSelected = selectedProject?.project_id === p.project_id;
 
                   return (
@@ -245,7 +247,7 @@ export default function TablePage() {
                         {name}
                       </td>
                       <td className="px-3 py-2 text-slate-600 whitespace-nowrap">
-                        {formatCountryName(p.country, p.country_iso, lang)}
+                        {formatCountryName(p.country, p.country_iso, "en")}
                       </td>
                       <td className="px-3 py-2 text-slate-500 whitespace-nowrap">
                         {p.province ?? "—"}
@@ -256,14 +258,14 @@ export default function TablePage() {
                             className="badge text-white"
                             style={{ backgroundColor: cat.color, fontSize: "10px" }}
                           >
-                            {lang === "zh" ? cat.zh : cat.en}
+                            {cat.en}
                           </span>
-                        ) : p.category ? (
+                        ) : (p.category_en || p.category) ? (
                           <span
                             className="badge bg-slate-100 text-slate-500"
                             style={{ fontSize: "10px" }}
                           >
-                            {p.category}
+                            {p.category_en || p.category}
                           </span>
                         ) : null}
                       </td>
@@ -279,13 +281,21 @@ export default function TablePage() {
                             fontSize: "10px",
                           }}
                         >
-                          {lang === "zh"
-                            ? p.latest_stage
-                            : (STAGES[p.latest_stage]?.en ?? p.latest_stage)}
+                          {p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}
                         </span>
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600">{p.event_year}</td>
                       <td className="px-3 py-2 text-slate-600 max-w-xs truncate">{entity}</td>
+                      <td className="px-3 py-2 text-center">
+                        {p.has_soe === 1 ? (
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold
+                                           bg-amber-100 text-amber-700 leading-none">
+                            ✓
+                          </span>
+                        ) : (
+                          <span className="text-slate-300">—</span>
+                        )}
+                      </td>
                     </tr>
                   );
                 })

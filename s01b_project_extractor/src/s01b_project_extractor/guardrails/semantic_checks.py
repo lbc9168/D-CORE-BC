@@ -3,6 +3,7 @@
 import concurrent.futures
 import json
 import os
+import time
 from typing import Any
 
 
@@ -137,7 +138,7 @@ def run_semantic_checks(
         return []
 
     backend, client, model = _get_validation_client()
-    if client is None:
+    if client is None or not model:
         print("[语义校验] 无可用校验模型（检查 VALIDATION_API_KEY 或 GEMINI_API_KEY），跳过")
         return []
 
@@ -154,11 +155,23 @@ def run_semantic_checks(
     )
 
     call_fn = _call_openai if backend == "openai" else _call_gemini
+    total_batches = (len(records_with_summary) + batch_size - 1) // batch_size
 
     def _call_one_batch(args: tuple[int, list[dict]]) -> list[str]:
         """处理单个批次，返回该批次的错误列表。"""
         batch_idx, batch = args
         prompt = _build_validation_prompt(batch)
+    # 分批调用
+    for i in range(0, len(records_with_summary), batch_size):
+        batch_idx = i // batch_size + 1
+        batch = records_with_summary[i:i + batch_size]
+        prompt = _build_validation_prompt(batch)
+        t0 = time.time()
+        print(
+            f"[语义校验] 进度 {batch_idx}/{total_batches} "
+            f"（本批 {len(batch)} 条，累计错误 {len(errors)}）"
+        )
+
         try:
             issues = call_fn(client, model, prompt)
             results = []
@@ -182,5 +195,16 @@ def run_semantic_checks(
     with concurrent.futures.ThreadPoolExecutor(max_workers=actual_workers) as executor:
         for batch_errors in executor.map(_call_one_batch, enumerate(batches)):
             errors.extend(batch_errors)
+            elapsed = time.time() - t0
+            print(
+                f"[语义校验] 批次 {batch_idx}/{total_batches} 完成，"
+                f"新增问题 {len(issues)}，累计 {len(errors)}，耗时 {elapsed:.1f}s"
+            )
+        except Exception as e:
+            elapsed = time.time() - t0
+            print(
+                f"[语义校验] 批次 {batch_idx}/{total_batches} 调用失败: {e}，"
+                f"已跳过（耗时 {elapsed:.1f}s）"
+            )
 
     return errors

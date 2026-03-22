@@ -48,8 +48,6 @@ from s01a_news_crawler.crew import NewsCrawler                              # no
 from s01b_project_extractor.crew import ProjectExtractor                    # noqa: E402
 from s02a_duplicate_merger.crew import DuplicateMerger                      # noqa: E402
 from s02b_entity_normalizer.entity_normalizer import run as _run_s02b       # noqa: E402
-from s02c_cross_verification.crew import CrossVerification                  # noqa: E402  # 保留备用
-from s03_data_exporter.main import run as _run_s03                          # noqa: E402  # 保留备用
 
 
 # ════════════════════════════════════════════════════════════════
@@ -181,6 +179,9 @@ def _print_stage_header(stage_id, title: str, subtitle: str = ""):
 
 def _archive_s01a_files(raw_dir: Path):
     """将 s01a data/raw/ 下的旧爬虫文件移入 Archived/ 子目录。"""
+    if not raw_dir.exists():
+        # 首次运行或目录尚未创建时直接跳过归档，避免 FileNotFoundError 中断流程。
+        return
     archived = raw_dir / "Archived"
     archived.mkdir(parents=True, exist_ok=True)
     for f in raw_dir.iterdir():
@@ -204,6 +205,9 @@ def run_from_s01b():
 
 def run_export_only():
     """仅重新执行阶段三导出（数据库已有时使用），预留备用"""
+    # 延迟导入，避免不运行 s03 时给主流水线增加额外导入依赖风险。
+    from s03_data_exporter.main import run as _run_s03
+
     _print_stage_header(3, "数据库整理与前端导出（s03，独立运行）")
     _run_s03()
     print("\n[Flow] ✅ 阶段三导出完毕")

@@ -38,7 +38,7 @@ interface EntityChartProps {
 type RankingMode = "count" | "capacity";
 
 export default function EntityChart({ projects }: EntityChartProps) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const [mode, setMode] = useState<RankingMode>("count");
 
   const data = useMemo(() => {
@@ -63,11 +63,11 @@ export default function EntityChart({ projects }: EntityChartProps) {
       .sort((a, b) => (mode === "count" ? b.count - a.count : b.capacity - a.capacity))
       .slice(0, TOP_N)
       .map((item) => ({
-        name: (lang === "zh" ? item.name : item.name_en) || item.name || item.name_en,
+        name: item.name_en || item.name,
         count: item.count,
         capacity: Math.round(item.capacity),
       }));
-  }, [projects, lang, mode]);
+  }, [projects, mode]);
 
   if (data.length === 0) {
     return (

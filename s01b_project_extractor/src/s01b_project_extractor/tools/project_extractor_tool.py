@@ -390,7 +390,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     - **Category**: 只能选 [新能源制造业，输变电建设，火电，光伏, 风电, 水电，核电，地热及余热, 生物质, 储能, 综合能源]。
         - 如果项目是建设"光伏组件厂"、"锂电池制造基地"、"多晶硅工厂"、"新能源装备产业园"，则视为"新能源制造业"。
             - **区分关键**：看产出单位。如果是"GW/年（产能）"、"万吨/年"，则是工厂。如果是"MW/GW（装机容量）"，才是电站。
-        - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等，则选择"输变电"。
+        - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等，则选择"输变电建设"。
         - 如果项目是建设"火电厂"、"燃气轮机厂"、"天然气发电厂"、"煤电"，且不涉及与其他新能源发电形式结合，则视为"火电"。
     - **project_summary**: 用2-3句话概括该项目的核心事实。必须包含：中方参与企业名称、所在国家、项目类型、装机容量（如有）、当前阶段。仅基于新闻原文提炼，不做推测或补充。
     - **status**: 枚举值 "valid_project" | "no_chinese_participation" | "irrelevant"
@@ -757,105 +757,140 @@ class ProjectExtractorTool(BaseTool):
 
         # ── 写入 SQLite 数据库 ────────────────────────────────────────────────
         created_at  = datetime.now().isoformat()
-        proj_conn   = _init_projects_db(projects_db_path)
-        review_conn = _init_review_db(review_db_path)
+        proj_conn = None
+        review_conn = None
 
-        # 写入 projects.db（有中国主体的有效项目）
-        for row_data in valid_rows:
-            proj_conn.execute(
-                """INSERT INTO extracted_projects
-                   (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
-                    bri_country, ldc, location, category, capacity_mw, capacity_details,
-                    project_stage, project_developer, multiple_chinese, implementing_entity,
-                    implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
-                    involvement_type, subcontract_amount_usd, planned_start_date,
-                    planned_complete_date, total_investment_usd, investment_date,
-                    financing_model, financing_model_details,
-                    source_link, publish_date, official_website, non_official_website,
-                    additional_remarks, project_summary, batch_id, imported_to_s02a, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                           ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
-                (
-                    row_data.get("Record Type", "具体项目"),
-                    row_data.get("Project Name", ""),
-                    row_data.get("Project Name (EN)", ""),
-                    row_data.get("Name EN Quality", ""),
-                    row_data.get("Country", ""),
-                    row_data.get("Country ISO", ""),
-                    row_data.get("BRI country", ""),
-                    row_data.get("LDCs", ""),
-                    row_data.get("Location (State)", ""),
-                    row_data.get("Category", ""),
-                    row_data.get("Capacity (MW)", ""),
-                    row_data.get("Capacity Details", ""),
-                    row_data.get("Project Stage", ""),
-                    row_data.get("Project Developer", ""),
-                    row_data.get("Multiple Chinese Enterprises Involved", ""),
-                    row_data.get("Implementing Chinese Entity", ""),
-                    row_data.get("Implementing Chinese Entity (EN)", ""),
-                    row_data.get("Is Central SOE"),
-                    row_data.get("Subsidiary Name", ""),
-                    row_data.get("Subsidiary Name (EN)", ""),
-                    row_data.get("Type of involvement of Chinese Entities", ""),
-                    row_data.get("Subcontract Amount (Million USD)", ""),
-                    row_data.get("(Planned) Start Date", ""),
-                    row_data.get("(Planned) Complete Date", ""),
-                    row_data.get("Total Project Investment (Million USD)", ""),
-                    row_data.get("Investment (or Financial Close) Date", ""),
-                    row_data.get("Financing Model", ""),
-                    row_data.get("Financing Model Details", ""),
-                    row_data.get("Source Link", ""),
-                    row_data.get("Publish Date", ""),
-                    row_data.get("Official Website link", ""),
-                    row_data.get("Non-official website link", ""),
-                    row_data.get("Additional Remarks", ""),
-                    row_data.get("Project Summary", ""),
-                    batch_id,
-                    created_at,
-                ),
-            )
-        proj_conn.commit()
-        proj_conn.close()
+        def _dump_failed_parse_results(err_msg: str) -> str:
+            """入库失败时兜底保存解析结果，避免长批次重跑导致结果丢失。"""
+            json_dir = Path(projects_db_path).parent
+            json_path = json_dir / f"All_AI_Results_{ts}_failed.json"
+            payload = {
+                "batch_id": batch_id,
+                "created_at": created_at,
+                "error": err_msg,
+                "stats": {
+                    "valid_rows": len(valid_rows),
+                    "no_chinese_rows": len(no_chinese_rows),
+                    "discarded_rows": len(discarded_rows),
+                    "all_ai_results": len(all_ai_results),
+                },
+                "all_ai_results": all_ai_results,
+                "valid_rows": valid_rows,
+                "no_chinese_rows": no_chinese_rows,
+                "discarded_rows": discarded_rows,
+            }
+            with open(json_path, "w", encoding="utf-8") as f:
+                json.dump(payload, f, ensure_ascii=False, indent=2)
+            return str(json_path)
 
-        # 写入 review.db → no_chinese_records
-        for row in no_chinese_rows:
-            try:
-                review_conn.execute(
-                    """INSERT OR IGNORE INTO no_chinese_records
-                       (title, source_link, publish_date, batch_id, created_at)
-                       VALUES (?, ?, ?, ?, ?)""",
+        try:
+            proj_conn = _init_projects_db(projects_db_path)
+            review_conn = _init_review_db(review_db_path)
+
+            # 写入 projects.db（有中国主体的有效项目）
+            for row_data in valid_rows:
+                proj_conn.execute(
+                    """INSERT INTO extracted_projects
+                       (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
+                        bri_country, ldc, location, category, capacity_mw, capacity_details,
+                        project_stage, project_developer, multiple_chinese, implementing_entity,
+                        implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
+                        involvement_type, subcontract_amount_usd, planned_start_date,
+                        planned_complete_date, total_investment_usd, investment_date,
+                        financing_model, financing_model_details,
+                        source_link, publish_date, official_website, non_official_website,
+                        additional_remarks, project_summary, batch_id, imported_to_s02a, created_at)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
                     (
-                        row.get("文章标题", ""),
-                        row.get("原文链接", ""),
-                        row.get("发布日期", ""),
+                        row_data.get("Record Type", "具体项目"),
+                        row_data.get("Project Name", ""),
+                        row_data.get("Project Name (EN)", ""),
+                        row_data.get("Name EN Quality", ""),
+                        row_data.get("Country", ""),
+                        row_data.get("Country ISO", ""),
+                        row_data.get("BRI country", ""),
+                        row_data.get("LDCs", ""),
+                        row_data.get("Location (State)", ""),
+                        row_data.get("Category", ""),
+                        row_data.get("Capacity (MW)", ""),
+                        row_data.get("Capacity Details", ""),
+                        row_data.get("Project Stage", ""),
+                        row_data.get("Project Developer", ""),
+                        row_data.get("Multiple Chinese Enterprises Involved", ""),
+                        row_data.get("Implementing Chinese Entity", ""),
+                        row_data.get("Implementing Chinese Entity (EN)", ""),
+                        row_data.get("Is Central SOE"),
+                        row_data.get("Subsidiary Name", ""),
+                        row_data.get("Subsidiary Name (EN)", ""),
+                        row_data.get("Type of involvement of Chinese Entities", ""),
+                        row_data.get("Subcontract Amount (Million USD)", ""),
+                        row_data.get("(Planned) Start Date", ""),
+                        row_data.get("(Planned) Complete Date", ""),
+                        row_data.get("Total Project Investment (Million USD)", ""),
+                        row_data.get("Investment (or Financial Close) Date", ""),
+                        row_data.get("Financing Model", ""),
+                        row_data.get("Financing Model Details", ""),
+                        row_data.get("Source Link", ""),
+                        row_data.get("Publish Date", ""),
+                        row_data.get("Official Website link", ""),
+                        row_data.get("Non-official website link", ""),
+                        row_data.get("Additional Remarks", ""),
+                        row_data.get("Project Summary", ""),
                         batch_id,
                         created_at,
                     ),
                 )
-            except Exception:
-                pass
-        review_conn.commit()
+            proj_conn.commit()
 
-        # 写入 review.db → discarded_records
-        for row in discarded_rows:
-            try:
-                review_conn.execute(
-                    """INSERT OR IGNORE INTO discarded_records
-                       (title, source_link, publish_date, discard_reason, batch_id, created_at)
-                       VALUES (?, ?, ?, ?, ?, ?)""",
-                    (
-                        row.get("文章标题", ""),
-                        row.get("原文链接", ""),
-                        row.get("发布日期", ""),
-                        row.get("拒绝原因", ""),
-                        batch_id,
-                        created_at,
-                    ),
-                )
-            except Exception:
-                pass
-        review_conn.commit()
-        review_conn.close()
+            # 写入 review.db → no_chinese_records
+            for row in no_chinese_rows:
+                try:
+                    review_conn.execute(
+                        """INSERT OR IGNORE INTO no_chinese_records
+                           (title, source_link, publish_date, batch_id, created_at)
+                           VALUES (?, ?, ?, ?, ?)""",
+                        (
+                            row.get("文章标题", ""),
+                            row.get("原文链接", ""),
+                            row.get("发布日期", ""),
+                            batch_id,
+                            created_at,
+                        ),
+                    )
+                except Exception:
+                    pass
+            review_conn.commit()
+
+            # 写入 review.db → discarded_records
+            for row in discarded_rows:
+                try:
+                    review_conn.execute(
+                        """INSERT OR IGNORE INTO discarded_records
+                           (title, source_link, publish_date, discard_reason, batch_id, created_at)
+                           VALUES (?, ?, ?, ?, ?, ?)""",
+                        (
+                            row.get("文章标题", ""),
+                            row.get("原文链接", ""),
+                            row.get("发布日期", ""),
+                            row.get("拒绝原因", ""),
+                            batch_id,
+                            created_at,
+                        ),
+                    )
+                except Exception:
+                    pass
+            review_conn.commit()
+        except Exception as e:
+            fallback_path = _dump_failed_parse_results(str(e))
+            raise RuntimeError(
+                f"写入数据库失败，解析结果已保存至: {fallback_path}，原始错误: {e}"
+            ) from e
+        finally:
+            if proj_conn is not None:
+                proj_conn.close()
+            if review_conn is not None:
+                review_conn.close()
 
         # AI 原始结果 JSON
         json_path_str = ""
