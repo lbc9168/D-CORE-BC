@@ -23,7 +23,8 @@ env/
 # 6. 运行时生成的数据目录（体积大，不上传）
 s01_data_collector_filter/data/
 s02a_duplicate_merger/data/
-s02b_cross_verification/data/
+s02b_entity_normalizer/data/
+s02c_cross_verification/data/
 s03_data_exporter/data/
 # 例外：保留目录占位符（如有）
 !**/data/.gitkeep

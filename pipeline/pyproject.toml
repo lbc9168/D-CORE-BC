@@ -7,23 +7,26 @@ requires-python = ">=3.10,<3.14"
 dependencies = [
     "crewai[tools,google-genai]==1.9.3",
     "python-dotenv>=1.0.0",
-    "s01_data_collector_filter",
+    "s01a_news_crawler",
+    "s01b_project_extractor",
     "s02a_duplicate_merger",
-    "s02b_cross_verification",
+    "s02b_entity_normalizer",
+    "s02c_cross_verification",
     "s03_data_exporter",
 ]
 
 [project.scripts]
-run_pipeline           = "bri_pipeline.flow:run_full"
-run_merge_only         = "bri_pipeline.flow:run_merge_only"
-run_collect_and_merge  = "bri_pipeline.flow:run_collect_and_merge"
-run_export_only        = "bri_pipeline.flow:run_export_only"
+run_pipeline    = "bri_pipeline.flow:run_full_pipeline"
+run_from_s01b   = "bri_pipeline.flow:run_from_s01b"
+run_export_only = "bri_pipeline.flow:run_export_only"
 
 [tool.uv.sources]
-s01_data_collector_filter = { path = "../s01_data_collector_filter", editable = true }
-s02a_duplicate_merger     = { path = "../s02a_duplicate_merger",     editable = true }
-s02b_cross_verification   = { path = "../s02b_cross_verification",   editable = true }
-s03_data_exporter         = { path = "../s03_data_exporter",         editable = true }
+s01a_news_crawler      = { path = "../s01a_news_crawler",      editable = true }
+s01b_project_extractor = { path = "../s01b_project_extractor", editable = true }
+s02a_duplicate_merger  = { path = "../s02a_duplicate_merger",  editable = true }
+s02b_entity_normalizer = { path = "../s02b_entity_normalizer", editable = true }
+s02c_cross_verification = { path = "../s02c_cross_verification", editable = true }
+s03_data_exporter      = { path = "../s03_data_exporter",      editable = true }
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/bri_pipeline"]
@@ -37,8 +40,10 @@ type = "flow"
 
 [tool.pyright]
 extraPaths = [
-    "../s01_data_collector_filter/src",
+    "../s01a_news_crawler/src",
+    "../s01b_project_extractor/src",
     "../s02a_duplicate_merger/src",
-    "../s02b_cross_verification/src",
+    "../s02b_entity_normalizer/src",
+    "../s02c_cross_verification/src",
     "../s03_data_exporter/src",
 ]

@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-03-21
+> 最后更新：2026-03-22
 
 ---
 
@@ -10,13 +10,13 @@
 
 **流水线架构：**
 ```
-数据收集 → 去重合并 ──→ 数据库整理 → 网页可视化 → 数据分析 → 报告撰写
-   ✅       ✅    ↓      ✅         🚧         ⬜        ⬜
-            交叉验证（可选）⚠️
+数据收集 → 去重合并 → 实体归一化 ──→ 数据库整理 → 网页可视化 → 数据分析 → 报告撰写
+   ✅         ✅          ✅    ↓        ✅          🚧          ⬜        ⬜
+                    交叉验证（可选）⚠️
 ```
 
-> 阶段二已拆分为两个独立子项目：`s02a_duplicate_merger`（必选）+ `s02b_cross_verification`（可选）。
-> 去重合并后可直接进入数据库整理，也可先做交叉验证再整理。
+> 阶段二已拆分为三个独立子项目：`s02a_duplicate_merger`（必选）+ `s02b_entity_normalizer`（建议）+ `s02c_cross_verification`（可选）。
+> 去重合并后可直接进入数据库整理，也可先做实体归一化和/或交叉验证再整理。
 
 ---
 
@@ -28,7 +28,8 @@
 | 阶段一A | `s01a_news_crawler` | ✅ 已完成 | — |
 | 阶段一B | `s01b_project_extractor` | ✅ 已完成（2026-03-21 更新知识库）| [s01b.md](s01b.md) |
 | 阶段二A | `s02a_duplicate_merger` | ✅ 已完成 | [s02a.md](s02a.md) |
-| 阶段二B | `s02b_cross_verification` | ⚠️ 待修改（可选） | [s02b.md](s02b.md) |
+| 阶段二B | `s02b_entity_normalizer` | ✅ 已完成 | [s02b.md](s02b.md) |
+| 阶段二C | `s02c_cross_verification` | ⚠️ 待修改（可选） | [s02c.md](s02c.md) |
 | 阶段三 | `s03_data_exporter` | ✅ 已完成（细节待调整） | [s03.md](s03.md) |
 | 阶段四 | `s04_web_visualization` | 🚧 调试中 | [s04.md](s04.md) |
 | 编排 | `pipeline` | ✅ 已完成 | [pipeline.md](pipeline.md) |
@@ -95,11 +96,16 @@ BRI_RE_Database_v2/
 │       ├── config/{agents,tasks}.yaml
 │       └── tools/duplicate_merger_tool.py
 │
-├── s02b_cross_verification/             # 阶段二B crewai 子项目（外部交叉验证，可选）
+├── s02b_entity_normalizer/              # 阶段二B 独立子项目（实体名称归一化）
+│   ├── pyproject.toml
+│   └── src/s02b_entity_normalizer/
+│       └── entity_normalizer.py    # 三信号候选筛查 + LLM 归一化
+│
+├── s02c_cross_verification/             # 阶段二C crewai 子项目（外部交叉验证，可选）
 │   ├── pyproject.toml
 │   ├── data/verification_cache/    # GDELT 文章 & 向量嵌入缓存
 │   ├── data/manual_review/         # 低置信度人工核查 Excel
-│   └── src/s02b_cross_verification/
+│   └── src/s02c_cross_verification/
 │       ├── main.py
 │       ├── crew.py
 │       ├── config/{agents,tasks}.yaml
