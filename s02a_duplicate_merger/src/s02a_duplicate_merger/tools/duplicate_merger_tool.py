@@ -14,6 +14,7 @@ import os
 import sqlite3
 import time
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from typing import Any, Dict, List, Optional, Tuple, Type
 
@@ -814,22 +815,45 @@ def _deduplicate_projects(
         if px != py:
             parent[py] = px
 
+    # 分流：高分自动确认 vs 需要 LLM 核验
+    score_map = {(i, j): s for i, j, s in candidates}
+    auto_pairs: List[Tuple[int, int]] = []
+    llm_pairs: List[Tuple[int, int]] = []
     for i, j, best_score in candidates:
-        a, b = projects[i], projects[j]
-        # 高分直接确认（同批次，与跨批次 CANONICAL_AUTO_MATCH_SCORE 逻辑对称）
         if best_score >= CANONICAL_AUTO_MATCH_SCORE:
-            print(
-                f"  [高分自动确认 score={best_score:.0f}] "
-                f"[{a['project_name'][:25]}] vs [{b['project_name'][:25]}]"
-            )
-            union(i, j)
-            continue
-        print(f"  LLM 核验: [{a['project_name'][:25]}] vs [{b['project_name'][:25]}]")
-        if _llm_confirm(client, config, a, b):
-            union(i, j)
-            print(f"    → 确认为同一项目，待合并")
+            auto_pairs.append((i, j))
         else:
-            print(f"    → 不同项目，各自保留")
+            llm_pairs.append((i, j))
+
+    for i, j in auto_pairs:
+        a, b = projects[i], projects[j]
+        print(
+            f"  [高分自动确认 score={score_map[(i, j)]:.0f}] "
+            f"[{a['project_name'][:25]}] vs [{b['project_name'][:25]}]"
+        )
+        union(i, j)
+
+    if llm_pairs:
+        # 并行 LLM 核验（max_workers=3 避免触发 Gemini QPM 限速）
+        print(f"  并行 LLM 核验 {len(llm_pairs)} 对候选…")
+
+        def _confirm_pair(pair: Tuple[int, int]) -> Tuple[int, int, bool]:
+            pi, pj = pair
+            a, b = projects[pi], projects[pj]
+            print(f"    核验: [{a['project_name'][:25]}] vs [{b['project_name'][:25]}]")
+            result = _llm_confirm(client, config, a, b)
+            return pi, pj, result
+
+        with ThreadPoolExecutor(max_workers=3) as exe:
+            futures = {exe.submit(_confirm_pair, pair): pair for pair in llm_pairs}
+            for fut in as_completed(futures):
+                pi, pj, confirmed = fut.result()
+                a, b = projects[pi], projects[pj]
+                if confirmed:
+                    union(pi, pj)
+                    print(f"    → [{a['project_name'][:25]}] 确认为同一项目，待合并")
+                else:
+                    print(f"    → [{a['project_name'][:25]}] 不同项目，各自保留")
 
     groups: Dict[int, List[int]] = defaultdict(list)
     for i in range(n):
@@ -887,6 +911,7 @@ def _find_or_create_canonical(
     project: Dict,
     client: Optional[genai.Client] = None,
     config: Optional[types.GenerateContentConfig] = None,
+    canonical_cache: Optional[Dict[Tuple[str, str], List]] = None,
 ) -> Tuple[str, bool]:
     """
     查找已有的 canonical_project，或新建一条。
@@ -910,10 +935,13 @@ def _find_or_create_canonical(
     name = project["project_name"]
     incoming_en = (project.get("project_name_en") or "").strip()
 
-    rows = conn.execute(
-        "SELECT id, project_name, project_name_en FROM canonical_projects WHERE country_iso = ? AND category = ?",
-        (iso, cat),
-    ).fetchall()
+    if canonical_cache is not None:
+        rows = canonical_cache.get((iso, cat), [])
+    else:
+        rows = conn.execute(
+            "SELECT id, project_name, project_name_en FROM canonical_projects WHERE country_iso = ? AND category = ?",
+            (iso, cat),
+        ).fetchall()
 
     best_id: Optional[str] = None
     best_score = 0
@@ -978,14 +1006,14 @@ def _find_or_create_canonical(
 
     # 新建 canonical_project
     new_id = _gen_canonical_id(conn, iso, _get_cat_code(cat))
+    name_en = project.get("project_name_en", "")
     conn.execute(
         """INSERT INTO canonical_projects
            (id, project_name, project_name_en, name_en_quality,
             country, country_iso, bri_country, ldc, location, category, created_at)
            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
-            new_id, name,
-            project.get("project_name_en", ""),
+            new_id, name, name_en,
             project.get("name_en_quality", "ai_translated"),
             project["country"], iso,
             project["bri_country"], project["ldc"],
@@ -993,6 +1021,9 @@ def _find_or_create_canonical(
             datetime.now().isoformat(),
         ),
     )
+    # 更新内存缓存，使后续项目能匹配到此次新建的 canonical
+    if canonical_cache is not None:
+        canonical_cache.setdefault((iso, cat), []).append((new_id, name, name_en))
     return new_id, True
 
 
@@ -1005,9 +1036,17 @@ def _write_to_db(
     """将合并后的逻辑项目写入三张 SQLite 表，返回各表新增条数。"""
     cnt = {"canonical_new": 0, "event_new": 0, "entity_new": 0, "event_cross_merged": 0}
 
+    # 预加载所有 canonical_projects 到内存，避免逐项 SQL 查询
+    canonical_cache: Dict[Tuple[str, str], List] = {}
+    for row in conn.execute(
+        "SELECT id, project_name, project_name_en, country_iso, category FROM canonical_projects"
+    ).fetchall():
+        key = (row[3], row[4])  # (country_iso, category)
+        canonical_cache.setdefault(key, []).append((row[0], row[1], row[2]))
+
     for project in projects:
         # ── canonical_projects ──────────────────────────────────────────────
-        canonical_id, is_new = _find_or_create_canonical(conn, project, client, config)
+        canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
         if is_new:
             cnt["canonical_new"] += 1
 
