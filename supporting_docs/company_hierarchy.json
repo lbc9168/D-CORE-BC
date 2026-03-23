@@ -9,579 +9,1008 @@
   "companies": [
     {
       "company_name_cn": "中国能源建设集团有限公司",
-      "company_name_en": "China Energy Engineering Group Co., Ltd. (CEEC)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
         {
           "name_cn": "中国葛洲坝集团有限公司",
-          "name_en": "China Gezhouba Group Co., Ltd.",
           "subsidiaries_level3": [
             {
-              "name_cn": "中国葛洲坝集团（甘肃）工程有限公司",
-              "name_en": "China Gezhouba Group (Gansu) Engineering Co., Ltd."
+              "name_cn": "中国葛洲坝集团（甘肃）工程有限公司"
             }
           ]
         },
         {
-          "name_cn": "中国电力工程顾问集团有限公司",
-          "name_en": "China Power Engineering Consulting Group Co., Ltd. (CPECC)"
+          "name_cn": "中国电力工程顾问集团有限公司"
         },
         {
-          "name_cn": "中国能建集团装备有限公司",
-          "name_en": "CEEC Equipment Co., Ltd."
+          "name_cn": "中国能建集团装备有限公司"
         },
         {
-          "name_cn": "中国能源建设集团电子商务有限公司",
-          "name_en": "China Energy Engineering Group E-Commerce Co., Ltd."
+          "name_cn": "中国能源建设集团电子商务有限公司"
         },
         {
-          "name_cn": "中国能源建设集团华东建设投资有限公司",
-          "name_en": "China Energy Engineering Group East China Construction Investment Co., Ltd."
+          "name_cn": "中国能源建设集团华东建设投资有限公司"
         },
         {
-          "name_cn": "中国能源建设集团南方建设投资有限公司",
-          "name_en": "China Energy Engineering Group South China Construction Investment Co., Ltd."
+          "name_cn": "中国能源建设集团南方建设投资有限公司"
         },
         {
-          "name_cn": "中国能源建设集团西北建设投资有限公司",
-          "name_en": "China Energy Engineering Group Northwest Construction Investment Co., Ltd."
+          "name_cn": "中国能源建设集团西北建设投资有限公司"
         },
         {
-          "name_cn": "中能建城市投资发展有限公司",
-          "name_en": "CEEC Urban Investment Development Co., Ltd."
+          "name_cn": "中能建城市投资发展有限公司"
         },
         {
-          "name_cn": "中国能建国际建设集团有限公司",
-          "name_en": "China Energy Engineering International Construction Group Co., Ltd."
+          "name_cn": "中国能建国际建设集团有限公司"
         },
         {
-          "name_cn": "中国能源建设（香港）有限公司",
-          "name_en": "China Energy Engineering (Hong Kong) Co., Ltd."
+          "name_cn": "中国能源建设（香港）有限公司"
         },
         {
-          "name_cn": "中能建（海南）有限公司",
-          "name_en": "CEEC (Hainan) Co., Ltd."
+          "name_cn": "中能建（海南）有限公司"
         },
         {
-          "name_cn": "中国能建南方投资开发有限公司",
-          "name_en": "CEEC South Investment Development Co., Ltd."
+          "name_cn": "中国能建南方投资开发有限公司"
         },
         {
-          "name_cn": "中能建数字化科技有限公司",
-          "name_en": "CEEC Digital Technology Co., Ltd."
+          "name_cn": "中能建数字化科技有限公司"
         },
         {
-          "name_cn": "中国能源建设集团财务有限公司",
-          "name_en": "China Energy Engineering Group Finance Co., Ltd."
+          "name_cn": "中国能源建设集团财务有限公司"
         },
         {
-          "name_cn": "中国能建绿色建材有限公司",
-          "name_en": "CEEC Green Building Materials Co., Ltd."
+          "name_cn": "中国能建绿色建材有限公司"
         },
         {
-          "name_cn": "中国能建氢能源有限公司",
-          "name_en": "CEEC Hydrogen Energy Co., Ltd."
+          "name_cn": "中国能建氢能源有限公司"
         },
         {
-          "name_cn": "中国能源建设集团产业发展有限公司",
-          "name_en": "China Energy Engineering Group Industrial Development Co., Ltd."
+          "name_cn": "中国能源建设集团产业发展有限公司"
         },
         {
-          "name_cn": "易普力股份有限公司",
-          "name_en": "Yipuli Co., Ltd."
+          "name_cn": "易普力股份有限公司"
         },
         {
-          "name_cn": "中国能建集团第三工程局有限公司",
-          "name_en": "CEEC Third Engineering Bureau Co., Ltd."
+          "name_cn": "中国能建集团第三工程局有限公司"
         },
         {
-          "name_cn": "中国能源建设集团黑龙江省能源建设有限公司",
-          "name_en": "China Energy Engineering Group Heilongjiang Energy Construction Co., Ltd."
+          "name_cn": "中国能源建设集团黑龙江省能源建设有限公司"
         },
         {
-          "name_cn": "中国能源建设集团东北电力第一工程有限公司",
-          "name_en": "China Energy Engineering Group Northeast Electric Power First Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团东北电力第一工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团东北电力第二工程有限公司",
-          "name_en": "China Energy Engineering Group Northeast Electric Power Second Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团东北电力第二工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团东北电力第三工程有限公司",
-          "name_en": "China Energy Engineering Group Northeast Electric Power Third Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团东北电力第三工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团天津电力建设有限公司",
-          "name_en": "China Energy Engineering Group Tianjin Electric Power Construction Co., Ltd."
+          "name_cn": "中国能源建设集团天津电力建设有限公司"
         },
         {
-          "name_cn": "中国能源建设集团山西电力建设有限公司",
-          "name_en": "China Energy Engineering Group Shanxi Electric Power Construction Co., Ltd."
+          "name_cn": "中国能源建设集团山西电力建设有限公司"
         },
         {
-          "name_cn": "中国能源建设集团江苏省电力建设第一工程有限公司",
-          "name_en": "China Energy Engineering Group Jiangsu Electric Power Construction First Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团江苏省电力建设第一工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团江苏省电力建设第三工程有限公司",
-          "name_en": "China Energy Engineering Group Jiangsu Electric Power Construction Third Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团江苏省电力建设第三工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团浙江火电建设有限公司",
-          "name_en": "China Energy Engineering Group Zhejiang Thermal Power Construction Co., Ltd."
+          "name_cn": "中国能源建设集团浙江火电建设有限公司"
         },
         {
-          "name_cn": "中能建建筑集团有限公司",
-          "name_en": "CEEC Construction Group Co., Ltd."
+          "name_cn": "中能建建筑集团有限公司"
         },
         {
-          "name_cn": "中国能源建设集团安徽电力建设第二工程有限公司",
-          "name_en": "China Energy Engineering Group Anhui Electric Power Construction Second Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团安徽电力建设第二工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团湖南火电建设有限公司",
-          "name_en": "China Energy Engineering Group Hunan Thermal Power Construction Co., Ltd."
+          "name_cn": "中国能源建设集团湖南火电建设有限公司"
         },
         {
-          "name_cn": "中国能源建设集团广东火电工程有限公司",
-          "name_en": "China Energy Engineering Group Guangdong Thermal Power Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团广东火电工程有限公司"
         },
         {
-          "name_cn": "中国能源建设集团西北电力建设工程有限公司",
-          "name_en": "China Energy Engineering Group Northwest Electric Power Construction Engineering Co., Ltd."
+          "name_cn": "中国能源建设集团西北电力建设工程有限公司"
         },
         {
-          "name_cn": "中能建西北城市建设有限公司",
-          "name_en": "CEEC Northwest Urban Construction Co., Ltd."
+          "name_cn": "中能建西北城市建设有限公司"
         }
       ]
     },
     {
       "company_name_cn": "中国电力工程顾问集团有限公司",
-      "company_name_en": "China Power Engineering Consulting Group Co., Ltd. (CPECC)",
       "parent_company_cn": "中国能源建设集团有限公司",
-      "parent_company_en": "China Energy Engineering Group Co., Ltd. (CEEC)",
       "is_central_soe": false,
       "subsidiaries_level2": [
-        { "name_cn": "中国电力工程顾问集团东北电力设计院有限公司", "name_en": "CPECC Northeast Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团华东电力设计院有限公司", "name_en": "CPECC East China Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团中南电力设计院有限公司", "name_en": "CPECC Central South Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团西北电力设计院有限公司", "name_en": "CPECC Northwest Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团西南电力设计院有限公司", "name_en": "CPECC Southwest Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团华北电力设计院有限公司", "name_en": "CPECC North China Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团广东省电力设计研究院有限公司", "name_en": "CEEC Guangdong Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团国际工程有限公司", "name_en": "CPECC International Engineering Co., Ltd." },
-        { "name_cn": "中国能源建设集团山西省电力勘测设计院有限公司", "name_en": "CEEC Shanxi Electric Power Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团江苏省电力设计院有限公司", "name_en": "CEEC Jiangsu Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团浙江省电力设计院有限公司", "name_en": "CEEC Zhejiang Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团安徽省电力设计院有限公司", "name_en": "CEEC Anhui Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团湖南省电力设计院有限公司", "name_en": "CEEC Hunan Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力建设工程咨询有限公司", "name_en": "China Power Construction Engineering Consulting Co., Ltd." },
-        { "name_cn": "中国能源建设集团云南省电力设计院有限公司", "name_en": "CEEC Yunnan Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团广西电力设计研究院有限公司", "name_en": "CEEC Guangxi Electric Power Design and Research Institute Co., Ltd." },
-        { "name_cn": "能建时代新能源科技有限公司", "name_en": "Nengjian Times New Energy Technology Co., Ltd." },
-        { "name_cn": "中国能源建设集团黑龙江省电力设计院有限公司", "name_en": "CEEC Heilongjiang Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团辽宁电力勘测设计院有限公司", "name_en": "CEEC Liaoning Electric Power Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团天津电力设计院有限公司", "name_en": "CEEC Tianjin Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团陕西省电力设计院有限公司", "name_en": "CEEC Shaanxi Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团甘肃省电力设计院有限公司", "name_en": "CEEC Gansu Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国能源建设集团新疆电力设计院有限公司", "name_en": "CEEC Xinjiang Electric Power Design Institute Co., Ltd." },
-        { "name_cn": "中国电力工程顾问集团新能源有限公司", "name_en": "CPECC New Energy Co., Ltd." },
-        { "name_cn": "紫荆国际能源（香港）有限公司", "name_en": "Bauhinia International Energy (Hong Kong) Co., Ltd." },
-        { "name_cn": "西班牙易安国际股份公司", "name_en": "IYAN International S.A. (Spain)" },
-        { "name_cn": "西班牙盖飒工程技术股份公司", "name_en": "GEASA Engineering Technology S.A. (Spain)" }
+        {
+          "name_cn": "中国电力工程顾问集团东北电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团华东电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团中南电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团西北电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团西南电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团华北电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团广东省电力设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团国际工程有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团山西省电力勘测设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团江苏省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团浙江省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团安徽省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团湖南省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力建设工程咨询有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团云南省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团广西电力设计研究院有限公司"
+        },
+        {
+          "name_cn": "能建时代新能源科技有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团黑龙江省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团辽宁电力勘测设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团天津电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团陕西省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团甘肃省电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国能源建设集团新疆电力设计院有限公司"
+        },
+        {
+          "name_cn": "中国电力工程顾问集团新能源有限公司"
+        },
+        {
+          "name_cn": "紫荆国际能源（香港）有限公司"
+        },
+        {
+          "name_cn": "西班牙易安国际股份公司"
+        },
+        {
+          "name_cn": "西班牙盖飒工程技术股份公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国电力建设集团有限公司",
-      "company_name_en": "Power Construction Corporation of China (PowerChina)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "中电建新能源集团股份有限公司", "name_en": "PowerChina New Energy Group Co., Ltd." },
-        { "name_cn": "水电水利规划设计总院有限公司", "name_en": "Hydro and Water Resources Planning and Design General Institute Co., Ltd." },
-        { "name_cn": "中国电建集团海外投资有限公司", "name_en": "PowerChina Overseas Investment Co., Ltd." },
-        { "name_cn": "中国电建集团国际工程有限公司", "name_en": "PowerChina International Group Ltd." },
-        { "name_cn": "中电建建筑集团有限公司", "name_en": "PowerChina Construction Group Co., Ltd." },
-        { "name_cn": "中国水电基础局有限公司", "name_en": "Sinohydro Foundation Engineering Co., Ltd." },
-        { "name_cn": "中电建路桥集团有限公司", "name_en": "PowerChina Road and Bridge Group Co., Ltd." },
-        { "name_cn": "中国电建地产集团有限公司", "name_en": "PowerChina Real Estate Group Co., Ltd." },
-        { "name_cn": "中电建铁路建设投资集团有限公司", "name_en": "PowerChina Railway Construction Investment Group Co., Ltd." },
-        { "name_cn": "中国电建集团港航建设有限公司", "name_en": "PowerChina Port and Waterway Construction Co., Ltd." },
-        { "name_cn": "中电建电力投资集团有限公司", "name_en": "PowerChina Power Investment Group Co., Ltd." },
-        { "name_cn": "中电建水电开发集团有限公司", "name_en": "PowerChina Hydropower Development Group Co., Ltd." },
-        { "name_cn": "中电建装备集团有限公司", "name_en": "PowerChina Equipment Group Co., Ltd." },
-        { "name_cn": "中国电建市政建设集团有限公司", "name_en": "PowerChina Municipal Construction Group Co., Ltd." },
-        { "name_cn": "中国电建集团核电工程有限公司", "name_en": "PowerChina Nuclear Power Engineering Co., Ltd." },
-        { "name_cn": "山东电力建设第三工程有限公司", "name_en": "Shandong Electric Power Construction Third Engineering Co., Ltd. (SEPCOIII)" },
-        { "name_cn": "上海电力建设有限责任公司", "name_en": "Shanghai Electric Power Construction Co., Ltd." },
-        { "name_cn": "中国电建集团华东勘测设计研究院有限公司", "name_en": "PowerChina East China Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国电建集团西北勘测设计研究院有限公司", "name_en": "PowerChina Northwest Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国电建集团中南勘测设计研究院有限公司", "name_en": "PowerChina Central South Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国电建集团成都勘测设计研究院有限公司", "name_en": "PowerChina Chengdu Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国电建集团贵阳勘测设计研究院有限公司", "name_en": "PowerChina Guiyang Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国电建集团昆明勘测设计研究院有限公司", "name_en": "PowerChina Kunming Survey and Design Institute Co., Ltd." },
-        { "name_cn": "中国水利水电第一工程局有限公司", "name_en": "Sinohydro Bureau 1 Co., Ltd." },
-        { "name_cn": "中国水利水电第三工程局有限公司", "name_en": "Sinohydro Bureau 3 Co., Ltd." },
-        { "name_cn": "中国水利水电第四工程局有限公司", "name_en": "Sinohydro Bureau 4 Co., Ltd." },
-        { "name_cn": "中国水利水电第五工程局有限公司", "name_en": "Sinohydro Bureau 5 Co., Ltd." },
-        { "name_cn": "中国水利水电第六工程局有限公司", "name_en": "Sinohydro Bureau 6 Co., Ltd." },
-        { "name_cn": "中国水利水电第七工程局有限公司", "name_en": "Sinohydro Bureau 7 Co., Ltd." },
-        { "name_cn": "中国水利水电第八工程局有限公司", "name_en": "Sinohydro Bureau 8 Co., Ltd." },
-        { "name_cn": "中国水利水电第九工程局有限公司", "name_en": "Sinohydro Bureau 9 Co., Ltd." },
-        { "name_cn": "中国水利水电第十工程局有限公司", "name_en": "Sinohydro Bureau 10 Co., Ltd." },
-        { "name_cn": "中国水利水电第十一工程局有限公司", "name_en": "Sinohydro Bureau 11 Co., Ltd." },
-        { "name_cn": "中国水利水电第十二工程局有限公司", "name_en": "Sinohydro Bureau 12 Co., Ltd." },
-        { "name_cn": "中国水利水电第十四工程局有限公司", "name_en": "Sinohydro Bureau 14 Co., Ltd." },
-        { "name_cn": "中国水电建设集团十五工程局有限公司", "name_en": "Sinohydro Engineering Bureau 15 Co., Ltd." },
-        { "name_cn": "中国水利水电第十六工程局有限公司", "name_en": "Sinohydro Bureau 16 Co., Ltd." }
+        {
+          "name_cn": "中电建新能源集团股份有限公司"
+        },
+        {
+          "name_cn": "水电水利规划设计总院有限公司"
+        },
+        {
+          "name_cn": "中国电建集团海外投资有限公司"
+        },
+        {
+          "name_cn": "中国电建集团国际工程有限公司"
+        },
+        {
+          "name_cn": "中电建建筑集团有限公司"
+        },
+        {
+          "name_cn": "中国水电基础局有限公司"
+        },
+        {
+          "name_cn": "中电建路桥集团有限公司"
+        },
+        {
+          "name_cn": "中国电建地产集团有限公司"
+        },
+        {
+          "name_cn": "中电建铁路建设投资集团有限公司"
+        },
+        {
+          "name_cn": "中国电建集团港航建设有限公司"
+        },
+        {
+          "name_cn": "中电建电力投资集团有限公司"
+        },
+        {
+          "name_cn": "中电建水电开发集团有限公司"
+        },
+        {
+          "name_cn": "中电建装备集团有限公司"
+        },
+        {
+          "name_cn": "中国电建市政建设集团有限公司"
+        },
+        {
+          "name_cn": "中国电建集团核电工程有限公司"
+        },
+        {
+          "name_cn": "山东电力建设第三工程有限公司"
+        },
+        {
+          "name_cn": "上海电力建设有限责任公司"
+        },
+        {
+          "name_cn": "中国电建集团华东勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国电建集团西北勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国电建集团中南勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国电建集团成都勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国电建集团贵阳勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国电建集团昆明勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第一工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第三工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第四工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第五工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第六工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第七工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第八工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第九工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第十工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第十一工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第十二工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第十四工程局有限公司"
+        },
+        {
+          "name_cn": "中国水电建设集团十五工程局有限公司"
+        },
+        {
+          "name_cn": "中国水利水电第十六工程局有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "国家电力投资集团有限公司",
-      "company_name_en": "State Power Investment Corporation Limited (SPIC)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "国家核电技术有限公司", "name_en": "State Nuclear Power Technology Corporation" },
-        { "name_cn": "中国电力国际发展有限公司", "name_en": "China Power International Development Limited" },
-        { "name_cn": "上海电力股份有限公司", "name_en": "Shanghai Electric Power Co., Ltd." },
-        { "name_cn": "黄河上游水电开发有限责任公司", "name_en": "Yellow River Upstream Hydropower Development Co., Ltd." },
-        { "name_cn": "五凌电力有限公司", "name_en": "Wuling Power Corporation" },
-        { "name_cn": "国家电投集团远达环保股份有限公司", "name_en": "SPIC Yuanda Environmental Protection Co., Ltd." },
-        { "name_cn": "国核设备有限公司", "name_en": "SNPTC Equipment Co., Ltd." },
-        { "name_cn": "国核锆业股份公司", "name_en": "State Nuclear Zirconium Industry Co., Ltd." },
-        { "name_cn": "国氢科技有限公司", "name_en": "SPIC Hydrogen Energy Technology Co., Ltd." },
-        { "name_cn": "国家电投集团电力工程有限公司（山东院）", "name_en": "SPIC Electric Power Engineering Co., Ltd. (Shandong Institute)" },
-        { "name_cn": "国家电投集团财务有限公司", "name_en": "SPIC Finance Co., Ltd." },
-        { "name_cn": "国家电投集团资本控股有限公司", "name_en": "SPIC Capital Holding Co., Ltd." }
+        {
+          "name_cn": "国家核电技术有限公司"
+        },
+        {
+          "name_cn": "中国电力国际发展有限公司"
+        },
+        {
+          "name_cn": "上海电力股份有限公司"
+        },
+        {
+          "name_cn": "黄河上游水电开发有限责任公司"
+        },
+        {
+          "name_cn": "五凌电力有限公司"
+        },
+        {
+          "name_cn": "国家电投集团远达环保股份有限公司"
+        },
+        {
+          "name_cn": "国核设备有限公司"
+        },
+        {
+          "name_cn": "国核锆业股份公司"
+        },
+        {
+          "name_cn": "国氢科技有限公司"
+        },
+        {
+          "name_cn": "国家电投集团电力工程有限公司（山东院）"
+        },
+        {
+          "name_cn": "国家电投集团财务有限公司"
+        },
+        {
+          "name_cn": "国家电投集团资本控股有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "国家能源投资集团有限责任公司",
-      "company_name_en": "CHN Energy Investment Group Co., Ltd. (CHN Energy)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "中国神华能源股份有限公司", "name_en": "China Shenhua Energy Company Limited" },
-        { "name_cn": "国电电力发展股份有限公司", "name_en": "Guodian Power Development Co., Ltd." },
-        { "name_cn": "龙源电力集团股份有限公司", "name_en": "Longyuan Power Group Corporation Limited" },
-        { "name_cn": "中国神华煤制油化工有限公司", "name_en": "China Shenhua Coal to Liquid and Chemical Co., Ltd." },
-        { "name_cn": "国电科技环保集团股份有限公司", "name_en": "Guodian Technology and Environment Group Corporation Limited" },
-        { "name_cn": "国电资本控股有限公司", "name_en": "Guodian Capital Holdings Co., Ltd." },
-        { "name_cn": "神华神东煤炭集团有限责任公司", "name_en": "Shenhua Shendong Coal Group Co., Ltd." },
-        { "name_cn": "国家能源集团宁夏煤业有限责任公司", "name_en": "CHN Energy Ningxia Coal Industry Co., Ltd." },
-        { "name_cn": "北京国华电力有限责任公司", "name_en": "Beijing Guohua Electric Power Co., Ltd." },
-        { "name_cn": "国电华北电力有限公司", "name_en": "Guodian North China Electric Power Co., Ltd." },
-        { "name_cn": "神华国能集团有限公司", "name_en": "Shenhua Guoneng Group Co., Ltd." },
-        { "name_cn": "国电东北电力有限公司", "name_en": "Guodian Northeast Electric Power Co., Ltd." },
-        { "name_cn": "国电大渡河流域水电开发有限公司", "name_en": "Guodian Dadu River Basin Hydropower Development Co., Ltd." },
-        { "name_cn": "神华准能集团有限责任公司", "name_en": "Shenhua Zhungeer Energy Group Co., Ltd." },
-        { "name_cn": "国家能源集团乌海能源有限责任公司", "name_en": "CHN Energy Wuhai Energy Co., Ltd." },
-        { "name_cn": "神华新疆能源有限责任公司", "name_en": "Shenhua Xinjiang Energy Co., Ltd." },
-        { "name_cn": "国家能源集团江苏电力有限公司", "name_en": "CHN Energy Jiangsu Electric Power Co., Ltd." },
-        { "name_cn": "国华能源投资有限公司", "name_en": "Guohua Energy Investment Co., Ltd." },
-        { "name_cn": "国家能源集团山东电力有限公司", "name_en": "CHN Energy Shandong Electric Power Co., Ltd." },
-        { "name_cn": "国电长源电力股份有限公司", "name_en": "Guodian Changyuan Electric Power Co., Ltd." },
-        { "name_cn": "国电湖北电力有限公司", "name_en": "Guodian Hubei Electric Power Co., Ltd." },
-        { "name_cn": "国电安徽电力有限公司", "name_en": "Guodian Anhui Electric Power Co., Ltd." },
-        { "name_cn": "国电江西电力有限公司", "name_en": "Guodian Jiangxi Electric Power Co., Ltd." },
-        { "name_cn": "神华销售集团有限公司", "name_en": "Shenhua Trading Group Co., Ltd." },
-        { "name_cn": "国电科学技术研究院有限公司", "name_en": "Guodian Science and Technology Research Institute Co., Ltd." },
-        { "name_cn": "北京低碳清洁能源研究院", "name_en": "Beijing Low Carbon Clean Energy Research Institute" },
-        { "name_cn": "神华科学技术研究院有限责任公司", "name_en": "Shenhua Science and Technology Research Institute Co., Ltd." },
-        { "name_cn": "神华财务有限公司", "name_en": "Shenhua Finance Co., Ltd." },
-        { "name_cn": "国电物资集团有限公司", "name_en": "Guodian Materials Group Co., Ltd." },
-        { "name_cn": "中国神华海外开发投资有限公司", "name_en": "China Shenhua Overseas Development and Investment Co., Ltd." },
-        { "name_cn": "神华国际（香港）有限公司", "name_en": "Shenhua International (Hong Kong) Co., Ltd." },
-        { "name_cn": "中国神华国际工程有限公司", "name_en": "China Shenhua International Engineering Co., Ltd." }
+        {
+          "name_cn": "中国神华能源股份有限公司"
+        },
+        {
+          "name_cn": "国电电力发展股份有限公司"
+        },
+        {
+          "name_cn": "龙源电力集团股份有限公司"
+        },
+        {
+          "name_cn": "中国神华煤制油化工有限公司"
+        },
+        {
+          "name_cn": "国电科技环保集团股份有限公司"
+        },
+        {
+          "name_cn": "国电资本控股有限公司"
+        },
+        {
+          "name_cn": "神华神东煤炭集团有限责任公司"
+        },
+        {
+          "name_cn": "国家能源集团宁夏煤业有限责任公司"
+        },
+        {
+          "name_cn": "北京国华电力有限责任公司"
+        },
+        {
+          "name_cn": "国电华北电力有限公司"
+        },
+        {
+          "name_cn": "神华国能集团有限公司"
+        },
+        {
+          "name_cn": "国电东北电力有限公司"
+        },
+        {
+          "name_cn": "国电大渡河流域水电开发有限公司"
+        },
+        {
+          "name_cn": "神华准能集团有限责任公司"
+        },
+        {
+          "name_cn": "国家能源集团乌海能源有限责任公司"
+        },
+        {
+          "name_cn": "神华新疆能源有限责任公司"
+        },
+        {
+          "name_cn": "国家能源集团江苏电力有限公司"
+        },
+        {
+          "name_cn": "国华能源投资有限公司"
+        },
+        {
+          "name_cn": "国家能源集团山东电力有限公司"
+        },
+        {
+          "name_cn": "国电长源电力股份有限公司"
+        },
+        {
+          "name_cn": "国电湖北电力有限公司"
+        },
+        {
+          "name_cn": "国电安徽电力有限公司"
+        },
+        {
+          "name_cn": "国电江西电力有限公司"
+        },
+        {
+          "name_cn": "神华销售集团有限公司"
+        },
+        {
+          "name_cn": "国电科学技术研究院有限公司"
+        },
+        {
+          "name_cn": "北京低碳清洁能源研究院"
+        },
+        {
+          "name_cn": "神华科学技术研究院有限责任公司"
+        },
+        {
+          "name_cn": "神华财务有限公司"
+        },
+        {
+          "name_cn": "国电物资集团有限公司"
+        },
+        {
+          "name_cn": "中国神华海外开发投资有限公司"
+        },
+        {
+          "name_cn": "神华国际（香港）有限公司"
+        },
+        {
+          "name_cn": "中国神华国际工程有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国华能集团有限公司",
-      "company_name_en": "China Huaneng Group Co., Ltd. (China Huaneng)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "华能国际电力股份有限公司", "name_en": "Huaneng Power International, Inc." },
-        { "name_cn": "华能新能源股份有限公司", "name_en": "Huaneng Renewables Corporation Limited" },
-        { "name_cn": "华能核电开发有限公司", "name_en": "Huaneng Nuclear Power Development Co., Ltd." },
-        { "name_cn": "华能煤业有限公司", "name_en": "Huaneng Coal Industry Co., Ltd." },
-        { "name_cn": "中国华能集团香港有限公司", "name_en": "China Huaneng Group Hong Kong Co., Ltd." },
-        { "name_cn": "华能资本服务有限公司", "name_en": "Huaneng Capital Services Co., Ltd." },
-        { "name_cn": "华能能源交通产业控股有限公司", "name_en": "Huaneng Energy and Transportation Industry Holdings Co., Ltd." },
-        { "name_cn": "中国华能集团燃料有限公司", "name_en": "China Huaneng Group Fuel Co., Ltd." },
-        { "name_cn": "中国华能财务有限责任公司", "name_en": "China Huaneng Finance Co., Ltd." },
-        { "name_cn": "中国华能集团清洁能源技术研究院有限公司", "name_en": "China Huaneng Clean Energy Research Institute Co., Ltd." },
-        { "name_cn": "西安热工研究院有限公司", "name_en": "Xi'an Thermal Power Research Institute Co., Ltd." },
-        { "name_cn": "华能澜沧江水电股份有限公司", "name_en": "Huaneng Lancang River Hydropower Inc." },
-        { "name_cn": "华能内蒙古东部能源有限公司", "name_en": "Huaneng Inner Mongolia Eastern Energy Co., Ltd." },
-        { "name_cn": "华能四川能源开发有限公司", "name_en": "Huaneng Sichuan Energy Development Co., Ltd." }
+        {
+          "name_cn": "华能国际电力股份有限公司"
+        },
+        {
+          "name_cn": "华能新能源股份有限公司"
+        },
+        {
+          "name_cn": "华能核电开发有限公司"
+        },
+        {
+          "name_cn": "华能煤业有限公司"
+        },
+        {
+          "name_cn": "中国华能集团香港有限公司"
+        },
+        {
+          "name_cn": "华能资本服务有限公司"
+        },
+        {
+          "name_cn": "华能能源交通产业控股有限公司"
+        },
+        {
+          "name_cn": "中国华能集团燃料有限公司"
+        },
+        {
+          "name_cn": "中国华能财务有限责任公司"
+        },
+        {
+          "name_cn": "中国华能集团清洁能源技术研究院有限公司"
+        },
+        {
+          "name_cn": "西安热工研究院有限公司"
+        },
+        {
+          "name_cn": "华能澜沧江水电股份有限公司"
+        },
+        {
+          "name_cn": "华能内蒙古东部能源有限公司"
+        },
+        {
+          "name_cn": "华能四川能源开发有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国大唐集团有限公司",
-      "company_name_en": "China Datang Corporation Ltd. (China Datang)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "大唐国际发电股份有限公司", "name_en": "Datang International Power Generation Co., Ltd." },
-        { "name_cn": "大唐华银电力股份有限公司", "name_en": "Datang Huayin Electric Power Co., Ltd." },
-        { "name_cn": "广西桂冠电力股份有限公司", "name_en": "Guangxi Guiguan Electric Power Co., Ltd." },
-        { "name_cn": "中国大唐集团新能源股份有限公司", "name_en": "China Datang Corporation Renewable Power Co., Ltd." },
-        { "name_cn": "大唐环境产业集团股份有限公司", "name_en": "Datang Environment Industry Group Co., Ltd." },
-        { "name_cn": "中国大唐集团核电有限公司", "name_en": "China Datang Nuclear Power Co., Ltd." },
-        { "name_cn": "中国大唐集团海外投资有限公司", "name_en": "China Datang Overseas Investment Co., Ltd." },
-        { "name_cn": "中国大唐集团能源投资有限责任公司", "name_en": "China Datang Energy Investment Co., Ltd." },
-        { "name_cn": "中新能化科技有限公司", "name_en": "Zhongxin Nenghua Technology Co., Ltd." },
-        { "name_cn": "中国水利电力物资集团有限公司", "name_en": "China Water Resources and Electric Power Materials Group Co., Ltd." },
-        { "name_cn": "中国大唐集团科学技术研究总院有限公司", "name_en": "China Datang Central Research Institute Co., Ltd." }
+        {
+          "name_cn": "大唐国际发电股份有限公司"
+        },
+        {
+          "name_cn": "大唐华银电力股份有限公司"
+        },
+        {
+          "name_cn": "广西桂冠电力股份有限公司"
+        },
+        {
+          "name_cn": "中国大唐集团新能源股份有限公司"
+        },
+        {
+          "name_cn": "大唐环境产业集团股份有限公司"
+        },
+        {
+          "name_cn": "中国大唐集团核电有限公司"
+        },
+        {
+          "name_cn": "中国大唐集团海外投资有限公司"
+        },
+        {
+          "name_cn": "中国大唐集团能源投资有限责任公司"
+        },
+        {
+          "name_cn": "中新能化科技有限公司"
+        },
+        {
+          "name_cn": "中国水利电力物资集团有限公司"
+        },
+        {
+          "name_cn": "中国大唐集团科学技术研究总院有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国华电集团有限公司",
-      "company_name_en": "China Huadian Corporation Ltd. (China Huadian)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "华电国际电力股份有限公司", "name_en": "Huadian Power International Corporation Limited" },
-        { "name_cn": "华电能源股份有限公司", "name_en": "Huadian Energy Co., Ltd." },
-        { "name_cn": "国电南京自动化股份有限公司", "name_en": "NARI-Relays Electric Co., Ltd. (Guodian Nanzi)" },
-        { "name_cn": "贵州黔源电力股份有限公司", "name_en": "Guizhou Qianyuan Power Co., Ltd." },
-        { "name_cn": "华电新能源集团股份有限公司", "name_en": "Huadian New Energy Group Co., Ltd." },
-        { "name_cn": "华电科工股份有限公司", "name_en": "Huadian Heavy Industries Co., Ltd." },
-        { "name_cn": "华电辽宁能源发展股份有限公司", "name_en": "Huadian Liaoning Energy Development Co., Ltd." }
+        {
+          "name_cn": "华电国际电力股份有限公司"
+        },
+        {
+          "name_cn": "华电能源股份有限公司"
+        },
+        {
+          "name_cn": "国电南京自动化股份有限公司"
+        },
+        {
+          "name_cn": "贵州黔源电力股份有限公司"
+        },
+        {
+          "name_cn": "华电新能源集团股份有限公司"
+        },
+        {
+          "name_cn": "华电科工股份有限公司"
+        },
+        {
+          "name_cn": "华电辽宁能源发展股份有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国长江三峡集团有限公司",
-      "company_name_en": "China Three Gorges Corporation (CTG)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "中国长江电力股份有限公司", "name_en": "China Yangtze Power Co., Ltd." },
-        { "name_cn": "中国三峡国际股份有限公司", "name_en": "China Three Gorges International Corporation" },
-        { "name_cn": "中国三峡建工（集团）有限公司", "name_en": "China Three Gorges Construction Engineering (Group) Co., Ltd." },
-        { "name_cn": "中国三峡新能源（集团）股份有限公司", "name_en": "China Three Gorges Renewables (Group) Co., Ltd." },
-        { "name_cn": "湖北能源集团股份有限公司", "name_en": "Hubei Energy Group Co., Ltd." },
-        { "name_cn": "长江生态环保集团有限公司", "name_en": "Yangtze Ecology and Environment Co., Ltd." },
-        { "name_cn": "三峡资本控股有限责任公司", "name_en": "Three Gorges Capital Holdings Co., Ltd." },
-        { "name_cn": "上海勘测设计研究院有限公司", "name_en": "Shanghai Investigation, Design and Research Institute Co., Ltd." },
-        { "name_cn": "三峡科技有限责任公司", "name_en": "Three Gorges Technology Co., Ltd." },
-        { "name_cn": "三峡可再生能源研究院有限公司", "name_en": "Three Gorges Renewable Energy Research Institute Co., Ltd." }
+        {
+          "name_cn": "中国长江电力股份有限公司"
+        },
+        {
+          "name_cn": "中国三峡国际股份有限公司"
+        },
+        {
+          "name_cn": "中国三峡建工（集团）有限公司"
+        },
+        {
+          "name_cn": "中国三峡新能源（集团）股份有限公司"
+        },
+        {
+          "name_cn": "湖北能源集团股份有限公司"
+        },
+        {
+          "name_cn": "长江生态环保集团有限公司"
+        },
+        {
+          "name_cn": "三峡资本控股有限责任公司"
+        },
+        {
+          "name_cn": "上海勘测设计研究院有限公司"
+        },
+        {
+          "name_cn": "三峡科技有限责任公司"
+        },
+        {
+          "name_cn": "三峡可再生能源研究院有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国广核集团有限公司",
-      "company_name_en": "China General Nuclear Power Group (CGN)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "中广核核电运营有限公司", "name_en": "CGN Nuclear Power Operations Co., Ltd." },
-        { "name_cn": "中广核研究院有限公司", "name_en": "CGN Research Institute Co., Ltd." },
-        { "name_cn": "中广核核技术发展股份有限公司", "name_en": "CGN Nuclear Technology Development Co., Ltd." },
-        { "name_cn": "中国广核新能源控股有限公司", "name_en": "CGN New Energy Holdings Co., Ltd." },
-        { "name_cn": "中国广核能源国际控股有限公司", "name_en": "CGN Energy International Holdings Co., Ltd." },
-        { "name_cn": "广东核电投资有限公司", "name_en": "Guangdong Nuclear Power Investment Co., Ltd." },
-        { "name_cn": "广东核电合营有限公司", "name_en": "Guangdong Nuclear Power Joint Venture Co., Ltd." },
-        { "name_cn": "岭澳核电有限公司", "name_en": "Ling Ao Nuclear Power Co., Ltd." }
+        {
+          "name_cn": "中广核核电运营有限公司"
+        },
+        {
+          "name_cn": "中广核研究院有限公司"
+        },
+        {
+          "name_cn": "中广核核技术发展股份有限公司"
+        },
+        {
+          "name_cn": "中国广核新能源控股有限公司"
+        },
+        {
+          "name_cn": "中国广核能源国际控股有限公司"
+        },
+        {
+          "name_cn": "广东核电投资有限公司"
+        },
+        {
+          "name_cn": "广东核电合营有限公司"
+        },
+        {
+          "name_cn": "岭澳核电有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国核工业集团有限公司",
-      "company_name_en": "China National Nuclear Corporation (CNNC)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "中国核电股份有限公司", "name_en": "China National Nuclear Power Co., Ltd." },
-        { "name_cn": "中国原子能工业有限公司", "name_en": "China National Atomic Energy Industry Co., Ltd." },
-        { "name_cn": "中核铀业有限责任公司", "name_en": "CNNC Uranium Industry Co., Ltd." },
-        { "name_cn": "中国核工业建设股份有限公司", "name_en": "China Nuclear Engineering & Construction Corporation Limited" },
-        { "name_cn": "中国核工业环保有限公司", "name_en": "China Nuclear Industry Environmental Protection Co., Ltd." },
-        { "name_cn": "中国中原对外工程有限公司", "name_en": "China Zhongyuan Engineering Corporation" },
-        { "name_cn": "中国核电工程有限公司", "name_en": "China Nuclear Power Engineering Co., Ltd." },
-        { "name_cn": "中核财务有限责任公司", "name_en": "CNNC Finance Co., Ltd." }
+        {
+          "name_cn": "中国核电股份有限公司"
+        },
+        {
+          "name_cn": "中国原子能工业有限公司"
+        },
+        {
+          "name_cn": "中核铀业有限责任公司"
+        },
+        {
+          "name_cn": "中国核工业建设股份有限公司"
+        },
+        {
+          "name_cn": "中国核工业环保有限公司"
+        },
+        {
+          "name_cn": "中国中原对外工程有限公司"
+        },
+        {
+          "name_cn": "中国核电工程有限公司"
+        },
+        {
+          "name_cn": "中核财务有限责任公司"
+        }
       ]
     },
     {
       "company_name_cn": "国家电网有限公司",
-      "company_name_en": "State Grid Corporation of China (SGCC)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "国家电网有限公司华北分部", "name_en": "State Grid North China Branch" },
-        { "name_cn": "国家电网有限公司华东分部", "name_en": "State Grid East China Branch" },
-        { "name_cn": "国家电网有限公司华中分部", "name_en": "State Grid Central China Branch" },
-        { "name_cn": "国家电网有限公司东北分部", "name_en": "State Grid Northeast China Branch" },
-        { "name_cn": "国家电网有限公司西北分部", "name_en": "State Grid Northwest China Branch" },
-        { "name_cn": "国家电网有限公司西南分部", "name_en": "State Grid Southwest China Branch" },
-        { "name_cn": "中国电力技术装备有限公司", "name_en": "China Electric Power Equipment and Technology Co., Ltd." },
-        { "name_cn": "国网新源集团有限公司", "name_en": "State Grid Xinyuan Group Co., Ltd." },
-        { "name_cn": "国网国际发展有限公司", "name_en": "State Grid International Development Co., Ltd." }
+        {
+          "name_cn": "国家电网有限公司华北分部"
+        },
+        {
+          "name_cn": "国家电网有限公司华东分部"
+        },
+        {
+          "name_cn": "国家电网有限公司华中分部"
+        },
+        {
+          "name_cn": "国家电网有限公司东北分部"
+        },
+        {
+          "name_cn": "国家电网有限公司西北分部"
+        },
+        {
+          "name_cn": "国家电网有限公司西南分部"
+        },
+        {
+          "name_cn": "中国电力技术装备有限公司"
+        },
+        {
+          "name_cn": "国网新源集团有限公司"
+        },
+        {
+          "name_cn": "国网国际发展有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国南方电网有限责任公司",
-      "company_name_en": "China Southern Power Grid Co., Ltd. (CSG)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "中国南方电力调度控制中心", "name_en": "China Southern Power Grid Dispatch and Control Center" },
-        { "name_cn": "中国南方电网有限责任公司超高压输电公司", "name_en": "CSG Extra-High Voltage Transmission Company" },
-        { "name_cn": "广东电网有限责任公司", "name_en": "Guangdong Power Grid Co., Ltd." },
-        { "name_cn": "广西电网有限责任公司", "name_en": "Guangxi Power Grid Co., Ltd." },
-        { "name_cn": "云南电网有限责任公司", "name_en": "Yunnan Power Grid Co., Ltd." },
-        { "name_cn": "贵州电网有限责任公司", "name_en": "Guizhou Power Grid Co., Ltd." },
-        { "name_cn": "海南电网有限责任公司", "name_en": "Hainan Power Grid Co., Ltd." },
-        { "name_cn": "深圳供电局有限公司", "name_en": "Shenzhen Power Supply Bureau Co., Ltd." },
-        { "name_cn": "南方电网储能股份有限公司", "name_en": "CSG Energy Storage Co., Ltd." },
-        { "name_cn": "南方电网产业发展集团有限公司", "name_en": "CSG Industrial Development Group Co., Ltd." },
-        { "name_cn": "南方电网综合能源股份有限公司", "name_en": "CSG Integrated Energy Co., Ltd." },
-        { "name_cn": "南方电网碳中和服务有限责任公司", "name_en": "CSG Carbon Neutrality Services Co., Ltd." },
-        { "name_cn": "南方电网国际有限责任公司", "name_en": "CSG International Co., Ltd." },
-        { "name_cn": "南方电网澜湄国际能源有限责任公司", "name_en": "CSG Lancang-Mekong International Energy Co., Ltd." },
-        { "name_cn": "南方电网产融控股集团有限公司", "name_en": "CSG Industry-Finance Holdings Group Co., Ltd." },
-        { "name_cn": "南方电网财务有限公司", "name_en": "CSG Finance Co., Ltd." }
+        {
+          "name_cn": "中国南方电力调度控制中心"
+        },
+        {
+          "name_cn": "中国南方电网有限责任公司超高压输电公司"
+        },
+        {
+          "name_cn": "广东电网有限责任公司"
+        },
+        {
+          "name_cn": "广西电网有限责任公司"
+        },
+        {
+          "name_cn": "云南电网有限责任公司"
+        },
+        {
+          "name_cn": "贵州电网有限责任公司"
+        },
+        {
+          "name_cn": "海南电网有限责任公司"
+        },
+        {
+          "name_cn": "深圳供电局有限公司"
+        },
+        {
+          "name_cn": "南方电网储能股份有限公司"
+        },
+        {
+          "name_cn": "南方电网产业发展集团有限公司"
+        },
+        {
+          "name_cn": "南方电网综合能源股份有限公司"
+        },
+        {
+          "name_cn": "南方电网碳中和服务有限责任公司"
+        },
+        {
+          "name_cn": "南方电网国际有限责任公司"
+        },
+        {
+          "name_cn": "南方电网澜湄国际能源有限责任公司"
+        },
+        {
+          "name_cn": "南方电网产融控股集团有限公司"
+        },
+        {
+          "name_cn": "南方电网财务有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国东方电气集团有限公司",
-      "company_name_en": "Dongfang Electric Corporation (DEC)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "东方电气集团东方电机有限公司", "name_en": "Dongfang Electric Machinery Co., Ltd." },
-        { "name_cn": "东方电气集团东方汽轮机有限公司", "name_en": "Dongfang Turbine Co., Ltd." },
-        { "name_cn": "东方电气集团东方锅炉股份有限公司", "name_en": "Dongfang Boiler Group Co., Ltd." },
-        { "name_cn": "东方电气风电股份有限公司", "name_en": "Dongfang Electric Wind Power Co., Ltd." },
-        { "name_cn": "东方电气（广州）重型机器有限公司", "name_en": "Dongfang Electric (Guangzhou) Heavy Machinery Co., Ltd." },
-        { "name_cn": "东方电气（武汉）核设备有限公司", "name_en": "Dongfang Electric (Wuhan) Nuclear Equipment Co., Ltd." },
-        { "name_cn": "东方电气集团国际合作有限公司", "name_en": "Dongfang Electric International Cooperation Co., Ltd." },
-        { "name_cn": "东方电气集团电力工程设计有限公司", "name_en": "Dongfang Electric Power Engineering Design Co., Ltd." },
-        { "name_cn": "东方电气自动控制工程有限公司", "name_en": "Dongfang Electric Automation Engineering Co., Ltd." }
+        {
+          "name_cn": "东方电气集团东方电机有限公司"
+        },
+        {
+          "name_cn": "东方电气集团东方汽轮机有限公司"
+        },
+        {
+          "name_cn": "东方电气集团东方锅炉股份有限公司"
+        },
+        {
+          "name_cn": "东方电气风电股份有限公司"
+        },
+        {
+          "name_cn": "东方电气（广州）重型机器有限公司"
+        },
+        {
+          "name_cn": "东方电气（武汉）核设备有限公司"
+        },
+        {
+          "name_cn": "东方电气集团国际合作有限公司"
+        },
+        {
+          "name_cn": "东方电气集团电力工程设计有限公司"
+        },
+        {
+          "name_cn": "东方电气自动控制工程有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "哈尔滨电气集团有限公司",
-      "company_name_en": "Harbin Electric Corporation (HE)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
         {
           "name_cn": "哈尔滨电气股份有限公司",
-          "name_en": "Harbin Electric Company Limited",
           "subsidiaries_level3": [
-            { "name_cn": "哈尔滨锅炉厂有限责任公司", "name_en": "Harbin Boiler Co., Ltd." },
-            { "name_cn": "哈尔滨汽轮机厂有限责任公司", "name_en": "Harbin Turbine Co., Ltd." },
-            { "name_cn": "哈尔滨电机厂有限责任公司", "name_en": "Harbin Electric Machinery Co., Ltd." },
-            { "name_cn": "哈尔滨电气国际工程有限责任公司", "name_en": "Harbin Electric International Engineering Co., Ltd." },
-            { "name_cn": "哈尔滨电气集团财务有限责任公司", "name_en": "Harbin Electric Group Finance Co., Ltd." }
+            {
+              "name_cn": "哈尔滨锅炉厂有限责任公司"
+            },
+            {
+              "name_cn": "哈尔滨汽轮机厂有限责任公司"
+            },
+            {
+              "name_cn": "哈尔滨电机厂有限责任公司"
+            },
+            {
+              "name_cn": "哈尔滨电气国际工程有限责任公司"
+            },
+            {
+              "name_cn": "哈尔滨电气集团财务有限责任公司"
+            }
           ]
         },
         {
           "name_cn": "哈尔滨电气集团佳木斯电机股份有限公司",
-          "name_en": "Harbin Electric Group Jiamusi Electric Machine Co., Ltd.",
           "subsidiaries_level3": [
-            { "name_cn": "佳木斯电机股份有限公司", "name_en": "Jiamusi Electric Machine Co., Ltd." },
-            { "name_cn": "成都佳电电机有限公司", "name_en": "Chengdu Jiadian Electric Machine Co., Ltd." },
-            { "name_cn": "苏州佳电永磁电机科技有限公司", "name_en": "Suzhou Jiadian Permanent Magnet Motor Technology Co., Ltd." },
-            { "name_cn": "哈尔滨电气集团先进电机技术有限公司", "name_en": "Harbin Electric Group Advanced Motor Technology Co., Ltd." }
+            {
+              "name_cn": "佳木斯电机股份有限公司"
+            },
+            {
+              "name_cn": "成都佳电电机有限公司"
+            },
+            {
+              "name_cn": "苏州佳电永磁电机科技有限公司"
+            },
+            {
+              "name_cn": "哈尔滨电气集团先进电机技术有限公司"
+            }
           ]
         },
-        { "name_cn": "佳木斯电机厂有限责任公司", "name_en": "Jiamusi Electric Machine Factory Co., Ltd." },
-        { "name_cn": "哈尔滨电气集团海洋智能装备有限公司", "name_en": "Harbin Electric Group Marine Intelligent Equipment Co., Ltd." }
+        {
+          "name_cn": "佳木斯电机厂有限责任公司"
+        },
+        {
+          "name_cn": "哈尔滨电气集团海洋智能装备有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国机械工业集团有限公司",
-      "company_name_en": "Sinomach (China National Machinery Industry Corporation)",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": true,
       "subsidiaries_level2": [
-        { "name_cn": "国机财务有限责任公司", "name_en": "Sinomach Finance Co., Ltd." },
-        { "name_cn": "中国机械设备工程股份有限公司", "name_en": "China Machinery Engineering Corporation (CMEC)" },
-        { "name_cn": "中工国际工程股份有限公司", "name_en": "CAMCE Engineering Co., Ltd." },
-        { "name_cn": "中国福马机械集团有限公司", "name_en": "China Foma (Group) Co., Ltd." },
-        { "name_cn": "中国恒天集团有限公司", "name_en": "China Hi-Tech Group Corporation" },
-        { "name_cn": "中国第一拖拉机集团有限公司", "name_en": "YTO Group Corporation" },
-        { "name_cn": "中国海洋航空集团有限公司", "name_en": "China Ocean Aviation Group Co., Ltd." },
-        { "name_cn": "中国地质装备集团有限公司", "name_en": "China Geological Equipment Group Co., Ltd." },
-        { "name_cn": "国机资本控股有限公司", "name_en": "Sinomach Capital Holdings Co., Ltd." },
-        { "name_cn": "国机重型装备集团股份有限公司", "name_en": "Sinomach Heavy Equipment Group Co., Ltd." },
-        { "name_cn": "中国机械工业建设集团有限公司", "name_en": "China National Machinery Industry Construction Group Co., Ltd." },
-        { "name_cn": "中国汽车工业工程有限公司", "name_en": "China Automotive Engineering Corporation" },
-        { "name_cn": "中国联合工程有限公司", "name_en": "China United Engineering Corporation" }
+        {
+          "name_cn": "国机财务有限责任公司"
+        },
+        {
+          "name_cn": "中国机械设备工程股份有限公司"
+        },
+        {
+          "name_cn": "中工国际工程股份有限公司"
+        },
+        {
+          "name_cn": "中国福马机械集团有限公司"
+        },
+        {
+          "name_cn": "中国恒天集团有限公司"
+        },
+        {
+          "name_cn": "中国第一拖拉机集团有限公司"
+        },
+        {
+          "name_cn": "中国海洋航空集团有限公司"
+        },
+        {
+          "name_cn": "中国地质装备集团有限公司"
+        },
+        {
+          "name_cn": "国机资本控股有限公司"
+        },
+        {
+          "name_cn": "国机重型装备集团股份有限公司"
+        },
+        {
+          "name_cn": "中国机械工业建设集团有限公司"
+        },
+        {
+          "name_cn": "中国汽车工业工程有限公司"
+        },
+        {
+          "name_cn": "中国联合工程有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "中国机械设备工程股份有限公司",
-      "company_name_en": "China Machinery Engineering Corporation (CMEC)",
       "parent_company_cn": "中国机械工业集团有限公司",
-      "parent_company_en": "Sinomach (China National Machinery Industry Corporation)",
       "is_central_soe": false,
       "subsidiaries_level2": [
-        { "name_cn": "中工国际工程股份有限公司", "name_en": "CAMCE Engineering Co., Ltd." },
-        { "name_cn": "中国机械工业建设集团有限公司", "name_en": "China National Machinery Industry Construction Group Co., Ltd." },
-        { "name_cn": "中国联合工程有限公司", "name_en": "China United Engineering Corporation" },
-        { "name_cn": "机械工业第六设计研究院有限公司", "name_en": "No.6 Design and Research Institute of Machinery Industry Co., Ltd." },
-        { "name_cn": "中国海洋航空集团有限公司", "name_en": "China Ocean Aviation Group Co., Ltd." }
+        {
+          "name_cn": "中工国际工程股份有限公司"
+        },
+        {
+          "name_cn": "中国机械工业建设集团有限公司"
+        },
+        {
+          "name_cn": "中国联合工程有限公司"
+        },
+        {
+          "name_cn": "机械工业第六设计研究院有限公司"
+        },
+        {
+          "name_cn": "中国海洋航空集团有限公司"
+        }
       ]
     },
     {
       "company_name_cn": "上海电气集团股份有限公司",
-      "company_name_en": "Shanghai Electric Group Company Limited",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": false,
       "subsidiaries_level2": [
-        { "name_cn": "电站集团", "name_en": "Power Station Group" },
-        { "name_cn": "核电集团", "name_en": "Nuclear Power Group" },
-        { "name_cn": "电气风电", "name_en": "Shanghai Electric Wind Power Group" },
-        { "name_cn": "输配电集团", "name_en": "Transmission and Distribution Group" },
-        { "name_cn": "自动化集团", "name_en": "Automation Group" },
-        { "name_cn": "轨道交通集团", "name_en": "Rail Transit Group" },
-        { "name_cn": "环保集团", "name_en": "Environmental Protection Group" },
-        { "name_cn": "上海三菱", "name_en": "Shanghai Mitsubishi Elevator" },
-        { "name_cn": "上海集优", "name_en": "Shanghai Prime Machinery Company Limited" },
-        { "name_cn": "上海机电", "name_en": "Shanghai Mechanical & Electrical Industry Co., Ltd." },
-        { "name_cn": "金融集团", "name_en": "Financial Services Group" },
-        { "name_cn": "中央研究院", "name_en": "Central Research Institute" },
-        { "name_cn": "电气新能源", "name_en": "Electric New Energy Company" }
+        {
+          "name_cn": "电站集团"
+        },
+        {
+          "name_cn": "核电集团"
+        },
+        {
+          "name_cn": "电气风电"
+        },
+        {
+          "name_cn": "输配电集团"
+        },
+        {
+          "name_cn": "自动化集团"
+        },
+        {
+          "name_cn": "轨道交通集团"
+        },
+        {
+          "name_cn": "环保集团"
+        },
+        {
+          "name_cn": "上海三菱"
+        },
+        {
+          "name_cn": "上海集优"
+        },
+        {
+          "name_cn": "上海机电"
+        },
+        {
+          "name_cn": "金融集团"
+        },
+        {
+          "name_cn": "中央研究院"
+        },
+        {
+          "name_cn": "电气新能源"
+        }
       ]
     },
     {
       "company_name_cn": "三一集团有限公司",
-      "company_name_en": "SANY Group Co., Ltd.",
       "parent_company_cn": null,
-      "parent_company_en": null,
       "is_central_soe": false,
       "subsidiaries_level2": [
-        { "name_cn": "三一重工股份有限公司", "name_en": "Sany Heavy Industry Co., Ltd." },
-        { "name_cn": "三一重装国际控股有限公司", "name_en": "Sany Heavy Equipment International Holdings Co., Ltd." },
-        { "name_cn": "三一重能股份有限公司", "name_en": "Sany Renewable Energy Co., Ltd." },
-        { "name_cn": "三一筑工科技股份有限公司", "name_en": "Sany Construction Technology Co., Ltd." },
-        { "name_cn": "湖南行必达网联科技有限公司", "name_en": "Hunan Xingbida Connected Technology Co., Ltd." },
-        { "name_cn": "上海竹胜园地产有限公司", "name_en": "Shanghai Zhushengyuan Real Estate Co., Ltd." },
-        { "name_cn": "三一石油智能装备有限公司", "name_en": "Sany Petroleum Intelligent Equipment Co., Ltd." },
-        { "name_cn": "昆山三一环保科技有限公司", "name_en": "Kunshan Sany Environmental Technology Co., Ltd." },
-        { "name_cn": "三一锂能有限公司", "name_en": "Sany Lithium Energy Co., Ltd." },
-        { "name_cn": "三一技术装备有限公司", "name_en": "Sany Technical Equipment Co., Ltd." }
+        {
+          "name_cn": "三一重工股份有限公司"
+        },
+        {
+          "name_cn": "三一重装国际控股有限公司"
+        },
+        {
+          "name_cn": "三一重能股份有限公司"
+        },
+        {
+          "name_cn": "三一筑工科技股份有限公司"
+        },
+        {
+          "name_cn": "湖南行必达网联科技有限公司"
+        },
+        {
+          "name_cn": "上海竹胜园地产有限公司"
+        },
+        {
+          "name_cn": "三一石油智能装备有限公司"
+        },
+        {
+          "name_cn": "昆山三一环保科技有限公司"
+        },
+        {
+          "name_cn": "三一锂能有限公司"
+        },
+        {
+          "name_cn": "三一技术装备有限公司"
+        }
       ]
     }
   ]

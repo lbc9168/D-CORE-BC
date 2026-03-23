@@ -30,56 +30,160 @@ _DEFAULT_RAW_NEWS_DB = str(
 _SUPPORTING_DOCS = _S01B_ROOT.parent / "supporting_docs"
 
 # 运行期缓存（每个进程只读一次文件）
-_entity_lookup_cache: str = ""
-_soe_list_cache: str = ""
+_entity_lookup_cache: str = ""        # prompt 注入用（中文层级文本）
+_hierarchy_data_cache: dict = {}      # Python 查表用（原始 dict）
+_soe_set_cache: set = set()           # Python 查表用（央企名称 set）
+_name_cache: dict = {}                # 中→英翻译缓存（company_name_cache.json）
+_name_cache_lock = threading.Lock()   # 写缓存时的线程锁
 
 
 def _get_entity_lookup_text() -> str:
-    """从 company_hierarchy.json 构建母子公司对照文本（带 [央企]/[非央企] 标记）。"""
+    """从 company_hierarchy.json 构建纯中文母子公司层级文本（供 prompt 注入）。"""
     global _entity_lookup_cache
     if _entity_lookup_cache:
         return _entity_lookup_cache
     try:
-        data = json.loads((_SUPPORTING_DOCS / "company_hierarchy.json").read_text(encoding="utf-8"))
+        data = _load_hierarchy_data()
         lines: list[str] = []
-        for company in data["companies"]:
-            soe_tag = "[央企]" if company.get("is_central_soe") else "[非央企]"
+        for company in data.get("companies", []):
             cn = company["company_name_cn"]
-            en = company.get("company_name_en", "")
             parent_cn = company.get("parent_company_cn")
             if not parent_cn:
-                lines.append(f"\n{cn}（{en}）{soe_tag}")
+                lines.append(f"\n{cn}")
             else:
-                lines.append(f"\n{cn}（{en}）{soe_tag}  ← 二级集团，母公司：{parent_cn}")
+                lines.append(f"\n{cn}  ← 二级集团，母公司：{parent_cn}")
             for sub2 in company.get("subsidiaries_level2", []):
-                lines.append(f"  · {sub2['name_cn']}（{sub2.get('name_en', '')}）")
+                lines.append(f"  · {sub2['name_cn']}")
                 for sub3 in sub2.get("subsidiaries_level3", []):
-                    lines.append(f"      - {sub3['name_cn']}（{sub3.get('name_en', '')}）")
+                    lines.append(f"      - {sub3['name_cn']}")
         _entity_lookup_cache = "\n".join(lines)
-        print(f">>> 已加载母子公司对照表：{len(data['companies'])} 个集团条目")
+        print(f">>> 已加载母子公司对照表：{len(data.get('companies', []))} 个集团条目")
     except Exception as e:
-        print(f">>> [警告] 无法加载 company_hierarchy.json: {e}，使用空占位符")
+        print(f">>> [警告] 无法加载 company_hierarchy.json: {e}")
         _entity_lookup_cache = "（对照表加载失败，请根据常识判断母子公司关系）"
     return _entity_lookup_cache
 
 
-def _get_soe_list_text() -> str:
-    """从 soe.md 解析官方央企名单（两列 Markdown 表格），作为兜底判断依据。"""
-    global _soe_list_cache
-    if _soe_list_cache:
-        return _soe_list_cache
+def _load_hierarchy_data() -> dict:
+    """加载 company_hierarchy.json 原始数据（带缓存）。"""
+    global _hierarchy_data_cache
+    if _hierarchy_data_cache:
+        return _hierarchy_data_cache
     try:
-        names: list[str] = []
+        _hierarchy_data_cache = json.loads(
+            (_SUPPORTING_DOCS / "company_hierarchy.json").read_text(encoding="utf-8")
+        )
+    except Exception as e:
+        print(f">>> [警告] 无法加载 company_hierarchy.json: {e}")
+        _hierarchy_data_cache = {"companies": []}
+    return _hierarchy_data_cache
+
+
+def _get_soe_set() -> set:
+    """从 soe.md 解析官方央企名单，返回名称 set（带缓存）。"""
+    global _soe_set_cache
+    if _soe_set_cache:
+        return _soe_set_cache
+    try:
+        names: set[str] = set()
         for line in (_SUPPORTING_DOCS / "soe.md").read_text(encoding="utf-8").splitlines():
             parts = [p.strip() for p in line.split("|") if p.strip()]
             if len(parts) == 2 and parts[0].isdigit():
-                names.append(parts[1])
-        _soe_list_cache = "、".join(names)
+                names.add(parts[1])
+        _soe_set_cache = names
         print(f">>> 已加载央企名录：{len(names)} 家")
     except Exception as e:
         print(f">>> [警告] 无法加载 soe.md: {e}")
-        _soe_list_cache = "（央企名录加载失败）"
-    return _soe_list_cache
+        _soe_set_cache = set()
+    return _soe_set_cache
+
+
+def _load_name_cache() -> dict:
+    """加载 company_name_cache.json（带缓存）。"""
+    global _name_cache
+    if _name_cache:
+        return _name_cache
+    try:
+        raw = json.loads(
+            (_SUPPORTING_DOCS / "company_name_cache.json").read_text(encoding="utf-8")
+        )
+        _name_cache = {k: v for k, v in raw.items() if not k.startswith("_")}
+        print(f">>> 已加载企业英文名缓存：{len(_name_cache)} 条")
+    except Exception as e:
+        print(f">>> [警告] 无法加载 company_name_cache.json: {e}")
+        _name_cache = {}
+    return _name_cache
+
+
+def _save_name_cache(cache: dict) -> None:
+    """将更新后的缓存写回 company_name_cache.json（线程安全）。"""
+    path = _SUPPORTING_DOCS / "company_name_cache.json"
+    try:
+        # 读取原文件以保留 _comment 等元字段
+        try:
+            existing = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            existing = {}
+        # 用新 cache 覆盖（保留 _ 开头的元字段）
+        merged = {k: v for k, v in existing.items() if k.startswith("_")}
+        merged.update(cache)
+        path.write_text(
+            json.dumps(merged, ensure_ascii=False, indent=2),
+            encoding="utf-8",
+        )
+    except Exception as e:
+        print(f">>> [警告] 无法写回 company_name_cache.json: {e}")
+
+
+def _resolve_is_central_soe(entity_cn: str) -> int:
+    """
+    Python 端确定性判断是否央企（不依赖 LLM）。
+    优先级：① hierarchy 对照表 → ② soe.md 兜底 → ③ 0（非央企）
+    """
+    if not entity_cn:
+        return 0
+    data = _load_hierarchy_data()
+    for company in data.get("companies", []):
+        if company["company_name_cn"] == entity_cn:
+            return 1 if company.get("is_central_soe") else 0
+    soe_set = _get_soe_set()
+    if entity_cn in soe_set:
+        return 1
+    return 0
+
+
+def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
+    """
+    查 company_name_cache.json → 未命中则调用 Gemini 翻译 → 写回缓存。
+    优先返回 en_abbr（如有），否则返回 en。
+    """
+    if not name_cn or name_cn in ("Unknown", "未知", "不详"):
+        return name_cn or ""
+    with _name_cache_lock:
+        cache = _load_name_cache()
+        if name_cn in cache:
+            entry = cache[name_cn]
+            return entry.get("en_abbr") or entry.get("en", "")
+    # 缓存未命中 → 调用 Gemini 翻译
+    try:
+        translate_prompt = (
+            f"请将以下中国企业名称翻译为英文官方名称（如有官方英文名优先使用，否则给出合理译名）。"
+            f"只输出英文名称，不要任何解释：\n{name_cn}"
+        )
+        resp = client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=translate_prompt,
+        )
+        en_name = resp.text.strip().strip('"').strip("'")
+    except Exception as e:
+        print(f">>> [警告] 翻译失败 ({name_cn}): {e}")
+        en_name = name_cn  # 翻译失败时保留中文
+    with _name_cache_lock:
+        cache = _load_name_cache()
+        if name_cn not in cache:  # 再次检查（double-check locking）
+            cache[name_cn] = {"en": en_name, "en_abbr": None, "verified": False, "source": "ai"}
+            _save_name_cache(cache)
+    return en_name
 
 
 # ── 国家数据库 ─────────────────────────────────────────────────────────────────
@@ -235,7 +339,6 @@ def _init_review_db(db_path: str) -> sqlite3.Connection:
 
 def _build_prompt(title: str, content: str, date: str) -> str:
     entity_lookup = _get_entity_lookup_text()
-    soe_list = _get_soe_list_text()
     return f"""
     你是一个能源项目审核专家。请阅读输入的新闻标题和正文，按要求提取符合要求的中国海外能源项目信息，同时需要注意剔除无关的项目。
 
@@ -309,14 +412,11 @@ def _build_prompt(title: str, content: str, date: str) -> str:
        - 如果无法判断，则填入"Unknown"。
 
     ### 实体标准化知识库 (Knowledge Base)
-    **提取 "Implementing Chinese Entity"（母公司）、"Subsidiary Name"（子公司）和 "Is Central SOE" 时，请强制参考以下对照表和央企名录。**
+    **提取 "Implementing Chinese Entity"（母公司）和 "Subsidiary Name"（子公司）时，请强制参考以下对照表。**
 
-    **一、母子公司对照表**（文中出现下列任何企业名称（含简称、英文缩写），必须按层级填写）：
+    **母子公司层级对照表**（文中出现下列任何企业名称（含简称），必须按层级填写）：
     格式说明：无缩进行为顶级集团；"  · " 缩进为二级子公司；"      - " 缩进为三级子公司。
 {entity_lookup}
-
-    **二、央企兜底名录**（若上方对照表中未找到该企业，请检查以下官方央企名单，出现在此名单中则视为央企）：
-    {soe_list}
 
     **填写规则**：
     - 识别到对照表中任何企业名称，按层级填写：
@@ -324,11 +424,6 @@ def _build_prompt(title: str, content: str, date: str) -> str:
       * "Subsidiary Name" = 在对照表中找到对应的子公司条目时，填入对照表中的规范名称（"  · " 或 "      - " 条目中的名称）；若文中名称无法在对照表中匹配，则填入文中原始名称
     - 若文中直接出现顶级集团名称，则 Subsidiary Name 留空。
     - 若某企业不在对照表中，根据上下文判断；无法判断则直接填入 Implementing Entity，Subsidiary Name 留空。
-    - **"Is Central SOE" 填写规则（三级优先级）**：
-      1. Implementing Chinese Entity（母公司）出现在上方母子公司对照表中 → 使用表中 [央企] 或 [非央企] 标记（true/false）
-      2. 未在对照表中，但出现在上方央企兜底名录中 → 填 true
-      3. 两处均未出现 → 填 false
-      注意：判断依据始终是 Implementing Chinese Entity（母公司），不是子公司名称。
 
     ### 输出格式 (JSON)
     请严格返回符合以下 Schema 的 JSON：
@@ -367,10 +462,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
           "chinese_entities": [
             {{{{
               "Implementing Chinese Entity": "String",
-              "Implementing Chinese Entity (EN)": "String",
-              "Is Central SOE": "Boolean (true/false)",
               "Subsidiary Name": "String",
-              "Subsidiary Name (EN)": "String",
               "Type of involvement of Chinese Entities": "String",
               "Subcontract Amount (Million USD)": "String"
             }}}}
@@ -399,9 +491,6 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     - **Project Stage**: 只能选 [拟开发，收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
         - Project Stage判断标准补充："完工"被视为"竣工"；"并网发电"被视为"投入运营"；"收购, 中标, 签约, 开工, 在建"你自行判断，以新闻原文为准。
         - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为"拟开发"。
-    - **Implementing Chinese Entity (EN)**: 中方企业的官方英文名。请优先使用上方知识库括号内的英文名称，如"PowerChina"、"China Three Gorges Corporation (CTG)"、"CEEC"、"Huaneng"等。知识库未收录的企业，提供合理的英文译名。
-    - **Is Central SOE**: 布尔值。按照上方"Is Central SOE 填写规则"三级优先级判断，填 true 或 false。
-    - **Subsidiary Name (EN)**: 子公司的官方英文名或英文译名。如"Sinohydro Bureau 5"、"SEPCO III"等。
     - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。
     - **Official/Non-official Website link** 和 **Additional Remarks**: 不填写任何信息。
     """
@@ -717,24 +806,20 @@ class ProjectExtractorTool(BaseTool):
                         local_valid.append(row_data)
                     else:
                         for entity in entities:
-                            soe_raw = entity.get("Is Central SOE")
-                            if soe_raw is True:
-                                soe_int = 1
-                            elif soe_raw is False:
-                                soe_int = 0
-                            else:
-                                soe_int = None
+                            entity_cn = entity.get("Implementing Chinese Entity", "")
+                            sub_cn    = entity.get("Subsidiary Name", "")
+                            # Python 后处理：is_central_soe 查表
+                            soe_int = _resolve_is_central_soe(entity_cn)
+                            # Python 后处理：英文名查缓存/翻译
+                            entity_en = _resolve_entity_en(entity_cn, client)
+                            sub_en    = _resolve_entity_en(sub_cn, client) if sub_cn else ""
                             row_data = base.copy()
                             row_data.update({
-                                "Implementing Chinese Entity": entity.get(
-                                    "Implementing Chinese Entity", ""
-                                ),
-                                "Implementing Chinese Entity (EN)": entity.get(
-                                    "Implementing Chinese Entity (EN)", ""
-                                ),
+                                "Implementing Chinese Entity": entity_cn,
+                                "Implementing Chinese Entity (EN)": entity_en,
                                 "Is Central SOE": soe_int,
-                                "Subsidiary Name": entity.get("Subsidiary Name", ""),
-                                "Subsidiary Name (EN)": entity.get("Subsidiary Name (EN)", ""),
+                                "Subsidiary Name": sub_cn,
+                                "Subsidiary Name (EN)": sub_en,
                                 "Type of involvement of Chinese Entities": entity.get(
                                     "Type of involvement of Chinese Entities", ""
                                 ),
