@@ -10,7 +10,7 @@ const en: Translations = {
   filter: {
     title: "Filters",
     yearRange: "Year Range",
-    category: "Energy Type",
+    category: "Project Type",
     stage: "Project Stage",
     entity: "Chinese Entity",
     briOnly: "BRI Countries Only",
