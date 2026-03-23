@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-03-22
+> 最后更新：2026-03-23
 
 ---
 
@@ -17,6 +17,12 @@
 
 > 阶段二已拆分为三个独立子项目：`s02a_duplicate_merger`（必选）+ `s02b_entity_normalizer`（建议）+ `s02c_cross_verification`（可选）。
 > 去重合并后可直接进入数据库整理，也可先做实体归一化和/或交叉验证再整理。
+
+---
+
+## 2026-03-23 更新
+
+- supporting_docs/company_name_cache.json 已从 supporting_docs/company_hierarchy.json 自动补充中英文公司名映射（新增 302 条，保留原有已验证条目不覆盖）。
 
 ---
 

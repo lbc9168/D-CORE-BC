@@ -1,48 +1,2055 @@
 {
   "_comment": "中国企业名称中英文对照缓存。verified=true 表示英文名已通过官方信源或人工确认。Phase B（外部验证模块）中将实现自动更新。",
-
-  "中国电建":   { "en": "Power Construction Corporation of China (PowerChina)", "en_abbr": "PowerChina", "verified": true,  "source": "official" },
-  "中国能建":   { "en": "China Energy Engineering Corporation (CEEC)",           "en_abbr": "CEEC",       "verified": true,  "source": "official" },
-  "葛洲坝集团": { "en": "China Gezhouba Group Corporation (CGGC)",               "en_abbr": "CGGC",       "verified": true,  "source": "official" },
-
-  "国家电投":   { "en": "State Power Investment Corporation (SPIC)",             "en_abbr": "SPIC",       "verified": true,  "source": "official" },
-  "国家能源集团": { "en": "China Energy Investment Corporation (CHN Energy)",    "en_abbr": "CHN Energy", "verified": true,  "source": "official" },
-  "中国华能":   { "en": "China Huaneng Group (Huaneng)",                         "en_abbr": "Huaneng",    "verified": true,  "source": "official" },
-  "中国大唐":   { "en": "China Datang Corporation (Datang)",                     "en_abbr": "Datang",     "verified": true,  "source": "official" },
-  "中国华电":   { "en": "China Huadian Corporation (Huadian)",                   "en_abbr": "Huadian",    "verified": true,  "source": "official" },
-  "三峡集团":   { "en": "China Three Gorges Corporation (CTG)",                  "en_abbr": "CTG",        "verified": true,  "source": "official" },
-  "长江电力":   { "en": "Yangtze Power (CYPC)",                                  "en_abbr": "CYPC",       "verified": true,  "source": "official" },
-  "三峡能源":   { "en": "CTG New Energy (CTGNE)",                                "en_abbr": "CTGNE",      "verified": true,  "source": "official" },
-  "三峡国际":   { "en": "CTG International (CTGI)",                              "en_abbr": "CTGI",       "verified": true,  "source": "official" },
-  "中广核":     { "en": "China General Nuclear Power Group (CGN)",               "en_abbr": "CGN",        "verified": true,  "source": "official" },
-  "中核集团":   { "en": "China National Nuclear Corporation (CNNC)",             "en_abbr": "CNNC",       "verified": true,  "source": "official" },
-  "华润电力":   { "en": "China Resources Power (CR Power)",                      "en_abbr": "CR Power",   "verified": true,  "source": "official" },
-  "上海电力":   { "en": "Shanghai Electric Power (SEP)",                         "en_abbr": "SEP",        "verified": true,  "source": "official" },
-  "龙源电力":   { "en": "Longyuan Power Group",                                  "en_abbr": "Longyuan",   "verified": true,  "source": "official" },
-
-  "国家电网":   { "en": "State Grid Corporation of China (SGCC)",                "en_abbr": "SGCC",       "verified": true,  "source": "official" },
-  "南方电网":   { "en": "China Southern Power Grid (CSG)",                       "en_abbr": "CSG",        "verified": true,  "source": "official" },
-  "东方电气":   { "en": "Dongfang Electric Corporation (DEC)",                   "en_abbr": "DEC",        "verified": true,  "source": "official" },
-  "哈电集团":   { "en": "Harbin Electric Corporation (HEC)",                     "en_abbr": "HEC",        "verified": true,  "source": "official" },
-  "上海电气":   { "en": "Shanghai Electric Group (SEC)",                         "en_abbr": "SEC",        "verified": true,  "source": "official" },
-
-  "宁德时代":   { "en": "Contemporary Amperex Technology Co. (CATL)",            "en_abbr": "CATL",       "verified": true,  "source": "official" },
-  "比亚迪":     { "en": "BYD Company Limited",                                   "en_abbr": "BYD",        "verified": true,  "source": "official" },
-  "隆基绿能":   { "en": "LONGi Green Energy Technology (LONGi)",                 "en_abbr": "LONGi",      "verified": true,  "source": "official" },
-  "晶科能源":   { "en": "JinkoSolar Holding (Jinko)",                            "en_abbr": "Jinko",      "verified": true,  "source": "official" },
-  "晶澳科技":   { "en": "JA Solar Technology (JA Solar)",                        "en_abbr": "JA Solar",   "verified": true,  "source": "official" },
-  "阳光电源":   { "en": "Sungrow Power Supply (Sungrow)",                        "en_abbr": "Sungrow",    "verified": true,  "source": "official" },
-  "天合光能":   { "en": "Trina Solar (Trina)",                                   "en_abbr": "Trina",      "verified": true,  "source": "official" },
-  "通威股份":   { "en": "Tongwei Co., Ltd. (Tongwei)",                           "en_abbr": "Tongwei",    "verified": true,  "source": "official" },
-  "金风科技":   { "en": "Xinjiang Goldwind Science & Technology (Goldwind)",     "en_abbr": "Goldwind",   "verified": true,  "source": "official" },
-  "远景能源":   { "en": "Envision Energy",                                        "en_abbr": "Envision",   "verified": true,  "source": "official" },
-  "亿纬锂能":   { "en": "EVE Energy Co., Ltd.",                                   "en_abbr": "EVE",        "verified": true,  "source": "official" },
-
-  "中国进出口银行": { "en": "Export-Import Bank of China (EXIM Bank)",           "en_abbr": "EXIM Bank",  "verified": true,  "source": "official" },
-  "国家开发银行":   { "en": "China Development Bank (CDB)",                      "en_abbr": "CDB",        "verified": true,  "source": "official" },
-  "中国银行":       { "en": "Bank of China (BOC)",                               "en_abbr": "BOC",        "verified": true,  "source": "official" },
-  "中国建设银行":   { "en": "China Construction Bank (CCB)",                     "en_abbr": "CCB",        "verified": true,  "source": "official" },
-  "中国工商银行":   { "en": "Industrial and Commercial Bank of China (ICBC)",    "en_abbr": "ICBC",       "verified": true,  "source": "official" },
-  "中国农业银行":   { "en": "Agricultural Bank of China (ABC)",                  "en_abbr": "ABC",        "verified": true,  "source": "official" },
-  "中国出口信用保险公司": { "en": "China Export & Credit Insurance Corporation (Sinosure)", "en_abbr": "Sinosure", "verified": true, "source": "official" }
+  "中国电建": {
+    "en": "Power Construction Corporation of China (PowerChina)",
+    "en_abbr": "PowerChina",
+    "verified": true,
+    "source": "official"
+  },
+  "中国能建": {
+    "en": "China Energy Engineering Corporation (CEEC)",
+    "en_abbr": "CEEC",
+    "verified": true,
+    "source": "official"
+  },
+  "葛洲坝集团": {
+    "en": "China Gezhouba Group Corporation (CGGC)",
+    "en_abbr": "CGGC",
+    "verified": true,
+    "source": "official"
+  },
+  "国家电投": {
+    "en": "State Power Investment Corporation (SPIC)",
+    "en_abbr": "SPIC",
+    "verified": true,
+    "source": "official"
+  },
+  "国家能源集团": {
+    "en": "China Energy Investment Corporation (CHN Energy)",
+    "en_abbr": "CHN Energy",
+    "verified": true,
+    "source": "official"
+  },
+  "中国华能": {
+    "en": "China Huaneng Group (Huaneng)",
+    "en_abbr": "Huaneng",
+    "verified": true,
+    "source": "official"
+  },
+  "中国大唐": {
+    "en": "China Datang Corporation (Datang)",
+    "en_abbr": "Datang",
+    "verified": true,
+    "source": "official"
+  },
+  "中国华电": {
+    "en": "China Huadian Corporation (Huadian)",
+    "en_abbr": "Huadian",
+    "verified": true,
+    "source": "official"
+  },
+  "三峡集团": {
+    "en": "China Three Gorges Corporation (CTG)",
+    "en_abbr": "CTG",
+    "verified": true,
+    "source": "official"
+  },
+  "长江电力": {
+    "en": "Yangtze Power (CYPC)",
+    "en_abbr": "CYPC",
+    "verified": true,
+    "source": "official"
+  },
+  "三峡能源": {
+    "en": "CTG New Energy (CTGNE)",
+    "en_abbr": "CTGNE",
+    "verified": true,
+    "source": "official"
+  },
+  "三峡国际": {
+    "en": "CTG International (CTGI)",
+    "en_abbr": "CTGI",
+    "verified": true,
+    "source": "official"
+  },
+  "中广核": {
+    "en": "China General Nuclear Power Group (CGN)",
+    "en_abbr": "CGN",
+    "verified": true,
+    "source": "official"
+  },
+  "中核集团": {
+    "en": "China National Nuclear Corporation (CNNC)",
+    "en_abbr": "CNNC",
+    "verified": true,
+    "source": "official"
+  },
+  "华润电力": {
+    "en": "China Resources Power (CR Power)",
+    "en_abbr": "CR Power",
+    "verified": true,
+    "source": "official"
+  },
+  "上海电力": {
+    "en": "Shanghai Electric Power (SEP)",
+    "en_abbr": "SEP",
+    "verified": true,
+    "source": "official"
+  },
+  "龙源电力": {
+    "en": "Longyuan Power Group",
+    "en_abbr": "Longyuan",
+    "verified": true,
+    "source": "official"
+  },
+  "国家电网": {
+    "en": "State Grid Corporation of China (SGCC)",
+    "en_abbr": "SGCC",
+    "verified": true,
+    "source": "official"
+  },
+  "南方电网": {
+    "en": "China Southern Power Grid (CSG)",
+    "en_abbr": "CSG",
+    "verified": true,
+    "source": "official"
+  },
+  "东方电气": {
+    "en": "Dongfang Electric Corporation (DEC)",
+    "en_abbr": "DEC",
+    "verified": true,
+    "source": "official"
+  },
+  "哈电集团": {
+    "en": "Harbin Electric Corporation (HEC)",
+    "en_abbr": "HEC",
+    "verified": true,
+    "source": "official"
+  },
+  "上海电气": {
+    "en": "Shanghai Electric Group (SEC)",
+    "en_abbr": "SEC",
+    "verified": true,
+    "source": "official"
+  },
+  "宁德时代": {
+    "en": "Contemporary Amperex Technology Co. (CATL)",
+    "en_abbr": "CATL",
+    "verified": true,
+    "source": "official"
+  },
+  "比亚迪": {
+    "en": "BYD Company Limited",
+    "en_abbr": "BYD",
+    "verified": true,
+    "source": "official"
+  },
+  "隆基绿能": {
+    "en": "LONGi Green Energy Technology (LONGi)",
+    "en_abbr": "LONGi",
+    "verified": true,
+    "source": "official"
+  },
+  "晶科能源": {
+    "en": "JinkoSolar Holding (Jinko)",
+    "en_abbr": "Jinko",
+    "verified": true,
+    "source": "official"
+  },
+  "晶澳科技": {
+    "en": "JA Solar Technology (JA Solar)",
+    "en_abbr": "JA Solar",
+    "verified": true,
+    "source": "official"
+  },
+  "阳光电源": {
+    "en": "Sungrow Power Supply (Sungrow)",
+    "en_abbr": "Sungrow",
+    "verified": true,
+    "source": "official"
+  },
+  "天合光能": {
+    "en": "Trina Solar (Trina)",
+    "en_abbr": "Trina",
+    "verified": true,
+    "source": "official"
+  },
+  "通威股份": {
+    "en": "Tongwei Co., Ltd. (Tongwei)",
+    "en_abbr": "Tongwei",
+    "verified": true,
+    "source": "official"
+  },
+  "金风科技": {
+    "en": "Xinjiang Goldwind Science & Technology (Goldwind)",
+    "en_abbr": "Goldwind",
+    "verified": true,
+    "source": "official"
+  },
+  "远景能源": {
+    "en": "Envision Energy",
+    "en_abbr": "Envision",
+    "verified": true,
+    "source": "official"
+  },
+  "亿纬锂能": {
+    "en": "EVE Energy Co., Ltd.",
+    "en_abbr": "EVE",
+    "verified": true,
+    "source": "official"
+  },
+  "中国进出口银行": {
+    "en": "Export-Import Bank of China (EXIM Bank)",
+    "en_abbr": "EXIM Bank",
+    "verified": true,
+    "source": "official"
+  },
+  "国家开发银行": {
+    "en": "China Development Bank (CDB)",
+    "en_abbr": "CDB",
+    "verified": true,
+    "source": "official"
+  },
+  "中国银行": {
+    "en": "Bank of China (BOC)",
+    "en_abbr": "BOC",
+    "verified": true,
+    "source": "official"
+  },
+  "中国建设银行": {
+    "en": "China Construction Bank (CCB)",
+    "en_abbr": "CCB",
+    "verified": true,
+    "source": "official"
+  },
+  "中国工商银行": {
+    "en": "Industrial and Commercial Bank of China (ICBC)",
+    "en_abbr": "ICBC",
+    "verified": true,
+    "source": "official"
+  },
+  "中国农业银行": {
+    "en": "Agricultural Bank of China (ABC)",
+    "en_abbr": "ABC",
+    "verified": true,
+    "source": "official"
+  },
+  "中国出口信用保险公司": {
+    "en": "China Export & Credit Insurance Corporation (Sinosure)",
+    "en_abbr": "Sinosure",
+    "verified": true,
+    "source": "official"
+  },
+  "中国能源建设集团有限公司": {
+    "en": "China Energy Engineering Group Co., Ltd. (CEEC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国葛洲坝集团有限公司": {
+    "en": "China Gezhouba Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国葛洲坝集团（甘肃）工程有限公司": {
+    "en": "China Gezhouba Group (Gansu) Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团有限公司": {
+    "en": "China Power Engineering Consulting Group Co., Ltd. (CPECC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能建集团装备有限公司": {
+    "en": "CEEC Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团电子商务有限公司": {
+    "en": "China Energy Engineering Group E-Commerce Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团华东建设投资有限公司": {
+    "en": "China Energy Engineering Group East China Construction Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团南方建设投资有限公司": {
+    "en": "China Energy Engineering Group South China Construction Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团西北建设投资有限公司": {
+    "en": "China Energy Engineering Group Northwest Construction Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中能建城市投资发展有限公司": {
+    "en": "CEEC Urban Investment Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能建国际建设集团有限公司": {
+    "en": "China Energy Engineering International Construction Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设（香港）有限公司": {
+    "en": "China Energy Engineering (Hong Kong) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中能建（海南）有限公司": {
+    "en": "CEEC (Hainan) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能建南方投资开发有限公司": {
+    "en": "CEEC South Investment Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中能建数字化科技有限公司": {
+    "en": "CEEC Digital Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团财务有限公司": {
+    "en": "China Energy Engineering Group Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能建绿色建材有限公司": {
+    "en": "CEEC Green Building Materials Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能建氢能源有限公司": {
+    "en": "CEEC Hydrogen Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团产业发展有限公司": {
+    "en": "China Energy Engineering Group Industrial Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "易普力股份有限公司": {
+    "en": "Yipuli Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能建集团第三工程局有限公司": {
+    "en": "CEEC Third Engineering Bureau Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团黑龙江省能源建设有限公司": {
+    "en": "China Energy Engineering Group Heilongjiang Energy Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团东北电力第一工程有限公司": {
+    "en": "China Energy Engineering Group Northeast Electric Power First Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团东北电力第二工程有限公司": {
+    "en": "China Energy Engineering Group Northeast Electric Power Second Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团东北电力第三工程有限公司": {
+    "en": "China Energy Engineering Group Northeast Electric Power Third Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团天津电力建设有限公司": {
+    "en": "China Energy Engineering Group Tianjin Electric Power Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团山西电力建设有限公司": {
+    "en": "China Energy Engineering Group Shanxi Electric Power Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团江苏省电力建设第一工程有限公司": {
+    "en": "China Energy Engineering Group Jiangsu Electric Power Construction First Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团江苏省电力建设第三工程有限公司": {
+    "en": "China Energy Engineering Group Jiangsu Electric Power Construction Third Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团浙江火电建设有限公司": {
+    "en": "China Energy Engineering Group Zhejiang Thermal Power Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中能建建筑集团有限公司": {
+    "en": "CEEC Construction Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团安徽电力建设第二工程有限公司": {
+    "en": "China Energy Engineering Group Anhui Electric Power Construction Second Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团湖南火电建设有限公司": {
+    "en": "China Energy Engineering Group Hunan Thermal Power Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团广东火电工程有限公司": {
+    "en": "China Energy Engineering Group Guangdong Thermal Power Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团西北电力建设工程有限公司": {
+    "en": "China Energy Engineering Group Northwest Electric Power Construction Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中能建西北城市建设有限公司": {
+    "en": "CEEC Northwest Urban Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团东北电力设计院有限公司": {
+    "en": "CPECC Northeast Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团华东电力设计院有限公司": {
+    "en": "CPECC East China Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团中南电力设计院有限公司": {
+    "en": "CPECC Central South Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团西北电力设计院有限公司": {
+    "en": "CPECC Northwest Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团西南电力设计院有限公司": {
+    "en": "CPECC Southwest Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团华北电力设计院有限公司": {
+    "en": "CPECC North China Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团广东省电力设计研究院有限公司": {
+    "en": "CEEC Guangdong Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团国际工程有限公司": {
+    "en": "CPECC International Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团山西省电力勘测设计院有限公司": {
+    "en": "CEEC Shanxi Electric Power Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团江苏省电力设计院有限公司": {
+    "en": "CEEC Jiangsu Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团浙江省电力设计院有限公司": {
+    "en": "CEEC Zhejiang Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团安徽省电力设计院有限公司": {
+    "en": "CEEC Anhui Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团湖南省电力设计院有限公司": {
+    "en": "CEEC Hunan Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力建设工程咨询有限公司": {
+    "en": "China Power Construction Engineering Consulting Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团云南省电力设计院有限公司": {
+    "en": "CEEC Yunnan Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团广西电力设计研究院有限公司": {
+    "en": "CEEC Guangxi Electric Power Design and Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "能建时代新能源科技有限公司": {
+    "en": "Nengjian Times New Energy Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团黑龙江省电力设计院有限公司": {
+    "en": "CEEC Heilongjiang Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团辽宁电力勘测设计院有限公司": {
+    "en": "CEEC Liaoning Electric Power Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团天津电力设计院有限公司": {
+    "en": "CEEC Tianjin Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团陕西省电力设计院有限公司": {
+    "en": "CEEC Shaanxi Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团甘肃省电力设计院有限公司": {
+    "en": "CEEC Gansu Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国能源建设集团新疆电力设计院有限公司": {
+    "en": "CEEC Xinjiang Electric Power Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力工程顾问集团新能源有限公司": {
+    "en": "CPECC New Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "紫荆国际能源（香港）有限公司": {
+    "en": "Bauhinia International Energy (Hong Kong) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "西班牙易安国际股份公司": {
+    "en": "IYAN International S.A. (Spain)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "西班牙盖飒工程技术股份公司": {
+    "en": "GEASA Engineering Technology S.A. (Spain)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力建设集团有限公司": {
+    "en": "Power Construction Corporation of China (PowerChina)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建新能源集团股份有限公司": {
+    "en": "PowerChina New Energy Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "水电水利规划设计总院有限公司": {
+    "en": "Hydro and Water Resources Planning and Design General Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团海外投资有限公司": {
+    "en": "PowerChina Overseas Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团国际工程有限公司": {
+    "en": "PowerChina International Group Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建建筑集团有限公司": {
+    "en": "PowerChina Construction Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水电基础局有限公司": {
+    "en": "Sinohydro Foundation Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建路桥集团有限公司": {
+    "en": "PowerChina Road and Bridge Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建地产集团有限公司": {
+    "en": "PowerChina Real Estate Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建铁路建设投资集团有限公司": {
+    "en": "PowerChina Railway Construction Investment Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团港航建设有限公司": {
+    "en": "PowerChina Port and Waterway Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建电力投资集团有限公司": {
+    "en": "PowerChina Power Investment Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建水电开发集团有限公司": {
+    "en": "PowerChina Hydropower Development Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中电建装备集团有限公司": {
+    "en": "PowerChina Equipment Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建市政建设集团有限公司": {
+    "en": "PowerChina Municipal Construction Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团核电工程有限公司": {
+    "en": "PowerChina Nuclear Power Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "山东电力建设第三工程有限公司": {
+    "en": "Shandong Electric Power Construction Third Engineering Co., Ltd. (SEPCOIII)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海电力建设有限责任公司": {
+    "en": "Shanghai Electric Power Construction Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团华东勘测设计研究院有限公司": {
+    "en": "PowerChina East China Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团西北勘测设计研究院有限公司": {
+    "en": "PowerChina Northwest Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团中南勘测设计研究院有限公司": {
+    "en": "PowerChina Central South Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团成都勘测设计研究院有限公司": {
+    "en": "PowerChina Chengdu Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团贵阳勘测设计研究院有限公司": {
+    "en": "PowerChina Guiyang Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电建集团昆明勘测设计研究院有限公司": {
+    "en": "PowerChina Kunming Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第一工程局有限公司": {
+    "en": "Sinohydro Bureau 1 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第三工程局有限公司": {
+    "en": "Sinohydro Bureau 3 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第四工程局有限公司": {
+    "en": "Sinohydro Bureau 4 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第五工程局有限公司": {
+    "en": "Sinohydro Bureau 5 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第六工程局有限公司": {
+    "en": "Sinohydro Bureau 6 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第七工程局有限公司": {
+    "en": "Sinohydro Bureau 7 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第八工程局有限公司": {
+    "en": "Sinohydro Bureau 8 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第九工程局有限公司": {
+    "en": "Sinohydro Bureau 9 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第十工程局有限公司": {
+    "en": "Sinohydro Bureau 10 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第十一工程局有限公司": {
+    "en": "Sinohydro Bureau 11 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第十二工程局有限公司": {
+    "en": "Sinohydro Bureau 12 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第十四工程局有限公司": {
+    "en": "Sinohydro Bureau 14 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水电建设集团十五工程局有限公司": {
+    "en": "Sinohydro Engineering Bureau 15 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利水电第十六工程局有限公司": {
+    "en": "Sinohydro Bureau 16 Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电力投资集团有限公司": {
+    "en": "State Power Investment Corporation Limited (SPIC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家核电技术有限公司": {
+    "en": "State Nuclear Power Technology Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力国际发展有限公司": {
+    "en": "China Power International Development Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海电力股份有限公司": {
+    "en": "Shanghai Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "黄河上游水电开发有限责任公司": {
+    "en": "Yellow River Upstream Hydropower Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "五凌电力有限公司": {
+    "en": "Wuling Power Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电投集团远达环保股份有限公司": {
+    "en": "SPIC Yuanda Environmental Protection Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国核设备有限公司": {
+    "en": "SNPTC Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国核锆业股份公司": {
+    "en": "State Nuclear Zirconium Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国氢科技有限公司": {
+    "en": "SPIC Hydrogen Energy Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电投集团电力工程有限公司（山东院）": {
+    "en": "SPIC Electric Power Engineering Co., Ltd. (Shandong Institute)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电投集团财务有限公司": {
+    "en": "SPIC Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电投集团资本控股有限公司": {
+    "en": "SPIC Capital Holding Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家能源投资集团有限责任公司": {
+    "en": "CHN Energy Investment Group Co., Ltd. (CHN Energy)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国神华能源股份有限公司": {
+    "en": "China Shenhua Energy Company Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电电力发展股份有限公司": {
+    "en": "Guodian Power Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "龙源电力集团股份有限公司": {
+    "en": "Longyuan Power Group Corporation Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国神华煤制油化工有限公司": {
+    "en": "China Shenhua Coal to Liquid and Chemical Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电科技环保集团股份有限公司": {
+    "en": "Guodian Technology and Environment Group Corporation Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电资本控股有限公司": {
+    "en": "Guodian Capital Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华神东煤炭集团有限责任公司": {
+    "en": "Shenhua Shendong Coal Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家能源集团宁夏煤业有限责任公司": {
+    "en": "CHN Energy Ningxia Coal Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "北京国华电力有限责任公司": {
+    "en": "Beijing Guohua Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电华北电力有限公司": {
+    "en": "Guodian North China Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华国能集团有限公司": {
+    "en": "Shenhua Guoneng Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电东北电力有限公司": {
+    "en": "Guodian Northeast Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电大渡河流域水电开发有限公司": {
+    "en": "Guodian Dadu River Basin Hydropower Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华准能集团有限责任公司": {
+    "en": "Shenhua Zhungeer Energy Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家能源集团乌海能源有限责任公司": {
+    "en": "CHN Energy Wuhai Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华新疆能源有限责任公司": {
+    "en": "Shenhua Xinjiang Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家能源集团江苏电力有限公司": {
+    "en": "CHN Energy Jiangsu Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国华能源投资有限公司": {
+    "en": "Guohua Energy Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家能源集团山东电力有限公司": {
+    "en": "CHN Energy Shandong Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电长源电力股份有限公司": {
+    "en": "Guodian Changyuan Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电湖北电力有限公司": {
+    "en": "Guodian Hubei Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电安徽电力有限公司": {
+    "en": "Guodian Anhui Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电江西电力有限公司": {
+    "en": "Guodian Jiangxi Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华销售集团有限公司": {
+    "en": "Shenhua Trading Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电科学技术研究院有限公司": {
+    "en": "Guodian Science and Technology Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "北京低碳清洁能源研究院": {
+    "en": "Beijing Low Carbon Clean Energy Research Institute",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华科学技术研究院有限责任公司": {
+    "en": "Shenhua Science and Technology Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华财务有限公司": {
+    "en": "Shenhua Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电物资集团有限公司": {
+    "en": "Guodian Materials Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国神华海外开发投资有限公司": {
+    "en": "China Shenhua Overseas Development and Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "神华国际（香港）有限公司": {
+    "en": "Shenhua International (Hong Kong) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国神华国际工程有限公司": {
+    "en": "China Shenhua International Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国华能集团有限公司": {
+    "en": "China Huaneng Group Co., Ltd. (China Huaneng)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能国际电力股份有限公司": {
+    "en": "Huaneng Power International, Inc.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能新能源股份有限公司": {
+    "en": "Huaneng Renewables Corporation Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能核电开发有限公司": {
+    "en": "Huaneng Nuclear Power Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能煤业有限公司": {
+    "en": "Huaneng Coal Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国华能集团香港有限公司": {
+    "en": "China Huaneng Group Hong Kong Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能资本服务有限公司": {
+    "en": "Huaneng Capital Services Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能能源交通产业控股有限公司": {
+    "en": "Huaneng Energy and Transportation Industry Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国华能集团燃料有限公司": {
+    "en": "China Huaneng Group Fuel Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国华能财务有限责任公司": {
+    "en": "China Huaneng Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国华能集团清洁能源技术研究院有限公司": {
+    "en": "China Huaneng Clean Energy Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "西安热工研究院有限公司": {
+    "en": "Xi'an Thermal Power Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能澜沧江水电股份有限公司": {
+    "en": "Huaneng Lancang River Hydropower Inc.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能内蒙古东部能源有限公司": {
+    "en": "Huaneng Inner Mongolia Eastern Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华能四川能源开发有限公司": {
+    "en": "Huaneng Sichuan Energy Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国大唐集团有限公司": {
+    "en": "China Datang Corporation Ltd. (China Datang)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "大唐国际发电股份有限公司": {
+    "en": "Datang International Power Generation Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "大唐华银电力股份有限公司": {
+    "en": "Datang Huayin Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "广西桂冠电力股份有限公司": {
+    "en": "Guangxi Guiguan Electric Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国大唐集团新能源股份有限公司": {
+    "en": "China Datang Corporation Renewable Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "大唐环境产业集团股份有限公司": {
+    "en": "Datang Environment Industry Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国大唐集团核电有限公司": {
+    "en": "China Datang Nuclear Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国大唐集团海外投资有限公司": {
+    "en": "China Datang Overseas Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国大唐集团能源投资有限责任公司": {
+    "en": "China Datang Energy Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中新能化科技有限公司": {
+    "en": "Zhongxin Nenghua Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国水利电力物资集团有限公司": {
+    "en": "China Water Resources and Electric Power Materials Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国大唐集团科学技术研究总院有限公司": {
+    "en": "China Datang Central Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国华电集团有限公司": {
+    "en": "China Huadian Corporation Ltd. (China Huadian)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华电国际电力股份有限公司": {
+    "en": "Huadian Power International Corporation Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华电能源股份有限公司": {
+    "en": "Huadian Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国电南京自动化股份有限公司": {
+    "en": "NARI-Relays Electric Co., Ltd. (Guodian Nanzi)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "贵州黔源电力股份有限公司": {
+    "en": "Guizhou Qianyuan Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华电新能源集团股份有限公司": {
+    "en": "Huadian New Energy Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华电科工股份有限公司": {
+    "en": "Huadian Heavy Industries Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "华电辽宁能源发展股份有限公司": {
+    "en": "Huadian Liaoning Energy Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国长江三峡集团有限公司": {
+    "en": "China Three Gorges Corporation (CTG)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国长江电力股份有限公司": {
+    "en": "China Yangtze Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国三峡国际股份有限公司": {
+    "en": "China Three Gorges International Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国三峡建工（集团）有限公司": {
+    "en": "China Three Gorges Construction Engineering (Group) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国三峡新能源（集团）股份有限公司": {
+    "en": "China Three Gorges Renewables (Group) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "湖北能源集团股份有限公司": {
+    "en": "Hubei Energy Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "长江生态环保集团有限公司": {
+    "en": "Yangtze Ecology and Environment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三峡资本控股有限责任公司": {
+    "en": "Three Gorges Capital Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海勘测设计研究院有限公司": {
+    "en": "Shanghai Investigation, Design and Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三峡科技有限责任公司": {
+    "en": "Three Gorges Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三峡可再生能源研究院有限公司": {
+    "en": "Three Gorges Renewable Energy Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国广核集团有限公司": {
+    "en": "China General Nuclear Power Group (CGN)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中广核核电运营有限公司": {
+    "en": "CGN Nuclear Power Operations Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中广核研究院有限公司": {
+    "en": "CGN Research Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中广核核技术发展股份有限公司": {
+    "en": "CGN Nuclear Technology Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国广核新能源控股有限公司": {
+    "en": "CGN New Energy Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国广核能源国际控股有限公司": {
+    "en": "CGN Energy International Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "广东核电投资有限公司": {
+    "en": "Guangdong Nuclear Power Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "广东核电合营有限公司": {
+    "en": "Guangdong Nuclear Power Joint Venture Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "岭澳核电有限公司": {
+    "en": "Ling Ao Nuclear Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国核工业集团有限公司": {
+    "en": "China National Nuclear Corporation (CNNC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国核电股份有限公司": {
+    "en": "China National Nuclear Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国原子能工业有限公司": {
+    "en": "China National Atomic Energy Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中核铀业有限责任公司": {
+    "en": "CNNC Uranium Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国核工业建设股份有限公司": {
+    "en": "China Nuclear Engineering & Construction Corporation Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国核工业环保有限公司": {
+    "en": "China Nuclear Industry Environmental Protection Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国中原对外工程有限公司": {
+    "en": "China Zhongyuan Engineering Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国核电工程有限公司": {
+    "en": "China Nuclear Power Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中核财务有限责任公司": {
+    "en": "CNNC Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司": {
+    "en": "State Grid Corporation of China (SGCC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司华北分部": {
+    "en": "State Grid North China Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司华东分部": {
+    "en": "State Grid East China Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司华中分部": {
+    "en": "State Grid Central China Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司东北分部": {
+    "en": "State Grid Northeast China Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司西北分部": {
+    "en": "State Grid Northwest China Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国家电网有限公司西南分部": {
+    "en": "State Grid Southwest China Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国电力技术装备有限公司": {
+    "en": "China Electric Power Equipment and Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国网新源集团有限公司": {
+    "en": "State Grid Xinyuan Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国网国际发展有限公司": {
+    "en": "State Grid International Development Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国南方电网有限责任公司": {
+    "en": "China Southern Power Grid Co., Ltd. (CSG)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国南方电力调度控制中心": {
+    "en": "China Southern Power Grid Dispatch and Control Center",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国南方电网有限责任公司超高压输电公司": {
+    "en": "CSG Extra-High Voltage Transmission Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "广东电网有限责任公司": {
+    "en": "Guangdong Power Grid Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "广西电网有限责任公司": {
+    "en": "Guangxi Power Grid Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "云南电网有限责任公司": {
+    "en": "Yunnan Power Grid Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "贵州电网有限责任公司": {
+    "en": "Guizhou Power Grid Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "海南电网有限责任公司": {
+    "en": "Hainan Power Grid Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "深圳供电局有限公司": {
+    "en": "Shenzhen Power Supply Bureau Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网储能股份有限公司": {
+    "en": "CSG Energy Storage Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网产业发展集团有限公司": {
+    "en": "CSG Industrial Development Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网综合能源股份有限公司": {
+    "en": "CSG Integrated Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网碳中和服务有限责任公司": {
+    "en": "CSG Carbon Neutrality Services Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网国际有限责任公司": {
+    "en": "CSG International Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网澜湄国际能源有限责任公司": {
+    "en": "CSG Lancang-Mekong International Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网产融控股集团有限公司": {
+    "en": "CSG Industry-Finance Holdings Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "南方电网财务有限公司": {
+    "en": "CSG Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国东方电气集团有限公司": {
+    "en": "Dongfang Electric Corporation (DEC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气集团东方电机有限公司": {
+    "en": "Dongfang Electric Machinery Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气集团东方汽轮机有限公司": {
+    "en": "Dongfang Turbine Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气集团东方锅炉股份有限公司": {
+    "en": "Dongfang Boiler Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气风电股份有限公司": {
+    "en": "Dongfang Electric Wind Power Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气（广州）重型机器有限公司": {
+    "en": "Dongfang Electric (Guangzhou) Heavy Machinery Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气（武汉）核设备有限公司": {
+    "en": "Dongfang Electric (Wuhan) Nuclear Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气集团国际合作有限公司": {
+    "en": "Dongfang Electric International Cooperation Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气集团电力工程设计有限公司": {
+    "en": "Dongfang Electric Power Engineering Design Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "东方电气自动控制工程有限公司": {
+    "en": "Dongfang Electric Automation Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气集团有限公司": {
+    "en": "Harbin Electric Corporation (HE)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气股份有限公司": {
+    "en": "Harbin Electric Company Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨锅炉厂有限责任公司": {
+    "en": "Harbin Boiler Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨汽轮机厂有限责任公司": {
+    "en": "Harbin Turbine Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电机厂有限责任公司": {
+    "en": "Harbin Electric Machinery Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气国际工程有限责任公司": {
+    "en": "Harbin Electric International Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气集团财务有限责任公司": {
+    "en": "Harbin Electric Group Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气集团佳木斯电机股份有限公司": {
+    "en": "Harbin Electric Group Jiamusi Electric Machine Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "佳木斯电机股份有限公司": {
+    "en": "Jiamusi Electric Machine Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "成都佳电电机有限公司": {
+    "en": "Chengdu Jiadian Electric Machine Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "苏州佳电永磁电机科技有限公司": {
+    "en": "Suzhou Jiadian Permanent Magnet Motor Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气集团先进电机技术有限公司": {
+    "en": "Harbin Electric Group Advanced Motor Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "佳木斯电机厂有限责任公司": {
+    "en": "Jiamusi Electric Machine Factory Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "哈尔滨电气集团海洋智能装备有限公司": {
+    "en": "Harbin Electric Group Marine Intelligent Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国机械工业集团有限公司": {
+    "en": "Sinomach (China National Machinery Industry Corporation)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国机财务有限责任公司": {
+    "en": "Sinomach Finance Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国机械设备工程股份有限公司": {
+    "en": "China Machinery Engineering Corporation (CMEC)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中工国际工程股份有限公司": {
+    "en": "CAMCE Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国福马机械集团有限公司": {
+    "en": "China Foma (Group) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国恒天集团有限公司": {
+    "en": "China Hi-Tech Group Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国第一拖拉机集团有限公司": {
+    "en": "YTO Group Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国海洋航空集团有限公司": {
+    "en": "China Ocean Aviation Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国地质装备集团有限公司": {
+    "en": "China Geological Equipment Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国机资本控股有限公司": {
+    "en": "Sinomach Capital Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "国机重型装备集团股份有限公司": {
+    "en": "Sinomach Heavy Equipment Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国机械工业建设集团有限公司": {
+    "en": "China National Machinery Industry Construction Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国汽车工业工程有限公司": {
+    "en": "China Automotive Engineering Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中国联合工程有限公司": {
+    "en": "China United Engineering Corporation",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "机械工业第六设计研究院有限公司": {
+    "en": "No.6 Design and Research Institute of Machinery Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海电气集团股份有限公司": {
+    "en": "Shanghai Electric Group Company Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "电站集团": {
+    "en": "Power Station Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "核电集团": {
+    "en": "Nuclear Power Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "电气风电": {
+    "en": "Shanghai Electric Wind Power Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "输配电集团": {
+    "en": "Transmission and Distribution Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "自动化集团": {
+    "en": "Automation Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "轨道交通集团": {
+    "en": "Rail Transit Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "环保集团": {
+    "en": "Environmental Protection Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海三菱": {
+    "en": "Shanghai Mitsubishi Elevator",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海集优": {
+    "en": "Shanghai Prime Machinery Company Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海机电": {
+    "en": "Shanghai Mechanical & Electrical Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "金融集团": {
+    "en": "Financial Services Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "中央研究院": {
+    "en": "Central Research Institute",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "电气新能源": {
+    "en": "Electric New Energy Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一集团有限公司": {
+    "en": "SANY Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一重工股份有限公司": {
+    "en": "Sany Heavy Industry Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一重装国际控股有限公司": {
+    "en": "Sany Heavy Equipment International Holdings Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一重能股份有限公司": {
+    "en": "Sany Renewable Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一筑工科技股份有限公司": {
+    "en": "Sany Construction Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "湖南行必达网联科技有限公司": {
+    "en": "Hunan Xingbida Connected Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "上海竹胜园地产有限公司": {
+    "en": "Shanghai Zhushengyuan Real Estate Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一石油智能装备有限公司": {
+    "en": "Sany Petroleum Intelligent Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "昆山三一环保科技有限公司": {
+    "en": "Kunshan Sany Environmental Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一锂能有限公司": {
+    "en": "Sany Lithium Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  },
+  "三一技术装备有限公司": {
+    "en": "Sany Technical Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "company_hierarchy"
+  }
 }
