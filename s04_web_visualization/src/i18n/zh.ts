@@ -28,6 +28,10 @@ const zh = {
     allStages: "全部阶段",
     allEntities: "全部企业",
     projectsCount: "{{count}} 个项目",
+    soe: "央企参与",
+    soeAll: "全部",
+    soeYes: "含央企项目",
+    soeNo: "不含央企项目",
   },
   // 地图
   map: {

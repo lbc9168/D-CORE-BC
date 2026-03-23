@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
-import { Globe, Table2, Languages } from "lucide-react";
+import { Globe, Table2 } from "lucide-react";
 import { useLang } from "@/contexts/LanguageContext";
 
 export default function Header() {
-  const { lang, setLang, t } = useLang();
+  const { t } = useLang();
 
   const navClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
@@ -33,17 +33,6 @@ export default function Header() {
           {t("nav.table")}
         </NavLink>
       </nav>
-
-      {/* 右侧：语言切换 */}
-      <div className="ml-auto flex items-center gap-2">
-        <Languages size={15} className="text-slate-400" />
-        <button
-          onClick={() => setLang(lang === "zh" ? "en" : "zh")}
-          className="btn-outline text-xs"
-        >
-          {lang === "zh" ? "EN" : "中文"}
-        </button>
-      </div>
     </header>
   );
 }

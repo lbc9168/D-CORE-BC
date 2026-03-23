@@ -1,7 +1,9 @@
 """Layer 2: 语义校验 — 独立模型交叉验证 project_summary 与字段一致性"""
 
+import concurrent.futures
 import json
 import os
+import time
 from typing import Any
 
 
@@ -113,13 +115,18 @@ def _call_gemini(client, model: str, prompt: str) -> list[dict]:
     return result if isinstance(result, list) else []
 
 
-def run_semantic_checks(records: list[dict], batch_size: int = 10) -> list[str]:
+def run_semantic_checks(
+    records: list[dict],
+    batch_size: int = 20,
+    max_workers: int = 4,
+) -> list[str]:
     """
     对一批提取记录执行语义校验（独立模型交叉验证）。
 
     Args:
-        records: 从 projects.db 查出的字典列表
-        batch_size: 每次调用校验模型的记录数
+        records:     从 projects.db 查出的字典列表
+        batch_size:  每次调用校验模型的记录数（默认 20，减少 API 调用次数）
+        max_workers: 并发批次数（默认 4，批次间并行发送请求）
 
     Returns:
         错误描述列表。空列表表示全部通过。
@@ -131,33 +138,73 @@ def run_semantic_checks(records: list[dict], batch_size: int = 10) -> list[str]:
         return []
 
     backend, client, model = _get_validation_client()
-    if client is None:
+    if client is None or not model:
         print("[语义校验] 无可用校验模型（检查 VALIDATION_API_KEY 或 GEMINI_API_KEY），跳过")
         return []
 
-    print(f"[语义校验] 使用 {backend}/{model}，共 {len(records_with_summary)} 条待检")
+    # 预构建所有批次
+    batches = [
+        records_with_summary[i : i + batch_size]
+        for i in range(0, len(records_with_summary), batch_size)
+    ]
+    actual_workers = min(max_workers, len(batches))
+    print(
+        f"[语义校验] 使用 {backend}/{model}，"
+        f"共 {len(records_with_summary)} 条 → {len(batches)} 批，"
+        f"并发 {actual_workers} 线程"
+    )
 
-    errors: list[str] = []
     call_fn = _call_openai if backend == "openai" else _call_gemini
+    total_batches = (len(records_with_summary) + batch_size - 1) // batch_size
 
+    def _call_one_batch(args: tuple[int, list[dict]]) -> list[str]:
+        """处理单个批次，返回该批次的错误列表。"""
+        batch_idx, batch = args
+        prompt = _build_validation_prompt(batch)
     # 分批调用
     for i in range(0, len(records_with_summary), batch_size):
+        batch_idx = i // batch_size + 1
         batch = records_with_summary[i:i + batch_size]
         prompt = _build_validation_prompt(batch)
+        t0 = time.time()
+        print(
+            f"[语义校验] 进度 {batch_idx}/{total_batches} "
+            f"（本批 {len(batch)} 条，累计错误 {len(errors)}）"
+        )
 
         try:
             issues = call_fn(client, model, prompt)
+            results = []
             for issue in issues:
-                rid = issue.get("record_id", "?")
-                field = issue.get("field", "?")
+                rid      = issue.get("record_id", "?")
+                field    = issue.get("field", "?")
                 extracted = issue.get("extracted_value", "?")
-                expected = issue.get("expected_from_summary", "?")
-                reason = issue.get("reason", "")
-                errors.append(
+                expected  = issue.get("expected_from_summary", "?")
+                reason    = issue.get("reason", "")
+                results.append(
                     f"项目 #{rid} 语义不一致: {field}='{extracted}' "
                     f"(应为 '{expected}') — {reason}"
                 )
+            return results
         except Exception as e:
-            print(f"[语义校验] 批次 {i//batch_size + 1} 调用失败: {e}，跳过")
+            print(f"[语义校验] 批次 {batch_idx + 1}/{len(batches)} 调用失败: {e}，跳过")
+            return []
+
+    # 并发调用所有批次
+    errors: list[str] = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=actual_workers) as executor:
+        for batch_errors in executor.map(_call_one_batch, enumerate(batches)):
+            errors.extend(batch_errors)
+            elapsed = time.time() - t0
+            print(
+                f"[语义校验] 批次 {batch_idx}/{total_batches} 完成，"
+                f"新增问题 {len(issues)}，累计 {len(errors)}，耗时 {elapsed:.1f}s"
+            )
+        except Exception as e:
+            elapsed = time.time() - t0
+            print(
+                f"[语义校验] 批次 {batch_idx}/{total_batches} 调用失败: {e}，"
+                f"已跳过（耗时 {elapsed:.1f}s）"
+            )
 
     return errors

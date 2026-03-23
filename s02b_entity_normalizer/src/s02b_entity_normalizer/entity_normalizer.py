@@ -287,24 +287,25 @@ def _update_db(db_path: str, mapping: Dict[str, str]) -> Tuple[int, int]:
 
 def run(db_path: Optional[str] = None, preview: bool = False) -> None:
 
-    # ── CLI 参数解析 ──────────────────────────────────────────────────────────
-    parser = argparse.ArgumentParser(
-        description="实体名称归一化工具（三信号 + LLM 确认）"
-    )
-    parser.add_argument(
-        "--preview", action="store_true",
-        help="仅预览候选对，不写入数据库"
-    )
-    parser.add_argument(
-        "--db", type=str, default=None,
-        help=f"数据库路径（默认：{DEFAULT_DB}）"
-    )
-    args, _ = parser.parse_known_args()
+    # 仅在“纯 CLI 调用”（未显式传入参数）时解析 sys.argv，避免覆盖流程层传参。
+    if db_path is None and preview is False:
+        parser = argparse.ArgumentParser(
+            description="实体名称归一化工具（三信号 + LLM 确认）"
+        )
+        parser.add_argument(
+            "--preview", action="store_true",
+            help="仅预览候选对，不写入数据库"
+        )
+        parser.add_argument(
+            "--db", type=str, default=None,
+            help=f"数据库路径（默认：{DEFAULT_DB}）"
+        )
+        args, _ = parser.parse_known_args()
 
-    if args.preview:
-        preview = True
-    if args.db:
-        db_path = args.db
+        if args.preview:
+            preview = True
+        if args.db:
+            db_path = args.db
 
     if db_path is None:
         db_path = str(DEFAULT_DB)

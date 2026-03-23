@@ -27,6 +27,54 @@ STAGE_PRIORITY: dict[str, int] = {
     "拟开发": 0,
 }
 
+# ── 英文映射字典 ──────────────────────────────────────────────────────────────
+
+CATEGORY_EN: dict[str, str] = {
+    "光伏":        "Solar PV",
+    "风电":        "Wind Power",
+    "水电":        "Hydropower",
+    "核电":        "Nuclear Power",
+    "火电":        "Thermal Power",
+    "地热及余热":   "Geothermal & Waste Heat",
+    "生物质":      "Biomass",
+    "储能":        "Energy Storage",
+    "综合能源":    "Integrated Energy",
+    "新能源制造业": "New Energy Manufacturing",
+    "输变电建设":   "Transmission & Distribution",
+}
+
+STAGE_EN: dict[str, str] = {
+    "拟开发":   "Planned",
+    "收购":     "Acquired",
+    "中标":     "Awarded",
+    "签约":     "Signed",
+    "开工":     "Construction Started",
+    "在建":     "Under Construction",
+    "竣工":     "Completed",
+    "投入运营": "In Operation",
+    "Unknown":  "Unknown",
+}
+
+FINANCING_MODEL_EN: dict[str, str] = {
+    "信贷融资": "Credit Financing",
+    "债券融资": "Bond Financing",
+    "股权融资": "Equity Financing",
+    "混合融资": "Blended Financing",
+    "其他":     "Other",
+    "Unknown":  "Unknown",
+}
+
+INVOLVEMENT_TYPE_EN: dict[str, str] = {
+    "BOT/BOOT":    "BOT/BOOT",
+    "EPC总承包":   "EPC General Contractor",
+    "设计/施工服务方": "Design/Construction Service",
+    "股权投资方":  "Equity Investor",
+    "设备供应商":  "Equipment Supplier",
+    "投融资+EPC":  "Investment + EPC",
+    "融资方":      "Financier",
+    "Unknown":     "Unknown",
+}
+
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS projects_flat (
     project_id          TEXT PRIMARY KEY,
@@ -40,17 +88,21 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     location            TEXT,
     province            TEXT,
     category            TEXT,
+    category_en         TEXT,
     capacity_mw         REAL,
     latest_stage        TEXT,
+    latest_stage_en     TEXT,
     latest_stage_date   TEXT,
     event_year          INTEGER,
     event_month         TEXT,
     timeline_notes      TEXT,
     event_count         INTEGER,
     financing_model     TEXT,
+    financing_model_en  TEXT,
     primary_entity      TEXT,
     primary_entity_en   TEXT,
     all_entities        TEXT,
+    has_soe             INTEGER,
     verification_status TEXT,
     record_type         TEXT
 )
@@ -171,13 +223,16 @@ def build_flat(
                 name = (ent.get("implementing_entity") or "").strip()
                 if name and name not in seen_entities:
                     seen_entities.add(name)
+                    inv_type = ent.get("involvement_type") or ""
                     all_entities_list.append(
                         {
-                            "name":            name,
-                            "name_en":         ent.get("implementing_entity_en") or "",
-                            "subsidiary":      ent.get("subsidiary_name") or "",
-                            "subsidiary_en":   ent.get("subsidiary_name_en") or "",
-                            "involvement_type": ent.get("involvement_type") or "",
+                            "name":               name,
+                            "name_en":            ent.get("implementing_entity_en") or "",
+                            "subsidiary":         ent.get("subsidiary_name") or "",
+                            "subsidiary_en":      ent.get("subsidiary_name_en") or "",
+                            "involvement_type":   inv_type,
+                            "involvement_type_en": INVOLVEMENT_TYPE_EN.get(inv_type, inv_type),
+                            "is_central_soe":     ent.get("is_central_soe"),
                         }
                     )
 
@@ -189,6 +244,12 @@ def build_flat(
         event_year = _parse_year(
             latest.get("publish_date") or latest.get("investment_date")
         )
+
+        category     = proj.get("category") or ""
+        latest_stage = latest.get("project_stage") or ""
+        fm_raw       = (latest.get("financing_model") or "").strip()
+        financing_model = "" if fm_raw in ("Unknown", "unknown", "N/A", "n/a") else fm_raw
+        has_soe = 1 if any(e.get("is_central_soe") == 1 for e in all_entities_list) else 0
 
         rows.append(
             {
@@ -202,9 +263,11 @@ def build_flat(
                 "ldc":                 proj.get("ldc") or "",
                 "location":            proj.get("location") or "",
                 "province":            province_map.get(pid),
-                "category":            proj.get("category") or "",
+                "category":            category,
+                "category_en":         CATEGORY_EN.get(category, category),
                 "capacity_mw":         capacity_mw,
-                "latest_stage":        latest.get("project_stage") or "",
+                "latest_stage":        latest_stage,
+                "latest_stage_en":     STAGE_EN.get(latest_stage, latest_stage),
                 "latest_stage_date":   latest.get("publish_date") or latest.get("investment_date") or "",
                 "event_year":          event_year,
                 "event_month":         _parse_month(
@@ -212,10 +275,12 @@ def build_flat(
                 ),
                 "timeline_notes":      timeline_notes,
                 "event_count":         len(proj_events),
-                "financing_model":     "" if (fm := (latest.get("financing_model") or "").strip()) in ("Unknown", "unknown", "N/A", "n/a") else fm,
+                "financing_model":     financing_model,
+                "financing_model_en":  FINANCING_MODEL_EN.get(financing_model, financing_model),
                 "primary_entity":      primary_entity,
                 "primary_entity_en":   primary_entity_en,
                 "all_entities":        json.dumps(all_entities_list, ensure_ascii=False),
+                "has_soe":             has_soe,
                 "verification_status": latest.get("verification_status") or "unverified",
                 "record_type":         "具体项目",
             }

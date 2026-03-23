@@ -267,18 +267,19 @@ def _mark_imported(input_db: str, record_ids: list[int]) -> None:
     """将已处理记录标记为 imported_to_s02a = 1（防止重复导入）。"""
     if not record_ids:
         return
+    conn = sqlite3.connect(input_db)
     try:
-        conn = sqlite3.connect(input_db)
         placeholders = ",".join("?" * len(record_ids))
         conn.execute(
             f"UPDATE extracted_projects SET imported_to_s02a = 1 WHERE id IN ({placeholders})",
             record_ids,
         )
         conn.commit()
-        conn.close()
         print(f"  已标记 {len(record_ids)} 条记录为 imported_to_s02a=1")
     except Exception as e:
-        print(f"  [警告] 标记 imported 失败: {e}")
+        raise RuntimeError(f"标记 imported_to_s02a 失败: {e}") from e
+    finally:
+        conn.close()
 
 
 def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:

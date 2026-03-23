@@ -6,6 +6,8 @@ export interface Entity {
   subsidiary: string;
   subsidiary_en: string;
   involvement_type: string;
+  involvement_type_en: string;
+  is_central_soe: 0 | 1 | null;
 }
 
 export interface Project {
@@ -20,17 +22,21 @@ export interface Project {
   location: string;
   province: string | null;
   category: string;         // 光伏 / 风电 / 水电 / 核电 / 火电 / 地热及余热 / 生物质 / 储能 / 综合能源 / 新能源制造业 / 输变电建设
+  category_en: string;      // Solar PV / Wind Power / Hydropower / ...
   capacity_mw: number | null;
   latest_stage: string;
+  latest_stage_en: string;
   latest_stage_date: string;
   event_year: number | null;
   event_month: string | null;
   timeline_notes: string;
   event_count: number;
   financing_model: string;
+  financing_model_en: string;
   primary_entity: string;
   primary_entity_en: string;
   all_entities: Entity[];
+  has_soe: 0 | 1;
   verification_status: string;
   record_type: string;
   dev_status?: DevStatus;   // 计算字段，由 DataContext 基于 ldc + country_iso 填充
@@ -77,6 +83,7 @@ export interface FilterState {
   entities: string[];                    // 空数组 = 全选
   briFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅BRI；["No"] = 仅非BRI
   ldcFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅LDC；["No"] = 仅非LDC
+  soeFilter: "all" | "soe" | "non_soe"; // SOE 筛选："all" = 全部；"soe" = 仅含央企；"non_soe" = 不含央企
 }
 
 // ── 枚举常量 ──────────────────────────────────────────────────────────────────

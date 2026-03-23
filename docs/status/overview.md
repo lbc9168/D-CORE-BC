@@ -175,6 +175,8 @@ BRI_RE_Database_v2/
 
 | 问题 | 优先级 | 状态 |
 |------|--------|------|
+| `pipeline` 预留模块导入耦合、`s01a` 归档目录不存在崩溃、`s01b` Guardrail 潜在误删（batch_id 缺失） | 高 | 已修复（2026-03-22） |
+| `s02b` CLI 参数解析覆盖流程传参、`s02a` imported 标记失败静默导致潜在重复导入 | 高 | 已修复（2026-03-22） |
 | `s01_data_collector_filter/custom_tool.py` 仍为模板占位符 | 低 | 未修复 |
 | `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步） | 低 | 未修复 |
 | Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线） | 低 | 未修复（仅影响显示） |

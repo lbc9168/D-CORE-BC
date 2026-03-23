@@ -69,6 +69,8 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
     if (f.entities.length > 0 && !f.entities.includes(p.primary_entity)) return false;
     if (f.briFilter.length === 1 && p.bri_country !== f.briFilter[0]) return false;
     if (f.ldcFilter.length > 0 && !f.ldcFilter.includes(p.dev_status ?? "Developing")) return false;
+    if (f.soeFilter === "soe" && p.has_soe !== 1) return false;
+    if (f.soeFilter === "non_soe" && p.has_soe === 1) return false;
     return true;
   });
 }
@@ -108,6 +110,7 @@ const DEFAULT_FILTER: FilterState = {
   entities: [],
   briFilter: [],
   ldcFilter: [],
+  soeFilter: "all",
 };
 
 const DataContext = createContext<DataContextValue | null>(null);
