@@ -135,6 +135,7 @@ BRI_RE_Database_v2/
 │
 ├── supporting_docs/                    # 项目辅助数据（AI 提取知识库）
 │   ├── company_hierarchy.json      # 母子公司层级对照表（17集团，三级，含 is_central_soe）
+│   ├── company_name_cache.json     # 中文公司名 → 英文缓存（自动增长，verified 字段区分人工/AI）
 │   ├── soe.md                      # 官方100家央企名录（兜底判断）
 │   └── Archived/                   # 已归档的旧格式 Markdown 文件
 │
@@ -142,7 +143,6 @@ BRI_RE_Database_v2/
 │   ├── status/                     # 各阶段详细状态
 │   └── changes/                    # 按周改动记录
 │
-├── company_name_cache.json         # 中文公司名 → 英文缓存
 ├── enums_mapping.json              # 枚举字段映射表
 ├── project_status.md               # 状态文档快速索引
 ├── change_record.md                # 改动记录快速索引
