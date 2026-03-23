@@ -6,7 +6,7 @@
  */
 
 /** 装机容量统计时需要排除的能源类别（中文类别名） */
-export const NO_CAPACITY_CATEGORIES = new Set(["储能", "输变电建设"]);
+export const NO_CAPACITY_CATEGORIES = new Set(["储能", "输变电建设", "新能源制造业"]);
 
 /** 判断某个项目是否应计入装机容量统计 */
 export function hasCapacity(category: string | null | undefined): boolean {

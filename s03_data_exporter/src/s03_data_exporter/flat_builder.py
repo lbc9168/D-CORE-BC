@@ -15,6 +15,26 @@ from typing import Optional
 
 import pandas as pd
 
+# ── 国家英文名查找表（从 WorldCountryList.json 加载） ──────────────────────────
+_WORLD_LIST_PATH = (
+    Path(__file__).resolve().parents[5]
+    / "s01b_project_extractor"
+    / "WorldCountryList.json"
+)
+
+def _load_iso3_to_en() -> dict[str, str]:
+    try:
+        with open(_WORLD_LIST_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return {c["iso"]: c["name_en"] for c in data if c.get("iso") and c.get("name_en")}
+    except Exception:
+        return {}
+
+ISO3_TO_EN_NAME: dict[str, str] = _load_iso3_to_en()
+
+# 装机容量不适用的类别（输变电建设、储能、新能源制造业）
+NO_CAPACITY_CATS: set[str] = {"储能", "输变电建设", "新能源制造业"}
+
 # 阶段优先级：值越高 = 越"终态"
 STAGE_PRIORITY: dict[str, int] = {
     "投入运营": 7,
@@ -82,6 +102,7 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     project_name_en     TEXT,
     name_en_quality     TEXT,
     country             TEXT,
+    country_en          TEXT,
     country_iso         TEXT,
     bri_country         TEXT,
     ldc                 TEXT,
@@ -246,6 +267,11 @@ def build_flat(
         )
 
         category     = proj.get("category") or ""
+
+        # 无装机容量意义的类别：清空容量字段
+        if category in NO_CAPACITY_CATS:
+            capacity_mw = None
+
         latest_stage = latest.get("project_stage") or ""
         fm_raw       = (latest.get("financing_model") or "").strip()
         financing_model = "" if fm_raw in ("Unknown", "unknown", "N/A", "n/a") else fm_raw
@@ -258,6 +284,7 @@ def build_flat(
                 "project_name_en":     proj.get("project_name_en") or "",
                 "name_en_quality":     proj.get("name_en_quality") or "",
                 "country":             proj.get("country") or "",
+                "country_en":          ISO3_TO_EN_NAME.get(proj.get("country_iso") or "", ""),
                 "country_iso":         proj.get("country_iso") or "",
                 "bri_country":         proj.get("bri_country") or "",
                 "ldc":                 proj.get("ldc") or "",

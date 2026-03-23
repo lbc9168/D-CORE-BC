@@ -16,6 +16,7 @@ export interface Project {
   project_name_en: string;
   name_en_quality: string;
   country: string;
+  country_en?: string;      // English country name (populated after s03 rerun)
   country_iso: string;      // ISO 3166-1 alpha-3
   bri_country: string;
   ldc: string;
