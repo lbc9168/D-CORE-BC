@@ -372,7 +372,8 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     - **Type of involvement of Chinese Entities**: 只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, 融资方, Unknown]。
     - **Financing Model**: 只能选 [信贷融资, 债券融资, 股权融资, 混合融资, 其他, Unknown]。
     - **Project Stage**: 只能选 [拟开发，收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
-        - Project Stage判断标准补充：“完工”被视为“竣工”；“并网发电”被视为“投入运营”；“收购, 中标, 签约, 开工, 在建”你自行判断，以新闻原文为准。
+        - Project Stage判断标准补充：“划定厂址”视为“拟开发”；“奠基”视为“开工”；“完工”视为“竣工”；“并网发电”视为“投入运营”；
+        - “收购, 中标, 签约, 开工, 在建”的其他情况，你自行判断，以新闻原文为准。
         - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为“拟开发”。
     - **Implementing Chinese Entity (EN)**: 中方企业的官方英文名。请优先使用上方知识库括号内的英文名称，如"PowerChina"、"China Three Gorges Corporation (CTG)"、"CEEC"、"Huaneng"等。知识库未收录的企业，提供合理的英文译名。
     - **Subsidiary Name (EN)**: 子公司的官方英文名或英文译名。如"Sinohydro Bureau 5"、"SEPCO III"等。

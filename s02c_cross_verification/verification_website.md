@@ -4,3 +4,4 @@
 索比光伏网-项目：https://news.solarbe.com/xiangmu 
 中国能建国际集团：http://www.gjjt.ceec.net.cn/col/col56853/index.html?uid=485015&pageNum=1 
 中国电建-国际项目：https://www.powerchina.cn/col/col7449/index.html 
+见道（包括所有新能源分页面）：https://www.seetao.com/list/19.html 
