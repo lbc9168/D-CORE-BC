@@ -155,56 +155,54 @@ def run_semantic_checks(
     )
 
     call_fn = _call_openai if backend == "openai" else _call_gemini
-    total_batches = (len(records_with_summary) + batch_size - 1) // batch_size
+    total_batches = len(batches)
 
-    def _call_one_batch(args: tuple[int, list[dict]]) -> list[str]:
-        """处理单个批次，返回该批次的错误列表。"""
+    def _call_one_batch(args: tuple[int, list[dict]]) -> tuple[int, list[str], int, float, str]:
+        """处理单个批次，返回 (batch_idx, errors, issues_count, elapsed, err_msg)。"""
         batch_idx, batch = args
-        prompt = _build_validation_prompt(batch)
-    # 分批调用
-    for i in range(0, len(records_with_summary), batch_size):
-        batch_idx = i // batch_size + 1
-        batch = records_with_summary[i:i + batch_size]
-        prompt = _build_validation_prompt(batch)
         t0 = time.time()
-        print(
-            f"[语义校验] 进度 {batch_idx}/{total_batches} "
-            f"（本批 {len(batch)} 条，累计错误 {len(errors)}）"
-        )
-
+        prompt = _build_validation_prompt(batch)
         try:
             issues = call_fn(client, model, prompt)
-            results = []
+            batch_errors: list[str] = []
             for issue in issues:
-                rid      = issue.get("record_id", "?")
-                field    = issue.get("field", "?")
+                rid = issue.get("record_id", "?")
+                field = issue.get("field", "?")
                 extracted = issue.get("extracted_value", "?")
-                expected  = issue.get("expected_from_summary", "?")
-                reason    = issue.get("reason", "")
-                results.append(
+                expected = issue.get("expected_from_summary", "?")
+                reason = issue.get("reason", "")
+                batch_errors.append(
                     f"项目 #{rid} 语义不一致: {field}='{extracted}' "
                     f"(应为 '{expected}') — {reason}"
                 )
-            return results
+            return batch_idx, batch_errors, len(issues), time.time() - t0, ""
         except Exception as e:
-            print(f"[语义校验] 批次 {batch_idx + 1}/{len(batches)} 调用失败: {e}，跳过")
-            return []
+            return batch_idx, [], 0, time.time() - t0, str(e)
 
-    # 并发调用所有批次
     errors: list[str] = []
+    print(f"[语义校验] 开始批量校验：共 {total_batches} 批")
     with concurrent.futures.ThreadPoolExecutor(max_workers=actual_workers) as executor:
-        for batch_errors in executor.map(_call_one_batch, enumerate(batches)):
-            errors.extend(batch_errors)
-            elapsed = time.time() - t0
+        futures = {
+            executor.submit(_call_one_batch, (idx + 1, batch)): (idx + 1, len(batch))
+            for idx, batch in enumerate(batches)
+        }
+        for future in concurrent.futures.as_completed(futures):
+            batch_idx, batch_len = futures[future]
             print(
-                f"[语义校验] 批次 {batch_idx}/{total_batches} 完成，"
-                f"新增问题 {len(issues)}，累计 {len(errors)}，耗时 {elapsed:.1f}s"
+                f"[语义校验] 进度 {batch_idx}/{total_batches} "
+                f"（本批 {batch_len} 条，累计错误 {len(errors)}）"
             )
-        except Exception as e:
-            elapsed = time.time() - t0
+            idx_ret, batch_errors, issues_count, elapsed, err_msg = future.result()
+            if err_msg:
+                print(
+                    f"[语义校验] 批次 {idx_ret}/{total_batches} 调用失败: {err_msg}，"
+                    f"已跳过（耗时 {elapsed:.1f}s）"
+                )
+                continue
+            errors.extend(batch_errors)
             print(
-                f"[语义校验] 批次 {batch_idx}/{total_batches} 调用失败: {e}，"
-                f"已跳过（耗时 {elapsed:.1f}s）"
+                f"[语义校验] 批次 {idx_ret}/{total_batches} 完成，"
+                f"新增问题 {issues_count}，累计 {len(errors)}，耗时 {elapsed:.1f}s"
             )
 
     return errors
