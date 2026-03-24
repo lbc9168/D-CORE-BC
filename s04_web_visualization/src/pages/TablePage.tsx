@@ -61,7 +61,6 @@ export default function TablePage() {
   const handleExport = () => {
     const exportHeaders: { key: string; label: string }[] = [
       { key: "project_id",          label: "Project ID" },
-      { key: "project_name",        label: "Project Name (CN)" },
       { key: "project_name_en",     label: "Project Name (EN)" },
       { key: "country_iso",         label: "Country ISO" },
       { key: "province",            label: "Province / State" },
@@ -70,12 +69,10 @@ export default function TablePage() {
       { key: "latest_stage_en",     label: "Stage" },
       { key: "event_year",          label: "Year" },
       { key: "primary_entity_en",   label: "Primary Chinese Entity (EN)" },
-      { key: "primary_entity",      label: "Primary Chinese Entity (CN)" },
       { key: "has_soe",             label: "Central SOE Involved" },
       { key: "bri_country",         label: "BRI Country" },
       { key: "ldc",                 label: "LDC" },
       { key: "financing_model_en",  label: "Financing Model" },
-      { key: "verification_status", label: "Verification Status" },
       { key: "remarks",             label: "Remarks" },
     ];
 
