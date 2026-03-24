@@ -72,6 +72,18 @@ STAGE_EN: dict[str, str] = {
     "在建":     "Under Construction",
     "竣工":     "Completed",
     "投入运营": "In Operation",
+    "审批":     "Approval",
+    "获批":     "Approved",
+    "推进":     "Progressing",
+    "融资":     "Financing",
+    "融资支持":  "Financing Support",
+    "融资完成":  "Financing Completed",
+    "融资关闭":  "Financial Close",
+    "设备供应":  "Equipment Supply",
+    "设备制造":  "Equipment Manufacturing",
+    "设备发运":  "Equipment Delivery",
+    "设计获批":  "Design Approved",
+    "计划于2026年同步启动改造两台机组": "Retrofit Start Planned in 2026",
     "Unknown":  "Unknown",
 }
 
@@ -159,6 +171,19 @@ def _parse_capacity(val: Optional[str]) -> Optional[float]:
         return None
 
 
+def _stage_to_english(stage: str) -> str:
+    s = (stage or "").strip()
+    if not s:
+        return ""
+    mapped = STAGE_EN.get(s)
+    if mapped:
+        return mapped
+    # 兜底：若仍是中文短语，统一转为英文占位，避免前端出现中文 timeline。
+    if any("\u4e00" <= ch <= "\u9fff" for ch in s):
+        return "Other Milestone"
+    return s
+
+
 def build_flat(
     src_db: Path,
     dst_db: Path,
@@ -233,7 +258,8 @@ def build_flat(
                 date = ev.get("publish_date") or ev.get("investment_date") or ""
                 ym = str(date)[:7] if date else "??"
                 if stage:
-                    parts.append(f"{stage}: {ym}")
+                    stage_en = _stage_to_english(stage)
+                    parts.append(f"{stage_en}: {ym}")
             timeline_notes = " → ".join(parts)
 
         # 实体：所有事件合并去重（按最终状态 → 其他顺序），primary 取最终状态第一个
