@@ -1,7 +1,7 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import type { Project, ColorBy } from "@/types";
-import { valueToColor } from "@/utils/colorScale";
+import { valueToColor, buildColorBins } from "@/utils/colorScale";
 import { useLang } from "@/contexts/LanguageContext";
 import { useProvinceGeo } from "@/hooks/useProvinceGeo";
 import { hasCapacity } from "@/utils/capacityPolicy";
@@ -31,6 +31,51 @@ function normalizeName(s: string): string {
     .trim();
 }
 
+function collectLngLatPoints(node: unknown, points: Array<[number, number]>): void {
+  if (!Array.isArray(node)) return;
+  if (
+    node.length >= 2 &&
+    typeof node[0] === "number" &&
+    typeof node[1] === "number"
+  ) {
+    points.push([node[0], node[1]]);
+    return;
+  }
+  node.forEach((child) => collectLngLatPoints(child, points));
+}
+
+function getFeatureCenter(feature: unknown): [number, number] | null {
+  if (
+    typeof feature !== "object" ||
+    feature == null ||
+    !("geometry" in feature)
+  ) {
+    return null;
+  }
+  const geometry = (feature as { geometry?: { coordinates?: unknown } }).geometry;
+  if (!geometry?.coordinates) return null;
+
+  const points: Array<[number, number]> = [];
+  collectLngLatPoints(geometry.coordinates, points);
+  if (points.length === 0) return null;
+
+  let minLng = Infinity;
+  let maxLng = -Infinity;
+  let minLat = Infinity;
+  let maxLat = -Infinity;
+  points.forEach(([lng, lat]) => {
+    if (lng < minLng) minLng = lng;
+    if (lng > maxLng) maxLng = lng;
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+  });
+  return [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
+}
+
+const DEFAULT_CENTER: [number, number] = [0, 0];
+const DEFAULT_ZOOM = 1;
+const FOCUS_ZOOM = 2.2;
+
 export default function ProvinceMap({
   countryIso3,
   countryName,
@@ -41,6 +86,8 @@ export default function ProvinceMap({
 }: ProvinceMapProps) {
   const { t } = useLang();
   const geo = useProvinceGeo(countryIso3);
+  const [mapCenter, setMapCenter] = useState<[number, number]>(DEFAULT_CENTER);
+  const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false, x: 0, y: 0, content: "",
   });
@@ -62,10 +109,13 @@ export default function ProvinceMap({
     return map;
   }, [projects, colorBy]);
 
-  const maxVal = useMemo(
-    () => Math.max(0, ...Array.from(provinceValues.values())),
-    [provinceValues],
-  );
+  const colorValues = useMemo(() => Array.from(provinceValues.values()), [provinceValues]);
+  const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
+
+  useEffect(() => {
+    setMapCenter(DEFAULT_CENTER);
+    setMapZoom(DEFAULT_ZOOM);
+  }, [countryIso3]);
 
   if (geo.status === "loading") {
     return (
@@ -89,26 +139,36 @@ export default function ProvinceMap({
   return (
     <div className="relative w-full h-full select-none">
       <ComposableMap
-        projectionConfig={{ scale: 380 }}
+        projection="geoEquirectangular"
+        projectionConfig={{ scale: 170, center: [0, 0] }}
         style={{ width: "100%", height: "100%" }}
       >
-        <ZoomableGroup zoom={1} minZoom={0.5} maxZoom={8}>
+        <ZoomableGroup
+          center={mapCenter}
+          zoom={mapZoom}
+          minZoom={0.8}
+          maxZoom={8}
+          onMoveEnd={({ coordinates, zoom }) => {
+            setMapCenter([coordinates[0], coordinates[1]]);
+            setMapZoom(zoom);
+          }}
+        >
           <Geographies geography={geo.data}>
             {({ geographies }) =>
-              geographies.map((geo) => {
+              geographies.map((feature) => {
                 const rawName =
-                  (geo.properties?.["name"] as string | undefined) ??
-                  (geo.properties?.["NAME"] as string | undefined) ?? "";
+                  (feature.properties?.["name"] as string | undefined) ??
+                  (feature.properties?.["NAME"] as string | undefined) ?? "";
                 const normName = normalizeName(rawName);
                 const value = provinceValues.get(normName);
-                const fill = valueToColor(value, maxVal);
+                const fill = valueToColor(value, bins);
                 const isSelected = selectedProvince != null &&
                   normalizeName(selectedProvince) === normName;
 
                 return (
                   <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
+                    key={feature.rsmKey}
+                    geography={feature}
                     fill={isSelected ? "#0284c7" : fill}
                     stroke="#fff"
                     strokeWidth={0.5}
@@ -133,7 +193,14 @@ export default function ProvinceMap({
                     onMouseLeave={() =>
                       setTooltip((prev) => ({ ...prev, visible: false }))
                     }
-                    onClick={() => onProvinceClick(rawName)}
+                    onClick={() => {
+                      onProvinceClick(rawName);
+                      const center = getFeatureCenter(feature);
+                      if (center) {
+                        setMapCenter(center);
+                        setMapZoom((prev) => Math.max(prev, FOCUS_ZOOM));
+                      }
+                    }}
                   />
                 );
               })

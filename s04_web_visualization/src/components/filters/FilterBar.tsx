@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { RotateCcw, ChevronDown } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
@@ -165,6 +165,16 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
   const minYear = availableYears[0] ?? 2000;
   const maxYear = availableYears[availableYears.length - 1] ?? new Date().getFullYear();
   const currentRange = filter.yearRange ?? [minYear, maxYear];
+  const stageOptions = useMemo(
+    () => Object.keys(STAGES).filter((k) => (STAGES[k]?.en ?? "").toLowerCase() !== "planned"),
+    [],
+  );
+
+  // 防止旧筛选状态中残留 planned，确保 UI 与过滤结果一致
+  useEffect(() => {
+    if (filter.stages.every((stage) => stageOptions.includes(stage))) return;
+    setFilter((f) => ({ ...f, stages: f.stages.filter((stage) => stageOptions.includes(stage)) }));
+  }, [filter.stages, setFilter, stageOptions]);
 
   return (
     <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-100
@@ -197,7 +207,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
       {/* 项目阶段 */}
       <MultiSelect
         label={t("filter.stage")}
-        options={Object.keys(STAGES)}
+        options={stageOptions}
         selected={filter.stages}
         onChange={(v) => setFilter((f) => ({ ...f, stages: v }))}
         renderLabel={(k) => STAGES[k]?.en ?? k}

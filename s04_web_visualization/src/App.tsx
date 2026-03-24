@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { DataProvider } from "@/contexts/DataContext";
 import Header from "@/components/layout/Header";
@@ -9,7 +9,7 @@ export default function App() {
   return (
     <LanguageProvider>
       <DataProvider>
-        <BrowserRouter>
+        <HashRouter>
           <div className="h-screen flex flex-col overflow-hidden">
             <Header />
             <main className="flex-1 overflow-hidden">
@@ -19,7 +19,7 @@ export default function App() {
               </Routes>
             </main>
           </div>
-        </BrowserRouter>
+        </HashRouter>
       </DataProvider>
     </LanguageProvider>
   );

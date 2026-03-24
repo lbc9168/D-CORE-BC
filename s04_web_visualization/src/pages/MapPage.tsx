@@ -92,6 +92,7 @@ export default function MapPage() {
   const showDetail = selectedProject != null;
   const showProjectList = selectedProvince != null || (mapLevel === "province" && !showDetail);
   const showCharts = mapLevel === "world" && !showDetail;
+  const selectedProjectId = selectedProject?.project_id ?? null;
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -157,7 +158,7 @@ export default function MapPage() {
         </div>
 
         {/* 右：上下文面板 */}
-        <div className="w-80 border-l border-slate-200 flex flex-col overflow-hidden bg-white flex-shrink-0">
+        <div className="w-[26rem] max-w-[42vw] min-w-[20rem] border-l border-slate-200 flex flex-col overflow-hidden bg-white flex-shrink-0">
           {showDetail && selectedProject ? (
             // 项目详情
             <ProjectDetail
@@ -176,18 +177,18 @@ export default function MapPage() {
                 <ProjectList
                   projects={panelProjects}
                   onSelect={setSelectedProject}
-                  selectedId={selectedProject?.project_id ?? null}
+                  selectedId={selectedProjectId}
                 />
               </div>
             </>
           ) : showCharts ? (
             // 统计图表
-            <div className="flex flex-col h-full overflow-hidden p-3 gap-4">
-              <div className="h-48">
+            <div className="grid h-full overflow-hidden p-3 gap-3 grid-rows-[1.3fr_auto_0.7fr]">
+              <div className="min-h-0">
                 <TimelineChart projects={filteredProjects} />
               </div>
               <div className="border-t border-slate-100" />
-              <div className="flex-1 min-h-0">
+              <div className="min-h-0">
                 <EntityChart projects={filteredProjects} />
               </div>
             </div>

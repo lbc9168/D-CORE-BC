@@ -57,3 +57,24 @@ export const NUMERIC_TO_ISO3: Record<string, string> = {
   "776": "TON",   // 汤加 Tonga
   "807": "MKD",   // 北马其顿 North Macedonia
 };
+
+/**
+ * 将 TopoJSON 国家数字 ID 解析为 ISO3。
+ * 兼容 world-atlas 中可能出现的前导零 ID（如 "032"）。
+ */
+export function getIso3FromNumericId(rawId: string | number | null | undefined): string {
+  if (rawId == null) return "";
+  const id = String(rawId).trim();
+  if (!id) return "";
+
+  // 优先直接匹配（兼容未补零写法）
+  const direct = NUMERIC_TO_ISO3[id];
+  if (direct) return direct;
+
+  // 再尝试去掉前导零后的数字键（如 "032" -> "32"）
+  const normalized = String(Number.parseInt(id, 10));
+  if (normalized && normalized !== "NaN") {
+    return NUMERIC_TO_ISO3[normalized] ?? "";
+  }
+  return "";
+}

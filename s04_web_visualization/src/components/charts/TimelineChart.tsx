@@ -98,7 +98,9 @@ export default function TimelineChart({ projects }: TimelineChartProps) {
           <Tooltip
             content={renderTooltip}
             wrapperStyle={{ zIndex: 9999, pointerEvents: "none" }}
-            allowEscapeViewBox={{ x: true, y: true }}
+            reverseDirection={{ x: true, y: false }}
+            offset={14}
+            allowEscapeViewBox={{ x: false, y: true }}
           />
           <Legend
             iconSize={8}

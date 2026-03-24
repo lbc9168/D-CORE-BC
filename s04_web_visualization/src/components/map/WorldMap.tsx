@@ -6,8 +6,8 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import type { ColorBy } from "@/types";
-import { valueToColor, buildLegendStops } from "@/utils/colorScale";
-import { NUMERIC_TO_ISO3 } from "@/utils/isoMapping";
+import { valueToColor, buildColorBins } from "@/utils/colorScale";
+import { getIso3FromNumericId } from "@/utils/isoMapping";
 import { useLang } from "@/contexts/LanguageContext";
 
 // world-atlas 国家 TopoJSON（本地，避免 CDN 访问限制）
@@ -32,12 +32,8 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
     visible: false, x: 0, y: 0, content: "",
   });
 
-  const maxVal = useMemo(
-    () => Math.max(0, ...Array.from(countryValues.values())),
-    [countryValues],
-  );
-
-  const legendStops = buildLegendStops(maxVal, colorBy);
+  const colorValues = useMemo(() => Array.from(countryValues.values()), [countryValues]);
+  const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
 
   return (
     <div className="relative w-full h-full select-none">
@@ -50,11 +46,11 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
             {({ geographies }) =>
               geographies.map((geo) => {
                 const numericId = String(geo.id ?? geo.properties?.["id"] ?? "");
-                const iso3 = NUMERIC_TO_ISO3[numericId] ?? "";
+                const iso3 = getIso3FromNumericId(numericId);
                 const value = countryValues.get(iso3);
                 // hasData: 只要该国在 countryValues 中有记录，即视为有数据（value 可能为 0）
                 const hasData = iso3 !== "" && countryValues.has(iso3);
-                const fill = valueToColor(value, maxVal);
+                const fill = valueToColor(value, bins);
                 const name =
                   (geo.properties?.["name"] as string | undefined) ?? iso3;
 
@@ -122,21 +118,21 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
       )}
 
       {/* 图例 */}
-      {legendStops.length > 0 && (
+      {bins.length > 0 && (
         <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2.5
                         shadow-sm border border-slate-100 text-xs">
           <div className="text-slate-500 mb-1.5 font-medium">
             {colorBy === "count" ? t("map.byCount") : t("map.byCapacity")}
           </div>
-          <div className="flex items-end gap-1">
-            {legendStops.map((stop) => (
-              <div key={stop.value} className="flex flex-col items-center gap-0.5">
+          <div className="flex flex-col gap-1.5">
+            {bins.map((bin) => (
+              <div key={bin.label} className="flex items-center gap-2">
                 <div
-                  className="w-7 h-3 rounded-sm"
-                  style={{ backgroundColor: stop.color }}
+                  className="w-7 h-3 rounded-sm flex-shrink-0"
+                  style={{ backgroundColor: bin.color }}
                 />
-                <span className="text-slate-500" style={{ fontSize: "9px" }}>
-                  {stop.label}
+                <span className="text-slate-500 leading-none" style={{ fontSize: "10px" }}>
+                  {bin.label}
                 </span>
               </div>
             ))}

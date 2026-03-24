@@ -121,7 +121,9 @@ export default function EntityChart({ projects }: EntityChartProps) {
           <Tooltip
             contentStyle={{ fontSize: 11, borderRadius: 8, border: "1px solid #e2e8f0" }}
             wrapperStyle={{ zIndex: 9999, pointerEvents: "none" }}
-            allowEscapeViewBox={{ x: true, y: true }}
+            reverseDirection={{ x: true, y: false }}
+            offset={14}
+            allowEscapeViewBox={{ x: false, y: true }}
             formatter={(v) =>
               mode === "count"
                 ? [v, t("chart.projects")]
