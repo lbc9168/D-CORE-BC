@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Download } from "lucide-react";
+import { Search } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
@@ -171,10 +171,10 @@ export default function TablePage() {
           <span className="text-xs text-slate-400 ml-auto">
             {t("table.total", { count: sorted.length })}
           </span>
-          <button onClick={handleExport} className="btn-outline text-xs">
+          {/* <button onClick={handleExport} className="btn-outline text-xs">
             <Download size={13} />
             {t("table.export")}
-          </button>
+          </button> */}
         </div>
 
         {/* 表格 */}
