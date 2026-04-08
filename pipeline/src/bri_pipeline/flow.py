@@ -57,8 +57,8 @@ from s02b_entity_normalizer.entity_normalizer import run as _run_s02b       # no
 class PipelineState(BaseModel):
     # ── 阶段一A：新闻采集 ────────────────────────────────────────
     source_url:          str   = "https://news.goalfore.cn/topstories/project"
-    start_date:          str   = "2018-01-01"
-    end_date:            str   = "2026-03-22"
+    start_date:          str   = "2026-01-01"
+    end_date:            str   = "2026-03-31"
     keywords:            str   = "能源,电力,电站,MW,GW,风电,水电,光伏,储能"
     raw_data_dir:        str   = str(_S01A / "data" / "raw")
     raw_news_db_path:    str   = str(_S01A / "data" / "raw_news.db")
