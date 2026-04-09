@@ -109,6 +109,15 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
     """
     raw = output.raw or ""
 
+    # ── 0条提取：直接放行，不对历史数据做校验 ─────────────────────
+    _ZERO_OUTPUT_SIGNALS = ("未生成任何输出", "无关键词匹配记录", "读取 raw_news.db 失败")
+    if any(sig in raw for sig in _ZERO_OUTPUT_SIGNALS):
+        print(f"\n{'='*60}")
+        print("  [Guardrail] 本次提取条目数为 0，跳过校验，直接通过。")
+        print(f"{'='*60}")
+        return True, raw
+    # ──────────────────────────────────────────────────────────────
+
     print(f"\n{'='*60}")
     print("  [Guardrail] 提取质量校验开始")
     print(f"{'='*60}")

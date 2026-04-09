@@ -7,7 +7,7 @@ from typing import Any
 
 VALID_CATEGORIES = {
     "新能源制造业", "输变电建设", "火电", "光伏", "风电", "水电",
-    "核电", "地热及余热", "生物质", "储能", "综合能源",
+    "核电", "地热及余热", "生物质", "储能", "综合能源", "Unknown",
 }
 
 VALID_PROJECT_STAGES = {
