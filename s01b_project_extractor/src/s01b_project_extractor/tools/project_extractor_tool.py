@@ -633,6 +633,14 @@ class ProjectExtractorTool(BaseTool):
         if already_processed:
             print(f">>> 增量模式：已跳过 {len(already_processed)} 个已处理 URL")
 
+        # 调试：统计本次真正新文章数
+        _new_urls = [u for u in df["原文链接"].tolist()
+                     if u and str(u) not in already_processed]
+        print(f">>> 本次 raw_news.db 提供 {len(df)} 条，"
+              f"其中真正未处理 {len(_new_urls)} 条（将进入AI提取）")
+        if not _new_urls:
+            print(">>> [警告] 全部文章均被 already_processed 跳过，输出将为0条。")
+
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
         total = len(df)
         print(f"开始处理 {total} 条数据（并发 {max_workers} 线程）...")
