@@ -24,6 +24,7 @@ RETRY_BASE_DELAY = 3       # 指数退避基础等待秒数（×2^attempt）
 SLEEP_MIN = 1.0            # 翻页/详情页间隔最小秒数
 SLEEP_MAX = 3.0            # 翻页/详情页间隔最大秒数（加 jitter）
 LIST_PAGE_MAX_ERRORS = 5   # 列表页连续失败多少次后放弃
+CONSECUTIVE_DUP_MAX = 5    # 连续遇到已入库 URL 多少条后停止（避免重复爬取）
 
 # User-Agent 轮换列表（模拟不同浏览器/系统，降低爬虫特征识别率）
 _USER_AGENTS = [
@@ -231,6 +232,7 @@ class NewsCrawlerTool(BaseTool):
         all_data = []
         stop_crawling = False
         consecutive_old_count = 0
+        consecutive_dup_count = 0   # 连续已存在 URL 计数
         consecutive_list_errors = 0
         last_valid_date = None
 
@@ -324,7 +326,7 @@ class NewsCrawlerTool(BaseTool):
 
                 # 写入原始新闻备案 DB（URL 已存在则跳过，不覆盖）
                 try:
-                    raw_db.execute(
+                    cur = raw_db.execute(
                         """INSERT OR IGNORE INTO raw_news
                            (url, title, content, author, publish_date, crawl_time,
                             passed_keyword_filter, batch_id)
@@ -337,6 +339,22 @@ class NewsCrawlerTool(BaseTool):
                         ),
                     )
                     raw_db.commit()
+                    if cur.rowcount == 0:
+                        # URL 已存在于 DB，计数并判断是否停止
+                        consecutive_dup_count += 1
+                        print(
+                            f"  [已存在] {link[:60]}... "
+                            f"(连续第{consecutive_dup_count}条)"
+                        )
+                        if consecutive_dup_count >= CONSECUTIVE_DUP_MAX:
+                            print(
+                                f">>> 连续 {CONSECUTIVE_DUP_MAX} 条已在数据库中，"
+                                "停止任务。"
+                            )
+                            stop_crawling = True
+                            break
+                    else:
+                        consecutive_dup_count = 0  # 新文章，重置计数
                 except Exception:
                     pass  # DB 写入失败不影响主流程
 
