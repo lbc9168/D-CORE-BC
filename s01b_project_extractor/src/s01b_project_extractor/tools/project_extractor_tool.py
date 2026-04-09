@@ -664,6 +664,7 @@ class ProjectExtractorTool(BaseTool):
         df["发布日期"] = filled_dates
 
         _lock = threading.Lock()
+        _skip_count = [0]  # 用列表包装以便在闭包中修改
 
         def _process_article(row_num_row: tuple) -> None:
             row_num, row = row_num_row
@@ -676,7 +677,7 @@ class ProjectExtractorTool(BaseTool):
             if orig_link and orig_link not in ("nan", "NA", "None"):
                 with _lock:
                     if orig_link in already_processed:
-                        print(f"[{row_num}/{total}] 跳过（已处理）: {title[:25]}...")
+                        _skip_count[0] += 1
                         return
                     already_processed.add(orig_link)
 
@@ -847,6 +848,9 @@ class ProjectExtractorTool(BaseTool):
         rows_indexed = [(i + 1, row) for i, (_, row) in enumerate(df.iterrows())]
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
             list(executor.map(_process_article, rows_indexed))
+
+        if _skip_count[0]:
+            print(f">>> 共跳过 {_skip_count[0]} 条已处理文章（已在数据库中）")
 
         # ── 写入 SQLite 数据库 ────────────────────────────────────────────────
         created_at  = datetime.now().isoformat()
