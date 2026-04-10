@@ -643,6 +643,8 @@ def _llm_confirm(
             model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
         )
         result = json.loads(resp.text)
+        if isinstance(result, list):
+            result = result[0]
         if result.get("same_project") is True and result.get("confidence") != "low":
             return True
         if result.get("same_project") is True and result.get("confidence") == "low":
@@ -700,6 +702,8 @@ def _llm_confirm_canonical(
             model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
         )
         result = json.loads(resp.text)
+        if isinstance(result, list):
+            result = result[0]
         if result.get("same_project") is True and result.get("confidence") != "low":
             return True
         if result.get("same_project") is True and result.get("confidence") == "low":

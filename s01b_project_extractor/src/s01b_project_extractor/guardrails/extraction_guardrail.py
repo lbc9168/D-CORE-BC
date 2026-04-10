@@ -21,6 +21,7 @@ from crewai.tasks.task_output import TaskOutput
 from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
 from s01b_project_extractor.guardrails.format_checks import run_format_checks
 from s01b_project_extractor.guardrails.semantic_checks import run_semantic_checks
+from s01b_project_extractor.tools.project_extractor_tool import get_last_batch_id, reset_last_batch_id
 
 
 _S01B_ROOT = Path(__file__).resolve().parents[3]
@@ -123,8 +124,9 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
     print(f"{'='*60}")
 
     # ── 解析上下文 ──
-    batch_id = _parse_batch_id_from_output(raw)
-    batch_id_from_output = bool(batch_id)
+    # 优先使用 side-channel（tool 直接传递），回退到输出解析，再回退到 DB 最新批次
+    batch_id = get_last_batch_id() or _parse_batch_id_from_output(raw)
+    reset_last_batch_id()  # 防止重试时读到陈旧值
     db_path = _parse_db_path_from_output(raw)
 
     print(f"  batch_id: {batch_id}")
@@ -203,11 +205,8 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
     # 有错误：删除不合格记录后触发重试
     unique_failed_ids = list(set(failed_record_ids))
     if unique_failed_ids:
-        if batch_id_from_output:
-            deleted = _delete_failed_records(db_path, unique_failed_ids)
-            print(f"  已删除 {deleted} 条不合格记录，等待重试")
-        else:
-            print("  [Guardrail] 跳过自动删除：本次未从输出中解析到 batch_id，避免误删非本批次数据")
+        deleted = _delete_failed_records(db_path, unique_failed_ids)
+        print(f"  已删除 {deleted} 条不合格记录，等待重试")
 
     error_summary = f"发现 {len(all_errors)} 个质量问题:\n" + "\n".join(
         f"  - {e}" for e in all_errors[:20]  # 限制反馈长度

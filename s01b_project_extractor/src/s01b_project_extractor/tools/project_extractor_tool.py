@@ -35,6 +35,18 @@ _hierarchy_data_cache: dict = {}      # Python 查表用（原始 dict）
 _soe_set_cache: set = set()           # Python 查表用（央企名称 set）
 _name_cache: dict = {}                # 中→英翻译缓存（company_name_cache.json）
 _name_cache_lock = threading.Lock()   # 写缓存时的线程锁
+_last_batch_id: str = ""              # side-channel: 供 guardrail 读取最近批次 ID
+
+
+def get_last_batch_id() -> str:
+    """返回最近一次成功写入 DB 的 batch_id（供 guardrail side-channel 使用）。"""
+    return _last_batch_id
+
+
+def reset_last_batch_id() -> None:
+    """重置 side-channel batch_id（guardrail 读取后调用，防止重试时使用陈旧值）。"""
+    global _last_batch_id
+    _last_batch_id = ""
 
 
 def _get_entity_lookup_text() -> str:
@@ -939,6 +951,9 @@ class ProjectExtractorTool(BaseTool):
                     ),
                 )
             proj_conn.commit()
+
+            global _last_batch_id
+            _last_batch_id = batch_id
 
             # 写入 review.db → no_chinese_records
             for row in no_chinese_rows:
