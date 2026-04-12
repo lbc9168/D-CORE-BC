@@ -324,6 +324,12 @@ class NewsCrawlerTool(BaseTool):
                     k.upper() in d_content.upper() for k in keyword_list
                 )
 
+                # 前向填充日期（对所有文章，写入 DB 前处理）
+                if d_time == "NA" and last_valid_date:
+                    d_time = last_valid_date
+                elif d_time != "NA":
+                    last_valid_date = d_time
+
                 # 写入原始新闻备案 DB（URL 已存在则跳过，不覆盖）
                 try:
                     cur = raw_db.execute(
@@ -359,11 +365,6 @@ class NewsCrawlerTool(BaseTool):
                     pass  # DB 写入失败不影响主流程
 
                 if is_relevant:
-                    if d_time == "NA" and last_valid_date:
-                        d_time = last_valid_date
-                    elif d_time != "NA":
-                        last_valid_date = d_time
-
                     print("    -> [保留] 包含关键词")
                     all_data.append(
                         {

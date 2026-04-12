@@ -100,6 +100,35 @@ def _delete_failed_records(db_path: str, record_ids: list[int]) -> int:
         conn.close()
 
 
+def _apply_semantic_fixes(db_path: str, fixes: list[dict]) -> int:
+    """应用语义纠偏（仅允许白名单字段）。"""
+    if not fixes or not os.path.exists(db_path):
+        return 0
+
+    allowed = {"project_stage", "category"}
+    conn = sqlite3.connect(db_path)
+    try:
+        updated = 0
+        for fix in fixes:
+            rid = fix.get("record_id")
+            field = str(fix.get("field", "")).strip()
+            value = str(fix.get("suggested_value", "")).strip()
+            if not isinstance(rid, int) or field not in allowed or not value:
+                continue
+            cur = conn.execute(
+                f"UPDATE extracted_projects SET {field} = ? WHERE id = ?",
+                (value, rid),
+            )
+            updated += cur.rowcount or 0
+        conn.commit()
+        return updated
+    except Exception as e:
+        print(f"[Guardrail] 应用语义纠偏失败: {e}")
+        return 0
+    finally:
+        conn.close()
+
+
 def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
     """
     crewAI guardrail 入口函数。
@@ -146,7 +175,39 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
     all_errors: list[str] = []
     failed_record_ids: list[int] = []
 
-    # ── Layer 1: 格式校验 ──
+    # ── Layer 2: 语义校验 ──
+    print("\n  --- Layer 2: 语义校验 ---")
+    try:
+        semantic_errors, semantic_fixes = run_semantic_checks(records)
+        if semantic_fixes:
+            print(f"  语义纠偏建议: {len(semantic_fixes)} 条（仅 stage/category）")
+            for f in semantic_fixes[:5]:
+                print(
+                    "    - "
+                    f"项目 #{f['record_id']} {f['field']}: "
+                    f"'{f['extracted_value']}' -> '{f['suggested_value']}' "
+                    f"(置信度 {f['confidence']:.2f})"
+                )
+            updated = _apply_semantic_fixes(db_path, semantic_fixes)
+            print(f"  已应用语义纠偏: {updated} 条")
+            # 纠偏后重载记录，再进入格式/统计校验
+            records, _ = _load_batch_records(db_path, batch_id)
+        if semantic_errors:
+            print(f"  语义错误: {len(semantic_errors)} 个")
+            for e in semantic_errors[:5]:
+                print(f"    - {e}")
+            all_errors.extend(semantic_errors)
+
+            for e in semantic_errors:
+                m = re.search(r"项目 #(\d+)", e)
+                if m:
+                    failed_record_ids.append(int(m.group(1)))
+        else:
+            print("  语义校验通过 ✓")
+    except Exception as e:
+        print(f"  语义校验异常（跳过）: {e}")
+
+    # ── Layer 1: 格式校验（语义纠偏后执行） ──
     print("\n  --- Layer 1: 格式校验 ---")
     format_errors = run_format_checks(records)
     if format_errors:
@@ -162,25 +223,6 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
                 failed_record_ids.append(int(m.group(1)))
     else:
         print("  格式校验通过 ✓")
-
-    # ── Layer 2: 语义校验 ──
-    print("\n  --- Layer 2: 语义校验 ---")
-    try:
-        semantic_errors = run_semantic_checks(records)
-        if semantic_errors:
-            print(f"  语义错误: {len(semantic_errors)} 个")
-            for e in semantic_errors[:5]:
-                print(f"    - {e}")
-            all_errors.extend(semantic_errors)
-
-            for e in semantic_errors:
-                m = re.search(r"项目 #(\d+)", e)
-                if m:
-                    failed_record_ids.append(int(m.group(1)))
-        else:
-            print("  语义校验通过 ✓")
-    except Exception as e:
-        print(f"  语义校验异常（跳过）: {e}")
 
     # ── Layer 3: 批次统计校验 ──
     print("\n  --- Layer 3: 批次统计校验 ---")
