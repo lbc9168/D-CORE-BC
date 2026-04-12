@@ -38,6 +38,9 @@ s03_data_exporter/data/
 *.db
 *.sqlite
 
+# 9. AI 提取原始结果快照（运行产物，体积大）
+**/All_AI_Results_*.json
+
 # 4. 系统文件
 .DS_Store
 Thumbs.db
