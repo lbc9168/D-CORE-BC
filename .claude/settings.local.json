@@ -24,7 +24,9 @@
       "Bash(python -c \"import ast; ast.parse\\(open\\(''e:/Projects/BRI_RE_Database_v2/s02a_duplicate_merger/src/s02a_duplicate_merger/tools/duplicate_merger_tool.py'', encoding=''utf-8''\\).read\\(\\)\\); print\\(''OK''\\)\")",
       "Bash(gh pr:*)",
       "Bash(pip show:*)",
-      "Bash(python -c \"import crewai; print\\(crewai.__version__\\)\")"
+      "Bash(python -c \"import crewai; print\\(crewai.__version__\\)\")",
+      "Bash(sqlite3 s01a_news_crawler/data/raw_news.db \"SELECT MIN\\(publish_date\\), MAX\\(publish_date\\) FROM raw_news;\")",
+      "Bash(sqlite3 s01b_project_extractor/data/projects.db \"SELECT MIN\\(publish_date\\), MAX\\(publish_date\\) FROM extracted_projects;\")"
     ]
   }
 }

@@ -38,6 +38,31 @@ def run():
         raise Exception(f"Crew 运行出错: {e}") from e
 
 
+def run_single(
+    start_date: str,
+    end_date: str,
+    source_url: str = "https://news.goalfore.cn/topstories/project",
+    keywords: str = "能源,电力,电站,MW,GW,风电,水电,光伏,储能",
+    raw_data_dir: str | None = None,
+    raw_news_db_path: str | None = None,
+) -> str:
+    """
+    单批次爬取（直接调用 tool，不经过 LLM agent，参数精确透传）。
+    供 pipeline flow.py 调用，避免 agent 误传参数的问题。
+    """
+    from s01a_news_crawler.tools.news_crawler_tool import NewsCrawlerTool
+
+    return NewsCrawlerTool()._run(
+        source_url=source_url,
+        start_date=start_date,
+        end_date=end_date,
+        keywords=keywords,
+        output_dir=raw_data_dir or str(_S01A_ROOT / "data" / "raw"),
+        raw_news_db_path=raw_news_db_path or str(_S01A_ROOT / "data" / "raw_news.db"),
+        save_excel=False,
+    )
+
+
 def train():
     """训练 Crew（用于优化 Agent 输出质量）"""
     inputs = {

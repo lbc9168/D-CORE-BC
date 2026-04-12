@@ -44,7 +44,7 @@ _S02C = _PROJECT_ROOT / "s02c_cross_verification"   # 保留备用（后续路�
 _S03  = _PROJECT_ROOT / "s03_data_exporter"         # 保留备用（后续路径）
 
 # 延迟导入：必须在 load_dotenv 之后，避免 crewai 在 API Key 加载前初始化
-from s01a_news_crawler.crew import NewsCrawler                              # noqa: E402
+from s01a_news_crawler.main import run_single as _run_s01a                  # noqa: E402
 from s01b_project_extractor.crew import ProjectExtractor                    # noqa: E402
 from s02a_duplicate_merger.crew import DuplicateMerger                      # noqa: E402
 from s02b_entity_normalizer.entity_normalizer import run as _run_s02b       # noqa: E402
@@ -106,14 +106,15 @@ class BRIPipelineFlow(Flow[PipelineState]):
         # 将旧爬虫文件归档，避免累积
         _archive_s01a_files(Path(self.state.raw_data_dir))
 
-        NewsCrawler().crew().kickoff(inputs={
-            "source_url":       self.state.source_url,
-            "start_date":       self.state.start_date,
-            "end_date":         self.state.end_date,
-            "keywords":         self.state.keywords,
-            "raw_data_dir":     self.state.raw_data_dir,
-            "raw_news_db_path": self.state.raw_news_db_path,
-        })
+        result = _run_s01a(
+            start_date=self.state.start_date,
+            end_date=self.state.end_date,
+            source_url=self.state.source_url,
+            keywords=self.state.keywords,
+            raw_data_dir=self.state.raw_data_dir,
+            raw_news_db_path=self.state.raw_news_db_path,
+        )
+        print(f"\n[Flow] s01a 完成: {result}")
 
     # ── 阶段一B：项目信息提取 ─────────────────────────────────────
 
