@@ -102,7 +102,7 @@ export default function MapPage() {
       {/* 主区域 */}
       <div className="flex flex-1 overflow-hidden">
         {/* 左：地图区域 */}
-        <div className="flex-1 relative overflow-hidden bg-slate-100">
+        <div className="flex-1 relative overflow-hidden bg-[#C4D8DC]">
           {/* 省级返回按钮 */}
           {mapLevel === "province" && (
             <div className="absolute top-3 left-3 z-20 flex items-center gap-2">

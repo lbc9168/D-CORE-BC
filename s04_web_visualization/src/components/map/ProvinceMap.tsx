@@ -76,6 +76,36 @@ const DEFAULT_CENTER: [number, number] = [0, 0];
 const DEFAULT_ZOOM = 1;
 const FOCUS_ZOOM = 2.2;
 
+/** 根据所有省份的坐标计算国家边框和合适的初始缩放 */
+function computeCountryFit(geoData: unknown): { center: [number, number]; zoom: number } | null {
+  const fc = geoData as { features?: Array<{ geometry?: { coordinates?: unknown } }> };
+  if (!fc?.features || fc.features.length === 0) return null;
+
+  const allPoints: Array<[number, number]> = [];
+  fc.features.forEach((f) => {
+    if (f?.geometry?.coordinates) {
+      collectLngLatPoints(f.geometry.coordinates, allPoints);
+    }
+  });
+  if (allPoints.length === 0) return null;
+
+  let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+  allPoints.forEach(([lng, lat]) => {
+    if (lng < minLng) minLng = lng;
+    if (lng > maxLng) maxLng = lng;
+    if (lat < minLat) minLat = lat;
+    if (lat > maxLat) maxLat = lat;
+  });
+
+  const center: [number, number] = [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
+  const lngSpan = Math.max(maxLng - minLng, 0.1);
+  const latSpan = Math.max(maxLat - minLat, 0.1);
+  // 取经纬度各自推算的缩放值的最小值，再乘以 0.65 留出边距
+  const zoom = Math.min(Math.max(Math.min(360 / lngSpan, 180 / latSpan) * 0.65, 1), 50);
+
+  return { center, zoom };
+}
+
 export default function ProvinceMap({
   countryIso3,
   countryName,
@@ -112,10 +142,20 @@ export default function ProvinceMap({
   const colorValues = useMemo(() => Array.from(provinceValues.values()), [provinceValues]);
   const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
 
+  // 切换国家时先重置到默认状态（等 geo 加载后再 fit）
   useEffect(() => {
     setMapCenter(DEFAULT_CENTER);
     setMapZoom(DEFAULT_ZOOM);
   }, [countryIso3]);
+
+  // geo 加载完成后自动 fit-to-bounds（解决小国地图太小/不居中问题）
+  useEffect(() => {
+    if (geo.status !== "loaded" || !geo.data) return;
+    const fit = computeCountryFit(geo.data);
+    if (!fit) return;
+    setMapCenter(fit.center);
+    setMapZoom(fit.zoom);
+  }, [geo.data, geo.status]);
 
   if (geo.status === "loading") {
     return (
@@ -141,7 +181,7 @@ export default function ProvinceMap({
       <ComposableMap
         projection="geoEquirectangular"
         projectionConfig={{ scale: 170, center: [0, 0] }}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "100%", background: "#C4D8DC" }}
       >
         <ZoomableGroup
           center={mapCenter}
@@ -169,13 +209,13 @@ export default function ProvinceMap({
                   <Geography
                     key={feature.rsmKey}
                     geography={feature}
-                    fill={isSelected ? "#0284c7" : fill}
+                    fill={isSelected ? "#2F6562" : fill}
                     stroke="#fff"
                     strokeWidth={0.5}
                     style={{
                       default: { outline: "none" },
                       hover: {
-                        fill: "#38bdf8",
+                        fill: "#5A9896",
                         cursor: "pointer",
                         outline: "none",
                       },

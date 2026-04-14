@@ -177,7 +177,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
   }, [filter.stages, setFilter, stageOptions]);
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-100
+    <div className="flex items-center gap-2 px-4 py-2 bg-brand-50 border-b border-brand-100
                     flex-wrap text-xs flex-shrink-0">
       {/* 年份双柄滑块 */}
       <div className="flex items-center gap-2">

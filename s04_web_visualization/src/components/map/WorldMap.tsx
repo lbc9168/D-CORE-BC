@@ -39,7 +39,7 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
     <div className="relative w-full h-full select-none">
       <ComposableMap
         projectionConfig={{ scale: 147, center: [15, 10] }}
-        style={{ width: "100%", height: "100%" }}
+        style={{ width: "100%", height: "100%", background: "#C4D8DC" }}
       >
         <ZoomableGroup zoom={1} minZoom={0.8} maxZoom={6}>
           <Geographies geography={GEO_URL}>
@@ -64,7 +64,7 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                     style={{
                       default: { outline: "none" },
                       hover: {
-                        fill: hasData ? "#0369a1" : "#cbd5e1",
+                        fill: hasData ? "#285957" : "#B8CECE",
                         cursor: hasData ? "pointer" : "default",
                         outline: "none",
                       },
