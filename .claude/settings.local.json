@@ -27,7 +27,9 @@
       "Bash(python -c \"import crewai; print\\(crewai.__version__\\)\")",
       "Bash(sqlite3 s01a_news_crawler/data/raw_news.db \"SELECT MIN\\(publish_date\\), MAX\\(publish_date\\) FROM raw_news;\")",
       "Bash(sqlite3 s01b_project_extractor/data/projects.db \"SELECT MIN\\(publish_date\\), MAX\\(publish_date\\) FROM extracted_projects;\")",
-      "Bash(python -c ':*)"
+      "Bash(python -c ':*)",
+      "Bash(e:/Projects/BRI_RE_Database_v2/.venv/Scripts/pip.exe list:*)",
+      "Bash(python export_by_source.py)"
     ]
   }
 }
