@@ -86,3 +86,61 @@ uv run ... step2_match_ai.py --skip-gemini   # 仅执行 ≥90 分的自动匹�
 |------|------|
 | step1_match_simple.py | ✅ 已完成（待运行验证） |
 | step2_match_ai.py | ✅ 已完成（待运行验证） |
+
+---
+
+## external-link-adder — 自动填充项目网站链接
+
+### 功能
+
+为 `projects_by_source.xlsx`（约 6389 条全球能源项目记录）的 `official_website` 和
+`non_official_website` 两列自动搜索并填充链接。
+
+**跳过条件**：任意一列已有值则跳过该行。
+
+**搜索策略（两轮）**：
+1. 第1轮：`{implementing_entity} {project_name}`（`implementing_entity` 为空时跳至第2轮）
+2. 第2轮：`{project_name} {country}`（第1轮无结果时执行）
+
+**链接判断**：Gemini 2.5 Flash Lite 分析搜索结果，区分 official / non-official 类型：
+- official：实施企业官网或项目专属官网
+- non-official：行业媒体、政府公告、国际机构报告等可信第三方
+
+### 文件
+
+| 文件 | 说明 |
+|------|------|
+| `fill_links.py` | 主脚本 |
+| `requirements.txt` | 依赖：pandas, openpyxl, google-genai, python-dotenv, tqdm, requests |
+| `.env` | 存放 `SERPER_API_KEY`（`GEMINI_API_KEY` 从根目录 .env 读取） |
+| `projects_by_source.xlsx` | 输入数据（约 6389 行） |
+| `projects_by_source_filled.xlsx` | 运行时生成：填充后的输出 |
+| `search_log.txt` | 运行时生成：TSV 格式搜索日志 |
+
+### 工程特性
+
+| 特性 | 实现 |
+|------|------|
+| 断点续传 | 启动时读取已有输出文件合并进度；每50条自动保存 |
+| 速率限制 | Serper 搜索后 sleep 0.5s；Gemini 调用后 sleep 0.3s |
+| 错误处理 | 单条异常记录 status=error 并继续 |
+| 进度显示 | tqdm 进度条 |
+| 日志 | search_log.txt（TSV），字段：row_num / query1 / query2 / 链接 / reason / status |
+
+### 运行方式
+
+```bash
+cd external-tools/external-link-adder
+
+# 测试：仅处理前10条，不保存文件
+uv run --with pandas --with openpyxl --with google-genai --with python-dotenv --with tqdm --with requests fill_links.py --limit 10 --dry-run
+
+# 正式运行
+uv run --with pandas --with openpyxl --with google-genai --with python-dotenv --with tqdm --with requests fill_links.py
+```
+
+### 状态
+
+| 项目 | 状态 |
+|------|------|
+| fill_links.py | ✅ 已完成（待运行验证） |
