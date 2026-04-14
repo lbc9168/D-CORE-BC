@@ -81,9 +81,9 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #0369a1;
+    background: #2F6562;
     border: 2px solid #fff;
-    box-shadow: 0 0 0 1px #0369a1;
+    box-shadow: 0 0 0 1px #2F6562;
     cursor: pointer;
     margin-top: -5px;
   }
@@ -92,9 +92,9 @@
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #0369a1;
+    background: #2F6562;
     border: 2px solid #fff;
-    box-shadow: 0 0 0 1px #0369a1;
+    box-shadow: 0 0 0 1px #2F6562;
     cursor: pointer;
   }
   .dual-range-input::-moz-range-track {

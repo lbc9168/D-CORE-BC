@@ -8,16 +8,16 @@ export default function Header() {
   const navClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
       isActive
-        ? "bg-brand-600 text-white"
-        : "text-slate-600 hover:bg-slate-100"
+        ? "bg-white/20 text-white"
+        : "text-white/75 hover:bg-white/10 hover:text-white"
     }`;
 
   return (
-    <header className="h-14 bg-white border-b border-slate-200 flex items-center px-4 gap-4 shadow-sm flex-shrink-0">
+    <header className="h-14 bg-brand-500 border-b border-brand-600 flex items-center px-4 gap-4 shadow-md flex-shrink-0">
       {/* 标题 */}
       <div className="flex items-center gap-2 mr-4">
-        <span className="text-brand-600 text-xl">⚡</span>
-        <span className="font-semibold text-slate-800 text-sm leading-tight hidden sm:block">
+        <span className="text-white text-xl">⚡</span>
+        <span className="font-semibold text-white text-sm leading-tight hidden sm:block">
           {t("nav.title")}
         </span>
       </div>

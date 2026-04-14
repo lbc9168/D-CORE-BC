@@ -1,5 +1,5 @@
-const EMPTY_COLOR = "#e2e8f0";
-const BIN_COLORS = ["#bfdbfe", "#60a5fa", "#1d4ed8"] as const;
+const EMPTY_COLOR = "#D5E7E6";
+const BIN_COLORS = ["#93C4C2", "#5A9896", "#2F6562"] as const;
 const BIN_COUNT = 3;
 
 export interface ColorBin {
