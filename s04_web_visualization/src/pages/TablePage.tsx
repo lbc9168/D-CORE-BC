@@ -57,69 +57,6 @@ export default function TablePage() {
     setPage(0);
   };
 
-  // CSV 导出（英文列名 + UTF-8 BOM + remarks 备注列）
-  const handleExport = () => {
-    const exportHeaders: { key: string; label: string }[] = [
-      { key: "project_id",          label: "Project ID" },
-      { key: "project_name_en",     label: "Project Name (EN)" },
-      { key: "country_iso",         label: "Country ISO" },
-      { key: "province",            label: "Province / State" },
-      { key: "category_en",         label: "Energy Type" },
-      { key: "capacity_mw",         label: "Capacity (MW)" },
-      { key: "latest_stage_en",     label: "Stage" },
-      { key: "event_year",          label: "Year" },
-      { key: "primary_entity_en",   label: "Primary Chinese Entity (EN)" },
-      { key: "has_soe",             label: "Central SOE Involved" },
-      { key: "bri_country",         label: "BRI Country" },
-      { key: "ldc",                 label: "LDC" },
-      { key: "financing_model_en",  label: "Financing Model" },
-      { key: "remarks",             label: "Remarks" },
-    ];
-
-    /** 单元格安全转义：含逗号/引号/换行时加双引号包裹 */
-    const esc = (v: unknown): string => {
-      if (v == null) return "";
-      const s = String(v);
-      return s.includes(",") || s.includes('"') || s.includes("\n")
-        ? '"' + s.replace(/"/g, '""') + '"'
-        : s;
-    };
-
-    const rows = sorted.map((p) => {
-      // 构建 remarks：其他中企 + 融资方 + 多阶段时间线
-      const others = (p.all_entities ?? [])
-        .filter((e) => e.name !== p.primary_entity && (e.name || e.name_en))
-        .map((e) => (e.name_en ? `${e.name_en} (${e.name})` : e.name))
-        .join("; ");
-      const financing = (p.all_entities ?? [])
-        .filter((e) => e.involvement_type_en?.includes("Financ") || e.involvement_type?.includes("融资"))
-        .map((e) => e.name_en || e.name)
-        .join("; ");
-      const parts: string[] = [];
-      if (others)           parts.push(`Other entities: ${others}`);
-      if (financing)        parts.push(`Financing: ${financing}`);
-      if (p.timeline_notes) parts.push(`Timeline: ${p.timeline_notes}`);
-      const remarks = parts.join(" | ");
-
-      return exportHeaders.map(({ key }) => {
-        if (key === "remarks")  return esc(remarks);
-        if (key === "has_soe")  return esc(p.has_soe === 1 ? "Yes" : "No");
-        return esc((p as Record<string, unknown>)[key]);
-      }).join(",");
-    });
-
-    // UTF-8 BOM 解决 Excel 直接打开乱码
-    const BOM = "\uFEFF";
-    const csv = BOM + exportHeaders.map((h) => h.label).join(",") + "\n" + rows.join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "bri_re_projects.csv";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
   const SortBtn = ({ k, label }: { k: keyof Project; label: string }) => (
     <button
       onClick={() => handleSort(k)}
@@ -171,10 +108,6 @@ export default function TablePage() {
           <span className="text-xs text-slate-400 ml-auto">
             {t("table.total", { count: sorted.length })}
           </span>
-          {/* <button onClick={handleExport} className="btn-outline text-xs">
-            <Download size={13} />
-            {t("table.export")}
-          </button> */}
         </div>
 
         {/* 表格 */}

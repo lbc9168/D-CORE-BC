@@ -19,6 +19,7 @@ import { hasCapacity } from "@/utils/capacityPolicy";
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
 const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
 const EXCLUDED_CATEGORIES = ["火电", "油气", "thermal", "oil", "gas"];
+const HIDDEN_CATEGORY_KEYS = new Set(["核电", "新能源制造业", "输变电建设"]);
 const EXCLUDED_STAGES = new Set(["拟开发"]);
 const UNKNOWN_TEXTS = new Set(["unknown", "未知", "未披露", "n/a", "na", "-", "—"]);
 
@@ -34,8 +35,15 @@ function shouldExcludeByPolicy(p: Project): boolean {
   if (EXCLUDED_ISO3.has(iso)) return true;
   if (p.event_year == null || p.event_year < 2022) return true;
   if (EXCLUDED_STAGES.has(p.latest_stage)) return true;
+  if (HIDDEN_CATEGORY_KEYS.has(p.category)) return true;
   const category = (p.category || "").toLowerCase();
+  const categoryEn = (p.category_en || "").toLowerCase();
   if (EXCLUDED_CATEGORIES.some((key) => category.includes(key))) return true;
+  if (
+    categoryEn.includes("nuclear") ||
+    categoryEn.includes("new energy manufacture") ||
+    categoryEn.includes("grid infrastructure")
+  ) return true;
   if (isUnknownText(p.primary_entity)) return true;
   return false;
 }

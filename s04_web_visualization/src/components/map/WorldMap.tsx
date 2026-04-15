@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, type WheelEvent } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -28,6 +28,7 @@ interface WorldMapProps {
 
 export default function WorldMap({ countryValues, colorBy, onCountryClick }: WorldMapProps) {
   const { t } = useLang();
+  const [mapZoom, setMapZoom] = useState(1);
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false, x: 0, y: 0, content: "",
   });
@@ -35,13 +36,26 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
   const colorValues = useMemo(() => Array.from(countryValues.values()), [countryValues]);
   const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
 
+  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setMapZoom((prev) => {
+      const next = prev * Math.exp(-event.deltaY * 0.0015);
+      return Math.min(Math.max(next, 0.8), 6);
+    });
+  };
+
   return (
-    <div className="relative w-full h-full select-none">
+    <div className="relative w-full h-full select-none" onWheel={handleWheel}>
       <ComposableMap
         projectionConfig={{ scale: 147, center: [15, 10] }}
-        style={{ width: "100%", height: "100%", background: "#C4D8DC" }}
+        style={{ width: "100%", height: "100%", background: "#eeeeee" }}
       >
-        <ZoomableGroup zoom={1} minZoom={0.8} maxZoom={6}>
+        <ZoomableGroup
+          zoom={mapZoom}
+          minZoom={0.8}
+          maxZoom={6}
+          disableZooming
+        >
           <Geographies geography={GEO_URL}>
             {({ geographies }) =>
               geographies.map((geo) => {
@@ -53,6 +67,7 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                 const fill = valueToColor(value, bins);
                 const name =
                   (geo.properties?.["name"] as string | undefined) ?? iso3;
+                if (iso3 === "ATA" || name.toLowerCase() === "antarctica") return null;
 
                 return (
                   <Geography

@@ -10,6 +10,12 @@ interface GeoState {
 
 const cache = new Map<string, GeoState>();
 
+function isFeatureCollection(data: unknown): boolean {
+  if (typeof data !== "object" || data == null) return false;
+  const fc = data as { type?: unknown; features?: unknown };
+  return fc.type === "FeatureCollection" && Array.isArray(fc.features);
+}
+
 /**
  * 按需加载省级 GeoJSON。
  * 文件路径：/geo/provinces/{ISO3}.geojson（由 download_geo.py 生成）
@@ -43,6 +49,7 @@ export function useProvinceGeo(iso3: string | null): GeoState {
         }
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
+        if (!isFeatureCollection(data)) throw new Error("Invalid GeoJSON payload");
         const s: GeoState = { status: "ok", data };
         cache.set(iso3, s);
         setState(s);

@@ -10,6 +10,8 @@ interface FilterBarProps {
   onColorByChange: (v: ColorBy) => void;
 }
 
+const HIDDEN_CATEGORY_KEYS = new Set(["核电", "新能源制造业", "输变电建设"]);
+
 /** 点击触发多选下拉（点击外部关闭） */
 function MultiSelect({
   label,
@@ -169,12 +171,22 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
     () => Object.keys(STAGES).filter((k) => (STAGES[k]?.en ?? "").toLowerCase() !== "planned"),
     [],
   );
+  const categoryOptions = useMemo(
+    () => Object.keys(CATEGORIES).filter((k) => !HIDDEN_CATEGORY_KEYS.has(k)),
+    [],
+  );
 
   // 防止旧筛选状态中残留 planned，确保 UI 与过滤结果一致
   useEffect(() => {
     if (filter.stages.every((stage) => stageOptions.includes(stage))) return;
     setFilter((f) => ({ ...f, stages: f.stages.filter((stage) => stageOptions.includes(stage)) }));
   }, [filter.stages, setFilter, stageOptions]);
+
+  // 清理旧筛选状态中已隐藏的类别
+  useEffect(() => {
+    if (filter.categories.every((cat) => categoryOptions.includes(cat))) return;
+    setFilter((f) => ({ ...f, categories: f.categories.filter((cat) => categoryOptions.includes(cat)) }));
+  }, [filter.categories, setFilter, categoryOptions]);
 
   return (
     <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-100 shadow-sm
@@ -197,7 +209,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
       {/* 能源类型 */}
       <MultiSelect
         label={t("filter.category")}
-        options={Object.keys(CATEGORIES)}
+        options={categoryOptions}
         selected={filter.categories}
         onChange={(v) => setFilter((f) => ({ ...f, categories: v }))}
         renderLabel={(k) => CATEGORIES[k]?.en ?? k}

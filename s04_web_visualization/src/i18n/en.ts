@@ -2,8 +2,8 @@ import type { Translations } from "./zh";
 
 const en: Translations = {
   nav: {
-    title: "BRI Renewable Energy Database",
-    home: "Home",
+    title: "Database of Chinese Overseas Renewable Energy Investment",
+    home: "Map",
     map: "Map View",
     table: "Data Table",
     reports: "Reports",

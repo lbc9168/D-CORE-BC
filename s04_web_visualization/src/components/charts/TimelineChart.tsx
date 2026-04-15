@@ -17,6 +17,20 @@ interface TimelineChartProps {
   projects: Project[];
 }
 
+function softenHexColor(hex: string, ratio = 0.35): string {
+  const normalized = hex.replace("#", "");
+  if (normalized.length !== 6) return hex;
+  const r = Number.parseInt(normalized.slice(0, 2), 16);
+  const g = Number.parseInt(normalized.slice(2, 4), 16);
+  const b = Number.parseInt(normalized.slice(4, 6), 16);
+  if ([r, g, b].some((v) => Number.isNaN(v))) return hex;
+
+  const bg = 0xd9;
+  const mix = (v: number) => Math.round(v * (1 - ratio) + bg * ratio);
+  const toHex = (v: number) => v.toString(16).padStart(2, "0");
+  return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`;
+}
+
 export default function TimelineChart({ projects }: TimelineChartProps) {
   const { t } = useLang();
 
@@ -116,7 +130,7 @@ export default function TimelineChart({ projects }: TimelineChartProps) {
               key={cat}
               dataKey={cat}
               stackId="a"
-              fill={CATEGORIES[cat]?.color ?? "#94a3b8"}
+              fill={softenHexColor(CATEGORIES[cat]?.color ?? "#94a3b8")}
               name={cat}
             />
           ))}

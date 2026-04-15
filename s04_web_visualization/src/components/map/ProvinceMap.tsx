@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, type WheelEvent } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import type { Project, ColorBy } from "@/types";
 import { valueToColor, buildColorBins } from "@/utils/colorScale";
@@ -24,8 +24,8 @@ interface ProvinceMapProps {
 }
 
 /** 归一化省名：小写 + 去除末尾 "province" / "state" 等 */
-function normalizeName(s: string): string {
-  return s
+function normalizeName(s: unknown): string {
+  return String(s ?? "")
     .toLowerCase()
     .replace(/\s+(province|state|region|prefecture|governorate|oblast|district)$/i, "")
     .trim();
@@ -44,37 +44,9 @@ function collectLngLatPoints(node: unknown, points: Array<[number, number]>): vo
   node.forEach((child) => collectLngLatPoints(child, points));
 }
 
-function getFeatureCenter(feature: unknown): [number, number] | null {
-  if (
-    typeof feature !== "object" ||
-    feature == null ||
-    !("geometry" in feature)
-  ) {
-    return null;
-  }
-  const geometry = (feature as { geometry?: { coordinates?: unknown } }).geometry;
-  if (!geometry?.coordinates) return null;
-
-  const points: Array<[number, number]> = [];
-  collectLngLatPoints(geometry.coordinates, points);
-  if (points.length === 0) return null;
-
-  let minLng = Infinity;
-  let maxLng = -Infinity;
-  let minLat = Infinity;
-  let maxLat = -Infinity;
-  points.forEach(([lng, lat]) => {
-    if (lng < minLng) minLng = lng;
-    if (lng > maxLng) maxLng = lng;
-    if (lat < minLat) minLat = lat;
-    if (lat > maxLat) maxLat = lat;
-  });
-  return [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
-}
-
 const DEFAULT_CENTER: [number, number] = [0, 0];
 const DEFAULT_ZOOM = 1;
-const FOCUS_ZOOM = 2.2;
+const BASE_SCALE = 170;
 
 /** 根据所有省份的坐标计算国家边框和合适的初始缩放 */
 function computeCountryFit(geoData: unknown): { center: [number, number]; zoom: number } | null {
@@ -96,6 +68,9 @@ function computeCountryFit(geoData: unknown): { center: [number, number]; zoom: 
     if (lat < minLat) minLat = lat;
     if (lat > maxLat) maxLat = lat;
   });
+  if (!Number.isFinite(minLng) || !Number.isFinite(maxLng) || !Number.isFinite(minLat) || !Number.isFinite(maxLat)) {
+    return null;
+  }
 
   const center: [number, number] = [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
   const lngSpan = Math.max(maxLng - minLng, 0.1);
@@ -116,8 +91,9 @@ export default function ProvinceMap({
 }: ProvinceMapProps) {
   const { t } = useLang();
   const geo = useProvinceGeo(countryIso3);
-  const [mapCenter, setMapCenter] = useState<[number, number]>(DEFAULT_CENTER);
-  const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
+  const [projectionCenter, setProjectionCenter] = useState<[number, number]>(DEFAULT_CENTER);
+  const [projectionScale, setProjectionScale] = useState(BASE_SCALE * DEFAULT_ZOOM);
+  const [viewZoom, setViewZoom] = useState(1);
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false, x: 0, y: 0, content: "",
   });
@@ -141,20 +117,51 @@ export default function ProvinceMap({
 
   const colorValues = useMemo(() => Array.from(provinceValues.values()), [provinceValues]);
   const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
+  const safeProjectionCenter = useMemo<[number, number]>(() => {
+    if (!Number.isFinite(projectionCenter[0]) || !Number.isFinite(projectionCenter[1])) {
+      return DEFAULT_CENTER;
+    }
+    return projectionCenter;
+  }, [projectionCenter]);
+  const safeProjectionScale = useMemo(() => {
+    if (!Number.isFinite(projectionScale) || projectionScale <= 0) return BASE_SCALE;
+    return Math.min(Math.max(projectionScale, 80), 2200);
+  }, [projectionScale]);
+  const hasProvinceFeatures = useMemo(() => {
+    const fc = geo.data as { features?: unknown[] } | null;
+    return Array.isArray(fc?.features) && fc.features.length > 0;
+  }, [geo.data]);
+
+  const safeFeatures = useMemo(() => {
+    const fc = geo.data as { type?: unknown; features?: unknown[] } | null;
+    if (!fc || fc.type !== "FeatureCollection" || !Array.isArray(fc.features)) return [] as Array<Record<string, unknown>>;
+    const features = fc.features.filter(
+      (f) => typeof f === "object" && f != null && "geometry" in (f as Record<string, unknown>),
+    );
+    return features as Array<Record<string, unknown>>;
+  }, [geo.data]);
 
   // 切换国家时先重置到默认状态（等 geo 加载后再 fit）
   useEffect(() => {
-    setMapCenter(DEFAULT_CENTER);
-    setMapZoom(DEFAULT_ZOOM);
+    setProjectionCenter(DEFAULT_CENTER);
+    setProjectionScale(BASE_SCALE * DEFAULT_ZOOM);
+    setViewZoom(1);
   }, [countryIso3]);
 
   // geo 加载完成后自动 fit-to-bounds（解决小国地图太小/不居中问题）
   useEffect(() => {
     if (geo.status !== "ok" || !geo.data) return;
-    const fit = computeCountryFit(geo.data);
-    if (!fit) return;
-    setMapCenter(fit.center);
-    setMapZoom(fit.zoom);
+    try {
+      const fit = computeCountryFit(geo.data);
+      if (!fit) return;
+      setProjectionCenter(fit.center);
+      setProjectionScale(BASE_SCALE * fit.zoom);
+    } catch (err) {
+      // 极端几何数据下保底回退，避免整页白屏
+      console.error("[ProvinceMap] computeCountryFit failed:", err);
+      setProjectionCenter(DEFAULT_CENTER);
+      setProjectionScale(BASE_SCALE * DEFAULT_ZOOM);
+    }
   }, [geo.data, geo.status]);
 
   if (geo.status === "idle" || geo.status === "loading") {
@@ -166,7 +173,7 @@ export default function ProvinceMap({
     );
   }
 
-  if (geo.status === "unavailable" || !geo.data) {
+  if (geo.status === "unavailable" || !geo.data || !hasProvinceFeatures || safeFeatures.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-2 text-slate-400">
         <span className="text-2xl">🗺</span>
@@ -176,29 +183,33 @@ export default function ProvinceMap({
     );
   }
 
+  const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setViewZoom((prev) => {
+      const next = prev * Math.exp(-event.deltaY * 0.0015);
+      return Math.min(Math.max(next, 0.8), 8);
+    });
+  };
+
   return (
-    <div className="relative w-full h-full select-none">
+    <div className="relative w-full h-full select-none" onWheel={handleWheel}>
       <ComposableMap
-        projection="geoEquirectangular"
-        projectionConfig={{ scale: 170, center: [0, 0] }}
-        style={{ width: "100%", height: "100%", background: "#C4D8DC" }}
+        projection="geoMercator"
+        projectionConfig={{ scale: safeProjectionScale, center: safeProjectionCenter }}
+        style={{ width: "100%", height: "100%", background: "#eeeeee" }}
       >
         <ZoomableGroup
-          center={mapCenter}
-          zoom={mapZoom}
+          key={countryIso3}
+          zoom={viewZoom}
           minZoom={0.8}
           maxZoom={8}
-          onMoveEnd={({ coordinates, zoom }) => {
-            setMapCenter([coordinates[0], coordinates[1]]);
-            setMapZoom(zoom);
-          }}
+          disableZooming
         >
-          <Geographies geography={geo.data}>
+          <Geographies geography={safeFeatures}>
             {({ geographies }) =>
               geographies.map((feature) => {
                 const rawName =
-                  (feature.properties?.["name"] as string | undefined) ??
-                  (feature.properties?.["NAME"] as string | undefined) ?? "";
+                  String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
                 const normName = normalizeName(rawName);
                 const value = provinceValues.get(normName);
                 const fill = valueToColor(value, bins);
@@ -235,11 +246,6 @@ export default function ProvinceMap({
                     }
                     onClick={() => {
                       onProvinceClick(rawName);
-                      const center = getFeatureCenter(feature);
-                      if (center) {
-                        setMapCenter(center);
-                        setMapZoom((prev) => Math.max(prev, FOCUS_ZOOM));
-                      }
                     }}
                   />
                 );

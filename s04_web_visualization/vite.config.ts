@@ -11,6 +11,6 @@ export default defineConfig({
   },
   // 静态数据文件从 public/ 提供
   publicDir: "public",
-  // GitHub Pages 部署到仓库子路径时，静态资源需显式带仓库前缀
-  base: "/BRI_RE_Database_v2/",
+  // 使用相对 base，兼容本地静态部署与子路径部署
+  base: "./",
 });

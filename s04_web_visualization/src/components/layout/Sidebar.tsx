@@ -16,11 +16,8 @@ export default function Sidebar() {
     <aside className="w-[13rem] min-w-[180px] h-full bg-brand-700 flex flex-col flex-shrink-0">
       {/* Logo / Title */}
       <div className="px-4 py-4 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <span className="text-white text-xl">⚡</span>
-          <span className="font-semibold text-white text-xs leading-tight">
-            {t("nav.title")}
-          </span>
+        <div className="font-semibold text-white text-base leading-snug">
+          {t("nav.title")}
         </div>
       </div>
 

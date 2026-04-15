@@ -29,7 +29,8 @@
       "Bash(sqlite3 s01b_project_extractor/data/projects.db \"SELECT MIN\\(publish_date\\), MAX\\(publish_date\\) FROM extracted_projects;\")",
       "Bash(python -c ':*)",
       "Bash(e:/Projects/BRI_RE_Database_v2/.venv/Scripts/pip.exe list:*)",
-      "Bash(python export_by_source.py)"
+      "Bash(python export_by_source.py)",
+      "Bash(python -c \"import json; data=json.load\\(open\\('e:/Projects/BRI_RE_Database_v2/s04_web_visualization/public/data/projects_flat.json',encoding='utf-8'\\)\\); print\\(list\\(data[0].keys\\(\\)\\)\\); print\\('---'\\); import json; print\\(json.dumps\\(data[0], ensure_ascii=False, indent=2\\)\\)\")"
     ]
   }
 }

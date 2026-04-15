@@ -5,6 +5,7 @@ import { useLang } from "@/contexts/LanguageContext";
 import FilterBar from "@/components/filters/FilterBar";
 import WorldMap from "@/components/map/WorldMap";
 import ProvinceMap from "@/components/map/ProvinceMap";
+import ProvinceMapErrorBoundary from "@/components/map/ProvinceMapErrorBoundary";
 import ProjectList from "@/components/projects/ProjectList";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import TimelineChart from "@/components/charts/TimelineChart";
@@ -102,7 +103,7 @@ export default function MapPage() {
       {/* 主区域 */}
       <div className="flex flex-1 overflow-hidden">
         {/* 左：地图区域 */}
-        <div className="flex-1 relative overflow-hidden bg-[#C4D8DC]">
+        <div className="flex-1 relative overflow-hidden bg-[#eeeeee]">
           {/* 省级返回按钮 */}
           {mapLevel === "province" && (
             <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
@@ -128,14 +129,19 @@ export default function MapPage() {
                 onCountryClick={handleCountryClick}
               />
             ) : selectedCountry ? (
-              <ProvinceMap
+              <ProvinceMapErrorBoundary
                 countryIso3={selectedCountry.iso3}
                 countryName={selectedCountry.name}
-                projects={countryProjects}
-                colorBy={colorBy}
-                onProvinceClick={handleProvinceClick}
-                selectedProvince={selectedProvince}
-              />
+              >
+                <ProvinceMap
+                  countryIso3={selectedCountry.iso3}
+                  countryName={selectedCountry.name}
+                  projects={countryProjects}
+                  colorBy={colorBy}
+                  onProvinceClick={handleProvinceClick}
+                  selectedProvince={selectedProvince}
+                />
+              </ProvinceMapErrorBoundary>
             ) : null}
           </div>
 
