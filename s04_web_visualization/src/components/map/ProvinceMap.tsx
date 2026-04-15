@@ -150,7 +150,7 @@ export default function ProvinceMap({
 
   // geo 加载完成后自动 fit-to-bounds（解决小国地图太小/不居中问题）
   useEffect(() => {
-    if (geo.status !== "loaded" || !geo.data) return;
+    if (geo.status !== "ok" || !geo.data) return;
     const fit = computeCountryFit(geo.data);
     if (!fit) return;
     setMapCenter(fit.center);
