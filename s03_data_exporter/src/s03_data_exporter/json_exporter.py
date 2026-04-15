@@ -28,15 +28,20 @@ def export_json(dst_db: Path, output_dir: Path) -> None:
     # ── projects_flat ─────────────────────────────────────────────────────────
     rows = [dict(r) for r in conn.execute("SELECT * FROM projects_flat").fetchall()]
     for row in rows:
-        # all_entities 存储为 JSON 字符串，需反序列化为列表
-        raw = row.get("all_entities")
-        if raw:
-            try:
-                row["all_entities"] = json.loads(raw)
-            except (json.JSONDecodeError, TypeError):
-                row["all_entities"] = []
-        else:
-            row["all_entities"] = []
+        # JSON 字符串字段反序列化为列表
+        for json_field, default in [
+            ("all_entities", []),
+            ("official_website_links", []),
+            ("non_official_website_links", []),
+        ]:
+            raw = row.get(json_field)
+            if raw:
+                try:
+                    row[json_field] = json.loads(raw)
+                except (json.JSONDecodeError, TypeError):
+                    row[json_field] = default
+            else:
+                row[json_field] = default
 
     projects_path = output_dir / "projects_flat.json"
     with open(projects_path, "w", encoding="utf-8") as f:

@@ -130,14 +130,17 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     event_month         TEXT,
     timeline_notes      TEXT,
     event_count         INTEGER,
+    total_investment_usd REAL,
     financing_model     TEXT,
     financing_model_en  TEXT,
     primary_entity      TEXT,
     primary_entity_en   TEXT,
     all_entities        TEXT,
-    has_soe             INTEGER,
-    verification_status TEXT,
-    record_type         TEXT
+    has_soe                    INTEGER,
+    verification_status        TEXT,
+    official_website_links     TEXT,
+    non_official_website_links TEXT,
+    record_type                TEXT
 )
 """
 
@@ -299,9 +302,47 @@ def build_flat(
             capacity_mw = None
 
         latest_stage = latest.get("project_stage") or ""
-        fm_raw       = (latest.get("financing_model") or "").strip()
-        financing_model = "" if fm_raw in ("Unknown", "unknown", "N/A", "n/a") else fm_raw
+
+        # financing_model：取所有事件中有效值；多值不一致时取日期最新的那个
+        _INVALID_FM = {"", "Unknown", "unknown", "N/A", "n/a"}
+        _events_by_date = sorted(
+            proj_events,
+            key=lambda e: e.get("publish_date") or e.get("investment_date") or "",
+        )
+        _valid_fm_events = [
+            ev for ev in _events_by_date
+            if (ev.get("financing_model") or "").strip() not in _INVALID_FM
+        ]
+        financing_model = _valid_fm_events[-1].get("financing_model", "").strip() if _valid_fm_events else ""
+
+        # total_investment_usd：所有事件有效数值的平均值（单位：百万美元）
+        _inv_values: list[float] = []
+        for ev in proj_events:
+            raw_inv = (ev.get("total_investment_usd") or "").strip()
+            try:
+                v = float(raw_inv)
+                if v > 0:
+                    _inv_values.append(v)
+            except (ValueError, TypeError):
+                pass
+        total_investment_usd = round(sum(_inv_values) / len(_inv_values), 2) if _inv_values else None
+
         has_soe = 1 if any(e.get("is_central_soe") == 1 for e in all_entities_list) else 0
+
+        # 官方/非官方网站链接：跨所有事件收集去重
+        _seen_off: set[str] = set()
+        _seen_noff: set[str] = set()
+        official_website_links: list[str] = []
+        non_official_website_links: list[str] = []
+        for ev in proj_events:
+            for link in json.loads(ev.get("official_website_links") or "[]"):
+                if link and link not in _seen_off:
+                    _seen_off.add(link)
+                    official_website_links.append(link)
+            for link in json.loads(ev.get("non_official_website_links") or "[]"):
+                if link and link not in _seen_noff:
+                    _seen_noff.add(link)
+                    non_official_website_links.append(link)
 
         rows.append(
             {
@@ -328,14 +369,17 @@ def build_flat(
                 ),
                 "timeline_notes":      timeline_notes,
                 "event_count":         len(proj_events),
+                "total_investment_usd": total_investment_usd,
                 "financing_model":     financing_model,
                 "financing_model_en":  FINANCING_MODEL_EN.get(financing_model, financing_model),
                 "primary_entity":      primary_entity,
                 "primary_entity_en":   primary_entity_en,
                 "all_entities":        json.dumps(all_entities_list, ensure_ascii=False),
-                "has_soe":             has_soe,
-                "verification_status": latest.get("verification_status") or "unverified",
-                "record_type":         "具体项目",
+                "has_soe":                    has_soe,
+                "verification_status":        latest.get("verification_status") or "unverified",
+                "official_website_links":     json.dumps(official_website_links, ensure_ascii=False),
+                "non_official_website_links": json.dumps(non_official_website_links, ensure_ascii=False),
+                "record_type":                "具体项目",
             }
         )
 

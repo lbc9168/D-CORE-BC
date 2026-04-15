@@ -81,6 +81,9 @@ const en: Translations = {
     noProvince: "N/A",
     unverified: "Unverified",
     verified: "Verified",
+    financingSection: "Financing",
+    investment: "Investment (M USD)",
+    externalLinks: "External Links",
   },
   chart: {
     timelineTitle: "Annual Project Trend",

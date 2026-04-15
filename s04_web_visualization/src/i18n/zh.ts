@@ -84,6 +84,9 @@ const zh = {
     noProvince: "无",
     unverified: "未核验",
     verified: "已核验",
+    financingSection: "融资信息",
+    investment: "总投资 (百万美元)",
+    externalLinks: "外部链接",
   },
   // 图表
   chart: {

@@ -114,6 +114,8 @@ CREATE TABLE IF NOT EXISTS project_events (
     financing_model         TEXT,
     financing_model_details TEXT,
     source_links            TEXT,   -- JSON 数组
+    official_website_links     TEXT,   -- JSON 数组（官方网站链接）
+    non_official_website_links TEXT,   -- JSON 数组（非官方网站链接）
     publish_date            TEXT,
     additional_remarks      TEXT,
     project_summary         TEXT,
@@ -170,6 +172,8 @@ def _init_db(db_path: str) -> sqlite3.Connection:
     conn.executescript(SCHEMA_SQL)
     for col_def in [
         "ALTER TABLE project_events ADD COLUMN project_summary TEXT",
+        "ALTER TABLE project_events ADD COLUMN official_website_links TEXT",
+        "ALTER TABLE project_events ADD COLUMN non_official_website_links TEXT",
         "ALTER TABLE chinese_entities ADD COLUMN is_central_soe INTEGER",
     ]:
         try:
@@ -327,6 +331,18 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
                 })
 
         src = _clean(first.get("Source Link", ""))
+
+        # 收集所有行的官方/非官方网站链接，过滤非 URL 值（如纯数字 ID），保序去重
+        def _collect_links(col: str) -> List[str]:
+            seen: set = set()
+            result_links: List[str] = []
+            for _, row in rows.iterrows():
+                v = _clean(row.get(col, ""))
+                if v and v.startswith("http") and v not in seen:
+                    seen.add(v)
+                    result_links.append(v)
+            return result_links
+
         logical_projects.append({
             "record_type":          _clean(first.get("Record Type", "具体项目")) or "具体项目",
             "project_name":         _clean(first.get("Project Name", "")),
@@ -349,6 +365,8 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "financing_model":      _clean(first.get("Financing Model", "")),
             "financing_details":    _clean(first.get("Financing Model Details", "")),
             "source_links":         [src] if src else [],
+            "official_website_links":     _collect_links("Official Website link"),
+            "non_official_website_links": _collect_links("Non-official website link"),
             "publish_date":         _clean(first.get("Publish Date", "")),
             "additional_remarks":   _clean(first.get("Additional Remarks", "")),
             "project_summary":      _clean(first.get("project_summary", "")),
@@ -757,6 +775,17 @@ def _merge_group(
                 merged_links.append(link)
     base["source_links"] = merged_links
 
+    # 合并官方/非官方网站链接（保序去重）
+    for link_key in ("official_website_links", "non_official_website_links"):
+        seen_wl: set = set()
+        merged_wl: List[str] = []
+        for r in records:
+            for link in r.get(link_key, []):
+                if link and link not in seen_wl:
+                    seen_wl.add(link)
+                    merged_wl.append(link)
+        base[link_key] = merged_wl
+
     # 合并中方实体（按 implementing_entity + involvement_type 去重）
     seen_ent: set = set()
     merged_entities: List[Dict] = []
@@ -1077,7 +1106,9 @@ def _write_to_db(
                            planned_start_date = ?, planned_complete_date = ?,
                            total_investment_usd = ?, investment_date = ?,
                            financing_model = ?, financing_model_details = ?,
-                           source_links = ?, publish_date = ?, additional_remarks = ?
+                           source_links = ?,
+                           official_website_links = ?, non_official_website_links = ?,
+                           publish_date = ?, additional_remarks = ?
                        WHERE id = ?""",
                     (
                         merged_rec["capacity_mw"],
@@ -1090,6 +1121,8 @@ def _write_to_db(
                         merged_rec["financing_model"],
                         merged_rec.get("financing_details", ""),
                         json.dumps(merged_rec["source_links"], ensure_ascii=False),
+                        json.dumps(merged_rec.get("official_website_links", []), ensure_ascii=False),
+                        json.dumps(merged_rec.get("non_official_website_links", []), ensure_ascii=False),
                         merged_rec["publish_date"],
                         merged_rec["additional_remarks"],
                         event_id,
@@ -1115,8 +1148,9 @@ def _write_to_db(
                     project_developer, planned_start_date, planned_complete_date,
                     total_investment_usd, investment_date,
                     financing_model, financing_model_details, source_links,
+                    official_website_links, non_official_website_links,
                     publish_date, additional_remarks, project_summary, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     event_id, canonical_id,
                     project["project_stage"],
@@ -1126,6 +1160,8 @@ def _write_to_db(
                     project["total_investment_usd"], project["investment_date"],
                     project["financing_model"],    project["financing_details"],
                     json.dumps(project["source_links"], ensure_ascii=False),
+                    json.dumps(project.get("official_website_links", []), ensure_ascii=False),
+                    json.dumps(project.get("non_official_website_links", []), ensure_ascii=False),
                     project["publish_date"],   project["additional_remarks"],
                     project.get("project_summary", ""),
                     datetime.now().isoformat(),
@@ -1179,7 +1215,8 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
             pe.project_developer, pe.planned_start_date, pe.planned_complete_date,
             pe.total_investment_usd, pe.investment_date,
             pe.financing_model, pe.financing_model_details,
-            pe.source_links, pe.publish_date, pe.additional_remarks, pe.project_summary,
+            pe.source_links, pe.official_website_links, pe.non_official_website_links,
+            pe.publish_date, pe.additional_remarks, pe.project_summary,
             cp.project_name, cp.project_name_en, cp.name_en_quality,
             cp.country, cp.country_iso, cp.bri_country, cp.ldc, cp.location, cp.category
         FROM project_events pe
@@ -1215,36 +1252,39 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
      project_developer, planned_start_date, planned_complete_date,
      total_investment_usd, investment_date,
      financing_model, financing_model_details,
-     source_links_raw, publish_date, additional_remarks, project_summary,
+     source_links_raw, official_website_links_raw, non_official_website_links_raw,
+     publish_date, additional_remarks, project_summary,
      project_name, project_name_en, name_en_quality,
      country, country_iso, bri_country, ldc, location, category) = row
 
     return {
-        "record_type":           "具体项目",
-        "project_name":          project_name or "",
-        "project_name_en":       project_name_en or "",
-        "name_en_quality":       name_en_quality or "ai_translated",
-        "country":               country or "",
-        "country_iso":           country_iso or "UNK",
-        "bri_country":           bri_country or "",
-        "ldc":                   ldc or "",
-        "location":              location or "",
-        "category":              category or "",
-        "capacity_mw":           capacity_mw or "",
-        "capacity_details":      capacity_details or "",
-        "project_stage":         project_stage or "",
-        "project_developer":     project_developer or "",
-        "planned_start_date":    planned_start_date or "",
-        "planned_complete_date": planned_complete_date or "",
-        "total_investment_usd":  total_investment_usd or "",
-        "investment_date":       investment_date or "",
-        "financing_model":       financing_model or "",
-        "financing_details":     financing_model_details or "",   # _merge_group 使用此 key
-        "source_links":          json.loads(source_links_raw) if source_links_raw else [],
-        "publish_date":          publish_date or "",
-        "additional_remarks":    additional_remarks or "",
-        "project_summary":       project_summary or "",
-        "entities":              entities,
+        "record_type":                "具体项目",
+        "project_name":               project_name or "",
+        "project_name_en":            project_name_en or "",
+        "name_en_quality":            name_en_quality or "ai_translated",
+        "country":                    country or "",
+        "country_iso":                country_iso or "UNK",
+        "bri_country":                bri_country or "",
+        "ldc":                        ldc or "",
+        "location":                   location or "",
+        "category":                   category or "",
+        "capacity_mw":                capacity_mw or "",
+        "capacity_details":           capacity_details or "",
+        "project_stage":              project_stage or "",
+        "project_developer":          project_developer or "",
+        "planned_start_date":         planned_start_date or "",
+        "planned_complete_date":      planned_complete_date or "",
+        "total_investment_usd":       total_investment_usd or "",
+        "investment_date":            investment_date or "",
+        "financing_model":            financing_model or "",
+        "financing_details":          financing_model_details or "",   # _merge_group 使用此 key
+        "source_links":               json.loads(source_links_raw) if source_links_raw else [],
+        "official_website_links":     json.loads(official_website_links_raw) if official_website_links_raw else [],
+        "non_official_website_links": json.loads(non_official_website_links_raw) if non_official_website_links_raw else [],
+        "publish_date":               publish_date or "",
+        "additional_remarks":         additional_remarks or "",
+        "project_summary":            project_summary or "",
+        "entities":                   entities,
     }
 
 

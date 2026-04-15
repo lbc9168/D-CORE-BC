@@ -45,6 +45,7 @@ function shouldExcludeByPolicy(p: Project): boolean {
     categoryEn.includes("grid infrastructure")
   ) return true;
   if (isUnknownText(p.primary_entity)) return true;
+  if (hasCapacity(p.category) && p.capacity_mw == null) return true;
   return false;
 }
 

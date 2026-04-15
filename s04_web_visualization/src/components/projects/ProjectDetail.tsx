@@ -92,16 +92,6 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               label={t("projectDetail.province")}
               value={p.province ?? t("projectDetail.noProvince")}
             />
-            <Row
-              label={t("projectDetail.financing")}
-              value={
-                p.financing_model_en && p.financing_model_en !== "Unknown"
-                  ? p.financing_model_en
-                  : p.financing_model && p.financing_model !== "Unknown"
-                  ? p.financing_model
-                  : undefined
-              }
-            />
             <Row label={t("projectDetail.eventCount")} value={p.event_count} />
             {p.verification_status === "verified" && (
               <Row label={t("projectDetail.verification")} value={t("projectDetail.verified")} />
@@ -149,6 +139,62 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
                       {ent.involvement_type_en || ent.involvement_type}
                     </div>
                   )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* 融资信息 */}
+        {(() => {
+          const fmValue =
+            p.financing_model_en && p.financing_model_en !== "Unknown"
+              ? p.financing_model_en
+              : p.financing_model && p.financing_model !== "Unknown"
+              ? p.financing_model
+              : null;
+          if (!fmValue && p.total_investment_usd == null) return null;
+          return (
+            <section>
+              <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                {t("projectDetail.financingSection")}
+              </h4>
+              <div className="bg-slate-50 rounded-lg p-2.5 text-xs space-y-1.5">
+                {fmValue && (
+                  <div className="flex gap-2">
+                    <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.financing")}</span>
+                    <span className="text-slate-800">{fmValue}</span>
+                  </div>
+                )}
+                {p.total_investment_usd != null && (
+                  <div className="flex gap-2">
+                    <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.investment")}</span>
+                    <span className="text-slate-800">{p.total_investment_usd.toFixed(1)}</span>
+                  </div>
+                )}
+              </div>
+            </section>
+          );
+        })()}
+
+        {/* 外部链接 */}
+        {((p.official_website_links?.length ?? 0) > 0 ||
+          (p.non_official_website_links?.length ?? 0) > 0) && (
+          <section>
+            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              {t("projectDetail.externalLinks")}
+            </h4>
+            <div className="bg-slate-50 rounded-lg p-2.5 text-xs space-y-1.5">
+              {[...(p.official_website_links ?? []), ...(p.non_official_website_links ?? [])].map((url, i) => (
+                <div key={i}>
+                  <a
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-teal-700 hover:underline break-all"
+                  >
+                    {url}
+                  </a>
                 </div>
               ))}
             </div>

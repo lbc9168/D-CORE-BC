@@ -13,6 +13,7 @@
 """
 
 import json
+import os
 import time
 from pathlib import Path
 from typing import Optional
@@ -69,6 +70,13 @@ def extract_provinces(
             to_process.append(rec)
 
     if not to_process:
+        return result
+
+    # SKIP_PROVINCE_API=1 时跳过所有 API 调用，未缓存项目省份设为 null
+    if os.environ.get("SKIP_PROVINCE_API") == "1":
+        print(f"  [跳过] SKIP_PROVINCE_API=1，{len(to_process)} 条未缓存记录省份设为 null")
+        for rec in to_process:
+            result[rec["project_id"]] = None
         return result
 
     client = genai.Client(api_key=api_key)

@@ -32,8 +32,11 @@ export interface Project {
   event_month: string | null;
   timeline_notes: string;
   event_count: number;
+  total_investment_usd: number | null;
   financing_model: string;
   financing_model_en: string;
+  official_website_links?: string[];
+  non_official_website_links?: string[];
   primary_entity: string;
   primary_entity_en: string;
   all_entities: Entity[];
