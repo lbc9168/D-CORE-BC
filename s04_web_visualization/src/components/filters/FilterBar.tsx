@@ -60,7 +60,7 @@ function MultiSelect({
         onClick={() => setIsOpen((o) => !o)}
         className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900
                    bg-white border border-slate-200 rounded-lg px-2.5 py-1.5
-                   transition-colors hover:border-brand-300"
+                   transition-all hover:border-brand-300 hover:shadow-sm"
       >
         <span>{label}</span>
         {selected.length > 0 && (
@@ -177,7 +177,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
   }, [filter.stages, setFilter, stageOptions]);
 
   return (
-    <div className="flex items-center gap-2 px-4 py-2 bg-brand-50 border-b border-brand-100
+    <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-100 shadow-sm
                     flex-wrap text-xs flex-shrink-0">
       {/* 年份双柄滑块 */}
       <div className="flex items-center gap-2">

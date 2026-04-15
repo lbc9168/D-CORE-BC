@@ -328,7 +328,7 @@ export default function TablePage() {
 
       {/* 右：项目详情侧边栏 */}
       {selectedProject && (
-        <div className="w-80 border-l border-slate-200 flex-shrink-0 overflow-hidden">
+        <div className="w-80 border-l border-slate-200 flex-shrink-0 overflow-hidden bg-white shadow-lg">
           <ProjectDetail
             project={selectedProject}
             onClose={() => setSelectedProject(null)}

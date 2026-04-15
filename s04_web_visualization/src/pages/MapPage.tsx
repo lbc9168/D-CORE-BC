@@ -158,37 +158,40 @@ export default function MapPage() {
         </div>
 
         {/* 右：上下文面板 */}
-        <div className="w-[26rem] max-w-[42vw] min-w-[20rem] border-l border-slate-200 flex flex-col overflow-hidden bg-white flex-shrink-0">
+        <div className="w-[26rem] max-w-[42vw] min-w-[20rem] border-l border-slate-200 flex flex-col overflow-hidden bg-slate-50 flex-shrink-0">
           {showDetail && selectedProject ? (
             // 项目详情
-            <ProjectDetail
-              project={selectedProject}
-              onClose={() => setSelectedProject(null)}
-            />
+            <div className="m-2 card flex flex-col flex-1 overflow-hidden">
+              <ProjectDetail
+                project={selectedProject}
+                onClose={() => setSelectedProject(null)}
+              />
+            </div>
           ) : showProjectList ? (
             // 项目列表
-            <>
-              <div className="px-3 py-2.5 border-b border-slate-100 font-medium text-sm text-slate-700 flex items-center gap-1.5">
-                {selectedProvince === "__no_province__"
-                  ? t("map.noProvince")
-                  : selectedProvince ?? selectedCountry?.name ?? t("projectList.title")}
+            <div className="flex flex-col flex-1 overflow-hidden p-2">
+              <div className="card flex flex-col flex-1 overflow-hidden">
+                <div className="px-3 py-2.5 border-b border-slate-100 font-medium text-sm text-slate-700 flex items-center gap-1.5">
+                  {selectedProvince === "__no_province__"
+                    ? t("map.noProvince")
+                    : selectedProvince ?? selectedCountry?.name ?? t("projectList.title")}
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <ProjectList
+                    projects={panelProjects}
+                    onSelect={setSelectedProject}
+                    selectedId={selectedProjectId}
+                  />
+                </div>
               </div>
-              <div className="flex-1 overflow-hidden">
-                <ProjectList
-                  projects={panelProjects}
-                  onSelect={setSelectedProject}
-                  selectedId={selectedProjectId}
-                />
-              </div>
-            </>
+            </div>
           ) : showCharts ? (
             // 统计图表
-            <div className="grid h-full overflow-hidden p-3 gap-3 grid-rows-[1.3fr_auto_0.7fr]">
-              <div className="min-h-0">
+            <div className="flex flex-col h-full overflow-hidden p-2 gap-2">
+              <div className="card p-3 flex-1 min-h-0 flex flex-col">
                 <TimelineChart projects={filteredProjects} />
               </div>
-              <div className="border-t border-slate-100" />
-              <div className="min-h-0">
+              <div className="card p-3 flex-[0.6] min-h-0 flex flex-col">
                 <EntityChart projects={filteredProjects} />
               </div>
             </div>

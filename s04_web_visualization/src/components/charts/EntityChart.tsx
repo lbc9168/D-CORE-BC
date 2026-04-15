@@ -77,11 +77,10 @@ export default function EntityChart({ projects }: EntityChartProps) {
     );
   }
 
-  // 颜色从品牌色深→浅
+  // 颜色从品牌色深→浅（brand-teal 渐变）
   const colors = [
-    "#075985", "#0369a1", "#0284c7", "#0ea5e9", "#38bdf8",
-    "#7dd3fc", "#bae6fd", "#0c4a6e", "#1e40af", "#1d4ed8",
-    "#2563eb", "#3b82f6",
+    "#0F4C48", "#1D6B67", "#2F6562", "#3D7D7A",
+    "#56918E", "#70A8A6", "#8CBDBB", "#A8D0CF",
   ];
 
   return (

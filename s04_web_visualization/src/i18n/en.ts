@@ -3,8 +3,10 @@ import type { Translations } from "./zh";
 const en: Translations = {
   nav: {
     title: "BRI Renewable Energy Database",
+    home: "Home",
     map: "Map View",
     table: "Data Table",
+    reports: "Reports",
     about: "About",
   },
   filter: {

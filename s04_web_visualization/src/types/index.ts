@@ -93,13 +93,13 @@ export const CATEGORIES: Record<string, { zh: string; en: string; color: string 
   "光伏":         { zh: "光伏",         en: "Solar PV",        color: "#F59E0B" },
   "风电":         { zh: "风电",         en: "Wind",            color: "#3B82F6" },
   "水电":         { zh: "水电",         en: "Hydro",           color: "#06B6D4" },
-  "核电":         { zh: "核电",         en: "Nuclear",         color: "#6366F1" },
+  "核电":         { zh: "核电",         en: "Nuclear",         color: "#8B5CF6" },
   "火电":         { zh: "火电",         en: "Thermal",         color: "#78716C" },
-  "地热及余热":   { zh: "地热及余热",   en: "Geothermal",      color: "#EF4444" },
-  "生物质":       { zh: "生物质",       en: "Biomass",         color: "#22C55E" },
-  "储能":         { zh: "储能",         en: "Storage",         color: "#8B5CF6" },
+  "地热及余热":   { zh: "地热及余热",   en: "Geothermal",      color: "#10B981" },
+  "生物质":       { zh: "生物质",       en: "Biomass",         color: "#84CC16" },
+  "储能":         { zh: "储能",         en: "Storage",         color: "#64748B" },
   "综合能源":     { zh: "综合能源",     en: "Hybrid",          color: "#EC4899" },
-  "新能源制造业": { zh: "新能源制造业", en: "New Energy Mfg.", color: "#14B8A6" },
+  "新能源制造业": { zh: "新能源制造业", en: "New Energy Mfg.", color: "#A78BFA" },
   "输变电建设":   { zh: "输变电建设",   en: "Grid Infra.",     color: "#F97316" },
 };
 
