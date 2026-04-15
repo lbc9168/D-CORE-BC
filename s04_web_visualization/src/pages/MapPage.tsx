@@ -71,7 +71,7 @@ export default function MapPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full text-slate-400">
+      <div className="flex flex-1 items-center justify-center text-slate-400">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-brand-400 border-t-transparent rounded-full animate-spin" />
           <span className="text-sm">{t("common.loading")}</span>
@@ -82,7 +82,7 @@ export default function MapPage() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-full text-slate-400">
+      <div className="flex flex-1 items-center justify-center text-slate-400">
         <div className="text-sm text-red-500">{t("common.error")}</div>
       </div>
     );
@@ -95,7 +95,7 @@ export default function MapPage() {
   const selectedProjectId = selectedProject?.project_id ?? null;
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className="flex flex-col flex-1 overflow-hidden">
       {/* 筛选栏 */}
       <FilterBar colorBy={colorBy} onColorByChange={setColorBy} />
 
