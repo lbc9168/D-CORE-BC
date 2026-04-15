@@ -13,11 +13,11 @@ export default function App() {
       <DataProvider>
         <HashRouter>
           <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<MapPage />} />
-              <Route path="/table" element={<TablePage />} />
-              <Route path="/reports" element={<ReportsPage />} />
-              <Route path="/about" element={<AboutPage />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<MapPage />} />
+              <Route path="table" element={<TablePage />} />
+              <Route path="reports" element={<ReportsPage />} />
+              <Route path="about" element={<AboutPage />} />
             </Route>
           </Routes>
         </HashRouter>
