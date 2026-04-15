@@ -37,6 +37,7 @@ s03_data_exporter/data/
 # 8. SQLite 数据库文件
 *.db
 *.sqlite
+*.db.bak_*
 
 # 9. AI 提取原始结果快照（运行产物，体积大）
 **/All_AI_Results_*.json

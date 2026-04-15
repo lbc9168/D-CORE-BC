@@ -152,6 +152,10 @@ _SYSTEM_PROMPT = """\
 """
 
 
+GEMINI_RETRIES    = 4      # 最多重试次数（含首次，共最多5次调用）
+GEMINI_RETRY_BASE = 5.0   # 首次重试等待秒数，指数递增（5s, 10s, 20s, 40s）
+
+
 def gemini_classify(
     project_name: str,
     country: str,
@@ -162,6 +166,7 @@ def gemini_classify(
     """
     调用 Gemini 2.5 Flash Lite 判断搜索结果中的链接类型。
     返回 {"official_website": url|None, "non_official_website": url|None, "reason": str}
+    遇到 high demand / 速率限制等错误时自动指数退避重试（最多 GEMINI_RETRIES 次）。
     Gemini 客户端线程安全，可多线程并发调用。
     """
     results_text = "\n".join(
@@ -176,42 +181,53 @@ def gemini_classify(
         f"搜索结果：\n{results_text}"
     )
 
-    try:
-        response = client.models.generate_content(
-            model="gemini-2.5-flash-lite",
-            contents=[
-                types.Content(
-                    role="user",
-                    parts=[types.Part(text=_SYSTEM_PROMPT + "\n\n" + user_prompt)],
+    last_error = ""
+    for attempt in range(GEMINI_RETRIES + 1):
+        try:
+            response = client.models.generate_content(
+                model="gemini-2.5-flash-lite",
+                contents=[
+                    types.Content(
+                        role="user",
+                        parts=[types.Part(text=_SYSTEM_PROMPT + "\n\n" + user_prompt)],
+                    )
+                ],
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    temperature=0.1,
+                ),
+            )
+            result = json.loads(response.text)
+            official     = result.get("official_website")
+            non_official = result.get("non_official_website")
+            reason       = result.get("reason", "")
+
+            # 过滤 "null" 字符串
+            if isinstance(official, str) and official.lower() in {"null", "none", ""}:
+                official = None
+            if isinstance(non_official, str) and non_official.lower() in {"null", "none", ""}:
+                non_official = None
+
+            return {
+                "official_website"    : official,
+                "non_official_website": non_official,
+                "reason"              : reason,
+            }
+
+        except Exception as e:
+            last_error = str(e)
+            if attempt < GEMINI_RETRIES:
+                wait = GEMINI_RETRY_BASE * (2 ** attempt)
+                tqdm.write(
+                    f"  [Gemini重试] 第{attempt + 1}次失败，{wait:.0f}s 后重试：{last_error[:80]}"
                 )
-            ],
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                temperature=0.1,
-            ),
-        )
-        result = json.loads(response.text)
-        official     = result.get("official_website")
-        non_official = result.get("non_official_website")
-        reason       = result.get("reason", "")
+                time.sleep(wait)
 
-        # 过滤 "null" 字符串
-        if isinstance(official, str) and official.lower() in {"null", "none", ""}:
-            official = None
-        if isinstance(non_official, str) and non_official.lower() in {"null", "none", ""}:
-            non_official = None
-
-        return {
-            "official_website"    : official,
-            "non_official_website": non_official,
-            "reason"              : reason,
-        }
-    except Exception as e:
-        return {
-            "official_website"    : None,
-            "non_official_website": None,
-            "reason"              : f"Gemini错误: {e}",
-        }
+    return {
+        "official_website"    : None,
+        "non_official_website": None,
+        "reason"              : f"Gemini重试{GEMINI_RETRIES}次仍失败: {last_error[:120]}",
+    }
 
 
 # ── 日志 ──────────────────────────────────────────────────────────────────────
@@ -272,6 +288,7 @@ def process_row(
     project_name        = safe_str(row.get("project_name")) or ""
     country             = safe_str(row.get("country")) or ""
     implementing_entity = safe_str(row.get("implementing_entity")) or ""
+    source_link         = safe_str(row.get("source_link")) or ""
     row_num             = idx + 2   # Excel 行号（含表头）
 
     result = {"official_website": None, "non_official_website": None, "reason": ""}
@@ -279,15 +296,24 @@ def process_row(
     query2 = ""
     status = "not_found"
 
+    def dedup_source(r: dict) -> dict:
+        """将与 source_link 相同的链接置为 None。"""
+        if source_link:
+            if r.get("official_website") == source_link:
+                r["official_website"] = None
+            if r.get("non_official_website") == source_link:
+                r["non_official_website"] = None
+        return r
+
     try:
         # ── 第1次搜索 ──────────────────────────────────────────────────────
         if implementing_entity:
             query1 = f"{implementing_entity} {project_name}"
             hits = serper_search(query1, serper_key, rate_limiter)
             if hits:
-                result = gemini_classify(
+                result = dedup_source(gemini_classify(
                     project_name, country, implementing_entity, hits, client
-                )
+                ))
 
             if result["official_website"] or result["non_official_website"]:
                 status = "search1_found"
@@ -297,9 +323,9 @@ def process_row(
             query2 = f"{project_name} {country}"
             hits2 = serper_search(query2, serper_key, rate_limiter)
             if hits2:
-                result = gemini_classify(
+                result = dedup_source(gemini_classify(
                     project_name, country, implementing_entity, hits2, client
-                )
+                ))
 
             if result["official_website"] or result["non_official_website"]:
                 status = "search2_found"
