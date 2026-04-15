@@ -134,14 +134,14 @@ export default function TablePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+      <div className="flex flex-1 items-center justify-center text-slate-400 text-sm">
         {t("common.loading")}
       </div>
     );
   }
   if (error) {
     return (
-      <div className="flex items-center justify-center h-full text-red-400 text-sm">
+      <div className="flex flex-1 items-center justify-center text-red-400 text-sm">
         {t("common.error")}
       </div>
     );
@@ -150,7 +150,7 @@ export default function TablePage() {
   const col = T.table.columns;
 
   return (
-    <div className="flex h-full overflow-hidden">
+    <div className="flex flex-1 overflow-hidden">
       {/* 主表格区域 */}
       <div className="flex flex-col flex-1 overflow-hidden">
         <FilterBar colorBy={colorBy} onColorByChange={setColorBy} />

@@ -101,7 +101,7 @@ function computeCountryFit(geoData: unknown): { center: [number, number]; zoom: 
   const lngSpan = Math.max(maxLng - minLng, 0.1);
   const latSpan = Math.max(maxLat - minLat, 0.1);
   // 取经纬度各自推算的缩放值的最小值，再乘以 0.65 留出边距
-  const zoom = Math.min(Math.max(Math.min(360 / lngSpan, 180 / latSpan) * 0.65, 1), 50);
+  const zoom = Math.min(Math.max(Math.min(360 / lngSpan, 180 / latSpan) * 0.65, 1), 6);
 
   return { center, zoom };
 }
@@ -157,9 +157,9 @@ export default function ProvinceMap({
     setMapZoom(fit.zoom);
   }, [geo.data, geo.status]);
 
-  if (geo.status === "loading") {
+  if (geo.status === "idle" || geo.status === "loading") {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-2 text-slate-400">
+      <div className="flex flex-col items-center justify-center w-full h-full gap-2 text-slate-400">
         <Loader2 size={24} className="animate-spin" />
         <span className="text-sm">{t("map.provinceLoading")}</span>
       </div>
