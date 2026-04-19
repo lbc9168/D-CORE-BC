@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, type WheelEvent } from "react";
+import { useState, useMemo, useEffect, useCallback, type WheelEvent } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import type { Project, ColorBy } from "@/types";
 import { valueToColor, buildColorBins } from "@/utils/colorScale";
@@ -94,6 +94,7 @@ export default function ProvinceMap({
   const [projectionCenter, setProjectionCenter] = useState<[number, number]>(DEFAULT_CENTER);
   const [projectionScale, setProjectionScale] = useState(BASE_SCALE * DEFAULT_ZOOM);
   const [viewZoom, setViewZoom] = useState(1);
+  const [hoveredProvince, setHoveredProvince] = useState<string>("");
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false, x: 0, y: 0, content: "",
   });
@@ -164,6 +165,11 @@ export default function ProvinceMap({
     }
   }, [geo.data, geo.status]);
 
+  const handleProvinceMouseLeave = useCallback(() => {
+    setHoveredProvince("");
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }, []);
+
   if (geo.status === "idle" || geo.status === "loading") {
     return (
       <div className="flex flex-col items-center justify-center w-full h-full gap-2 text-slate-400">
@@ -206,51 +212,82 @@ export default function ProvinceMap({
           disableZooming
         >
           <Geographies geography={safeFeatures}>
-            {({ geographies }) =>
-              geographies.map((feature) => {
-                const rawName =
-                  String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
-                const normName = normalizeName(rawName);
-                const value = provinceValues.get(normName);
-                const fill = valueToColor(value, bins);
-                const isSelected = selectedProvince != null &&
-                  normalizeName(selectedProvince) === normName;
+            {({ geographies }) => (
+              <>
+                {/* 第一遍：正常渲染所有省份，stroke 统一白色 */}
+                {geographies.map((feature) => {
+                  const rawName =
+                    String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
+                  const normName = normalizeName(rawName);
+                  const value = provinceValues.get(normName);
+                  const fill = valueToColor(value, bins);
+                  const isSelected = selectedProvince != null &&
+                    normalizeName(selectedProvince) === normName;
 
-                return (
-                  <Geography
-                    key={feature.rsmKey}
-                    geography={feature}
-                    fill={isSelected ? "#2F6562" : fill}
-                    stroke="#fff"
-                    strokeWidth={0.5}
-                    style={{
-                      default: { outline: "none" },
-                      hover: {
-                        fill: "#5A9896",
-                        cursor: "pointer",
-                        outline: "none",
-                      },
-                      pressed: { outline: "none" },
-                    }}
-                    onMouseEnter={(e) => {
-                      const label =
-                        value != null
-                          ? colorBy === "count"
-                            ? `${rawName}\n${value} ${t("map.projects")}`
-                            : `${rawName}\n${value.toFixed(0)} ${t("map.mw")}`
-                          : `${rawName}\n${t("map.noData")}`;
-                      setTooltip({ visible: true, x: e.clientX, y: e.clientY, content: label });
-                    }}
-                    onMouseLeave={() =>
-                      setTooltip((prev) => ({ ...prev, visible: false }))
-                    }
-                    onClick={() => {
-                      onProvinceClick(rawName);
-                    }}
-                  />
-                );
-              })
-            }
+                  return (
+                    <Geography
+                      key={feature.rsmKey}
+                      geography={feature}
+                      fill={isSelected ? "#2F6562" : fill}
+                      stroke="#fff"
+                      strokeWidth={0.5}
+                      style={{
+                        default: { outline: "none" },
+                        hover: { fill: "#5A9896", cursor: "pointer", outline: "none" },
+                        pressed: { outline: "none" },
+                      }}
+                      onMouseEnter={(e) => {
+                        setHoveredProvince(normName);
+                        const label =
+                          value != null
+                            ? colorBy === "count"
+                              ? `${rawName}\n${value} ${t("map.projects")}`
+                              : `${rawName}\n${value.toFixed(0)} ${t("map.mw")}`
+                            : `${rawName}\n${t("map.noData")}`;
+                        setTooltip({ visible: true, x: e.clientX, y: e.clientY, content: label });
+                      }}
+                      onMouseLeave={handleProvinceMouseLeave}
+                      onClick={() => { onProvinceClick(rawName); }}
+                    />
+                  );
+                })}
+
+                {/* 第二遍：hovered 省份覆盖渲染在最顶层，stroke 完整显示 */}
+                {/* pointerEvents none：鼠标事件穿透到第一遍，避免 leave/enter 循环闪烁 */}
+                <g style={{ pointerEvents: "none" }}>
+                  {hoveredProvince !== "" && geographies
+                    .filter((feature) => {
+                      const rawName =
+                        String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
+                      return normalizeName(rawName) === hoveredProvince;
+                    })
+                    .map((feature) => {
+                      const rawName =
+                        String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
+                      const normName = normalizeName(rawName);
+                      const value = provinceValues.get(normName);
+                      const fill = valueToColor(value, bins);
+                      const isSelected = selectedProvince != null &&
+                        normalizeName(selectedProvince) === normName;
+                      return (
+                        <Geography
+                          key={`hover-${feature.rsmKey}`}
+                          geography={feature}
+                          fill={isSelected ? "#2F6562" : fill}
+                          stroke="#1e293b"
+                          strokeWidth={1.0}
+                          style={{
+                            default: { outline: "none" },
+                            hover: { fill: isSelected ? "#2F6562" : fill, outline: "none" },
+                            pressed: { outline: "none" },
+                          }}
+                        />
+                      );
+                    })
+                  }
+                </g>
+              </>
+            )}
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>

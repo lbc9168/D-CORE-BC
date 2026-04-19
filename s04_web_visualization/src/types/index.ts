@@ -80,6 +80,11 @@ export type MapLevel = "world" | "province";
 export type Lang = "zh" | "en";
 export type DevStatus = "LDC" | "Developing" | "Developed";
 
+export interface RegionFilter {
+  continent: string;
+  subregion: string | null;  // null = 整个大洲
+}
+
 export interface FilterState {
   yearRange: [number, number] | null;   // null = 不限年份
   categories: string[];                  // 空数组 = 全选
@@ -88,6 +93,7 @@ export interface FilterState {
   briFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅BRI；["No"] = 仅非BRI
   ldcFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅LDC；["No"] = 仅非LDC
   soeFilter: "all" | "soe" | "non_soe"; // SOE 筛选："all" = 全部；"soe" = 仅含央企；"non_soe" = 不含央企
+  regionFilter: RegionFilter | null;     // null = 全球；否则按大洲/小区过滤
 }
 
 // ── 枚举常量 ──────────────────────────────────────────────────────────────────

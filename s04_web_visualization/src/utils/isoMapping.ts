@@ -56,6 +56,10 @@ export const NUMERIC_TO_ISO3: Record<string, string> = {
   "704": "VNM",   // 越南 Vietnam
   "776": "TON",   // 汤加 Tonga
   "807": "MKD",   // 北马其顿 North Macedonia
+  // ── 中国大陆以外的中国地区（视觉上与大陆合并为 CHN）──────────────────────────
+  "158": "CHN",   // 台湾 Taiwan
+  "344": "CHN",   // 香港 Hong Kong
+  "446": "CHN",   // 澳门 Macao
 };
 
 /**

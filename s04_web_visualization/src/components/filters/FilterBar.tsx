@@ -1,9 +1,10 @@
 import { useRef, useState, useEffect, useMemo } from "react";
-import { RotateCcw, ChevronDown } from "lucide-react";
+import { RotateCcw, ChevronDown, Globe } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import { CATEGORIES, STAGES } from "@/types";
-import type { ColorBy } from "@/types";
+import type { ColorBy, RegionFilter } from "@/types";
+import { CONTINENTS, CONTINENT_SUBREGIONS } from "@/utils/continentMapping";
 
 interface FilterBarProps {
   colorBy: ColorBy;
@@ -104,6 +105,115 @@ function MultiSelect({
   );
 }
 
+/** 二级大洲/小区选择器 */
+function RegionSelect({
+  value,
+  onChange,
+}: {
+  value: RegionFilter | null;
+  onChange: (v: RegionFilter | null) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [expandedContinent, setExpandedContinent] = useState<string | null>(null);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setIsOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsOpen(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [isOpen]);
+
+  const label = value
+    ? value.subregion
+      ? `${value.continent} · ${value.subregion}`
+      : value.continent
+    : "Region";
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setIsOpen((o) => !o)}
+        className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900
+                   bg-white border border-slate-200 rounded-lg px-2.5 py-1.5
+                   transition-all hover:border-brand-300 hover:shadow-sm"
+      >
+        <Globe size={11} className="text-slate-400" />
+        <span className={value ? "text-brand-700 font-medium" : ""}>{label}</span>
+        <ChevronDown size={12} className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 z-40
+                        bg-white border border-slate-200 rounded-xl shadow-lg py-1.5 min-w-48">
+          <button
+            onClick={() => { onChange(null); setIsOpen(false); }}
+            className={`w-full text-left px-3 py-1.5 text-xs hover:bg-slate-50 ${
+              !value ? "text-brand-600 font-medium" : "text-slate-600"
+            }`}
+          >
+            All Regions
+          </button>
+          <div className="border-t border-slate-100 my-1" />
+          {CONTINENTS.map((continent) => (
+            <div key={continent}>
+              <div className="flex items-center">
+                <button
+                  onClick={() => { onChange({ continent, subregion: null }); setIsOpen(false); }}
+                  className={`flex-1 text-left px-3 py-1.5 text-xs hover:bg-slate-50 ${
+                    value?.continent === continent && !value.subregion
+                      ? "text-brand-600 font-medium"
+                      : "text-slate-700"
+                  }`}
+                >
+                  {continent}
+                </button>
+                <button
+                  onClick={() => setExpandedContinent((c) => (c === continent ? null : continent))}
+                  className="px-2 py-1.5 text-slate-400 hover:text-slate-600"
+                >
+                  <ChevronDown
+                    size={11}
+                    className={`transition-transform ${expandedContinent === continent ? "rotate-180" : ""}`}
+                  />
+                </button>
+              </div>
+              {expandedContinent === continent && (
+                <div className="pl-4 border-l-2 border-brand-100 ml-3">
+                  {CONTINENT_SUBREGIONS[continent]?.map((sub) => (
+                    <button
+                      key={sub}
+                      onClick={() => { onChange({ continent, subregion: sub }); setIsOpen(false); }}
+                      className={`w-full text-left px-3 py-1 text-xs hover:bg-slate-50 ${
+                        value?.continent === continent && value.subregion === sub
+                          ? "text-brand-600 font-medium"
+                          : "text-slate-500"
+                      }`}
+                    >
+                      {sub}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 /** 双柄年份范围滑块 */
 function YearRangeSlider({
   minYear,
@@ -191,6 +301,8 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
   return (
     <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-100 shadow-sm
                     flex-wrap text-xs flex-shrink-0">
+
+
       {/* 年份双柄滑块 */}
       <div className="flex items-center gap-2">
         <span className="text-slate-500">{t("filter.yearRange")}</span>
@@ -206,6 +318,14 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
 
       <div className="w-px h-4 bg-slate-200 mx-1" />
 
+      {/* 大洲/小区过滤 */}
+      <RegionSelect
+        value={filter.regionFilter ?? null}
+        onChange={(v) => setFilter((f) => ({ ...f, regionFilter: v }))}
+      />
+
+      <div className="w-px h-4 bg-slate-200 mx-1" />
+      
       {/* 能源类型 */}
       <MultiSelect
         label={t("filter.category")}

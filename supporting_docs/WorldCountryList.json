@@ -1,0 +1,2404 @@
+[
+  {
+    "iso": "AFG",
+    "name_cn": "阿富汗",
+    "name_en": "Afghanistan",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ALB",
+    "name_cn": "阿尔巴尼亚",
+    "name_en": "Albania",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "DZA",
+    "name_cn": "阿尔及利亚",
+    "name_en": "Algeria",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ASM",
+    "name_cn": "美属萨摩亚",
+    "name_en": "American Samoa",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "AND",
+    "name_cn": "安道尔",
+    "name_en": "Andorra",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "AGO",
+    "name_cn": "安哥拉",
+    "name_en": "Angola",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "AIA",
+    "name_cn": "安圭拉",
+    "name_en": "Anguilla",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ATG",
+    "name_cn": "安提瓜和巴布达",
+    "name_en": "Antigua and Barbuda",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ARG",
+    "name_cn": "阿根廷",
+    "name_en": "Argentina",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ARM",
+    "name_cn": "亚美尼亚",
+    "name_en": "Armenia",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ABW",
+    "name_cn": "阿鲁巴",
+    "name_en": "Aruba",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "AUS",
+    "name_cn": "澳大利亚",
+    "name_en": "Australia",
+    "continent": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": [
+      "澳洲"
+    ]
+  },
+  {
+    "iso": "AUT",
+    "name_cn": "奥地利",
+    "name_en": "Austria",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "AZE",
+    "name_cn": "阿塞拜疆",
+    "name_en": "Azerbaijan",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BHS",
+    "name_cn": "巴哈马",
+    "name_en": "Bahamas",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BHR",
+    "name_cn": "巴林",
+    "name_en": "Bahrain",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BGD",
+    "name_cn": "孟加拉国",
+    "name_en": "Bangladesh",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BRB",
+    "name_cn": "巴巴多斯",
+    "name_en": "Barbados",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BLR",
+    "name_cn": "白俄罗斯",
+    "name_en": "Belarus",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BEL",
+    "name_cn": "比利时",
+    "name_en": "Belgium",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BLZ",
+    "name_cn": "伯利兹",
+    "name_en": "Belize",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BEN",
+    "name_cn": "贝宁",
+    "name_en": "Benin",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BMU",
+    "name_cn": "百慕大",
+    "name_en": "Bermuda",
+    "continent": "Americas",
+    "subregion": "Northern America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BTN",
+    "name_cn": "不丹",
+    "name_en": "Bhutan",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BOL",
+    "name_cn": "玻利维亚",
+    "name_en": "Bolivia",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BIH",
+    "name_cn": "波黑",
+    "name_en": "Bosnia and Herzegovina",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "波斯尼亚和黑塞哥维那",
+      "波斯尼亚"
+    ]
+  },
+  {
+    "iso": "BWA",
+    "name_cn": "博茨瓦纳",
+    "name_en": "Botswana",
+    "continent": "Africa",
+    "subregion": "Southern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BRA",
+    "name_cn": "巴西",
+    "name_en": "Brazil",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "VGB",
+    "name_cn": "英属维尔京群岛",
+    "name_en": "British Virgin Islands",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BRN",
+    "name_cn": "文莱",
+    "name_en": "Brunei",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BGR",
+    "name_cn": "保加利亚",
+    "name_en": "Bulgaria",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BFA",
+    "name_cn": "布基纳法索",
+    "name_en": "Burkina Faso",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BDI",
+    "name_cn": "布隆迪",
+    "name_en": "Burundi",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CPV",
+    "name_cn": "佛得角",
+    "name_en": "Cabo Verde",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KHM",
+    "name_cn": "柬埔寨",
+    "name_en": "Cambodia",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CMR",
+    "name_cn": "喀麦隆",
+    "name_en": "Cameroon",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CAN",
+    "name_cn": "加拿大",
+    "name_en": "Canada",
+    "continent": "Americas",
+    "subregion": "Northern America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CYM",
+    "name_cn": "开曼群岛",
+    "name_en": "Cayman Islands",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CAF",
+    "name_cn": "中非共和国",
+    "name_en": "Central African Republic",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": [
+      "中非"
+    ]
+  },
+  {
+    "iso": "TCD",
+    "name_cn": "乍得",
+    "name_en": "Chad",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CHL",
+    "name_cn": "智利",
+    "name_en": "Chile",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CHN",
+    "name_cn": "中国",
+    "name_en": "China",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "COL",
+    "name_cn": "哥伦比亚",
+    "name_en": "Colombia",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "COM",
+    "name_cn": "科摩罗",
+    "name_en": "Comoros",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "COG",
+    "name_cn": "刚果（布）",
+    "name_en": "Congo",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "刚果共和国",
+      "刚果布"
+    ]
+  },
+  {
+    "iso": "COD",
+    "name_cn": "刚果（金）",
+    "name_en": "DR Congo",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": [
+      "刚果民主共和国",
+      "民主刚果",
+      "刚果金"
+    ]
+  },
+  {
+    "iso": "COK",
+    "name_cn": "库克群岛",
+    "name_en": "Cook Islands",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CRI",
+    "name_cn": "哥斯达黎加",
+    "name_en": "Costa Rica",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CIV",
+    "name_cn": "科特迪瓦",
+    "name_en": "Côte d'Ivoire",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "象牙海岸"
+    ]
+  },
+  {
+    "iso": "HRV",
+    "name_cn": "克罗地亚",
+    "name_en": "Croatia",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CUB",
+    "name_cn": "古巴",
+    "name_en": "Cuba",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CUW",
+    "name_cn": "库拉索",
+    "name_en": "Curaçao",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CYP",
+    "name_cn": "塞浦路斯",
+    "name_en": "Cyprus",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CZE",
+    "name_cn": "捷克",
+    "name_en": "Czechia",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "捷克共和国"
+    ]
+  },
+  {
+    "iso": "DNK",
+    "name_cn": "丹麦",
+    "name_en": "Denmark",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "DJI",
+    "name_cn": "吉布提",
+    "name_en": "Djibouti",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "DMA",
+    "name_cn": "多米尼克",
+    "name_en": "Dominica",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "DOM",
+    "name_cn": "多米尼加",
+    "name_en": "Dominican Republic",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ECU",
+    "name_cn": "厄瓜多尔",
+    "name_en": "Ecuador",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "EGY",
+    "name_cn": "埃及",
+    "name_en": "Egypt",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SLV",
+    "name_cn": "萨尔瓦多",
+    "name_en": "El Salvador",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GNQ",
+    "name_cn": "赤道几内亚",
+    "name_en": "Equatorial Guinea",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ERI",
+    "name_cn": "厄立特里亚",
+    "name_en": "Eritrea",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "EST",
+    "name_cn": "爱沙尼亚",
+    "name_en": "Estonia",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SWZ",
+    "name_cn": "斯威士兰",
+    "name_en": "Eswatini",
+    "continent": "Africa",
+    "subregion": "Southern Africa",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ETH",
+    "name_cn": "埃塞俄比亚",
+    "name_en": "Ethiopia",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "FLK",
+    "name_cn": "马尔维纳斯群岛（福克兰）",
+    "name_en": "Falkland Islands",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": [
+      "福克兰群岛"
+    ]
+  },
+  {
+    "iso": "FRO",
+    "name_cn": "法罗群岛",
+    "name_en": "Faroe Islands",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "FJI",
+    "name_cn": "斐济",
+    "name_en": "Fiji",
+    "continent": "Oceania",
+    "subregion": "Melanesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "FIN",
+    "name_cn": "芬兰",
+    "name_en": "Finland",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "FRA",
+    "name_cn": "法国",
+    "name_en": "France",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GUF",
+    "name_cn": "法属圭亚那",
+    "name_en": "French Guiana",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PYF",
+    "name_cn": "法属波利尼西亚",
+    "name_en": "French Polynesia",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GAB",
+    "name_cn": "加蓬",
+    "name_en": "Gabon",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GMB",
+    "name_cn": "冈比亚",
+    "name_en": "Gambia",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GEO",
+    "name_cn": "格鲁吉亚",
+    "name_en": "Georgia",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "DEU",
+    "name_cn": "德国",
+    "name_en": "Germany",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GHA",
+    "name_cn": "加纳",
+    "name_en": "Ghana",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GIB",
+    "name_cn": "直布罗陀",
+    "name_en": "Gibraltar",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GRC",
+    "name_cn": "希腊",
+    "name_en": "Greece",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GRL",
+    "name_cn": "格陵兰",
+    "name_en": "Greenland",
+    "continent": "Americas",
+    "subregion": "Northern America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GRD",
+    "name_cn": "格林纳达",
+    "name_en": "Grenada",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GLP",
+    "name_cn": "瓜德罗普",
+    "name_en": "Guadeloupe",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GUM",
+    "name_cn": "关岛",
+    "name_en": "Guam",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GTM",
+    "name_cn": "危地马拉",
+    "name_en": "Guatemala",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GIN",
+    "name_cn": "几内亚",
+    "name_en": "Guinea",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GNB",
+    "name_cn": "几内亚比绍",
+    "name_en": "Guinea-Bissau",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "GUY",
+    "name_cn": "圭亚那",
+    "name_en": "Guyana",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "HTI",
+    "name_cn": "海地",
+    "name_en": "Haiti",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "HND",
+    "name_cn": "洪都拉斯",
+    "name_en": "Honduras",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "HKG",
+    "name_cn": "中国香港",
+    "name_en": "Hong Kong",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "香港"
+    ]
+  },
+  {
+    "iso": "HUN",
+    "name_cn": "匈牙利",
+    "name_en": "Hungary",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ISL",
+    "name_cn": "冰岛",
+    "name_en": "Iceland",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "IND",
+    "name_cn": "印度",
+    "name_en": "India",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "IDN",
+    "name_cn": "印度尼西亚",
+    "name_en": "Indonesia",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "印尼"
+    ]
+  },
+  {
+    "iso": "IRN",
+    "name_cn": "伊朗",
+    "name_en": "Iran",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "伊朗伊斯兰共和国"
+    ]
+  },
+  {
+    "iso": "IRQ",
+    "name_cn": "伊拉克",
+    "name_en": "Iraq",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "IRL",
+    "name_cn": "爱尔兰",
+    "name_en": "Ireland",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "IMN",
+    "name_cn": "马恩岛",
+    "name_en": "Isle of Man",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ISR",
+    "name_cn": "以色列",
+    "name_en": "Israel",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ITA",
+    "name_cn": "意大利",
+    "name_en": "Italy",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "JAM",
+    "name_cn": "牙买加",
+    "name_en": "Jamaica",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "JPN",
+    "name_cn": "日本",
+    "name_en": "Japan",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "JOR",
+    "name_cn": "约旦",
+    "name_en": "Jordan",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KAZ",
+    "name_cn": "哈萨克斯坦",
+    "name_en": "Kazakhstan",
+    "continent": "Asia",
+    "subregion": "Central Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "哈萨克"
+    ]
+  },
+  {
+    "iso": "KEN",
+    "name_cn": "肯尼亚",
+    "name_en": "Kenya",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KIR",
+    "name_cn": "基里巴斯",
+    "name_en": "Kiribati",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PRK",
+    "name_cn": "朝鲜",
+    "name_en": "North Korea",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KOR",
+    "name_cn": "韩国",
+    "name_en": "South Korea",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KWT",
+    "name_cn": "科威特",
+    "name_en": "Kuwait",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KGZ",
+    "name_cn": "吉尔吉斯斯坦",
+    "name_en": "Kyrgyzstan",
+    "continent": "Asia",
+    "subregion": "Central Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "吉尔吉斯",
+      "柯尔克孜"
+    ]
+  },
+  {
+    "iso": "LAO",
+    "name_cn": "老挝",
+    "name_en": "Laos",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LVA",
+    "name_cn": "拉脱维亚",
+    "name_en": "Latvia",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LBN",
+    "name_cn": "黎巴嫩",
+    "name_en": "Lebanon",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LSO",
+    "name_cn": "莱索托",
+    "name_en": "Lesotho",
+    "continent": "Africa",
+    "subregion": "Southern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LBR",
+    "name_cn": "利比里亚",
+    "name_en": "Liberia",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LBY",
+    "name_cn": "利比亚",
+    "name_en": "Libya",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LIE",
+    "name_cn": "列支敦士登",
+    "name_en": "Liechtenstein",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LTU",
+    "name_cn": "立陶宛",
+    "name_en": "Lithuania",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LUX",
+    "name_cn": "卢森堡",
+    "name_en": "Luxembourg",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MAC",
+    "name_cn": "中国澳门",
+    "name_en": "Macao",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "澳门"
+    ]
+  },
+  {
+    "iso": "MDG",
+    "name_cn": "马达加斯加",
+    "name_en": "Madagascar",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MWI",
+    "name_cn": "马拉维",
+    "name_en": "Malawi",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MYS",
+    "name_cn": "马来西亚",
+    "name_en": "Malaysia",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "大马"
+    ]
+  },
+  {
+    "iso": "MDV",
+    "name_cn": "马尔代夫",
+    "name_en": "Maldives",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MLI",
+    "name_cn": "马里",
+    "name_en": "Mali",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MLT",
+    "name_cn": "马耳他",
+    "name_en": "Malta",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MHL",
+    "name_cn": "马绍尔群岛",
+    "name_en": "Marshall Islands",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MTQ",
+    "name_cn": "马提尼克",
+    "name_en": "Martinique",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MRT",
+    "name_cn": "毛里塔尼亚",
+    "name_en": "Mauritania",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MUS",
+    "name_cn": "毛里求斯",
+    "name_en": "Mauritius",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MYT",
+    "name_cn": "马约特",
+    "name_en": "Mayotte",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MEX",
+    "name_cn": "墨西哥",
+    "name_en": "Mexico",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "FSM",
+    "name_cn": "密克罗尼西亚",
+    "name_en": "Micronesia",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MDA",
+    "name_cn": "摩尔多瓦",
+    "name_en": "Moldova",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MCO",
+    "name_cn": "摩纳哥",
+    "name_en": "Monaco",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MNG",
+    "name_cn": "蒙古",
+    "name_en": "Mongolia",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "蒙古国"
+    ]
+  },
+  {
+    "iso": "MNE",
+    "name_cn": "黑山",
+    "name_en": "Montenegro",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MSR",
+    "name_cn": "蒙特塞拉特",
+    "name_en": "Montserrat",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MAR",
+    "name_cn": "摩洛哥",
+    "name_en": "Morocco",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MOZ",
+    "name_cn": "莫桑比克",
+    "name_en": "Mozambique",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MMR",
+    "name_cn": "缅甸",
+    "name_en": "Myanmar",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": [
+      "缅甸联邦"
+    ]
+  },
+  {
+    "iso": "NAM",
+    "name_cn": "纳米比亚",
+    "name_en": "Namibia",
+    "continent": "Africa",
+    "subregion": "Southern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NRU",
+    "name_cn": "瑙鲁",
+    "name_en": "Nauru",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NPL",
+    "name_cn": "尼泊尔",
+    "name_en": "Nepal",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NLD",
+    "name_cn": "荷兰",
+    "name_en": "Netherlands",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NCL",
+    "name_cn": "新喀里多尼亚",
+    "name_en": "New Caledonia",
+    "continent": "Oceania",
+    "subregion": "Melanesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NZL",
+    "name_cn": "新西兰",
+    "name_en": "New Zealand",
+    "continent": "Oceania",
+    "subregion": "Australia and New Zealand",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NIC",
+    "name_cn": "尼加拉瓜",
+    "name_en": "Nicaragua",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NER",
+    "name_cn": "尼日尔",
+    "name_en": "Niger",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NGA",
+    "name_cn": "尼日利亚",
+    "name_en": "Nigeria",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NIU",
+    "name_cn": "纽埃",
+    "name_en": "Niue",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MKD",
+    "name_cn": "北马其顿",
+    "name_en": "North Macedonia",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "马其顿"
+    ]
+  },
+  {
+    "iso": "MNP",
+    "name_cn": "北马里亚纳群岛",
+    "name_en": "Northern Mariana Islands",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "NOR",
+    "name_cn": "挪威",
+    "name_en": "Norway",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "OMN",
+    "name_cn": "阿曼",
+    "name_en": "Oman",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PAK",
+    "name_cn": "巴基斯坦",
+    "name_en": "Pakistan",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PLW",
+    "name_cn": "帕劳",
+    "name_en": "Palau",
+    "continent": "Oceania",
+    "subregion": "Micronesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PSE",
+    "name_cn": "巴勒斯坦",
+    "name_en": "Palestine",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PAN",
+    "name_cn": "巴拿马",
+    "name_en": "Panama",
+    "continent": "Americas",
+    "subregion": "Central America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PNG",
+    "name_cn": "巴布亚新几内亚",
+    "name_en": "Papua New Guinea",
+    "continent": "Oceania",
+    "subregion": "Melanesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "巴新"
+    ]
+  },
+  {
+    "iso": "PRY",
+    "name_cn": "巴拉圭",
+    "name_en": "Paraguay",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PER",
+    "name_cn": "秘鲁",
+    "name_en": "Peru",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PHL",
+    "name_cn": "菲律宾",
+    "name_en": "Philippines",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "POL",
+    "name_cn": "波兰",
+    "name_en": "Poland",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PRT",
+    "name_cn": "葡萄牙",
+    "name_en": "Portugal",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "PRI",
+    "name_cn": "波多黎各",
+    "name_en": "Puerto Rico",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "QAT",
+    "name_cn": "卡塔尔",
+    "name_en": "Qatar",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "REU",
+    "name_cn": "留尼汪",
+    "name_en": "Réunion",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ROU",
+    "name_cn": "罗马尼亚",
+    "name_en": "Romania",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "RUS",
+    "name_cn": "俄罗斯",
+    "name_en": "Russia",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "俄联邦"
+    ]
+  },
+  {
+    "iso": "RWA",
+    "name_cn": "卢旺达",
+    "name_en": "Rwanda",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "BLM",
+    "name_cn": "圣巴泰勒米",
+    "name_en": "Saint Barthélemy",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SHN",
+    "name_cn": "圣赫勒拿",
+    "name_en": "Saint Helena",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "KNA",
+    "name_cn": "圣基茨和尼维斯",
+    "name_en": "Saint Kitts and Nevis",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LCA",
+    "name_cn": "圣卢西亚",
+    "name_en": "Saint Lucia",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "MAF",
+    "name_cn": "法属圣马丁",
+    "name_en": "Saint Martin",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SPM",
+    "name_cn": "圣皮埃尔和密克隆",
+    "name_en": "Saint Pierre and Miquelon",
+    "continent": "Americas",
+    "subregion": "Northern America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "VCT",
+    "name_cn": "圣文森特和格林纳丁斯",
+    "name_en": "St. Vincent & Grenadines",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "WSM",
+    "name_cn": "萨摩亚",
+    "name_en": "Samoa",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SMR",
+    "name_cn": "圣马力诺",
+    "name_en": "San Marino",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "STP",
+    "name_cn": "圣多美和普林西比",
+    "name_en": "Sao Tome and Principe",
+    "continent": "Africa",
+    "subregion": "Middle Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "圣多美"
+    ]
+  },
+  {
+    "iso": "SAU",
+    "name_cn": "沙特阿拉伯",
+    "name_en": "Saudi Arabia",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "沙特",
+      "沙特阿拉伯王国"
+    ]
+  },
+  {
+    "iso": "SEN",
+    "name_cn": "塞内加尔",
+    "name_en": "Senegal",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SRB",
+    "name_cn": "塞尔维亚",
+    "name_en": "Serbia",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SYC",
+    "name_cn": "塞舌尔",
+    "name_en": "Seychelles",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SLE",
+    "name_cn": "塞拉利昂",
+    "name_en": "Sierra Leone",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SGP",
+    "name_cn": "新加坡",
+    "name_en": "Singapore",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SXM",
+    "name_cn": "荷属圣马丁",
+    "name_en": "Sint Maarten",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SVK",
+    "name_cn": "斯洛伐克",
+    "name_en": "Slovakia",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SVN",
+    "name_cn": "斯洛文尼亚",
+    "name_en": "Slovenia",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SLB",
+    "name_cn": "所罗门群岛",
+    "name_en": "Solomon Islands",
+    "continent": "Oceania",
+    "subregion": "Melanesia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SOM",
+    "name_cn": "索马里",
+    "name_en": "Somalia",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ZAF",
+    "name_cn": "南非",
+    "name_en": "South Africa",
+    "continent": "Africa",
+    "subregion": "Southern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SGS",
+    "name_cn": "南乔治亚和南桑威奇群岛",
+    "name_en": "South Georgia & South Sandwich",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SSD",
+    "name_cn": "南苏丹",
+    "name_en": "South Sudan",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ESP",
+    "name_cn": "西班牙",
+    "name_en": "Spain",
+    "continent": "Europe",
+    "subregion": "Southern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "LKA",
+    "name_cn": "斯里兰卡",
+    "name_en": "Sri Lanka",
+    "continent": "Asia",
+    "subregion": "Southern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SDN",
+    "name_cn": "苏丹",
+    "name_en": "Sudan",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SUR",
+    "name_cn": "苏里南",
+    "name_en": "Suriname",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SJM",
+    "name_cn": "斯瓦尔巴和扬马延",
+    "name_en": "Svalbard and Jan Mayen",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SWE",
+    "name_cn": "瑞典",
+    "name_en": "Sweden",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "CHE",
+    "name_cn": "瑞士",
+    "name_en": "Switzerland",
+    "continent": "Europe",
+    "subregion": "Western Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "SYR",
+    "name_cn": "叙利亚",
+    "name_en": "Syria",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TWN",
+    "name_cn": "中国台湾",
+    "name_en": "Taiwan",
+    "continent": "Asia",
+    "subregion": "Eastern Asia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": [
+      "台湾"
+    ]
+  },
+  {
+    "iso": "TJK",
+    "name_cn": "塔吉克斯坦",
+    "name_en": "Tajikistan",
+    "continent": "Asia",
+    "subregion": "Central Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "塔吉克"
+    ]
+  },
+  {
+    "iso": "TZA",
+    "name_cn": "坦桑尼亚",
+    "name_en": "Tanzania",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": [
+      "坦桑"
+    ]
+  },
+  {
+    "iso": "THA",
+    "name_cn": "泰国",
+    "name_en": "Thailand",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TLS",
+    "name_cn": "东帝汶",
+    "name_en": "Timor-Leste",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TGO",
+    "name_cn": "多哥",
+    "name_en": "Togo",
+    "continent": "Africa",
+    "subregion": "Western Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TKL",
+    "name_cn": "托克劳",
+    "name_en": "Tokelau",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TON",
+    "name_cn": "汤加",
+    "name_en": "Tonga",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TTO",
+    "name_cn": "特立尼达和多巴哥",
+    "name_en": "Trinidad and Tobago",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "特多",
+      "特立尼达"
+    ]
+  },
+  {
+    "iso": "TUN",
+    "name_cn": "突尼斯",
+    "name_en": "Tunisia",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TUR",
+    "name_cn": "土耳其",
+    "name_en": "Türkiye",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TKM",
+    "name_cn": "土库曼斯坦",
+    "name_en": "Turkmenistan",
+    "continent": "Asia",
+    "subregion": "Central Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "土库曼"
+    ]
+  },
+  {
+    "iso": "TCA",
+    "name_cn": "特克斯和凯科斯群岛",
+    "name_en": "Turks and Caicos Islands",
+    "continent": "Americas",
+    "subregion": "Caribbean",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "TUV",
+    "name_cn": "图瓦卢",
+    "name_en": "Tuvalu",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "No",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "UGA",
+    "name_cn": "乌干达",
+    "name_en": "Uganda",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "UKR",
+    "name_cn": "乌克兰",
+    "name_en": "Ukraine",
+    "continent": "Europe",
+    "subregion": "Eastern Europe",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ARE",
+    "name_cn": "阿联酋",
+    "name_en": "United Arab Emirates",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "阿拉伯联合酋长国"
+    ]
+  },
+  {
+    "iso": "GBR",
+    "name_cn": "英国",
+    "name_en": "United Kingdom",
+    "continent": "Europe",
+    "subregion": "Northern Europe",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": [
+      "大不列颠"
+    ]
+  },
+  {
+    "iso": "USA",
+    "name_cn": "美国",
+    "name_en": "United States",
+    "continent": "Americas",
+    "subregion": "Northern America",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": [
+      "美利坚",
+      "美利坚合众国"
+    ]
+  },
+  {
+    "iso": "URY",
+    "name_cn": "乌拉圭",
+    "name_en": "Uruguay",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "UZB",
+    "name_cn": "乌兹别克斯坦",
+    "name_en": "Uzbekistan",
+    "continent": "Asia",
+    "subregion": "Central Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "乌兹别克"
+    ]
+  },
+  {
+    "iso": "VUT",
+    "name_cn": "瓦努阿图",
+    "name_en": "Vanuatu",
+    "continent": "Oceania",
+    "subregion": "Melanesia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "VEN",
+    "name_cn": "委内瑞拉",
+    "name_en": "Venezuela",
+    "continent": "Americas",
+    "subregion": "South America",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "VNM",
+    "name_cn": "越南",
+    "name_en": "Vietnam",
+    "continent": "Asia",
+    "subregion": "South-eastern Asia",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": [
+      "越南社会主义共和国"
+    ]
+  },
+  {
+    "iso": "WLF",
+    "name_cn": "瓦利斯和富图纳",
+    "name_en": "Wallis and Futuna",
+    "continent": "Oceania",
+    "subregion": "Polynesia",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ESH",
+    "name_cn": "西撒哈拉",
+    "name_en": "Western Sahara",
+    "continent": "Africa",
+    "subregion": "Northern Africa",
+    "bri": "No",
+    "ldc": "No",
+    "aliases_cn": []
+  },
+  {
+    "iso": "YEM",
+    "name_cn": "也门",
+    "name_en": "Yemen",
+    "continent": "Asia",
+    "subregion": "Western Asia",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ZMB",
+    "name_cn": "赞比亚",
+    "name_en": "Zambia",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "Yes",
+    "aliases_cn": []
+  },
+  {
+    "iso": "ZWE",
+    "name_cn": "津巴布韦",
+    "name_en": "Zimbabwe",
+    "continent": "Africa",
+    "subregion": "Eastern Africa",
+    "bri": "Yes",
+    "ldc": "No",
+    "aliases_cn": []
+  }
+]

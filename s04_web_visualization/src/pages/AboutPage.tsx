@@ -1,6 +1,9 @@
 import { Info } from "lucide-react";
+import { useData } from "@/contexts/DataContext";
 
 export default function AboutPage() {
+  const { lastUpdated } = useData();
+
   return (
     <div className="flex-1 flex items-center justify-center bg-slate-50">
       <div className="card p-10 flex flex-col items-center gap-4 max-w-lg text-center">
@@ -12,6 +15,11 @@ export default function AboutPage() {
           sources and validated through cross-verification.
         </p>
         <p className="text-xs text-slate-400 mt-2">Developer information placeholder.</p>
+        {lastUpdated && (
+          <p className="text-xs text-slate-400 border-t border-slate-100 pt-3 w-full text-center">
+            Data Last Updated: {lastUpdated}
+          </p>
+        )}
       </div>
     </div>
   );

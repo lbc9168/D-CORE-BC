@@ -13,13 +13,14 @@ import sqlite3
 from pathlib import Path
 
 
-def export_json(dst_db: Path, output_dir: Path) -> None:
+def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> None:
     """
     从 dst_db 中读取四张表，导出为 JSON 文件。
 
     Args:
         dst_db:     s03 导出数据库（bri_re_export.db）
         output_dir: JSON 文件输出目录
+        src_db:     s02a 原始数据库路径，用于查询 last_updated（可选）
     """
     output_dir.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(dst_db)
@@ -45,7 +46,7 @@ def export_json(dst_db: Path, output_dir: Path) -> None:
 
     projects_path = output_dir / "projects_flat.json"
     with open(projects_path, "w", encoding="utf-8") as f:
-        json.dump(rows, f, ensure_ascii=False, separators=(",", ":"))
+        json.dump(rows, f, ensure_ascii=False, indent=2)
     print(f"  ✓ projects_flat.json : {len(rows)} 条  ({projects_path.stat().st_size // 1024} KB)")
 
     # ── 聚合统计表 ────────────────────────────────────────────────────────────
@@ -57,3 +58,18 @@ def export_json(dst_db: Path, output_dir: Path) -> None:
         print(f"  ✓ {table}.json : {len(stat_rows)} 条")
 
     conn.close()
+
+    # ── metadata.json（last_updated 来自 s02a project_events.publish_date）───
+    last_updated = ""
+    if src_db and src_db.exists():
+        src_conn = sqlite3.connect(src_db)
+        row = src_conn.execute("SELECT MAX(publish_date) FROM project_events").fetchone()
+        src_conn.close()
+        if row and row[0]:
+            last_updated = str(row[0])[:10]   # YYYY-MM-DD
+
+    meta = {"last_updated": last_updated, "project_count": len(rows)}
+    meta_path = output_dir / "metadata.json"
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta, f, ensure_ascii=False)
+    print(f"  ✓ metadata.json : last_updated={last_updated or '(unknown)'}")

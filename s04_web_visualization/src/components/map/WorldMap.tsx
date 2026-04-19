@@ -1,4 +1,4 @@
-import { useState, useMemo, type WheelEvent } from "react";
+import { useState, useMemo, useCallback, type WheelEvent } from "react";
 import {
   ComposableMap,
   Geographies,
@@ -29,12 +29,18 @@ interface WorldMapProps {
 export default function WorldMap({ countryValues, colorBy, onCountryClick }: WorldMapProps) {
   const { t } = useLang();
   const [mapZoom, setMapZoom] = useState(1);
+  const [hoveredIso3, setHoveredIso3] = useState<string>("");
   const [tooltip, setTooltip] = useState<TooltipState>({
     visible: false, x: 0, y: 0, content: "",
   });
 
   const colorValues = useMemo(() => Array.from(countryValues.values()), [countryValues]);
   const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
+
+  const handleMouseLeave = useCallback(() => {
+    setHoveredIso3("");
+    setTooltip((prev) => ({ ...prev, visible: false }));
+  }, []);
 
   const handleWheel = (event: WheelEvent<HTMLDivElement>) => {
     event.preventDefault();
@@ -57,59 +63,90 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
           disableZooming
         >
           <Geographies geography={GEO_URL}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const numericId = String(geo.id ?? geo.properties?.["id"] ?? "");
-                const iso3 = getIso3FromNumericId(numericId);
-                const value = countryValues.get(iso3);
-                // hasData: 只要该国在 countryValues 中有记录，即视为有数据（value 可能为 0）
-                const hasData = iso3 !== "" && countryValues.has(iso3);
-                const fill = valueToColor(value, bins);
-                const name =
-                  (geo.properties?.["name"] as string | undefined) ?? iso3;
-                if (iso3 === "ATA" || name.toLowerCase() === "antarctica") return null;
+            {({ geographies }) => {
+              const visibleGeos = geographies.filter((geo) => {
+                const rawName = (geo.properties?.["name"] as string | undefined) ?? "";
+                const iso3 = getIso3FromNumericId(String(geo.id ?? geo.properties?.["id"] ?? ""));
+                return iso3 !== "ATA" && rawName.toLowerCase() !== "antarctica";
+              });
 
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={fill}
-                    stroke="#fff"
-                    strokeWidth={0.4}
-                    style={{
-                      default: { outline: "none" },
-                      hover: {
-                        fill: hasData ? "#285957" : "#B8CECE",
-                        cursor: hasData ? "pointer" : "default",
-                        outline: "none",
-                      },
-                      pressed: { outline: "none" },
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!iso3) return;
-                      const label =
-                        value != null
-                          ? colorBy === "count"
-                            ? `${name}\n${value} ${t("map.projects")}`
-                            : `${name}\n${value.toFixed(0)} ${t("map.mw")}`
-                          : `${name}\n${t("map.noData")}`;
-                      setTooltip({
-                        visible: true,
-                        x: e.clientX,
-                        y: e.clientY,
-                        content: label,
-                      });
-                    }}
-                    onMouseLeave={() =>
-                      setTooltip((prev) => ({ ...prev, visible: false }))
+              return (
+                <>
+                  {/* 第一遍：正常渲染所有国家，stroke 统一白色 */}
+                  {visibleGeos.map((geo) => {
+                    const numericId = String(geo.id ?? geo.properties?.["id"] ?? "");
+                    const iso3 = getIso3FromNumericId(numericId);
+                    const value = countryValues.get(iso3);
+                    const hasData = iso3 !== "" && countryValues.has(iso3);
+                    const fill = valueToColor(value, bins);
+                    const rawName = (geo.properties?.["name"] as string | undefined) ?? iso3;
+                    const name = iso3 === "CHN" ? "China" : rawName;
+
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        fill={fill}
+                        stroke="#fff"
+                        strokeWidth={0.4}
+                        style={{
+                          default: { outline: "none" },
+                          hover: {
+                            fill: fill,
+                            cursor: hasData ? "pointer" : "default",
+                            outline: "none",
+                          },
+                          pressed: { outline: "none" },
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!iso3) return;
+                          setHoveredIso3(iso3);
+                          const label =
+                            value != null
+                              ? colorBy === "count"
+                                ? `${name}\n${value} ${t("map.projects")}`
+                                : `${name}\n${value.toFixed(0)} ${t("map.mw")}`
+                              : `${name}\n${t("map.noData")}`;
+                          setTooltip({ visible: true, x: e.clientX, y: e.clientY, content: label });
+                        }}
+                        onMouseLeave={handleMouseLeave}
+                        onClick={() => { if (hasData) onCountryClick(iso3, name); }}
+                      />
+                    );
+                  })}
+
+                  {/* 第二遍：hovered 国家覆盖渲染在最顶层，stroke 完整显示 */}
+                  {/* pointerEvents none：鼠标事件穿透到第一遍，避免 leave/enter 循环闪烁 */}
+                  <g style={{ pointerEvents: "none" }}>
+                    {hoveredIso3 !== "" && visibleGeos
+                      .filter((geo) => {
+                        const iso3 = getIso3FromNumericId(String(geo.id ?? geo.properties?.["id"] ?? ""));
+                        return iso3 === hoveredIso3;
+                      })
+                      .map((geo) => {
+                        const iso3 = getIso3FromNumericId(String(geo.id ?? geo.properties?.["id"] ?? ""));
+                        const value = countryValues.get(iso3);
+                        const fill = valueToColor(value, bins);
+                        return (
+                          <Geography
+                            key={`hover-${geo.rsmKey}`}
+                            geography={geo}
+                            fill={fill}
+                            stroke="#1e293b"
+                            strokeWidth={1.2}
+                            style={{
+                              default: { outline: "none" },
+                              hover: { fill: fill, outline: "none" },
+                              pressed: { outline: "none" },
+                            }}
+                          />
+                        );
+                      })
                     }
-                    onClick={() => {
-                      if (hasData) onCountryClick(iso3, name);
-                    }}
-                  />
-                );
-              })
-            }
+                  </g>
+                </>
+              );
+            }}
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>

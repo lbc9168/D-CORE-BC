@@ -115,12 +115,12 @@ def run() -> None:
 
     # ── Step 5: 导出静态 JSON（供 s04 前端使用）──────────────────────────────
     print("\n[5/5] 导出静态 JSON 文件（供前端可视化）...")
-    export_json(DST_DB, DST_DIR)
+    export_json(DST_DB, DST_DIR, src_db=SRC_DB)
 
     # 同时写入 s04 public/data/（自动同步，无需手动复制）
     if S04_DATA_DIR.parent.exists():
         S04_DATA_DIR.mkdir(parents=True, exist_ok=True)
-        export_json(DST_DB, S04_DATA_DIR)
+        export_json(DST_DB, S04_DATA_DIR, src_db=SRC_DB)
         print(f"  ✓ 已同步到 s04: {S04_DATA_DIR}")
     else:
         print("  ℹ s04_web_visualization 目录不存在，跳过同步")

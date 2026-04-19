@@ -13,6 +13,7 @@ import type {
   StatTimeline,
   FilterState,
 } from "@/types";
+import { ISO3_TO_REGION } from "@/utils/continentMapping";
 import { getDevStatus } from "@/utils/devStatus";
 import { hasCapacity } from "@/utils/capacityPolicy";
 
@@ -53,11 +54,17 @@ function applyBaselinePolicy(projects: Project[]): Project[] {
   return projects.filter((p) => !shouldExcludeByPolicy(p));
 }
 
+interface Metadata {
+  last_updated: string;
+  project_count: number;
+}
+
 interface RawData {
   projects: Project[];
   statsCountry: StatCountry[];
   statsEntity: StatEntity[];
   statsTimeline: StatTimeline[];
+  lastUpdated: string;
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -80,6 +87,11 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
     if (f.ldcFilter.length > 0 && !f.ldcFilter.includes(p.dev_status ?? "Developing")) return false;
     if (f.soeFilter === "soe" && p.has_soe !== 1) return false;
     if (f.soeFilter === "non_soe" && p.has_soe === 1) return false;
+    if (f.regionFilter) {
+      const region = ISO3_TO_REGION[p.country_iso ?? ""];
+      if (!region || region.continent !== f.regionFilter.continent) return false;
+      if (f.regionFilter.subregion && region.subregion !== f.regionFilter.subregion) return false;
+    }
     return true;
   });
 }
@@ -105,6 +117,9 @@ interface DataContextValue {
   availableYears: number[];
   availableEntities: string[];
 
+  // 数据更新日期
+  lastUpdated: string;
+
   // 加载状态
   loading: boolean;
   error: string | null;
@@ -120,6 +135,7 @@ const DEFAULT_FILTER: FilterState = {
   briFilter: [],
   ldcFilter: [],
   soeFilter: "all",
+  regionFilter: null,
 };
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -139,14 +155,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       fetchJson<StatCountry[]>(`${base}data/stats_country.json`),
       fetchJson<StatEntity[]>(`${base}data/stats_entity.json`),
       fetchJson<StatTimeline[]>(`${base}data/stats_timeline.json`),
+      fetchJson<Metadata>(`${base}data/metadata.json`).catch(() => ({ last_updated: "", project_count: 0 })),
     ])
-      .then(([projects, statsCountry, statsEntity, statsTimeline]) => {
+      .then(([projects, statsCountry, statsEntity, statsTimeline, meta]) => {
         // 计算每个项目的发展状态（LDC / Developing / Developed）
         const enriched = projects.map((p) => ({
           ...p,
           dev_status: getDevStatus(p.ldc, p.country_iso),
         }));
-        setRaw({ projects: enriched, statsCountry, statsEntity, statsTimeline });
+        setRaw({ projects: enriched, statsCountry, statsEntity, statsTimeline, lastUpdated: meta.last_updated ?? "" });
         setLoading(false);
       })
       .catch((e: unknown) => {
@@ -192,6 +209,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     filteredProjects,
     availableYears,
     availableEntities,
+    lastUpdated: raw?.lastUpdated ?? "",
     loading,
     error,
   };
