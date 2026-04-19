@@ -13,6 +13,10 @@ VALID_CATEGORY_ENUMS = {
     "新能源制造业", "输变电建设", "火电", "光伏", "风电", "水电",
     "核电", "地热及余热", "生物质", "储能", "综合能源", "Unknown",
 }
+VALID_INVOLVEMENT_ENUMS = {
+    "BOT/BOOT", "EPC总承包", "设计/施工服务方", "股权投资方",
+    "设备供应商", "投融资+EPC", "融资方", "Unknown",
+}
 
 
 def _get_validation_client():
@@ -58,24 +62,28 @@ project_summary: {rec.get("project_summary", "（无摘要）")}
 提取字段:
   category: {rec.get("category", "")}
   project_stage: {rec.get("project_stage", "")}
+  involvement_type: {rec.get("involvement_type", "")}
 """
 
     stage_enums = "、".join(sorted(VALID_STAGE_ENUMS))
     category_enums = "、".join(sorted(VALID_CATEGORY_ENUMS))
+    involvement_enums = "、".join(sorted(VALID_INVOLVEMENT_ENUMS))
     return f"""你是一个数据质量审核员。以下是从新闻中提取的可再生能源项目信息。
-每条记录都包含一段 project_summary 和两个待检字段：project_stage、category。
+每条记录都包含一段 project_summary 和三个待检字段：project_stage、category、involvement_type。
 
-任务目标（只做这两项）：
+任务目标（只做这三项）：
 1) 判断 project_stage 与摘要语义是否一致。
 2) 判断 category 与摘要语义是否一致。
+3) 判断 involvement_type 与摘要中描述的中方角色是否一致。
 
 重要约束：
-- 仅检查字段 project_stage、category。
+- 仅检查字段 project_stage、category、involvement_type。
 - 严禁输出 implementing_entity、subsidiary_name 等其他字段建议。
 - 若信息不足或无法确定，跳过该记录，不要输出建议。
 - 输出的 suggested_value 必须是允许枚举值：
   - project_stage: {stage_enums}
   - category: {category_enums}
+  - involvement_type: {involvement_enums}
 - confidence 范围必须是 0~1 的小数。
 
 请输出 JSON 对象（不是数组），格式如下：
@@ -162,6 +170,9 @@ def _validate_and_normalize_corrections(corrections: list[dict]) -> list[dict]:
                 continue
         elif field == "category":
             if suggested not in VALID_CATEGORY_ENUMS:
+                continue
+        elif field == "involvement_type":
+            if suggested not in VALID_INVOLVEMENT_ENUMS:
                 continue
         else:
             continue

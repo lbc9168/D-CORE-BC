@@ -105,7 +105,7 @@ def _apply_semantic_fixes(db_path: str, fixes: list[dict]) -> int:
     if not fixes or not os.path.exists(db_path):
         return 0
 
-    allowed = {"project_stage", "category"}
+    allowed = {"project_stage", "category", "involvement_type"}
     conn = sqlite3.connect(db_path)
     try:
         updated = 0

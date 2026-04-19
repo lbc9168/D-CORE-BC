@@ -324,6 +324,30 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         onChange={(v) => setFilter((f) => ({ ...f, regionFilter: v }))}
       />
 
+{/* 一带一路筛选 */}
+<MultiSelect
+        label={t("filter.bri")}
+        options={["Yes", "No"]}
+        selected={filter.briFilter}
+        onChange={(v) => setFilter((f) => ({ ...f, briFilter: v }))}
+        renderLabel={(v) => (v === "Yes" ? t("filter.briYes") : t("filter.briNo"))}
+        allLabel={t("filter.allBri")}
+      />
+
+      {/* 国家发展状态筛选（三分类） */}
+      <MultiSelect
+        label={t("filter.ldc")}
+        options={["LDC", "Developing", "Developed"]}
+        selected={filter.ldcFilter}
+        onChange={(v) => setFilter((f) => ({ ...f, ldcFilter: v }))}
+        renderLabel={(v) => {
+          if (v === "LDC")        return t("filter.ldcLDC");
+          if (v === "Developing") return t("filter.ldcDeveloping");
+          return t("filter.ldcDeveloped");
+        }}
+        allLabel={t("filter.allLdc")}
+      />
+
       <div className="w-px h-4 bg-slate-200 mx-1" />
       
       {/* 能源类型 */}
@@ -346,29 +370,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         allLabel={t("filter.allStages")}
       />
 
-      {/* 一带一路筛选 */}
-      <MultiSelect
-        label={t("filter.bri")}
-        options={["Yes", "No"]}
-        selected={filter.briFilter}
-        onChange={(v) => setFilter((f) => ({ ...f, briFilter: v }))}
-        renderLabel={(v) => (v === "Yes" ? t("filter.briYes") : t("filter.briNo"))}
-        allLabel={t("filter.allBri")}
-      />
-
-      {/* 国家发展状态筛选（三分类） */}
-      <MultiSelect
-        label={t("filter.ldc")}
-        options={["LDC", "Developing", "Developed"]}
-        selected={filter.ldcFilter}
-        onChange={(v) => setFilter((f) => ({ ...f, ldcFilter: v }))}
-        renderLabel={(v) => {
-          if (v === "LDC")        return t("filter.ldcLDC");
-          if (v === "Developing") return t("filter.ldcDeveloping");
-          return t("filter.ldcDeveloped");
-        }}
-        allLabel={t("filter.allLdc")}
-      />
+      
 
       {/* 央企筛选 */}
       <div className="flex items-center gap-1.5">

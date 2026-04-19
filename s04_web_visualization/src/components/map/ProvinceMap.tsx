@@ -217,7 +217,7 @@ export default function ProvinceMap({
                 {/* 第一遍：正常渲染所有省份，stroke 统一白色 */}
                 {geographies.map((feature) => {
                   const rawName =
-                    String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
+                    String(feature.properties?.["name_en"] ?? feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
                   const normName = normalizeName(rawName);
                   const value = provinceValues.get(normName);
                   const fill = valueToColor(value, bins);
@@ -258,12 +258,12 @@ export default function ProvinceMap({
                   {hoveredProvince !== "" && geographies
                     .filter((feature) => {
                       const rawName =
-                        String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
+                        String(feature.properties?.["name_en"] ?? feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
                       return normalizeName(rawName) === hoveredProvince;
                     })
                     .map((feature) => {
                       const rawName =
-                        String(feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
+                        String(feature.properties?.["name_en"] ?? feature.properties?.["name"] ?? feature.properties?.["NAME"] ?? "");
                       const normName = normalizeName(rawName);
                       const value = provinceValues.get(normName);
                       const fill = valueToColor(value, bins);

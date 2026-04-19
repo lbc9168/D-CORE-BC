@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { Search, Download } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
@@ -7,6 +7,10 @@ import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import FilterBar from "@/components/filters/FilterBar";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import { formatCountryName } from "@/utils/display";
+import { projectsToCSV, downloadCSV } from "@/utils/csvExport";
+import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
+
+const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT as string | undefined;
 
 const PAGE_SIZE = 50;
 
@@ -20,6 +24,7 @@ export default function TablePage() {
   const [sortKey, setSortKey] = useState<keyof Project>("event_year");
   const [sortAsc, setSortAsc] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [showSurvey, setShowSurvey] = useState(false);
 
   // 搜索
   const searched = useMemo(() => {
@@ -55,6 +60,29 @@ export default function TablePage() {
     if (key === sortKey) setSortAsc((v) => !v);
     else { setSortKey(key); setSortAsc(false); }
     setPage(0);
+  };
+
+  const triggerDownload = (data?: SurveyData) => {
+    const filename = `dcore_${new Date().toISOString().slice(0, 10)}_${sorted.length}records.csv`;
+    downloadCSV(projectsToCSV(sorted), filename);
+    if (data) saveSurveyRecord(data.email);
+  };
+
+  const handleDownloadClick = () => {
+    setShowSurvey(true);
+  };
+
+  const handleSurveyConfirm = async (data: SurveyData) => {
+    // POST 到 Google Apps Script（fire-and-forget，CORS 用 no-cors 模式）
+    if (SURVEY_ENDPOINT) {
+      const payload = new FormData();
+      Object.entries(data).forEach(([k, v]) => payload.append(k, v));
+      payload.append("record_count", String(sorted.length));
+      payload.append("submitted_at", new Date().toISOString());
+      fetch(SURVEY_ENDPOINT, { method: "POST", body: payload, mode: "no-cors" }).catch(() => {});
+    }
+    triggerDownload(data);
+    setShowSurvey(false);
   };
 
   const SortBtn = ({ k, label }: { k: keyof Project; label: string }) => (
@@ -108,6 +136,14 @@ export default function TablePage() {
           <span className="text-xs text-slate-400 ml-auto">
             {t("table.total", { count: sorted.length })}
           </span>
+          <button
+            onClick={handleDownloadClick}
+            className="flex items-center gap-1.5 btn-outline text-xs py-1.5 px-3 text-brand-700
+                       border-brand-200 hover:bg-brand-50 transition-colors flex-shrink-0"
+          >
+            <Download size={13} />
+            {t("table.export")}
+          </button>
         </div>
 
         {/* 表格 */}
@@ -267,6 +303,15 @@ export default function TablePage() {
             onClose={() => setSelectedProject(null)}
           />
         </div>
+      )}
+
+      {/* 下载问卷弹窗 */}
+      {showSurvey && (
+        <DownloadSurveyModal
+          rowCount={sorted.length}
+          onConfirm={handleSurveyConfirm}
+          onClose={() => setShowSurvey(false)}
+        />
       )}
     </div>
   );

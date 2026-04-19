@@ -40,9 +40,13 @@ export default function MapPage() {
       return countryProjects.filter((p) => !p.province);
     }
     if (selectedProvince) {
-      const norm = selectedProvince.toLowerCase();
+      const normProv = (s: string) =>
+        s.toLowerCase()
+          .replace(/\s+(province|state|region|prefecture|governorate|oblast|district)$/i, "")
+          .trim();
+      const norm = normProv(selectedProvince);
       return countryProjects.filter(
-        (p) => p.province && p.province.toLowerCase().includes(norm.split(" ")[0]),
+        (p) => p.province && normProv(p.province) === norm,
       );
     }
     return countryProjects;

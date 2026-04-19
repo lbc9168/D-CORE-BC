@@ -41,7 +41,8 @@
       "Bash(xargs grep:*)",
       "Bash(ls -la \"e:\\\\\\\\Projects\\\\\\\\BRI_RE_Database_v2\\\\\\\\external-tools\\\\\\\\external-link-adder\\\\\\\\\")",
       "Bash(python3 -c \"import pandas; print\\(pandas.__version__\\)\")",
-      "Bash(.venv/Scripts/python.exe)"
+      "Bash(.venv/Scripts/python.exe)",
+      "Bash(python3 -c ' *)"
     ]
   }
 }

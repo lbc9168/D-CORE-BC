@@ -4,6 +4,17 @@ import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { formatCountryName } from "@/utils/display";
 
+const ROLE_ZH_TO_EN: Record<string, string> = {
+  "BOT/BOOT": "BOT/BOOT",
+  "EPC总承包": "EPC General Contractor",
+  "设计/施工服务方": "Design/Construction Service",
+  "股权投资方": "Equity Investor",
+  "设备供应商": "Equipment Supplier",
+  "投融资+EPC": "Investment + EPC",
+  "融资方": "Financier",
+  "Unknown": "Unknown",
+};
+
 interface ProjectDetailProps {
   project: Project;
   onClose: () => void;
@@ -136,7 +147,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
                   )}
                   {ent.involvement_type && (
                     <div className="text-slate-400 mt-0.5">
-                      {ent.involvement_type_en || ent.involvement_type}
+                      {ent.involvement_type_en || ROLE_ZH_TO_EN[ent.involvement_type] || ent.involvement_type}
                     </div>
                   )}
                 </div>
