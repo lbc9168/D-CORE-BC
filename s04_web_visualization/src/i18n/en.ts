@@ -115,6 +115,25 @@ const en: Translations = {
     empty: "No data matches current filters",
     total: "{{count}} records total",
   },
+  reports: {
+    title: "Research Reports",
+    open: "Open PDF",
+    empty: "No reports available yet. Stay tuned.",
+  },
+  about: {
+    description:
+      "This database tracks Chinese-involved renewable energy projects overseas, compiled from public sources and validated through cross-verification.",
+    devTeam: "Development Team",
+    thanks: "Special Thanks",
+    interns: "Interns",
+    internsNote:
+      "We sincerely appreciate the contributions of the following interns who participated in the development and research of this project (sorted by last name):",
+    license: "Copyright & License",
+    licenseText:
+      "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).",
+    cite: "How to Cite",
+    lastUpdated: "Data Last Updated",
+  },
   common: {
     loading: "Loading...",
     error: "Failed to load. Please refresh the page.",

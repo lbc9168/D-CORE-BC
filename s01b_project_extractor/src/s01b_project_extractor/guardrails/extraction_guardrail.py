@@ -28,6 +28,13 @@ _S01B_ROOT = Path(__file__).resolve().parents[3]
 _DEFAULT_PROJECTS_DB = str(_S01B_ROOT / "data" / "projects.db")
 
 
+def _is_empty_like(value: Any) -> bool:
+    """与格式校验保持一致的空值判断。"""
+    if value is None:
+        return True
+    return str(value).strip() in ("", "nan", "NA", "None", "null")
+
+
 def _parse_batch_id_from_output(raw: str) -> str:
     """从 TaskOutput 文本中解析 batch_id。"""
     # 尝试匹配 "batch_id=xxx"
@@ -171,6 +178,24 @@ def validate_extraction(output: TaskOutput) -> tuple[bool, Any]:
         return True, raw
 
     print(f"  本批次记录数: {len(records)}")
+    empty_impl_ids = [
+        int(r["id"]) for r in records
+        if isinstance(r.get("id"), int) and _is_empty_like(r.get("implementing_entity"))
+    ]
+    unknown_impl_count = sum(
+        1 for r in records
+        if str(r.get("implementing_entity", "")).strip() == "Unknown"
+    )
+    if empty_impl_ids:
+        sample_ids = ", ".join(str(i) for i in empty_impl_ids[:5])
+        print(
+            "  [Guardrail] implementing_entity 空值预警: "
+            f"{len(empty_impl_ids)} 条（示例ID: {sample_ids}）"
+        )
+    print(
+        "  [Guardrail] implementing_entity=Unknown: "
+        f"{unknown_impl_count}/{len(records)} 条"
+    )
 
     all_errors: list[str] = []
     failed_record_ids: list[int] = []

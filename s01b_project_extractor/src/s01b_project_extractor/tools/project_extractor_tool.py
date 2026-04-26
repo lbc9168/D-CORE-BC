@@ -38,6 +38,16 @@ _name_cache_lock = threading.Lock()   # 写缓存时的线程锁
 _last_batch_id: str = ""              # side-channel: 供 guardrail 读取最近批次 ID
 
 
+def _normalize_implementing_entity(value: str) -> str:
+    """
+    规范化母公司字段。
+    - 空值统一为 Unknown，避免被 guardrail 必填规则拦截
+    - 非空值去除首尾空白
+    """
+    s = str(value or "").strip()
+    return s if s else "Unknown"
+
+
 def get_last_batch_id() -> str:
     """返回最近一次成功写入 DB 的 batch_id（供 guardrail side-channel 使用）。"""
     return _last_batch_id
@@ -436,6 +446,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
       * "Subsidiary Name" = 在对照表中找到对应的子公司条目时，填入对照表中的规范名称（"  · " 或 "      - " 条目中的名称）；若文中名称无法在对照表中匹配，则填入文中原始名称
     - 若文中直接出现顶级集团名称，则 Subsidiary Name 留空。
     - 若某企业不在对照表中，根据上下文判断；无法判断则直接填入 Implementing Entity，Subsidiary Name 留空。
+    - "Implementing Chinese Entity" 不能为空；如确实无法判断，必须填写 "Unknown"。
 
     ### 输出格式 (JSON)
     请严格返回符合以下 Schema 的 JSON：
@@ -503,7 +514,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     - **Project Stage**: 只能选 [拟开发，收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
         - Project Stage判断标准补充："完工"被视为"竣工"；"并网发电"被视为"投入运营"；"收购, 中标, 签约, 开工, 在建"你自行判断，以新闻原文为准。
         - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为"拟开发"。
-    - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。
+    - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。特别地，"Implementing Chinese Entity" 为空时必须填 "Unknown"。
     - **Official/Non-official Website link** 和 **Additional Remarks**: 不填写任何信息。
     """
 
@@ -816,8 +827,8 @@ class ProjectExtractorTool(BaseTool):
                     if not entities:
                         row_data = base.copy()
                         row_data.update({
-                            "Implementing Chinese Entity": "",
-                            "Implementing Chinese Entity (EN)": "",
+                            "Implementing Chinese Entity": "Unknown",
+                            "Implementing Chinese Entity (EN)": "Unknown",
                             "Is Central SOE": None,
                             "Subsidiary Name": "",
                             "Subsidiary Name (EN)": "",
@@ -827,12 +838,19 @@ class ProjectExtractorTool(BaseTool):
                         local_valid.append(row_data)
                     else:
                         for entity in entities:
-                            entity_cn = entity.get("Implementing Chinese Entity", "")
+                            entity_cn = _normalize_implementing_entity(
+                                entity.get("Implementing Chinese Entity", "")
+                            )
                             sub_cn    = entity.get("Subsidiary Name", "")
-                            # Python 后处理：is_central_soe 查表
-                            soe_int = _resolve_is_central_soe(entity_cn)
-                            # Python 后处理：英文名查缓存/翻译
-                            entity_en = _resolve_entity_en(entity_cn, client)
+                            # Unknown 视为未知，不做央企判定/翻译调用
+                            if entity_cn == "Unknown":
+                                soe_int = None
+                                entity_en = "Unknown"
+                            else:
+                                # Python 后处理：is_central_soe 查表
+                                soe_int = _resolve_is_central_soe(entity_cn)
+                                # Python 后处理：英文名查缓存/翻译
+                                entity_en = _resolve_entity_en(entity_cn, client)
                             sub_en    = _resolve_entity_en(sub_cn, client) if sub_cn else ""
                             row_data = base.copy()
                             row_data.update({
@@ -898,6 +916,13 @@ class ProjectExtractorTool(BaseTool):
 
             # 写入 projects.db（有中国主体的有效项目）
             for row_data in valid_rows:
+                # 入库前兜底标准化，防止任何路径写入空 implementing_entity
+                impl_entity = _normalize_implementing_entity(
+                    row_data.get("Implementing Chinese Entity", "")
+                )
+                impl_entity_en = str(
+                    row_data.get("Implementing Chinese Entity (EN)", "")
+                ).strip() or ("Unknown" if impl_entity == "Unknown" else "")
                 proj_conn.execute(
                     """INSERT INTO extracted_projects
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
@@ -927,8 +952,8 @@ class ProjectExtractorTool(BaseTool):
                         row_data.get("Project Stage", ""),
                         row_data.get("Project Developer", ""),
                         row_data.get("Multiple Chinese Enterprises Involved", ""),
-                        row_data.get("Implementing Chinese Entity", ""),
-                        row_data.get("Implementing Chinese Entity (EN)", ""),
+                        impl_entity,
+                        impl_entity_en,
                         row_data.get("Is Central SOE"),
                         row_data.get("Subsidiary Name", ""),
                         row_data.get("Subsidiary Name (EN)", ""),

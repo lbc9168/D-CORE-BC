@@ -120,6 +120,27 @@ const zh = {
     empty: "没有符合条件的数据",
     total: "共 {{count}} 条",
   },
+  // 报告页
+  reports: {
+    title: "研究报告",
+    open: "打开 PDF",
+    empty: "暂无报告，敬请期待",
+  },
+  // 关于页
+  about: {
+    description:
+      "本数据库收录中国企业参与的海外可再生能源项目，数据来源于公开信息并经交叉验证。",
+    devTeam: "开发团队",
+    thanks: "特别感谢",
+    interns: "实习生",
+    internsNote:
+      "感谢以下实习生对本项目开发与研究的贡献（按姓氏排序）：",
+    license: "版权与许可",
+    licenseText:
+      "本作品采用知识共享 署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）进行许可。",
+    cite: "引用格式",
+    lastUpdated: "数据最后更新",
+  },
   // 通用
   common: {
     loading: "加载中...",
