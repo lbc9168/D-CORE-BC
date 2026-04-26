@@ -42,7 +42,15 @@
       "Bash(ls -la \"e:\\\\\\\\Projects\\\\\\\\BRI_RE_Database_v2\\\\\\\\external-tools\\\\\\\\external-link-adder\\\\\\\\\")",
       "Bash(python3 -c \"import pandas; print\\(pandas.__version__\\)\")",
       "Bash(.venv/Scripts/python.exe)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(netstat -ano)",
+      "Bash(findstr \":5173\")",
+      "Bash(findstr LISTENING)",
+      "Bash(taskkill /PID 51172 /F)",
+      "PowerShell(Stop-Process -Id 51172 -Force)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }
