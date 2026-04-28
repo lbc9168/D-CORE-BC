@@ -7,7 +7,7 @@ const DEV_TEAM = [
   { name: "Zhengyun Zhou",  url: "https://www.linkedin.com/in/zhengyun-zhou-0b32881b4/" },
   { name: "Wei Shen",       url: "https://www.linkedin.com/in/wei-shen-b49387162/" },
 ];
-const SPECIAL_THANKS = ["Han Chen", "Xuan Xie"];
+const SPECIAL_THANKS = ["Han Chen", "Zhao Li", "Xuan Xie"];
 const INTERNS = [
   "Xi Chen", "Yiran Chen", "Ying Deng", "Zihan He", "Mengjia Hu", "Lizi Huang",
   "Jiayan Li", "Jiatong Li", "Yingyue Li", "Chenrui Lin", "Yicheng Liu", "Yueting Liu",
@@ -81,6 +81,22 @@ export default function AboutPage() {
           <p className="text-xs text-slate-500">{T.about.internsNote}</p>
           <p className="text-sm text-slate-500 italic leading-loose">
             {INTERNS.join(", ")}
+          </p>
+        </section>
+
+        {/* 联系我们 */}
+        <section className="card p-6 space-y-3">
+          <h3 className="text-base font-semibold text-slate-700 border-b border-slate-100 pb-2">
+            {T.about.contact}
+          </h3>
+          <p className="text-sm text-slate-500 leading-relaxed">
+            {T.about.contactText}{" "}
+            <a
+              href="mailto:bingcai.liu@outlook.com"
+              className="text-brand-600 hover:underline"
+            >
+              bingcai.liu@outlook.com
+            </a>
           </p>
         </section>
 

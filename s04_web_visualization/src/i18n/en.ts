@@ -128,6 +128,8 @@ const en: Translations = {
     interns: "Interns",
     internsNote:
       "We sincerely appreciate the contributions of the following interns who participated in the development and research of this project (sorted by last name):",
+    contact: "Contact",
+    contactText: "We welcome your feedback and suggestions! If you have any comments or would like to learn more about the database, please reach out at:",
     license: "Copyright & License",
     licenseText:
       "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).",
