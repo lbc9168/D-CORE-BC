@@ -50,7 +50,11 @@
       "PowerShell(Stop-Process -Id 51172 -Force)",
       "Bash(git add *)",
       "Bash(git commit -m ' *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "Bash(sqlite3 E:/Projects/BRI_RE_Database_v2/s02a_duplicate_merger/data/db/bri_re_database.db ' *)",
+      "Bash(python3 -)",
+      "Bash(pip install *)",
+      "Bash(python3 docs/charts/gen_charts.py)"
     ]
   }
 }

@@ -1,0 +1,42 @@
+====================================================================================================
+GCC SIX COUNTRIES - RENEWABLE ENERGY PROJECTS DATABASE QUERY RESULTS
+====================================================================================================
+
+7. TOTAL RECORDS IN DATABASE: 10815
+
+====================================================================================================
+4. GCC COUNTRIES - PROJECT COUNT STATISTICS
+====================================================================================================
+Saudi Arabia (沙特阿拉伯)                               -   542 projects
+Kuwait (科威特)                                       -    25 projects
+United Arab Emirates (阿联酋)                         -   257 projects
+Qatar (卡塔尔)                                        -    22 projects
+Bahrain (巴林)                                       -    31 projects
+Oman (阿曼)                                          -   199 projects
+
+TOTAL GCC PROJECTS                                 -  1076 projects
+
+====================================================================================================
+5. ENERGY TYPE DISTRIBUTION (ALL GCC COUNTRIES)
+====================================================================================================
+光伏                                                 -   478 projects
+综合能源                                               -   241 projects
+火电                                                 -   112 projects
+风电                                                 -    77 projects
+新能源制造业                                             -    63 projects
+输变电建设                                              -    50 projects
+储能                                                 -    35 projects
+Unknown                                            -    12 projects
+地热及余热                                              -     8 projects
+
+====================================================================================================
+6. INVOLVEMENT TYPE/ROLE DISTRIBUTION (ALL GCC COUNTRIES)
+====================================================================================================
+EPC总承包                                             -   468 projects
+设备供应商                                              -   215 projects
+Unknown                                            -   161 projects
+股权投资方                                              -   116 projects
+设计/施工服务方                                           -    59 projects
+融资方                                                -    38 projects
+投融资+EPC                                            -    12 projects
+BOT/BOOT                                           -     7 projects
