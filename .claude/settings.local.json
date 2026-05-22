@@ -54,7 +54,9 @@
       "Bash(sqlite3 E:/Projects/BRI_RE_Database_v2/s02a_duplicate_merger/data/db/bri_re_database.db ' *)",
       "Bash(python3 -)",
       "Bash(pip install *)",
-      "Bash(python3 docs/charts/gen_charts.py)"
+      "Bash(python3 docs/charts/gen_charts.py)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Research Projects\\\\2026-01 BRI RE database\\\\BRI_RE_Database_v2\\\\s04_web_visualization\" -Recurse -Directory -Depth 2)",
+      "Bash(Select-Object -First 50)"
     ]
   }
 }

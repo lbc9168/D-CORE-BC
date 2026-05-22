@@ -1,0 +1,155 @@
+# 项目代码检查记录（check-record）
+
+> 检查日期：2026-05-22
+> 检查范围：整个项目（s01a / s01b / s02a / s02b / s02c / s03 / s04 / pipeline / external-tools / scripts），重点为数据处理主链路。
+> 检查目标：① 摸清项目基本信息与运作方式；② 找出"可能影响运行或数据正确性的不科学/有风险的程序写法"。
+> 说明：本文件只做记录与分析，不改动任何代码。修改建议另见 [change-suggestion.md](change-suggestion.md)。
+
+---
+
+## 一、项目运作方式速记（便于后续定位）
+
+数据管线（每一阶段都是独立的 crewAI/uv 子项目，靠 SQLite 文件接力）：
+
+```
+s01a 爬虫         raw_news.db
+   ↓
+s01b AI提取+三层Guardrail   projects.db（extracted_projects 表，扁平：一实体一行）
+   ↓                        review.db（无中方参与 / 被剔除）
+s02a 去重合并+入库   bri_re_database.db（三表：canonical_projects / project_events / chinese_entities + non_project_records）
+   ↓
+s02b 实体名归一化   原地更新 chinese_entities
+   ↓（s02c 交叉验证：可选，GDELT 失效中）
+s03 导出   bri_re_export.db（projects_flat 扁平表 + 3 张 stats 聚合表）→ JSON 同步到 s04/public/data/
+   ↓
+s04 React 前端   纯前端 fetch 静态 JSON
+```
+
+关键概念：
+- **一个物理项目 = 1 条 `canonical_projects`**，其下挂多条 **`project_events`（按"项目阶段"拆分：签约/开工/竣工…）**，每个 event 下挂多条 **`chinese_entities`**。
+- s03 把"一项目多事件"压平成"一项目一行"，**代表值取"最终状态"事件**（阶段优先级最高的那条），`event_year` = 最终状态事件的年份。这是后面很多"数据呈现"问题的根源。
+- AI 模型：主用 `gemini-2.5-flash-lite`；**s02a 项目合并确认用的是 `gemini-3-flash-preview`**（与文档记录的 2.5 不一致，见下）。
+- 容量、金额、日期在 s01b / s02a 里**全部以 TEXT 存储**，到 s03 的 `projects_flat` 才转 REAL。
+
+---
+
+## 二、检查方法
+
+1. 通读 docs/status 与 docs/changes 全部文档，了解既往修复历史；
+2. 完整精读数据主链路源码：`project_extractor_tool.py`(s01b)、`duplicate_merger_tool.py`(s02a)、`entity_normalizer.py`(s02b)、`flat_builder.py` / `province_extractor.py` / `stats_builder.py` / `json_exporter.py` / `main.py`(s03)；
+3. 派发子代理扫描外围模块（s01a / s02c / pipeline / external-tools / scripts / s04 前端），结果经我**逐条复核**后纳入（已剔除误报，见 §6）。
+
+---
+
+## 三、数据主链路问题（重点，已逐行确认）
+
+严重程度：🔴 高（会导致数据错误/重复/丢失或运行中断） / 🟡 中（边缘情况出错或结果可疑） / ⚪ 低（健壮性/可维护性）。
+
+### 3.1 s01b — project_extractor_tool.py
+
+| # | 位置 | 级别 | 问题 |
+|---|------|------|------|
+| 1 | `extracted_projects` 表定义（L276-317） | 🔴 | **source_link 无 UNIQUE 约束**，去重完全依赖应用层内存 set（`already_processed`）。一旦并发跨进程、中途重启、或 set 逻辑失效，就会写入重复行，且无数据库层兜底。这与你反馈的"数据错误率/重复率偏高"高度相关。 |
+| 2 | L656-665、L699-705 | 🟡 | 增量去重的 `already_processed` 是**单进程内存 set + 进程级锁**。`run_bulk_extract` 若以多进程方式并发跑多个 batch，URL 原子占位无法跨进程生效 → 同一 URL 可能被两个进程同时提取入库（叠加 #1 的无 UNIQUE，必然产生重复）。 |
+| 3 | L645-646、L654-655、L998-999、L1018-1019 | 🟡 | 多处 `except Exception: pass` 静默吞错：预加载已处理 URL 失败会**静默退化为"全部重新处理"**（再叠加 #1 → 全量重复）；写 review 记录失败被吞。 |
+| 4 | `_resolve_entity_en` L177-208 + `_save_name_cache` L140-157 | 🟡 | 翻译缓存 `company_name_cache.json` 在 4 线程并发下**每新增一个实体就整文件 read-modify-write 一次**。虽有 `_name_cache_lock`（线程安全），但：①I/O 重；②若 `run_bulk_extract` 是多进程，则无跨进程锁，**会丢失/覆盖彼此写入甚至损坏 JSON**。该文件还是 supporting_docs 共享资产，风险更高。 |
+| 5 | `_normalize_implementing_entity` → "Unknown"（L41-48, L830-831） | 🟡 | "新闻明确提到中方参与但未点名公司"与"压根没有中方实体"被**一律塞成 "Unknown"**，丢失了"已知有中企、只是没名字"这一信息（对应你反馈数据筛选#1，需要"某中国公司"或复核流程）。 |
+| 6 | prompt（L362-519） | 🟡 | 分类规则存在覆盖盲区，是数据质量问题的源头（详见 change-suggestion）：无"垃圾发电=生物质"指引（THA-HB-0001 被错分）、无"数据中心须RE供电才算"规则、无"只有年发电量时反推装机容量"规则、无"主要/非主要设备"区分。 |
+| 7 | `content[:15000]` 截断（L370） | ⚪ | 长文正文硬截断 15000 字符，长稿尾部的容量/日期/实体可能被切掉，无任何提示。 |
+| 8 | `_get_country_meta` 模糊匹配（L254-263） | ⚪ | "中文名互含"匹配可能误命中（如短国名是另一长国名子串），且遍历整表 O(N)；英文同理。 |
+
+### 3.2 s02a — duplicate_merger_tool.py
+
+| # | 位置 | 级别 | 问题 |
+|---|------|------|------|
+| 1 | `LLM_CONFIRM_MODEL = "gemini-3-flash-preview"`（L60） | 🔴 | **项目"是否同一项目"的关键确认步骤硬编码用 preview 预览模型**：①与文档/记忆记载的 2.5-flash-lite 不符（口径漂移）；②preview 模型随时可能限流/下线/改行为，导致去重静默劣化或整批失败。模型名应集中配置并固定到稳定版本。 |
+| 2 | `_gen_canonical_id`（L187-194） | 🟡 | 编号 = 同 (ISO,类别) 现有最大号 +1，**按"入库顺序"递增，而非项目时间顺序**。这正是你反馈#11："最新项目编号最小/每次新增似乎要重排"。且 `ORDER BY id DESC` 是字符串排序，编号超过 9999（canonical）或 99（event）后排序与进位都会出错。 |
+| 3 | 容量全程 TEXT + `_parse_capacity`（L153-158, schema L107/L113） | 🟡 | 容量以文本存储，所有比较都靠运行时 `float()` 解析；带单位/逗号/范围（"50-60"、"约50"）的脏值会被解析成 None，**直接导致 Signal 4 容量信道、容量守卫、5% 容差等去重逻辑全部失效**，是漏合并/误合并的隐性来源。 |
+| 4 | 候选预分组 `(country, category, project_stage)`（L506-508） | 🟡 | 同一物理项目的不同阶段被分到不同组，**批内只在同阶段去重**；跨阶段、跨语言、跨批次的"同项目"全靠 `_find_or_create_canonical` 的名称模糊匹配兜底。一旦名称表述差异大（音译地名、中英混写）就漏挂到同一 canonical（对应你反馈的"雪兰莪/达瓦德密"未合并）。 |
+| 5 | location 仅"填空"不"归一"（`_infer_location_from_name` L426-478） | 🟡 | 只对空 location 用 AI 回填，**不统一音译变体**（达瓦德密 vs 达旺德米）。而候选分组用的是 (country,category,stage) 不含 location，最终是否同地全交给 LLM 的世界知识判断，不稳定。 |
+| 6 | `_merge_group` 容量等冲突用 `_llm_choose_value` 二选一（L735-757, L807-821） | 🟡 | 合并时容量/投资额等冲突值让 LLM"挑一个最可信"，**不做数值校验、不留并存**，可能挑错；挑选理由仅写进 additional_remarks（且该字段不导出）。 |
+| 7 | `_capacity_guard` / canonical 容量取值 `LIMIT 1`（L927-932, L1013-1018） | ⚪ | 取 canonical 代表容量时只 `LIMIT 1` 取"任一有值事件"，未规定优先取终态事件，代表值可能取到早期规划值。 |
+| 8 | ID 生成无并发保护 | ⚪ | 两个 s02a 进程并发会产生相同 canonical_id/event_id 冲突。当前是手动单跑，风险低但需知晓。 |
+
+### 3.3 s02b — entity_normalizer.py
+
+| # | 位置 | 级别 | 问题 |
+|---|------|------|------|
+| 1 | `_update_db`（L254-283） | 🟡 | 用从 `implementing_entity` 学到的 `{别名→规范名}` 映射，**同时无差别地 UPDATE `subsidiary_name` 列**。若某子公司名恰好等于某母公司别名，会被错误改写。 |
+| 2 | `_find_candidates` 双层循环 O(n²)（L82-136） | ⚪ | 对所有不重复实体名两两比较，实体量上千时偏慢（一次性，可接受，但需注意）。 |
+| 3 | `_build_mapping` 规范名 last-wins（L224-249） | ⚪ | 同一聚类里若 LLM 在不同候选对给出不同 canonical_name，最终取决于遍历顺序，结果不确定。 |
+
+### 3.4 s03 — flat_builder.py / stats_builder.py / province_extractor.py
+
+| # | 位置 | 级别 | 问题 |
+|---|------|------|------|
+| 1 | `total_investment_usd` 取**所有事件均值**（flat_builder L318-328） | 🔴 | 把同一项目跨阶段/跨信源的总投资额做**算术平均**，统计上没有意义（不同信源口径不同、阶段不同），会得到一个谁都不对的数。应取终态或最可信单值。 |
+| 2 | "最终状态"判定 + `event_year`（flat_builder L232-296） | 🔴 | 代表行只取阶段优先级最高的事件，`event_year`=该事件年份。**2024 签约、2026 竣工的项目会被算成 2026**；所有 stats 表都按 `event_year` 聚合 → 早期年份项目数被系统性低估（你反馈"数据呈现#1"）。 |
+| 3 | `STAGE_PRIORITY` 只有 8 个阶段，`STAGE_EN` 却有 20+（flat_builder L39-48 vs L66-88） | 🟡 | "审批/获批/融资完成/设备制造…"这些阶段在排序里 `_stage_rank` 一律=0（等同最早）。若某项目最后一条事件是"融资完成"，会被判为最不终态，**代表行/年份取错**。两张表口径不一致。 |
+| 4 | 前端基线会"丢"无容量项目（DataContext，见 3.6 #3） | 🟡 | s03 不丢，但前端把"应有容量却为 null"的项目整条剔除；而容量为 null 常因 AI 没提取出（你反馈#8），等于**AI 漏填容量 → 项目从可视化中消失**。 |
+| 5 | `province_cache.json` 永不失效（province_extractor L30-33, 67） | ⚪ | 缓存键是 project_id；若某项目 location 后来被修正，仍返回旧省份，不会重提取。 |
+| 6 | stats_entity 只统计 `primary_entity`（stats_builder L59-72） | ⚪ | 一个项目多家中企时，**只有 primary 进入企业聚合**，联合参与方在企业排名里不可见，可能系统性低估部分企业参与度。 |
+
+### 3.5 编排与外围脚本（经复核）
+
+| 文件 | 级别 | 问题 |
+|------|------|------|
+| `s01a/.../news_crawler_tool.py` L364-365 | 🟡 | `except Exception: pass` 吞掉单条入库异常，丢条目无日志。 |
+| `s01a/.../news_crawler_tool.py` L390-393 | ⚪ | 异常路径下 `conn.close()` 可能不执行（未用 context manager），连接泄漏。 |
+| `s02c/.../cross_verification_tool.py` L461 等 | 🟡 | `json.loads(resp.text)` 解析 LLM 输出无容错；连接未用 with。（注：s02c 本就因 GDELT 失效暂停，优先级低） |
+| `external-tools/*` 三个脚本 | 🟡 | 普遍存在 `json.loads(LLM 输出)` 无容错、API 调用用固定 sleep 而非指数退避、异常静默返回"未匹配"（可能把"接口失败"误标成"无匹配"）。属一次性工具，影响面有限。 |
+| `scripts/step2_s01b_to_s02a.py` L74-76 | ⚪ | `json.loads(source_links)` 失败兜底为 `[]`，会**静默丢失链接信息**。 |
+| `pipeline/.../flow.py` L147 | ⚪ | `run_entity_normalize` 跳过逻辑用反向条件，易误读，建议正向重构。 |
+
+### 3.6 s04 前端（经复核，重点为"前后端口径一致性"）
+
+| # | 位置 | 级别 | 问题 |
+|---|------|------|------|
+| 1 | **隐藏/排除类别在 4 处硬编码**：`DataContext.tsx` L22-23、`FilterBar.tsx` L14、`capacityPolicy.ts` L9、`flat_builder.py` L36 | 🔴 | 同一份"哪些类别隐藏/无容量"清单散落前后端四处，**全靠人工保持一致**，极易漏改导致前后端口径不一。应抽成单一可信源。 |
+| 2 | `DataContext.tsx` L37 `event_year < 2022` 硬编码 | 🟡 | 数据起始年写死在前端，口径变化要改代码；且与 s03 无任何约定。 |
+| 3 | `DataContext.tsx` L49 `hasCapacity(cat) && capacity_mw==null → 整条剔除` | 🟡 | "本应有容量却没提取到"的项目被**从整个可视化数据集剔除**，用户在地图/表格里完全看不到（与 §3.4 #4 同因）。 |
+| 4 | `DataContext.tsx` L22 `EXCLUDED_CATEGORIES` 含 `thermal/oil/gas` | ⚪ | 这三个英文键是拿去和**中文** `category` 比对的（L42），**永不命中**，属死代码；火电靠中文"火电"命中，功能未坏但有误导。 |
+| 5 | `isoMapping.ts` 与 `display.ts` 各维护一份国家映射表 | 🟡 | NUMERIC_TO_ISO3 / ISO3_TO_EN 独立硬编码，与后端 WorldCountryList.json 三套并行，易不同步。 |
+| 6 | `ProvinceMap.tsx` / `MapPage.tsx` 省名归一化逻辑各写一份且不完全一致 | 🟡 | 同一份省名归一化在两处重复实现，大小写/后缀处理略有差异，可能导致点选过滤与着色不一致。 |
+| 7 | `useProvinceGeo.ts` 把所有错误（网络/解析/校验）统一缓存为 unavailable | ⚪ | 临时性 404/网络抖动会被永久缓存为"无省级数据"，无法自动恢复。 |
+
+---
+
+## 四、跨模块的系统性隐患（最值得优先处理）
+
+1. **数值字段全程 TEXT**：容量、投资额、分包额、日期在 s01b/s02a 都是文本，去重容量逻辑、s03 聚合都靠运行时解析，脏值静默变 None。→ 漏合并、统计偏差的隐性总源头。
+2. **去重正确性依赖名称模糊匹配 + LLM 世界知识**：跨语言/音译/跨批次的同一项目，结构上没有"同地点/同坐标/同业主"的硬锚点，纯靠 fuzzy+LLM，召回不稳定。
+3. **"配置散落多处"**：枚举（类别/阶段/参与方式/融资模式）的中英文映射、隐藏类别清单，在 s01b prompt、s02a、s03 flat_builder、s04 多个 ts 文件里各写一遍，无单一可信源 → 这是历次"网页显示中文/枚举不一致"反复打补丁的根因。
+4. **代表值/年份取"终态"**：导致时间维度统计系统性偏向竣工年，签约/开工等早期里程碑在趋势图中被掩盖。
+5. **去重依赖应用层、缺数据库层兜底**（无 UNIQUE、静默吞错）→ 重复数据隐患。
+
+---
+
+## 五、运行/环境类提示（非 bug，但影响"能不能跑起来")
+
+- 各子项目大量使用相对路径与 `parents[N]` 上溯（如 `flat_builder.py` `parents[5]`），目录层级一旦调整即静默失效（返回空表/默认值），排查困难。
+- Windows GBK 控制台下 crewai 事件总线 emoji 乱码（文档已记录，仅显示问题）。
+- s02c 因 GDELT 查不到匹配数据已实质停用。
+
+---
+
+## 六、复核中发现的"误报"（特此澄清，避免误改）
+
+子代理扫描时报了若干问题，我逐条核对后**否决了以下两条**，请勿据此修改：
+
+1. ❌ `scripts/clean_historical_data.py` L386/L392 的 `WHERE {field} IS ?` **不是** SQL 语法错误。SQLite 中 `x IS ?` 对非 NULL 参数等价于 `=`，且能正确匹配 `NULL` 行（当 `old_val` 为 `None` 时）。这里恰恰是为了同时清洗 NULL 值的**正确写法**，不要改成 `=`（改了反而漏掉 NULL 行）。
+2. ⚠️ `DataContext.tsx` 的 `thermal/oil/gas` 英文键"永不匹配"属实，但**影响低**（火电由中文键命中），定性为死代码/可维护性问题，非高危数据 bug。
+
+> 这也说明：自动扫描结果需人工复核，不能直接照单全改。
+
+---
+
+## 七、严重程度汇总
+
+| 级别 | 主链路条数 | 说明 |
+|------|-----------|------|
+| 🔴 高 | 5 | 投资额取均值、终态年份口径、preview 模型硬编码、source_link 无 UNIQUE、隐藏类别四处硬编码 |
+| 🟡 中 | ~18 | 容量 TEXT、去重分组/音译、并发去重、静默吞错、前端丢无容量项目等 |
+| ⚪ 低 | ~12 | 缓存失效、O(n²)、连接泄漏、死代码等 |
+
+> 注：很多"中/低"问题彼此叠加会放大成"高"（如 容量TEXT + LLM挑值 + 无UNIQUE 共同推高重复率与统计误差）。具体修改方案见 [change-suggestion.md](change-suggestion.md)。
