@@ -9,6 +9,7 @@
 **"一带一路"可再生能源项目数据库** — 追踪中国企业参与的海外可再生能源项目。
 
 **流水线架构：**
+
 ```
 数据收集 → 去重合并 → 实体归一化 ──→ 数据库整理 → 网页可视化 → 数据分析 → 报告撰写
    ✅         ✅          ✅    ↓        ✅          🚧          ⬜        ⬜
@@ -28,19 +29,19 @@
 
 ## 各阶段状态速览
 
-| 阶段 | 子项目 | 状态 | 详情 |
-|------|--------|------|------|
-| 阶段一（旧） | `s01_data_collector_filter` | ✅ 已完成（2026-03-21 更新知识库）| [s01.md](s01.md) |
-| 阶段一A | `s01a_news_crawler` | ✅ 已完成 | — |
-| 阶段一B | `s01b_project_extractor` | ✅ 已完成（2026-03-21 更新知识库）| [s01b.md](s01b.md) |
-| 阶段二A | `s02a_duplicate_merger` | ✅ 已完成 | [s02a.md](s02a.md) |
-| 阶段二B | `s02b_entity_normalizer` | ✅ 已完成 | [s02b.md](s02b.md) |
-| 阶段二C | `s02c_cross_verification` | ⚠️ 待修改（可选） | [s02c.md](s02c.md) |
-| 阶段三 | `s03_data_exporter` | ✅ 已完成（细节待调整） | [s03.md](s03.md) |
-| 阶段四 | `s04_web_visualization` | 🚧 调试中 | [s04.md](s04.md) |
-| 编排 | `pipeline` | ✅ 已完成 | [pipeline.md](pipeline.md) |
-| 阶段五 | 数据分析 | ⬜ 未开始 | — |
-| 阶段六 | 报告撰写 | ⬜ 未开始 | — |
+| 阶段     | 子项目                         | 状态                      | 详情                         |
+| ------ | --------------------------- | ----------------------- | -------------------------- |
+| 阶段一（旧） | `s01_data_collector_filter` | ✅ 已完成（2026-03-21 更新知识库） | [s01.md](s01.md)           |
+| 阶段一A   | `s01a_news_crawler`         | ✅ 已完成                   | —                          |
+| 阶段一B   | `s01b_project_extractor`    | ✅ 已完成（2026-03-21 更新知识库） | [s01b.md](s01b.md)         |
+| 阶段二A   | `s02a_duplicate_merger`     | ✅ 已完成                   | [s02a.md](s02a.md)         |
+| 阶段二B   | `s02b_entity_normalizer`    | ✅ 已完成                   | [s02b.md](s02b.md)         |
+| 阶段二C   | `s02c_cross_verification`   | ⚠️ 待修改（可选）              | [s02c.md](s02c.md)         |
+| 阶段三    | `s03_data_exporter`         | ✅ 已完成（细节待调整）            | [s03.md](s03.md)           |
+| 阶段四    | `s04_web_visualization`     | 🚧 调试中                  | [s04.md](s04.md)           |
+| 编排     | `pipeline`                  | ✅ 已完成                   | [pipeline.md](pipeline.md) |
+| 阶段五    | 数据分析                        | ⬜ 未开始                   | —                          |
+| 阶段六    | 报告撰写                        | ⬜ 未开始                   | —                          |
 
 ---
 
@@ -159,32 +160,32 @@ BRI_RE_Database_v2/
 
 ## 技术栈
 
-| 组件 | 技术 |
-|------|------|
-| AI 框架 | crewai 1.9.3 |
-| LLM（主） | Gemini gemini-2.5-flash-lite |
-| LLM（嵌入） | Gemini text-embedding-004 |
-| AI SDK | google-genai >= 1.49.0 |
-| 外部数据源 | GDELT 国际新闻数据库（免费，无 API Key） |
-| 模糊匹配 | rapidfuzz >= 3.0.0 |
-| 数据处理 | pandas >= 2.0.0 |
-| 数据库 | SQLite（sqlite3，内置） |
-| 网络请求 | requests >= 2.31.0 |
-| 前端框架 | React 18 + TypeScript + Vite |
-| 前端样式 | Tailwind CSS |
-| 前端地图 | react-simple-maps + world-atlas TopoJSON |
-| 前端图表 | recharts |
+| 组件      | 技术                                       |
+| ------- | ---------------------------------------- |
+| AI 框架   | crewai 1.9.3                             |
+| LLM（主）  | Gemini gemini-2.5-flash-lite             |
+| LLM（嵌入） | Gemini text-embedding-004                |
+| AI SDK  | google-genai >= 1.49.0                   |
+| 外部数据源   | GDELT 国际新闻数据库（免费，无 API Key）              |
+| 模糊匹配    | rapidfuzz >= 3.0.0                       |
+| 数据处理    | pandas >= 2.0.0                          |
+| 数据库     | SQLite（sqlite3，内置）                       |
+| 网络请求    | requests >= 2.31.0                       |
+| 前端框架    | React 18 + TypeScript + Vite             |
+| 前端样式    | Tailwind CSS                             |
+| 前端地图    | react-simple-maps + world-atlas TopoJSON |
+| 前端图表    | recharts                                 |
 
 ---
 
 ## 已知问题
 
-| 问题 | 优先级 | 状态 |
-|------|--------|------|
-| `pipeline` 预留模块导入耦合、`s01a` 归档目录不存在崩溃、`s01b` Guardrail 潜在误删（batch_id 缺失） | 高 | 已修复（2026-03-22） |
-| `s02b` CLI 参数解析覆盖流程传参、`s02a` imported 标记失败静默导致潜在重复导入 | 高 | 已修复（2026-03-22） |
-| `s01_data_collector_filter/custom_tool.py` 仍为模板占位符 | 低 | 未修复 |
-| `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步） | 低 | 未修复 |
-| Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线） | 低 | 未修复（仅影响显示） |
-| `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖 | 低 | 已知，文档说明 |
-| s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN | 中 | 已知，待解决 |
+| 问题                                                                      | 优先级 | 状态              |
+| ----------------------------------------------------------------------- | --- | --------------- |
+| `pipeline` 预留模块导入耦合、`s01a` 归档目录不存在崩溃、`s01b` Guardrail 潜在误删（batch_id 缺失） | 高   | 已修复（2026-03-22） |
+| `s02b` CLI 参数解析覆盖流程传参、`s02a` imported 标记失败静默导致潜在重复导入                    | 高   | 已修复（2026-03-22） |
+| `s01_data_collector_filter/custom_tool.py` 仍为模板占位符                      | 低   | 未修复             |
+| `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步）          | 低   | 未修复             |
+| Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线）                               | 低   | 未修复（仅影响显示）      |
+| `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖                                    | 低   | 已知，文档说明         |
+| s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN                                      | 中   | 已知，待解决          |
