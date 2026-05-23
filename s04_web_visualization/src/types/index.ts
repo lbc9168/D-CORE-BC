@@ -82,6 +82,17 @@ export interface StatTimeline {
   capacity_mw: number | null;
 }
 
+// 事件级时间统计：一个项目在它经历的每个阶段-年份各计一次
+export interface StatTimelineEvent {
+  year: number;
+  month: string | null;
+  category: string;
+  stage: string;
+  country_iso: string;
+  project_count: number;
+  capacity_mw: number | null;
+}
+
 // ── UI 状态 ───────────────────────────────────────────────────────────────────
 
 export type ColorBy = "count" | "capacity";
