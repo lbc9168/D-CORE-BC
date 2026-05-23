@@ -30,6 +30,9 @@ export interface Project {
   category: string;         // 光伏 / 风电 / 水电 / 核电 / 火电 / 地热及余热 / 生物质 / 储能 / 综合能源 / 新能源制造业 / 输变电建设
   category_en: string;      // Solar PV / Wind Power / Hydropower / ...
   capacity_mw: number | null;
+  storage_power_mw?: number | null;    // 储能功率（MW），多数项目无值
+  storage_energy_mwh?: number | null;  // 储能容量（MWh），多数项目无值
+  capacity_source?: string | null;     // 容量来源：original / derived / manual / legacy
   latest_stage: string;
   latest_stage_en: string;
   latest_stage_date: string;
