@@ -16,11 +16,12 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
-# ── 枚举单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
+# ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
+import bri_parse
 
 load_dotenv()
 
@@ -293,8 +294,12 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             ldc                     TEXT,
             location                TEXT,
             category                TEXT,
-            capacity_mw             TEXT,
+            capacity_mw_raw         TEXT,
+            capacity_mw             REAL,
             capacity_details        TEXT,
+            storage_power_mw        REAL,
+            storage_energy_mwh      REAL,
+            capacity_source         TEXT,
             project_stage           TEXT,
             project_developer       TEXT,
             multiple_chinese        TEXT,
@@ -304,10 +309,12 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             subsidiary_name         TEXT,
             subsidiary_name_en      TEXT,
             involvement_type        TEXT,
-            subcontract_amount_usd  TEXT,
+            subcontract_amount_usd_raw TEXT,
+            subcontract_amount_usd  REAL,
             planned_start_date      TEXT,
             planned_complete_date   TEXT,
-            total_investment_usd    TEXT,
+            total_investment_usd_raw TEXT,
+            total_investment_usd    REAL,
             investment_date         TEXT,
             financing_model         TEXT,
             financing_model_details TEXT,
@@ -326,11 +333,17 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
     for col_def in [
         "ALTER TABLE extracted_projects ADD COLUMN project_summary TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN is_central_soe INTEGER",
+        "ALTER TABLE extracted_projects ADD COLUMN capacity_mw_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN storage_power_mw REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN storage_energy_mwh REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN capacity_source TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN subcontract_amount_usd_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN total_investment_usd_raw TEXT",
     ]:
         try:
             conn.execute(col_def)
         except sqlite3.OperationalError:
-            pass  # 列已存在
+            pass  # 列已存在（已知无害边界，按 CLAUDE.md 规则1 沉默）
     conn.commit()
     return conn
 
@@ -935,19 +948,24 @@ class ProjectExtractorTool(BaseTool):
                 impl_entity_en = str(
                     row_data.get("Implementing Chinese Entity (EN)", "")
                 ).strip() or ("Unknown" if impl_entity == "Unknown" else "")
+                # 数值字段：原文写入 *_raw，解析值写入 REAL 列（单一可信源 bri_parse）
+                cap_raw = row_data.get("Capacity (MW)", "")
+                sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
+                inv_raw = row_data.get("Total Project Investment (Million USD)", "")
                 proj_conn.execute(
                     """INSERT INTO extracted_projects
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
-                        bri_country, ldc, location, category, capacity_mw, capacity_details,
+                        bri_country, ldc, location, category, capacity_mw_raw, capacity_mw, capacity_details,
+                        storage_power_mw, storage_energy_mwh, capacity_source,
                         project_stage, project_developer, multiple_chinese, implementing_entity,
                         implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
-                        involvement_type, subcontract_amount_usd, planned_start_date,
-                        planned_complete_date, total_investment_usd, investment_date,
+                        involvement_type, subcontract_amount_usd_raw, subcontract_amount_usd, planned_start_date,
+                        planned_complete_date, total_investment_usd_raw, total_investment_usd, investment_date,
                         financing_model, financing_model_details,
                         source_link, publish_date, official_website, non_official_website,
                         additional_remarks, project_summary, batch_id, imported_to_s02a, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
                         row_data.get("Project Name", ""),
@@ -959,8 +977,12 @@ class ProjectExtractorTool(BaseTool):
                         row_data.get("LDCs", ""),
                         row_data.get("Location (State)", ""),
                         row_data.get("Category", ""),
-                        row_data.get("Capacity (MW)", ""),
+                        cap_raw,
+                        bri_parse.parse_number(cap_raw),
                         row_data.get("Capacity Details", ""),
+                        None,  # storage_power_mw：提取属 v2.1，本次留空
+                        None,  # storage_energy_mwh
+                        "original",  # capacity_source：新提取数值来自原文
                         row_data.get("Project Stage", ""),
                         row_data.get("Project Developer", ""),
                         row_data.get("Multiple Chinese Enterprises Involved", ""),
@@ -970,10 +992,12 @@ class ProjectExtractorTool(BaseTool):
                         row_data.get("Subsidiary Name", ""),
                         row_data.get("Subsidiary Name (EN)", ""),
                         row_data.get("Type of involvement of Chinese Entities", ""),
-                        row_data.get("Subcontract Amount (Million USD)", ""),
+                        sub_raw,
+                        bri_parse.parse_number(sub_raw),
                         row_data.get("(Planned) Start Date", ""),
                         row_data.get("(Planned) Complete Date", ""),
-                        row_data.get("Total Project Investment (Million USD)", ""),
+                        inv_raw,
+                        bri_parse.parse_number(inv_raw),
                         row_data.get("Investment (or Financial Close) Date", ""),
                         row_data.get("Financing Model", ""),
                         row_data.get("Financing Model Details", ""),
