@@ -4,7 +4,10 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
+    "copy:enums": "node scripts/copy-enums.mjs",
+    "predev": "npm run copy:enums",
     "dev": "vite",
+    "prebuild": "npm run copy:enums",
     "build": "vite build",
     "deploy": "gh-pages -d dist",
     "typecheck": "tsc -b",

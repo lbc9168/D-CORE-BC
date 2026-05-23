@@ -2,6 +2,9 @@ node_modules/
 dist/
 .DS_Store
 
+# 构建期由根 enums_mapping.json 生成（见 scripts/copy-enums.mjs）
+src/generated/
+
 # 运行时生成的数据文件（不入 git，需本地生成）
 public/data/*.json
 # 但 world-atlas TopoJSON 是静态资产，需入 git
