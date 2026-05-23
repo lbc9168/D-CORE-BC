@@ -1,6 +1,15 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-03-23
+> 最后更新：2026-05-23
+
+---
+
+## v2 大版本（2026-05-23 起，worktree `worktree-v2`）
+
+按 `docs/rules_and_plans/v2_plan.md` 分 S1–S5 逐 session 执行，主题：数据正确性 + 时间建模。
+
+- **S1 枚举单一可信源 ✅（2026-05-23）**：新增根目录 `enums_mapping.json`（补全至 12 类完整规范集 + color/no_capacity/hidden/excluded 标记 + stage priority）+ `bri_enums.py`（Python 加载器）+ `s04 src/utils/enums.ts`（前端加载器，构建期拷贝）。删除 s01b prompt / s02a `CATEGORY_CODE` / s03 flat_builder 六处映射 / s04 `types`、`DataContext`、`FilterBar`、`capacityPolicy` 的全部硬编码枚举与死代码。详见各子项目 status 与 `docs/changes/2026-W21.md`。
+- S2–S5：待执行（数值化 schema + 迁移 / 编号 display_order / 事件级时间建模 / 去重分组与地点归一化）。
 
 ---
 
