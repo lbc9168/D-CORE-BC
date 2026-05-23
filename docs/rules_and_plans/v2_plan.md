@@ -137,15 +137,13 @@
 
 ---
 
-### S5 · 去重分组 + 地点归一化（中风险）
+### S5 · 去重分组 + 地点归一化（**v2.0 大幅缩减**）
 
-**改动文件：**
+> **范围调整（2026-05-24 与用户确认）**：因 v2.1 将大幅重构各 Agent 结构（提取多 agent 化 + 验证/复核结构重设计），S5 的去重改造与地点归一化与 v2.1 的 agent 重构是同一摊事、且最可能被覆盖；其数据操作高风险不可逆且费 LLM。故：
+> - **v2.0 只做 S5(d)**：修 `entity_normalizer._update_db` 母公司别名误改 subsidiary_name 的 bug（隔离、零 LLM、零主库变更，现存数据损坏 bug 应即修）。详见 `sessions/S5_dedup_location.md` Task 1。
+> - **(a) 分组去 stage、(b) 地点/容量锚点、(c) 地点归一化模块、存量重去重 → 全部推迟到 v2.1**，与 agent 重构一起设计实现（见 §附录 v2.1 锚点）。
 
-- s02a `duplicate_merger_tool.py`：候选预分组由 `(country, category, project_stage)` 改为 `(country, category)`（修跨阶段漏合并）；在名称模糊分低时引入"同国 + 容量接近(依赖 S2 数值化) + 同规范地名"硬锚点送 LLM；`_find_or_create_canonical` 纳入地点/容量。
-- 新增地点归一化（复用 s02b `entity_normalizer.py` 的"三信号候选 + LLM 批量确认 + Union-Find"框架，对象换成地名）：达瓦德密=达旺德米。
-- s02b `entity_normalizer._update_db`：拆分母/子公司映射，避免无差别改写 subsidiary_name（check-record §3.3#1）。
-
-**验证**：副本上跑去重，对比合并前后 canonical 条数；专门验证雪兰莪、达瓦德密两个已知 case 是否正确合并；确认未引入误合并（抽查若干高相似但实为不同项目的对）。
+**v2.0 S5(d) 验证**：单测覆盖"implementing 映射不改 subsidiary"；entity_normalizer 仍可正常跑。
 
 ---
 
@@ -188,4 +186,5 @@
 ## 附：v2.1 / v3 锚点（本次不做，仅留记录）
 
 - **v2.1**：A.0 提取多 agent 化；A.1-A.5 分类规则补全（垃圾发电=生物质、数据中心须RE供电、年发电量反推容量、设备主/次细分）；金标准抽样评测集；E.2 未点名中企 `chinese_unnamed` 复核流。
+  - **（从 S5 推迟而来）去重与同一性识别 + 地点归一化**：候选分组去 stage、地点/容量硬锚点、地点音译归一化模块（B 类）、是否对存量重去重；与 agent 重构一起设计（计划草稿见 `sessions/S5_dedup_location.md` Task 2-5，可作 v2.1 起点）。
 - **v3**：F.1 多领域 domain 字段 + 领域插件式 pipeline；F.2 前后端分离 + FastAPI；定时自动运行（GitHub Actions cron）；访问量/IP 分析；E.3 外部信源换源（证券/官方公告）。
