@@ -43,6 +43,7 @@ ISO3_TO_EN_NAME: dict[str, str] = _load_iso3_to_en()
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS projects_flat (
     project_id          TEXT PRIMARY KEY,
+    display_order       INTEGER,
     project_name        TEXT,
     project_name_en     TEXT,
     name_en_quality     TEXT,
@@ -298,9 +299,18 @@ def build_flat(
                     _seen_noff.add(link)
                     non_official_website_links.append(link)
 
+        # display_order 排序键：项目所有事件的最早日期（无则置末尾）
+        _dates = [
+            d for e in proj_events
+            for d in (e.get("publish_date") or e.get("investment_date"),)
+            if d
+        ]
+        _earliest = min(_dates) if _dates else "9999-99"
+
         rows.append(
             {
                 "project_id":          pid,
+                "_earliest":           _earliest,
                 "project_name":        proj.get("project_name") or "",
                 "project_name_en":     proj.get("project_name_en") or "",
                 "name_en_quality":     proj.get("name_en_quality") or "",
@@ -339,6 +349,12 @@ def build_flat(
                 "record_type":                "具体项目",
             }
         )
+
+    # display_order：按项目最早事件日期升序（老项目在前）；canonical_id 保持稳定不受影响
+    rows.sort(key=lambda r: r["_earliest"])
+    for i, r in enumerate(rows, start=1):
+        r["display_order"] = i
+        del r["_earliest"]
 
     # 写入导出数据库
     dst_conn = sqlite3.connect(dst_db)
