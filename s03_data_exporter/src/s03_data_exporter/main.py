@@ -92,7 +92,7 @@ def run() -> None:
 
     # ── Step 3: 构建聚合统计表 ────────────────────────────────────────────────
     print("\n[3/4] 构建聚合统计表...")
-    build_stats(DST_DB)
+    build_stats(DST_DB, SRC_DB)
 
     # ── Step 4: 导出 Excel / CSV ──────────────────────────────────────────────
     print("\n[4/5] 导出 Excel / CSV...")
