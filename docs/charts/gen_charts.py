@@ -26,50 +26,97 @@ c = conn.cursor()
 
 
 # ─────────────────────────────────────────────────────────────────────
-# CHART 1: GCC countries × energy type (stacked bar)
+# CHART 1: GCC countries × technology — project count (top) + capacity (bottom)
 # ─────────────────────────────────────────────────────────────────────
 c.execute("""
 SELECT cp.country_iso, cp.category, COUNT(*) as n
 FROM canonical_projects cp
 WHERE cp.country_iso IN ('SAU','ARE','OMN','BHR','KWT','QAT')
-  AND cp.category NOT IN ('火电', 'Unknown')
+  AND cp.category NOT IN ('火电', 'Unknown', '地热及余热', '石油开采与处理', '油气')
 GROUP BY cp.country_iso, cp.category ORDER BY cp.country_iso, n DESC
 """)
 rows = c.fetchall()
 
 cats_order = ['光伏', '综合能源', '风电', '新能源制造业', '储能', '输变电建设']
-iso_order = ['SAU', 'ARE', 'OMN', 'BHR', 'KWT', 'QAT']
-data_c1 = {iso: {cat: 0 for cat in cats_order} for iso in iso_order}
-for iso, cat, n in rows:
-    if cat in cats_order:
-        data_c1[iso][cat] += n
-
+iso_order  = ['SAU', 'ARE', 'OMN', 'BHR', 'KWT', 'QAT']
 cat_labels_en = {
     '光伏': 'Solar PV', '综合能源': 'Hybrid/Integrated', '风电': 'Wind',
     '新能源制造业': 'RE Manufacturing', '储能': 'Storage', '输变电建设': 'Grid/T&D'
 }
 colors_c1 = ['#f4a828', '#2196F3', '#4CAF50', '#FF5722', '#00BCD4', '#9C27B0']
 
-fig, ax = plt.subplots(figsize=(10, 5.5))
-bottoms = np.zeros(len(iso_order))
-for i, cat in enumerate(cats_order):
-    vals = np.array([data_c1[iso][cat] for iso in iso_order])
-    ax.bar([GCC_NAMES[iso] for iso in iso_order], vals, bottom=bottoms,
-           color=colors_c1[i], label=cat_labels_en[cat], edgecolor='white', linewidth=0.5)
+data_count = {iso: {cat: 0 for cat in cats_order} for iso in iso_order}
+for iso, cat, n in rows:
+    if cat in cats_order:
+        data_count[iso][cat] += n
+
+# capacity GW (signed+, ≤5GW/project, generation categories only)
+cap_gw = {
+    'SAU': {'光伏': 82.41, '综合能源': 16.76, '风电': 16.97},
+    'ARE': {'光伏': 30.87, '综合能源':  7.90, '风电':  0.43},
+    'OMN': {'光伏':  7.31, '综合能源':  5.86, '风电':  0.48},
+    'BHR': {'光伏':  0.18, '综合能源':  1.50, '风电':  0.00},
+    'KWT': {'光伏':  6.40, '综合能源':  8.80, '风电':  0.00},
+    'QAT': {'光伏':  3.28, '综合能源':  0.00, '风电':  0.00},
+}
+cap_cats = ['光伏', '综合能源', '风电']
+cap_colors = ['#f4a828', '#2196F3', '#4CAF50']
+
+x_labels = [GCC_NAMES[iso] for iso in iso_order]
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(11, 9), sharex=True)
+fig.subplots_adjust(hspace=0.08)
+
+# ── Top: project count ────────────────────────────────────────────────
+btm1 = np.zeros(len(iso_order))
+for cat, col in zip(cats_order, colors_c1):
+    vals = np.array([data_count[iso][cat] for iso in iso_order], dtype=float)
+    ax1.bar(x_labels, vals, bottom=btm1, color=col, label=cat_labels_en[cat],
+            edgecolor='white', linewidth=0.5, width=0.65)
     for j, v in enumerate(vals):
         if v > 2:
-            ax.text(j, bottoms[j] + v / 2, str(v), ha='center', va='center',
-                    fontsize=7.5, color='white', fontweight='bold')
-    bottoms += vals
+            ax1.text(j, btm1[j] + v / 2, str(int(v)), ha='center', va='center',
+                     fontsize=7.5, color='white', fontweight='bold')
+    btm1 += vals
 
-ax.set_title('Chinese Renewable Energy Projects in GCC Countries by Technology',
-             fontsize=13, fontweight='bold', pad=12)
-ax.set_ylabel('Number of Projects', fontsize=11)
-ax.legend(loc='upper right', fontsize=8.5, framealpha=0.9, ncol=2)
-ax.spines['top'].set_visible(False)
-ax.spines['right'].set_visible(False)
-ax.set_ylim(0, max(bottoms) * 1.22)
+for j, tot in enumerate(btm1):
+    ax1.text(j, tot + 1, str(int(tot)), ha='center', va='bottom',
+             fontsize=9, fontweight='bold', color='#333333')
+
+ax1.set_title('Chinese Renewable Energy Projects in GCC Countries by Technology',
+              fontsize=13, fontweight='bold', pad=12)
+ax1.set_ylabel('Number of Projects', fontsize=11)
+ax1.set_ylim(0, max(btm1) * 1.20)
+ax1.legend(loc='upper right', fontsize=8.5, framealpha=0.9, ncol=2)
+ax1.spines['top'].set_visible(False)
+ax1.spines['right'].set_visible(False)
+
+# ── Bottom: contracted capacity GW ────────────────────────────────────
+btm2 = np.zeros(len(iso_order))
+for cat, col in zip(cap_cats, cap_colors):
+    vals = np.array([cap_gw[iso].get(cat, 0) for iso in iso_order], dtype=float)
+    ax2.bar(x_labels, vals, bottom=btm2, color=col, label=cat_labels_en[cat],
+            edgecolor='white', linewidth=0.5, width=0.65)
+    for j, v in enumerate(vals):
+        if v >= 3:
+            ax2.text(j, btm2[j] + v / 2, f'{v:.0f}', ha='center', va='center',
+                     fontsize=7.5, color='white', fontweight='bold')
+    btm2 += vals
+
+for j, tot in enumerate(btm2):
+    if tot > 0:
+        ax2.text(j, tot + 0.8, f'{tot:.0f}', ha='center', va='bottom',
+                 fontsize=9, fontweight='bold', color='#333333')
+
+ax2.set_ylabel('Contracted Capacity (GW)', fontsize=11)
+ax2.set_ylim(0, max(btm2) * 1.18)
+ax2.spines['top'].set_visible(False)
+ax2.spines['right'].set_visible(False)
+
 plt.tight_layout()
+fig.subplots_adjust(bottom=0.07)
+fig.text(0.5, 0.01,
+         'Capacity: signed/awarded/construction/operational projects only; single projects capped at 5 GW; generation technologies only (PV, Hybrid, Wind)',
+         ha='center', va='bottom', fontsize=7.5, color='gray')
 plt.savefig(f"{OUT}/chart1_gcc_country_technology.png", dpi=150, bbox_inches='tight')
 plt.close()
 print("Chart 1 saved")
