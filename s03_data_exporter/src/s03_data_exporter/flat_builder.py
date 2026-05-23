@@ -21,6 +21,7 @@ _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py")
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
+import bri_parse
 
 # ── 国家英文名查找表（从 WorldCountryList.json 加载） ──────────────────────────
 _WORLD_LIST_PATH = (
@@ -55,6 +56,9 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     category            TEXT,
     category_en         TEXT,
     capacity_mw         REAL,
+    storage_power_mw    REAL,
+    storage_energy_mwh  REAL,
+    capacity_source     TEXT,
     latest_stage        TEXT,
     latest_stage_en     TEXT,
     latest_stage_date   TEXT,
@@ -98,13 +102,9 @@ def _parse_year(date_str: Optional[str]) -> Optional[int]:
         return None
 
 
-def _parse_capacity(val: Optional[str]) -> Optional[float]:
-    if not val:
-        return None
-    try:
-        return float(str(val).strip())
-    except (ValueError, TypeError):
-        return None
+def _parse_capacity(val) -> Optional[float]:
+    """容量解析复用单一可信源 bri_parse（capacity_mw 现为 REAL，兼容旧文本）。"""
+    return bri_parse.parse_number(val)
 
 
 def _stage_to_english(stage: str) -> str:
@@ -156,6 +156,10 @@ def build_flat(
     rows: list[dict] = []
 
     for proj in projects:
+        # 非可再生能源等被排除的项目不进 projects_flat（兼容无 excluded 列的旧库）
+        if proj.get("excluded", 0):
+            continue
+
         pid = proj["id"]
         proj_events = events_by_project.get(pid, [])
 
@@ -173,12 +177,18 @@ def build_flat(
         )
         latest = sorted_events[0]
 
-        # 容量：从最终状态事件往下找第一个有值的
+        # 容量：从最终状态事件往下找第一个有值的；储能/来源取自同一事件
         capacity_mw: Optional[float] = None
+        storage_power_mw: Optional[float] = None
+        storage_energy_mwh: Optional[float] = None
+        capacity_source: Optional[str] = None
         for ev in sorted_events:
             c = _parse_capacity(ev.get("capacity_mw"))
             if c is not None:
                 capacity_mw = c
+                storage_power_mw = ev.get("storage_power_mw")
+                storage_energy_mwh = ev.get("storage_energy_mwh")
+                capacity_source = ev.get("capacity_source")
                 break
 
         # timeline_notes：按日期升序，格式"签约: 2022-03 → 开工: 2023-06"
@@ -230,9 +240,12 @@ def build_flat(
 
         category     = proj.get("category") or ""
 
-        # 无装机容量意义的类别：清空容量字段
+        # 无装机容量意义的类别：清空容量与储能字段
         if enums.is_no_capacity(category):
             capacity_mw = None
+            storage_power_mw = None
+            storage_energy_mwh = None
+            capacity_source = None
 
         latest_stage = latest.get("project_stage") or ""
 
@@ -248,17 +261,25 @@ def build_flat(
         ]
         financing_model = _valid_fm_events[-1].get("financing_model", "").strip() if _valid_fm_events else ""
 
-        # total_investment_usd：所有事件有效数值的平均值（单位：百万美元）
-        _inv_values: list[float] = []
-        for ev in proj_events:
-            raw_inv = (ev.get("total_investment_usd") or "").strip()
-            try:
-                v = float(raw_inv)
-                if v > 0:
-                    _inv_values.append(v)
-            except (ValueError, TypeError):
-                pass
-        total_investment_usd = round(sum(_inv_values) / len(_inv_values), 2) if _inv_values else None
+        # total_investment_usd（百万美元）：取代表(终态)事件值；为空则取最新有值事件
+        # 弃用"所有事件均值"——同一项目不同阶段披露的投资额并非可平均的同类量
+        def _inv(ev) -> Optional[float]:
+            v = bri_parse.parse_number(ev.get("total_investment_usd"))
+            return v if (v is not None and v > 0) else None
+
+        total_investment_usd = _inv(latest)
+        if total_investment_usd is None:
+            for ev in sorted(
+                proj_events,
+                key=lambda e: e.get("publish_date") or e.get("investment_date") or "",
+                reverse=True,
+            ):
+                v = _inv(ev)
+                if v is not None:
+                    total_investment_usd = v
+                    break
+        if total_investment_usd is not None:
+            total_investment_usd = round(total_investment_usd, 2)
 
         has_soe = 1 if any(e.get("is_central_soe") == 1 for e in all_entities_list) else 0
 
@@ -293,6 +314,9 @@ def build_flat(
                 "category":            category,
                 "category_en":         enums.category_en(category) or category,
                 "capacity_mw":         capacity_mw,
+                "storage_power_mw":    storage_power_mw,
+                "storage_energy_mwh":  storage_energy_mwh,
+                "capacity_source":     capacity_source,
                 "latest_stage":        latest_stage,
                 "latest_stage_en":     enums.stage_en(latest_stage) or latest_stage,
                 "latest_stage_date":   latest.get("publish_date") or latest.get("investment_date") or "",
