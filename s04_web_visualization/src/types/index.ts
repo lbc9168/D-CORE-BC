@@ -1,3 +1,8 @@
+import {
+  CATEGORIES as ALL_CATEGORIES,
+  STAGES as ALL_STAGES,
+} from "@/utils/enums";
+
 // ── 项目数据 ──────────────────────────────────────────────────────────────────
 
 export interface Entity {
@@ -96,40 +101,14 @@ export interface FilterState {
   regionFilter: RegionFilter | null;     // null = 全球；否则按大洲/小区过滤
 }
 
-// ── 枚举常量 ──────────────────────────────────────────────────────────────────
+// ── 枚举常量（派生自单一可信源 @/utils/enums；剔除 UI 不展示的 Unknown 键）──────
 
-export const CATEGORIES: Record<string, { zh: string; en: string; color: string }> = {
-  "光伏":         { zh: "光伏",         en: "Solar PV",        color: "#F59E0B" },
-  "风电":         { zh: "风电",         en: "Wind",            color: "#3B82F6" },
-  "水电":         { zh: "水电",         en: "Hydro",           color: "#06B6D4" },
-  "核电":         { zh: "核电",         en: "Nuclear",         color: "#8B5CF6" },
-  "火电":         { zh: "火电",         en: "Thermal",         color: "#78716C" },
-  "地热及余热":   { zh: "地热及余热",   en: "Geothermal",      color: "#10B981" },
-  "生物质":       { zh: "生物质",       en: "Biomass",         color: "#84CC16" },
-  "储能":         { zh: "储能",         en: "Storage",         color: "#64748B" },
-  "综合能源":     { zh: "综合能源",     en: "Hybrid",          color: "#EC4899" },
-  "新能源制造业": { zh: "新能源制造业", en: "New Energy Mfg.", color: "#A78BFA" },
-  "输变电建设":   { zh: "输变电建设",   en: "Grid Infra.",     color: "#F97316" },
-};
+function omitUnknown<T>(o: Record<string, T>): Record<string, T> {
+  return Object.fromEntries(Object.entries(o).filter(([k]) => k !== "Unknown"));
+}
 
-export const STAGES: Record<string, { zh: string; en: string; priority: number }> = {
-  "投入运营": { zh: "投入运营", en: "Operational",        priority: 7 },
-  "竣工":     { zh: "竣工",     en: "Completed",          priority: 6 },
-  "在建":     { zh: "在建",     en: "Under Construction", priority: 5 },
-  "开工":     { zh: "开工",     en: "Construction Start", priority: 4 },
-  "签约":     { zh: "签约",     en: "Signed",             priority: 3 },
-  "中标":     { zh: "中标",     en: "Awarded",            priority: 2 },
-  "收购":     { zh: "收购",     en: "Acquired",           priority: 1 },
-  "拟开发":   { zh: "拟开发",   en: "Planned",            priority: 0 },
-};
-
-export const STAGE_COLORS: Record<string, string> = {
-  "投入运营": "#16A34A",
-  "竣工":     "#2563EB",
-  "在建":     "#D97706",
-  "开工":     "#F59E0B",
-  "签约":     "#9333EA",
-  "中标":     "#EC4899",
-  "收购":     "#6B7280",
-  "拟开发":   "#94a3b8",
-};
+export const CATEGORIES = omitUnknown(ALL_CATEGORIES);
+export const STAGES = omitUnknown(ALL_STAGES);
+export const STAGE_COLORS: Record<string, string> = Object.fromEntries(
+  Object.entries(STAGES).map(([k, v]) => [k, v.color]),
+);

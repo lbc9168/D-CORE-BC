@@ -4,14 +4,13 @@ import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import { CATEGORIES, STAGES } from "@/types";
 import type { ColorBy, RegionFilter } from "@/types";
+import { isHiddenCategory, isHiddenStage } from "@/utils/enums";
 import { CONTINENTS, CONTINENT_SUBREGIONS } from "@/utils/continentMapping";
 
 interface FilterBarProps {
   colorBy: ColorBy;
   onColorByChange: (v: ColorBy) => void;
 }
-
-const HIDDEN_CATEGORY_KEYS = new Set(["核电", "新能源制造业", "输变电建设"]);
 
 /** 点击触发多选下拉（点击外部关闭） */
 function MultiSelect({
@@ -278,11 +277,11 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
   const maxYear = availableYears[availableYears.length - 1] ?? new Date().getFullYear();
   const currentRange = filter.yearRange ?? [minYear, maxYear];
   const stageOptions = useMemo(
-    () => Object.keys(STAGES).filter((k) => (STAGES[k]?.en ?? "").toLowerCase() !== "planned"),
+    () => Object.keys(STAGES).filter((k) => !isHiddenStage(k)),
     [],
   );
   const categoryOptions = useMemo(
-    () => Object.keys(CATEGORIES).filter((k) => !HIDDEN_CATEGORY_KEYS.has(k)),
+    () => Object.keys(CATEGORIES).filter((k) => !isHiddenCategory(k)),
     [],
   );
 
