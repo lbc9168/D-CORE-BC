@@ -173,6 +173,15 @@ def _get_cat_code(category: str) -> str:
     return code
 
 
+def _stage_order_sql(col: str = "project_stage") -> str:
+    """构造按阶段终态优先级排序的 SQL CASE 片段（值越大越终态）。
+    取值来自 enums.stage_priority（单一可信源）；阶段键来自自有 enums，非外部输入。"""
+    whens = " ".join(
+        f"WHEN '{s}' THEN {enums.stage_priority(s)}" for s in enums.valid_stages()
+    )
+    return f"CASE {col} {whens} ELSE -1 END"
+
+
 # ── 数据库初始化 ────────────────────────────────────────────────────────────────
 
 def _init_db(db_path: str) -> sqlite3.Connection:
@@ -946,9 +955,11 @@ def _capacity_guard(
     if not cap_new or cap_new <= 0:
         return False   # 无法判断，不拦截
 
+    # capacity_mw 现为 REAL，直接取数值列；代表容量优先取终态事件
     row = conn.execute(
-        """SELECT capacity_mw FROM project_events
-           WHERE canonical_id = ? AND capacity_mw IS NOT NULL AND capacity_mw != ''
+        f"""SELECT capacity_mw FROM project_events
+           WHERE canonical_id = ? AND capacity_mw IS NOT NULL
+           ORDER BY {_stage_order_sql('project_stage')} DESC
            LIMIT 1""",
         (canonical_id,),
     ).fetchone()
@@ -1033,10 +1044,11 @@ def _find_or_create_canonical(
                 f"[{name[:25]}] (score={best_score})"
             )
             db_row = conn.execute(
-                """SELECT cp.project_name, cp.project_name_en, cp.location,
+                f"""SELECT cp.project_name, cp.project_name_en, cp.location,
                           (SELECT pe.capacity_mw FROM project_events pe
                            WHERE pe.canonical_id = cp.id
-                             AND pe.capacity_mw IS NOT NULL AND pe.capacity_mw != ''
+                             AND pe.capacity_mw IS NOT NULL
+                           ORDER BY {_stage_order_sql('pe.project_stage')} DESC
                            LIMIT 1) AS capacity_mw
                    FROM canonical_projects cp
                    WHERE cp.id = ?""",
