@@ -216,23 +216,26 @@ def _init_db(db_path: str) -> sqlite3.Connection:
 
 
 def _gen_canonical_id(conn: sqlite3.Connection, iso: str, cat_code: str) -> str:
-    """生成新的 canonical_project_id，格式 {ISO3}-{CAT}-{NNNN}。"""
+    """生成新 canonical_id，格式 {ISO3}-{CAT}-{NNNN}；按数值取最大尾号 +1（修字符串排序 bug）。"""
+    prefix = f"{iso}-{cat_code}-"
     row = conn.execute(
-        "SELECT id FROM canonical_projects WHERE id LIKE ? ORDER BY id DESC LIMIT 1",
-        (f"{iso}-{cat_code}-%",),
+        "SELECT MAX(CAST(substr(id, ?) AS INTEGER)) FROM canonical_projects WHERE id LIKE ?",
+        (len(prefix) + 1, prefix + "%"),
     ).fetchone()
-    new_num = (int(row[0].split("-")[-1]) + 1) if row else 1
-    return f"{iso}-{cat_code}-{new_num:04d}"
+    new_num = (row[0] or 0) + 1
+    return f"{prefix}{new_num:04d}"
 
 
 def _gen_event_id(conn: sqlite3.Connection, canonical_id: str) -> str:
-    """生成新的 project_event_id，格式 {canonical_id}-{NN}。"""
+    """生成新 event_id，格式 {canonical_id}-{NN}；按数值取最大尾号 +1（修字符串排序 bug）。"""
+    prefix = f"{canonical_id}-"
     row = conn.execute(
-        "SELECT id FROM project_events WHERE canonical_id = ? ORDER BY id DESC LIMIT 1",
-        (canonical_id,),
+        "SELECT MAX(CAST(substr(id, ?) AS INTEGER)) FROM project_events "
+        "WHERE canonical_id = ? AND id LIKE ?",
+        (len(prefix) + 1, canonical_id, prefix + "%"),
     ).fetchone()
-    new_num = (int(row[0].split("-")[-1]) + 1) if row else 1
-    return f"{canonical_id}-{new_num:02d}"
+    new_num = (row[0] or 0) + 1
+    return f"{prefix}{new_num:02d}"
 
 
 # ── 阶段一：加载 & 归组为逻辑项目 ─────────────────────────────────────────────
