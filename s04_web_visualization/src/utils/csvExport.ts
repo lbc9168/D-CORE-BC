@@ -1,6 +1,7 @@
 import type { Project } from "@/types";
 
 const CSV_COLUMNS: { key: keyof Project; label: string }[] = [
+  { key: "display_order",     label: "Order" },
   { key: "project_id",        label: "Project ID" },
   { key: "project_name_en",   label: "Project Name (EN)" },
   { key: "country_en",        label: "Country" },

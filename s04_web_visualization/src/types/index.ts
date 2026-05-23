@@ -17,6 +17,7 @@ export interface Entity {
 
 export interface Project {
   project_id: string;
+  display_order: number | null;   // s03 按最早事件日期升序赋值（老项目在前），稳定主键 project_id 不受影响
   project_name: string;
   project_name_en: string;
   name_en_quality: string;

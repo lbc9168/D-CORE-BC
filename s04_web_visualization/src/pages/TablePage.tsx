@@ -21,8 +21,8 @@ export default function TablePage() {
   const [colorBy, setColorBy] = useState<"count" | "capacity">("count");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
-  const [sortKey, setSortKey] = useState<keyof Project>("event_year");
-  const [sortAsc, setSortAsc] = useState(false);
+  const [sortKey, setSortKey] = useState<keyof Project>("display_order");
+  const [sortAsc, setSortAsc] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showSurvey, setShowSurvey] = useState(false);
 

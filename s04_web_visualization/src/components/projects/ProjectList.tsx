@@ -21,13 +21,20 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
     );
   }
 
+  // 默认按 display_order 升序（老项目在前）；缺失值排末尾
+  const ordered = [...projects].sort(
+    (a, b) =>
+      (a.display_order ?? Number.MAX_SAFE_INTEGER) -
+      (b.display_order ?? Number.MAX_SAFE_INTEGER)
+  );
+
   return (
     <div className="overflow-y-auto h-full">
       <div className="text-xs text-slate-500 px-3 py-2 border-b border-slate-100 sticky top-0 bg-white">
         {t("filter.projectsCount", { count: projects.length })}
       </div>
       <ul className="divide-y divide-slate-50">
-        {projects.map((p) => {
+        {ordered.map((p) => {
           const cat = CATEGORIES[p.category];
           const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
           const isSelected = p.project_id === selectedId;
