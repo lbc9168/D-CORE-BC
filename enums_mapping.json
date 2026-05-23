@@ -1,29 +1,35 @@
 {
-  "_comment": "枚举字段中英文映射表。数据库只存代码/中文键，网站渲染时通过此表转换显示语言。",
+  "_comment": "枚举字段单一可信源。DB 只存中文键/code，渲染时按此表转换。Python 经 bri_enums.py、前端经 src/utils/enums.ts 读取。新增枚举值必须先加这里。",
 
   "category": {
-    "光伏":     { "zh": "光伏",     "en": "Solar (PV)",                    "code": "PV" },
-    "风电":     { "zh": "风电",     "en": "Wind",                          "code": "WD" },
-    "水电":     { "zh": "水电",     "en": "Hydroelectric",                 "code": "HY" },
-    "地热及余热": { "zh": "地热及余热", "en": "Geothermal & Waste Heat",    "code": "GT" },
-    "生物质":   { "zh": "生物质",   "en": "Biomass",                       "code": "BM" },
-    "储能":     { "zh": "储能",     "en": "Energy Storage",                "code": "ES" },
-    "综合能源": { "zh": "综合能源", "en": "Hybrid / Integrated Energy",    "code": "HB" }
+    "光伏":         { "zh": "光伏",         "en": "Solar PV",                     "code": "PV", "color": "#F59E0B", "no_capacity": false, "hidden": false, "excluded": false },
+    "风电":         { "zh": "风电",         "en": "Wind Power",                   "code": "WD", "color": "#3B82F6", "no_capacity": false, "hidden": false, "excluded": false },
+    "水电":         { "zh": "水电",         "en": "Hydropower",                   "code": "HY", "color": "#06B6D4", "no_capacity": false, "hidden": false, "excluded": false },
+    "地热及余热":   { "zh": "地热及余热",   "en": "Geothermal & Waste Heat",      "code": "GT", "color": "#10B981", "no_capacity": false, "hidden": false, "excluded": false },
+    "生物质":       { "zh": "生物质",       "en": "Biomass",                      "code": "BM", "color": "#84CC16", "no_capacity": false, "hidden": false, "excluded": false },
+    "储能":         { "zh": "储能",         "en": "Energy Storage",               "code": "ES", "color": "#64748B", "no_capacity": true,  "hidden": false, "excluded": false },
+    "综合能源":     { "zh": "综合能源",     "en": "Integrated Energy",            "code": "HB", "color": "#EC4899", "no_capacity": false, "hidden": false, "excluded": false },
+    "核电":         { "zh": "核电",         "en": "Nuclear Power",                "code": "NC", "color": "#8B5CF6", "no_capacity": false, "hidden": true,  "excluded": false },
+    "火电":         { "zh": "火电",         "en": "Thermal Power",                "code": "TH", "color": "#78716C", "no_capacity": false, "hidden": false, "excluded": true  },
+    "新能源制造业": { "zh": "新能源制造业", "en": "New Energy Manufacturing",     "code": "MF", "color": "#A78BFA", "no_capacity": true,  "hidden": true,  "excluded": false },
+    "输变电建设":   { "zh": "输变电建设",   "en": "Transmission & Distribution",  "code": "TX", "color": "#F97316", "no_capacity": true,  "hidden": true,  "excluded": false },
+    "Unknown":      { "zh": "未知",         "en": "Unknown",                      "code": "UNK","color": "#9CA3AF", "no_capacity": false, "hidden": false, "excluded": false }
   },
 
   "project_stage": {
-    "收购":     { "zh": "收购",     "en": "Acquisition" },
-    "中标":     { "zh": "中标",     "en": "Awarded" },
-    "签约":     { "zh": "签约",     "en": "Signed" },
-    "开工":     { "zh": "开工",     "en": "Construction Started" },
-    "在建":     { "zh": "在建",     "en": "Under Construction" },
-    "竣工":     { "zh": "竣工",     "en": "Completed" },
-    "投入运营": { "zh": "投入运营", "en": "Operational" },
-    "Unknown":  { "zh": "未知",     "en": "Unknown" }
+    "拟开发":   { "zh": "拟开发",   "en": "Planned",              "priority": 0, "color": "#94a3b8", "hidden": true  },
+    "收购":     { "zh": "收购",     "en": "Acquired",             "priority": 1, "color": "#6B7280", "hidden": false },
+    "中标":     { "zh": "中标",     "en": "Awarded",              "priority": 2, "color": "#EC4899", "hidden": false },
+    "签约":     { "zh": "签约",     "en": "Signed",               "priority": 3, "color": "#9333EA", "hidden": false },
+    "开工":     { "zh": "开工",     "en": "Construction Started", "priority": 4, "color": "#F59E0B", "hidden": false },
+    "在建":     { "zh": "在建",     "en": "Under Construction",   "priority": 5, "color": "#D97706", "hidden": false },
+    "竣工":     { "zh": "竣工",     "en": "Completed",            "priority": 6, "color": "#2563EB", "hidden": false },
+    "投入运营": { "zh": "投入运营", "en": "Operational",          "priority": 7, "color": "#16A34A", "hidden": false },
+    "Unknown":  { "zh": "未知",     "en": "Unknown",              "priority": -1,"color": "#9CA3AF", "hidden": false }
   },
 
   "financing_model": {
-    "信贷融资": { "zh": "信贷融资", "en": "Debt Financing (Credit)" },
+    "信贷融资": { "zh": "信贷融资", "en": "Credit Financing" },
     "债券融资": { "zh": "债券融资", "en": "Bond Financing" },
     "股权融资": { "zh": "股权融资", "en": "Equity Financing" },
     "混合融资": { "zh": "混合融资", "en": "Blended Financing" },
@@ -32,19 +38,20 @@
   },
 
   "involvement_type": {
-    "BOT/BOOT":     { "zh": "BOT/BOOT",     "en": "BOT/BOOT" },
-    "EPC总承包":    { "zh": "EPC总承包",    "en": "EPC Contractor" },
-    "设计/施工服务方": { "zh": "设计/施工服务方", "en": "Design & Construction Service" },
-    "股权投资方":   { "zh": "股权投资方",   "en": "Equity Investor" },
-    "设备供应商":   { "zh": "设备供应商",   "en": "Equipment Supplier" },
-    "投融资+EPC":   { "zh": "投融资+EPC",   "en": "Invest-Finance + EPC" },
-    "Unknown":      { "zh": "未知",         "en": "Unknown" }
+    "BOT/BOOT":       { "zh": "BOT/BOOT",       "en": "BOT/BOOT" },
+    "EPC总承包":      { "zh": "EPC总承包",      "en": "EPC General Contractor" },
+    "设计/施工服务方": { "zh": "设计/施工服务方", "en": "Design/Construction Service" },
+    "股权投资方":     { "zh": "股权投资方",     "en": "Equity Investor" },
+    "设备供应商":     { "zh": "设备供应商",     "en": "Equipment Supplier" },
+    "投融资+EPC":     { "zh": "投融资+EPC",     "en": "Investment + EPC" },
+    "融资方":         { "zh": "融资方",         "en": "Financier" },
+    "Unknown":        { "zh": "未知",           "en": "Unknown" }
   },
 
   "name_en_quality": {
-    "ai_translated":    { "zh": "AI翻译",   "en": "AI Translated",   "display_tag": "[译]" },
-    "source_verified":  { "zh": "信源确认", "en": "Source Verified", "display_tag": "" },
-    "manual_verified":  { "zh": "人工确认", "en": "Manually Verified", "display_tag": "" },
-    "official":         { "zh": "官方名称", "en": "Official Name",   "display_tag": "" }
+    "ai_translated":   { "zh": "AI翻译",   "en": "AI Translated",     "display_tag": "[译]" },
+    "source_verified": { "zh": "信源确认", "en": "Source Verified",   "display_tag": "" },
+    "manual_verified": { "zh": "人工确认", "en": "Manually Verified", "display_tag": "" },
+    "official":        { "zh": "官方名称", "en": "Official Name",     "display_tag": "" }
   }
 }
