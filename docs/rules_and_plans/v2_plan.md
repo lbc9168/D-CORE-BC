@@ -38,6 +38,11 @@
 2. **枚举漂移已发生**：`enums_mapping.json` 只有 7 个 category；`scripts/clean_historical_data.py` 的 `VALID_CATEGORIES` 有 12 个（多出 火电/核电/新能源制造业/输变电建设）；实际 DB 在用 12 个那套。**接单一可信源前必须先对账，以 DB 实际值为准补全 enums_mapping.json。**
 3. **数值字段全是 TEXT**：`project_events.capacity_mw / total_investment_usd`、`extracted_projects.capacity_mw / subcontract_amount_usd / total_investment_usd` 全部 TEXT。
 4. **迁移模板已存在**：`scripts/clean_historical_data.py` 是针对 projects.db 的字段清洗脚本，可作为本次迁移脚本的写法范本。
+5. **s02a 核心库枚举值很脏（2026-05-23 S1 调研实测）**：`bri_re_database.db` 的 `canonical_projects.category` 有 **39** 个不同值、`project_events.project_stage` **47** 个、`financing_model` 12 个、`involvement_type` 9 个。规范集之外是大量长尾脏值：
+   - **非可再生能源项目 ≈ 25 个**（石油/油气/油气开发/矿产开发/煤炭/石油化工/矿产资源/房建/工业园区/基础设施建设/农业灌溉 等），当前正喂给前端。**决策：S2 标记排除/移出。**
+   - **可自动映射的变体**：垃圾发电→生物质、抽水蓄能→储能、光热；融资关闭/融资完成→签约、获批/规划→拟开发；PPP/BOT→对应融资模式等；甚至有整句误入 stage（`'计划于2026年同步启动改造两台机组'`）与英文 `'Concept Reviewed'`。**决策：S2 用映射表清洗。**
+   - `clean_historical_data.py` 只清洗过 s01b 的 projects.db，**从未清洗 s02a 核心库**，脏值一路留到前端来源。
+   - 完整取值清单见 `docs/rules_and_plans/sessions/_db_enum_values.txt`。
 
 ---
 
@@ -72,18 +77,20 @@
 > 涉及真实数据的 session（S2/S5）：**先 `.db` 副本验证，再动主库，动前 `.bak` 备份**。
 > 遵守 CLAUDE.md 全部规则（见 §四）。
 
-### S1 · 枚举单一可信源（低风险，先做）
+### S1 · 枚举单一可信源（低风险，先做，**纯代码、不动数据**）
 
 **为什么先做**：零数据语义风险；是后续所有"中英文一致"的地基；能立刻消灭"改一处漏三处"。
 
-**改动文件：**
+**范围界定**：S1 只做代码层单一可信源，**不清洗 DB 脏值**（脏值清洗 → S2）。即把规范枚举集中到 `enums_mapping.json` 并让全代码读它；DB 里的脏值由 S2 统一映射/排除。
 
-- `enums_mapping.json`：先与 DB 实际值对账，补全到 12 个 category 等完整集合（单一可信源）。
-- 新增 `s0X_*/.../enums.py`（Python 侧加载器）+ `s04_web_visualization/src/utils/enums.ts`（前端侧，构建时由 json 生成或直接 import）。
-- 删除硬编码：`s01b .../project_extractor_tool.py`（prompt 内枚举）、`s02a .../duplicate_merger_tool.py`、`s03 .../flat_builder.py`、`s04` 的 `DataContext.tsx` / `FilterBar.tsx` / `capacityPolicy.ts` 等。
-- 清死代码：`DataContext.tsx` 的 `thermal/oil/gas` 英文键比中文（永不命中）。
+**改动文件**（详见 `docs/rules_and_plans/sessions/S1_enums.md`）：
 
-**验证**：`npm run build` 通过；脚本断言"前后端枚举集合与 enums_mapping.json 完全一致"；抽查前端类别/阶段下拉显示正确。
+- `enums_mapping.json`：补全为规范集（11 类 + Unknown / 8 阶段 + Unknown / 6 融资 / 8 参与 / 4 名称质量），每项带 `zh/en/code` + category 加 `color/no_capacity/hidden/excluded`、stage 加 `color/priority`。
+- 新增 `s0X_*/.../enums.py`（Python 加载器）+ `s04_web_visualization/src/utils/enums.ts`（前端加载器）。
+- 删除硬编码（精确位置见 S1 细化计划）：s01b prompt 内 4 个枚举列表；s02a `CATEGORY_CODE`；s03 `flat_builder.py` 的 `CATEGORY_EN/STAGE_PRIORITY/STAGE_EN/FINANCING_MODEL_EN/INVOLVEMENT_TYPE_EN/NO_CAPACITY_CATS`；s04 `types/index.ts` 的 `CATEGORIES/STAGES/STAGE_COLORS`、`DataContext.tsx`/`FilterBar.tsx` 的 `HIDDEN_CATEGORY_KEYS`、`capacityPolicy.ts` 的 `NO_CAPACITY_CATEGORIES`。
+- 清死代码：`DataContext.tsx` 的 `EXCLUDED_CATEGORIES` 里 `thermal/oil/gas` 英文键比中文（永不命中）。
+
+**验证**：`npm run build` 通过；新增一致性测试断言"各代码模块枚举集合 == enums_mapping.json"；抽查前端类别/阶段下拉显示正确。
 
 ---
 
@@ -94,9 +101,13 @@
 - s01b `project_extractor_tool.py`：入库前 `_parse_number()`；`extracted_projects` 加 REAL 列 + `*_raw` 文本列 + `storage_power_mw` / `storage_energy_mwh` / `capacity_source`。
 - s02a `duplicate_merger_tool.py`：对应列改 REAL（+ `*_raw`），新增 storage / capacity_source 列；`_parse_capacity` 改为读 REAL。
 - s03 `flat_builder.py`：读 REAL 列；储能字段进 projects_flat。
-- 新增 `scripts/migrate_v2_numeric.py`（迁移脚本，范本 = `clean_historical_data.py`）：副本上把 TEXT 数值清洗为 REAL、回填 display_order 占位由 S3 用、storage 尽力正则提取、历史 capacity_source='legacy'。
+- 新增 `scripts/migrate_v2_numeric.py`（迁移脚本，范本 = `clean_historical_data.py`）：副本上把 TEXT 数值清洗为 REAL、storage 尽力正则提取、历史 capacity_source='legacy'。
+- **并入 S2 的脏枚举清洗（来自 S1 调研发现）**：对 s02a 核心库 `bri_re_database.db`——
+  - 用映射表（复用 `clean_historical_data.py` 的 CATEGORY_MAP/STAGE_MAP/INVOLVEMENT_MAP 思路）把变体值归一到 enums_mapping.json 规范集（垃圾发电→生物质、抽水蓄能→储能、融资关闭→签约、获批/规划→拟开发、PPP/BOT→融资模式 等）。
+  - 对 ≈25 个非可再生能源项目（石油/油气/矿产/煤炭/房建/工业园区/农业灌溉 等）打 `excluded` 标记（或移入 non_project_records），不进 s03 导出。
+  - 清洗后 s02a 各枚举列的取值必须 ⊆ enums_mapping.json 规范集（断言验证）。
 
-**验证**：副本迁移后抽样比对 N 条原文 vs 解析值；统计"解析失败（变 null）"占比并人工抽查；确认 `*_raw` 完整保留原文。
+**验证**：副本迁移后抽样比对 N 条原文 vs 解析值；统计数值"解析失败（变 null）"占比并人工抽查；确认 `*_raw` 完整保留原文；**断言 s02a 各枚举列已 ⊆ 规范集、非 RE 项目已排除**。
 
 ---
 
