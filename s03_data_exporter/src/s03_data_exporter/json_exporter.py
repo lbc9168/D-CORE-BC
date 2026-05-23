@@ -3,9 +3,10 @@
 
 输出（均在 output_dir/）：
   projects_flat.json  — 所有项目完整字段（all_entities 已解析为列表）
-  stats_country.json  — 国家维度聚合（地图热力图）
-  stats_entity.json   — 企业维度聚合（排名图表）
-  stats_timeline.json — 时间维度聚合（趋势图）
+  stats_country.json        — 国家维度聚合（地图热力图）
+  stats_entity.json         — 企业维度聚合（排名图表）
+  stats_timeline.json       — 时间维度聚合（终态分布）
+  stats_timeline_events.json— 事件级时间聚合（里程碑趋势图）
 """
 
 import json
@@ -50,7 +51,7 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
     print(f"  ✓ projects_flat.json : {len(rows)} 条  ({projects_path.stat().st_size // 1024} KB)")
 
     # ── 聚合统计表 ────────────────────────────────────────────────────────────
-    for table in ["stats_country", "stats_entity", "stats_timeline"]:
+    for table in ["stats_country", "stats_entity", "stats_timeline", "stats_timeline_events"]:
         stat_rows = [dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()]
         out_path = output_dir / f"{table}.json"
         with open(out_path, "w", encoding="utf-8") as f:
