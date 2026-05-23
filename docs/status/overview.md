@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-05-23
+> 最后更新：2026-05-24
 
 ---
 
@@ -9,7 +9,9 @@
 按 `docs/rules_and_plans/v2_plan.md` 分 S1–S5 逐 session 执行，主题：数据正确性 + 时间建模。
 
 - **S1 枚举单一可信源 ✅（2026-05-23）**：新增根目录 `enums_mapping.json`（补全至 12 类完整规范集 + color/no_capacity/hidden/excluded 标记 + stage priority）+ `bri_enums.py`（Python 加载器）+ `s04 src/utils/enums.ts`（前端加载器，构建期拷贝）。删除 s01b prompt / s02a `CATEGORY_CODE` / s03 flat_builder 六处映射 / s04 `types`、`DataContext`、`FilterBar`、`capacityPolicy` 的全部硬编码枚举与死代码。详见各子项目 status 与 `docs/changes/2026-W21.md`。
-- S2–S5：待执行（数值化 schema + 迁移 / 编号 display_order / 事件级时间建模 / 去重分组与地点归一化）。
+- **S2a 数值化 schema（纯代码）✅（2026-05-24）** + **S2b 主库一次性迁移 ✅（2026-05-24）**：`*_raw(TEXT)`+REAL 双列、储能/容量来源字段、`excluded` 排除非 RE；主库经 `scripts/migrate_v2.py --apply` 迁移（备份 `.bak.20260524_012313`），34 非 RE 项目排除。详见 `docs/changes/2026-W21b.md`、`2026-W21c.md`。
+- **S3 编号稳定 + 排序 bug + display_order ✅（2026-05-24）**：s02a 编号生成改数值排序（修 >9999/99 重复 bug，`canonical_id` 稳定不变）；s03 `projects_flat` 新增 `display_order`（按最早事件日期升序实时计算）；前端列表/表格默认老项目在前。详见 `docs/changes/2026-W21d.md`。
+- S4–S5：待执行（事件级时间建模 / 去重分组与地点归一化）。
 
 ---
 
