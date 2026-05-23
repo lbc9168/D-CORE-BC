@@ -2,6 +2,7 @@ import concurrent.futures
 import json
 import os
 import sqlite3
+import sys
 import threading
 import time
 from datetime import datetime
@@ -14,6 +15,12 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
+
+# ── 枚举单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
+_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+import bri_enums as enums
 
 load_dotenv()
 
@@ -361,6 +368,11 @@ def _init_review_db(db_path: str) -> sqlite3.Connection:
 
 def _build_prompt(title: str, content: str, date: str) -> str:
     entity_lookup = _get_entity_lookup_text()
+    # 枚举取自单一可信源 bri_enums；category 给 LLM 的列表排除 Unknown（与原 prompt 一致）
+    _cat_list = ", ".join(c for c in enums.valid_categories() if c != "Unknown")
+    _involve_list = enums.prompt_value_list("involvement_type")
+    _financing_list = enums.prompt_value_list("financing_model")
+    _stage_list = enums.prompt_value_list("project_stage")
     return f"""
     你是一个能源项目审核专家。请阅读输入的新闻标题和正文，按要求提取符合要求的中国海外能源项目信息，同时需要注意剔除无关的项目。
 
@@ -502,16 +514,16 @@ def _build_prompt(title: str, content: str, date: str) -> str:
         - **判断优先级**：只要新闻中出现了具体的项目名称或电站，即判定为"具体项目"，即使中方角色是设备供应商。
     - **Project Name**: 【必须使用中文填写】格式："国家+区域/省份+装机容量(MW)+项目类型+"项目"+补充说明"。示例："巴基斯坦旁遮普省200MW光伏项目"、"埃塞俄比亚500MW水电项目（二期）"。国家名、项目类型必须用中文；区域/省份无通用中文译名时可保留英文（如"Sindh省"）；【严禁】直接照抄英文原文（如"Pakistan 200MW Solar Project"）。
     - **Project Name (EN)**: 项目名称的英文版本。优先使用项目的官方英文名（如"Karot Hydropower Project"）；若无官方名，则按格式翻译："Country + Capacity MW + Energy Type + Project/Plant [补充说明]"，示例："Pakistan 200MW Solar PV Project (Punjab Province)"、"Ethiopia 500MW Hydropower Project (Phase II)"。
-    - **Category**: 只能选 [新能源制造业，输变电建设，火电，光伏, 风电, 水电，核电，地热及余热, 生物质, 储能, 综合能源]。
+    - **Category**: 只能选 [{_cat_list}]。
         - 如果项目是建设"光伏组件厂"、"锂电池制造基地"、"多晶硅工厂"、"新能源装备产业园"，则视为"新能源制造业"。
             - **区分关键**：看产出单位。如果是"GW/年（产能）"、"万吨/年"，则是工厂。如果是"MW/GW（装机容量）"，才是电站。
         - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等，则选择"输变电建设"。
         - 如果项目是建设"火电厂"、"燃气轮机厂"、"天然气发电厂"、"煤电"，且不涉及与其他新能源发电形式结合，则视为"火电"。
     - **project_summary**: 用2-3句话概括该项目的核心事实。必须包含：中方参与企业名称、所在国家、项目类型、装机容量（如有）、当前阶段。仅基于新闻原文提炼，不做推测或补充。
     - **status**: 枚举值 "valid_project" | "no_chinese_participation" | "irrelevant"
-    - **Type of involvement of Chinese Entities**: 只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 投融资+EPC, 融资方, Unknown]。
-    - **Financing Model**: 只能选 [信贷融资, 债券融资, 股权融资, 混合融资, 其他, Unknown]。
-    - **Project Stage**: 只能选 [拟开发，收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown]。
+    - **Type of involvement of Chinese Entities**: 只能选 [{_involve_list}]。
+    - **Financing Model**: 只能选 [{_financing_list}]。
+    - **Project Stage**: 只能选 [{_stage_list}]。
         - Project Stage判断标准补充："完工"被视为"竣工"；"并网发电"被视为"投入运营"；"收购, 中标, 签约, 开工, 在建"你自行判断，以新闻原文为准。
         - 如果项目只涉及到"投标"、"招标"、"竞标"、"投标意向"、"竞标意向"，且未提及与中国企业相关的具体的中标或签约信息，则视为"拟开发"。
     - **未知信息处理**: 找不到的信息，除非是设定必须填入"Unknown"的情况，其余皆不填。特别地，"Implementing Chinese Entity" 为空时必须填 "Unknown"。
