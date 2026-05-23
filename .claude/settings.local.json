@@ -56,7 +56,9 @@
       "Bash(pip install *)",
       "Bash(python3 docs/charts/gen_charts.py)",
       "Bash(Get-ChildItem -Path \"D:\\\\Research Projects\\\\2026-01 BRI RE database\\\\BRI_RE_Database_v2\\\\s04_web_visualization\" -Recurse -Directory -Depth 2)",
-      "Bash(Select-Object -First 50)"
+      "Bash(Select-Object -First 50)",
+      "Skill(superpowers:using-git-worktrees)",
+      "Skill(superpowers:using-git-worktrees:*)"
     ]
   }
 }

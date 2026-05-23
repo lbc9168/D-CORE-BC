@@ -18,6 +18,7 @@ Python 管道（手动触发，月跑一次）
 **适用条件：** 数据量可控、月度更新、无用户系统需求。
 
 **当前瓶颈：**
+
 - 数据量增大后 JSON 文件体积增大，前端初始加载变慢
 - 数据更新需要手动触发 Python 管道，无法自动化
 - 所有过滤逻辑在浏览器内执行，数据量大时性能下降
@@ -73,12 +74,12 @@ GET /api/metadata
 
 ## 推荐技术选型（低成本方案）
 
-| 组件 | 推荐方案 | 费用 |
-|------|---------|------|
-| 数据库 | Supabase（托管 PostgreSQL） | 免费额度够用 |
-| API 服务 | Railway 或 Vercel（部署 FastAPI） | 小项目基本免费 |
-| 定时任务 | GitHub Actions（cron 触发 Python 管道） | 免费 |
-| 前端托管 | 现有服务器或 Vercel | 不变 |
+| 组件     | 推荐方案                              | 费用      |
+| ------ | --------------------------------- | ------- |
+| 数据库    | Supabase（托管 PostgreSQL）           | 免费额度够用  |
+| API 服务 | Railway 或 Vercel（部署 FastAPI）      | 小项目基本免费 |
+| 定时任务   | GitHub Actions（cron 触发 Python 管道） | 免费      |
+| 前端托管   | 现有服务器或 Vercel                     | 不变      |
 
 现有服务器配置足以运行 API 层，无需升级。
 升级配置的触发条件：并发用户量大，或将 AI 模型改为本地部署。
@@ -113,11 +114,11 @@ def stage_01b_extract(self):
 
 每个阶段都应添加类似的入口检查：
 
-| 阶段 | 验证内容 |
-|------|---------|
-| s01b 入口 | `raw_news.db` 存在且有 `passed_keyword_filter=1` 的记录 |
-| s02a 入口 | `projects.db` 存在且有新写入的记录（`imported_to_s02a=0`） |
-| s03 入口 | `bri_re_database.db` 存在且 `canonical_projects` 表非空 |
+| 阶段      | 验证内容                                              |
+| ------- | ------------------------------------------------- |
+| s01b 入口 | `raw_news.db` 存在且有 `passed_keyword_filter=1` 的记录  |
+| s02a 入口 | `projects.db` 存在且有新写入的记录（`imported_to_s02a=0`）    |
+| s03 入口  | `bri_re_database.db` 存在且 `canonical_projects` 表非空 |
 
 **实施优先级：** 中等。建议在数据管道自动化（定时任务）之前完成，避免无人值守时静默失败。
 
@@ -132,13 +133,13 @@ def stage_01b_extract(self):
 
 ### 测试优先级（待补充）
 
-| 优先级 | 模块 | 测试类型 | 原因 |
-|--------|------|---------|------|
-| 🔴 高 | `s01b/project_extractor_tool.py` | 单元测试 | 字段解析、实体判断逻辑复杂，bug 直接污染数据库 |
-| 🔴 高 | `s03/flat_builder.py` | 单元测试 | 阶段优先级排序、实体合并去重，逻辑复杂且当前无测试 |
-| 🟡 中 | `DataContext.tsx` 过滤逻辑 | 单元测试 | `applyFilter` 和 `shouldExcludeByPolicy` 是前端核心业务逻辑 |
-| 🟡 中 | `s01b → s02a` 写入/读取流程 | 集成测试 | 验证两模块协作是否正确，使用临时测试数据库 |
-| 🟢 低 | 完整流水线 | 端到端测试 | 成本高、维护难，等项目稳定后再考虑 |
+| 优先级  | 模块                               | 测试类型  | 原因                                                |
+| ---- | -------------------------------- | ----- | ------------------------------------------------- |
+| 🔴 高 | `s01b/project_extractor_tool.py` | 单元测试  | 字段解析、实体判断逻辑复杂，bug 直接污染数据库                         |
+| 🔴 高 | `s03/flat_builder.py`            | 单元测试  | 阶段优先级排序、实体合并去重，逻辑复杂且当前无测试                         |
+| 🟡 中 | `DataContext.tsx` 过滤逻辑           | 单元测试  | `applyFilter` 和 `shouldExcludeByPolicy` 是前端核心业务逻辑 |
+| 🟡 中 | `s01b → s02a` 写入/读取流程            | 集成测试  | 验证两模块协作是否正确，使用临时测试数据库                             |
+| 🟢 低 | 完整流水线                            | 端到端测试 | 成本高、维护难，等项目稳定后再考虑                                 |
 
 ### Mock 的使用原则
 
@@ -187,6 +188,7 @@ jobs:
 **不能**把 API Key 写进工作流配置文件（会泄露到 git 历史）。
 
 正确做法：
+
 1. 在 GitHub 仓库 Settings → Secrets 里存入 `GEMINI_API_KEY`
 2. 工作流中通过 `${{ secrets.GEMINI_API_KEY }}` 注入为环境变量
 3. 代码里用 `os.environ["GEMINI_API_KEY"]` 读取
@@ -204,16 +206,16 @@ jobs:
 
 ## 项目成熟度评估
 
-| 维度 | 评分 | 说明 |
-|------|------|------|
-| **错误处理** | 4/10 | 有局部重试机制和 guardrail，但 `except: pass` 和无状态码检查是系统性问题 |
-| **日志系统** | 2/10 | 全部使用 `print()`，无持久化日志，无级别分类 |
-| **数据库设计** | 6/10 | 模块间单向依赖清晰，建表规范，缺少关键索引，逐条 commit 待优化 |
-| **并发安全** | 5/10 | `_name_cache_lock` 正确，`_last_batch_id` 竞争条件是已知 bug |
-| **前端架构** | 7/10 | 组件划分合理，TypeScript 完整，Context 设计合适，缺运行时数据验证 |
-| **模块化设计** | 7/10 | 单向数据流、Flow 编排层、Pydantic 状态模型，明显优于平均 vibe coding 项目 |
-| **测试覆盖** | 3/10 | s01b guardrail 有规范测试，其余模块零覆盖 |
-| **CI/CD 自动化** | 1/10 | 仅有 Makefile 本地快捷命令，无自动化流程 |
+| 维度            | 评分   | 说明                                                 |
+| ------------- | ---- | -------------------------------------------------- |
+| **错误处理**      | 4/10 | 有局部重试机制和 guardrail，但 `except: pass` 和无状态码检查是系统性问题  |
+| **日志系统**      | 2/10 | 全部使用 `print()`，无持久化日志，无级别分类                        |
+| **数据库设计**     | 6/10 | 模块间单向依赖清晰，建表规范，缺少关键索引，逐条 commit 待优化                |
+| **并发安全**      | 5/10 | `_name_cache_lock` 正确，`_last_batch_id` 竞争条件是已知 bug |
+| **前端架构**      | 7/10 | 组件划分合理，TypeScript 完整，Context 设计合适，缺运行时数据验证         |
+| **模块化设计**     | 7/10 | 单向数据流、Flow 编排层、Pydantic 状态模型，明显优于平均 vibe coding 项目 |
+| **测试覆盖**      | 3/10 | s01b guardrail 有规范测试，其余模块零覆盖                       |
+| **CI/CD 自动化** | 1/10 | 仅有 Makefile 本地快捷命令，无自动化流程                          |
 
 ---
 
@@ -222,6 +224,7 @@ jobs:
 ### 第一优先：修复错误处理
 
 **涉及文件：**
+
 - `s01a_news_crawler/tools/news_crawler_tool.py`：加 HTTP 状态码检查，替换 `except: pass`
 - `s01b_project_extractor/tools/project_extractor_tool.py`：`_last_batch_id` 加锁，替换 `except: pass`
 
@@ -230,6 +233,7 @@ jobs:
 ### 第二优先：引入 logging + 阶段间输出验证
 
 **涉及文件：**
+
 - 所有 Python 模块：`print()` → `logging`，日志写入文件
 - `pipeline/flow.py`：每个阶段入口加输出验证（见"流水线阶段间容错设计"章节）
 
@@ -238,6 +242,7 @@ jobs:
 ### 第三优先：GitHub Actions 自动化数据更新
 
 **涉及文件：**
+
 - 新建 `.github/workflows/ci.yml`
 - 新建 `.github/workflows/monthly_update.yml`
 
