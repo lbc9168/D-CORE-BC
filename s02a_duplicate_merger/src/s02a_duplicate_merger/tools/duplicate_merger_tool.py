@@ -10,12 +10,15 @@
 
 import glob
 import json
+import logging
 import os
 import sqlite3
+import sys
 import time
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple, Type
 
 import pandas as pd
@@ -26,23 +29,18 @@ from google.genai import types
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 
+# ── 枚举单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
+_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+import bri_enums as enums
+
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 # ── 常量 ──────────────────────────────────────────────────────────────────────
 
-CATEGORY_CODE: Dict[str, str] = {
-    "光伏": "PV",
-    "风电": "WD",
-    "水电": "HY",
-    "核电": "NC",
-    "地热及余热": "GT",
-    "生物质": "BM",
-    "储能": "ES",
-    "综合能源": "HB",
-    "火电": "TH",
-    "新能源制造业": "MF",
-    "输变电建设": "TX",
-}
 FUZZY_THRESHOLD = 85          # CN 名称 token_sort_ratio 阈值
 FUZZY_THRESHOLD_EN = 80       # EN 名称 token_sort_ratio 阈值（AI 生成，略低）
 FUZZY_PARTIAL_THRESHOLD = 90  # CN 名称 partial_ratio 阈值（捕获子串包含关系）
@@ -159,7 +157,12 @@ def _parse_capacity(val: Any) -> Optional[float]:
 
 
 def _get_cat_code(category: str) -> str:
-    return CATEGORY_CODE.get(category, "XX")
+    """category 中文键 → canonical_id 用的 code；未知类别记 warning 并回退 UNK。"""
+    code = enums.category_code(category)
+    if code is None:
+        logger.warning("未知 category «%s»，canonical_id code 回退为 UNK", category)
+        return "UNK"
+    return code
 
 
 # ── 数据库初始化 ────────────────────────────────────────────────────────────────
