@@ -58,7 +58,16 @@
       "Bash(Get-ChildItem -Path \"D:\\\\Research Projects\\\\2026-01 BRI RE database\\\\BRI_RE_Database_v2\\\\s04_web_visualization\" -Recurse -Directory -Depth 2)",
       "Bash(Select-Object -First 50)",
       "Skill(superpowers:using-git-worktrees)",
-      "Skill(superpowers:using-git-worktrees:*)"
+      "Skill(superpowers:using-git-worktrees:*)",
+      "Bash(sqlite3 s02a_duplicate_merger/data/db/bri_re_database.db 'SELECT name FROM sqlite_master WHERE type='\\\\''table'\\\\'';')",
+      "Bash(sqlite3 s02a_duplicate_merger/data/db/bri_re_database.db 'SELECT COUNT\\(*\\) FROM __TRACKED_VAR__;')",
+      "Bash(grep -i \"\\\\.db$\")",
+      "Bash(python -)",
+      "PowerShell($py = \\(Get-Command py -ErrorAction SilentlyContinue\\); if\\($py\\){\"py: $\\($py.Source\\)\"}; $p3=\\(Get-Command python3 -ErrorAction SilentlyContinue\\); if\\($p3\\){\"python3: $\\($p3.Source\\)\"}; $uv=\\(Get-Command uv -ErrorAction SilentlyContinue\\); if\\($uv\\){\"uv: $\\($uv.Source\\)\"})",
+      "Skill(superpowers:writing-plans)",
+      "Skill(superpowers:writing-plans:*)",
+      "Bash(git rev-list *)",
+      "Bash(git config *)"
     ]
   }
 }
