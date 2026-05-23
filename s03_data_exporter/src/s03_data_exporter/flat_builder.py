@@ -10,10 +10,17 @@
 
 import json
 import sqlite3
+import sys
 from pathlib import Path
 from typing import Optional
 
 import pandas as pd
+
+# ── 枚举单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
+_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+import bri_enums as enums
 
 # ── 国家英文名查找表（从 WorldCountryList.json 加载） ──────────────────────────
 _WORLD_LIST_PATH = (
@@ -31,81 +38,6 @@ def _load_iso3_to_en() -> dict[str, str]:
         return {}
 
 ISO3_TO_EN_NAME: dict[str, str] = _load_iso3_to_en()
-
-# 装机容量不适用的类别（输变电建设、储能、新能源制造业）
-NO_CAPACITY_CATS: set[str] = {"储能", "输变电建设", "新能源制造业"}
-
-# 阶段优先级：值越高 = 越"终态"
-STAGE_PRIORITY: dict[str, int] = {
-    "投入运营": 7,
-    "竣工": 6,
-    "在建": 5,
-    "开工": 4,
-    "签约": 3,
-    "中标": 2,
-    "收购": 1,
-    "拟开发": 0,
-}
-
-# ── 英文映射字典 ──────────────────────────────────────────────────────────────
-
-CATEGORY_EN: dict[str, str] = {
-    "光伏":        "Solar PV",
-    "风电":        "Wind Power",
-    "水电":        "Hydropower",
-    "核电":        "Nuclear Power",
-    "火电":        "Thermal Power",
-    "地热及余热":   "Geothermal & Waste Heat",
-    "生物质":      "Biomass",
-    "储能":        "Energy Storage",
-    "综合能源":    "Integrated Energy",
-    "新能源制造业": "New Energy Manufacturing",
-    "输变电建设":   "Transmission & Distribution",
-}
-
-STAGE_EN: dict[str, str] = {
-    "拟开发":   "Planned",
-    "收购":     "Acquired",
-    "中标":     "Awarded",
-    "签约":     "Signed",
-    "开工":     "Construction Started",
-    "在建":     "Under Construction",
-    "竣工":     "Completed",
-    "投入运营": "In Operation",
-    "审批":     "Approval",
-    "获批":     "Approved",
-    "推进":     "Progressing",
-    "融资":     "Financing",
-    "融资支持":  "Financing Support",
-    "融资完成":  "Financing Completed",
-    "融资关闭":  "Financial Close",
-    "设备供应":  "Equipment Supply",
-    "设备制造":  "Equipment Manufacturing",
-    "设备发运":  "Equipment Delivery",
-    "设计获批":  "Design Approved",
-    "计划于2026年同步启动改造两台机组": "Retrofit Start Planned in 2026",
-    "Unknown":  "Unknown",
-}
-
-FINANCING_MODEL_EN: dict[str, str] = {
-    "信贷融资": "Credit Financing",
-    "债券融资": "Bond Financing",
-    "股权融资": "Equity Financing",
-    "混合融资": "Blended Financing",
-    "其他":     "Other",
-    "Unknown":  "Unknown",
-}
-
-INVOLVEMENT_TYPE_EN: dict[str, str] = {
-    "BOT/BOOT":    "BOT/BOOT",
-    "EPC总承包":   "EPC General Contractor",
-    "设计/施工服务方": "Design/Construction Service",
-    "股权投资方":  "Equity Investor",
-    "设备供应商":  "Equipment Supplier",
-    "投融资+EPC":  "Investment + EPC",
-    "融资方":      "Financier",
-    "Unknown":     "Unknown",
-}
 
 CREATE_TABLE_SQL = """
 CREATE TABLE IF NOT EXISTS projects_flat (
@@ -146,7 +78,8 @@ CREATE TABLE IF NOT EXISTS projects_flat (
 
 
 def _stage_rank(stage: str) -> int:
-    return STAGE_PRIORITY.get(stage or "", 0)
+    """阶段终态优先级：取自 enums（越大越终态，未知 -1）。"""
+    return enums.stage_priority(stage or "")
 
 
 def _parse_month(date_str: Optional[str]) -> Optional[str]:
@@ -178,7 +111,7 @@ def _stage_to_english(stage: str) -> str:
     s = (stage or "").strip()
     if not s:
         return ""
-    mapped = STAGE_EN.get(s)
+    mapped = enums.stage_en(s)
     if mapped:
         return mapped
     # 兜底：若仍是中文短语，统一转为英文占位，避免前端出现中文 timeline。
@@ -281,7 +214,7 @@ def build_flat(
                             "subsidiary":         ent.get("subsidiary_name") or "",
                             "subsidiary_en":      ent.get("subsidiary_name_en") or "",
                             "involvement_type":   inv_type,
-                            "involvement_type_en": INVOLVEMENT_TYPE_EN.get(inv_type, inv_type),
+                            "involvement_type_en": enums.involvement_en(inv_type) or inv_type,
                             "is_central_soe":     ent.get("is_central_soe"),
                         }
                     )
@@ -298,7 +231,7 @@ def build_flat(
         category     = proj.get("category") or ""
 
         # 无装机容量意义的类别：清空容量字段
-        if category in NO_CAPACITY_CATS:
+        if enums.is_no_capacity(category):
             capacity_mw = None
 
         latest_stage = latest.get("project_stage") or ""
@@ -358,10 +291,10 @@ def build_flat(
                 "location":            proj.get("location") or "",
                 "province":            province_map.get(pid),
                 "category":            category,
-                "category_en":         CATEGORY_EN.get(category, category),
+                "category_en":         enums.category_en(category) or category,
                 "capacity_mw":         capacity_mw,
                 "latest_stage":        latest_stage,
-                "latest_stage_en":     STAGE_EN.get(latest_stage, latest_stage),
+                "latest_stage_en":     enums.stage_en(latest_stage) or latest_stage,
                 "latest_stage_date":   latest.get("publish_date") or latest.get("investment_date") or "",
                 "event_year":          event_year,
                 "event_month":         _parse_month(
@@ -371,7 +304,7 @@ def build_flat(
                 "event_count":         len(proj_events),
                 "total_investment_usd": total_investment_usd,
                 "financing_model":     financing_model,
-                "financing_model_en":  FINANCING_MODEL_EN.get(financing_model, financing_model),
+                "financing_model_en":  enums.financing_en(financing_model) or financing_model,
                 "primary_entity":      primary_entity,
                 "primary_entity_en":   primary_entity_en,
                 "all_entities":        json.dumps(all_entities_list, ensure_ascii=False),
