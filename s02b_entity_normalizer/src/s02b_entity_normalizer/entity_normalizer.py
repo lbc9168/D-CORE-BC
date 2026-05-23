@@ -251,32 +251,34 @@ def _build_mapping(
 
 # ── 数据库更新 ─────────────────────────────────────────────────────────────────
 
-def _update_db(db_path: str, mapping: Dict[str, str]) -> Tuple[int, int]:
-    """
-    将 chinese_entities 表中的别名替换为规范名。
-    同时更新 implementing_entity 和 subsidiary_name 两列。
-    返回 (更新的 implementing_entity 行数, 更新的 subsidiary_name 行数)。
-    """
-    if not mapping:
+def _update_db(
+    db_path: str,
+    impl_mapping: Dict[str, str],
+    sub_mapping: Optional[Dict[str, str]] = None,
+) -> Tuple[int, int]:
+    """用 impl_mapping 归一 implementing_entity；仅当传入 sub_mapping 才归一 subsidiary_name（两列映射来源独立，互不串改）。"""
+    if not impl_mapping and not sub_mapping:
         return 0, 0
 
     conn = sqlite3.connect(db_path)
     n_impl = n_sub = 0
 
-    for alias, canon in mapping.items():
-        r = conn.execute(
+    # 批量更新用事务包裹 + executemany（CLAUDE.md 规则3）
+    if impl_mapping:
+        cur = conn.executemany(
             "UPDATE chinese_entities SET implementing_entity = ? "
             "WHERE implementing_entity = ?",
-            (canon, alias),
+            [(canon, alias) for alias, canon in impl_mapping.items()],
         )
-        n_impl += r.rowcount
+        n_impl = cur.rowcount
 
-        r = conn.execute(
+    if sub_mapping:
+        cur = conn.executemany(
             "UPDATE chinese_entities SET subsidiary_name = ? "
             "WHERE subsidiary_name = ?",
-            (canon, alias),
+            [(canon, alias) for alias, canon in sub_mapping.items()],
         )
-        n_sub += r.rowcount
+        n_sub = cur.rowcount
 
     conn.commit()
     conn.close()
