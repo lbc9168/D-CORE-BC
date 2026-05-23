@@ -110,13 +110,17 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           </dl>
         </section>
 
-        {/* 时间线 */}
-        {p.timeline_notes && (
+        {/* 时间线：多事件用 timeline_notes（到月）；单事件回退显示该里程碑与月份 */}
+        {(p.timeline_notes || p.event_month) && (
           <section>
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               {t("projectDetail.timeline")}
             </h4>
-            <p className="text-xs text-slate-700 leading-relaxed">{p.timeline_notes}</p>
+            <p className="text-xs text-slate-700 leading-relaxed">
+              {p.timeline_notes
+                ? p.timeline_notes
+                : `${p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}: ${p.event_month}`}
+            </p>
           </section>
         )}
 

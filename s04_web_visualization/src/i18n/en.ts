@@ -86,9 +86,9 @@ const en: Translations = {
     externalLinks: "External Links",
   },
   chart: {
-    timelineTitle: "Annual Project Trend",
+    timelineTitle: "Annual Milestone Trend",
     entityTitle: "Top Chinese Entities by Project Count",
-    projects: "Projects",
+    projects: "Milestones",
     total: "Total",
     capacity: "Capacity (MW)",
     topN: "Top {{n}} Entities",

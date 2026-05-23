@@ -90,9 +90,9 @@ const zh = {
   },
   // 图表
   chart: {
-    timelineTitle: "各年项目数趋势",
+    timelineTitle: "各年各里程碑数趋势",
     entityTitle: "中方企业项目数排名",
-    projects: "项目数",
+    projects: "里程碑数",
     total: "总计",
     capacity: "容量 (MW)",
     topN: "前 {{n}} 家企业",
