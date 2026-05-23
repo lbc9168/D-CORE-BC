@@ -29,11 +29,12 @@ from google.genai import types
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 
-# ── 枚举单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
+# ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
+import bri_parse
 
 load_dotenv()
 
@@ -67,7 +68,8 @@ CREATE TABLE IF NOT EXISTS non_project_records (
     country                 TEXT,
     country_iso             TEXT,
     category                TEXT,
-    capacity_mw             TEXT,
+    capacity_mw_raw         TEXT,
+    capacity_mw             REAL,
     capacity_details        TEXT,
     project_stage           TEXT,
     implementing_entity     TEXT,
@@ -75,7 +77,8 @@ CREATE TABLE IF NOT EXISTS non_project_records (
     subsidiary_name         TEXT,
     subsidiary_name_en      TEXT,
     involvement_type        TEXT,
-    subcontract_amount      TEXT,
+    subcontract_amount_raw  TEXT,
+    subcontract_amount      REAL,
     financing_model         TEXT,
     financing_model_details TEXT,
     source_link             TEXT,
@@ -95,6 +98,8 @@ CREATE TABLE IF NOT EXISTS canonical_projects (
     ldc              TEXT,
     location         TEXT,
     category         TEXT,
+    excluded         INTEGER DEFAULT 0,   -- 1=非可再生能源等，排除出统计
+    excluded_reason  TEXT,
     created_at       TEXT
 );
 
@@ -102,12 +107,17 @@ CREATE TABLE IF NOT EXISTS project_events (
     id                      TEXT PRIMARY KEY,   -- e.g. IND-PV-0001-01
     canonical_id            TEXT NOT NULL REFERENCES canonical_projects(id),
     project_stage           TEXT,
-    capacity_mw             TEXT,
+    capacity_mw_raw         TEXT,
+    capacity_mw             REAL,
     capacity_details        TEXT,
+    storage_power_mw        REAL,
+    storage_energy_mwh      REAL,
+    capacity_source         TEXT,
     project_developer       TEXT,
     planned_start_date      TEXT,
     planned_complete_date   TEXT,
-    total_investment_usd    TEXT,
+    total_investment_usd_raw TEXT,
+    total_investment_usd    REAL,
     investment_date         TEXT,
     financing_model         TEXT,
     financing_model_details TEXT,
@@ -134,7 +144,8 @@ CREATE TABLE IF NOT EXISTS chinese_entities (
     subsidiary_name_en      TEXT,
     entity_en_quality       TEXT DEFAULT 'ai_translated',  -- ai_translated | source_verified | manual_verified
     involvement_type        TEXT,
-    subcontract_amount      TEXT,
+    subcontract_amount_raw  TEXT,
+    subcontract_amount      REAL,
     is_central_soe          INTEGER
 );
 """
@@ -149,11 +160,8 @@ def _clean(val: Any) -> str:
 
 
 def _parse_capacity(val: Any) -> Optional[float]:
-    """提取装机容量数值，失败返回 None。"""
-    try:
-        return float(_clean(val))
-    except (ValueError, TypeError):
-        return None
+    """提取装机容量数值，失败返回 None（复用单一可信源 bri_parse）。"""
+    return bri_parse.parse_number(val)
 
 
 def _get_cat_code(category: str) -> str:
@@ -178,11 +186,22 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE project_events ADD COLUMN official_website_links TEXT",
         "ALTER TABLE project_events ADD COLUMN non_official_website_links TEXT",
         "ALTER TABLE chinese_entities ADD COLUMN is_central_soe INTEGER",
+        # S2a 数值化新列（idempotent）
+        "ALTER TABLE project_events ADD COLUMN capacity_mw_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN storage_power_mw REAL",
+        "ALTER TABLE project_events ADD COLUMN storage_energy_mwh REAL",
+        "ALTER TABLE project_events ADD COLUMN capacity_source TEXT",
+        "ALTER TABLE project_events ADD COLUMN total_investment_usd_raw TEXT",
+        "ALTER TABLE chinese_entities ADD COLUMN subcontract_amount_raw TEXT",
+        "ALTER TABLE non_project_records ADD COLUMN capacity_mw_raw TEXT",
+        "ALTER TABLE non_project_records ADD COLUMN subcontract_amount_raw TEXT",
+        "ALTER TABLE canonical_projects ADD COLUMN excluded INTEGER DEFAULT 0",
+        "ALTER TABLE canonical_projects ADD COLUMN excluded_reason TEXT",
     ]:
         try:
             conn.execute(col_def)
         except sqlite3.OperationalError:
-            pass  # 列已存在
+            pass  # 列已存在（已知无害边界，按 CLAUDE.md 规则1 沉默）
     conn.commit()
     return conn
 
@@ -1104,10 +1123,12 @@ def _write_to_db(
                 merged_rec = _merge_group(client, config, [existing_dict, project])
                 conn.execute(
                     """UPDATE project_events SET
-                           capacity_mw = ?, capacity_details = ?,
+                           capacity_mw_raw = ?, capacity_mw = ?, capacity_source = ?,
+                           capacity_details = ?,
                            project_developer = ?,
                            planned_start_date = ?, planned_complete_date = ?,
-                           total_investment_usd = ?, investment_date = ?,
+                           total_investment_usd_raw = ?, total_investment_usd = ?,
+                           investment_date = ?,
                            financing_model = ?, financing_model_details = ?,
                            source_links = ?,
                            official_website_links = ?, non_official_website_links = ?,
@@ -1115,11 +1136,14 @@ def _write_to_db(
                        WHERE id = ?""",
                     (
                         merged_rec["capacity_mw"],
+                        bri_parse.parse_number(merged_rec["capacity_mw"]),
+                        "original",
                         merged_rec["capacity_details"],
                         merged_rec["project_developer"],
                         merged_rec["planned_start_date"],
                         merged_rec["planned_complete_date"],
                         merged_rec["total_investment_usd"],
+                        bri_parse.parse_number(merged_rec["total_investment_usd"]),
                         merged_rec["investment_date"],
                         merged_rec["financing_model"],
                         merged_rec.get("financing_details", ""),
@@ -1147,20 +1171,25 @@ def _write_to_db(
             event_id = _gen_event_id(conn, canonical_id)
             conn.execute(
                 """INSERT INTO project_events
-                   (id, canonical_id, project_stage, capacity_mw, capacity_details,
+                   (id, canonical_id, project_stage,
+                    capacity_mw_raw, capacity_mw, capacity_details,
+                    storage_power_mw, storage_energy_mwh, capacity_source,
                     project_developer, planned_start_date, planned_complete_date,
-                    total_investment_usd, investment_date,
+                    total_investment_usd_raw, total_investment_usd, investment_date,
                     financing_model, financing_model_details, source_links,
                     official_website_links, non_official_website_links,
                     publish_date, additional_remarks, project_summary, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     event_id, canonical_id,
                     project["project_stage"],
-                    project["capacity_mw"],     project["capacity_details"],
+                    project["capacity_mw"], bri_parse.parse_number(project["capacity_mw"]),
+                    project["capacity_details"],
+                    None, None, "original",  # storage 提取属 v2.1，本次留空
                     project["project_developer"],
                     project["planned_start_date"], project["planned_complete_date"],
-                    project["total_investment_usd"], project["investment_date"],
+                    project["total_investment_usd"], bri_parse.parse_number(project["total_investment_usd"]),
+                    project["investment_date"],
                     project["financing_model"],    project["financing_details"],
                     json.dumps(project["source_links"], ensure_ascii=False),
                     json.dumps(project.get("official_website_links", []), ensure_ascii=False),
@@ -1186,8 +1215,8 @@ def _write_to_db(
                     """INSERT INTO chinese_entities
                        (event_id, implementing_entity, implementing_entity_en,
                         subsidiary_name, subsidiary_name_en, entity_en_quality,
-                        involvement_type, subcontract_amount, is_central_soe)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                        involvement_type, subcontract_amount_raw, subcontract_amount, is_central_soe)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         event_id,
                         ent["implementing_entity"],
@@ -1197,6 +1226,7 @@ def _write_to_db(
                         ent.get("entity_en_quality", "ai_translated"),
                         ent["involvement_type"],
                         ent["subcontract_amount"],
+                        bri_parse.parse_number(ent["subcontract_amount"]),
                         ent.get("is_central_soe"),
                     ),
                 )
@@ -1214,9 +1244,9 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
     """
     row = conn.execute("""
         SELECT
-            pe.project_stage, pe.capacity_mw, pe.capacity_details,
+            pe.project_stage, pe.capacity_mw_raw, pe.capacity_details,
             pe.project_developer, pe.planned_start_date, pe.planned_complete_date,
-            pe.total_investment_usd, pe.investment_date,
+            pe.total_investment_usd_raw, pe.investment_date,
             pe.financing_model, pe.financing_model_details,
             pe.source_links, pe.official_website_links, pe.non_official_website_links,
             pe.publish_date, pe.additional_remarks, pe.project_summary,
@@ -1233,7 +1263,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
     ent_rows = conn.execute("""
         SELECT implementing_entity, implementing_entity_en,
                subsidiary_name, subsidiary_name_en, entity_en_quality,
-               involvement_type, subcontract_amount, is_central_soe
+               involvement_type, subcontract_amount_raw, is_central_soe
         FROM chinese_entities WHERE event_id = ?
     """, (event_id,)).fetchall()
 
@@ -1307,17 +1337,20 @@ def _write_non_project_records(
             conn.execute(
                 """INSERT INTO non_project_records
                    (record_type, project_name, country, country_iso, category,
-                    capacity_mw, capacity_details, project_stage,
+                    capacity_mw_raw, capacity_mw, capacity_details, project_stage,
                     implementing_entity, implementing_entity_en,
-                    subsidiary_name, subsidiary_name_en, involvement_type, subcontract_amount,
+                    subsidiary_name, subsidiary_name_en, involvement_type,
+                    subcontract_amount_raw, subcontract_amount,
                     financing_model, financing_model_details,
                     source_link, publish_date, additional_remarks, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     rec["record_type"], rec["project_name"],
                     rec["country"], rec["country_iso"], rec["category"],
-                    rec["capacity_mw"], rec["capacity_details"], rec["project_stage"],
-                    "", "", "", "", "", "",
+                    rec["capacity_mw"], bri_parse.parse_number(rec["capacity_mw"]),
+                    rec["capacity_details"], rec["project_stage"],
+                    "", "", "", "", "",
+                    "", None,
                     rec["financing_model"], rec["financing_details"],
                     src, rec["publish_date"], rec["additional_remarks"], now,
                 ),
@@ -1328,22 +1361,25 @@ def _write_non_project_records(
                 conn.execute(
                     """INSERT INTO non_project_records
                        (record_type, project_name, country, country_iso, category,
-                        capacity_mw, capacity_details, project_stage,
+                        capacity_mw_raw, capacity_mw, capacity_details, project_stage,
                         implementing_entity, implementing_entity_en,
-                        subsidiary_name, subsidiary_name_en, involvement_type, subcontract_amount,
+                        subsidiary_name, subsidiary_name_en, involvement_type,
+                        subcontract_amount_raw, subcontract_amount,
                         financing_model, financing_model_details,
                         source_link, publish_date, additional_remarks, created_at)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         rec["record_type"], rec["project_name"],
                         rec["country"], rec["country_iso"], rec["category"],
-                        rec["capacity_mw"], rec["capacity_details"], rec["project_stage"],
+                        rec["capacity_mw"], bri_parse.parse_number(rec["capacity_mw"]),
+                        rec["capacity_details"], rec["project_stage"],
                         ent.get("implementing_entity", ""),
                         ent.get("implementing_entity_en", ""),
                         ent.get("subsidiary_name", ""),
                         ent.get("subsidiary_name_en", ""),
                         ent.get("involvement_type", ""),
                         ent.get("subcontract_amount", ""),
+                        bri_parse.parse_number(ent.get("subcontract_amount", "")),
                         rec["financing_model"], rec["financing_details"],
                         src, rec["publish_date"], rec["additional_remarks"], now,
                     ),
