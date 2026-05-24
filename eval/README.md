@@ -77,7 +77,7 @@ uv --project s01b_project_extractor run python -m eval.run_eval \
 - **status 是闸门**：status 预测错的记录，其字段**不计入字段分**（单独在 `status_accuracy` 体现）；
   且仅当 gold `status == valid` 时才有字段分（`irrelevant` / `no_chinese` 只比 status）。
 - **枚举字段**（category / project_stage / financing_model / involvement_type）：归一化后相等判定。
-- **数值字段**（capacity_mw / total_investment_usd / storage_power_mw / storage_energy_mwh）：相对误差 ±5% 内算对。
+- **数值字段**（capacity_mw / total_investment_usd）：相对误差 ±5% 内算对。（储能功率/容量字段 P0 暂不评测，待提取器支持后补回。）
 - **实体**：预测集合 vs 金标准集合的 precision / recall / F1（报告取 F1 均值）。
 - **weighted_total**：status / enum / numeric / entity 四分量加权，默认等权（各 0.25）；
   无数据的分量丢弃并对剩余权重重新归一化。权重可在 `run_eval.py` 的 `WEIGHTS` 调整。

@@ -36,7 +36,9 @@ def entity_prf(pred_list, gold_list):
     return p, r, f1
 
 ENUM_FIELDS = ("category", "project_stage", "financing_model", "involvement_type")
-NUMERIC_FIELDS = ("capacity_mw", "total_investment_usd", "storage_power_mw", "storage_energy_mwh")
+# 储能功率/容量字段 P0 暂不评测：提取器尚未单独产出，gold/predict/build_draft 均无对应列，
+# 计入会因 cmp_numeric(None,None)=True 恒判对而虚高数值分；待储能提取落地后随四处一并补回。
+NUMERIC_FIELDS = ("capacity_mw", "total_investment_usd")
 
 def score_record(pred: dict, gold: dict) -> dict:
     """返回 {status_correct, fields:{field:bool}, entity_prf:(p,r,f1)}；status 错则 fields 留空。"""
