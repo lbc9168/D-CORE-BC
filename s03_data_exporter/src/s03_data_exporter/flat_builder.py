@@ -66,6 +66,9 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     event_year          INTEGER,
     event_month         TEXT,
     timeline_notes      TEXT,
+    stage_events        TEXT,
+    first_event_year    INTEGER,
+    last_event_year     INTEGER,
     event_count         INTEGER,
     total_investment_usd REAL,
     financing_model     TEXT,
@@ -209,6 +212,20 @@ def build_flat(
                     parts.append(f"{stage_en}: {ym}")
             timeline_notes = " → ".join(parts)
 
+        # stage_events：仅含映射到 4 大类的可见事件，{group, year}，按 year 升序
+        _stage_events: list[dict] = []
+        for ev in proj_events:
+            grp = enums.viz_group(ev.get("project_stage") or "")
+            if grp is None:
+                continue
+            yr = _parse_year(ev.get("publish_date") or ev.get("investment_date"))
+            if yr is None:
+                continue
+            _stage_events.append({"group": grp, "year": yr})
+        _stage_events.sort(key=lambda x: x["year"])
+        first_event_year = _stage_events[0]["year"] if _stage_events else None
+        last_event_year = _stage_events[-1]["year"] if _stage_events else None
+
         # 实体：所有事件合并去重（按最终状态 → 其他顺序），primary 取最终状态第一个
         all_entities_list: list[dict] = []
         seen_entities: set[str] = set()
@@ -335,6 +352,9 @@ def build_flat(
                     latest.get("publish_date") or latest.get("investment_date")
                 ),
                 "timeline_notes":      timeline_notes,
+                "stage_events":        json.dumps(_stage_events, ensure_ascii=False),
+                "first_event_year":    first_event_year,
+                "last_event_year":     last_event_year,
                 "event_count":         len(proj_events),
                 "total_investment_usd": total_investment_usd,
                 "financing_model":     financing_model,
