@@ -12,6 +12,7 @@ import {
 import type { Project, VizGroup } from "@/types";
 import { CATEGORIES } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
+import { BASELINE_YEAR } from "@/contexts/DataContext";
 
 // 各年里程碑数趋势图：按 年份 × 类别 堆叠；里程碑大类由上方 Filter Bar 的 Status 决定（空 = 全部 = 总数），无独立 tab
 interface TimelineChartProps {
@@ -44,6 +45,7 @@ export default function TimelineChart({ projects, groups }: TimelineChartProps) 
       // 不同大类同年仍各计一次，如 签约 2023 与 开工 2023）
       const seen = new Set<string>();
       for (const e of p.stage_events ?? []) {
+        if (e.year < BASELINE_YEAR) continue;   // 隐藏基线年（2022）前的里程碑
         if (groups.length > 0 && !groups.includes(e.group)) continue;
         const key = `${e.group}:${e.year}`;
         if (seen.has(key)) continue;

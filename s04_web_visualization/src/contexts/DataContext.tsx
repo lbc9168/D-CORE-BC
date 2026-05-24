@@ -22,7 +22,7 @@ import { isExcludedCategory, isHiddenCategory } from "@/utils/enums";
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
 const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
 // 基线年份下限：早于此年的项目/事件不进入可视化（与 s03 口径一致）
-const BASELINE_YEAR = 2022;
+export const BASELINE_YEAR = 2022;
 const UNKNOWN_TEXTS = new Set(["unknown", "未知", "未披露", "n/a", "na", "-", "—"]);
 
 function isUnknownText(value: string | null | undefined): boolean {
