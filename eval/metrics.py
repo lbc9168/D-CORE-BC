@@ -96,3 +96,19 @@ def align_projects(pred_projects, gold_projects, threshold: int = NAME_THRESHOLD
     unmatched_pred = [i for i in range(len(pred_projects)) if i not in used_p]
     unmatched_gold = [i for i in range(len(gold_projects)) if i not in used_g]
     return matched, unmatched_pred, unmatched_gold
+
+def score_entities(pred_entities, gold_entities):
+    """比较两个项目的中企集合：返回 (name_p, name_r, name_f1, role_correct, role_matched)。
+    name 按归一名集合算 P/R/F1；role 仅对两边同名企业比 involvement_type。"""
+    pmap = {_norm_name(e.get("name")): e.get("involvement_type") for e in pred_entities if e.get("name")}
+    gmap = {_norm_name(e.get("name")): e.get("involvement_type") for e in gold_entities if e.get("name")}
+    ps, gs = set(pmap), set(gmap)
+    if not ps and not gs:
+        return (1.0, 1.0, 1.0, 0, 0)
+    inter = ps & gs
+    name_p = len(inter) / len(ps) if ps else 0.0
+    name_r = len(inter) / len(gs) if gs else 0.0
+    name_f1 = 2 * name_p * name_r / (name_p + name_r) if (name_p + name_r) else 0.0
+    role_matched = len(inter)
+    role_correct = sum(1 for n in inter if cmp_enum("involvement_type", pmap[n], gmap[n]))
+    return (name_p, name_r, name_f1, role_correct, role_matched)

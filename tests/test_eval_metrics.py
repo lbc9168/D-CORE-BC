@@ -50,3 +50,25 @@ def test_align_below_threshold_no_match():
     gold = [{"project_name":"阿尔法光伏电站"}]
     matched, unp, ung = m.align_projects(pred, gold)
     assert matched == [] and len(unp) == 1 and len(ung) == 1
+
+def test_score_entities_all_match_roles_correct():
+    pred = [{"name":"中国电建","involvement_type":"EPC总承包"}]
+    gold = [{"name":"中国电建","involvement_type":"EPC总承包"}]
+    np_, nr_, nf1, rc, rm = m.score_entities(pred, gold)
+    assert nf1 == 1.0 and rc == 1 and rm == 1
+
+def test_score_entities_name_match_role_wrong():
+    pred = [{"name":"中国电建","involvement_type":"设备供应商"}]
+    gold = [{"name":"中国电建","involvement_type":"EPC总承包"}]
+    np_, nr_, nf1, rc, rm = m.score_entities(pred, gold)
+    assert nf1 == 1.0 and rc == 0 and rm == 1
+
+def test_score_entities_partial_name_overlap():
+    pred = [{"name":"中国电建","involvement_type":"EPC总承包"},
+            {"name":"三峡","involvement_type":"股权投资方"}]
+    gold = [{"name":"中国电建","involvement_type":"EPC总承包"}]
+    np_, nr_, nf1, rc, rm = m.score_entities(pred, gold)
+    assert nr_ == 1.0 and 0 < np_ < 1 and rm == 1 and rc == 1
+
+def test_score_entities_both_empty():
+    assert m.score_entities([], []) == (1.0, 1.0, 1.0, 0, 0)
