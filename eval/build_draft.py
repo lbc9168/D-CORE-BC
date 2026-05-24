@@ -1,4 +1,4 @@
-"""P0 分层抽样器：按 category + 难度桶抽取 ~N 个 source_link，生成供人工标注的草稿 CSV。"""
+"""P0.1 分层抽样器：按 category + 难度桶抽取 ~N 篇文章，按 project_name 拆成一行一项目的人工标注草稿 CSV。"""
 import argparse
 import logging
 import pathlib
@@ -19,10 +19,12 @@ SEED = 42  # 固定随机种子，保证可复现
 SUPPLIER_INVOLVEMENT = "设备供应商"  # 设备供应商参与类型（供应商难度桶）
 MIN_PER_CATEGORY = 5  # 每个 category 至少抽几个 source_link
 NEGATIVE_TARGET = 15  # 负样本桶（raw_news 中无提取结果）目标条数
-# 一行一 source_link 输出的金标准字段（同时存在 ai_<field> 只读列 与 <field> 人工修正列）
+UNNAMED_GROUP = "(未命名)"  # project_name 为空时的分组键（输出 ai_project_name 留空）
+# P0.1 一行一项目：article 级字段（status 全文复用）+ 项目级字段（取项目组首行）
+# 每个金标准字段同时有 ai_<field> 只读列 与 <field> 人工修正空列
 GOLD_FIELDS = (
-    "status", "category", "capacity_mw", "project_stage", "location",
-    "total_investment_usd", "financing_model", "involvement_type", "entities",
+    "status", "project_name", "category", "capacity_mw", "project_stage", "location",
+    "total_investment_usd", "financing_model", "entities",
 )
 
 _LOG_PATH = pathlib.Path(__file__).resolve().parent / "build_draft.log"
@@ -128,16 +130,28 @@ def _is_empty(v) -> bool:
 
 
 def _ai_entities(group: list[dict]) -> list[str]:
-    """聚合一个 source_link 内去重的有效中方实体名（排除 Unknown/空）。"""
+    """聚合一个项目组内去重的 名字(角色) 对（排除 Unknown/空实体；角色空则只写名字）。"""
     seen: list[str] = []
     for r in group:
         e = r.get("implementing_entity")
         if _is_empty(e) or str(e).strip() == "Unknown":
             continue
         name = str(e).strip()
-        if name not in seen:
-            seen.append(name)
+        role = r.get("involvement_type")
+        pair = name if _is_empty(role) else f"{name}({str(role).strip()})"
+        if pair not in seen:
+            seen.append(pair)
     return seen
+
+
+def _group_by_project(article_rows: list[dict]) -> dict[str, list[dict]]:
+    """把一篇文章的行按 project_name 分组（空名归入 UNNAMED_GROUP），保持出现顺序。"""
+    groups: dict[str, list[dict]] = {}
+    for r in article_rows:
+        name = r.get("project_name")
+        key = UNNAMED_GROUP if _is_empty(name) else str(name).strip()
+        groups.setdefault(key, []).append(r)
+    return groups
 
 
 def _buckets_for(group: list[dict]) -> set[str]:
@@ -244,7 +258,7 @@ def _negative_sources(
 
 
 def build_draft(args: DraftArgs) -> int:
-    """主流程：抽样 → 组装行 → 写 utf-8-sig CSV；返回写出的行数。"""
+    """主流程：抽样 source_link → 每项目一行组装 → 写 utf-8-sig CSV；返回写出的行数。"""
     rng = random.Random(SEED)
     rows = _load_rows(args.projects_db)
     groups = _group_by_source(rows)
@@ -254,33 +268,41 @@ def build_draft(args: DraftArgs) -> int:
     neg = _negative_sources(args.raw_news_db, set(groups.keys()), rng)
 
     out_records: list[dict] = []
+    n_articles = len(selected) + len(neg)  # 抽中文章数（提取桶 + 负样本桶）
 
-    # 提取结果 source_link 行
+    # 提取结果 source_link 行：一篇文章按 project_name 拆成多行（每项目一行）
     for src, labels in selected.items():
-        group = groups[src]
-        main = group[0]
-        ai_status = "irrelevant" if str(main.get("record_type") or "") == "irrelevant" else "valid"
-        ai_vals = {
-            "status": ai_status,
-            "category": main.get("category") or "",
-            "capacity_mw": main.get("capacity_mw") or "",
-            "project_stage": main.get("project_stage") or "",
-            "location": main.get("location") or "",
-            "total_investment_usd": main.get("total_investment_usd") or "",
-            "financing_model": main.get("financing_model") or "",
-            "involvement_type": main.get("involvement_type") or "",
-            "entities": "; ".join(_ai_entities(group)),
-        }
-        rec = {
+        article_rows = groups[src]
+        # ai_status 为 article 级：本文有 irrelevant 记录则 irrelevant，否则 valid（复用每行）
+        ai_status = (
+            "irrelevant"
+            if any(str(r.get("record_type") or "") == "irrelevant" for r in article_rows)
+            else "valid"
+        )
+        article_meta = {
             "source_link": src,
             "article_id": url_to_id.get(src, ""),
             "_bucket": ";".join(sorted(labels)),
         }
-        for f in GOLD_FIELDS:
-            rec[f"ai_{f}"] = ai_vals[f]
-            rec[f] = ""  # 人工修正列留空
-        rec["notes"] = ""
-        out_records.append(rec)
+        for pname, pgroup in _group_by_project(article_rows).items():
+            head = pgroup[0]  # 项目级字段取项目组首行
+            ai_vals = {
+                "status": ai_status,
+                "project_name": "" if pname == UNNAMED_GROUP else pname,
+                "category": head.get("category") or "",
+                "capacity_mw": head.get("capacity_mw") or "",
+                "project_stage": head.get("project_stage") or "",
+                "location": head.get("location") or "",
+                "total_investment_usd": head.get("total_investment_usd") or "",
+                "financing_model": head.get("financing_model") or "",
+                "entities": "; ".join(_ai_entities(pgroup)),
+            }
+            rec = dict(article_meta)
+            for f in GOLD_FIELDS:
+                rec[f"ai_{f}"] = ai_vals[f]
+                rec[f] = ""  # 人工修正列留空
+            rec["notes"] = ""
+            out_records.append(rec)
 
     # 负样本桶行（无 AI 字段值）
     for src in neg:
@@ -307,14 +329,14 @@ def build_draft(args: DraftArgs) -> int:
     except OSError as e:
         log.error("写出 CSV 失败 out=%s: %s", args.out, e)
         raise
-    log.info("已写出草稿 CSV %d 行 → %s", len(df), args.out)
+    log.info("抽中 %d 篇文章 → 写出 %d 行 → %s", n_articles, len(df), args.out)
     return len(df)
 
 
 def _parse_args(argv: list[str] | None = None) -> DraftArgs:
     """解析命令行并构造经 Pydantic 校验的 DraftArgs。"""
-    p = argparse.ArgumentParser(description="P0 分层抽样草稿生成器")
-    p.add_argument("--n", type=int, default=150, help="目标 source_link 总数")
+    p = argparse.ArgumentParser(description="P0.1 分层抽样草稿生成器（一文多行/每项目一行）")
+    p.add_argument("--n", type=int, default=150, help="目标文章数（distinct source_link）")
     p.add_argument("--out", default="eval/draft.csv", help="输出 CSV 路径")
     p.add_argument("--projects-db", default=_default_projects_db(), help="extracted_projects DB 路径")
     p.add_argument("--raw-news-db", default=_default_raw_news_db(), help="raw_news DB 路径（可选）")
