@@ -11,7 +11,6 @@ from datetime import datetime
 from eval import article_store, gold_loader
 from eval.metrics import ENUM_FIELDS, NUMERIC_FIELDS, score_record
 from eval.predict import flat_prediction
-from s01b_project_extractor.tools.project_extractor_tool import _build_prompt, extract_one
 
 logger = logging.getLogger(__name__)
 
@@ -27,6 +26,8 @@ _DEFAULT_MODEL = "gemini-2.5-flash-lite"
 
 def _default_extractor_version() -> str:
     """由 _build_prompt 源码 + 模型名算 sha1[:12]，prompt 一变即自动让缓存失效。"""
+    from s01b_project_extractor.tools.project_extractor_tool import _build_prompt  # 延迟导入：仅默认版本号才需要
+
     src = inspect.getsource(_build_prompt) + _DEFAULT_MODEL
     return hashlib.sha1(src.encode("utf-8")).hexdigest()[:12]
 
@@ -34,6 +35,7 @@ def _default_extractor_version() -> str:
 def _build_real_extract_fn():
     """构造调用真实 Gemini 的 extract_fn；缺 GEMINI_API_KEY 时明确报错。"""
     from google import genai  # 延迟导入：仅真实运行才需要
+    from s01b_project_extractor.tools.project_extractor_tool import extract_one  # 延迟导入：仅真实运行才需要
 
     api_key = os.getenv("GEMINI_API_KEY")
     if not api_key:
