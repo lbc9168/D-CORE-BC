@@ -12,6 +12,7 @@
 - **S2a 数值化 schema（纯代码）✅（2026-05-24）** + **S2b 主库一次性迁移 ✅（2026-05-24）**：`*_raw(TEXT)`+REAL 双列、储能/容量来源字段、`excluded` 排除非 RE；主库经 `scripts/migrate_v2.py --apply` 迁移（备份 `.bak.20260524_012313`），34 非 RE 项目排除。详见 `docs/changes/2026-W21b.md`、`2026-W21c.md`。
 - **S3 编号稳定 + 排序 bug + display_order ✅（2026-05-24）**：s02a 编号生成改数值排序（修 >9999/99 重复 bug，`canonical_id` 稳定不变）；s03 `projects_flat` 新增 `display_order`（按最早事件日期升序实时计算）；前端列表/表格默认老项目在前。详见 `docs/changes/2026-W21d.md`。
 - S4–S5：待执行（事件级时间建模 / 去重分组与地点归一化）。
+- **v2.1 P0 提取评测框架 ✅（2026-05-24）**：新增根 `eval/` 模块（metrics/predict/article_store/build_draft/gold_loader/run_eval + README），为 s01b 提取建立约 150 篇金标准 + 字段级准确率「尺子」，使每次 prompt/agent 改动可量化判断进步/退步；含端到端 mock 测试（无真实 Gemini）。**待人工步骤：金标准标注（~150 篇）→ `gold_set.jsonl`** 后才能跑真实评测。详见 [`eval.md`](eval.md) 与 `docs/changes/2026-W21h.md`。
 
 ---
 
