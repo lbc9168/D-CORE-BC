@@ -1,6 +1,7 @@
 import {
   CATEGORIES as ALL_CATEGORIES,
   STAGES as ALL_STAGES,
+  VIZ_GROUPS as ALL_VIZ_GROUPS,
 } from "@/utils/enums";
 
 // ── 项目数据 ──────────────────────────────────────────────────────────────────
@@ -40,6 +41,9 @@ export interface Project {
   event_year: number | null;
   event_month: string | null;
   timeline_notes: string;
+  stage_events: StageEvent[];        // 4 大类可见事件，按 year 升序（s03 注入）
+  first_event_year: number | null;
+  last_event_year: number | null;
   event_count: number;
   total_investment_usd: number | null;
   financing_model: string;
@@ -53,6 +57,18 @@ export interface Project {
   verification_status: string;
   record_type: string;
   dev_status?: DevStatus;   // 计算字段，由 DataContext 基于 ldc + country_iso 填充
+}
+
+// 4 可视化大类 key —— 必须与 enums_mapping.json 的 viz_group 键保持一致
+export type VizGroup =
+  | "pre_construction"
+  | "under_construction"
+  | "completed"
+  | "acquired";
+
+export interface StageEvent {
+  group: VizGroup;
+  year: number;
 }
 
 // ── 聚合统计 ──────────────────────────────────────────────────────────────────
@@ -127,3 +143,10 @@ export const STAGES = omitUnknown(ALL_STAGES);
 export const STAGE_COLORS: Record<string, string> = Object.fromEntries(
   Object.entries(STAGES).map(([k, v]) => [k, v.color]),
 );
+
+// 4 大类元数据（zh/en/color/order），单一可信源 enums_mapping.json
+export const VIZ_GROUPS = ALL_VIZ_GROUPS;
+// 按 order 排序的 4 大类 key（前期→在建→完工→收购）
+export const VIZ_GROUP_KEYS = Object.entries(VIZ_GROUPS)
+  .sort(([, a], [, b]) => a.order - b.order)
+  .map(([k]) => k) as VizGroup[];

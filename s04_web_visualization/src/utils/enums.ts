@@ -1,8 +1,10 @@
 // 前端枚举单一可信源加载器：读构建期拷贝的 enums.json。
 import raw from "@/generated/enums.json";
+import type { VizGroup } from "@/types";
 
 type CategoryMeta = { zh: string; en: string; code: string; color: string; no_capacity: boolean; hidden: boolean; excluded: boolean };
-type StageMeta = { zh: string; en: string; priority: number; color: string; hidden: boolean };
+type StageMeta = { zh: string; en: string; priority: number; color: string; hidden: boolean; viz_group: string | null };
+type VizGroupMeta = { zh: string; en: string; color: string; order: number };
 type SimpleMeta = { zh: string; en: string };
 
 export const CATEGORIES = raw.category as Record<string, CategoryMeta>;
@@ -15,3 +17,9 @@ export const isExcludedCategory = (zh: string) => CATEGORIES[zh]?.excluded ?? fa
 export const isNoCapacityCategory = (zh: string) => CATEGORIES[zh]?.no_capacity ?? false;
 export const isHiddenStage = (zh: string) => STAGES[zh]?.hidden ?? false;
 export const stageColor = (zh: string) => STAGES[zh]?.color ?? "#9CA3AF";
+
+export const VIZ_GROUPS = raw.viz_group as Record<string, VizGroupMeta>;
+
+/** 细 stage 中文键 → 4 大类 key（无则 null）。 */
+export const stageToGroup = (stageZh: string): VizGroup | null =>
+  (STAGES[stageZh]?.viz_group ?? null) as VizGroup | null;
