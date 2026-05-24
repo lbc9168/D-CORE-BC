@@ -2,7 +2,7 @@
 从 bri_re_export.db 导出静态 JSON 文件，供 s04 前端直接读取。
 
 输出（均在 output_dir/）：
-  projects_flat.json  — 所有项目完整字段（all_entities 已解析为列表）
+  projects_flat.json  — 所有项目完整字段（all_entities / stage_events 已解析为列表）
   stats_country.json  — 国家维度聚合（地图热力图）
   stats_entity.json   — 企业维度聚合（排名图表）
   stats_timeline.json — 时间维度聚合（终态分布）
@@ -34,6 +34,7 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
             ("all_entities", []),
             ("official_website_links", []),
             ("non_official_website_links", []),
+            ("stage_events", []),
         ]:
             raw = row.get(json_field)
             if raw:
