@@ -232,7 +232,7 @@ function SingleYearSlider({
       max={maxYear}
       value={value}
       onChange={(e) => onChange(Number(e.target.value))}
-      className="accent-brand-600 cursor-pointer"
+      className="single-year-input"
       style={{ width: "120px" }}
     />
   );

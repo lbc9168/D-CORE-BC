@@ -13,7 +13,7 @@ import EntityChart from "@/components/charts/EntityChart";
 import type { ColorBy, MapLevel, Project } from "@/types";
 
 export default function MapPage() {
-  const { filteredProjects, trendProjects, loading, error } = useData();
+  const { filteredProjects, trendProjects, filter, loading, error } = useData();
   const { t } = useLang();
 
   const [colorBy, setColorBy] = useState<ColorBy>("count");
@@ -199,7 +199,7 @@ export default function MapPage() {
             // 统计图表
             <div className="flex flex-col h-full overflow-hidden p-2 gap-2">
               <div className="card p-3 flex-1 min-h-0 flex flex-col">
-                <TimelineChart projects={trendProjects} />
+                <TimelineChart projects={trendProjects} groups={filter.groups} />
               </div>
               <div className="card p-3 flex-[0.6] min-h-0 flex flex-col">
                 <EntityChart projects={filteredProjects} />
