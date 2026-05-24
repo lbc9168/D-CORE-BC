@@ -69,8 +69,9 @@ export default function TablePage() {
     try {
       const res = await fetch(`${base}data/events_export.csv`);
       if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
+      // fetch().text() 会剥掉源文件的 UTF-8 BOM；重新补 BOM 以免 Excel 按 GBK 打开导致中文乱码
       const text = await res.text();
-      downloadCSV(text, filename);
+      downloadCSV("﻿" + text.replace(/^﻿/, ""), filename);
     } catch (err) {
       console.error("下载 events_export.csv 失败", err);
     }
