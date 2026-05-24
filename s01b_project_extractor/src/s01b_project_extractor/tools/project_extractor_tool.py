@@ -377,6 +377,13 @@ def _init_review_db(db_path: str) -> sqlite3.Connection:
     return conn
 
 
+# 单一可信源的生成配置：JSON 输出 + 低温度，供 extract_one 复用
+_GENERATION_CONFIG = types.GenerateContentConfig(
+    response_mime_type="application/json",
+    temperature=0.14,
+)
+
+
 # ── Prompt 构建 ────────────────────────────────────────────────────────────────
 
 def _build_prompt(title: str, content: str, date: str) -> str:
@@ -544,6 +551,21 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     """
 
 
+def extract_one(title: str, content: str, date: str, *, client, model: str = "gemini-2.5-flash-lite") -> dict:
+    """对单篇文章跑一次提取，返回原始结果 dict；重试3次后仍失败抛 RuntimeError（不静默）。"""
+    prompt = _build_prompt(title, content, date)
+    last_error = ""
+    for attempt in range(1, 4):
+        try:
+            resp = client.models.generate_content(model=model, contents=prompt, config=_GENERATION_CONFIG)
+            return json.loads(resp.text)
+        except (json.JSONDecodeError, Exception) as e:  # 具体类型在前；兜底重试
+            last_error = str(e)
+            if attempt < 3:
+                time.sleep(2 ** attempt)
+    raise RuntimeError(f"extract_one 失败(重试3次): {last_error}")
+
+
 # ── Input Schema ──────────────────────────────────────────────────────────────
 
 class ProjectExtractorInput(BaseModel):
@@ -595,10 +617,6 @@ class ProjectExtractorTool(BaseTool):
             return "错误：未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。"
 
         client = genai.Client(api_key=api_key)
-        generation_config = types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.14,
-        )
         country_db = _load_country_db(country_db_path)
 
         try:
@@ -624,7 +642,7 @@ class ProjectExtractorTool(BaseTool):
         df = pd.DataFrame(rows, columns=["原文链接", "文章标题", "正文内容", "发布日期"])
         ts = datetime.now().strftime("%Y%m%d_%H%M")
         effective_batch_id = batch_id or f"all_{ts}"
-        return self._process_df(df, effective_batch_id, ts, client, generation_config,
+        return self._process_df(df, effective_batch_id, ts, client,
                                 country_db, projects_db_path, review_db_path)
 
     def _run_from_db(
@@ -652,7 +670,6 @@ class ProjectExtractorTool(BaseTool):
         batch_id: str,
         ts: str,
         client: "genai.Client",
-        generation_config: "types.GenerateContentConfig",
         country_db: dict,
         projects_db_path: str,
         review_db_path: str,
@@ -744,35 +761,15 @@ class ProjectExtractorTool(BaseTool):
 
             print("--------------------------------")
             print(f"[{row_num}/{total}] AI处理中: {title[:25]}...")
-            prompt = _build_prompt(title, content, pub_date)
-
-            MAX_RETRIES = 3
-            result = None
-            last_error = ""
-            for attempt in range(1, MAX_RETRIES + 1):
-                try:
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash-lite",
-                        contents=prompt,
-                        config=generation_config,
-                    )
-                    result = json.loads(response.text)
-                    break
-                except Exception as e:
-                    last_error = str(e)
-                    if attempt < MAX_RETRIES:
-                        wait = 2 ** attempt
-                        print(f"  -> 处理出错（第{attempt}次）: {e}，{wait}s 后重试...")
-                        time.sleep(wait)
-                    else:
-                        print(f"  -> 处理出错（已重试{MAX_RETRIES}次，放弃）: {e}")
-
-            if result is None:
+            try:
+                result = extract_one(title, content, pub_date, client=client)
+            except RuntimeError as e:
+                print(f"  -> 处理出错（已重试3次，放弃）: {e}")
                 with _lock:
                     discarded_rows.append({
                         "文章标题": title,
                         "正文内容": content,
-                        "拒绝原因": f"程序异常（重试{MAX_RETRIES}次失败）: {last_error}",
+                        "拒绝原因": f"程序异常: {e}",
                     })
                 return
 
