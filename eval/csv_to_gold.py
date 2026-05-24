@@ -8,7 +8,6 @@ import argparse
 import json
 import logging
 import pathlib
-import re
 import sys
 
 import pandas as pd
@@ -25,7 +24,6 @@ logger = logging.getLogger(__name__)
 _EMPTY_MARKERS = {"-", "—", "空", "<空>", "none", "na", "n/a", "nan"}
 _VALUE_FIELDS = ("category", "capacity_mw", "project_stage", "location",
                  "total_investment_usd", "financing_model")
-_ENTITY_RE = re.compile(r"^\s*(?P<name>[^()（）]+?)\s*(?:[（(](?P<role>[^()（）]*)[)）])?\s*$")
 
 
 class ConvertArgs(BaseModel):
@@ -60,7 +58,8 @@ def _norm_value(raw):
 
 
 def _parse_entities(raw):
-    """把 名字(角色); 名字(角色) 解析成 [{name,involvement_type}]；空标记/空 → []。"""
+    """把 名字(角色); 名字(角色) 解析成 [{name,involvement_type}]；空标记/空 → []。
+    角色取末尾的括号组（名字本身可含括号，如 中国电建(海外)有限公司）；无尾括号则整串为名字、角色为空。"""
     if not raw or raw.lower() in _EMPTY_MARKERS:
         return []
     out = []
@@ -68,11 +67,15 @@ def _parse_entities(raw):
         part = part.strip()
         if not part:
             continue
-        m = _ENTITY_RE.match(part)
-        if not m or not m.group("name").strip():
-            raise ValueError(f"实体格式无法解析（应为 名字(角色)）: {part!r}")
-        role = (m.group("role") or "").strip()
-        out.append({"name": m.group("name").strip(), "involvement_type": role or None})
+        name, role = part, ""
+        if part[-1] in ")）":                       # 末尾是右括号 → 视为 名字(角色)
+            open_idx = max(part.rfind("("), part.rfind("（"))
+            if open_idx > 0:                        # 括号前必须有名字
+                name = part[:open_idx].strip()
+                role = part[open_idx + 1:-1].strip()
+        if not name:
+            raise ValueError(f"实体格式无法解析（缺名字）: {part!r}")
+        out.append({"name": name, "involvement_type": role or None})
     return out
 
 

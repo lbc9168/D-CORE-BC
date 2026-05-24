@@ -52,3 +52,20 @@ def test_skip_article_without_status(tmp_path):
     _write(csvp, [{"source_link":"http://neg","ai_status":"","status":""}])
     n = csv_to_gold.convert(csvp, out)
     assert n == 0
+
+def test_entity_name_with_internal_parens(tmp_path):
+    csvp = tmp_path / "draft.csv"; out = tmp_path / "gold.jsonl"
+    _write(csvp, [{"source_link":"http://x","ai_status":"valid","ai_project_name":"A","ai_category":"光伏",
+                   "ai_entities":"中国大唐环境(中国)有限公司(EPC总承包); 协合新能源(海外)有限公司"}])
+    csv_to_gold.convert(csvp, out)
+    ents = gold_loader.load(out)[0]["projects"][0]["entities"]
+    assert {(e["name"], e["involvement_type"]) for e in ents} == {
+        ("中国大唐环境(中国)有限公司", "EPC总承包"), ("协合新能源(海外)有限公司", None)}
+
+def test_entity_fullwidth_parens_role(tmp_path):
+    csvp = tmp_path / "draft.csv"; out = tmp_path / "gold.jsonl"
+    _write(csvp, [{"source_link":"http://x","ai_status":"valid","ai_project_name":"A","ai_category":"光伏",
+                   "ai_entities":"中国电建（EPC总承包）"}])
+    csv_to_gold.convert(csvp, out)
+    ents = gold_loader.load(out)[0]["projects"][0]["entities"]
+    assert ents == [{"name":"中国电建","involvement_type":"EPC总承包"}]
