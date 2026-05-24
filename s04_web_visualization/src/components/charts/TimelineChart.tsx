@@ -9,22 +9,16 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import type { StatTimelineEvent } from "@/types";
-import { CATEGORIES, STAGES } from "@/types";
+import type { Project, VizGroup } from "@/types";
+import { CATEGORIES, VIZ_GROUPS, VIZ_GROUP_KEYS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 
-// 事件级里程碑趋势图：按选中里程碑(tab) × 年份 × 类别堆叠，一个项目在它经历的每个阶段-年份各计一次
+// 事件级里程碑趋势图：按选中 4 大类(tab) × 年份 × 类别堆叠，一个项目每个阶段-年份各计一次
 interface TimelineChartProps {
-  events: StatTimelineEvent[];
-  allowedCountries: Set<string>;   // 当前筛选后项目所在国家 ISO（联动地理/筛选）
-  allowedCategories: Set<string>;  // 当前筛选后项目的类别
-  yearRange: [number, number] | null;
+  projects: Project[];   // trendProjects：除 refYear/groups 外已过滤
 }
 
-// 里程碑 tab：新签约 / 新开工 / 新竣工 / 新投运
-const MILESTONE_STAGES = ["签约", "开工", "竣工", "投入运营"];
-
-// 将类别主色与浅灰背景混合，得到更柔和的堆叠色
+// 类别主色与浅灰背景混合，柔化堆叠色
 function softenHexColor(hex: string, ratio = 0.35): string {
   const normalized = hex.replace("#", "");
   if (normalized.length !== 6) return hex;
@@ -32,44 +26,40 @@ function softenHexColor(hex: string, ratio = 0.35): string {
   const g = Number.parseInt(normalized.slice(2, 4), 16);
   const b = Number.parseInt(normalized.slice(4, 6), 16);
   if ([r, g, b].some((v) => Number.isNaN(v))) return hex;
-
   const bg = 0xd9;
   const mix = (v: number) => Math.round(v * (1 - ratio) + bg * ratio);
   const toHex = (v: number) => v.toString(16).padStart(2, "0");
   return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`;
 }
 
-export default function TimelineChart({
-  events,
-  allowedCountries,
-  allowedCategories,
-  yearRange,
-}: TimelineChartProps) {
+export default function TimelineChart({ projects }: TimelineChartProps) {
   const { t } = useLang();
-  const [stage, setStage] = useState<string>(MILESTONE_STAGES[0]);
+  const [group, setGroup] = useState<VizGroup>(VIZ_GROUP_KEYS[0]);
 
   const data = useMemo(() => {
-    // 按选中里程碑过滤事件，再按 年份 × 类别 聚合里程碑数
+    // 选中大类下，按 年份 × 类别 计数（每项目每事件计一次）
     const map = new Map<number, Record<string, number>>();
-    for (const e of events) {
-      if (e.stage !== stage) continue;
-      if (!allowedCountries.has(e.country_iso)) continue;
-      if (!allowedCategories.has(e.category)) continue;
-      if (yearRange && (e.year < yearRange[0] || e.year > yearRange[1])) continue;
-      const row = map.get(e.year) ?? {};
-      row[e.category] = (row[e.category] ?? 0) + e.project_count;
-      map.set(e.year, row);
+    for (const p of projects) {
+      // 同一项目在同一大类同一年只计一次（避免 中标+签约 同年同归"前期"被重复计数）
+      const countedYears = new Set<number>();
+      for (const e of p.stage_events ?? []) {
+        if (e.group !== group) continue;
+        if (countedYears.has(e.year)) continue;
+        countedYears.add(e.year);
+        const row = map.get(e.year) ?? {};
+        row[p.category] = (row[p.category] ?? 0) + 1;
+        map.set(e.year, row);
+      }
     }
     return Array.from(map.entries())
       .sort(([a], [b]) => a - b)
       .map(([year, cats]) => ({ year, ...cats }));
-  }, [events, stage, allowedCountries, allowedCategories, yearRange]);
+  }, [projects, group]);
 
   const activeCats = Object.keys(CATEGORIES).filter((k) =>
     data.some((row) => (row as Record<string, unknown>)[k] != null),
   );
 
-  // 自定义堆叠柱状图悬浮提示
   const renderTooltip = ({
     active,
     payload,
@@ -82,7 +72,6 @@ export default function TimelineChart({
     if (!active || !payload || payload.length === 0) return null;
     const rows = payload.filter((item) => Number(item.value) > 0);
     const total = rows.reduce((sum, item) => sum + Number(item.value || 0), 0);
-
     return (
       <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]">
         <div className="font-medium text-slate-700 mb-1">
@@ -115,17 +104,17 @@ export default function TimelineChart({
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="text-xs font-medium text-slate-600">{t("chart.timelineTitle")}</div>
         <div className="flex gap-0.5">
-          {MILESTONE_STAGES.map((s) => (
+          {VIZ_GROUP_KEYS.map((g) => (
             <button
-              key={s}
-              onClick={() => setStage(s)}
+              key={g}
+              onClick={() => setGroup(g)}
               className={`px-1.5 py-0.5 rounded text-[10px] transition-colors ${
-                stage === s
+                group === g
                   ? "bg-brand-100 text-brand-700 font-medium"
                   : "text-slate-500 hover:bg-slate-100"
               }`}
             >
-              {STAGES[s]?.en ?? s}
+              {VIZ_GROUPS[g]?.en ?? g}
             </button>
           ))}
         </div>
