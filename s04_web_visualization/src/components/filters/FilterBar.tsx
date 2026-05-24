@@ -2,9 +2,9 @@ import { useRef, useState, useEffect, useMemo } from "react";
 import { RotateCcw, ChevronDown, Globe } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
-import { CATEGORIES, STAGES } from "@/types";
-import type { ColorBy, RegionFilter } from "@/types";
-import { isHiddenCategory, isHiddenStage } from "@/utils/enums";
+import { CATEGORIES, VIZ_GROUPS, VIZ_GROUP_KEYS } from "@/types";
+import type { ColorBy, RegionFilter, VizGroup } from "@/types";
+import { isHiddenCategory } from "@/utils/enums";
 import { CONTINENTS, CONTINENT_SUBREGIONS } from "@/utils/continentMapping";
 
 interface FilterBarProps {
@@ -213,8 +213,8 @@ function RegionSelect({
   );
 }
 
-/** 双柄年份范围滑块 */
-function YearRangeSlider({
+/** 单柄参考年滑块（"截至 Y"语义）。 */
+function SingleYearSlider({
   minYear,
   maxYear,
   value,
@@ -222,50 +222,19 @@ function YearRangeSlider({
 }: {
   minYear: number;
   maxYear: number;
-  value: [number, number];
-  onChange: (v: [number, number]) => void;
+  value: number;
+  onChange: (v: number) => void;
 }) {
-  const range = maxYear - minYear || 1;
-  const leftPct = ((value[0] - minYear) / range) * 100;
-  const rightPct = 100 - ((value[1] - minYear) / range) * 100;
-
-  // 当下限 thumb 靠近右侧时，让它浮在上层以便可拖动
-  const lowerZClass = value[0] >= value[1] ? "z-20" : "z-10";
-
   return (
-    <div className="relative h-5 flex items-center" style={{ width: "96px" }}>
-      {/* 背景轨道 */}
-      <div className="absolute inset-x-0 h-1 bg-slate-200 rounded-full" />
-      {/* 选中区间高亮 */}
-      <div
-        className="absolute h-1 bg-brand-400 rounded-full"
-        style={{ left: `${leftPct}%`, right: `${rightPct}%` }}
-      />
-      {/* 下限滑块 */}
-      <input
-        type="range"
-        min={minYear}
-        max={maxYear}
-        value={value[0]}
-        className={`dual-range-input ${lowerZClass}`}
-        onChange={(e) => {
-          const v = Number(e.target.value);
-          onChange([Math.min(v, value[1]), value[1]]);
-        }}
-      />
-      {/* 上限滑块 */}
-      <input
-        type="range"
-        min={minYear}
-        max={maxYear}
-        value={value[1]}
-        className={`dual-range-input z-10`}
-        onChange={(e) => {
-          const v = Number(e.target.value);
-          onChange([value[0], Math.max(v, value[0])]);
-        }}
-      />
-    </div>
+    <input
+      type="range"
+      min={minYear}
+      max={maxYear}
+      value={value}
+      onChange={(e) => onChange(Number(e.target.value))}
+      className="accent-brand-600 cursor-pointer"
+      style={{ width: "120px" }}
+    />
   );
 }
 
@@ -273,23 +242,13 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
   const { filter, setFilter, resetFilter, availableYears } = useData();
   const { t } = useLang();
 
-  const minYear = availableYears[0] ?? 2000;
+  const minYear = availableYears[0] ?? 2022;   // 数据集起始年兜底（availableYears 为空时）
   const maxYear = availableYears[availableYears.length - 1] ?? new Date().getFullYear();
-  const currentRange = filter.yearRange ?? [minYear, maxYear];
-  const stageOptions = useMemo(
-    () => Object.keys(STAGES).filter((k) => !isHiddenStage(k)),
-    [],
-  );
+  const currentYear = filter.refYear ?? maxYear;
   const categoryOptions = useMemo(
     () => Object.keys(CATEGORIES).filter((k) => !isHiddenCategory(k)),
     [],
   );
-
-  // 防止旧筛选状态中残留 planned，确保 UI 与过滤结果一致
-  useEffect(() => {
-    if (filter.stages.every((stage) => stageOptions.includes(stage))) return;
-    setFilter((f) => ({ ...f, stages: f.stages.filter((stage) => stageOptions.includes(stage)) }));
-  }, [filter.stages, setFilter, stageOptions]);
 
   // 清理旧筛选状态中已隐藏的类别
   useEffect(() => {
@@ -302,17 +261,16 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
                     flex-wrap text-xs flex-shrink-0">
 
 
-      {/* 年份双柄滑块 */}
+      {/* 参考年（单年） */}
       <div className="flex items-center gap-2">
-        <span className="text-slate-500">{t("filter.yearRange")}</span>
-        <span className="text-slate-700 font-mono">{currentRange[0]}</span>
-        <YearRangeSlider
+        <span className="text-slate-500">{t("filter.year")}</span>
+        <SingleYearSlider
           minYear={minYear}
           maxYear={maxYear}
-          value={currentRange}
-          onChange={(v) => setFilter((f) => ({ ...f, yearRange: v }))}
+          value={currentYear}
+          onChange={(v) => setFilter((f) => ({ ...f, refYear: v }))}
         />
-        <span className="text-slate-700 font-mono">{currentRange[1]}</span>
+        <span className="text-slate-700 font-mono">{currentYear}</span>
       </div>
 
       <div className="w-px h-4 bg-slate-200 mx-1" />
@@ -359,14 +317,14 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         allLabel={t("filter.allCategories")}
       />
 
-      {/* 项目阶段 */}
+      {/* 项目状态（4 大类） */}
       <MultiSelect
-        label={t("filter.stage")}
-        options={stageOptions}
-        selected={filter.stages}
-        onChange={(v) => setFilter((f) => ({ ...f, stages: v }))}
-        renderLabel={(k) => STAGES[k]?.en ?? k}
-        allLabel={t("filter.allStages")}
+        label={t("filter.status")}
+        options={VIZ_GROUP_KEYS}
+        selected={filter.groups}
+        onChange={(v) => setFilter((f) => ({ ...f, groups: v as VizGroup[] }))}
+        renderLabel={(k) => VIZ_GROUPS[k]?.en ?? k}
+        allLabel={t("filter.allStatuses")}
       />
 
       
