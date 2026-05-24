@@ -122,9 +122,9 @@ export interface RegionFilter {
 }
 
 export interface FilterState {
-  yearRange: [number, number] | null;   // null = 不限年份
+  refYear: number | null;                // 单一参考年 Y；null = 不限年份（UI 默认显示最新年）
   categories: string[];                  // 空数组 = 全选
-  stages: string[];                      // 空数组 = 全选
+  groups: VizGroup[];                    // 4 大类状态；空数组 = 全选
   entities: string[];                    // 空数组 = 全选
   briFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅BRI；["No"] = 仅非BRI
   ldcFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅LDC；["No"] = 仅非LDC

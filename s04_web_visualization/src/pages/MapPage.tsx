@@ -13,7 +13,7 @@ import EntityChart from "@/components/charts/EntityChart";
 import type { ColorBy, MapLevel, Project } from "@/types";
 
 export default function MapPage() {
-  const { filteredProjects, statsTimelineEvents, filter, loading, error } = useData();
+  const { filteredProjects, statsTimelineEvents, loading, error } = useData();
   const { t } = useLang();
 
   // 事件级趋势图联动：当前筛选后项目所覆盖的国家/类别，传给 TimelineChart 过滤事件
@@ -213,7 +213,7 @@ export default function MapPage() {
                   events={statsTimelineEvents}
                   allowedCountries={allowedCountries}
                   allowedCategories={allowedCategories}
-                  yearRange={filter.yearRange}
+                  yearRange={null /* TODO T8: replaced by trendProjects */}
                 />
               </div>
               <div className="card p-3 flex-[0.6] min-h-0 flex flex-col">

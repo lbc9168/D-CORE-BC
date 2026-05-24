@@ -13,14 +13,17 @@ import type {
   StatTimeline,
   StatTimelineEvent,
   FilterState,
+  VizGroup,
 } from "@/types";
 import { ISO3_TO_REGION } from "@/utils/continentMapping";
 import { getDevStatus } from "@/utils/devStatus";
 import { hasCapacity } from "@/utils/capacityPolicy";
-import { isExcludedCategory, isHiddenCategory, isHiddenStage } from "@/utils/enums";
+import { isExcludedCategory, isHiddenCategory } from "@/utils/enums";
 
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
 const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
+// 基线年份下限：早于此年的项目/事件不进入可视化（与 s03 口径一致）
+const BASELINE_YEAR = 2022;
 const UNKNOWN_TEXTS = new Set(["unknown", "未知", "未披露", "n/a", "na", "-", "—"]);
 
 function isUnknownText(value: string | null | undefined): boolean {
@@ -33,8 +36,9 @@ function isUnknownText(value: string | null | undefined): boolean {
 function shouldExcludeByPolicy(p: Project): boolean {
   const iso = (p.country_iso || "").toUpperCase();
   if (EXCLUDED_ISO3.has(iso)) return true;
-  if (p.event_year == null || p.event_year < 2022) return true;
-  if (isHiddenStage(p.latest_stage)) return true;
+  // 无可见 stage 事件、或最晚事件早于 2022 → 排除（与旧 2022+ 基线一致）
+  if (p.first_event_year == null || p.last_event_year == null) return true;
+  if (p.last_event_year < BASELINE_YEAR) return true;
   if (isExcludedCategory(p.category) || isHiddenCategory(p.category)) return true;
   if (isUnknownText(p.primary_entity)) return true;
   if (hasCapacity(p.category) && p.capacity_mw == null) return true;
@@ -67,13 +71,32 @@ async function fetchJson<T>(url: string): Promise<T> {
 
 // ── 过滤逻辑 ──────────────────────────────────────────────────────────────────
 
+/** 截至 year 的最新事件所属大类；year 为 null 取总体最新；无可见事件返回 null。 */
+export function statusGroupAt(p: Project, year: number | null): VizGroup | null {
+  const evs = p.stage_events;
+  if (!evs || evs.length === 0) return null;
+  if (year == null) return evs[evs.length - 1].group; // stage_events 已按 year 升序
+  let g: VizGroup | null = null;
+  for (const e of evs) {
+    if (e.year <= year) g = e.group;
+    else break;
+  }
+  return g;
+}
+
 function applyFilter(projects: Project[], f: FilterState): Project[] {
   return projects.filter((p) => {
-    if (f.yearRange && p.event_year != null) {
-      if (p.event_year < f.yearRange[0] || p.event_year > f.yearRange[1]) return false;
+    // 区间存在性：选定年 Y 须落在项目 [first,last] 区间内
+    if (f.refYear != null) {
+      if (p.first_event_year == null || p.last_event_year == null) return false;
+      if (f.refYear < p.first_event_year || f.refYear > p.last_event_year) return false;
     }
     if (f.categories.length > 0 && !f.categories.includes(p.category)) return false;
-    if (f.stages.length > 0 && !f.stages.includes(p.latest_stage)) return false;
+    // 按当年状态筛选
+    if (f.groups.length > 0) {
+      const g = statusGroupAt(p, f.refYear);
+      if (g == null || !f.groups.includes(g)) return false;
+    }
     if (f.entities.length > 0 && !f.entities.includes(p.primary_entity)) return false;
     if (f.briFilter.length === 1 && p.bri_country !== f.briFilter[0]) return false;
     if (f.ldcFilter.length > 0 && !f.ldcFilter.includes(p.dev_status ?? "Developing")) return false;
@@ -105,6 +128,8 @@ interface DataContextValue {
 
   // 过滤后数据
   filteredProjects: Project[];
+  trendProjects: Project[];
+  statusGroupOf: (p: Project) => VizGroup | null;
 
   // 可用选项（来自数据）
   availableYears: number[];
@@ -121,9 +146,9 @@ interface DataContextValue {
 // ── 默认过滤状态 ──────────────────────────────────────────────────────────────
 
 const DEFAULT_FILTER: FilterState = {
-  yearRange: null,
+  refYear: null,
   categories: [],
-  stages: [],
+  groups: [],
   entities: [],
   briFilter: [],
   ldcFilter: [],
@@ -176,10 +201,18 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     [policyProjects, filter],
   );
 
+  // 趋势图数据源：应用除 refYear/groups 外的全部筛选（图自带 4 tab + 全时间轴）
+  const trendProjects = useMemo(
+    () => applyFilter(policyProjects, { ...filter, refYear: null, groups: [] }),
+    [policyProjects, filter],
+  );
+
   const availableYears = useMemo(() => {
     if (!policyProjects.length) return [];
     const years = new Set<number>();
-    policyProjects.forEach((p) => { if (p.event_year != null) years.add(p.event_year); });
+    policyProjects.forEach((p) =>
+      p.stage_events?.forEach((e) => { if (e.year >= BASELINE_YEAR) years.add(e.year); }),
+    );
     return Array.from(years).sort();
   }, [policyProjects]);
 
@@ -202,6 +235,8 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     setFilter,
     resetFilter,
     filteredProjects,
+    trendProjects,
+    statusGroupOf: (p: Project) => statusGroupAt(p, filter.refYear),
     availableYears,
     availableEntities,
     lastUpdated: raw?.lastUpdated ?? "",
