@@ -1,4 +1,4 @@
-"""gold_loader：读取并用 Pydantic 校验金标准评测集（gold_set.jsonl），失败即报错（外部数据边界）。"""
+"""gold_loader：读取并用 Pydantic 校验金标准评测集（文章级 status + projects[]），失败带行号即报错。"""
 import json
 import logging
 from typing import Literal, Optional
@@ -8,34 +8,37 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 logger = logging.getLogger(__name__)
 
 
-class Labels(BaseModel):
-    """金标准单条记录的扁平标注：status 严格三选一，entities 必为列表，其余值字段宽松可空。"""
-
+class Entity(BaseModel):
+    """项目内一家中企：name 必填非空，involvement_type 可空。"""
     model_config = ConfigDict(extra="forbid")
-
-    status: Literal["valid", "no_chinese", "irrelevant"]
-    category: Optional[str] = None
-    capacity_mw: Optional[str] = None
-    project_stage: Optional[str] = None
-    location: Optional[str] = None
-    total_investment_usd: Optional[str] = None
-    financing_model: Optional[str] = None
+    name: str = Field(min_length=1)
     involvement_type: Optional[str] = None
-    entities: list[str] = Field(default_factory=list)
+
+
+class Project(BaseModel):
+    """金标准单个项目：project_name 仅对齐用，5 个评分字段 + location 可空，entities 列表。"""
+    model_config = ConfigDict(extra="forbid")
+    project_name: Optional[str] = None
+    category: Optional[str] = None
+    project_stage: Optional[str] = None
+    financing_model: Optional[str] = None
+    capacity_mw: Optional[str] = None
+    total_investment_usd: Optional[str] = None
+    location: Optional[str] = None
+    entities: list[Entity] = Field(default_factory=list)
 
 
 class GoldRecord(BaseModel):
-    """金标准一行：source_link 必填非空，article_id 可选，labels 走 Labels 校验。"""
-
+    """金标准一行（一篇文章）：source_link 必填，status 文章级三选一，projects 列表。"""
     model_config = ConfigDict(extra="forbid")
-
     source_link: str = Field(min_length=1)
     article_id: Optional[str] = None
-    labels: Labels
+    status: Literal["valid", "no_chinese", "irrelevant"]
+    projects: list[Project] = Field(default_factory=list)
 
 
 def load(path) -> list[dict]:
-    """逐行读取 gold_set.jsonl 并用 Pydantic 校验，任一行非法立即带行号抛错；返回纯 dict 列表。"""
+    """逐行读取 gold_set.jsonl 并校验，任一行非法立即带行号抛错；返回纯 dict 列表。"""
     records: list[dict] = []
     with open(path, "r", encoding="utf-8") as f:
         for lineno, raw in enumerate(f, start=1):
