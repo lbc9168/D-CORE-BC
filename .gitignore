@@ -52,6 +52,13 @@ uv.lock
 # 5. VS Code 配置 (可选，如果你不想上传你的个人编辑器配置)
 .vscode/
 
+# eval 评测本地产物（不入 git）
+eval/cache/
+eval/reports/
+eval/draft*.csv
+eval/gold_set.jsonl
+eval/*.log
+
 # s04_web_visualization
 s04_web_visualization/frontend/node_modules/
 s04_web_visualization/frontend/dist/
