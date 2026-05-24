@@ -48,7 +48,8 @@ uv --project s01b_project_extractor run python -m eval.build_draft \
   --projects-db  E:/Projects/BRI_RE_Database_v2/s01b_project_extractor/data/projects.db \
   --raw-news-db  E:/Projects/BRI_RE_Database_v2/s01a_news_crawler/data/raw_news.db
 
-# 2) 人工标注 draft.csv（utf-8-sig，逐篇读原文修正）→ 手工转 eval/gold_set.jsonl
+# 2) 人工标注 draft.csv（utf-8-sig，逐篇读原文修正）
+uv --project s01b_project_extractor run python -m eval.csv_to_gold --csv eval/draft.csv --out eval/gold_set.jsonl
 
 # 3) 真实评测（需 .env 内 GEMINI_API_KEY）
 uv --project s01b_project_extractor run python -m eval.run_eval --gold eval/gold_set.jsonl
