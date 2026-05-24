@@ -1,6 +1,7 @@
+import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
-import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
+import { CATEGORIES, VIZ_GROUPS } from "@/types";
 import { Zap } from "lucide-react";
 
 interface ProjectListProps {
@@ -11,6 +12,7 @@ interface ProjectListProps {
 
 export default function ProjectList({ projects, onSelect, selectedId }: ProjectListProps) {
   const { t } = useLang();
+  const { statusGroupOf } = useData();
 
   if (projects.length === 0) {
     return (
@@ -36,7 +38,9 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
       <ul className="divide-y divide-slate-50">
         {ordered.map((p) => {
           const cat = CATEGORIES[p.category];
-          const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
+          const grp = statusGroupOf(p);
+          const grpMeta = grp ? VIZ_GROUPS[grp] : null;
+          const stageColor = grpMeta?.color ?? "#94a3b8";
           const isSelected = p.project_id === selectedId;
           const name = p.project_name_en || p.project_name;
 
@@ -71,7 +75,7 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                     fontSize: "10px",
                   }}
                 >
-                  {p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}
+                  {grpMeta?.en ?? "—"}
                 </span>
                 {p.capacity_mw != null && (
                   <span className="text-slate-400" style={{ fontSize: "10px" }}>

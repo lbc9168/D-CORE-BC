@@ -11,7 +11,6 @@ import type {
   StatCountry,
   StatEntity,
   StatTimeline,
-  StatTimelineEvent,
   FilterState,
   VizGroup,
 } from "@/types";
@@ -59,7 +58,6 @@ interface RawData {
   statsCountry: StatCountry[];
   statsEntity: StatEntity[];
   statsTimeline: StatTimeline[];
-  statsTimelineEvents: StatTimelineEvent[];
   lastUpdated: string;
 }
 
@@ -119,7 +117,6 @@ interface DataContextValue {
   statsCountry: StatCountry[];
   statsEntity: StatEntity[];
   statsTimeline: StatTimeline[];
-  statsTimelineEvents: StatTimelineEvent[];
 
   // 过滤状态
   filter: FilterState;
@@ -173,16 +170,15 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
       fetchJson<StatCountry[]>(`${base}data/stats_country.json`),
       fetchJson<StatEntity[]>(`${base}data/stats_entity.json`),
       fetchJson<StatTimeline[]>(`${base}data/stats_timeline.json`),
-      fetchJson<StatTimelineEvent[]>(`${base}data/stats_timeline_events.json`),
       fetchJson<Metadata>(`${base}data/metadata.json`).catch(() => ({ last_updated: "", project_count: 0 })),
     ])
-      .then(([projects, statsCountry, statsEntity, statsTimeline, statsTimelineEvents, meta]) => {
+      .then(([projects, statsCountry, statsEntity, statsTimeline, meta]) => {
         // 计算每个项目的发展状态（LDC / Developing / Developed）
         const enriched = projects.map((p) => ({
           ...p,
           dev_status: getDevStatus(p.ldc, p.country_iso),
         }));
-        setRaw({ projects: enriched, statsCountry, statsEntity, statsTimeline, statsTimelineEvents, lastUpdated: meta.last_updated ?? "" });
+        setRaw({ projects: enriched, statsCountry, statsEntity, statsTimeline, lastUpdated: meta.last_updated ?? "" });
         setLoading(false);
       })
       .catch((e: unknown) => {
@@ -230,7 +226,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     statsCountry: raw?.statsCountry ?? [],
     statsEntity: raw?.statsEntity ?? [],
     statsTimeline: raw?.statsTimeline ?? [],
-    statsTimelineEvents: raw?.statsTimelineEvents ?? [],
     filter,
     setFilter,
     resetFilter,
