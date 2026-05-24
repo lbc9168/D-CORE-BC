@@ -31,29 +31,39 @@ uv --project s01b_project_extractor run python -m eval.build_draft \
 
 ### 2. 人工标注 `draft.csv`
 
-用 Excel 打开（CSV 为 **utf-8-sig**，中文不乱码）。对每一行：
+用 Excel 打开（CSV 为 **utf-8-sig**，中文不乱码）。
+
+**「只改错的」约定（推荐，省力）**——你不是给 AI 打分，而是记录每个字段的**正确值**；框架自己比对算分：
 
 1. **打开 `source_link` 指向的原文，从头读一遍。** 这是关键——`ai_<field>` 只是参考，AI 经常出错，
-   不读原文就直接抄 AI 值会让这把尺子失去意义。
-2. 在每个 `<field>` 列填入**正确值**：
-   - `status` — `valid` / `no_chinese` / `irrelevant` 三选一。
+   不读原文就直接放过 AI 值会让这把尺子失去意义。
+2. 逐字段判断 `ai_<field>` 对不对：
+   - **AI 对** → 对应的 `<field>` 修正列**留空**（转换时自动沿用 `ai_<field>`）。
+   - **AI 错** → 在 `<field>` 修正列写**正确值**（覆盖 `ai_<field>`）。
+   - **真实值确为空/无**（AI 多填了） → 在 `<field>` 写空标记 `-`（转换为 null / 空实体集）。
+3. 字段格式：
+   - `status` — `valid` / `no_chinese` / `irrelevant` 三选一。**负样本桶（`_bucket=negative:no_extraction`）的行 `ai_status` 为空，必须人工填 status**，否则转换时跳过。
    - `category` / `project_stage` / `financing_model` / `involvement_type` — 枚举值（规范中文，见 `enums_mapping.json`）。
-   - `capacity_mw` / `total_investment_usd` — 数值（带原文单位也可，打分时按数值解析）。
+   - `capacity_mw` / `total_investment_usd` — 数值（单位分别为 MW、百万美元；带原文单位也可，打分时按数值解析）。
    - `location` — 省/州。
    - `entities` — 中方实体名，多个用**分号**分隔（如 `中国电建; 三峡`）。
 
-### 3. 转成金标准 `gold_set.jsonl`
+### 3. 转成金标准 `gold_set.jsonl`（`csv_to_gold.py`）
 
-把修正后的 CSV 转为每行一条记录的 jsonl（P0 暂未内置 CSV→jsonl 转换脚本，可手工或后续小脚本生成）。
-期望形状（一行一条）：
+标注完直接跑转换脚本（按上面「只改错的」约定：空=沿用 ai 值，填了=覆盖，空标记 `-`=置空）：
+
+```bash
+uv --project s01b_project_extractor run python -m eval.csv_to_gold \
+  --csv eval/draft.csv --out eval/gold_set.jsonl
+```
+
+脚本会把 `entities` 分号串转成数组、跳过未标注 status 的行（带行号告警），并在写完后立即用 `gold_loader.py`
+的 Pydantic 校验产物，任一行非法（如 status 不合法）会**带行号立即报错**。产物形状（一行一条）：
 
 ```json
 {"source_link": "http://...", "labels": {"status": "valid", "category": "光伏", "capacity_mw": "50", "project_stage": "中标", "location": "...", "total_investment_usd": "...", "financing_model": "...", "involvement_type": "EPC总承包", "entities": ["中国电建", "三峡"]}}
 {"source_link": "http://...", "labels": {"status": "irrelevant", "entities": []}}
 ```
-
-规则：`status ∈ {valid, no_chinese, irrelevant}`；`entities` 为字符串数组；其余字段可空（`null` 或省略）。
-每行经 `gold_loader.py` 的 Pydantic 校验，任一行非法（如 status 不合法）会**带行号立即报错**。
 
 ### 4. 评测 `run_eval.py → eval/reports/<ts>.json`
 
