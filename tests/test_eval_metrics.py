@@ -14,17 +14,6 @@ def test_numeric_within_5pct():
     assert m.cmp_numeric("50", None) is False      # one side empty = wrong
     assert m.cmp_numeric(None, None) is True       # both empty = correct
 
-def test_entity_set_f1():
-    p, r, f1 = m.entity_prf(["中国电建","三峡"], ["中国电建"])
-    assert r == 1.0 and 0 < p < 1 and 0 < f1 < 1
-
-def test_score_record_skips_fields_when_status_wrong():
-    pred = {"status": "irrelevant", "category": "光伏"}
-    gold = {"status": "valid", "category": "风电"}
-    rec = m.score_record(pred, gold)
-    assert rec["status_correct"] is False
-    assert rec["fields"] == {}   # status wrong -> fields not scored
-
 def test_align_same_capacity_diff_name():
     pred = [{"project_name":"阿尔法光伏","category":"光伏","capacity_mw":"50"},
             {"project_name":"贝塔电站","category":"光伏","capacity_mw":"48"}]
@@ -72,3 +61,43 @@ def test_score_entities_partial_name_overlap():
 
 def test_score_entities_both_empty():
     assert m.score_entities([], []) == (1.0, 1.0, 1.0, 0, 0)
+
+def _alpha_gold():
+    return {"project_name":"阿尔法光伏电站","category":"光伏","capacity_mw":"50","project_stage":"中标",
+            "financing_model":"Unknown","total_investment_usd":"-","location":"肯尼亚",
+            "entities":[{"name":"中国电建","involvement_type":"EPC总承包"}]}
+
+def test_score_article_worked_example():
+    gold = {"status":"valid","projects":[
+        _alpha_gold(),
+        {"project_name":"贝塔光伏电站","category":"光伏","capacity_mw":"50","project_stage":"中标",
+         "financing_model":"Unknown","total_investment_usd":"-","location":"肯尼亚",
+         "entities":[{"name":"中国电建","involvement_type":"EPC总承包"}]}]}
+    pred = {"status":"valid","projects":[
+        {"project_name":"阿尔法光伏","category":"光伏","capacity_mw":"50","project_stage":"中标",
+         "financing_model":"Unknown","total_investment_usd":None,"location":"肯尼亚",
+         "entities":[{"name":"中国电建","involvement_type":"EPC总承包"}]},
+        {"project_name":"贝塔电站","category":"综合能源","capacity_mw":"48","project_stage":"中标",
+         "financing_model":"Unknown","total_investment_usd":None,"location":"",
+         "entities":[{"name":"中国电建","involvement_type":"设备供应商"}]},
+        {"project_name":"某配套储能","category":"储能","capacity_mw":None,"project_stage":"中标",
+         "financing_model":"Unknown","total_investment_usd":None,"location":"",
+         "entities":[{"name":"中国电建","involvement_type":"EPC总承包"}]}]}
+    r = m.score_article(pred, gold)
+    assert r["status_correct"] is True and r["scored"] is True
+    assert r["project_set"] == (2, 3, 2)            # matched, pred_total, gold_total
+    assert r["field_hits"]["category"] == (1, 2)
+    assert r["field_hits"]["capacity_mw"] == (2, 2)
+    assert r["field_hits"]["project_stage"] == (2, 2)
+    sum_name_f1, n_matched, role_correct, role_matched = r["entity"]
+    assert sum_name_f1 == 2.0 and n_matched == 2 and role_correct == 1 and role_matched == 2
+
+def test_score_article_status_wrong_skips_projects():
+    pred = {"status":"irrelevant","projects":[]}
+    gold = {"status":"valid","projects":[_alpha_gold()]}
+    r = m.score_article(pred, gold)
+    assert r["status_correct"] is False and r["scored"] is False and r["project_set"] is None
+
+def test_score_article_gold_irrelevant_not_scored():
+    r = m.score_article({"status":"irrelevant","projects":[]}, {"status":"irrelevant","projects":[]})
+    assert r["status_correct"] is True and r["scored"] is False

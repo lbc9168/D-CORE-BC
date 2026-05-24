@@ -27,32 +27,6 @@ def cmp_numeric(pred, gold) -> bool:
     if a == b == 0: return True
     return abs(a - b) / max(abs(a), abs(b)) <= NUMERIC_TOL
 
-def entity_prf(pred_list, gold_list):
-    ps, gs = set(x.strip() for x in pred_list if x), set(x.strip() for x in gold_list if x)
-    if not ps and not gs: return 1.0, 1.0, 1.0
-    tp = len(ps & gs)
-    p = tp / len(ps) if ps else 0.0
-    r = tp / len(gs) if gs else 0.0
-    f1 = 2 * p * r / (p + r) if (p + r) else 0.0
-    return p, r, f1
-
-ENUM_FIELDS = ("category", "project_stage", "financing_model", "involvement_type")
-# 储能功率/容量字段 P0 暂不评测：提取器尚未单独产出，gold/predict/build_draft 均无对应列，
-# 计入会因 cmp_numeric(None,None)=True 恒判对而虚高数值分；待储能提取落地后随四处一并补回。
-NUMERIC_FIELDS = ("capacity_mw", "total_investment_usd")
-
-def score_record(pred: dict, gold: dict) -> dict:
-    """返回 {status_correct, fields:{field:bool}, entity_prf:(p,r,f1)}；status 错则 fields 留空。"""
-    out = {"status_correct": cmp_status(pred.get("status"), gold.get("status")), "fields": {}, "entity_prf": None}
-    if not out["status_correct"] or gold.get("status") != "valid":
-        return out
-    for f in ENUM_FIELDS:
-        out["fields"][f] = cmp_enum(f, pred.get(f), gold.get(f))
-    for f in NUMERIC_FIELDS:
-        out["fields"][f] = cmp_numeric(pred.get(f), gold.get(f))
-    out["entity_prf"] = entity_prf(pred.get("entities", []), gold.get("entities", []))
-    return out
-
 NAME_THRESHOLD = 80  # rapidfuzz 项目名相似度阈值（0-100）
 _WS = re.compile(r"\s+")
 
@@ -112,3 +86,42 @@ def score_entities(pred_entities, gold_entities):
     role_matched = len(inter)
     role_correct = sum(1 for n in inter if cmp_enum("involvement_type", pmap[n], gmap[n]))
     return (name_p, name_r, name_f1, role_correct, role_matched)
+
+PROJECT_ENUM_FIELDS = ("category", "project_stage", "financing_model")
+PROJECT_NUMERIC_FIELDS = ("capacity_mw", "total_investment_usd")
+
+def score_article(pred: dict, gold: dict) -> dict:
+    """单篇文章打分：status 闸门 → 贪心对齐 → 对上项目逐字段/实体打分。
+    返回 {status_correct, scored, project_set:(matched,pred_n,gold_n)|None,
+          field_hits:{field:(correct,total)}, entity:(sum_name_f1,n_matched,role_correct,role_matched)|None}。"""
+    out = {"status_correct": cmp_status(pred.get("status"), gold.get("status")),
+           "scored": False, "project_set": None, "field_hits": {}, "entity": None}
+    if not out["status_correct"] or gold.get("status") != "valid":
+        return out
+    out["scored"] = True
+    pred_projects = pred.get("projects") or []
+    gold_projects = gold.get("projects") or []
+    matched, _unp, _ung = align_projects(pred_projects, gold_projects)
+    out["project_set"] = (len(matched), len(pred_projects), len(gold_projects))
+    all_fields = PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS
+    field_correct = {f: 0 for f in all_fields}
+    field_total = {f: 0 for f in all_fields}
+    sum_name_f1 = 0.0
+    role_correct = role_matched = 0
+    for pi, gi in matched:
+        p, g = pred_projects[pi], gold_projects[gi]
+        for f in PROJECT_ENUM_FIELDS:
+            field_total[f] += 1
+            if cmp_enum(f, p.get(f), g.get(f)):
+                field_correct[f] += 1
+        for f in PROJECT_NUMERIC_FIELDS:
+            field_total[f] += 1
+            if cmp_numeric(p.get(f), g.get(f)):
+                field_correct[f] += 1
+        _np, _nr, nf1, rc, rm = score_entities(p.get("entities") or [], g.get("entities") or [])
+        sum_name_f1 += nf1
+        role_correct += rc
+        role_matched += rm
+    out["field_hits"] = {f: (field_correct[f], field_total[f]) for f in all_fields}
+    out["entity"] = (sum_name_f1, len(matched), role_correct, role_matched)
+    return out
