@@ -12,6 +12,9 @@ const zh = {
   filter: {
     title: "筛选",
     yearRange: "年份范围",
+    year: "参考年",
+    status: "项目状态",
+    allStatuses: "全部状态",
     category: "能源类型",
     stage: "项目阶段",
     entity: "中方企业",

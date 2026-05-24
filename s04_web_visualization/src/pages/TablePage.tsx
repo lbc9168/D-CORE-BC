@@ -7,7 +7,7 @@ import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import FilterBar from "@/components/filters/FilterBar";
 import ProjectDetail from "@/components/projects/ProjectDetail";
 import { formatCountryName } from "@/utils/display";
-import { projectsToCSV, downloadCSV } from "@/utils/csvExport";
+import { downloadCSV } from "@/utils/csvExport";
 import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
 
 const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT as string | undefined;
@@ -62,9 +62,18 @@ export default function TablePage() {
     setPage(0);
   };
 
-  const triggerDownload = (data?: SurveyData) => {
-    const filename = `dcore_${new Date().toISOString().slice(0, 10)}_${sorted.length}records.csv`;
-    downloadCSV(projectsToCSV(sorted), filename);
+  // 获取静态 events_export.csv 并触发浏览器下载
+  const triggerDownload = async (data?: SurveyData) => {
+    const base = import.meta.env.BASE_URL;
+    const filename = `dcore_events_${new Date().toISOString().slice(0, 10)}.csv`;
+    try {
+      const res = await fetch(`${base}data/events_export.csv`);
+      if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
+      const text = await res.text();
+      downloadCSV(text, filename);
+    } catch (err) {
+      console.error("下载 events_export.csv 失败", err);
+    }
     if (data) saveSurveyRecord(data.email);
   };
 

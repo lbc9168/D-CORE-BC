@@ -12,6 +12,9 @@ const en: Translations = {
   filter: {
     title: "Filters",
     yearRange: "Year Range",
+    year: "Year",
+    status: "Status",
+    allStatuses: "All statuses",
     category: "Project Type",
     stage: "Project Stage",
     entity: "Chinese Entity",
