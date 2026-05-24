@@ -9,7 +9,7 @@ import pathlib
 from datetime import datetime
 
 from eval import article_store, gold_loader
-from eval.metrics import ENUM_FIELDS, NUMERIC_FIELDS, score_record
+from eval.metrics import score_article, PROJECT_ENUM_FIELDS, PROJECT_NUMERIC_FIELDS
 from eval.predict import flat_prediction
 
 logger = logging.getLogger(__name__)
@@ -18,7 +18,10 @@ logger = logging.getLogger(__name__)
 _EVAL_DIR = pathlib.Path(__file__).resolve().parent
 
 # weighted_total 四分量等权；可调。某分量无数据时丢弃并对剩余分量重新归一化。
-WEIGHTS = {"status": 0.25, "enum": 0.25, "numeric": 0.25, "entity": 0.25}
+WEIGHTS = {"status": 0.25, "fields": 0.25, "entity_name": 0.25, "entity_role": 0.25}
+
+# 所有逐字段评分字段（枚举 + 数值），用于初始化累加器与报告。
+ALL_FIELDS = PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS
 
 # 默认提取模型（与 cache 版本哈希、真实提取器绑定保持一致）
 _DEFAULT_MODEL = "gemini-2.5-flash-lite"
@@ -44,26 +47,9 @@ def _build_real_extract_fn():
     return lambda t, c, d: extract_one(t, c, d, client=client)
 
 
-def _mean(values) -> float | None:
-    """对非空数值列表求均值，空列表返回 None（供加权时丢弃该分量）。"""
-    return sum(values) / len(values) if values else None
-
-
-def _compute_weighted_total(status_acc, enum_accs, numeric_accs, entity_f1_mean) -> float:
-    """按 WEIGHTS 加权四分量；无数据的分量丢弃后对剩余权重重新归一化。"""
-    components = {
-        "status": status_acc,
-        "enum": _mean(enum_accs),
-        "numeric": _mean(numeric_accs),
-        "entity": entity_f1_mean,
-    }
-    present = {k: v for k, v in components.items() if v is not None}
-    if not present:
-        return 0.0
-    wsum = sum(WEIGHTS[k] for k in present)
-    if wsum == 0:
-        return 0.0
-    return sum(WEIGHTS[k] * v for k, v in present.items()) / wsum
+def _ratio(c, t) -> float:
+    """安全比率：分母为 0 时返回 0.0，否则四舍五入到 4 位。"""
+    return round(c / t, 4) if t else 0.0
 
 
 def _find_prev_report(reports_dir: pathlib.Path, exclude: pathlib.Path):
@@ -86,37 +72,49 @@ def _arrow(cur: float, prev: float) -> str:
     return "="
 
 
+def _metric_rows(report: dict):
+    """从报告里抽出 (label, getter) 列表：status/字段/项目集F1/实体/加权总分。"""
+    rows = [
+        ("status_accuracy", lambda r: r.get("status_accuracy")),
+        ("project_set.f1", lambda r: (r.get("project_set") or {}).get("f1")),
+    ]
+    for f in ALL_FIELDS:
+        rows.append((f, lambda r, f=f: ((r.get("fields") or {}).get(f) or {}).get("accuracy")))
+    rows += [
+        ("entity.name_f1_mean", lambda r: (r.get("entity") or {}).get("name_f1_mean")),
+        ("entity.role_accuracy", lambda r: (r.get("entity") or {}).get("role_accuracy")),
+        ("weighted_total", lambda r: r.get("weighted_total")),
+    ]
+    return rows
+
+
 def _print_comparison(report: dict, prev: dict | None) -> None:
     """打印本次各指标，并在有上次报告时给出与上次的 ↑/↓/= 对比（人机界面，rule#2 允许）。"""
     print("=" * 60)
     print(f"评测报告 {report['timestamp']}  version={report['extractor_version']}")
-    print(f"n_gold={report['n_gold']} n_scored={report['n_scored']} "
+    print(f"n_gold={report['n_gold']} n_scored_articles={report['n_scored_articles']} "
           f"n_failed={report['n_failed']} n_skipped={report['n_skipped']}")
     print("-" * 60)
 
-    def line(label: str, key_path):
-        cur = key_path(report)
+    for label, getter in _metric_rows(report):
+        cur = getter(report)
+        cur_s = f"{cur:.4f}" if isinstance(cur, (int, float)) else "n/a"
         if prev is None:
-            print(f"  {label:<24} {cur:.4f}")
+            print(f"  {label:<24} {cur_s}")
+            continue
+        pv = getter(prev)
+        if isinstance(cur, (int, float)) and isinstance(pv, (int, float)):
+            print(f"  {label:<24} {cur_s}  {_arrow(cur, pv)} (prev {pv:.4f})")
         else:
-            try:
-                pv = key_path(prev)
-                print(f"  {label:<24} {cur:.4f}  {_arrow(cur, pv)} (prev {pv:.4f})")
-            except (KeyError, TypeError):
-                print(f"  {label:<24} {cur:.4f}  (prev n/a)")
+            print(f"  {label:<24} {cur_s}  (prev n/a)")
 
-    line("status_accuracy", lambda r: r["status_accuracy"])
-    for f in ENUM_FIELDS + NUMERIC_FIELDS:
-        line(f, lambda r, f=f: r["fields"][f]["accuracy"])
-    line("entity_f1_mean", lambda r: r["entity_f1_mean"])
-    line("weighted_total", lambda r: r["weighted_total"])
     print("=" * 60)
     if prev is None:
         print("no previous report to compare")
     logger.info(
-        "评测完成 weighted_total=%.4f status_acc=%.4f entity_f1=%.4f n_scored=%d",
+        "评测完成 weighted_total=%.4f status_acc=%.4f name_f1=%.4f n_scored_articles=%d",
         report["weighted_total"], report["status_accuracy"],
-        report["entity_f1_mean"], report["n_scored"],
+        report["entity"]["name_f1_mean"], report["n_scored_articles"],
     )
 
 
@@ -135,11 +133,14 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
     n_gold = len(gold)
     n_failed = 0
     n_skipped = 0
-    status_correct = 0
-    field_correct = {f: 0 for f in ENUM_FIELDS + NUMERIC_FIELDS}
-    field_total = {f: 0 for f in ENUM_FIELDS + NUMERIC_FIELDS}
-    entity_f1s: list[float] = []
-    n_scored = 0
+    n_status_correct = 0
+    n_scored_articles = 0
+    ps_matched = ps_pred = ps_gold = 0
+    fld_correct = {f: 0 for f in ALL_FIELDS}
+    fld_total = {f: 0 for f in ALL_FIELDS}
+    name_f1_sum = 0.0
+    name_f1_n = 0
+    role_correct = role_matched = 0
 
     for rec in gold:
         link = rec["source_link"]
@@ -165,43 +166,54 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
             if use_cache:
                 article_store.cache_put(article_store.cache_key(link, extractor_version), result, cache_dir)
 
-        pred = flat_prediction(result)
-        rec_score = score_record(pred, rec["labels"])
-        if rec_score["status_correct"]:
-            status_correct += 1
-        if rec_score["fields"]:  # 仅当 status 正确且 gold==valid 才有字段分
-            n_scored += 1
-            for f, ok in rec_score["fields"].items():
-                field_total[f] += 1
-                if ok:
-                    field_correct[f] += 1
-        if rec_score["entity_prf"] is not None:
-            entity_f1s.append(rec_score["entity_prf"][2])
+        pred = flat_prediction(result)        # 文章级对象 {status, projects}
+        r = score_article(pred, rec)          # rec 即 gold_loader 加载的文章 dict
+        if r["status_correct"]:
+            n_status_correct += 1
+        if r["scored"]:
+            n_scored_articles += 1
+            m_, p_, g_ = r["project_set"]
+            ps_matched += m_; ps_pred += p_; ps_gold += g_
+            for f, (c, t) in r["field_hits"].items():
+                fld_correct[f] += c; fld_total[f] += t
+            nf1_sum, n_matched, rc, rm = r["entity"]
+            name_f1_sum += nf1_sum; name_f1_n += n_matched
+            role_correct += rc; role_matched += rm
 
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     n_eval = n_gold - n_skipped - n_failed  # 实际参与 status 判定的记录数
-    status_accuracy = status_correct / n_eval if n_eval else 0.0
-    fields_report = {}
-    enum_accs, numeric_accs = [], []
-    for f in ENUM_FIELDS + NUMERIC_FIELDS:
-        acc = field_correct[f] / field_total[f] if field_total[f] else 0.0
-        fields_report[f] = {"correct": field_correct[f], "total": field_total[f], "accuracy": acc}
-        if field_total[f]:
-            (enum_accs if f in ENUM_FIELDS else numeric_accs).append(acc)
-    entity_f1_mean = _mean(entity_f1s)
-    weighted_total = _compute_weighted_total(
-        status_accuracy if n_eval else None, enum_accs, numeric_accs, entity_f1_mean
-    )
+    status_accuracy = _ratio(n_status_correct, n_eval)
+    ps_precision = _ratio(ps_matched, ps_pred)
+    ps_recall = _ratio(ps_matched, ps_gold)
+    ps_f1 = round(2 * ps_precision * ps_recall / (ps_precision + ps_recall), 4) if (ps_precision + ps_recall) else 0.0
+    fields = {f: {"correct": fld_correct[f], "total": fld_total[f], "accuracy": _ratio(fld_correct[f], fld_total[f])}
+              for f in ALL_FIELDS}
+    name_f1_mean = round(name_f1_sum / name_f1_n, 4) if name_f1_n else 0.0
+    role_accuracy = _ratio(role_correct, role_matched)
+
+    field_accs = [v["accuracy"] for v in fields.values() if v["total"]]
+    components = {
+        "status": status_accuracy if n_eval else None,
+        "fields": (sum(field_accs) / len(field_accs)) if field_accs else None,
+        "entity_name": name_f1_mean if name_f1_n else None,
+        "entity_role": role_accuracy if role_matched else None,
+    }
+    present = {k: v for k, v in components.items() if v is not None}
+    wsum = sum(WEIGHTS[k] for k in present)
+    weighted_total = round(sum(WEIGHTS[k] * v for k, v in present.items()) / wsum, 4) if wsum else 0.0
 
     report = {
-        "timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
+        "timestamp": timestamp,
         "extractor_version": extractor_version,
         "n_gold": n_gold,
-        "n_scored": n_scored,
         "n_failed": n_failed,
         "n_skipped": n_skipped,
         "status_accuracy": status_accuracy,
-        "fields": fields_report,
-        "entity_f1_mean": entity_f1_mean if entity_f1_mean is not None else 0.0,
+        "n_scored_articles": n_scored_articles,
+        "project_set": {"matched": ps_matched, "pred_total": ps_pred, "gold_total": ps_gold,
+                        "precision": ps_precision, "recall": ps_recall, "f1": ps_f1},
+        "fields": fields,
+        "entity": {"name_f1_mean": name_f1_mean, "role_accuracy": role_accuracy, "role_matched_total": role_matched},
         "weighted_total": weighted_total,
     }
 
