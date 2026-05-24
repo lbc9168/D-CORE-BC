@@ -17,15 +17,22 @@
   },
 
   "project_stage": {
-    "拟开发":   { "zh": "拟开发",   "en": "Planned",              "priority": 0, "color": "#94a3b8", "hidden": true  },
-    "收购":     { "zh": "收购",     "en": "Acquired",             "priority": 1, "color": "#6B7280", "hidden": false },
-    "中标":     { "zh": "中标",     "en": "Awarded",              "priority": 2, "color": "#EC4899", "hidden": false },
-    "签约":     { "zh": "签约",     "en": "Signed",               "priority": 3, "color": "#9333EA", "hidden": false },
-    "开工":     { "zh": "开工",     "en": "Construction Started", "priority": 4, "color": "#F59E0B", "hidden": false },
-    "在建":     { "zh": "在建",     "en": "Under Construction",   "priority": 5, "color": "#D97706", "hidden": false },
-    "竣工":     { "zh": "竣工",     "en": "Completed",            "priority": 6, "color": "#2563EB", "hidden": false },
-    "投入运营": { "zh": "投入运营", "en": "Operational",          "priority": 7, "color": "#16A34A", "hidden": false },
-    "Unknown":  { "zh": "未知",     "en": "Unknown",              "priority": -1,"color": "#9CA3AF", "hidden": false }
+    "拟开发":   { "zh": "拟开发",   "en": "Planned",              "priority": 0, "color": "#94a3b8", "hidden": true,  "viz_group": null },
+    "收购":     { "zh": "收购",     "en": "Acquired",             "priority": 1, "color": "#6B7280", "hidden": false, "viz_group": "acquired" },
+    "中标":     { "zh": "中标",     "en": "Awarded",              "priority": 2, "color": "#EC4899", "hidden": false, "viz_group": "pre_construction" },
+    "签约":     { "zh": "签约",     "en": "Signed",               "priority": 3, "color": "#9333EA", "hidden": false, "viz_group": "pre_construction" },
+    "开工":     { "zh": "开工",     "en": "Construction Started", "priority": 4, "color": "#F59E0B", "hidden": false, "viz_group": "under_construction" },
+    "在建":     { "zh": "在建",     "en": "Under Construction",   "priority": 5, "color": "#D97706", "hidden": false, "viz_group": "under_construction" },
+    "竣工":     { "zh": "竣工",     "en": "Completed",            "priority": 6, "color": "#2563EB", "hidden": false, "viz_group": "completed" },
+    "投入运营": { "zh": "投入运营", "en": "Operational",          "priority": 7, "color": "#16A34A", "hidden": false, "viz_group": "completed" },
+    "Unknown":  { "zh": "未知",     "en": "Unknown",              "priority": -1,"color": "#9CA3AF", "hidden": false, "viz_group": null }
+  },
+
+  "viz_group": {
+    "pre_construction":   {"zh": "前期", "en": "Pre-construction",    "color": "#9333EA", "order": 1},
+    "under_construction": {"zh": "在建", "en": "Under construction",  "color": "#F59E0B", "order": 2},
+    "completed":          {"zh": "完工", "en": "Completed",           "color": "#2563EB", "order": 3},
+    "acquired":           {"zh": "收购", "en": "Acquired",            "color": "#6B7280", "order": 4}
   },
 
   "financing_model": {

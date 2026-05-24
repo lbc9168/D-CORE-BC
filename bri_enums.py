@@ -69,6 +69,16 @@ def stage_en(zh: str) -> str | None:
     return _data()["project_stage"].get(zh, {}).get("en")
 
 
+def viz_group(zh: str) -> str | None:
+    """project_stage 中文键 → 4 可视化大类 key（前期/在建/完工/收购）；隐藏 stage 返回 None。"""
+    return _data()["project_stage"].get(zh, {}).get("viz_group")
+
+
+def viz_groups() -> dict:
+    """4 可视化大类的元信息字典（key → {zh, en, color, order}）。"""
+    return _data()["viz_group"]
+
+
 # ── 通用 en ──
 def financing_en(zh: str) -> str | None:
     """financing_model 中文键 → 英文标签。"""
