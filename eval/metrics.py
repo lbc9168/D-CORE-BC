@@ -1,4 +1,5 @@
 """s01b 提取评测比较器：按字段类型比较预测 vs 金标准。"""
+import re
 import sys, pathlib
 _root = next(p for p in pathlib.Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 if str(_root) not in sys.path: sys.path.insert(0, str(_root))
@@ -51,3 +52,47 @@ def score_record(pred: dict, gold: dict) -> dict:
         out["fields"][f] = cmp_numeric(pred.get(f), gold.get(f))
     out["entity_prf"] = entity_prf(pred.get("entities", []), gold.get("entities", []))
     return out
+
+NAME_THRESHOLD = 80  # rapidfuzz 项目名相似度阈值（0-100）
+_WS = re.compile(r"\s+")
+
+def _norm_name(s) -> str:
+    """项目/实体名归一：去空白、转小写，供相似度与集合比对。"""
+    return _WS.sub("", str(s or "").strip().lower())
+
+def _name_sim(a, b) -> float:
+    """两个项目名的 rapidfuzz token_set_ratio（归一后；任一为空返回 0）。"""
+    from rapidfuzz import fuzz
+    na, nb = _norm_name(a), _norm_name(b)
+    if not na or not nb:
+        return 0.0
+    return fuzz.token_set_ratio(na, nb)
+
+def _attr_bonus(p: dict, g: dict) -> int:
+    """对齐平局打破的属性加分：同 category +1、capacity_mw 在 ±5% 内 +1。"""
+    bonus = 0
+    if p.get("category") and p.get("category") == g.get("category"):
+        bonus += 1
+    if cmp_numeric(p.get("capacity_mw"), g.get("capacity_mw")):
+        bonus += 1
+    return bonus
+
+def align_projects(pred_projects, gold_projects, threshold: int = NAME_THRESHOLD):
+    """贪心对齐预测项目↔金标准项目（名字相似度≥阈值，平局看属性）；返回 (matched[(pi,gi)], unmatched_pred[idx], unmatched_gold[idx])。"""
+    candidates = []
+    for pi, p in enumerate(pred_projects):
+        for gi, g in enumerate(gold_projects):
+            sim = _name_sim(p.get("project_name"), g.get("project_name"))
+            if sim >= threshold:
+                candidates.append((sim, _attr_bonus(p, g), pi, gi))
+    candidates.sort(key=lambda c: (c[0], c[1]), reverse=True)
+    used_p, used_g, matched = set(), set(), []
+    for _sim, _bonus, pi, gi in candidates:
+        if pi in used_p or gi in used_g:
+            continue
+        used_p.add(pi)
+        used_g.add(gi)
+        matched.append((pi, gi))
+    unmatched_pred = [i for i in range(len(pred_projects)) if i not in used_p]
+    unmatched_gold = [i for i in range(len(gold_projects)) if i not in used_g]
+    return matched, unmatched_pred, unmatched_gold

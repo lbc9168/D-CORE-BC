@@ -24,3 +24,29 @@ def test_score_record_skips_fields_when_status_wrong():
     rec = m.score_record(pred, gold)
     assert rec["status_correct"] is False
     assert rec["fields"] == {}   # status wrong -> fields not scored
+
+def test_align_same_capacity_diff_name():
+    pred = [{"project_name":"阿尔法光伏","category":"光伏","capacity_mw":"50"},
+            {"project_name":"贝塔电站","category":"光伏","capacity_mw":"48"}]
+    gold = [{"project_name":"阿尔法光伏电站","category":"光伏","capacity_mw":"50"},
+            {"project_name":"贝塔光伏电站","category":"光伏","capacity_mw":"50"}]
+    matched, unp, ung = m.align_projects(pred, gold)
+    assert len(matched) == 2 and unp == [] and ung == []
+
+def test_align_oversplit_creates_unmatched_pred():
+    pred = [{"project_name":"阿尔法光伏电站"}, {"project_name":"贝塔光伏电站"}, {"project_name":"某配套储能"}]
+    gold = [{"project_name":"阿尔法光伏电站"}, {"project_name":"贝塔光伏电站"}]
+    matched, unp, ung = m.align_projects(pred, gold)
+    assert len(matched) == 2 and len(unp) == 1 and ung == []
+
+def test_align_merge_creates_unmatched_gold():
+    pred = [{"project_name":"阿尔法光伏电站"}]
+    gold = [{"project_name":"阿尔法光伏电站"}, {"project_name":"贝塔光伏电站"}]
+    matched, unp, ung = m.align_projects(pred, gold)
+    assert len(matched) == 1 and unp == [] and len(ung) == 1
+
+def test_align_below_threshold_no_match():
+    pred = [{"project_name":"完全不相关的名字XYZ"}]
+    gold = [{"project_name":"阿尔法光伏电站"}]
+    matched, unp, ung = m.align_projects(pred, gold)
+    assert matched == [] and len(unp) == 1 and len(ung) == 1
