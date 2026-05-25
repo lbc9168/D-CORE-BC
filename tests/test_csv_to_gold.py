@@ -53,6 +53,16 @@ def test_skip_article_without_status(tmp_path):
     n = csv_to_gold.convert(csvp, out)
     assert n == 0
 
+def test_irrelevant_drops_ai_filled_project(tmp_path):
+    # AI 读出了项目信息（valid + 字段），但人工判定整篇 irrelevant → projects 必须为空
+    csvp = tmp_path / "draft.csv"; out = tmp_path / "gold.jsonl"
+    _write(csvp, [{"source_link":"http://z","ai_status":"valid","status":"irrelevant",
+                   "ai_project_name":"某项目","ai_category":"光伏",
+                   "ai_capacity_mw":"50","ai_entities":"中国电建(EPC总承包)"}])
+    csv_to_gold.convert(csvp, out)
+    rec = gold_loader.load(out)[0]
+    assert rec["status"] == "irrelevant" and rec["projects"] == []
+
 def test_entity_name_with_internal_parens(tmp_path):
     csvp = tmp_path / "draft.csv"; out = tmp_path / "gold.jsonl"
     _write(csvp, [{"source_link":"http://x","ai_status":"valid","ai_project_name":"A","ai_category":"光伏",

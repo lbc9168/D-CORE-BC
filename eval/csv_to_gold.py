@@ -3,6 +3,7 @@
 约定：<field> 留空 = 沿用 ai_<field>；填了 = 覆盖；写空标记（- 等）= 置空。
 entities 单元格写 名字(角色); 名字(角色)，转成 [{name,involvement_type}]。
 status 取该篇各行的非空值；无 status 的文章跳过并告警。
+不变式：仅 valid 文章带 projects；no_chinese/irrelevant 一律 projects=[]（即便 AI 误填项目字段也丢弃）。
 """
 import argparse
 import json
@@ -118,7 +119,12 @@ def convert(csv_path: pathlib.Path, out_path: pathlib.Path) -> int:
             skipped += 1
             logger.warning("文章 %s 未标注 status，跳过", sl)
             continue
-        projects = [_row_to_project(row) for _, row in group.iterrows() if _has_project(row)]
+        # 不变式：仅 valid 文章带项目；no_chinese/irrelevant 一律 projects=[]（这类文章无项目，
+        # 即便 AI 误填了项目字段也丢弃，避免 gold 出现"无关文章却带项目"的矛盾数据）
+        projects = (
+            [_row_to_project(row) for _, row in group.iterrows() if _has_project(row)]
+            if status == "valid" else []
+        )
         article_id = ""
         for _, row in group.iterrows():
             article_id = str(row.get("article_id", "")).strip()
