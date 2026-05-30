@@ -1,6 +1,6 @@
 # eval — s01b 提取器金标准评测框架（v2.1 P0 / P0.1）
 
-> 最后更新：2026-05-24（P0.1 多项目升级已落地）
+> 最后更新：2026-05-30（金标准已标注 97 篇 + P1 改造前基线已跑出）
 
 **模块路径：** `eval/`（仓库根）
 
@@ -51,8 +51,9 @@ uv --project s01b_project_extractor run python -m eval.build_draft \
 # 2) 人工标注 draft.csv（utf-8-sig，逐篇读原文修正）
 uv --project s01b_project_extractor run python -m eval.csv_to_gold --csv eval/draft.csv --out eval/gold_set.jsonl
 
-# 3) 真实评测（需 .env 内 GEMINI_API_KEY）
-uv --project s01b_project_extractor run python -m eval.run_eval --gold eval/gold_set.jsonl
+# 3) 真实评测（需 .env 内 GEMINI_API_KEY；DB 在主仓库，用绝对路径覆盖）
+uv --project s01b_project_extractor run python -m eval.run_eval --gold eval/gold_set.jsonl \
+  --raw-news-db E:/Projects/BRI_RE_Database_v2/s01a_news_crawler/data/raw_news.db
 
 # 测试（无 Gemini，注入 mock）
 uv --project s01b_project_extractor run python -m pytest tests/test_run_eval_e2e.py -v
@@ -72,6 +73,24 @@ uv --project s01b_project_extractor run python -m pytest tests/test_run_eval_e2e
   P0.1 落地内容：项目级**贪心对齐**（`align_projects`，rapidfuzz 阈值 80）、**嵌套文章金标准**（status + projects[]）、
   **一项目一行** draft.csv、**per-entity 角色**（involvement_type）、新报告指标（`project_set` P/R/F1 + `entity.role_accuracy`）。
 - **CSV→jsonl 转换脚本：✅ 已内置**（`csv_to_gold.py`，按 source_link 聚合 + `名字(角色)` 解析）。
-- **金标准标注：⬜ 待人工**——需跑 `build_draft.py` → 人工读原文修正（一项目一行、entities 写 `名字(角色)`）→
-  `csv_to_gold.py` 转 `gold_set.jsonl`。**多项目金标准尚未标注**。
-- 真实 `run_eval`（调 Gemini）依赖：`GEMINI_API_KEY`（.env）+ 已标注的 `gold_set.jsonl`。
+- **金标准标注：✅ 已完成（2026-05-30）**——人工标注 `eval/draft_reviewed.csv` → `csv_to_gold` 转出
+  `eval/gold_set.jsonl`，**97 篇**（valid 61 / irrelevant 27 / no_chinese 9，72 个项目，全类别覆盖）。
+  （`draft.csv` 全量 165 篇里另有 48 篇中段未审，已从 reviewed 剔除、留作以后扩充；备份 `eval/draft_reviewed.bak.csv`。）
+
+## P1 改造前基线（2026-05-30，report `eval/reports/20260530_231934.json`，extractor gemini-2.5-flash-lite）
+
+| 指标 | 值 | 解读 |
+| --- | --- | --- |
+| **weighted_total** | **0.7396** | 四等权综合分（status/字段均值/实体名/实体角色） |
+| status_accuracy | 0.7938 | ⚠️ 主要弱项：**负样本剔除率仅 ~47%**（36 负样本只剔对 ~17）——过度收录油气/矿业/民用/纯设备 |
+| project_set P/R/F1 | 0.678 / 0.831 / 0.747 | pred 87 vs gold 71，**过度拆分/多编**（precision 低） |
+| category / project_stage | 0.881 / 0.881 | 真实信号，尚可 |
+| capacity_mw | 0.915 | 好 |
+| total_investment_usd | 0.915 | ⚠️ 偏高有水分（多为空==空） |
+| financing_model | 0.983 | ⚠️ 严重虚高（几乎全 Unknown==Unknown） |
+| entity name_f1_mean | **0.565** | ⚠️ 最低：含真实抽取错误 + **母子公司未归一**（gold 已归一、提取器照搬文章名，被双重扣分） |
+| entity role_accuracy | 0.684 | involvement_type，38 个同名实体上 |
+
+**P1 优先级（由基线驱动）：① S1 相关性闸门（剔除率 47%，收益最大）→ ② S4 实体抽取 + 母子公司归一（name F1 0.57）→ ③ S2 项目枚举防过度拆分（precision 0.68）→ ④ 字段（已 88%+，最后）。**
+
+- 真实 `run_eval`（调 Gemini）依赖：`GEMINI_API_KEY`（.env）+ 已标注的 `gold_set.jsonl`。结果按 url+prompt 哈希缓存。
