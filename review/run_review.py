@@ -23,10 +23,34 @@ _root = next(p for p in pathlib.Path(__file__).resolve().parents if (p / "bri_en
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
+import bri_enums  # noqa: E402
+import bri_parse  # noqa: E402
 from review import apply, critic, queue, signals  # noqa: E402
 from eval.article_store import get_article  # noqa: E402
 
 logger = logging.getLogger(__name__)
+
+
+# ── 自动纠正建议值的合法性校验：非法值不自动写库，改入人工清单 ─────────────────
+def _default_value_validator(field: str, value) -> bool:
+    """自动改写前校验 critic 建议值是否合法（防把 LLM 杜撰的非枚举/非数值写进库）。
+
+    - category：一律返回 False（类别错常与"该不该排除"耦合，统一转人工，不自动改）。
+    - involvement_type：必须是 bri_enums 合法参与方式，且非占位 "Unknown"。
+    - capacity_mw：必须能被 bri_parse 解析为正数。
+    - project_name：自由文本，非空即可。
+    - 其它未知字段：False（不自动改）。
+    """
+    if field == "category":
+        return False
+    if field == "involvement_type":
+        return value in set(bri_enums.valid_involvement()) and value != "Unknown"
+    if field == "capacity_mw":
+        num = bri_parse.parse_number(value)
+        return num is not None and num > 0
+    if field == "project_name":
+        return bool(str(value or "").strip())
+    return False
 
 # ── 字段白名单：field→硬编码列名，SQL 插值只用 dict value（防注入 + 防未来笔误）────
 # 键：LLM verdict 允许使用的字段名；值：数据库中对应的列名字面量（绝不来自运行时字符串）
@@ -115,6 +139,7 @@ def run_review(
     conf_threshold: float = 0.8,
     concurrency: int = 1,
     article_fn: Optional[Callable] = None,
+    value_validator: Optional[Callable] = None,
     ts: Optional[str] = None,
 ) -> dict:
     """编排 signals→article→critic→apply 复核流水线，返回 report dict。
@@ -136,13 +161,16 @@ def run_review(
         logger.error("备份 projects_db 失败 src=%s dst=%s: %s", projects_db, bak_path, e)
         raise
 
-    # 读所有行
+    # 读所有行（兼容尚未迁移 is_unnamed_placeholder 列的旧库：缺列时以 0 兜底）
     conn = sqlite3.connect(str(projects_db))
     conn.row_factory = sqlite3.Row
     try:
+        existing_cols = {r[1] for r in conn.execute("PRAGMA table_info(extracted_projects)")}
+        # 列名来自硬编码字面量 / PRAGMA，不含用户输入 → f-string 安全
+        ph_sel = "is_unnamed_placeholder" if "is_unnamed_placeholder" in existing_cols else "0 AS is_unnamed_placeholder"
         rows = conn.execute(
             "SELECT id, project_name, category, capacity_mw, involvement_type, "
-            "implementing_entity, is_unnamed_placeholder, source_link "
+            f"implementing_entity, {ph_sel}, source_link "
             "FROM extracted_projects"
         ).fetchall()
     except sqlite3.Error as e:
@@ -233,6 +261,8 @@ def run_review(
                 results[i] = fut.result()  # 已知错误已在 worker 内吞掉并标记 outcome
 
     # ── Phase 3：分流 + 库写（串行、主线程，sqlite 写线程安全）────────────────
+    # 自动改写建议值的合法性校验器：默认走 bri_enums/bri_parse 校验（防写非法枚举/数值）
+    validator = value_validator if value_validator is not None else _default_value_validator
     write_conn = sqlite3.connect(str(projects_db))
     try:
         for res in results:
@@ -276,6 +306,7 @@ def run_review(
                 review_db=review_db,
                 update_field=update_field,
                 conf_threshold=conf_threshold,
+                value_validator=validator,
             )
             n_auto_corrected += result["auto_corrected"]
             n_queued += result["queued"]

@@ -87,6 +87,7 @@ def test_run_review_non_dry_run_corrects_db(tmp_path):
         article_fn=_make_article_fn(),
         dry_run=False,
         conf_threshold=0.8,
+        value_validator=lambda f, v: True,  # 本测试验证自动改路径本身，放行所有值
         ts="20260601_test",
     )
 
@@ -131,6 +132,7 @@ def test_run_review_dry_run_does_not_modify_db(tmp_path):
         article_fn=_make_article_fn(),
         dry_run=True,
         conf_threshold=0.8,
+        value_validator=lambda f, v: True,  # 本测试验证 dry-run 路径，放行所有值
         ts="20260601_dry",
     )
 
@@ -254,6 +256,7 @@ def test_run_review_report_json_written(tmp_path):
         critic_fn=_mock_critic_fn,
         article_fn=_make_article_fn(),
         dry_run=False,
+        value_validator=lambda f, v: True,
         ts="20260601_rpt",
     )
 
@@ -311,7 +314,7 @@ def test_run_review_concurrency_matches_serial(tmp_path):
         rep = run_review.run_review(
             projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
             critic_fn=critic_fn, article_fn=article_fn, dry_run=False,
-            concurrency=conc, ts=f"20260601_conc_{tag}",
+            concurrency=conc, value_validator=lambda f, v: True, ts=f"20260601_conc_{tag}",
         )
         conn = sqlite3.connect(str(pdb))
         cats = [r[0] for r in conn.execute("SELECT category FROM extracted_projects ORDER BY id")]
@@ -328,3 +331,132 @@ def test_run_review_concurrency_matches_serial(tmp_path):
     # 并发与串行的核心计数一致
     for k in ("n_candidates", "n_auto_corrected", "n_queued", "n_critic_failed", "n_no_article"):
         assert serial_rep[k] == par_rep[k], f"{k} 并发≠串行"
+
+
+# ─── 默认枚值校验器（_default_value_validator）行为 ─────────────────────────────
+
+def test_run_review_tolerates_missing_placeholder_column(tmp_path):
+    """旧库无 is_unnamed_placeholder 列时 run_review 不应崩溃（以 0 兜底）。"""
+    pdb = tmp_path / "p.db"; rdb = tmp_path / "r.db"
+    conn = sqlite3.connect(str(pdb))
+    # 故意建不含 is_unnamed_placeholder 列的旧 schema
+    conn.execute("""
+        CREATE TABLE extracted_projects (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, category TEXT,
+            capacity_mw REAL, involvement_type TEXT, implementing_entity TEXT, source_link TEXT)
+    """)
+    conn.execute(
+        "INSERT INTO extracted_projects (project_name, category, capacity_mw, involvement_type, "
+        "implementing_entity, source_link) VALUES (?,?,?,?,?,?)",
+        ("某项目", "光伏", 50.0, "Unknown", "中国电建", "http://b"),
+    )
+    conn.commit(); conn.close()
+
+    rep = run_review.run_review(
+        projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
+        critic_fn=lambda **k: [], article_fn=_art_fn, dry_run=True, ts="20260601_nocol",
+    )
+    assert rep["n_candidates"] == 1  # involvement=Unknown → 候选；未崩溃即通过
+
+
+def test_default_validator_unit():
+    """单测默认校验器：category 永不放行；involvement 必须合法枚举；capacity 必须正数；project_name 非空。"""
+    import bri_enums
+    v = run_review._default_value_validator
+    assert v("category", "光伏") is False  # category 一律转人工
+    valid_inv = next(x for x in bri_enums.valid_involvement() if x != "Unknown")
+    assert v("involvement_type", valid_inv) is True
+    assert v("involvement_type", "no_chinese") is False  # 非法枚举
+    assert v("involvement_type", "Unknown") is False     # 占位不算纠正
+    assert v("capacity_mw", "50") is True
+    assert v("capacity_mw", "None") is False
+    assert v("capacity_mw", "0") is False
+    assert v("project_name", "某项目") is True
+    assert v("project_name", "") is False
+    assert v("unknown_field", "x") is False
+
+
+def _candidate_db_with(path, involvement="Unknown", category="光伏"):
+    """建单行可疑记录（involvement=Unknown 默认会被 signals 标记）。"""
+    conn = sqlite3.connect(str(path))
+    conn.execute("""
+        CREATE TABLE extracted_projects (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, project_name TEXT, category TEXT,
+            capacity_mw REAL, capacity_mw_raw TEXT, involvement_type TEXT,
+            implementing_entity TEXT, is_unnamed_placeholder INTEGER DEFAULT 0, source_link TEXT)
+    """)
+    conn.execute(
+        "INSERT INTO extracted_projects (project_name, category, capacity_mw, involvement_type, "
+        "implementing_entity, is_unnamed_placeholder, source_link) VALUES (?,?,?,?,?,?,?)",
+        ("某项目", category, 50.0, involvement, "中国电建", 0, "http://b"),
+    )
+    conn.commit()
+    conn.close()
+
+
+def _art_fn(url, db_path=None):
+    return {"title": "t", "content": "正文", "publish_date": "2026-01-01"}
+
+
+def test_default_validator_category_not_autocorrected(tmp_path):
+    """默认校验器下：category 的 wrong 高置信 verdict 不自动改、改入人工清单，库不变。"""
+    pdb = tmp_path / "p.db"; rdb = tmp_path / "r.db"
+    _candidate_db_with(pdb)
+
+    def critic_fn(article, project, suspicious, llm):
+        return [critic_mod.Verdict(field="category", verdict="wrong",
+                                   suggested_value="风电", confidence=0.99, evidence="原文称风电")]
+
+    rep = run_review.run_review(
+        projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
+        critic_fn=critic_fn, article_fn=_art_fn, dry_run=False, ts="20260601_catq",
+    )
+    assert rep["n_auto_corrected"] == 0, "category 不应自动改"
+    assert rep["n_queued"] >= 1
+    conn = sqlite3.connect(str(pdb))
+    cat = conn.execute("SELECT category FROM extracted_projects WHERE id=1").fetchone()[0]
+    conn.close()
+    assert cat == "光伏", "category 不应被自动改写"
+
+
+def test_default_validator_invalid_involvement_queued(tmp_path):
+    """involvement 建议为非法枚举('no_chinese')→不自动改、入人工清单。"""
+    pdb = tmp_path / "p.db"; rdb = tmp_path / "r.db"
+    _candidate_db_with(pdb)
+
+    def critic_fn(article, project, suspicious, llm):
+        return [critic_mod.Verdict(field="involvement_type", verdict="wrong",
+                                   suggested_value="no_chinese", confidence=0.99, evidence="x")]
+
+    rep = run_review.run_review(
+        projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
+        critic_fn=critic_fn, article_fn=_art_fn, dry_run=False, ts="20260601_invq",
+    )
+    assert rep["n_auto_corrected"] == 0, "非法 involvement 值不应自动改"
+    assert rep["n_queued"] >= 1
+    conn = sqlite3.connect(str(pdb))
+    inv = conn.execute("SELECT involvement_type FROM extracted_projects WHERE id=1").fetchone()[0]
+    conn.close()
+    assert inv == "Unknown", "非法值不应写库"
+
+
+def test_default_validator_valid_involvement_autocorrected(tmp_path):
+    """involvement 建议为合法枚举→自动改写。"""
+    import bri_enums
+    valid_inv = next(x for x in bri_enums.valid_involvement() if x != "Unknown")
+    pdb = tmp_path / "p.db"; rdb = tmp_path / "r.db"
+    _candidate_db_with(pdb)
+
+    def critic_fn(article, project, suspicious, llm):
+        return [critic_mod.Verdict(field="involvement_type", verdict="wrong",
+                                   suggested_value=valid_inv, confidence=0.99, evidence="x")]
+
+    rep = run_review.run_review(
+        projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
+        critic_fn=critic_fn, article_fn=_art_fn, dry_run=False, ts="20260601_okinv",
+    )
+    assert rep["n_auto_corrected"] == 1, "合法 involvement 值应自动改"
+    conn = sqlite3.connect(str(pdb))
+    inv = conn.execute("SELECT involvement_type FROM extracted_projects WHERE id=1").fetchone()[0]
+    conn.close()
+    assert inv == valid_inv, "合法值应写库"
