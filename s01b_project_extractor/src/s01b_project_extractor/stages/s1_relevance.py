@@ -3,7 +3,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-_VALID_STATUS = {"valid_project", "no_chinese_participation", "irrelevant"}
+_VALID_STATUS = {"valid_project", "no_chinese_participation", "irrelevant", "chinese_unnamed_participation"}
 
 
 def run_s1(title: str, content: str, date: str, *, llm) -> dict:

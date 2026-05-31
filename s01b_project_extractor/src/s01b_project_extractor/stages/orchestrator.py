@@ -6,7 +6,15 @@ from typing import Any
 
 logger = logging.getLogger(__name__)
 
-_VALID_S1_STATUS = {"valid_project", "no_chinese_participation", "irrelevant"}
+_VALID_S1_STATUS = {"valid_project", "no_chinese_participation", "irrelevant", "chinese_unnamed_participation"}
+
+# S1 raw status → 对外透出的标准化 status（eval/predict 侧同口径）
+_S1_STATUS_MAP = {
+    "valid_project": "valid_project",
+    "no_chinese_participation": "no_chinese_participation",
+    "irrelevant": "irrelevant",
+    "chinese_unnamed_participation": "chinese_unnamed",
+}
 
 
 def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, max_attempts: int = 2) -> Any:
@@ -40,10 +48,13 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
     if status not in _VALID_S1_STATUS:
         raise RuntimeError(f"S1 门控重试后仍输出非法 status={status!r}（不静默丢弃，记为提取失败）")
 
-    if status != "valid_project":
-        return {"analysis": analysis, "status": status, "projects": []}
+    normalized_status = _S1_STATUS_MAP.get(status, status)
 
-    # ── valid：S2 项目识别 + 基本信息（防过度拆分）──
+    if status in ("no_chinese_participation", "irrelevant"):
+        return {"analysis": analysis, "status": normalized_status, "projects": []}
+
+    # ── valid_project 或 chinese_unnamed_participation：S2 项目识别 + 基本信息（防过度拆分）──
+    is_unnamed = status == "chinese_unnamed_participation"
     from s01b_project_extractor.stages.s2_basic import run_s2, validate_s2
     from s01b_project_extractor.stages.s4_entity import run_s4, validate_s4
     from s01b_project_extractor.stages.s3_finance import run_s3
@@ -56,15 +67,21 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
         ci = proj.get("common_info", {}) or {}
         pname = ci.get("Project Name", "") or ci.get("Project Name (EN)", "")
         cat = ci.get("Category", "")
-        ents = _run_stage_with_retry(
-            lambda pn=pname, c=cat: run_s4(title, content, pn, c, llm=llm),
-            validate_s4, stage="s4", max_attempts=2,
-        )
-        proj["chinese_entities"] = ents or []
+        if is_unnamed:
+            # unnamed：不调 S4，直接放占位实体
+            proj["chinese_entities"] = [{"Implementing Chinese Entity": "未具名中企",
+                                         "Type of involvement of Chinese Entities": "Unknown",
+                                         "is_unnamed_placeholder": True}]
+        else:
+            ents = _run_stage_with_retry(
+                lambda pn=pname, c=cat: run_s4(title, content, pn, c, llm=llm),
+                validate_s4, stage="s4", max_attempts=2,
+            )
+            proj["chinese_entities"] = ents or []
         # ── S3：逐项目抽金融字段，非空值合并进 common_info（覆盖 S2 的 Unknown 占位）──
         fin = run_s3(title, content, pname, llm=llm)
         if fin:
             proj.setdefault("common_info", {}).update({k: v for k, v in fin.items() if v not in ("", None)})
         # ── S5：基于结构化结果生成摘要 + 高置信度枚举自检纠偏 ──
         apply_s5(proj, run_s5(proj, llm=llm))
-    return {"analysis": analysis, "status": "valid_project", "projects": projects}
+    return {"analysis": analysis, "status": normalized_status, "projects": projects}
