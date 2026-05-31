@@ -35,12 +35,15 @@ def test_s1_no_chinese_short_circuits():
 
 def test_s1_valid_continues_to_legacy():
     payload_legacy = {"analysis": {"reasoning": "ok"}, "status": "valid_project",
-                      "projects": [{"project_summary": "s", "common_info": {}, "chinese_entities": []}]}
+                      "projects": [{"project_summary": "s", "common_info": {"Project Name": "测试项目", "Category": "光伏"},
+                                    "chinese_entities": []}]}
+    s4_payload = {"chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}
     llm = _ScriptedLLM({"s1": {"status": "valid_project", "reasoning": "ok", "project_subject": "P"},
-                        "legacy_single": payload_legacy})
+                        "legacy_single": payload_legacy,
+                        "s4": s4_payload})
     out = extract_staged("t", "c", "2025-01-01", llm=llm)
     assert out["status"] == "valid_project"
-    assert llm.stages == ["s1", "legacy_single"]
+    assert llm.stages == ["s1", "legacy_single", "s4"]
     assert len(out["projects"]) == 1
 
 

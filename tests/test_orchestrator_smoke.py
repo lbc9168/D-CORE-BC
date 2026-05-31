@@ -14,11 +14,13 @@ class _FakeLLM:
 
 def test_extract_staged_valid_passthrough_structure():
     legacy = {"analysis": {"reasoning": "x"}, "status": "valid_project",
-              "projects": [{"project_summary": "s", "common_info": {"Project Name": "测试"},
+              "projects": [{"project_summary": "s", "common_info": {"Project Name": "测试", "Category": "光伏"},
                             "chinese_entities": [{"Implementing Chinese Entity": "中国能建"}]}]}
+    s4_payload = {"chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}
     llm = _FakeLLM({"s1": {"status": "valid_project", "reasoning": "r", "project_subject": "p"},
-                    "legacy_single": legacy})
+                    "legacy_single": legacy,
+                    "s4": s4_payload})
     out = extract_staged("t", "c", "2025-01-01", llm=llm)
     assert out["status"] == "valid_project"
     assert out["projects"][0]["common_info"]["Project Name"] == "测试"
-    assert llm.stages == ["s1", "legacy_single"]
+    assert llm.stages == ["s1", "legacy_single", "s4"]

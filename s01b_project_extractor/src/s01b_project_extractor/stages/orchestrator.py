@@ -49,4 +49,17 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
         raise RuntimeError(f"legacy 阶段返回非 dict: {type(legacy)}")
     legacy["status"] = "valid_project"
     legacy.setdefault("analysis", {}).update({"s1_reasoning": s1.get("reasoning", "")})
+
+    # ── S4：逐项目重抽中方实体 + 母子公司归一，覆盖 legacy 的 chinese_entities ──
+    from s01b_project_extractor.stages.s4_entity import run_s4, validate_s4
+    for proj in legacy.get("projects", []):
+        ci = proj.get("common_info", {}) or {}
+        pname = ci.get("Project Name", "") or ci.get("Project Name (EN)", "")
+        cat = ci.get("Category", "")
+        ents = _run_stage_with_retry(
+            lambda pn=pname, c=cat: run_s4(title, content, pn, c, llm=llm),
+            validate_s4, stage="s4", max_attempts=2,
+        )
+        if ents:
+            proj["chinese_entities"] = ents
     return legacy
