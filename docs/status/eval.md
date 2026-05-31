@@ -115,3 +115,18 @@ uv --project s01b_project_extractor run python -m pytest tests/test_run_eval_e2e
 2. 修复后正样本召回回升但 `no_chinese` 被 `irrelevant` 吞并（8→2）——根因：irrelevant 旧定义字面含"无中企的发电项目"。改为**两步决策**（先判电力主题→irrelevant；再判中企→valid/no_chinese，明确"电力项目但无中企必判 no_chinese"）→ status 升至 0.8229。
 
 > 注：`n_failed=1` 为 fail-loud 生效（S1 重试后仍非法 status → RuntimeError，可见非静默）。诊断脚本 `eval/_diag_s1.py` 为一次性工具，已删。
+
+### Phase 2：S4 实体阶段（母子公司归一）（2026-05-31，report `eval/reports/20260531_125108.json`）
+
+| 指标 | 基线 | Phase 1 | Phase 2(S4) | vs 基线 |
+| --- | --- | --- | --- | --- |
+| **entity name_f1_mean** | 0.565 | 0.613 | **0.688** | ↑ +0.123（Phase 2 主攻达成）|
+| entity role_accuracy | 0.684 | 0.750 | 0.628 | ↓ 见下注 |
+| project_set f1 | 0.747 | 0.697 | 0.743 | ≈ |
+| category / project_stage | 0.881/0.881 | 0.925/0.868 | 0.927/0.873 | ↑ |
+| status_accuracy | 0.794 | 0.823 | 0.821 | ↑ |
+| weighted_total | 0.7396 | 0.7767 | 0.7624 | ↑ +0.023 |
+
+**role_accuracy 下降是分母效应，非真实退步**：`role_matched_total` 38(基线)→36(P1)→**43**(P2)；绝对答对数 ≈26/27/27 **稳定**。name_f1 变好→更多实体被正确匹配→进入 role 比较的实体集更大且更难，故率降但绝对答对稳定。S4 未恶化 role 分类，是 name_f1 胜利的耦合产物。role 分类细化留待 Phase 4 S5 自检 / 后续 S4 prompt 迭代。
+
+> 注：`n_failed=2`（S4 增加每项目一次 LLM 调用，失败面略增；fail-loud 可见）。S4 为每个项目额外调一次 LLM 抽实体（母子公司归一 + 设备主次/供货两类）。
