@@ -1,6 +1,6 @@
 # review — P2 复核机制（E.1 低置信二次核验 + E.2 chinese_unnamed）
 
-> 最后更新：2026-06-01（review/ 模块代码 + 测试已落，全部绿）
+> 最后更新：2026-06-01（T10 实跑：gold 复查 + eval 重跑 + 全量 dry-run + CSV 导出；新增 --concurrency 并行、value_validator 枚值校验、export_queue）
 
 **模块路径：** `review/`（仓库根）
 
@@ -25,9 +25,10 @@
 | --- | --- |
 | `signals.py` | 确定性预筛：枚举 `suspicious_fields(proj)`，对 `implementing_entity=Unknown / 该类目应有容量却为空 / involvement_type=Unknown` 三类字段打标；占位实体（`is_unnamed_placeholder=1`）不计入可疑 |
 | `critic.py` | 批判 agent：`review_project(article, project, suspicious, llm)` → `list[Verdict]`；Pydantic `Verdict` 校验（verdict/field/confidence/suggested_value/reasoning），默认 LLM = DeepSeek |
-| `apply.py` | 分流：高置信（≥threshold）且字段在白名单 `_UPDATABLE` 内 → 调 `update_field` 改库；status 挑战 + 低置信 → 入 `review_queue`；**status 永不自动改** |
+| `apply.py` | 分流：高置信（≥threshold）+ 字段在白名单 `_UPDATABLE` + **建议值过 `value_validator` 合法性校验** → 调 `update_field` 改库；status 挑战 + 低置信 + 非法建议值 → 入 `review_queue`；**status 永不自动改** |
 | `queue.py` | `review_queue` 模块：`init_queue()`（幂等建表）/ `add_item()`（入口校验 reason_type）/ `pending()`（返回所有 pending 条目） |
-| `run_review.py` | CLI 编排：`signals → get_article → critic → apply` 流水线；支持 `--dry-run`（只记录不写库）；`review/reports/<ts>.json` 落报告；改库前自动备份 `projects_db.bak_YYYYMMDD_HHMMSS`；白名单列事务改库 |
+| `run_review.py` | CLI 编排：`signals → get_article → critic → apply` 流水线；**`--concurrency N` 并行批判（仅读+LLM 并发，库写串行）**；`--dry-run`（只记录不写库）；`_default_value_validator`（category 转人工 / involvement 须合法枚举 / capacity 须可解析正数 / project_name 非空）；`review/reports/<ts>.json` 落报告；改库前自动 `.bak`；兼容旧库缺 `is_unnamed_placeholder` 列；`main()` 载入 `.env` |
+| `export_queue.py` | 把 `review_queue` pending 项导出为 CSV（join `projects.db` 补项目名/类别/原值，utf-8-sig 带 BOM 供 Excel）；只读不改库；`status_challenge` 排前 |
 | `__init__.py` | 包骨架（空，统一入口） |
 
 ---
@@ -64,23 +65,23 @@
 ## 运行命令
 
 ```bash
-# 先 dry-run，查看 report 再决定是否真跑
+# 全量 dry-run（并发 100；批判用 deepseek-v4-pro）——只读不改库
 uv --project s01b_project_extractor run python -m review.run_review \
   --projects-db <path/to/projects.db> \
   --raw-news-db <path/to/raw_news.db> \
   --review-db   <path/to/review.db> \
-  --dry-run
+  --dry-run --llm-model deepseek-v4-pro --concurrency 100
 
-# 确认 report 无误后，去掉 --dry-run 真跑
-uv --project s01b_project_extractor run python -m review.run_review \
+# 把 pending 复核清单导成 CSV（join 项目名/原值，Excel 友好）
+uv --project s01b_project_extractor run python -m review.export_queue \
+  --review-db <path/to/review.db> \
   --projects-db <path/to/projects.db> \
-  --raw-news-db <path/to/raw_news.db> \
-  --review-db   <path/to/review.db>
+  --out review/review_queue.csv
 ```
 
-- 默认批判 LLM = DeepSeek（需 `DEEPSEEK_API_KEY` / `DS_API_KEY`）；可通过 `--llm-provider gemini` 切换。
-- report 落 `review/reports/<ts>.json`（已 gitignore）。
-- 改库前自动备份为 `projects.db.bak_YYYYMMDD_HHMMSS`（dot + underscore 格式，均已 gitignore）。
+- 默认批判 LLM = DeepSeek（需 `DEEPSEEK_API_KEY` / `DS_API_KEY`，`main()` 自动载 `.env`）；`--llm-model deepseek-v4-pro` 用 Pro 做批判。
+- **并发**：`--concurrency` 仅并行"取原文+批判"（库写仍在主线程串行，线程安全已审查）。实测真实库约 75–80 有效并发、~5–6 调用/秒；**并发设到 300 会在沙箱里因线程过多被静默杀掉，用 ≤100**。
+- report 落 `review/reports/<ts>.json`（已 gitignore）。改库前自动 `.bak`（dot/underscore 两式均 gitignore）。CSV / `*_review.db` 等本地产物 gitignore。
 
 ---
 
@@ -107,13 +108,20 @@ uv --project s01b_project_extractor run python -m review.run_review \
 - `s02a_duplicate_merger` `_entity_overlap` 已排除占位实体（防误并保护）。
 - 白名单字段硬编码（`_UPDATABLE`）+ 二次防御（`update_field` 内再次校验）已实施。
 
-**待人工步骤（T10，v2.1 内）**
+**T10 实跑记录（2026-06-01）**
 
-1. 复查 97 篇 gold_set.jsonl，将"有中企但未具名"的条目改标 `chinese_unnamed`，重跑 `run_eval` 出新基线。
-2. 对存量 `projects.db` 先 `--dry-run` 查看 report，确认无误后真跑复核。
+1. **gold 复查**：用户复查 97 篇，确认本批无 chinese_unnamed 类型样本；改标 1 篇（article_id 16256）valid→irrelevant，重生成 `gold_set.jsonl`（valid 60 / irrelevant 28 / no_chinese 9）。
+2. **重跑 eval**（P1+P2 代码，deepseek 混合）：`weighted_total 0.7379→0.7613`，project_set/fields/entity 全面↑；`status_accuracy 0.7917→0.75`——经混淆矩阵核查，**与 chinese_unnamed 无关**（96 篇仅 1 篇被预测为 chinese_unnamed），下降来自既有 S1 闸门过度收录（irrelevant→valid 13/→no_chinese 6）+ 16256 改标 + LLM 非确定性。**P2 无回归、净提升**。
+3. **全量 dry-run**（3351 候选，deepseek-v4-pro，并发 100，~20 分钟，未改库）：自动改 156（capacity_mw 40 / project_name 99 / involvement_type 17；category 0 已转人工）、`status_challenge 1586` + `low_confidence_field 4112`、critic_failed 189（~5.6% Pro 输出不合 schema）。status_challenge 关键词分布：非可再生(化石/油气) 405 / 无或未证实中企 568 / 建议 irrelevant 126 / 其它 487——抽样几乎条条命中真实过度收录，价值高。
+4. **导出 CSV**：`review/export_queue` 导出 5698 条 pending 供人工三角（已交付）。
+5. **决策**：用户选"导出 CSV、暂不自动改库"。**自动改写未真跑**（见下方待硬化）。
 
 ---
 
 ## 已知后续（v2.1 follow-up，非本期）
 
-- `s02a_duplicate_merger` `_fmt_entities`（送 LLM 确认合并时的实体格式化）与 `_merge_records` 实体去重未排除占位实体——目前因占位已排除出 `_entity_overlap` 触发信号、影响有限，留作后续小迭代再评估。
+- **自动改写真跑前必须硬化（dry-run 抓出，未修）**：
+  - **capacity_mw 写的是 critic 原始建议串而非解析后的数值**——`value_validator` 只确认"能解析出数字"就放行，但 `update_field` 写的是 `suggested_value` 原文，会把 `'1000-1200'`/`'近90'`/`'10000 MWh (年产能)'` 等字符串塞进 REAL 容量列（违反"数值字段一律 REAL"）。修法：capacity 写 `bri_parse.parse_number(suggested)` 的结果。
+  - **project_name 偶发"张冠李戴"**（如 id4106 巴西 1.31GW 风电被 critic 串成"墨西哥 319MW Cimarron"）——99 条多为无害清理，但跨项目改名有害，建议 project_name 也转人工。
+  - 在以上两点修好 + 重跑 dry-run 验证前，**只用人工清单（CSV），不开自动改库**。
+- `s02a_duplicate_merger` `_fmt_entities` / `_merge_records` 实体去重未排除占位实体——因占位已排除出 `_entity_overlap` 触发信号、影响有限，留待后续小迭代。
