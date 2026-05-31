@@ -139,6 +139,12 @@ def test_run_review_dry_run_does_not_modify_db(tmp_path):
     assert report["n_auto_corrected"] == 1  # what would have been corrected
     assert report["n_critic_failed"] == 0
 
+    # M-5: dry_run 时 report 应暴露 would_change 明细
+    assert "would_change" in report, "dry_run 模式下 report 应包含 would_change"
+    assert len(report["would_change"]) > 0, "would_change 不应为空"
+    fields_changed = [item["field"] for item in report["would_change"]]
+    assert "category" in fields_changed, "would_change 应包含 category 字段"
+
     # DB 验证：row B 不能被修改
     conn = sqlite3.connect(str(projects_db))
     rows = conn.execute("SELECT id, category FROM extracted_projects ORDER BY id").fetchall()
@@ -231,6 +237,8 @@ def test_run_review_disallowed_field_not_written(tmp_path):
     rows = conn.execute("SELECT source_link FROM extracted_projects WHERE id=2").fetchone()
     conn.close()
     assert rows[0] == "http://b", "不在白名单的字段不应被改"
+    # M-6: 不可改字段不应计入 auto_corrected
+    assert report["n_auto_corrected"] == 0, "不在白名单的字段不应计入 auto_corrected"
 
 
 def test_run_review_report_json_written(tmp_path):

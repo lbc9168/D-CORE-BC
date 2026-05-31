@@ -7,8 +7,9 @@ logger = logging.getLogger(__name__)
 
 def route(*, canonical_id, source_link, verdicts, review_db, update_field, conf_threshold: float = 0.8) -> dict:
     """处理一个项目的 verdict 列表；update_field(canonical_id, field, new_value) 由调用方注入（事务改库）。
-    返回 {auto_corrected, queued}。"""
+    返回 {auto_corrected, queued, reasons}；reasons 是本次实际入队的 reason_type 列表（供调用方聚合）。"""
     auto_corrected = queued = 0
+    reasons: list[str] = []
     for v in verdicts:
         if v.verdict == "ok":
             continue
@@ -19,6 +20,7 @@ def route(*, canonical_id, source_link, verdicts, review_db, update_field, conf_
                            current_value=None, suggested_value=v.suggested_value,
                            critic_confidence=v.confidence, evidence=v.evidence)
             queued += 1
+            reasons.append("status_challenge")
             continue
         # 字段值纠正：高置信 + 有建议值 → 自动改；否则入清单
         if v.verdict == "wrong" and v.suggested_value and v.confidence >= conf_threshold:
@@ -30,4 +32,5 @@ def route(*, canonical_id, source_link, verdicts, review_db, update_field, conf_
                            current_value=None, suggested_value=v.suggested_value,
                            critic_confidence=v.confidence, evidence=v.evidence)
             queued += 1
-    return {"auto_corrected": auto_corrected, "queued": queued}
+            reasons.append("low_confidence_field")
+    return {"auto_corrected": auto_corrected, "queued": queued, "reasons": reasons}

@@ -40,6 +40,46 @@ _UPDATABLE: dict[str, str] = {
 _REPORTS_DIR = pathlib.Path(__file__).resolve().parent / "reports"
 
 
+# ── update_field 工厂（模块级，避免循环内重复编译）──────────────────────────
+
+def _make_update_field(rid, wconn, _dry_run, _would_change, _failed_counter):
+    """工厂函数，为每条记录生成独立的 update_field 闭包（避免循环变量捕获问题）。
+
+    _failed_counter 是一个单元素列表 [int]，用于将 UPDATE 失败数写回外层累加器。
+    rid, wconn, _dry_run, _would_change, _failed_counter 均在工厂调用时绑定，
+    不受后续循环迭代影响。
+    """
+    def update_field(canonical_id, field, new_value):
+        """执行（或模拟）单字段 UPDATE；dry_run 时只记录不写库。
+
+        SQL 列名从硬编码字典 _UPDATABLE 取值（defense-in-depth：即使 field 已过白名单，
+        插入 SQL 的仍是字面常量，而非运行时 LLM 字符串）。
+        """
+        # 二次白名单防御（apply 直接调 update_field；field 已是白名单过滤后）
+        if field not in _UPDATABLE:
+            logger.warning("update_field 二次防御：跳过不可改字段 %s", field)
+            return
+        # 取硬编码列名字面量——绝不将 LLM 字符串直接拼入 SQL
+        col = _UPDATABLE[field]
+        if _dry_run:
+            msg = f"[DRY_RUN] 会将 id={rid} {col} 改为 {new_value!r}"
+            logger.info(msg)
+            _would_change.append({"id": rid, "field": col, "new_value": new_value})
+            return
+        try:
+            with wconn:
+                wconn.execute(
+                    f"UPDATE extracted_projects SET {col}=? WHERE id=?",
+                    (new_value, rid),
+                )
+            logger.info("已更新 id=%d %s → %r", rid, col, new_value)
+        except sqlite3.Error as e:
+            logger.error("UPDATE 失败 id=%d field=%s: %s", rid, col, e)
+            _failed_counter[0] += 1
+
+    return update_field
+
+
 # ── Pydantic 入口参数校验 ────────────────────────────────────────────────────
 
 class ReviewArgs(BaseModel):
@@ -200,43 +240,6 @@ def run_review(
                     # 不入队也不计 auto_corrected：彻底忽略（字段不合法）
 
             # ── update_field 闭包 ─────────────────────────────────────────
-            # 捕获 write_conn、row_id、dry_run 到闭包内
-
-            def _make_update_field(rid, wconn, _dry_run, _would_change, _failed_counter):
-                """工厂函数，为每条记录生成独立的 update_field 闭包（避免循环变量捕获问题）。
-
-                _failed_counter 是一个单元素列表 [int]，用于将 UPDATE 失败数写回外层累加器。
-                """
-                def update_field(canonical_id, field, new_value):
-                    """执行（或模拟）单字段 UPDATE；dry_run 时只记录不写库。
-
-                    SQL 列名从硬编码字典 _UPDATABLE 取值（defense-in-depth：即使 field 已过白名单，
-                    插入 SQL 的仍是字面常量，而非运行时 LLM 字符串）。
-                    """
-                    # 二次白名单防御（apply 直接调 update_field；field 已是白名单过滤后）
-                    if field not in _UPDATABLE:
-                        logger.warning("update_field 二次防御：跳过不可改字段 %s", field)
-                        return
-                    # 取硬编码列名字面量——绝不将 LLM 字符串直接拼入 SQL
-                    col = _UPDATABLE[field]
-                    if _dry_run:
-                        msg = f"[DRY_RUN] 会将 id={rid} {col} 改为 {new_value!r}"
-                        logger.info(msg)
-                        _would_change.append({"id": rid, "field": col, "new_value": new_value})
-                        return
-                    try:
-                        with wconn:
-                            wconn.execute(
-                                f"UPDATE extracted_projects SET {col}=? WHERE id=?",
-                                (new_value, rid),
-                            )
-                        logger.info("已更新 id=%d %s → %r", rid, col, new_value)
-                    except sqlite3.Error as e:
-                        logger.error("UPDATE 失败 id=%d field=%s: %s", rid, col, e)
-                        _failed_counter[0] += 1
-
-                return update_field
-
             # 用单元素列表作为可变容器，让闭包将失败数写回外层 n_update_failed
             _update_failed_counter = [0]
             update_field = _make_update_field(row_id, write_conn, dry_run, would_change, _update_failed_counter)
@@ -254,19 +257,9 @@ def run_review(
             n_queued += result["queued"]
             n_update_failed += _update_failed_counter[0]
 
-            # 本条记录的 queued reasons（用于 report breakdown）
-            for v in allowed_verdicts:
-                if v.verdict != "ok":
-                    is_auto = (
-                        v.field != "status"
-                        and v.verdict == "wrong"
-                        and v.suggested_value
-                        and v.confidence >= conf_threshold
-                        and v.field in _UPDATABLE
-                    )
-                    if not is_auto:
-                        rtype = "status_challenge" if v.field == "status" else "low_confidence_field"
-                        run_reasons[rtype] = run_reasons.get(rtype, 0) + 1
+            # 从 apply.route 返回的 reasons 列表聚合（避免在此重新推导路由逻辑）
+            for rtype in result.get("reasons", []):
+                run_reasons[rtype] = run_reasons.get(rtype, 0) + 1
 
     finally:
         write_conn.close()
@@ -366,6 +359,7 @@ def main() -> None:
         f"  queued        : {report['n_queued']}\n"
         f"  critic_failed : {report['n_critic_failed']}\n"
         f"  no_article    : {report['n_no_article']}\n"
+        f"  update_failed : {report['n_update_failed']}\n"
         f"  dry_run       : {report['dry_run']}\n"
         f"  reasons       : {report['reasons']}"
     )
