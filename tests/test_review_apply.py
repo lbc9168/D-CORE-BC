@@ -4,7 +4,7 @@ from review import apply, critic, queue
 def _v(field, verdict, sv, conf):
     return critic.Verdict(field=field, verdict=verdict, suggested_value=sv, confidence=conf, evidence="e")
 
-def test_high_conf_field_fix_autocorrects(tmp_path, monkeypatch):
+def test_high_conf_field_fix_autocorrects(tmp_path):
     calls = []
     def fake_update(canonical_id, field, new_value, **kw): calls.append((canonical_id, field, new_value))
     rq = tmp_path / "review.db"; queue.init_queue(rq)
