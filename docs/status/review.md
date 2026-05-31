@@ -34,7 +34,7 @@
 
 ## chinese_unnamed 流（E.2）
 
-1. **S1 判断**：`stages/s1_relevance.py` 新增 `_VALID_STATUS` 第 4 值 `"chinese_unnamed"`；S1 prompt 增加新分支——文章提到有中企参与但未具名时输出 `"chinese_unnamed_participation"`。
+1. **S1 判断**：`stages/s1_relevance.py` 新增 `_VALID_STATUS` 第 4 值（RAW 值）`"chinese_unnamed_participation"`；S1 prompt 增加新分支——文章提到有中企参与但未具名时输出该 RAW 值。`orchestrator._S1_STATUS_MAP` 将其标准化为 `"chinese_unnamed"`；eval（gold_loader/predict）与写库分支比较的是标准化后的 `"chinese_unnamed"`。
 2. **orchestrator 标准化**：`_S1_STATUS_MAP`（`stages/orchestrator.py`）将 `"chinese_unnamed_participation"` 映射为 `"chinese_unnamed"`，进入写库分支（跳过 S2-S5）。
 3. **写库**：`project_extractor_tool.py` 新增 `elif status == "chinese_unnamed":` 分支——写入占位实体 `enums.UNNAMED_ENTITY_PLACEHOLDER`（= `"未具名中企"`），`is_unnamed_placeholder=1`，`involvement_type=Unknown`；向 `review_queue` 写入 `reason_type="unnamed_entity"` 条目（`evidence="S1 判 chinese_unnamed，待补公司名"`）。
 4. **下游保护**：`s02a_duplicate_merger` `_entity_overlap` 排除占位实体，防止未具名占位行触发误合并。
@@ -86,10 +86,10 @@ uv --project s01b_project_extractor run python -m review.run_review \
 
 ## status 第 4 值同步说明（重要事实记录）
 
-`guardrails/format_checks.py` 与 `semantic_checks.py` 只校验记录级枚举字段（category/stage/involvement/financing），**不校验文章级 status**。因此 status 第 4 值 `chinese_unnamed` 的"全链同步"实际落在四处：
+`guardrails/format_checks.py` 与 `semantic_checks.py` 只校验记录级枚举字段（category/stage/involvement/financing），**不校验文章级 status**。因此 status 第 4 值的"全链同步"实际落在四处：
 
-1. `stages/s1_relevance.py` — `_VALID_STATUS`（S1 输出合法值集合）
-2. `stages/orchestrator.py` — `_VALID_S1_STATUS`（orchestrator 门控合法值）+ `_S1_STATUS_MAP`（标准化 `chinese_unnamed_participation` → `chinese_unnamed`）
+1. `stages/s1_relevance.py` — `_VALID_STATUS`（S1 输出合法值集合，持有 RAW 值 `"chinese_unnamed_participation"`）
+2. `stages/orchestrator.py` — `_VALID_S1_STATUS`（orchestrator 门控合法值，持有 RAW 值 `"chinese_unnamed_participation"`）+ `_S1_STATUS_MAP`（标准化 `"chinese_unnamed_participation"` → `"chinese_unnamed"`）
 3. `eval/gold_loader.py` — `Literal[...]` 类型注解（金标准 schema 校验）
 4. `eval/predict.py` — `_STATUS_MAP`（提取器结果 → 评测用状态映射）
 
