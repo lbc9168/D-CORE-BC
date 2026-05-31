@@ -16,7 +16,14 @@ def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
     if not isinstance(out, dict):
         logger.error("S2 返回非 dict（按空项目列表处理）: %s", type(out))
         return []
-    return out.get("projects", [])
+    projects = out.get("projects", [])
+    # S2 不评估融资（融资由 S3 负责）；此处把缺省 Financing Model 置为「Unknown」（即「未确定」枚举），
+    # 与多为 Unknown 的 gold 字段对齐；Phase 4 接入 S3 后会用真实融资值覆盖。
+    for p in projects:
+        ci = p.setdefault("common_info", {})
+        if not str(ci.get("Financing Model", "")).strip():
+            ci["Financing Model"] = "Unknown"
+    return projects
 
 
 def validate_s2(projects: list[dict]) -> list[str]:

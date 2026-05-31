@@ -130,3 +130,30 @@ uv --project s01b_project_extractor run python -m pytest tests/test_run_eval_e2e
 **role_accuracy 下降是分母效应，非真实退步**：`role_matched_total` 38(基线)→36(P1)→**43**(P2)；绝对答对数 ≈26/27/27 **稳定**。name_f1 变好→更多实体被正确匹配→进入 role 比较的实体集更大且更难，故率降但绝对答对稳定。S4 未恶化 role 分类，是 name_f1 胜利的耦合产物。role 分类细化留待 Phase 4 S5 自检 / 后续 S4 prompt 迭代。
 
 > 注：`n_failed=2`（S4 增加每项目一次 LLM 调用，失败面略增；fail-loud 可见）。S4 为每个项目额外调一次 LLM 抽实体（母子公司归一 + 设备主次/供货两类）。
+
+### Phase 3：S2 项目识别拆出（防过度拆分）（2026-05-31，report `eval/reports/20260531_171821.json`，version `270281f8d947`）
+
+orchestrator valid 分支由「legacy 单 prompt 出项目」改为「独立 S2 阶段出 `projects[]` → 逐项目 S4」，**彻底移除 legacy 单 prompt**。
+
+| 指标 | 基线 | Phase 2 | **Phase 3** | vs 基线 |
+| --- | --- | --- | --- | --- |
+| **weighted_total** | 0.7396 | 0.7624 | **0.7735** | ↑ +0.034（gate「weighted 不得 ↓」达标） |
+| project_set precision | 0.678 | — | 0.6629 | ≈（−0.015，残余多合同汇总文多编） |
+| project_set recall | 0.831 | — | **0.8429** | ↑ |
+| project_set f1 | 0.747 | 0.743 | **0.7421** | ≈ Phase2 持平（重构未退化项目识别） |
+| category | 0.881 | 0.927 | **0.9661** | ↑ |
+| project_stage | 0.881 | 0.873 | 0.8644 | ≈ |
+| capacity_mw | 0.915 | — | **0.9492** | ↑ |
+| financing_model | 0.983 | — | 0.9492 | ≈ |
+| entity name_f1_mean | 0.565 | 0.688 | **0.7090** | ↑ |
+| entity role_accuracy | 0.684 | 0.628 | 0.6383 | ≈ |
+| status_accuracy | 0.794 | 0.821 | **0.8316** | ↑ |
+
+**Phase 3 调试历程（systematic-debugging，4 轮 eval + 1 次匹配器修复）**：
+1. **run1**（S2 初版）：project_set precision 跌到 0.54、financing 跌到 **0.0**。根因①：S2 不再输出 Financing Model（gold 多为 "Unknown"，空≠Unknown 被判错）；根因②：S2 过度拆分（pred 98 vs gold 70）。
+2. **run2**（加严合并 + 我自拟命名规范「不加补充词」）：**反而更差**——命名规范把 gold 赖以识别的专名（Rumah 2、联合循环、拉索…）删光，matched 53→39、recall 0.76→0.56。**教训：自拟命名脱离 gold 习惯，净退步。**
+3. **run3**（撤销命名误改 + 港 legacy 的「逐项目范围过滤」：剔除学校/道路/数据中心等非发电基建、纯运维、设备供货并一条）：project_set f1 0.49→0.69，pred 98→82。
+4. **run4**（容量按原文单位不换算 GW→MW、去承包方式后缀、硬化设备供货并一条）：weighted 0.7724（>Phase2）、f1 0.706，但 precision 仍 ~0.635。
+5. **匹配器修复（用户拍板）**：诊断发现大量「未匹配」其实是**同一项目**，仅因 `兆瓦/吉瓦/千瓦/兆瓦时` vs `MW/GW/kW/MWh` 写法差异，token_set_ratio < 80 未对齐。在 `eval/metrics.py:_norm_name` 加中英容量单位归一（对所有版本一视同仁，匹配器纠错非刷分；**未改阈值/权重**）。**重跑同一缓存预测**（无新 API）→ project_set f1 **0.7421**、precision 0.663、recall 0.843、weighted **0.7735**。
+
+> **结论**：weighted 净升（gate 达标），project_set 回到 Phase2 持平、recall 升过基线；残余 precision 小缺口（0.663 vs 0.678）来自少数「连连签/连中 N 标」汇总文的真实多编，留待 Phase 4 S5 自检合并/剪枝。financing=Unknown 为 S2 临时占位（gold 多为 Unknown），Phase 4 S3 接入后以真实融资值覆盖。`n_failed=2`。

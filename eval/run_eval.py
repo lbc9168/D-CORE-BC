@@ -39,12 +39,6 @@ def _default_extractor_version() -> str:
             src += inspect.getsource(mod)
         except (ImportError, OSError):
             pass
-    # Phase 0 阶段 _build_prompt 仍是真实 prompt 源，纳入哈希
-    try:
-        from s01b_project_extractor.tools.project_extractor_tool import _build_prompt
-        src += inspect.getsource(_build_prompt)
-    except (ImportError, OSError):
-        pass
     return hashlib.sha1(src.encode("utf-8")).hexdigest()[:12]
 
 

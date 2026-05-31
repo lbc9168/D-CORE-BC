@@ -1,14 +1,15 @@
 """分阶段提取编排：extract_staged() 按阶段顺序调 LLM client + 每阶段 guardrail+重试，返回与原 extract_one 一致的 result dict。
 
-Phase 1：S1 相关性门（非 valid 短路）→ valid 时仍用原单 prompt 跑 S2-5。后续 Phase 逐阶段替换。"""
+Phase 3：S1 相关性门（非 valid 短路）→ S2 项目识别（防过度拆分）→ 逐项目 S4 中方实体抽取。"""
 import logging
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 _VALID_S1_STATUS = {"valid_project", "no_chinese_participation", "irrelevant"}
 
 
-def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, max_attempts: int = 2) -> dict:
+def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, max_attempts: int = 2) -> Any:
     """跑某阶段并校验：校验不过则重试；最多尝试 max_attempts 次；仍不过记 logging.error 并返回最后一次输出（不静默吞，交由上层/批级 guardrail 兜底）。"""
     last = None
     for attempt in range(1, max_attempts + 1):
@@ -21,9 +22,8 @@ def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, max_attempts: int 
 
 
 def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
-    """分阶段提取：S1 门控（非 valid 短路）→ 后续阶段；返回与原 extract_one 一致的 result dict。"""
+    """分阶段提取：S1 门控（非 valid 短路）→ S2 项目识别 → 逐项目 S4 实体抽取；返回与原 extract_one 一致的 result dict。"""
     from s01b_project_extractor.stages.s1_relevance import run_s1, validate_s1
-    from s01b_project_extractor.tools.project_extractor_tool import _build_prompt
 
     # ── S1：相关性 + 中企门（带重试：校验不过则重跑该阶段）──
     s1 = _run_stage_with_retry(
@@ -43,16 +43,14 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
     if status != "valid_project":
         return {"analysis": analysis, "status": status, "projects": []}
 
-    # ── valid：本 Phase 暂用原单 prompt 跑 S2-5；status 以 S1 为准 ──
-    legacy = llm.complete(_build_prompt(title, content, date), stage="legacy_single", json_mode=True)
-    if not isinstance(legacy, dict):
-        raise RuntimeError(f"legacy 阶段返回非 dict: {type(legacy)}")
-    legacy["status"] = "valid_project"
-    legacy.setdefault("analysis", {}).update({"s1_reasoning": s1.get("reasoning", "")})
-
-    # ── S4：逐项目重抽中方实体 + 母子公司归一，覆盖 legacy 的 chinese_entities ──
+    # ── valid：S2 项目识别 + 基本信息（防过度拆分）──
+    from s01b_project_extractor.stages.s2_basic import run_s2, validate_s2
     from s01b_project_extractor.stages.s4_entity import run_s4, validate_s4
-    for proj in legacy.get("projects", []):
+    projects = _run_stage_with_retry(
+        lambda: run_s2(title, content, date, llm=llm), validate_s2, stage="s2", max_attempts=2,
+    )
+    for proj in projects:
+        proj.setdefault("project_summary", "")
         ci = proj.get("common_info", {}) or {}
         pname = ci.get("Project Name", "") or ci.get("Project Name (EN)", "")
         cat = ci.get("Category", "")
@@ -60,6 +58,5 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
             lambda pn=pname, c=cat: run_s4(title, content, pn, c, llm=llm),
             validate_s4, stage="s4", max_attempts=2,
         )
-        if ents:
-            proj["chinese_entities"] = ents
-    return legacy
+        proj["chinese_entities"] = ents or []
+    return {"analysis": analysis, "status": "valid_project", "projects": projects}

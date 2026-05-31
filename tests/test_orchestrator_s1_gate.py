@@ -1,4 +1,4 @@
-"""orchestrator S1 门控测试：S1 非 valid 时短路返回、不进后续；S1 valid 时继续单 prompt。"""
+"""orchestrator S1 门控测试：S1 非 valid 时短路返回、不进后续；S1 valid 时走 S2→S4 路径。"""
 import pytest
 from s01b_project_extractor.stages.orchestrator import extract_staged
 
@@ -33,17 +33,15 @@ def test_s1_no_chinese_short_circuits():
     assert out["analysis"]["reasoning"] == "无中企"
 
 
-def test_s1_valid_continues_to_legacy():
-    payload_legacy = {"analysis": {"reasoning": "ok"}, "status": "valid_project",
-                      "projects": [{"project_summary": "s", "common_info": {"Project Name": "测试项目", "Category": "光伏"},
-                                    "chinese_entities": []}]}
+def test_s1_valid_continues_to_s2_s4():
+    s2_payload = {"projects": [{"project_summary": "s", "common_info": {"Project Name": "测试项目", "Category": "光伏", "Project Stage": "在建"}}]}
     s4_payload = {"chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}
     llm = _ScriptedLLM({"s1": {"status": "valid_project", "reasoning": "ok", "project_subject": "P"},
-                        "legacy_single": payload_legacy,
+                        "s2": s2_payload,
                         "s4": s4_payload})
     out = extract_staged("t", "c", "2025-01-01", llm=llm)
     assert out["status"] == "valid_project"
-    assert llm.stages == ["s1", "legacy_single", "s4"]
+    assert llm.stages == ["s1", "s2", "s4"]
     assert len(out["projects"]) == 1
 
 
