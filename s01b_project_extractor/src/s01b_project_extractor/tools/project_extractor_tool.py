@@ -552,18 +552,11 @@ def _build_prompt(title: str, content: str, date: str) -> str:
 
 
 def extract_one(title: str, content: str, date: str, *, client, model: str = "gemini-2.5-flash-lite") -> dict:
-    """对单篇文章跑一次提取，返回原始结果 dict；重试3次后仍失败抛 RuntimeError（不静默）。"""
-    prompt = _build_prompt(title, content, date)
-    last_error = ""
-    for attempt in range(1, 4):
-        try:
-            resp = client.models.generate_content(model=model, contents=prompt, config=_GENERATION_CONFIG)
-            return json.loads(resp.text)
-        except (json.JSONDecodeError, Exception) as e:  # 具体类型在前；兜底重试
-            last_error = str(e)
-            if attempt < 3:
-                time.sleep(2 ** attempt)
-    raise RuntimeError(f"extract_one 失败(重试3次): {last_error}")
+    """对单篇文章跑一次提取，返回原始结果 dict；内部委派分阶段 orchestrator（Phase 0 透传单 prompt）。"""
+    from s01b_project_extractor.llm.client import LLMClient, LLMConfig
+    from s01b_project_extractor.stages.orchestrator import extract_staged
+    llm = LLMClient(LLMConfig(provider="gemini", model=model, temperature=0.14), _client=client)
+    return extract_staged(title, content, date, llm=llm)
 
 
 # ── Input Schema ──────────────────────────────────────────────────────────────

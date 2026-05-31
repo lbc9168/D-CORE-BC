@@ -28,10 +28,23 @@ _DEFAULT_MODEL = "gemini-2.5-flash-lite"
 
 
 def _default_extractor_version() -> str:
-    """由 _build_prompt 源码 + 模型名算 sha1[:12]，prompt 一变即自动让缓存失效。"""
-    from s01b_project_extractor.tools.project_extractor_tool import _build_prompt  # 延迟导入：仅默认版本号才需要
+    """由 orchestrator + 各阶段 prompt 源码 + 模型名算 sha1[:12]，任一变更即让缓存失效。"""
+    from s01b_project_extractor.stages import orchestrator  # 延迟导入
 
-    src = inspect.getsource(_build_prompt) + _DEFAULT_MODEL
+    src = inspect.getsource(orchestrator) + _DEFAULT_MODEL
+    # 各阶段 prompt 模块加入哈希（存在才纳入，便于逐 Phase 增量上线）
+    for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary"):
+        try:
+            mod = __import__(f"s01b_project_extractor.prompts.{modname}", fromlist=["*"])
+            src += inspect.getsource(mod)
+        except (ImportError, OSError):
+            pass
+    # Phase 0 阶段 _build_prompt 仍是真实 prompt 源，纳入哈希
+    try:
+        from s01b_project_extractor.tools.project_extractor_tool import _build_prompt
+        src += inspect.getsource(_build_prompt)
+    except (ImportError, OSError):
+        pass
     return hashlib.sha1(src.encode("utf-8")).hexdigest()[:12]
 
 
