@@ -21,9 +21,9 @@ class LLMConfig:
     _api_key: str = field(default="", repr=False)
 
 
-def config_from_env(stage: str | None = None) -> LLMConfig:
-    """从环境变量构建配置：S01B_PROVIDER / S01B_MODEL，缺省 gemini-2.5-flash-lite。stage 预留按阶段覆盖。"""
-    provider = os.getenv("S01B_PROVIDER", "gemini").strip().lower()
+def _config_for_provider(provider: str) -> LLMConfig:
+    """按 provider 名（gemini/deepseek）从对应环境变量构建 LLMConfig。"""
+    provider = (provider or "gemini").strip().lower()
     if provider == "deepseek":
         # 兼容两套环境变量命名：优先 DEEPSEEK_*，回退到 .env 实际使用的 DS_*。
         return LLMConfig(
@@ -37,6 +37,54 @@ def config_from_env(stage: str | None = None) -> LLMConfig:
         model=os.getenv("S01B_MODEL", "gemini-2.5-flash-lite").strip(),
         _api_key=os.getenv("GEMINI_API_KEY", "").strip(),
     )
+
+
+def config_from_env(stage: str | None = None) -> LLMConfig:
+    """从环境变量构建单一配置：provider 取 S01B_PROVIDER（缺省 gemini）。stage 预留按阶段覆盖。"""
+    return _config_for_provider(os.getenv("S01B_PROVIDER", "gemini"))
+
+
+def _parse_stage_providers(raw: str) -> dict[str, str]:
+    """解析 S01B_STAGE_PROVIDERS（形如 's3:deepseek,s4:deepseek'）为 {stage: provider}；非法片段忽略。"""
+    out: dict[str, str] = {}
+    for part in (raw or "").split(","):
+        part = part.strip()
+        if ":" in part:
+            st, pv = part.split(":", 1)
+            st, pv = st.strip(), pv.strip().lower()
+            if st and pv:
+                out[st] = pv
+    return out
+
+
+class StageRouter:
+    """按阶段把 complete() 路由到不同 provider 的 client；接口与 LLMClient 兼容（drop-in，供 extract_staged 直接用）。"""
+
+    def __init__(self, default, by_stage: dict | None = None):
+        self._default = default
+        self._by_stage = dict(by_stage or {})
+
+    def complete(self, prompt: str, *, stage: str, json_mode: bool = True):
+        """按 stage 选对应 client；未配置的 stage 落默认 client。"""
+        return self._by_stage.get(stage, self._default).complete(prompt, stage=stage, json_mode=json_mode)
+
+
+def build_stage_router_from_env(*, _client_factory=None, default_client=None) -> StageRouter:
+    """从 env 构建分阶段路由：默认 provider=S01B_PROVIDER，按 S01B_STAGE_PROVIDERS 覆盖个别阶段；每 provider 仅建一个 client 复用。
+
+    _client_factory: 注入式 client 工厂（测试用），默认 LLMClient(cfg)。
+    default_client: 可注入已建好的默认 client（生产侧复用现有 gemini client，省一次建连）。"""
+    factory = _client_factory or (lambda cfg: LLMClient(cfg))
+    default_provider = os.getenv("S01B_PROVIDER", "gemini").strip().lower()
+    overrides = _parse_stage_providers(os.getenv("S01B_STAGE_PROVIDERS", ""))
+    # 仅为「被覆盖的 provider」建 client；默认 provider 若未注入也建一个
+    clients: dict[str, object] = {pv: factory(_config_for_provider(pv)) for pv in set(overrides.values())}
+    if default_client is not None:
+        default = default_client
+    else:
+        default = clients.get(default_provider) or factory(_config_for_provider(default_provider))
+    by_stage = {st: clients[pv] for st, pv in overrides.items()}
+    return StageRouter(default=default, by_stage=by_stage)
 
 
 def _build_provider_client(cfg: LLMConfig):

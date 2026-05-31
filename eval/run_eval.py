@@ -31,9 +31,10 @@ def _default_extractor_version() -> str:
     """由 orchestrator + 各阶段 prompt 源码 + provider/model 算 sha1[:12]，任一变更即让缓存失效（供应商间缓存隔离）。"""
     from s01b_project_extractor.stages import orchestrator  # 延迟导入
 
-    # provider/model 纳入哈希：Gemini 与 DeepSeek 各自独立缓存、报告可比
+    # provider/model + 分阶段路由 纳入哈希：各供应商/混合配置各自独立缓存、报告可比
     provider_tag = (os.getenv("S01B_PROVIDER", "gemini") + os.getenv("S01B_MODEL", "")
-                    + os.getenv("DEEPSEEK_MODEL", "") + os.getenv("DS_MODEL", ""))
+                    + os.getenv("DEEPSEEK_MODEL", "") + os.getenv("DS_MODEL", "")
+                    + os.getenv("S01B_STAGE_PROVIDERS", ""))
     src = inspect.getsource(orchestrator) + (provider_tag or _DEFAULT_MODEL)
     # 各阶段 prompt 模块加入哈希（存在才纳入，便于逐 Phase 增量上线）
     for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary"):
@@ -49,11 +50,11 @@ def _build_real_extract_fn():
     """构造调用真实 LLM 的 extract_fn；provider 由 S01B_PROVIDER 决定（gemini 默认/deepseek）；缺 key/model 构造即抛。"""
     from dotenv import find_dotenv, load_dotenv  # 延迟导入
     load_dotenv(find_dotenv(usecwd=True))  # worktree 无独立 .env，向上搜索命中主仓库 .env
-    from s01b_project_extractor.llm.client import LLMClient, config_from_env  # 延迟导入
+    from s01b_project_extractor.llm.client import build_stage_router_from_env  # 延迟导入
     from s01b_project_extractor.stages.orchestrator import extract_staged  # 延迟导入
-    cfg = config_from_env()
-    llm = LLMClient(cfg)  # 缺 key/model 构造即抛 RuntimeError（入口校验）
-    return lambda t, c, d: extract_staged(t, c, d, llm=llm)
+    # 支持分阶段路由（S01B_STAGE_PROVIDERS，如 s3:deepseek,s4:deepseek,s5:deepseek）；缺 key/model 构造即抛
+    router = build_stage_router_from_env()
+    return lambda t, c, d: extract_staged(t, c, d, llm=router)
 
 
 def _ratio(c, t) -> float:

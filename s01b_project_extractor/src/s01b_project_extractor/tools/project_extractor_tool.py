@@ -555,11 +555,13 @@ def _build_prompt(title: str, content: str, date: str) -> str:
 
 
 def extract_one(title: str, content: str, date: str, *, client, model: str = "gemini-2.5-flash-lite") -> dict:
-    """对单篇文章跑一次提取，返回原始结果 dict；内部委派分阶段 orchestrator（Phase 0 透传单 prompt）。"""
-    from s01b_project_extractor.llm.client import LLMClient, LLMConfig
+    """对单篇文章跑一次分阶段提取，返回原始结果 dict；支持按 S01B_STAGE_PROVIDERS 分阶段路由（默认全 gemini，复用传入的 client）。"""
+    from s01b_project_extractor.llm.client import LLMClient, LLMConfig, build_stage_router_from_env
     from s01b_project_extractor.stages.orchestrator import extract_staged
-    llm = LLMClient(LLMConfig(provider="gemini", model=model), _client=client)
-    return extract_staged(title, content, date, llm=llm)
+    # 默认 gemini 阶段复用调用方已建好的 client；被 S01B_STAGE_PROVIDERS 覆盖的阶段（如 deepseek）从 env 另建
+    gemini_llm = LLMClient(LLMConfig(provider="gemini", model=model), _client=client)
+    router = build_stage_router_from_env(default_client=gemini_llm)
+    return extract_staged(title, content, date, llm=router)
 
 
 # ── Input Schema ──────────────────────────────────────────────────────────────
