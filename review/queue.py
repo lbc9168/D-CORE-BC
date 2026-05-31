@@ -31,6 +31,7 @@ def add_item(db_path, *, canonical_id, source_link, reason_type, field, current_
     """插入一条复核项；reason_type 必须合法，否则抛错（入口校验）。"""
     if reason_type not in _REASON_TYPES:
         raise ValueError(f"非法 reason_type={reason_type!r}，合法={_REASON_TYPES}")
+    # 低频路径：per-call 连接可接受
     conn = sqlite3.connect(str(db_path))
     try:
         conn.execute(

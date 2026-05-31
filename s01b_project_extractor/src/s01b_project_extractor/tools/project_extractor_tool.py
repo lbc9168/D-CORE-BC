@@ -2,6 +2,7 @@ import concurrent.futures
 import json
 import logging
 import os
+import shutil
 import sqlite3
 import sys
 import threading
@@ -775,9 +776,10 @@ class ProjectExtractorTool:
             print(f"  -> 分析: [{subject}] - {reasoning}")
             print(f"  -> 结论: {status}")
 
-            local_valid: list[dict]      = []
-            local_no_chinese: list[dict] = []
-            local_discarded: list[dict]  = []
+            local_valid: list[dict]          = []
+            local_no_chinese: list[dict]     = []
+            local_discarded: list[dict]      = []
+            local_unnamed_review: list[str]  = []
 
             if status == "irrelevant":
                 local_discarded.append({
@@ -886,7 +888,6 @@ class ProjectExtractorTool:
 
             elif status == "chinese_unnamed":
                 # 中企未具名：项目信息写库，实体行用占位符，后续人工补录公司名
-                local_unnamed_review: list[str] = []  # 本条文章的 source_link（供 review_queue）
                 for proj in result.get("projects", []):
                     common = proj.get("common_info", {})
                     project_summary = proj.get("project_summary", "")
@@ -989,9 +990,7 @@ class ProjectExtractorTool:
         _real_db_path = Path(projects_db_path).resolve()
         _default_db_path = Path(_DEFAULT_PROJECTS_DB).resolve()
         if _real_db_path == _default_db_path and _real_db_path.exists():
-            import shutil
-            from datetime import datetime as _dt
-            _bak = str(_real_db_path) + "." + _dt.now().strftime("bak.%Y%m%d_%H%M%S")
+            _bak = str(_real_db_path) + "." + datetime.now().strftime("bak.%Y%m%d_%H%M%S")
             try:
                 shutil.copy2(str(_real_db_path), _bak)
                 logger.info("已备份主库至 %s（schema 迁移前保护）", _bak)
