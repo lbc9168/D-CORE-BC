@@ -1,5 +1,6 @@
 import concurrent.futures
 import json
+import logging
 import os
 import sqlite3
 import sys
@@ -12,6 +13,11 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
+
+from s01b_project_extractor.guardrails.format_checks import run_format_checks
+from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
+
+logger = logging.getLogger(__name__)
 
 # ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
@@ -667,8 +673,8 @@ class ProjectExtractorTool:
             cur.execute("SELECT DISTINCT source_link FROM extracted_projects WHERE source_link IS NOT NULL AND source_link != ''")
             already_processed.update(r[0] for r in cur.fetchall())
             _chk.close()
-        except Exception:
-            pass
+        except sqlite3.Error as e:
+            logger.error("预加载 projects.db 已处理 URL 失败（跳过，增量去重将降级）: %s", e)
         try:
             _chk2 = _init_review_db(review_db_path)
             cur2 = _chk2.cursor()
@@ -676,8 +682,8 @@ class ProjectExtractorTool:
                          "UNION SELECT source_link FROM discarded_records WHERE source_link IS NOT NULL AND source_link != ''")
             already_processed.update(r[0] for r in cur2.fetchall())
             _chk2.close()
-        except Exception:
-            pass
+        except sqlite3.Error as e:
+            logger.error("预加载 review.db 已处理 URL 失败（跳过，增量去重将降级）: %s", e)
         if already_processed:
             print(f">>> 增量模式：已跳过 {len(already_processed)} 个已处理 URL")
 
@@ -1011,8 +1017,9 @@ class ProjectExtractorTool:
                             created_at,
                         ),
                     )
-                except Exception:
-                    pass
+                except sqlite3.Error as e:
+                    # INSERT OR IGNORE 不应失败，记录异常供排查
+                    logger.error("写入 no_chinese_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
             review_conn.commit()
 
             # 写入 review.db → discarded_records
@@ -1031,8 +1038,9 @@ class ProjectExtractorTool:
                             created_at,
                         ),
                     )
-                except Exception:
-                    pass
+                except sqlite3.Error as e:
+                    # INSERT OR IGNORE 不应失败，记录异常供排查
+                    logger.error("写入 discarded_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
             review_conn.commit()
         except Exception as e:
             fallback_path = _dump_failed_parse_results(str(e))
@@ -1044,6 +1052,23 @@ class ProjectExtractorTool:
                 proj_conn.close()
             if review_conn is not None:
                 review_conn.close()
+
+        # ── 批级 guardrail（format + batch）：bulk/单批写库后统一校验，修掉原 bulk 裸奔 ──
+        # 不删记录、不抛错（bulk 无 LLM 重跑循环）；仅 logging.error 记录，交由人工复核。
+        try:
+            _vconn = sqlite3.connect(projects_db_path)
+            _vconn.row_factory = sqlite3.Row
+            _vrows = [dict(r) for r in _vconn.execute(
+                "SELECT * FROM extracted_projects WHERE batch_id=?", (batch_id,)).fetchall()]
+            _vconn.close()
+            _fmt_errors = run_format_checks(_vrows)
+            _batch_errors, _batch_warns = run_batch_checks(_vrows, total_input_articles=len(df))
+            if _fmt_errors or _batch_errors:
+                logger.error("批 %s guardrail 异常 format=%d batch=%d 示例=%s",
+                             batch_id, len(_fmt_errors), len(_batch_errors),
+                             (_fmt_errors[:3] + _batch_errors[:3]))
+        except sqlite3.Error as e:
+            logger.error("批 %s guardrail 校验读库失败: %s", batch_id, e)
 
         # AI 原始结果 JSON
         json_path_str = ""
