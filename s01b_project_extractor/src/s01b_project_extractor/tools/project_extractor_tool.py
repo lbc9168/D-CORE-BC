@@ -555,7 +555,7 @@ def extract_one(title: str, content: str, date: str, *, client, model: str = "ge
     """对单篇文章跑一次提取，返回原始结果 dict；内部委派分阶段 orchestrator（Phase 0 透传单 prompt）。"""
     from s01b_project_extractor.llm.client import LLMClient, LLMConfig
     from s01b_project_extractor.stages.orchestrator import extract_staged
-    llm = LLMClient(LLMConfig(provider="gemini", model=model, temperature=0.14), _client=client)
+    llm = LLMClient(LLMConfig(provider="gemini", model=model), _client=client)
     return extract_staged(title, content, date, llm=llm)
 
 

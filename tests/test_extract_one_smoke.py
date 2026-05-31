@@ -16,7 +16,7 @@ def test_extract_one_returns_dict():
     assert out == {"status": "irrelevant", "analysis": {}}
 
 def test_extract_one_raises_on_persistent_failure(monkeypatch):
-    monkeypatch.setattr(pe.time, "sleep", lambda s: None)  # don't actually sleep
+    monkeypatch.setattr("s01b_project_extractor.llm.client.time.sleep", lambda s: None)  # don't actually sleep
     class _Boom:
         def generate_content(self, **k): raise ValueError("boom")
     class _C: models = _Boom()
