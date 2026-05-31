@@ -48,6 +48,22 @@ def _build_provider_client(cfg: LLMConfig):
     return genai.Client(api_key=cfg._api_key)
 
 
+def _retryable_errors() -> tuple[type[BaseException], ...]:
+    """返回可重试的异常类型元组：JSON/取值错误 + 网络/IO + 各 provider SDK 基类（懒加载，缺失则跳过）。"""
+    errs: list[type[BaseException]] = [ValueError, OSError, ConnectionError, TimeoutError]
+    try:
+        from google.genai import errors as genai_errors
+        errs.append(genai_errors.APIError)
+    except (ImportError, AttributeError):
+        pass
+    try:
+        from openai import OpenAIError
+        errs.append(OpenAIError)
+    except (ImportError, AttributeError):
+        pass
+    return tuple(errs)
+
+
 class LLMClient:
     """统一调用入口：complete(prompt, *, stage, json_mode) -> dict|str；按 provider 分派 + 重试退避。"""
 
@@ -82,7 +98,7 @@ class LLMClient:
             try:
                 text = self._raw_call(prompt, json_mode)
                 return json.loads(text) if json_mode else text
-            except Exception as e:  # 兜底重试；具体上下文写 logging
+            except _retryable_errors() as e:  # 指定可重试异常类型（解析/网络/SDK），并记录上下文
                 last_error = f"{type(e).__name__}: {e}"
                 logger.error("LLM complete 失败 stage=%s attempt=%d/%d error=%s",
                              stage, attempt, self.cfg.max_retries, last_error)
