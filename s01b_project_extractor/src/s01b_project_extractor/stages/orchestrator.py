@@ -8,12 +8,13 @@ logger = logging.getLogger(__name__)
 
 _VALID_S1_STATUS = {"valid_project", "no_chinese_participation", "irrelevant", "chinese_unnamed_participation"}
 
-# S1 raw status → 对外透出的标准化 status（eval/predict 侧同口径）
+# S1 raw status → 对外透出的标准化 status；仅 chinese_unnamed_participation 做重命名，
+# 其余为恒等项（确保 _S1_STATUS_MAP 与 _VALID_S1_STATUS 保持全覆盖）。
 _S1_STATUS_MAP = {
     "valid_project": "valid_project",
     "no_chinese_participation": "no_chinese_participation",
     "irrelevant": "irrelevant",
-    "chinese_unnamed_participation": "chinese_unnamed",
+    "chinese_unnamed_participation": "chinese_unnamed",  # ← 唯一重命名项
 }
 
 
