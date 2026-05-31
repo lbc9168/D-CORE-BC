@@ -7,10 +7,7 @@ import threading
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Type
-
 import pandas as pd
-from crewai.tools import BaseTool
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -586,15 +583,8 @@ class ProjectExtractorInput(BaseModel):
 
 # ── Tool ──────────────────────────────────────────────────────────────────────
 
-class ProjectExtractorTool(BaseTool):
-    name: str = "project_extractor_tool"
-    description: str = (
-        "从 raw_news.db 读取已爬取的新闻，逐条调用 AI 进行筛选和结构化提取，"
-        "将结果分三类写入 SQLite 数据库：有效项目（→ projects_db_path）、"
-        "无中方参与项目和被剔除无关新闻（→ review_db_path）。"
-        "返回各类别数量摘要和数据库路径。"
-    )
-    args_schema: Type[BaseModel] = ProjectExtractorInput
+class ProjectExtractorTool:
+    """从 raw_news.db 读取新闻，调用 AI 提取项目信息并分类写入 SQLite 数据库。"""
 
     def _run(
         self,

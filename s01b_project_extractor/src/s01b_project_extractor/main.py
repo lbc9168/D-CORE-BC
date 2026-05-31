@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import concurrent.futures
-import sys
 import warnings
 from pathlib import Path
 
@@ -9,70 +8,14 @@ from dotenv import load_dotenv
 # 确保 .env 在 s01b_project_extractor 目录下被加载
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
-from s01b_project_extractor.crew import ProjectExtractor
-
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 _S01B_ROOT = Path(__file__).resolve().parents[2]
 
 
 def run():
-    """
-    运行项目信息提取 Crew（单批次）。
-    从 s01a 的 raw_news.db 中读取数据进行 AI 提取。
-    """
-    inputs = {
-        'raw_news_db_path': str(_S01B_ROOT.parent / 's01a_news_crawler' / 'data' / 'raw_news.db'),
-        'projects_db_path': str(_S01B_ROOT / 'data' / 'projects.db'),
-        'review_db_path':   str(_S01B_ROOT / 'data' / 'review.db'),
-    }
-
-    try:
-        ProjectExtractor().crew().kickoff(inputs=inputs)
-    except Exception as e:
-        raise Exception(f"Crew 运行出错: {e}") from e
-
-
-def train():
-    """训练 Crew（用于优化 Agent 输出质量）"""
-    inputs = {
-        'raw_news_db_path': str(_S01B_ROOT.parent / 's01a_news_crawler' / 'data' / 'raw_news.db'),
-        'projects_db_path': str(_S01B_ROOT / 'data' / 'projects.db'),
-        'review_db_path':   str(_S01B_ROOT / 'data' / 'review.db'),
-    }
-    try:
-        ProjectExtractor().crew().train(
-            n_iterations=int(sys.argv[1]),
-            filename=sys.argv[2],
-            inputs=inputs,
-        )
-    except Exception as e:
-        raise Exception(f"训练出错: {e}") from e
-
-
-def replay():
-    """从指定任务节点重放 Crew 执行"""
-    try:
-        ProjectExtractor().crew().replay(task_id=sys.argv[1])
-    except Exception as e:
-        raise Exception(f"重放出错: {e}") from e
-
-
-def test():
-    """测试 Crew 执行并返回结果"""
-    inputs = {
-        'raw_news_db_path': str(_S01B_ROOT.parent / 's01a_news_crawler' / 'data' / 'raw_news.db'),
-        'projects_db_path': str(_S01B_ROOT / 'data' / 'projects.db'),
-        'review_db_path':   str(_S01B_ROOT / 'data' / 'review.db'),
-    }
-    try:
-        ProjectExtractor().crew().test(
-            n_iterations=int(sys.argv[1]),
-            eval_llm=sys.argv[2],
-            inputs=inputs,
-        )
-    except Exception as e:
-        raise Exception(f"测试出错: {e}") from e
+    """运行大规模并发 AI 提取（委托给 run_bulk_extract）。"""
+    run_bulk_extract()
 
 
 # ════════════════════════════════════════════════════════════════
