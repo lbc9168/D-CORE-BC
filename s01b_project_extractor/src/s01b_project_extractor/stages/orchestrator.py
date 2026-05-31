@@ -46,6 +46,7 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
     # ── valid：S2 项目识别 + 基本信息（防过度拆分）──
     from s01b_project_extractor.stages.s2_basic import run_s2, validate_s2
     from s01b_project_extractor.stages.s4_entity import run_s4, validate_s4
+    from s01b_project_extractor.stages.s3_finance import run_s3
     projects = _run_stage_with_retry(
         lambda: run_s2(title, content, date, llm=llm), validate_s2, stage="s2", max_attempts=2,
     )
@@ -59,4 +60,8 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
             validate_s4, stage="s4", max_attempts=2,
         )
         proj["chinese_entities"] = ents or []
+        # ── S3：逐项目抽金融字段，非空值合并进 common_info（覆盖 S2 的 Unknown 占位）──
+        fin = run_s3(title, content, pname, llm=llm)
+        if fin:
+            proj.setdefault("common_info", {}).update({k: v for k, v in fin.items() if v not in ("", None)})
     return {"analysis": analysis, "status": "valid_project", "projects": projects}
