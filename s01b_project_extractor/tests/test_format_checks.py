@@ -299,3 +299,28 @@ class TestMultipleRecords:
         errs = errors_for(rec)
         assert len(errs) >= 3, "应有至少3个错误"
         assert all("#42" in e for e in errs)
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 13. chinese_unnamed 占位记录守护（E.2 回归）
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestChineseUnnamedPassesFormatChecks:
+    """
+    守护：chinese_unnamed 状态产出的占位实体记录（implementing_entity=未具名中企，
+    involvement_type=Unknown，category=光伏）必须零错误通过 run_format_checks。
+
+    Part B 确认结论：format_checks 对 status 字段无感知，
+    "Unknown" involvement 也在合法枚举集内，故此测试预期立即通过，无需改动 format_checks。
+    """
+
+    def test_unnamed_placeholder_record_passes_format_checks(self):
+        """占位记录应零错误通过 format_checks（不产生误报）。"""
+        rec = make_record({
+            "implementing_entity": "未具名中企",
+            "involvement_type": "Unknown",
+            "category": "光伏",
+        })
+        assert errors_for(rec) == [], (
+            "chinese_unnamed 占位记录不应被 format_checks 拦截"
+        )

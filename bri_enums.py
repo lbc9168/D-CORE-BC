@@ -3,6 +3,9 @@ import json
 import pathlib
 from functools import lru_cache
 
+# chinese_unnamed 占位实体名（E.2）
+UNNAMED_ENTITY_PLACEHOLDER = "未具名中企"
+
 
 @lru_cache(maxsize=1)
 def _data() -> dict:

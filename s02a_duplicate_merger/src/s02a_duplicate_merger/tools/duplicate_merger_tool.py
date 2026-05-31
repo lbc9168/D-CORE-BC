@@ -452,8 +452,16 @@ def _name_similarity(a: Dict, b: Dict) -> Tuple[bool, int]:
 
 def _entity_overlap(a: Dict, b: Dict) -> bool:
     """检查两条记录是否有共同的中方主体（实体名称精确匹配）。"""
-    ents_a = {e["implementing_entity"] for e in a.get("entities", []) if e["implementing_entity"]}
-    ents_b = {e["implementing_entity"] for e in b.get("entities", []) if e["implementing_entity"]}
+    # 占位实体不是真实公司，不能作为同一项目的实体信号，否则不同项目会被错并。
+    def _real_entities(proj: Dict) -> set:
+        return {
+            e["implementing_entity"]
+            for e in proj.get("entities", [])
+            if e["implementing_entity"] and e["implementing_entity"] != enums.UNNAMED_ENTITY_PLACEHOLDER
+        }
+
+    ents_a = _real_entities(a)
+    ents_b = _real_entities(b)
     return bool(ents_a & ents_b)
 
 

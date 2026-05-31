@@ -931,7 +931,7 @@ class ProjectExtractorTool:
                     }
                     row_data = base.copy()
                     row_data.update({
-                        "Implementing Chinese Entity": "未具名中企",
+                        "Implementing Chinese Entity": enums.UNNAMED_ENTITY_PLACEHOLDER,
                         "Implementing Chinese Entity (EN)": "",
                         "Is Central SOE": None,
                         "Subsidiary Name": "",

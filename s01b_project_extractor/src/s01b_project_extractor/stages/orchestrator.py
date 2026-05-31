@@ -3,6 +3,7 @@
 Phase 4：S1 相关性门（非 valid 短路）→ S2 项目识别（防过度拆分）→ 逐项目 S4 实体抽取 → S3 金融信息 → S5 摘要+枚举自检。"""
 import logging
 from typing import Any
+import bri_enums as enums
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +71,7 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
         cat = ci.get("Category", "")
         if is_unnamed:
             # unnamed：不调 S4，直接放占位实体
-            proj["chinese_entities"] = [{"Implementing Chinese Entity": "未具名中企",
+            proj["chinese_entities"] = [{"Implementing Chinese Entity": enums.UNNAMED_ENTITY_PLACEHOLDER,
                                          "Type of involvement of Chinese Entities": "Unknown",
                                          "is_unnamed_placeholder": True}]
         else:
