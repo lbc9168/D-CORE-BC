@@ -96,8 +96,10 @@ def test_run_review_non_dry_run_corrects_db(tmp_path):
     assert "n_queued" in report
     assert "n_critic_failed" in report
     assert "n_no_article" in report
+    assert "n_update_failed" in report
     assert "reasons" in report
     assert report["dry_run"] is False
+    assert report["n_update_failed"] == 0  # 正常写库不应有失败
 
     # row B 有 involvement_type=Unknown → 1 candidate
     assert report["n_candidates"] == 1

@@ -27,8 +27,14 @@ from eval.article_store import get_article  # noqa: E402
 
 logger = logging.getLogger(__name__)
 
-# ── 字段白名单：只允许 LLM verdict 纠正这些列（防 SQL 注入 + 防误改元数据）────
-_UPDATABLE: frozenset[str] = frozenset({"category", "capacity_mw", "involvement_type", "project_name"})
+# ── 字段白名单：field→硬编码列名，SQL 插值只用 dict value（防注入 + 防未来笔误）────
+# 键：LLM verdict 允许使用的字段名；值：数据库中对应的列名字面量（绝不来自运行时字符串）
+_UPDATABLE: dict[str, str] = {
+    "category": "category",
+    "capacity_mw": "capacity_mw",
+    "involvement_type": "involvement_type",
+    "project_name": "project_name",
+}
 
 # ── 报告目录 ─────────────────────────────────────────────────────────────────
 _REPORTS_DIR = pathlib.Path(__file__).resolve().parent / "reports"
@@ -108,6 +114,7 @@ def run_review(
     n_queued = 0
     n_critic_failed = 0
     n_no_article = 0
+    n_update_failed = 0
     run_reasons: dict[str, int] = {}
     # dry_run 时收集 would-change 记录（用于日志/report）
     would_change: list[dict] = []
@@ -194,35 +201,45 @@ def run_review(
 
             # ── update_field 闭包 ─────────────────────────────────────────
             # 捕获 write_conn、row_id、dry_run 到闭包内
-            _rc = {"auto_c": 0, "upd_failed": 0}
 
-            def _make_update_field(rid, wconn, _dry_run, _would_change):
-                """工厂函数，为每条记录生成独立的 update_field 闭包（避免循环变量捕获问题）。"""
+            def _make_update_field(rid, wconn, _dry_run, _would_change, _failed_counter):
+                """工厂函数，为每条记录生成独立的 update_field 闭包（避免循环变量捕获问题）。
+
+                _failed_counter 是一个单元素列表 [int]，用于将 UPDATE 失败数写回外层累加器。
+                """
                 def update_field(canonical_id, field, new_value):
-                    """执行（或模拟）单字段 UPDATE；dry_run 时只记录不写库。"""
+                    """执行（或模拟）单字段 UPDATE；dry_run 时只记录不写库。
+
+                    SQL 列名从硬编码字典 _UPDATABLE 取值（defense-in-depth：即使 field 已过白名单，
+                    插入 SQL 的仍是字面常量，而非运行时 LLM 字符串）。
+                    """
                     # 二次白名单防御（apply 直接调 update_field；field 已是白名单过滤后）
                     if field not in _UPDATABLE:
                         logger.warning("update_field 二次防御：跳过不可改字段 %s", field)
                         return
+                    # 取硬编码列名字面量——绝不将 LLM 字符串直接拼入 SQL
+                    col = _UPDATABLE[field]
                     if _dry_run:
-                        msg = f"[DRY_RUN] 会将 id={rid} {field} 改为 {new_value!r}"
+                        msg = f"[DRY_RUN] 会将 id={rid} {col} 改为 {new_value!r}"
                         logger.info(msg)
-                        _would_change.append({"id": rid, "field": field, "new_value": new_value})
+                        _would_change.append({"id": rid, "field": col, "new_value": new_value})
                         return
                     try:
                         with wconn:
                             wconn.execute(
-                                f"UPDATE extracted_projects SET {field}=? WHERE id=?",
+                                f"UPDATE extracted_projects SET {col}=? WHERE id=?",
                                 (new_value, rid),
                             )
-                        logger.info("已更新 id=%d %s → %r", rid, field, new_value)
+                        logger.info("已更新 id=%d %s → %r", rid, col, new_value)
                     except sqlite3.Error as e:
-                        logger.error("UPDATE 失败 id=%d field=%s: %s", rid, field, e)
-                        _rc["upd_failed"] += 1
+                        logger.error("UPDATE 失败 id=%d field=%s: %s", rid, col, e)
+                        _failed_counter[0] += 1
 
                 return update_field
 
-            update_field = _make_update_field(row_id, write_conn, dry_run, would_change)
+            # 用单元素列表作为可变容器，让闭包将失败数写回外层 n_update_failed
+            _update_failed_counter = [0]
+            update_field = _make_update_field(row_id, write_conn, dry_run, would_change, _update_failed_counter)
 
             # ── 分流 ─────────────────────────────────────────────────────
             result = apply.route(
@@ -235,6 +252,7 @@ def run_review(
             )
             n_auto_corrected += result["auto_corrected"]
             n_queued += result["queued"]
+            n_update_failed += _update_failed_counter[0]
 
             # 本条记录的 queued reasons（用于 report breakdown）
             for v in allowed_verdicts:
@@ -260,6 +278,7 @@ def run_review(
         "n_queued": n_queued,
         "n_critic_failed": n_critic_failed,
         "n_no_article": n_no_article,
+        "n_update_failed": n_update_failed,
         "reasons": run_reasons,
         "dry_run": dry_run,
     }
@@ -278,8 +297,8 @@ def run_review(
 
     logger.info(
         "run_review 完成 candidates=%d auto_corrected=%d queued=%d "
-        "critic_failed=%d no_article=%d dry_run=%s",
-        n_candidates, n_auto_corrected, n_queued, n_critic_failed, n_no_article, dry_run,
+        "critic_failed=%d no_article=%d update_failed=%d dry_run=%s",
+        n_candidates, n_auto_corrected, n_queued, n_critic_failed, n_no_article, n_update_failed, dry_run,
     )
     return report
 
