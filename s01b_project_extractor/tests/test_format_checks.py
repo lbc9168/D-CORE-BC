@@ -23,6 +23,7 @@ VALID_PROJECT_STAGES = valid_stages_set()
 VALID_INVOLVEMENT_TYPES = valid_involvement_set()
 VALID_FINANCING_MODELS = valid_financing_set()
 from conftest import make_record, make_records
+import bri_enums
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -317,7 +318,7 @@ class TestChineseUnnamedPassesFormatChecks:
     def test_unnamed_placeholder_record_passes_format_checks(self):
         """占位记录应零错误通过 format_checks（不产生误报）。"""
         rec = make_record({
-            "implementing_entity": "未具名中企",
+            "implementing_entity": bri_enums.UNNAMED_ENTITY_PLACEHOLDER,
             "involvement_type": "Unknown",
             "category": "光伏",
         })
