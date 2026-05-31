@@ -29,7 +29,7 @@ class Project(BaseModel):
 
 
 class GoldRecord(BaseModel):
-    """金标准一行（一篇文章）：source_link 必填，status 文章级三选一，projects 列表。"""
+    """金标准一行（一篇文章）：source_link 必填，status 文章级四选一，projects 列表。"""
     model_config = ConfigDict(extra="forbid")
     source_link: str = Field(min_length=1)
     article_id: Optional[str] = None
