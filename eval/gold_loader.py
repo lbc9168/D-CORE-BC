@@ -33,7 +33,7 @@ class GoldRecord(BaseModel):
     model_config = ConfigDict(extra="forbid")
     source_link: str = Field(min_length=1)
     article_id: Optional[str] = None
-    status: Literal["valid", "no_chinese", "irrelevant"]
+    status: Literal["valid", "no_chinese", "irrelevant", "chinese_unnamed"]
     projects: list[Project] = Field(default_factory=list)
 
 

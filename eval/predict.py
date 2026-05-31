@@ -1,6 +1,7 @@
 """flat_prediction：把 s01b 原始提取结果归一成文章级 {status, projects[]}，每项目含字段 + entities[{name,involvement_type}]。"""
 
-_STATUS_MAP = {"valid_project": "valid", "no_chinese_participation": "no_chinese", "irrelevant": "irrelevant"}
+_STATUS_MAP = {"valid_project": "valid", "no_chinese_participation": "no_chinese",
+               "irrelevant": "irrelevant", "chinese_unnamed_participation": "chinese_unnamed"}
 
 def _flat_project(proj: dict) -> dict:
     """单个项目 → 扁平 dict（字段 + entities 名字/角色对）。"""

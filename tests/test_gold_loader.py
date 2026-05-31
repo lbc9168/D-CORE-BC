@@ -33,3 +33,10 @@ def test_load_rejects_entity_without_name(tmp_path):
     ])
     with pytest.raises(ValueError):
         gold_loader.load(p)
+
+def test_load_accepts_chinese_unnamed(tmp_path):
+    p = tmp_path / "gold.jsonl"
+    p.write_text('{"source_link":"http://a","status":"chinese_unnamed","projects":[{"project_name":"A","category":"光伏","entities":[]}]}', encoding="utf-8")
+    from eval import gold_loader
+    recs = gold_loader.load(p)
+    assert recs[0]["status"] == "chinese_unnamed"

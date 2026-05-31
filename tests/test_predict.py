@@ -27,3 +27,8 @@ def test_flat_irrelevant_empty_projects():
 def test_flat_no_chinese_empty_projects():
     art = flat_prediction({"status":"no_chinese_participation"})
     assert art["status"] == "no_chinese" and art["projects"] == []
+
+def test_flat_maps_chinese_unnamed():
+    from eval.predict import flat_prediction
+    art = flat_prediction({"status": "chinese_unnamed_participation", "projects": []})
+    assert art["status"] == "chinese_unnamed" and art["projects"] == []
