@@ -227,5 +227,30 @@ P1 主攻三项（status 负样本剔除、实体名归一、防过度拆分）�
 - **取舍**：DeepSeek = 每条记录质量更高 + 更稳；Gemini = 项目覆盖更全。叠加**相对成本**（V4 Flash vs flash-lite，由用户掌握）共同决定。
 - **延迟**：DeepSeek 单次 ~5-6s，Gemini ~1s；全量 eval DeepSeek 约 18 分钟 vs Gemini 约 8 分钟。
 
-> ⚠️ 跨供应商比较有口径噪声：两者各自 status 判定不同 → n_scored（58 vs 55）与 matched 集合不同，per-matched 字段/实体指标非严格同集合可比；weighted 差距（+0.05）与实体质量提升幅度较大，应为真实信号。
-> **默认供应商最终由用户拍板**；代码默认仍为 Gemini（`config_from_env` 缺省），切 DeepSeek 设 `S01B_PROVIDER=deepseek`（读 `.env` 的 `DS_API_KEY`/`DS_MODEL`/`DS_BASE_URL`）。
+> ⚠️ 跨供应商比较有口径噪声：两者各自 status 判定不同 → n_scored（58 vs 55）与 matched 集合不同，per-matched 字段/实体指标非严格同集合可比。**见下「分阶段路由」一节——这条最初的"DeepSeek 实体更优 +0.05"结论被混合实验大幅修正。**
+
+### 分阶段路由 StageRouter：混合方案实测（2026-05-31，report `20260531_195022.json`，version 746aa2bf76d2）
+
+新增 `StageRouter`（按 stage 选 provider）。混合配置 `S01B_STAGE_PROVIDERS=s3:deepseek,s4:deepseek,s5:deepseek`（S1/S2=Gemini 保覆盖，S3/S4/S5=DeepSeek）。三方对比：
+
+| 指标 | 全 Gemini | 全 DeepSeek | **混合(S1/S2 gem, S3-5 ds)** |
+| --- | --- | --- | --- |
+| project_set **recall** | 0.838 | 0.652 | **0.857**（三者最高） |
+| project_set **f1** | 0.760 | 0.672 | **0.774**（最高） |
+| project_set precision | 0.695 | 0.694 | **0.706** |
+| category | 0.965 | 0.930 | **0.967** |
+| capacity_mw | 0.930 | 0.907 | **0.933** |
+| total_investment_usd | 0.895 | 0.884 | **0.917** |
+| financing_model | 0.930 | **0.977** | 0.950 |
+| project_stage | 0.877 | **0.907** | 0.867 |
+| entity name_f1 | 0.684 | **0.744** | 0.694 |
+| entity role_accuracy | 0.689 | **0.824** | 0.682 |
+| weighted_total | 0.7784 | **0.8283** | 0.7814 |
+
+**两条修正了原 A/B 结论的关键发现**：
+1. **DeepSeek 的"实体更优"主要是低召回的幸存者偏差**：混合方案里 S4(实体) 跑在 DeepSeek 上，但 name_f1(0.694)/role(0.682) 回到了 **Gemini 水平**，而非全 DeepSeek 的 0.744/0.824。原因：实体指标只在**已匹配项目**上算——全 DeepSeek 只匹配了 43 个(易)项目，故实体评在易例上；混合匹配 60 个(更难集)，率自然回落。**覆盖一拉满，DeepSeek 的实体优势基本消失。**
+2. **`weighted_total` 是有缺陷的跨配置指标——它根本不含项目覆盖**：四分量是 status/fields/entity_name/entity_role，**project_set/recall 不在内**。所以全 DeepSeek 的 0.8283 是**被低覆盖抬高**的（小而易的匹配集上 per-match 质量高）。对"尽量全"的追踪型数据库，weighted_total 低估了最该看的覆盖。
+
+**结论**：**混合方案给出三者最佳的项目覆盖(recall 0.857/f1 0.774) + 最佳/并列最佳字段(category/capacity/investment) + Gemini 级实体质量 + 略升的 financing**，代价是 S3/S4/S5 走 DeepSeek 的延迟/成本。相对**全 Gemini**，混合买到的是"覆盖 + 金融/投资字段"的小幅提升，换 3 个阶段的 DeepSeek 成本。**全 DeepSeek 不推荐**（headline weighted 虚高、覆盖差）。
+
+> 用法：`S01B_STAGE_PROVIDERS=s3:deepseek,s4:deepseek,s5:deepseek`（不设=全 Gemini=原行为）；keys 用 `.env` 的 `GEMINI_API_KEY` + `DS_*`。**默认仍全 Gemini，最终配置由用户拍板。**
