@@ -34,6 +34,19 @@ def test_align_merge_creates_unmatched_gold():
     matched, unp, ung = m.align_projects(pred, gold)
     assert len(matched) == 1 and unp == [] and len(ung) == 1
 
+def test_norm_name_unit_aliases():
+    # 中英容量单位归一：兆瓦↔MW、吉瓦↔GW、兆瓦时↔MWh、千瓦↔kW
+    assert m._norm_name("印度3.4吉瓦光伏项目") == m._norm_name("印度3.4GW光伏项目")
+    assert m._norm_name("捷克320兆瓦时储能项目") == m._norm_name("捷克320MWh储能项目")
+    assert m._norm_name("匈牙利480兆瓦光伏项目") == m._norm_name("匈牙利480MW光伏项目")
+
+def test_align_matches_across_unit_notation():
+    # 同一项目，中文单位 vs 英文单位，应能对齐（修复匹配器单位盲点）
+    pred = [{"project_name": "匈牙利480兆瓦光伏项目"}]
+    gold = [{"project_name": "匈牙利480MW光伏项目"}]
+    matched, unp, ung = m.align_projects(pred, gold)
+    assert len(matched) == 1 and unp == [] and ung == []
+
 def test_align_below_threshold_no_match():
     pred = [{"project_name":"完全不相关的名字XYZ"}]
     gold = [{"project_name":"阿尔法光伏电站"}]

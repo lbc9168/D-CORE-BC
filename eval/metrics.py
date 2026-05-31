@@ -30,9 +30,18 @@ def cmp_numeric(pred, gold) -> bool:
 NAME_THRESHOLD = 80  # rapidfuzz 项目名相似度阈值（0-100）
 _WS = re.compile(r"\s+")
 
+# 容量单位中英归一：项目名对齐时让「兆瓦/吉瓦/千瓦/兆瓦时…」与「MW/GW/kW/MWh…」视为同一 token。
+# 注意：带「时」的长单位必须先于短单位替换，否则「兆瓦时」会被「兆瓦」先吃掉成「mw时」。
+# 别名均为≥2字复合词（不含单独「瓦」），误伤含此子串的专名风险极低但非零；如遇异常对齐需人工核查。
+_UNIT_ALIASES = [("兆瓦时", "mwh"), ("吉瓦时", "gwh"), ("千瓦时", "kwh"),
+                 ("兆瓦", "mw"), ("吉瓦", "gw"), ("千瓦", "kw")]
+
 def _norm_name(s) -> str:
-    """项目/实体名归一：去空白、转小写，供相似度与集合比对。"""
-    return _WS.sub("", str(s or "").strip().lower())
+    """项目/实体名归一：转小写、容量单位中英归一、去空白，供相似度与集合比对。"""
+    out = str(s or "").strip().lower()
+    for zh, en in _UNIT_ALIASES:
+        out = out.replace(zh, en)
+    return _WS.sub("", out)
 
 def _name_sim(a, b) -> float:
     """两个项目名的 rapidfuzz token_set_ratio（归一后；任一为空返回 0）。"""
