@@ -25,6 +25,7 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
 import bri_parse
+from review import queue as review_queue
 
 load_dotenv()
 
@@ -342,6 +343,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN capacity_source TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN subcontract_amount_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN total_investment_usd_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN is_unnamed_placeholder INTEGER DEFAULT 0",
     ]:
         try:
             conn.execute(col_def)
@@ -698,6 +700,7 @@ class ProjectExtractorTool:
             print(">>> [警告] 全部文章均被 already_processed 跳过，输出将为0条。")
 
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
+        unnamed_review_links: list[str] = []  # source_link of chinese_unnamed articles for review_queue
         total = len(df)
         print(f"开始处理 {total} 条数据（并发 {max_workers} 线程）...")
 
@@ -881,11 +884,70 @@ class ProjectExtractorTool:
                             })
                             local_valid.append(row_data)
 
+            elif status == "chinese_unnamed":
+                # 中企未具名：项目信息写库，实体行用占位符，后续人工补录公司名
+                local_unnamed_review: list[str] = []  # 本条文章的 source_link（供 review_queue）
+                for proj in result.get("projects", []):
+                    common = proj.get("common_info", {})
+                    project_summary = proj.get("project_summary", "")
+                    country_name = common.get("Country", "")
+                    meta = _get_country_meta(country_name, country_db)
+
+                    base = {
+                        "Record Type": common.get("Record Type", "具体项目"),
+                        "Project Name": common.get("Project Name", ""),
+                        "Project Name (EN)": common.get("Project Name (EN)", ""),
+                        "Name EN Quality": "ai_translated",
+                        "Country": country_name,
+                        "Country ISO": meta["iso"],
+                        "BRI country": meta["bri"],
+                        "LDCs": meta["ldc"],
+                        "Location (State)": common.get("Location(State)", ""),
+                        "Category": common.get("Category", ""),
+                        "Capacity (MW)": common.get("Capacity (MW)", ""),
+                        "Capacity Details": common.get("Capacity Details", ""),
+                        "Project Stage": common.get("Project Stage", ""),
+                        "Project Developer": common.get("Project Developer", ""),
+                        "Multiple Chinese Enterprises Involved": "No",
+                        "(Planned) Start Date": common.get("(Planned) Start Date", ""),
+                        "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
+                        "Total Project Investment (Million USD)": common.get(
+                            "Total Project Investment (Million USD)", ""
+                        ),
+                        "Investment (or Financial Close) Date": common.get(
+                            "Investment (or Financial Close) Date", ""
+                        ),
+                        "Financing Model": common.get("Financing Model", ""),
+                        "Financing Model Details": common.get("Financing Model Details", ""),
+                        "Publish Date": pub_date,
+                        "Source Link": orig_link,
+                        "Official Website link": "",
+                        "Non-official website link": "",
+                        "Additional Remarks": "",
+                        "Project Summary": project_summary,
+                        # 占位实体标记（写库时用于设置 is_unnamed_placeholder=1）
+                        "_is_unnamed_placeholder": True,
+                    }
+                    row_data = base.copy()
+                    row_data.update({
+                        "Implementing Chinese Entity": "未具名中企",
+                        "Implementing Chinese Entity (EN)": "",
+                        "Is Central SOE": None,
+                        "Subsidiary Name": "",
+                        "Subsidiary Name (EN)": "",
+                        "Type of involvement of Chinese Entities": "Unknown",
+                        "Subcontract Amount (Million USD)": "",
+                    })
+                    local_valid.append(row_data)
+                    local_unnamed_review.append(orig_link)
+
             with _lock:
                 all_ai_results.append({"index": row_num, "title": title, "result": result})
                 valid_rows.extend(local_valid)
                 no_chinese_rows.extend(local_no_chinese)
                 discarded_rows.extend(local_discarded)
+                if status == "chinese_unnamed":
+                    unnamed_review_links.extend(local_unnamed_review)
 
         # 并发处理所有文章
         rows_indexed = [(i + 1, row) for i, (_, row) in enumerate(df.iterrows())]
@@ -923,6 +985,19 @@ class ProjectExtractorTool:
                 json.dump(payload, f, ensure_ascii=False, indent=2)
             return str(json_path)
 
+        # ── 主库 schema 迁移前备份（仅对真实默认库，tmp 测试库不触发）──
+        _real_db_path = Path(projects_db_path).resolve()
+        _default_db_path = Path(_DEFAULT_PROJECTS_DB).resolve()
+        if _real_db_path == _default_db_path and _real_db_path.exists():
+            import shutil
+            from datetime import datetime as _dt
+            _bak = str(_real_db_path) + "." + _dt.now().strftime("bak.%Y%m%d_%H%M%S")
+            try:
+                shutil.copy2(str(_real_db_path), _bak)
+                logger.info("已备份主库至 %s（schema 迁移前保护）", _bak)
+            except OSError as e:
+                logger.error("主库备份失败，继续执行（风险：迁移如失败无法回滚）: %s", e)
+
         try:
             proj_conn = _init_projects_db(projects_db_path)
             review_conn = _init_review_db(review_db_path)
@@ -940,6 +1015,7 @@ class ProjectExtractorTool:
                 cap_raw = row_data.get("Capacity (MW)", "")
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
                 inv_raw = row_data.get("Total Project Investment (Million USD)", "")
+                is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
                 proj_conn.execute(
                     """INSERT INTO extracted_projects
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
@@ -951,9 +1027,10 @@ class ProjectExtractorTool:
                         planned_complete_date, total_investment_usd_raw, total_investment_usd, investment_date,
                         financing_model, financing_model_details,
                         source_link, publish_date, official_website, non_official_website,
-                        additional_remarks, project_summary, batch_id, imported_to_s02a, created_at)
+                        additional_remarks, project_summary, batch_id, imported_to_s02a,
+                        is_unnamed_placeholder, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
                         row_data.get("Project Name", ""),
@@ -996,6 +1073,7 @@ class ProjectExtractorTool:
                         row_data.get("Additional Remarks", ""),
                         row_data.get("Project Summary", ""),
                         batch_id,
+                        is_unnamed_ph,
                         created_at,
                     ),
                 )
@@ -1044,6 +1122,25 @@ class ProjectExtractorTool:
                     # INSERT OR IGNORE 不应失败，记录异常供排查
                     logger.error("写入 discarded_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
             review_conn.commit()
+
+            # 写入 review_queue → chinese_unnamed 条目（待人工补录公司名）
+            if unnamed_review_links:
+                review_queue.init_queue(review_db_path)  # 幂等建表
+                for link in unnamed_review_links:
+                    try:
+                        review_queue.add_item(
+                            review_db_path,
+                            canonical_id=None,
+                            source_link=link,
+                            reason_type="unnamed_entity",
+                            field=None,
+                            current_value=None,
+                            suggested_value=None,
+                            critic_confidence=None,
+                            evidence="S1 判 chinese_unnamed，待补公司名",
+                        )
+                    except (sqlite3.Error, ValueError) as e:
+                        logger.error("写入 review_queue 失败（已跳过）: %s | link=%s", e, link)
         except Exception as e:
             fallback_path = _dump_failed_parse_results(str(e))
             raise RuntimeError(
