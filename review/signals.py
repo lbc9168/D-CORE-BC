@@ -15,14 +15,14 @@ def _is_unknown(v) -> bool:
 
 
 def suspicious_fields(proj: dict) -> list[str]:
-    """返回该项目的可疑字段名列表（空=不可疑）。proj 用 eval.predict.flat_prediction 的扁平结构。"""
+    """返回该项目的可疑字段名列表（空=不可疑）。proj 为 projects.db extracted_projects 行的 dict 投影（含 category / capacity_mw / involvement_type / entities 键）。"""
     out: list[str] = []
     cat = proj.get("category")
     ents = proj.get("entities") or []
     real_ents = [e for e in ents if not e.get("is_unnamed_placeholder")
                  and str(e.get("name", "")).strip() != bri_enums.UNNAMED_ENTITY_PLACEHOLDER]
     # 实体：有真实实体但名字 Unknown / 或一个真实实体都没有（且非 unnamed 占位场景）
-    if ents and all(_is_unknown(e.get("name")) for e in real_ents) and real_ents:
+    if ents and real_ents and all(_is_unknown(e.get("name")) for e in real_ents):
         out.append("entities")
     elif not ents:
         out.append("entities")

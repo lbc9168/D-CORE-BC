@@ -28,3 +28,7 @@ def test_placeholder_not_flagged_as_unknown_entity():
     proj = {"category": "光伏", "capacity_mw": "50", "involvement_type": "Unknown",
             "entities": [{"name": "未具名中企", "is_unnamed_placeholder": True}]}
     assert "entities" not in signals.suspicious_fields(proj)
+
+def test_empty_entities_flagged():
+    proj = {"category": "光伏", "capacity_mw": "50", "involvement_type": "EPC总承包", "entities": []}
+    assert "entities" in signals.suspicious_fields(proj)
