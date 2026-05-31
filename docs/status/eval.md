@@ -94,3 +94,24 @@ uv --project s01b_project_extractor run python -m pytest tests/test_run_eval_e2e
 **P1 优先级（由基线驱动）：① S1 相关性闸门（剔除率 47%，收益最大）→ ② S4 实体抽取 + 母子公司归一（name F1 0.57）→ ③ S2 项目枚举防过度拆分（precision 0.68）→ ④ 字段（已 88%+，最后）。**
 
 - 真实 `run_eval`（调 Gemini）依赖：`GEMINI_API_KEY`（.env）+ 已标注的 `gold_set.jsonl`。结果按 url+prompt 哈希缓存。
+
+## P1 进展
+
+### Phase 1：S1 相关性门拆出（2026-05-31，report `eval/reports/20260531_123246.json`，extractor gemini-2.5-flash-lite + 独立 S1 门控）
+
+| 指标 | 基线 | Phase 1 | 方向 |
+| --- | --- | --- | --- |
+| **weighted_total** | 0.7396 | **0.7767** | ↑ +0.037 |
+| **status_accuracy** | 0.7938 | **0.8229** | ↑ +0.029（Phase 1 主攻达标） |
+| project_set P/R/F1 | 0.678/0.831/0.747 | 0.66/0.74/0.697 | ↓（legacy S2-5 未改，Phase 3 攻） |
+| category / project_stage | 0.881 / 0.881 | 0.925 / 0.868 | category↑ / stage 微降 |
+| entity name_f1_mean | 0.565 | 0.613 | ↑ +0.048 |
+| entity role_accuracy | 0.684 | 0.750 | ↑ +0.066 |
+
+**核心改善（混淆矩阵证据）**：负样本误收（gold=irrelevant→pred=valid）**16→7**（基线最大弱项「剔除率 47%」显著改善）；gold=irrelevant 正确剔除 9→18。
+
+**Phase 1 调试历程（systematic-debugging，2 轮 S1 prompt 修复）**：
+1. 首版 S1 过度激进，按燃料把火电/核电/燃气**电站**误排 + B.2/会议规则过严 → 误杀 10 篇 gold=valid（正样本召回 60→51）。诊断（零 API，读缓存混淆矩阵）后**按 gold 扩范**：所有发电项目不限燃料均 valid，油气/矿业排除仅限非发电环节，软化 B.2/会议/数据中心。
+2. 修复后正样本召回回升但 `no_chinese` 被 `irrelevant` 吞并（8→2）——根因：irrelevant 旧定义字面含"无中企的发电项目"。改为**两步决策**（先判电力主题→irrelevant；再判中企→valid/no_chinese，明确"电力项目但无中企必判 no_chinese"）→ status 升至 0.8229。
+
+> 注：`n_failed=1` 为 fail-loud 生效（S1 重试后仍非法 status → RuntimeError，可见非静默）。诊断脚本 `eval/_diag_s1.py` 为一次性工具，已删。
