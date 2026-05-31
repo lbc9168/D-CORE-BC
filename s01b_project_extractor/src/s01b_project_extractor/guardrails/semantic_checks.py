@@ -6,17 +6,24 @@ import os
 import time
 from typing import Any
 
-VALID_STAGE_ENUMS = {
-    "拟开发", "收购", "中标", "签约", "开工", "在建", "竣工", "投入运营", "Unknown",
-}
-VALID_CATEGORY_ENUMS = {
-    "新能源制造业", "输变电建设", "火电", "光伏", "风电", "水电",
-    "核电", "地热及余热", "生物质", "储能", "综合能源", "Unknown",
-}
-VALID_INVOLVEMENT_ENUMS = {
-    "BOT/BOOT", "EPC总承包", "设计/施工服务方", "股权投资方",
-    "设备供应商", "投融资+EPC", "融资方", "Unknown",
-}
+import bri_enums as _enums
+
+# 合法枚举集合从单一可信源 bri_enums 动态构建（禁硬编码；新枚举值自动生效）。
+
+
+def valid_stages_set() -> set[str]:
+    """合法 project_stage 集合。"""
+    return set(_enums.valid_stages())
+
+
+def valid_categories_set() -> set[str]:
+    """合法 category 集合。"""
+    return set(_enums.valid_categories())
+
+
+def valid_involvement_set() -> set[str]:
+    """合法 involvement_type 集合。"""
+    return set(_enums.valid_involvement())
 
 
 def _get_validation_client():
@@ -65,9 +72,9 @@ project_summary: {rec.get("project_summary", "（无摘要）")}
   involvement_type: {rec.get("involvement_type", "")}
 """
 
-    stage_enums = "、".join(sorted(VALID_STAGE_ENUMS))
-    category_enums = "、".join(sorted(VALID_CATEGORY_ENUMS))
-    involvement_enums = "、".join(sorted(VALID_INVOLVEMENT_ENUMS))
+    stage_enums = "、".join(sorted(valid_stages_set()))
+    category_enums = "、".join(sorted(valid_categories_set()))
+    involvement_enums = "、".join(sorted(valid_involvement_set()))
     return f"""你是一个数据质量审核员。以下是从新闻中提取的可再生能源项目信息。
 每条记录都包含一段 project_summary 和三个待检字段：project_stage、category、involvement_type。
 
@@ -166,13 +173,13 @@ def _validate_and_normalize_corrections(corrections: list[dict]) -> list[dict]:
         if not isinstance(rid, int):
             continue
         if field == "project_stage":
-            if suggested not in VALID_STAGE_ENUMS:
+            if suggested not in valid_stages_set():
                 continue
         elif field == "category":
-            if suggested not in VALID_CATEGORY_ENUMS:
+            if suggested not in valid_categories_set():
                 continue
         elif field == "involvement_type":
-            if suggested not in VALID_INVOLVEMENT_ENUMS:
+            if suggested not in valid_involvement_set():
                 continue
         else:
             continue

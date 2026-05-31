@@ -9,13 +9,19 @@ Layer 1 格式校验测试 — format_checks.py
 import pytest
 
 from s01b_project_extractor.guardrails.format_checks import (
-    VALID_CATEGORIES,
-    VALID_FINANCING_MODELS,
-    VALID_INVOLVEMENT_TYPES,
-    VALID_PROJECT_STAGES,
     VALID_RECORD_TYPES,
     run_format_checks,
+    valid_categories_set,
+    valid_financing_set,
+    valid_involvement_set,
+    valid_stages_set,
 )
+
+# 从 bri_enums 动态获取合法枚举集（避免测试自身硬编码同一份数据）。
+VALID_CATEGORIES = valid_categories_set()
+VALID_PROJECT_STAGES = valid_stages_set()
+VALID_INVOLVEMENT_TYPES = valid_involvement_set()
+VALID_FINANCING_MODELS = valid_financing_set()
 from conftest import make_record, make_records
 
 
