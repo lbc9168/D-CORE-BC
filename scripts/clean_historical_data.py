@@ -12,20 +12,16 @@ import sqlite3
 import sys
 from pathlib import Path
 
+# bri_enums 位于 repo 根目录，scripts/ 运行时需将根加入路径。
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import bri_enums
+
 PROJ_DB = Path(__file__).parent.parent / "s01b_project_extractor" / "data" / "projects.db"
 
-# ─── 合法值集合 ───────────────────────────────────────────────────────────────
-VALID_STAGES = {
-    "拟开发", "收购", "中标", "签约", "开工", "在建", "竣工", "投入运营", "Unknown",
-}
-VALID_INVOLVEMENT = {
-    "BOT/BOOT", "EPC总承包", "设计/施工服务方", "股权投资方",
-    "设备供应商", "投融资+EPC", "融资方", "Unknown",
-}
-VALID_CATEGORIES = {
-    "新能源制造业", "输变电建设", "火电", "光伏", "风电", "水电",
-    "核电", "地热及余热", "生物质", "储能", "综合能源", "Unknown",
-}
+# ─── 合法枚举取自单一可信源 bri_enums（禁硬编码）。 ────────────────────────────
+VALID_STAGES = set(bri_enums.valid_stages())
+VALID_INVOLVEMENT = set(bri_enums.valid_involvement())
+VALID_CATEGORIES = set(bri_enums.valid_categories())
 
 # ─── project_stage 映射表 ─────────────────────────────────────────────────────
 STAGE_MAP: dict[str | None, str] = {

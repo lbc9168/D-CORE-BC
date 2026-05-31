@@ -2,7 +2,7 @@
 将 s02a_duplicate_merger/data/db/bri_re_database.db 中 chinese_entities 表
 的非法 involvement_type 值语义映射到合法枚举，一次性修复存量数据。
 
-合法值：BOT/BOOT、EPC总承包、设计/施工服务方、股权投资方、设备供应商、投融资+EPC、融资方、Unknown
+合法值：取自 enums_mapping.json（通过 bri_enums.valid_involvement()），禁止在此硬编码。
 
 注意：直接修改 s02a 主库，修复后只需重跑 s03 即可更新网页，无需重跑 s02a。
 
@@ -13,6 +13,7 @@
 import json
 import os
 import sqlite3
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -21,10 +22,12 @@ _HERE = Path(__file__).parent
 load_dotenv(_HERE / ".env")
 load_dotenv(_HERE.parent / ".env")
 
-VALID_INVOLVEMENT_TYPES = {
-    "BOT/BOOT", "EPC总承包", "设计/施工服务方", "股权投资方",
-    "设备供应商", "投融资+EPC", "融资方", "Unknown",
-}
+# bri_enums 位于 repo 根目录；脚本从 s01b_project_extractor/ 子目录运行时需将根加入路径。
+sys.path.insert(0, str(_HERE.parent))
+import bri_enums
+
+# 合法参与方式取自单一可信源 bri_enums（禁硬编码）。
+VALID_INVOLVEMENT_TYPES = set(bri_enums.valid_involvement())
 
 # 修复目标：s02a 主库（网页数据的来源）
 DB_PATH = _HERE.parent / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"

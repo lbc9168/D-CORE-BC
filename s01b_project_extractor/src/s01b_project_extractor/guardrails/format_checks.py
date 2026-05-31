@@ -61,6 +61,12 @@ def run_format_checks(records: list[dict]) -> list[str]:
     """
     errors: list[str] = []
 
+    # 枚举集合在循环外构建一次，避免逐条记录重复加载 JSON（性能优化）。
+    valid_cats = valid_categories_set()
+    valid_stages = valid_stages_set()
+    valid_inv = valid_involvement_set()
+    valid_fin = valid_financing_set()
+
     for rec in records:
         rid = rec.get("id", "?")
         prefix = f"项目 #{rid}"
@@ -82,7 +88,7 @@ def run_format_checks(records: list[dict]) -> list[str]:
 
         # ── Category 枚举 ──
         cat = str(rec.get("category", "")).strip()
-        if cat and cat not in valid_categories_set():
+        if cat and cat not in valid_cats:
             errors.append(f"{prefix} 分类不合法: {cat}")
 
         # ── 装机容量 ──
@@ -97,17 +103,17 @@ def run_format_checks(records: list[dict]) -> list[str]:
 
         # ── Project Stage 枚举 ──
         stage = str(rec.get("project_stage", "")).strip()
-        if stage and stage not in valid_stages_set():
+        if stage and stage not in valid_stages:
             errors.append(f"{prefix} 阶段不合法: {stage}")
 
         # ── 参与方式枚举 ──
         inv = str(rec.get("involvement_type", "")).strip()
-        if inv and inv not in valid_involvement_set():
+        if inv and inv not in valid_inv:
             errors.append(f"{prefix} 参与方式不合法: {inv}")
 
         # ── 融资模式枚举 ──
         fin = str(rec.get("financing_model", "")).strip()
-        if fin and not _is_empty(fin) and fin not in valid_financing_set():
+        if fin and not _is_empty(fin) and fin not in valid_fin:
             errors.append(f"{prefix} 融资模式不合法: {fin}")
 
         # ── 日期格式 ──
