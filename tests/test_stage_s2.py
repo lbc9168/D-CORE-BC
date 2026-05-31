@@ -14,3 +14,7 @@ def test_validate_s2_flags_non_chinese_name():
 
 def test_validate_s2_accepts_good():
     assert validate_s2([{"common_info": {"Category": "光伏", "Project Stage": "在建", "Project Name": "肯尼亚100MW光伏项目"}}]) == []
+
+
+def test_validate_s2_empty_list_returns_empty():
+    assert validate_s2([]) == []
