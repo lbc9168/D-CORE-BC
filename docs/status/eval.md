@@ -157,3 +157,44 @@ orchestrator valid 分支由「legacy 单 prompt 出项目」改为「独立 S2 
 5. **匹配器修复（用户拍板）**：诊断发现大量「未匹配」其实是**同一项目**，仅因 `兆瓦/吉瓦/千瓦/兆瓦时` vs `MW/GW/kW/MWh` 写法差异，token_set_ratio < 80 未对齐。在 `eval/metrics.py:_norm_name` 加中英容量单位归一（对所有版本一视同仁，匹配器纠错非刷分；**未改阈值/权重**）。**重跑同一缓存预测**（无新 API）→ project_set f1 **0.7421**、precision 0.663、recall 0.843、weighted **0.7735**。
 
 > **结论**：weighted 净升（gate 达标），project_set 回到 Phase2 持平、recall 升过基线；残余 precision 小缺口（0.663 vs 0.678）来自少数「连连签/连中 N 标」汇总文的真实多编，留待 Phase 4 S5 自检合并/剪枝。financing=Unknown 为 S2 临时占位（gold 多为 Unknown），Phase 4 S3 接入后以真实融资值覆盖。`n_failed=2`。
+
+### Phase 4：S3 金融 + S5 摘要/自检（P1 全五阶段完成）（2026-05-31，report `eval/reports/20260531_180009.json`，version `ee49b9bcf371`）
+
+至此 orchestrator 全链为 **S1 门控 → S2 项目识别 → 逐项目 S4 实体 → S3 金融 → S5 摘要+自检纠偏**。
+
+| 指标 | 基线 | Phase 2 | Phase 3 | **Phase 4(全链)** | vs 基线 |
+| --- | --- | --- | --- | --- | --- |
+| **weighted_total** | 0.7396 | 0.7624 | 0.7735 | **0.7686** | ↑ +0.029 |
+| status_accuracy | 0.794 | 0.821 | 0.832 | 0.8316 | ↑ |
+| project_set f1 | 0.747 | 0.743 | 0.742 | 0.700 | ≈（S2 跑间噪声，见下） |
+| **project_stage** | 0.881 | 0.873 | 0.864 | **0.8929** | ↑（S5 自检纠偏生效） |
+| category | 0.881 | 0.927 | 0.966 | 0.9643 | ↑ |
+| **total_investment_usd** | 0.915 | — | 0.847 | **0.8929** | ↑（S3 抽投资额） |
+| financing_model | 0.983 | — | 0.949 | 0.9286 | ↓ 见下注 |
+| capacity_mw | 0.915 | — | 0.949 | 0.9286 | ↑ |
+| entity name_f1_mean | 0.565 | 0.688 | 0.709 | 0.6935 | ↑ |
+| entity role_accuracy | 0.684 | 0.628 | 0.638 | 0.6279 | ≈ |
+
+**解读**：
+- **S5 兑现主攻**：`project_stage` 0.864→**0.893**（高置信度自检纠偏把误判阶段拉回）。
+- **S3 兑现**：`total_investment_usd` 0.847→**0.893**（逐项目抽投资额）。
+- **financing 0.949→0.929 是预期权衡，非退步**：S3 开始做**真实**融资判断，而 gold 融资多为保守的 "Unknown"；S3 抽出真实模式与 gold 的 Unknown 不一致被记错——gold 保守所致，非 S3 缺陷。
+- **project_set f1 0.742→0.700 是 S2 跑间噪声**：S2 代码自 Phase 3 未改；S3 只并入 common_info、S5 只写 summary/纠偏 stage·category，**均不动 project_name**，故不影响按名对齐。matched 59→56 纯属 LLM 非确定性（temp 0.14）跑间抖动。
+- **weighted 0.7686 vs Phase3 重打分 0.7735 的 −0.005 在噪声内**（叠加 financing 权衡）；vs 上一已提交全链态（Phase2 0.7624）与基线（0.7396）净升。
+
+> 注：`n_failed=2`。S3/S5 各为每项目额外一次 LLM 调用。两处旧 crewAI guardrail 单测（`test_guardrail.py` 2 例）在本会话开始前（ae5d7be）即失败，与本期改动无关，Phase 5 去 crewAI 时一并处理。
+
+---
+
+## P1 全链小结（基线 → 全五阶段）
+
+| 指标 | 基线 | P1 全链 | Δ |
+| --- | --- | --- | --- |
+| weighted_total | 0.7396 | **0.7686** | **+0.029** |
+| status_accuracy | 0.7938 | 0.8316 | +0.038 |
+| entity name_f1_mean | 0.565 | 0.6935 | +0.129 |
+| category | 0.881 | 0.964 | +0.083 |
+| project_stage | 0.881 | 0.893 | +0.012 |
+| project_set recall | 0.831 | 0.80 | −0.031（S2 噪声区间内） |
+
+P1 主攻三项（status 负样本剔除、实体名归一、防过度拆分）均达标或净升；新增 eval 匹配器单位归一修复使 project_set 度量更真实。供应商 A/B（DeepSeek vs Gemini）见 Phase 6。

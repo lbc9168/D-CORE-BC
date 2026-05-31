@@ -1,6 +1,6 @@
 """分阶段提取编排：extract_staged() 按阶段顺序调 LLM client + 每阶段 guardrail+重试，返回与原 extract_one 一致的 result dict。
 
-Phase 3：S1 相关性门（非 valid 短路）→ S2 项目识别（防过度拆分）→ 逐项目 S4 中方实体抽取。"""
+Phase 4：S1 相关性门（非 valid 短路）→ S2 项目识别（防过度拆分）→ 逐项目 S4 实体抽取 → S3 金融信息 → S5 摘要+枚举自检。"""
 import logging
 from typing import Any
 
@@ -47,6 +47,7 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
     from s01b_project_extractor.stages.s2_basic import run_s2, validate_s2
     from s01b_project_extractor.stages.s4_entity import run_s4, validate_s4
     from s01b_project_extractor.stages.s3_finance import run_s3
+    from s01b_project_extractor.stages.s5_summary import run_s5, apply_s5
     projects = _run_stage_with_retry(
         lambda: run_s2(title, content, date, llm=llm), validate_s2, stage="s2", max_attempts=2,
     )
@@ -64,4 +65,6 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
         fin = run_s3(title, content, pname, llm=llm)
         if fin:
             proj.setdefault("common_info", {}).update({k: v for k, v in fin.items() if v not in ("", None)})
+        # ── S5：基于结构化结果生成摘要 + 高置信度枚举自检纠偏 ──
+        apply_s5(proj, run_s5(proj, llm=llm))
     return {"analysis": analysis, "status": "valid_project", "projects": projects}

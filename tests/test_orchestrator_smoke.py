@@ -17,11 +17,13 @@ def test_extract_staged_valid_passthrough_structure():
                                 "chinese_entities": [{"Implementing Chinese Entity": "中国能建"}]}]}
     s4_payload = {"chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}
     s3_payload = {"Financing Model": "信贷融资"}
+    s5_payload = {"project_summary": "测试摘要", "corrections": []}
     llm = _FakeLLM({"s1": {"status": "valid_project", "reasoning": "r", "project_subject": "p"},
                     "s2": s2_payload,
                     "s4": s4_payload,
-                    "s3": s3_payload})
+                    "s3": s3_payload,
+                    "s5": s5_payload})
     out = extract_staged("t", "c", "2025-01-01", llm=llm)
     assert out["status"] == "valid_project"
     assert out["projects"][0]["common_info"]["Project Name"] == "测试"
-    assert llm.stages == ["s1", "s2", "s4", "s3"]
+    assert llm.stages == ["s1", "s2", "s4", "s3", "s5"]
