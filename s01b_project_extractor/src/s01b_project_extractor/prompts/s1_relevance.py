@@ -33,7 +33,7 @@ def build_s1_prompt(title: str, content: str, date: str) -> str:
 {{
   "status": "valid_project | no_chinese_participation | irrelevant",
   "project_subject": "一句话点明新闻主体（什么项目/什么主体）",
-  "is_power_generation_plant": true,
+  "is_power_generation_plant": true | false,
   "reasoning": "判定理由：命中了哪条规则或为何 valid（简短）"
 }}
 """

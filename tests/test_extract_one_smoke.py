@@ -11,9 +11,14 @@ class _FakeClient:
     def __init__(self, payload): self.models = _FakeModels(payload)
 
 def test_extract_one_returns_dict():
-    client = _FakeClient({"status": "irrelevant", "analysis": {}})
+    """extract_one 经 S1 门控：irrelevant 时短路，返回 {status, analysis, projects:[]}。"""
+    # S1 LLM 返回 irrelevant → 门控短路，不进 legacy；此 fake 对所有 stage 返回同一 payload。
+    s1_payload = {"status": "irrelevant", "reasoning": "油气项目", "project_subject": "某油田"}
+    client = _FakeClient(s1_payload)
     out = pe.extract_one("标题", "正文", "2024-01-01", client=client)
-    assert out == {"status": "irrelevant", "analysis": {}}
+    assert out["status"] == "irrelevant"
+    assert out["projects"] == []
+    assert "reasoning" in out["analysis"]
 
 def test_extract_one_raises_on_persistent_failure(monkeypatch):
     monkeypatch.setattr("s01b_project_extractor.llm.client.time.sleep", lambda s: None)  # don't actually sleep
