@@ -197,4 +197,35 @@ orchestrator valid 分支由「legacy 单 prompt 出项目」改为「独立 S2 
 | project_stage | 0.881 | 0.893 | +0.012 |
 | project_set recall | 0.831 | 0.80 | −0.031（S2 噪声区间内） |
 
-P1 主攻三项（status 负样本剔除、实体名归一、防过度拆分）均达标或净升；新增 eval 匹配器单位归一修复使 project_set 度量更真实。供应商 A/B（DeepSeek vs Gemini）见 Phase 6。
+P1 主攻三项（status 负样本剔除、实体名归一、防过度拆分）均达标或净升；新增 eval 匹配器单位归一修复使 project_set 度量更真实。供应商 A/B（DeepSeek vs Gemini）见下。
+
+---
+
+## 供应商 A/B：DeepSeek V4 Flash vs Gemini 2.5 Flash-Lite（Phase 6，2026-05-31）
+
+同一全五阶段架构与 prompt，仅切 `S01B_PROVIDER`。Gemini report `20260531_183541.json`(version b7709304df1f)；DeepSeek report `20260531_185413.json`(version c7d57854095f，model `deepseek-v4-flash`)。
+
+| 指标 | Gemini flash-lite | DeepSeek V4 Flash | 胜方 |
+| --- | --- | --- | --- |
+| **weighted_total** | 0.7784 | **0.8283** | DeepSeek +0.050 |
+| status_accuracy | 0.8211 | 0.8247 | ≈ |
+| project_set f1 | **0.760** | 0.672 | Gemini |
+| project_set precision | 0.695 | 0.694 | ≈ |
+| project_set recall | **0.838** | 0.652 | Gemini（DeepSeek 少提：pred 62 vs gold 66） |
+| category | **0.965** | 0.930 | Gemini |
+| project_stage | 0.877 | **0.907** | DeepSeek |
+| financing_model | 0.930 | **0.977** | DeepSeek |
+| capacity_mw | **0.930** | 0.907 | Gemini |
+| total_investment_usd | **0.895** | 0.884 | ≈ |
+| entity name_f1_mean | 0.684 | **0.744** | DeepSeek |
+| entity role_accuracy | 0.689 | **0.824** | DeepSeek |
+| n_failed / n_scored | 2 / 58 | **0** / 55 | DeepSeek（更稳） |
+
+**解读**：
+- **DeepSeek V4 Flash 综合分明显更高（0.828 vs 0.778, +0.05）**，强在**实体质量**（role +0.135、name +0.06）、financing、project_stage，且**零失败**（Gemini 2 失败）。
+- **Gemini 强在项目覆盖**：project_set recall 0.838 vs 0.652——DeepSeek 提取的项目更少（pred 62 < gold 66），更保守/合并更狠，漏项约 35%；category 也略高。
+- **取舍**：DeepSeek = 每条记录质量更高 + 更稳；Gemini = 项目覆盖更全。叠加**相对成本**（V4 Flash vs flash-lite，由用户掌握）共同决定。
+- **延迟**：DeepSeek 单次 ~5-6s，Gemini ~1s；全量 eval DeepSeek 约 18 分钟 vs Gemini 约 8 分钟。
+
+> ⚠️ 跨供应商比较有口径噪声：两者各自 status 判定不同 → n_scored（58 vs 55）与 matched 集合不同，per-matched 字段/实体指标非严格同集合可比；weighted 差距（+0.05）与实体质量提升幅度较大，应为真实信号。
+> **默认供应商最终由用户拍板**；代码默认仍为 Gemini（`config_from_env` 缺省），切 DeepSeek 设 `S01B_PROVIDER=deepseek`（读 `.env` 的 `DS_API_KEY`/`DS_MODEL`/`DS_BASE_URL`）。

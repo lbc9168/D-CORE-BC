@@ -28,10 +28,13 @@ _DEFAULT_MODEL = "gemini-2.5-flash-lite"
 
 
 def _default_extractor_version() -> str:
-    """由 orchestrator + 各阶段 prompt 源码 + 模型名算 sha1[:12]，任一变更即让缓存失效。"""
+    """由 orchestrator + 各阶段 prompt 源码 + provider/model 算 sha1[:12]，任一变更即让缓存失效（供应商间缓存隔离）。"""
     from s01b_project_extractor.stages import orchestrator  # 延迟导入
 
-    src = inspect.getsource(orchestrator) + _DEFAULT_MODEL
+    # provider/model 纳入哈希：Gemini 与 DeepSeek 各自独立缓存、报告可比
+    provider_tag = (os.getenv("S01B_PROVIDER", "gemini") + os.getenv("S01B_MODEL", "")
+                    + os.getenv("DEEPSEEK_MODEL", "") + os.getenv("DS_MODEL", ""))
+    src = inspect.getsource(orchestrator) + (provider_tag or _DEFAULT_MODEL)
     # 各阶段 prompt 模块加入哈希（存在才纳入，便于逐 Phase 增量上线）
     for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary"):
         try:
@@ -43,15 +46,14 @@ def _default_extractor_version() -> str:
 
 
 def _build_real_extract_fn():
-    """构造调用真实 Gemini 的 extract_fn；缺 GEMINI_API_KEY 时明确报错。"""
-    from google import genai  # 延迟导入：仅真实运行才需要
-    from s01b_project_extractor.tools.project_extractor_tool import extract_one  # 延迟导入：仅真实运行才需要
-
-    api_key = os.getenv("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError("未找到 GEMINI_API_KEY 环境变量，无法构建真实提取器（请检查 .env）")
-    client = genai.Client(api_key=api_key)
-    return lambda t, c, d: extract_one(t, c, d, client=client)
+    """构造调用真实 LLM 的 extract_fn；provider 由 S01B_PROVIDER 决定（gemini 默认/deepseek）；缺 key/model 构造即抛。"""
+    from dotenv import find_dotenv, load_dotenv  # 延迟导入
+    load_dotenv(find_dotenv(usecwd=True))  # worktree 无独立 .env，向上搜索命中主仓库 .env
+    from s01b_project_extractor.llm.client import LLMClient, config_from_env  # 延迟导入
+    from s01b_project_extractor.stages.orchestrator import extract_staged  # 延迟导入
+    cfg = config_from_env()
+    llm = LLMClient(cfg)  # 缺 key/model 构造即抛 RuntimeError（入口校验）
+    return lambda t, c, d: extract_staged(t, c, d, llm=llm)
 
 
 def _ratio(c, t) -> float:

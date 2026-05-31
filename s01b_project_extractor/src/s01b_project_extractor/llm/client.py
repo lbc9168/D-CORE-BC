@@ -25,11 +25,12 @@ def config_from_env(stage: str | None = None) -> LLMConfig:
     """从环境变量构建配置：S01B_PROVIDER / S01B_MODEL，缺省 gemini-2.5-flash-lite。stage 预留按阶段覆盖。"""
     provider = os.getenv("S01B_PROVIDER", "gemini").strip().lower()
     if provider == "deepseek":
+        # 兼容两套环境变量命名：优先 DEEPSEEK_*，回退到 .env 实际使用的 DS_*。
         return LLMConfig(
             provider="deepseek",
-            model=os.getenv("DEEPSEEK_MODEL", "").strip(),
-            base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com").strip(),
-            _api_key=os.getenv("DEEPSEEK_API_KEY", "").strip(),
+            model=(os.getenv("DEEPSEEK_MODEL") or os.getenv("DS_MODEL") or "").strip(),
+            base_url=(os.getenv("DEEPSEEK_BASE_URL") or os.getenv("DS_BASE_URL") or "https://api.deepseek.com").strip(),
+            _api_key=(os.getenv("DEEPSEEK_API_KEY") or os.getenv("DS_API_KEY") or "").strip(),
         )
     return LLMConfig(
         provider="gemini",
