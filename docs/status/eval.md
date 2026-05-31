@@ -253,4 +253,22 @@ P1 主攻三项（status 负样本剔除、实体名归一、防过度拆分）�
 
 **结论**：**混合方案给出三者最佳的项目覆盖(recall 0.857/f1 0.774) + 最佳/并列最佳字段(category/capacity/investment) + Gemini 级实体质量 + 略升的 financing**，代价是 S3/S4/S5 走 DeepSeek 的延迟/成本。相对**全 Gemini**，混合买到的是"覆盖 + 金融/投资字段"的小幅提升，换 3 个阶段的 DeepSeek 成本。**全 DeepSeek 不推荐**（headline weighted 虚高、覆盖差）。
 
-> 用法：`S01B_STAGE_PROVIDERS=s3:deepseek,s4:deepseek,s5:deepseek`（不设=全 Gemini=原行为）；keys 用 `.env` 的 `GEMINI_API_KEY` + `DS_*`。**默认仍全 Gemini，最终配置由用户拍板。**
+> 用法：`S01B_STAGE_PROVIDERS=s3:deepseek,s4:deepseek,s5:deepseek`。**用户已选定此混合为默认并写入 `.env`**；不设该 env = 全 Gemini（原行为）。keys 用 `.env` 的 `GEMINI_API_KEY` + `DS_*`。
+
+### 原版「单大 prompt」vs 分阶段：A/B（2026-05-31，reports `legacy-gemini`=20260531_213207 / `legacy-deepseek`=20260531_214630）
+
+用退役的单大 prompt（`tools/project_extractor_tool.py:_build_prompt`，一次 LLM 调用产出全结构）分别跑两供应商，**沿用当前评测口径**，与分阶段方案同尺对比。
+
+| 配置 | weighted | proj_set f1 | proj recall | name_f1 | role | status | category |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 原版单prompt × Gemini | 0.7215 | 0.706 | 0.783 | 0.599 | 0.600 | 0.784 | 0.926 |
+| 原版单prompt × DeepSeek | 0.7750 | **0.490** | **0.493** | 0.519 | 0.842 | 0.825 | 0.914 |
+| 分阶段 × 全 Gemini | 0.7784 | 0.760 | 0.838 | 0.684 | 0.689 | 0.821 | 0.965 |
+| 分阶段 × 全 DeepSeek | 0.8283 | 0.672 | 0.652 | 0.744 | 0.824 | 0.825 | 0.930 |
+| **分阶段混合(默认)** | 0.7814 | **0.774** | **0.857** | 0.694 | 0.682 | 0.823 | 0.967 |
+
+**结论：拆分阶段对两个模型都是明确提升**：Gemini 单prompt 0.7215→分阶段 0.7784(+0.057)；DeepSeek 单prompt 0.7750→分阶段 0.8283(+0.053)，且 name_f1 0.519→0.744、coverage f1 0.490→0.672 大涨。
+- **最扎眼**：原版单prompt + DeepSeek 覆盖极差（recall **0.493**，匹配 35/71，漏一半项目）——单次大调用把信息挤一起、大量项目丢失；拆出专门 S2 阶段把覆盖救回，混合(S2=Gemini)拉到最高(0.857)。
+- **当前默认(混合) vs 最初做法(单prompt Gemini)**：weighted 0.7814 vs 0.7215(**+0.060**)、coverage f1 0.774 vs 0.706、recall 0.857 vs 0.783——几乎每项更好。**整个 P1 分阶段重构得到强验证。**
+
+> 跨配置有 LLM 噪声（n_scored 58/60/58/55/59 略不同）+ weighted 不含覆盖；但 ±0.05-0.06 与覆盖 0.49→0.86 的差距远超噪声。一次性 A/B 脚本 `eval/_ab_legacy.py` 用后即删。
