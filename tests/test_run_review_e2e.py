@@ -266,3 +266,65 @@ def test_run_review_report_json_written(tmp_path):
     assert report_path.exists(), f"report JSON 未写入: {report_path}"
     data = json.loads(report_path.read_text(encoding="utf-8"))
     assert data["n_candidates"] == report["n_candidates"]
+
+
+def _make_many_suspicious_db(path, n):
+    """建 n 行可疑记录（involvement_type=Unknown），各有唯一 source_link。"""
+    conn = sqlite3.connect(str(path))
+    conn.execute("""
+        CREATE TABLE extracted_projects (
+            id                      INTEGER PRIMARY KEY AUTOINCREMENT,
+            project_name            TEXT,
+            category                TEXT,
+            capacity_mw             REAL,
+            capacity_mw_raw         TEXT,
+            involvement_type        TEXT,
+            implementing_entity     TEXT,
+            is_unnamed_placeholder  INTEGER DEFAULT 0,
+            source_link             TEXT
+        )
+    """)
+    conn.executemany(
+        "INSERT INTO extracted_projects (project_name, category, capacity_mw, involvement_type, "
+        "implementing_entity, is_unnamed_placeholder, source_link) VALUES (?,?,?,?,?,?,?)",
+        [(f"项目{i}", "光伏", 50.0, "Unknown", "中国电建", 0, f"http://x{i}") for i in range(n)],
+    )
+    conn.commit()
+    conn.close()
+
+
+def test_run_review_concurrency_matches_serial(tmp_path):
+    """并发(=8)与串行(=1)结果一致：所有候选都被处理、各行 category 都被纠正、report 数字相同。"""
+    n = 6
+
+    def article_fn(url, db_path=None):
+        return {"title": "t", "content": "原文称风电场", "publish_date": "2026-01-01"}
+
+    def critic_fn(article, project, suspicious, llm):
+        return [critic_mod.Verdict(field="category", verdict="wrong",
+                                   suggested_value="风电", confidence=0.9, evidence="原文称风电场")]
+
+    def run(conc, tag):
+        pdb = tmp_path / f"p_{tag}.db"
+        rdb = tmp_path / f"r_{tag}.db"
+        _make_many_suspicious_db(pdb, n)
+        rep = run_review.run_review(
+            projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
+            critic_fn=critic_fn, article_fn=article_fn, dry_run=False,
+            concurrency=conc, ts=f"20260601_conc_{tag}",
+        )
+        conn = sqlite3.connect(str(pdb))
+        cats = [r[0] for r in conn.execute("SELECT category FROM extracted_projects ORDER BY id")]
+        conn.close()
+        return rep, cats
+
+    serial_rep, serial_cats = run(1, "serial")
+    par_rep, par_cats = run(8, "par")
+
+    # 全部候选都被处理且纠正
+    assert serial_rep["n_candidates"] == n and par_rep["n_candidates"] == n
+    assert serial_rep["n_auto_corrected"] == n and par_rep["n_auto_corrected"] == n
+    assert serial_cats == ["风电"] * n and par_cats == ["风电"] * n
+    # 并发与串行的核心计数一致
+    for k in ("n_candidates", "n_auto_corrected", "n_queued", "n_critic_failed", "n_no_article"):
+        assert serial_rep[k] == par_rep[k], f"{k} 并发≠串行"

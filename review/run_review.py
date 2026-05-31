@@ -12,6 +12,7 @@ import pathlib
 import shutil
 import sqlite3
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from typing import Callable, Optional
 
@@ -90,6 +91,7 @@ class ReviewArgs(BaseModel):
     dry_run: bool = False
     conf_threshold: float = Field(default=0.8, ge=0.0, le=1.0)
     llm_provider: str = "deepseek"
+    concurrency: int = Field(default=1, ge=1)
 
     @field_validator("projects_db")
     @classmethod
@@ -111,6 +113,7 @@ def run_review(
     llm=None,
     dry_run: bool = False,
     conf_threshold: float = 0.8,
+    concurrency: int = 1,
     article_fn: Optional[Callable] = None,
     ts: Optional[str] = None,
 ) -> dict:
@@ -159,74 +162,95 @@ def run_review(
     # dry_run 时收集 would-change 记录（用于日志/report）
     would_change: list[dict] = []
 
-    # 打开写库连接（干运行时不写 extracted_projects，但 review.db 的 queue 仍写）
-    write_conn = sqlite3.connect(str(projects_db))
-
-    try:
-        for row in rows:
-            row_id = row["id"]
-            source_link = row["source_link"] or ""
-            proj_dict = {
-                "category": row["category"],
-                "capacity_mw": row["capacity_mw"],
-                "involvement_type": row["involvement_type"],
-                "entities": [
-                    {
-                        "name": row["implementing_entity"] or "",
-                        "is_unnamed_placeholder": bool(row["is_unnamed_placeholder"]),
-                    }
-                ],
+    # ── Phase 1：构建候选（串行、无 LLM、无库写）────────────────────────────
+    candidates: list[dict] = []
+    for row in rows:
+        proj_dict = {
+            "category": row["category"],
+            "capacity_mw": row["capacity_mw"],
+            "involvement_type": row["involvement_type"],
+            "entities": [
+                {
+                    "name": row["implementing_entity"] or "",
+                    "is_unnamed_placeholder": bool(row["is_unnamed_placeholder"]),
+                }
+            ],
+        }
+        suspicious = signals.suspicious_fields(proj_dict)
+        if not suspicious:
+            continue
+        candidates.append(
+            {
+                "row_id": row["id"],
+                "source_link": row["source_link"] or "",
+                "suspicious": suspicious,
+                "full_project": {
+                    "project_name": row["project_name"],
+                    "category": row["category"],
+                    "capacity_mw": row["capacity_mw"],
+                    "involvement_type": row["involvement_type"],
+                    "implementing_entity": row["implementing_entity"],
+                    "source_link": row["source_link"] or "",
+                },
             }
+        )
+    n_candidates = len(candidates)
 
-            suspicious = signals.suspicious_fields(proj_dict)
-            if not suspicious:
-                continue
-            n_candidates += 1
-
-            # ── 取原文 ────────────────────────────────────────────────────
+    # ── Phase 2：取原文 + 批判（仅读 + LLM，无库写 → 可并发）──────────────────
+    # 线程池仅承载 I/O/LLM；所有 sqlite 写入留到 Phase 3 主线程串行执行，保证线程安全。
+    def _fetch_and_critic(cand: dict) -> dict:
+        """单候选：取原文→批判；产出带 outcome 的结果（不抛已知错误，保证池不中断）。"""
+        link, rid = cand["source_link"], cand["row_id"]
+        try:
             if article_fn is not None:
-                article = article_fn(source_link, db_path=raw_news_db)
+                article = article_fn(link, db_path=raw_news_db)
             else:
-                article = get_article(source_link, db_path=raw_news_db)
+                article = get_article(link, db_path=raw_news_db)
+        except sqlite3.Error as e:
+            logger.error("取原文失败 link=%s row_id=%d: %s", link, rid, e)
+            return {**cand, "outcome": "no_article"}
+        if article is None:
+            logger.warning("找不到原文 link=%s row_id=%d，跳过 critic", link, rid)
+            return {**cand, "outcome": "no_article"}
+        try:
+            fn = critic_fn if critic_fn is not None else critic.review_project
+            verdicts = fn(article=article, project=cand["full_project"],
+                          suspicious=cand["suspicious"], llm=llm)
+        except (ValidationError, RuntimeError) as e:
+            logger.error("critic 失败 link=%s row_id=%d: %s", link, rid, e)
+            return {**cand, "outcome": "critic_failed"}
+        return {**cand, "outcome": "ok", "verdicts": verdicts}
 
-            if article is None:
-                logger.warning("找不到原文 link=%s row_id=%d，跳过 critic", source_link, row_id)
+    results: list[Optional[dict]] = [None] * len(candidates)
+    workers = max(1, int(concurrency))
+    if workers == 1 or len(candidates) <= 1:
+        for i, cand in enumerate(candidates):
+            results[i] = _fetch_and_critic(cand)
+    else:
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futs = [ex.submit(_fetch_and_critic, cand) for cand in candidates]
+            for i, fut in enumerate(futs):
+                results[i] = fut.result()  # 已知错误已在 worker 内吞掉并标记 outcome
+
+    # ── Phase 3：分流 + 库写（串行、主线程，sqlite 写线程安全）────────────────
+    write_conn = sqlite3.connect(str(projects_db))
+    try:
+        for res in results:
+            if res is None:
+                continue
+            if res["outcome"] == "no_article":
                 n_no_article += 1
                 continue
-
-            # ── 批判 ─────────────────────────────────────────────────────
-            full_project = {
-                "project_name": row["project_name"],
-                "category": row["category"],
-                "capacity_mw": row["capacity_mw"],
-                "involvement_type": row["involvement_type"],
-                "implementing_entity": row["implementing_entity"],
-                "source_link": source_link,
-            }
-            try:
-                if critic_fn is not None:
-                    verdicts = critic_fn(
-                        article=article,
-                        project=full_project,
-                        suspicious=suspicious,
-                        llm=llm,
-                    )
-                else:
-                    verdicts = critic.review_project(
-                        article=article,
-                        project=full_project,
-                        suspicious=suspicious,
-                        llm=llm,
-                    )
-            except (ValidationError, RuntimeError) as e:
-                logger.error("critic 失败 link=%s row_id=%d: %s", source_link, row_id, e)
+            if res["outcome"] == "critic_failed":
                 n_critic_failed += 1
                 continue
 
+            row_id, source_link = res["row_id"], res["source_link"]
+
             # ── 白名单预过滤：去掉不允许改的字段 verdict ────────────────
-            # 白名单外的 "wrong" 高置信 verdict 直接记警告入 queue，不让 apply 调 update_field
+            # 白名单外的 "wrong" 高置信 verdict 直接记警告，不让 apply 调 update_field
             allowed_verdicts = []
-            for v in verdicts:
+            for v in res["verdicts"]:
                 if v.verdict == "ok":
                     allowed_verdicts.append(v)
                 elif v.field == "status":
@@ -260,7 +284,6 @@ def run_review(
             # 从 apply.route 返回的 reasons 列表聚合（避免在此重新推导路由逻辑）
             for rtype in result.get("reasons", []):
                 run_reasons[rtype] = run_reasons.get(rtype, 0) + 1
-
     finally:
         write_conn.close()
 
@@ -319,6 +342,8 @@ def main() -> None:
     parser.add_argument("--conf-threshold", type=float, default=0.8)
     parser.add_argument("--llm-provider", default="deepseek")
     parser.add_argument("--llm-model", default="")
+    parser.add_argument("--concurrency", type=int, default=1,
+                        help="批判调用并发数（仅 LLM/读并发，库写仍串行）；deepseek v4-pro 建议 300-400、v4-flash 2000")
     args = parser.parse_args()
 
     # Pydantic 入口校验
@@ -330,10 +355,15 @@ def main() -> None:
             dry_run=args.dry_run,
             conf_threshold=args.conf_threshold,
             llm_provider=args.llm_provider,
+            concurrency=args.concurrency,
         )
     except ValidationError as e:
         print(f"参数校验失败:\n{e}")
         sys.exit(1)
+
+    # 加载 .env（worktree 无独立 .env，向上搜索命中主仓库 .env），供批判 LLM 读取凭据
+    from dotenv import find_dotenv, load_dotenv  # noqa: PLC0415
+    load_dotenv(find_dotenv(usecwd=True))
 
     # 构建 LLM client（缺 key 立即 RuntimeError）
     from s01b_project_extractor.llm.client import LLMClient, _config_for_provider  # noqa: PLC0415
@@ -349,6 +379,7 @@ def main() -> None:
         llm=llm,
         dry_run=validated.dry_run,
         conf_threshold=validated.conf_threshold,
+        concurrency=validated.concurrency,
     )
 
     # 人机摘要（CLI 顶层 print 合规）
