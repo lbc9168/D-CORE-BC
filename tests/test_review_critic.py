@@ -1,5 +1,6 @@
 """critic：给定原文+项目提取，产出逐字段 verdict（pydantic 校验）。"""
 import pytest
+from pydantic import ValidationError
 from review import critic
 
 class _MockLLM:
@@ -17,6 +18,11 @@ def test_critic_parses_verdicts():
 
 def test_critic_rejects_malformed_output():
     payload = {"verdicts": [{"field": "category", "verdict": "BOGUS", "confidence": 2.0}]}
-    with pytest.raises(Exception):
+    with pytest.raises(ValidationError):
         critic.review_project(article={"title":"t","content":"c"}, project={"category":"光伏"},
                               suspicious=["category"], llm=_MockLLM(payload))
+
+def test_critic_nondict_returns_empty():
+    r = critic.review_project(article={"title":"t","content":"c"}, project={"category":"光伏"},
+                              suspicious=["category"], llm=_MockLLM("not a dict"))
+    assert r == []

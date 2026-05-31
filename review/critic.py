@@ -38,7 +38,14 @@ def review_project(*, article: dict, project: dict, suspicious: list, llm) -> li
         project=json.dumps(project, ensure_ascii=False), suspicious=suspicious,
     )
     raw = llm.complete(prompt, stage="critic", json_mode=True)
-    items = raw.get("verdicts", []) if isinstance(raw, dict) else []
+    if not isinstance(raw, dict):
+        logger.warning("critic LLM 返回非 dict: type=%s | raw=%r", type(raw).__name__, raw)
+        items = []
+    else:
+        items = raw.get("verdicts") or []
+        if not isinstance(items, list):
+            logger.warning("critic LLM verdicts 非 list: type=%s", type(items).__name__)
+            items = []
     try:
         return [Verdict.model_validate(it) for it in items]
     except ValidationError as e:
