@@ -5,16 +5,18 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+_VALID_S1_STATUS = {"valid_project", "no_chinese_participation", "irrelevant"}
 
-def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, retries: int = 2) -> dict:
-    """跑某阶段并校验：校验不过则重试；仍不过记 logging.error 并返回最后一次输出（不静默吞，交由上层/批级 guardrail 兜底）。"""
+
+def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, max_attempts: int = 2) -> dict:
+    """跑某阶段并校验：校验不过则重试；最多尝试 max_attempts 次；仍不过记 logging.error 并返回最后一次输出（不静默吞，交由上层/批级 guardrail 兜底）。"""
     last = None
-    for attempt in range(1, retries + 1):
+    for attempt in range(1, max_attempts + 1):
         last = run_fn()
         errors = validate_fn(last)
         if not errors:
             return last
-        logger.error("阶段 %s 校验未过 attempt=%d/%d errors=%s", stage, attempt, retries, errors)
+        logger.error("阶段 %s 校验未过 attempt=%d/%d errors=%s", stage, attempt, max_attempts, errors)
     return last if last is not None else {}
 
 
@@ -25,15 +27,19 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
 
     # ── S1：相关性 + 中企门（带重试：校验不过则重跑该阶段）──
     s1 = _run_stage_with_retry(
-        lambda: run_s1(title, content, date, llm=llm), validate_s1, stage="s1", retries=2,
+        lambda: run_s1(title, content, date, llm=llm), validate_s1, stage="s1", max_attempts=2,
     )
     status = s1.get("status")
     analysis = {
         "project_subject": s1.get("project_subject", "未知主体"),
-        "primary_function": s1.get("primary_function", ""),
         "is_power_generation_plant": s1.get("is_power_generation_plant"),
         "reasoning": s1.get("reasoning", "无详细理由"),
     }
+
+    # Fix I1: S1 重试后仍输出非法 status → fail loud，不静默丢行
+    if status not in _VALID_S1_STATUS:
+        raise RuntimeError(f"S1 门控重试后仍输出非法 status={status!r}（不静默丢弃，记为提取失败）")
+
     if status != "valid_project":
         return {"analysis": analysis, "status": status, "projects": []}
 
