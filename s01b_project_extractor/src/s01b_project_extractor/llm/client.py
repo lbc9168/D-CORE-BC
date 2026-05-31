@@ -4,6 +4,7 @@ import logging
 import os
 import time
 from dataclasses import dataclass, field
+from functools import lru_cache
 
 logger = logging.getLogger(__name__)
 
@@ -41,6 +42,8 @@ def _build_provider_client(cfg: LLMConfig):
     """按 provider 构建底层 SDK client；缺 key 立即抛错（入口校验）。"""
     if not cfg._api_key:
         raise RuntimeError(f"LLM provider={cfg.provider} 缺少 API key（请检查 .env）")
+    if not cfg.model:
+        raise RuntimeError(f"LLM provider={cfg.provider} 缺少 model 名（请检查 .env，如 DEEPSEEK_MODEL）")
     if cfg.provider == "deepseek":
         from openai import OpenAI
         return OpenAI(api_key=cfg._api_key, base_url=cfg.base_url or None)
@@ -48,9 +51,10 @@ def _build_provider_client(cfg: LLMConfig):
     return genai.Client(api_key=cfg._api_key)
 
 
+@lru_cache(maxsize=1)
 def _retryable_errors() -> tuple[type[BaseException], ...]:
-    """返回可重试的异常类型元组：JSON/取值错误 + 网络/IO + 各 provider SDK 基类（懒加载，缺失则跳过）。"""
-    errs: list[type[BaseException]] = [ValueError, OSError, ConnectionError, TimeoutError]
+    """返回可重试的异常类型元组（缓存）：JSON/取值/类型错误 + 网络/IO + 各 provider SDK 基类（懒加载，缺失则跳过）。"""
+    errs: list[type[BaseException]] = [ValueError, TypeError, OSError, ConnectionError, TimeoutError]
     try:
         from google.genai import errors as genai_errors
         errs.append(genai_errors.APIError)

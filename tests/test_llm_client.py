@@ -1,5 +1,4 @@
 """LLM client 单测：JSON 解析、重试、provider 切换，全部用注入的 fake provider，不调真实 API。"""
-import json
 import pytest
 from s01b_project_extractor.llm.client import LLMClient, LLMConfig
 
@@ -48,3 +47,33 @@ def test_bad_json_is_retried_and_raises():
     c = LLMClient(LLMConfig(provider="gemini", model="m", max_retries=3, backoff_base=0), _client=fake)
     with pytest.raises(RuntimeError):
         c.complete("p", stage="s1", json_mode=True)
+
+
+class _FakeOpenAI:
+    """模拟 openai client：chat.completions.create 返回预设文本。"""
+    def __init__(self, text):
+        self._text = text
+        self.chat = self
+        self.completions = self
+        self.calls = 0
+
+    def create(self, *, model, messages, temperature, response_format=None):
+        self.calls += 1
+        msg = type("Msg", (), {"content": self._text})()
+        choice = type("Choice", (), {"message": msg})()
+        return type("Resp", (), {"choices": [choice]})()
+
+
+def test_deepseek_dispatch_parses_json():
+    fake = _FakeOpenAI('{"a": 2}')
+    c = LLMClient(LLMConfig(provider="deepseek", model="ds"), _client=fake)
+    out = c.complete("p", stage="s2", json_mode=True)
+    assert out == {"a": 2}
+    assert fake.calls == 1
+
+
+def test_complete_plain_text_when_not_json_mode():
+    fake = _FakeGenai(["hello world"])
+    c = LLMClient(LLMConfig(provider="gemini", model="m"), _client=fake)
+    out = c.complete("p", stage="s5", json_mode=False)
+    assert out == "hello world"
