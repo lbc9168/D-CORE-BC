@@ -59,6 +59,12 @@ eval/draft*.csv
 eval/gold_set.jsonl
 eval/*.log
 
+# review 复核模块运行产物（不入 git）
+review/reports/
+# .bak 备份：project_extractor_tool 用 .bak.YYYYMMDD（点号），run_review 用 .bak_YYYYMMDD（下划线）
+*.db.bak.*
+*.db.bak_*
+
 # s04_web_visualization
 s04_web_visualization/frontend/node_modules/
 s04_web_visualization/frontend/dist/
