@@ -30,5 +30,7 @@ dev = [
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = [".", "src", "tests"]
+# "src"/"tests" 在前确保 s01b_project_extractor 包从 src 解析（不被根同名目录遮蔽）；
+# ".." 指向仓库根，使 bri_enums/bri_parse/review 等根模块可被 s01b 测试导入。
+pythonpath = ["src", "tests", ".."]
 addopts = "-v --tb=short"
