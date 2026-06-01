@@ -4,7 +4,7 @@ import sqlite3
 
 logger = logging.getLogger(__name__)
 
-_REASON_TYPES = ("unnamed_entity", "low_confidence_field", "status_challenge")
+_REASON_TYPES = ("unnamed_entity", "low_confidence_field", "status_challenge", "exclude_suggested")
 
 
 def init_queue(db_path) -> None:
