@@ -331,6 +331,9 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             project_summary         TEXT,
             batch_id                TEXT,
             imported_to_s02a        INTEGER DEFAULT 0,
+            excluded                INTEGER DEFAULT 0,
+            exclude_reason          TEXT,
+            exclude_source          TEXT,
             created_at              TEXT
         )
     """)
@@ -345,6 +348,9 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN subcontract_amount_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN total_investment_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN is_unnamed_placeholder INTEGER DEFAULT 0",
+        "ALTER TABLE extracted_projects ADD COLUMN excluded INTEGER DEFAULT 0",
+        "ALTER TABLE extracted_projects ADD COLUMN exclude_reason TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN exclude_source TEXT",
     ]:
         try:
             conn.execute(col_def)
