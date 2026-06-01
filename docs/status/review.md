@@ -118,9 +118,26 @@ uv --project s01b_project_extractor run python -m review.export_queue \
 
 ---
 
+## P2 收口状态（哪些做了 / 哪些没做 / 转到哪）
+
+**核心机制：✅ 全部完成**（E.2 chinese_unnamed 全链 + E.1 review/ 模块 + status 第4值同步 + dry-run 护栏 + concurrency/value_validator/export_queue），代码+测试全绿。
+
+**验收（T10）：部分完成**
+- ✅ gold 复查 + eval 重跑：证明**无退化、净提升**（weighted 0.7379→0.7613）。
+- ❌ "E.1 **真改库** → 字段/实体准确率↑"：**未做**。全量 dry-run 当场发现自动改写不安全（乱填非法枚举 / capacity 写原始串 / project_name 串项目），故停在 dry-run + 导出 CSV。**此条未丢，已转 P2.1 接管**（spec `docs/superpowers/specs/2026-06-01-v2.1-P2.1-exclude-and-scope-design.md`，根因=缺 exclude 出口 + 三层范围不一致 + critic 不受枚举约束）。
+
+**P2 当初就标"以后做/最小处理"、目前确实未做（已核实）**
+1. **review_queue 回写脚本**：现仅有"导出 CSV"（`export_queue`），**没有**"人工裁决后回写库 + 标 resolved"那一半（spec 当初明说本期先只导出）。
+2. **s03 对 chinese_unnamed 的"待补名"计数**：`s03_data_exporter` 完全未处理（grep 空）；Task 4 当初标"可选小步、不阻塞"。
+3. **s04 前端对 unnamed 的显示/筛选**：`s04` 无任何 unnamed 引用（grep 空）；当初标 YAGNI。
+
+**状态注记（非任务）**：chinese_unnamed 至今**未在真实数据上跑出来过**——E.2 已建好，但现有库是旧提取产物、无 chinese_unnamed 记录；要等**用新 S1 重新录入**才会真正产生占位实体 + review_queue 的 unnamed 条目。
+
+---
+
 ## 已知后续（v2.1 follow-up，非本期）
 
-- **自动改写真跑前必须硬化（dry-run 抓出，未修）**：
+- **自动改写真跑前必须硬化（dry-run 抓出，未修）→ 已纳入 P2.1**：
   - **capacity_mw 写的是 critic 原始建议串而非解析后的数值**——`value_validator` 只确认"能解析出数字"就放行，但 `update_field` 写的是 `suggested_value` 原文，会把 `'1000-1200'`/`'近90'`/`'10000 MWh (年产能)'` 等字符串塞进 REAL 容量列（违反"数值字段一律 REAL"）。修法：capacity 写 `bri_parse.parse_number(suggested)` 的结果。
   - **project_name 偶发"张冠李戴"**（如 id4106 巴西 1.31GW 风电被 critic 串成"墨西哥 319MW Cimarron"）——99 条多为无害清理，但跨项目改名有害，建议 project_name 也转人工。
   - 在以上两点修好 + 重跑 dry-run 验证前，**只用人工清单（CSV），不开自动改库**。
