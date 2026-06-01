@@ -38,7 +38,7 @@ def _default_value_validator(field: str, value) -> bool:
     - category：一律返回 False（类别错常与"该不该排除"耦合，统一转人工，不自动改）。
     - involvement_type：必须是 bri_enums 合法参与方式，且非占位 "Unknown"。
     - capacity_mw：必须能被 bri_parse 解析为正数。
-    - project_name：自由文本，非空即可。
+    - project_name：一律返回 False（偶发跨项目"张冠李戴"，统一转人工）。
     - 其它未知字段：False（不自动改）。
     """
     if field == "category":
@@ -49,7 +49,7 @@ def _default_value_validator(field: str, value) -> bool:
         num = bri_parse.parse_number(value)
         return num is not None and num > 0
     if field == "project_name":
-        return bool(str(value or "").strip())
+        return False  # project_name 偶发跨项目"张冠李戴"，一律转人工不自动改
     return False
 
 # ── 字段白名单：field→硬编码列名，SQL 插值只用 dict value（防注入 + 防未来笔误）────
@@ -87,16 +87,23 @@ def _make_update_field(rid, wconn, _dry_run, _would_change, _failed_counter):
         # 取硬编码列名字面量——绝不将 LLM 字符串直接拼入 SQL
         col = _UPDATABLE[field]
         if _dry_run:
-            msg = f"[DRY_RUN] 会将 id={rid} {col} 改为 {new_value!r}"
-            logger.info(msg)
-            _would_change.append({"id": rid, "field": col, "new_value": new_value})
+            shown = bri_parse.parse_number(new_value) if col == "capacity_mw" else new_value
+            logger.info("[DRY_RUN] 会将 id=%s %s 改为 %r", rid, col, shown)
+            _would_change.append({"id": rid, "field": col, "new_value": shown})
             return
         try:
             with wconn:
-                wconn.execute(
-                    f"UPDATE extracted_projects SET {col}=? WHERE id=?",
-                    (new_value, rid),
-                )
+                if col == "capacity_mw":
+                    # REAL 列写解析后数值，原串存 *_raw（防 '1000-1200'/'近90' 污染 REAL）
+                    wconn.execute(
+                        "UPDATE extracted_projects SET capacity_mw=?, capacity_mw_raw=? WHERE id=?",
+                        (bri_parse.parse_number(new_value), str(new_value), rid),
+                    )
+                else:
+                    wconn.execute(
+                        f"UPDATE extracted_projects SET {col}=? WHERE id=?",
+                        (new_value, rid),
+                    )
             logger.info("已更新 id=%d %s → %r", rid, col, new_value)
         except sqlite3.Error as e:
             logger.error("UPDATE 失败 id=%d field=%s: %s", rid, col, e)

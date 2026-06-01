@@ -374,7 +374,7 @@ def test_default_validator_unit():
     assert v("capacity_mw", "50") is True
     assert v("capacity_mw", "None") is False
     assert v("capacity_mw", "0") is False
-    assert v("project_name", "某项目") is True
+    assert v("project_name", "某项目") is False  # project_name 一律转人工（防张冠李戴）
     assert v("project_name", "") is False
     assert v("unknown_field", "x") is False
 
@@ -520,3 +520,21 @@ def test_run_review_exclude_dry_run_records_would_change(tmp_path):
     conn = sqlite3.connect(str(projects_db))
     assert conn.execute("SELECT excluded FROM extracted_projects WHERE id=2").fetchone()[0] == 0
     conn.close()
+
+
+def test_capacity_autocorrect_writes_parsed_number(tmp_path):
+    """critic 建议 capacity='1000-1200'（范围）→ 自动改时 REAL 列写解析值(1100.0)，raw 存原串。"""
+    pdb = tmp_path / "p.db"; rdb = tmp_path / "r.db"
+    _candidate_db_with(pdb, involvement="Unknown", category="光伏")
+    def critic_fn(article, project, suspicious, llm):
+        return [critic_mod.Verdict(field="capacity_mw", verdict="wrong",
+                                   suggested_value="1000-1200", confidence=0.95, evidence="原文区间")]
+    rep = run_review.run_review(
+        projects_db=str(pdb), raw_news_db=str(tmp_path / "rn.db"), review_db=str(rdb),
+        critic_fn=critic_fn, article_fn=_art_fn, dry_run=False, ts="20260601_cap")
+    assert rep["n_auto_corrected"] == 1
+    conn = sqlite3.connect(str(pdb))
+    cap, cap_raw = conn.execute("SELECT capacity_mw, capacity_mw_raw FROM extracted_projects WHERE id=1").fetchone()
+    conn.close()
+    assert cap == 1100.0, f"REAL 列应写解析后的中点数值，实际={cap}"
+    assert cap_raw == "1000-1200", "raw 列应保留 critic 原始建议串"
