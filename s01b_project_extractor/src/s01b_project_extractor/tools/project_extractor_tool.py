@@ -846,6 +846,10 @@ class ProjectExtractorTool:
                         "Non-official website link": "",
                         "Additional Remarks": "",
                         "Project Summary": project_summary,
+                        # ── exclude 出口（来自 S2 的 in_scope 判定）──
+                        "_excluded": 0 if proj.get("in_scope", True) else 1,
+                        "_exclude_reason": "" if proj.get("in_scope", True) else str(proj.get("out_of_scope_reason", "")),
+                        "_exclude_source": "" if proj.get("in_scope", True) else "extraction",
                     }
 
                     if not entities:
@@ -1033,9 +1037,10 @@ class ProjectExtractorTool:
                         financing_model, financing_model_details,
                         source_link, publish_date, official_website, non_official_website,
                         additional_remarks, project_summary, batch_id, imported_to_s02a,
+                        excluded, exclude_reason, exclude_source,
                         is_unnamed_placeholder, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?)""",
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
                         row_data.get("Project Name", ""),
@@ -1078,6 +1083,9 @@ class ProjectExtractorTool:
                         row_data.get("Additional Remarks", ""),
                         row_data.get("Project Summary", ""),
                         batch_id,
+                        int(row_data.get("_excluded", 0)),
+                        row_data.get("_exclude_reason", "") or None,
+                        row_data.get("_exclude_source", "") or None,
                         is_unnamed_ph,
                         created_at,
                     ),
