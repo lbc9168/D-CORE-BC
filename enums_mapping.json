@@ -10,7 +10,7 @@
     "储能":         { "zh": "储能",         "en": "Energy Storage",               "code": "ES", "color": "#64748B", "no_capacity": true,  "hidden": false, "excluded": false },
     "综合能源":     { "zh": "综合能源",     "en": "Integrated Energy",            "code": "HB", "color": "#EC4899", "no_capacity": false, "hidden": false, "excluded": false },
     "核电":         { "zh": "核电",         "en": "Nuclear Power",                "code": "NC", "color": "#8B5CF6", "no_capacity": false, "hidden": true,  "excluded": false },
-    "火电":         { "zh": "火电",         "en": "Thermal Power",                "code": "TH", "color": "#78716C", "no_capacity": false, "hidden": false, "excluded": true  },
+    "火电":         { "zh": "火电",         "en": "Thermal Power",                "code": "TH", "color": "#78716C", "no_capacity": false, "hidden": false, "excluded": false },
     "新能源制造业": { "zh": "新能源制造业", "en": "New Energy Manufacturing",     "code": "MF", "color": "#A78BFA", "no_capacity": true,  "hidden": true,  "excluded": false },
     "输变电建设":   { "zh": "输变电建设",   "en": "Transmission & Distribution",  "code": "TX", "color": "#F97316", "no_capacity": true,  "hidden": true,  "excluded": false },
     "Unknown":      { "zh": "未知",         "en": "Unknown",                      "code": "UNK","color": "#9CA3AF", "no_capacity": false, "hidden": false, "excluded": false }
