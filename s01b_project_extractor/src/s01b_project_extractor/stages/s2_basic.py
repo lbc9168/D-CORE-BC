@@ -23,6 +23,9 @@ def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
         ci = p.setdefault("common_info", {})
         if not str(ci.get("Financing Model", "")).strip():
             ci["Financing Model"] = "Unknown"
+        # in_scope 出口：S2 未给时默认在范围内（不误排除）；给了则原样透传
+        p.setdefault("in_scope", True)
+        p.setdefault("out_of_scope_reason", "")
     return projects
 
 

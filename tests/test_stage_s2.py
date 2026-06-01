@@ -39,3 +39,38 @@ def test_validate_s2_accepts_good():
 
 def test_validate_s2_empty_list_returns_empty():
     assert validate_s2([]) == []
+
+
+def test_run_s2_defaults_in_scope_true_when_absent():
+    """S2 未给 in_scope 时默认 True（不误排除）。"""
+    from s01b_project_extractor.stages.s2_basic import run_s2
+    class _Stub:
+        def complete(self, prompt, *, stage, json_mode=True):
+            return {"projects": [{"common_info": {"Project Name": "肯尼亚100MW光伏项目", "Category": "光伏"}}]}
+    projs = run_s2("t", "c", "2025-01-01", llm=_Stub())
+    assert projs[0]["in_scope"] is True
+    assert projs[0]["out_of_scope_reason"] == ""
+
+
+def test_run_s2_passes_through_in_scope_false():
+    """S2 判 in_scope=false（油气/民用误入）时原样透传，带 reason。"""
+    from s01b_project_extractor.stages.s2_basic import run_s2
+    class _Stub:
+        def complete(self, prompt, *, stage, json_mode=True):
+            return {"projects": [{
+                "common_info": {"Project Name": "某LNG接收站", "Category": "综合能源"},
+                "in_scope": False, "out_of_scope_reason": "油气接收储运，非发电/制造/输变电",
+            }]}
+    projs = run_s2("t", "c", "2025-01-01", llm=_Stub())
+    assert projs[0]["in_scope"] is False
+    assert "油气" in projs[0]["out_of_scope_reason"]
+
+
+def test_s2_prompt_tightens_integrated_energy_and_has_in_scope_output():
+    """S2 prompt 收紧综合能源定义并要求输出 in_scope/out_of_scope_reason。"""
+    from s01b_project_extractor.prompts.s2_basic import build_s2_prompt
+    p = build_s2_prompt("t", "c", "2026-01-01")
+    assert "in_scope" in p and "out_of_scope_reason" in p
+    assert "综合能源仅指" in p or "综合能源只指" in p
+    assert "不是综合能源" in p or "不应成为项目" in p
+    assert "可再生能源" not in p
