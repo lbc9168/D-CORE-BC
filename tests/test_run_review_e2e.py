@@ -23,7 +23,10 @@ def _make_projects_db(path):
             involvement_type        TEXT,
             implementing_entity     TEXT,
             is_unnamed_placeholder  INTEGER DEFAULT 0,
-            source_link             TEXT
+            source_link             TEXT,
+            excluded                INTEGER DEFAULT 0,
+            exclude_source          TEXT,
+            exclude_reason          TEXT
         )
     """)
     # row A：干净，involvement_type 非 Unknown → signals 不标可疑
@@ -460,3 +463,60 @@ def test_default_validator_valid_involvement_autocorrected(tmp_path):
     inv = conn.execute("SELECT involvement_type FROM extracted_projects WHERE id=1").fetchone()[0]
     conn.close()
     assert inv == valid_inv, "合法值应写库"
+
+
+def test_run_review_exclude_high_conf_sets_excluded(tmp_path):
+    """critic 高置信 exclude（conf=1.0）→ 非 dry_run 应把该行 excluded 置 1、exclude_source='review'。"""
+    projects_db = tmp_path / "projects.db"; review_db = tmp_path / "review.db"
+    _make_projects_db(projects_db)
+    def critic_fn(article, project, suspicious, llm):
+        if project.get("source_link") == "http://b":
+            return [critic_mod.Verdict(field="status", verdict="exclude", suggested_value=None,
+                                       confidence=1.0, evidence="实为油气管道")]
+        return []
+    report = run_review.run_review(
+        projects_db=str(projects_db), raw_news_db=str(tmp_path / "rn.db"), review_db=str(review_db),
+        critic_fn=critic_fn, article_fn=_make_article_fn(), dry_run=False, ts="20260601_excl")
+    assert report["n_auto_excluded"] == 1
+    conn = sqlite3.connect(str(projects_db))
+    row = conn.execute("SELECT excluded, exclude_source FROM extracted_projects WHERE id=2").fetchone()
+    conn.close()
+    assert row[0] == 1 and row[1] == "review"
+
+
+def test_run_review_exclude_low_conf_queues_not_modifies(tmp_path):
+    """critic 低置信 exclude（conf=0.7）→ 不改库，入 exclude_suggested 队列。"""
+    from review import queue as qmod
+    projects_db = tmp_path / "projects.db"; review_db = tmp_path / "review.db"
+    _make_projects_db(projects_db)
+    def critic_fn(article, project, suspicious, llm):
+        if project.get("source_link") == "http://b":
+            return [critic_mod.Verdict(field="status", verdict="exclude", confidence=0.7, evidence="存疑")]
+        return []
+    report = run_review.run_review(
+        projects_db=str(projects_db), raw_news_db=str(tmp_path / "rn.db"), review_db=str(review_db),
+        critic_fn=critic_fn, article_fn=_make_article_fn(), dry_run=False, ts="20260601_exclq")
+    assert report["n_auto_excluded"] == 0
+    conn = sqlite3.connect(str(projects_db))
+    excluded = conn.execute("SELECT excluded FROM extracted_projects WHERE id=2").fetchone()[0]
+    conn.close()
+    assert excluded == 0, "低置信不应改库"
+    assert any(r["reason_type"] == "exclude_suggested" for r in qmod.pending(review_db))
+
+
+def test_run_review_exclude_dry_run_records_would_change(tmp_path):
+    """dry_run：exclude 不改库，但 would_change 记录 field='excluded'。"""
+    projects_db = tmp_path / "projects.db"; review_db = tmp_path / "review.db"
+    _make_projects_db(projects_db)
+    def critic_fn(article, project, suspicious, llm):
+        if project.get("source_link") == "http://b":
+            return [critic_mod.Verdict(field="status", verdict="exclude", confidence=1.0, evidence="油气")]
+        return []
+    report = run_review.run_review(
+        projects_db=str(projects_db), raw_news_db=str(tmp_path / "rn.db"), review_db=str(review_db),
+        critic_fn=critic_fn, article_fn=_make_article_fn(), dry_run=True, ts="20260601_excldry")
+    assert report["n_auto_excluded"] == 1  # would-have-excluded
+    assert any(item["field"] == "excluded" for item in report.get("would_change", []))
+    conn = sqlite3.connect(str(projects_db))
+    assert conn.execute("SELECT excluded FROM extracted_projects WHERE id=2").fetchone()[0] == 0
+    conn.close()

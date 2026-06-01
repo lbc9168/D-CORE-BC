@@ -105,6 +105,27 @@ def _make_update_field(rid, wconn, _dry_run, _would_change, _failed_counter):
     return update_field
 
 
+def _make_exclude_field(rid, wconn, _dry_run, _would_change, _failed_counter):
+    """工厂：为每条记录生成 exclude_field 闭包（事务置 excluded=1, exclude_source='review'）。"""
+    def exclude_field(canonical_id, reason):
+        """执行（或模拟）置 excluded；dry_run 时只记 would_change。"""
+        if _dry_run:
+            logger.info("[DRY_RUN] 会将 id=%s 置 excluded=1（review），理由=%r", rid, reason)
+            _would_change.append({"id": rid, "field": "excluded", "new_value": 1, "reason": reason})
+            return
+        try:
+            with wconn:
+                wconn.execute(
+                    "UPDATE extracted_projects SET excluded=1, exclude_source='review', exclude_reason=? WHERE id=?",
+                    (reason, rid),
+                )
+            logger.info("已置 excluded id=%d source=review 理由=%r", rid, reason)
+        except sqlite3.Error as e:
+            logger.error("置 excluded 失败 id=%d: %s", rid, e)
+            _failed_counter[0] += 1
+    return exclude_field
+
+
 # ── Pydantic 入口参数校验 ────────────────────────────────────────────────────
 
 class ReviewArgs(BaseModel):
@@ -182,6 +203,7 @@ def run_review(
     # 统计器
     n_candidates = 0
     n_auto_corrected = 0
+    n_auto_excluded = 0
     n_queued = 0
     n_critic_failed = 0
     n_no_article = 0
@@ -283,6 +305,8 @@ def run_review(
             for v in res["verdicts"]:
                 if v.verdict == "ok":
                     allowed_verdicts.append(v)
+                elif v.verdict == "exclude":
+                    allowed_verdicts.append(v)  # exclude 走 apply 的 exclude 分流
                 elif v.field == "status":
                     allowed_verdicts.append(v)  # status challenge 走 apply 入 queue
                 elif v.field in _UPDATABLE:
@@ -293,10 +317,11 @@ def run_review(
                     )
                     # 不入队也不计 auto_corrected：彻底忽略（字段不合法）
 
-            # ── update_field 闭包 ─────────────────────────────────────────
+            # ── update_field / exclude_field 闭包 ────────────────────────
             # 用单元素列表作为可变容器，让闭包将失败数写回外层 n_update_failed
             _update_failed_counter = [0]
             update_field = _make_update_field(row_id, write_conn, dry_run, would_change, _update_failed_counter)
+            exclude_field = _make_exclude_field(row_id, write_conn, dry_run, would_change, _update_failed_counter)
 
             # ── 分流 ─────────────────────────────────────────────────────
             result = apply.route(
@@ -307,8 +332,10 @@ def run_review(
                 update_field=update_field,
                 conf_threshold=conf_threshold,
                 value_validator=validator,
+                exclude_fn=exclude_field,
             )
             n_auto_corrected += result["auto_corrected"]
+            n_auto_excluded += result.get("auto_excluded", 0)
             n_queued += result["queued"]
             n_update_failed += _update_failed_counter[0]
 
@@ -322,6 +349,7 @@ def run_review(
     report: dict = {
         "n_candidates": n_candidates,
         "n_auto_corrected": n_auto_corrected,
+        "n_auto_excluded": n_auto_excluded,
         "n_queued": n_queued,
         "n_critic_failed": n_critic_failed,
         "n_no_article": n_no_article,
@@ -343,9 +371,10 @@ def run_review(
         logger.error("写 report 失败 path=%s: %s", report_path, e)
 
     logger.info(
-        "run_review 完成 candidates=%d auto_corrected=%d queued=%d "
+        "run_review 完成 candidates=%d auto_corrected=%d auto_excluded=%d queued=%d "
         "critic_failed=%d no_article=%d update_failed=%d dry_run=%s",
-        n_candidates, n_auto_corrected, n_queued, n_critic_failed, n_no_article, n_update_failed, dry_run,
+        n_candidates, n_auto_corrected, n_auto_excluded, n_queued,
+        n_critic_failed, n_no_article, n_update_failed, dry_run,
     )
     return report
 
@@ -418,6 +447,7 @@ def main() -> None:
         f"\n=== run_review 完成 ===\n"
         f"  candidates    : {report['n_candidates']}\n"
         f"  auto_corrected: {report['n_auto_corrected']}\n"
+        f"  auto_excluded : {report['n_auto_excluded']}\n"
         f"  queued        : {report['n_queued']}\n"
         f"  critic_failed : {report['n_critic_failed']}\n"
         f"  no_article    : {report['n_no_article']}\n"
