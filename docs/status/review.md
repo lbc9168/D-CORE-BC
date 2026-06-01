@@ -142,3 +142,32 @@ uv --project s01b_project_extractor run python -m review.export_queue \
   - **project_name 偶发"张冠李戴"**（如 id4106 巴西 1.31GW 风电被 critic 串成"墨西哥 319MW Cimarron"）——99 条多为无害清理，但跨项目改名有害，建议 project_name 也转人工。
   - 在以上两点修好 + 重跑 dry-run 验证前，**只用人工清单（CSV），不开自动改库**。
 - `s02a_duplicate_merger` `_fmt_entities` / `_merge_records` 实体去重未排除占位实体——因占位已排除出 `_entity_overlap` 触发信号、影响有限，留待后续小迭代。
+
+---
+
+## P2.1 状态（exclude 机制 + 录入范围对齐 + critic 枚举约束）
+
+> 实施：2026-06-01–02，worktree `worktree-v2`，subagent-driven 逐 Task。
+> 计划 `docs/superpowers/plans/2026-06-01-v2.1-P2.1-exclude-and-scope.md`，设计 `docs/superpowers/specs/2026-06-01-v2.1-P2.1-exclude-and-scope-design.md`，变更日志 `docs/changes/2026-W22f.md`。
+
+**代码 + 单测：✅ 全部完成（10 个实现 Task，mock LLM 零成本）**
+
+1. **枚举**：火电 `excluded:true→false`（火电属发电项目须录入）。`enums_mapping.json` 单一可信源；现无任何 category 处于 excluded。
+2. **录入范围统一为三类**：①发电（任何燃料含火电）②新能源制造业（以产能计的组件厂/电池厂/多晶硅厂）③输变电/电网。S1 prompt、S2 prompt、critic prompt 三层全程删除"可再生能源"窄词。
+3. **exclude 是可逆标记，不是删除**：
+   - s01b `extracted_projects` 新增列 `excluded INTEGER DEFAULT 0` / `exclude_reason TEXT` / `exclude_source TEXT`（`extraction|review|manual`，迁移幂等）。
+   - **提取侧**：S2 每项目输出 `in_scope`/`out_of_scope_reason`；`in_scope=false` → 写 `excluded=1, exclude_source='extraction'`。
+   - **review 侧**：`Verdict.verdict` 新增 `exclude`；critic 判非范围/无中企走此通道（不再借 category/involvement 表达）。`apply.route` exclude 分流：`conf>=1.0`（`exclude_auto_threshold`）+ 注入 `exclude_fn` → 自动置 `excluded=1, exclude_source='review'`（事务/记日志/可逆/dry-run 记 would_change）；`conf<1.0` → 入 `review_queue` 新 reason_type `exclude_suggested` 抽检。
+   - **传播**：s02a 去重时按 **OR 语义**（任一成员排除即排除）把 `excluded` 传到 `canonical_projects.excluded`（分组/合并/写库三处；前端最终认 canonical.excluded）。
+4. **critic 受枚举约束**：合法 category/involvement 清单从 `bri_enums` 动态注入 prompt（照 s5_summary 范本），字段纠正只许从清单选，选不出走 exclude/unsupported。
+5. **顺带硬化（P2 dry-run 暴露，已修）**：capacity 自动改写写 `bri_parse.parse_number()` 解析值进 REAL 列、原串存 `capacity_mw_raw`；`project_name` 一律转人工不自动改（`_default_value_validator` 返回 False）。
+
+**验证（单测）**：s01b 159 / 根 tests 144（+ `test_id_generation.py` 4，属 s02a 跨项目测试在 s02a 环境跑）/ s02a 12，全绿。
+
+**测试基建修**：根 `pyproject.toml` 加 `[tool.pytest.ini_options] pythonpath=["."]`、s01b `pyproject.toml` 改 `pythonpath=["src","tests",".."]`——修复 base 起 `tests/` 与 s01b 套件因找不到根模块整体无法 collect 的问题。
+
+**待做（GATED，须经用户同意）**：
+- critic 侧小样本 real-LLM dry-run 抽验（~几十条 deepseek-v4-pro，复用既有临时库）：验 exclude 分流正确、队列/would_change 不再有枚举外建议、火电不再被报 status_challenge。**不跑全量**（全量 ~¥40 且旧库未重录、测不出 S1/S2 提取侧效果）。
+- 提取侧 S1/S2 改动 → eval 重跑 97 篇金标准（与 T10 基线 `weighted_total≈0.7613` 对比）。
+- **真跑改库（去 --dry-run）前**：dry-run report 交用户、经同意；改主库 schema 前 `.bak`（写库代码已含主库自动备份）。
+- 开放项决议：低置信 exclude 用新 `exclude_suggested`；s02a 用 OR 传播；`in_scope` 本期**不**透传进 review。
