@@ -377,6 +377,18 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
                     result_links.append(v)
             return result_links
 
+        # ── exclude 传播（OR 语义：组内任一成员被排除 → 逻辑项目被排除）──
+        def _truthy_excl(v) -> bool:
+            return str(v).strip() in ("1", "1.0", "True", "true")
+        grp_excluded = 1 if any(_truthy_excl(r.get("excluded", "")) for _, r in rows.iterrows()) else 0
+        grp_excl_reason = ""
+        if grp_excluded:
+            for _, r in rows.iterrows():
+                if _truthy_excl(r.get("excluded", "")):
+                    grp_excl_reason = _clean(r.get("exclude_reason", ""))
+                    if grp_excl_reason:
+                        break
+
         logical_projects.append({
             "record_type":          _clean(first.get("Record Type", "具体项目")) or "具体项目",
             "project_name":         _clean(first.get("Project Name", "")),
@@ -404,6 +416,8 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "publish_date":         _clean(first.get("Publish Date", "")),
             "additional_remarks":   _clean(first.get("Additional Remarks", "")),
             "project_summary":      _clean(first.get("project_summary", "")),
+            "excluded":             grp_excluded,
+            "exclude_reason":       grp_excl_reason,
             "entities":             entities,
         })
 
@@ -817,6 +831,11 @@ def _merge_group(
                 merged_links.append(link)
     base["source_links"] = merged_links
 
+    # exclude OR：任一被合并记录被排除 → 合并结果被排除
+    base["excluded"] = 1 if any(r.get("excluded") for r in records) else 0
+    if base["excluded"]:
+        base["exclude_reason"] = next((r.get("exclude_reason") for r in records if r.get("excluded") and r.get("exclude_reason")), "")
+
     # 合并官方/非官方网站链接（保序去重）
     for link_key in ("official_website_links", "non_official_website_links"):
         seen_wl: set = set()
@@ -1128,6 +1147,14 @@ def _write_to_db(
         canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
         if is_new:
             cnt["canonical_new"] += 1
+
+        # ── exclude 传播到 canonical（OR：任一成员排除即排除；可逆、幂等）──
+        if project.get("excluded"):
+            conn.execute(
+                "UPDATE canonical_projects SET excluded=1, "
+                "excluded_reason=COALESCE(NULLIF(excluded_reason,''), ?) WHERE id=?",
+                (project.get("exclude_reason", "") or None, canonical_id),
+            )
 
         # ── project_events ─────────────────────────────────────────────────
         # 同阶段事件是否已存在（支持重复运行的幂等性）
