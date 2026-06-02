@@ -33,7 +33,8 @@ def test_s1_no_chinese_short_circuits():
     assert out["analysis"]["reasoning"] == "无中企"
 
 
-def test_s1_valid_continues_to_s2_s4():
+def test_s1_valid_continues_to_s2_s4(monkeypatch):
+    monkeypatch.delenv("S01B_MERGE_S34", raising=False)  # 固定走 S3/S4 分开路径，使测试 hermetic
     s2_payload = {"projects": [{"project_summary": "s", "common_info": {"Project Name": "测试项目", "Category": "光伏", "Project Stage": "在建"}}]}
     s4_payload = {"chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}
     s3_payload = {"Financing Model": "信贷融资"}

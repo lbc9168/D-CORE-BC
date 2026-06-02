@@ -8,7 +8,8 @@ class _ScriptedLLM:
         self.stages.append(stage); return self.by_stage[stage]
 
 
-def test_valid_uses_s2_then_s4_no_legacy():
+def test_valid_uses_s2_then_s4_no_legacy(monkeypatch):
+    monkeypatch.delenv("S01B_MERGE_S34", raising=False)  # 固定走 S3/S4 分开路径，使测试 hermetic
     llm = _ScriptedLLM({
         "s1": {"status": "valid_project", "reasoning": "ok"},
         "s2": {"projects": [{"common_info": {"Project Name": "肯尼亚光伏项目", "Category": "光伏", "Project Stage": "在建"}}]},

@@ -196,6 +196,7 @@ BRI_RE_Database_v2/
 | `s01_data_collector_filter/custom_tool.py` 仍为模板占位符                      | 低   | 未修复             |
 | `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步）          | 低   | 未修复（老版归档候选）     |
 | 老版 `s01_data_collector_filter` 仍依赖 crewAI（s01a+s01b 已取代它）               | 低   | 归档/删除候选，单独决策   |
-| s01b orchestrator 3 个 s34 测试预存失败（`_FakeLLM` 缺 's34' 键，源自 e0cc102）       | 中   | 未修复（s01b 线单独处理，与去 crewAI 无关） |
+| s01b orchestrator 3 个 s34 测试预存失败（`_FakeLLM` 缺 's34' 键，源自 e0cc102）       | 中   | ✅ 已修复（2026-06-02，测试改 hermetic 显式控 `S01B_MERGE_S34` + 补合并路径用例） |
+| root `tests/test_id_generation.py` 在 s01b venv 下 collection error（import 不到 s02a） | 低   | 已知，环境隔离非回归（在 s02a venv 下正常） |
 | `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖                                    | 低   | 已知，文档说明         |
 | s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN                                      | 中   | 已知，待解决          |
