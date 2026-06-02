@@ -15,10 +15,16 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
-from s01b_project_extractor.guardrails.format_checks import run_format_checks
+from s01b_project_extractor.guardrails.format_checks import run_format_checks, VALID_RECORD_TYPES
 from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
 
 logger = logging.getLogger(__name__)
+
+
+def _normalize_record_type(rt) -> str:
+    """Record Type 兜底归一：合法三类原样返回；空/缺失/非法（如把类别「新能源制造业」或事件词「中标/收购」当 Record Type）一律归「具体项目」，避免真项目被 s02a 误分流到 non_project_records。"""
+    s = str(rt or "").strip()
+    return s if s in VALID_RECORD_TYPES else "具体项目"
 
 # ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
@@ -814,7 +820,7 @@ class ProjectExtractorTool:
                     meta = _get_country_meta(country_name, country_db)
 
                     base = {
-                        "Record Type": common.get("Record Type", "具体项目"),
+                        "Record Type": _normalize_record_type(common.get("Record Type")),
                         "Project Name": common.get("Project Name", ""),
                         "Project Name (EN)": common.get("Project Name (EN)", ""),
                         "Name EN Quality": "ai_translated",
@@ -906,7 +912,7 @@ class ProjectExtractorTool:
                     meta = _get_country_meta(country_name, country_db)
 
                     base = {
-                        "Record Type": common.get("Record Type", "具体项目"),
+                        "Record Type": _normalize_record_type(common.get("Record Type")),
                         "Project Name": common.get("Project Name", ""),
                         "Project Name (EN)": common.get("Project Name (EN)", ""),
                         "Name EN Quality": "ai_translated",
