@@ -48,6 +48,8 @@
 
 **关键事实**：**只有 P3 动 s02a/canonical 层；P4、P5 都不动数据产出。提取层（s01b）在 P2.1 后已冻结，P3/P4/P5 都不再改它。**
 
+> **P5 实施计划已就绪**（2026-06-02）：`docs/superpowers/plans/2026-06-02-v2.1-P5-remove-crewai.md`。范围 = s01a/s02a/s02c 去 crewAI 薄壳 + 修 pipeline/flow.py（已断的 s01b crew 引用 + Flow→纯 Python）。纯机械、零 LLM 花费、~1 session。建议在干净对话中用 subagent-driven-development 执行。
+
 ## E. 真实数据该现在跑还是等 P3/P4/P5 之后？（决策待用户拍板）
 
 **核心权衡**（基于"提取层已冻结、只有 P3 动 canonical"）：
