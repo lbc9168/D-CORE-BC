@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import calendar
-import sys
 import time
 import warnings
 from datetime import date, timedelta
@@ -11,31 +10,14 @@ from dotenv import load_dotenv
 # 确保 .env 在 s01a_news_crawler 目录下被加载
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
-from s01a_news_crawler.crew import NewsCrawler
-
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 _S01A_ROOT = Path(__file__).resolve().parents[2]
 
 
 def run():
-    """
-    运行新闻采集 Crew（单批次）。
-    修改下方 inputs 中的参数以调整采集范围和目录。
-    """
-    inputs = {
-        'source_url': 'https://news.goalfore.cn/topstories/project',
-        'start_date': '2026-02-10',
-        'end_date': '2026-02-28',
-        'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
-        'raw_data_dir': 'data/raw',
-        'raw_news_db_path': str(_S01A_ROOT / 'data' / 'raw_news.db'),
-    }
-
-    try:
-        NewsCrawler().crew().kickoff(inputs=inputs)
-    except Exception as e:
-        raise Exception(f"Crew 运行出错: {e}") from e
+    """运行单批新闻采集（直调 tool，无 crewAI）。"""
+    run_single(start_date="2026-02-10", end_date="2026-02-28")
 
 
 def run_single(
@@ -61,54 +43,6 @@ def run_single(
         raw_news_db_path=raw_news_db_path or str(_S01A_ROOT / "data" / "raw_news.db"),
         save_excel=False,
     )
-
-
-def train():
-    """训练 Crew（用于优化 Agent 输出质量）"""
-    inputs = {
-        'source_url': 'https://news.goalfore.cn/topstories/project',
-        'start_date': '2024-01-01',
-        'end_date': '2024-01-31',
-        'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
-        'raw_data_dir': 'data/raw',
-        'raw_news_db_path': str(_S01A_ROOT / 'data' / 'raw_news.db'),
-    }
-    try:
-        NewsCrawler().crew().train(
-            n_iterations=int(sys.argv[1]),
-            filename=sys.argv[2],
-            inputs=inputs,
-        )
-    except Exception as e:
-        raise Exception(f"训练出错: {e}") from e
-
-
-def replay():
-    """从指定任务节点重放 Crew 执行"""
-    try:
-        NewsCrawler().crew().replay(task_id=sys.argv[1])
-    except Exception as e:
-        raise Exception(f"重放出错: {e}") from e
-
-
-def test():
-    """测试 Crew 执行并返回结果"""
-    inputs = {
-        'source_url': 'https://news.goalfore.cn/topstories/project',
-        'start_date': '2026-01-01',
-        'end_date': '2026-01-07',
-        'keywords': '能源,电力,MW,GW,风电,水电,光伏,储能',
-        'raw_data_dir': 'data/raw',
-        'raw_news_db_path': str(_S01A_ROOT / 'data' / 'raw_news.db'),
-    }
-    try:
-        NewsCrawler().crew().test(
-            n_iterations=int(sys.argv[1]),
-            eval_llm=sys.argv[2],
-            inputs=inputs,
-        )
-    except Exception as e:
-        raise Exception(f"测试出错: {e}") from e
 
 
 # ════════════════════════════════════════════════════════════════
@@ -140,7 +74,7 @@ def split_date_range(
         base_inputs:  覆盖 source_url / keywords 等基础参数
 
     Returns:
-        inputs 字典列表，每项对应一个日期段的完整 kickoff inputs
+        inputs 字典列表，每项对应一个日期段的完整调用参数
     """
     start = date.fromisoformat(start_date)
     end = date.fromisoformat(end_date)

@@ -5,12 +5,11 @@ import sqlite3
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, Type
+from typing import Optional
 
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup, Tag
-from crewai.tools import BaseTool
 from pydantic import BaseModel, Field
 
 
@@ -117,13 +116,8 @@ class NewsCrawlerInput(BaseModel):
     )
 
 
-class NewsCrawlerTool(BaseTool):
-    name: str = "news_crawler_tool"
-    description: str = (
-        "从指定新闻网站按日期范围抓取新闻，并按关键词初步过滤后保存为 SQLite 文件。"
-        "返回保存的文件完整路径和抓取数量摘要。"
-    )
-    args_schema: Type[BaseModel] = NewsCrawlerInput
+class NewsCrawlerTool:
+    """从指定新闻网站按日期范围抓取新闻、按关键词过滤，写入 SQLite 并可选输出 Excel。"""
 
     # ── 内部工具方法 ──────────────────────────────────────────────────────────
 
