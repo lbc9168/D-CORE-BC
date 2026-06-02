@@ -2,6 +2,7 @@
 
 Phase 4：S1 相关性门（非 valid 短路）→ S2 项目识别（防过度拆分）→ 逐项目 S4 实体抽取 → S3 金融信息 → S5 摘要+枚举自检。"""
 import logging
+import os
 from typing import Any
 import bri_enums as enums
 
@@ -64,26 +65,42 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
     projects = _run_stage_with_retry(
         lambda: run_s2(title, content, date, llm=llm), validate_s2, stage="s2", max_attempts=2,
     )
+    # 合并开关（S01B_MERGE_S34）：开启则 named 项目用一次合并调用同出实体+金融（省一次正文重发）；默认关=原行为。
+    merge_s34 = bool(os.getenv("S01B_MERGE_S34"))
     for proj in projects:
         proj.setdefault("project_summary", "")
         ci = proj.get("common_info", {}) or {}
         pname = ci.get("Project Name", "") or ci.get("Project Name (EN)", "")
         cat = ci.get("Category", "")
+        run_s3_separately = True
         if is_unnamed:
-            # unnamed：不调 S4，直接放占位实体
+            # unnamed：不调 S4，直接放占位实体（S3 仍单独跑）
             proj["chinese_entities"] = [{"Implementing Chinese Entity": enums.UNNAMED_ENTITY_PLACEHOLDER,
                                          "Type of involvement of Chinese Entities": "Unknown",
                                          "is_unnamed_placeholder": True}]
+        elif merge_s34:
+            # ── S34 合并：一次调用同出 chinese_entities + 金融字段，跳过单独 S3 ──
+            from s01b_project_extractor.stages.s34_entity_finance import run_s34, validate_s34
+            combined = _run_stage_with_retry(
+                lambda pn=pname, c=cat: run_s34(title, content, pn, c, llm=llm),
+                validate_s34, stage="s34", max_attempts=2,
+            )
+            proj["chinese_entities"] = (combined or {}).get("chinese_entities") or []
+            _fin = (combined or {}).get("finance") or {}
+            if _fin:
+                proj.setdefault("common_info", {}).update({k: v for k, v in _fin.items() if v not in ("", None)})
+            run_s3_separately = False
         else:
             ents = _run_stage_with_retry(
                 lambda pn=pname, c=cat: run_s4(title, content, pn, c, llm=llm),
                 validate_s4, stage="s4", max_attempts=2,
             )
             proj["chinese_entities"] = ents or []
-        # ── S3：逐项目抽金融字段，非空值合并进 common_info（覆盖 S2 的 Unknown 占位）──
-        fin = run_s3(title, content, pname, llm=llm)
-        if fin:
-            proj.setdefault("common_info", {}).update({k: v for k, v in fin.items() if v not in ("", None)})
+        # ── S3：逐项目抽金融字段，非空值合并进 common_info（合并模式下已并入 S34，跳过）──
+        if run_s3_separately:
+            fin = run_s3(title, content, pname, llm=llm)
+            if fin:
+                proj.setdefault("common_info", {}).update({k: v for k, v in fin.items() if v not in ("", None)})
         # ── S5：基于结构化结果生成摘要 + 高置信度枚举自检纠偏 ──
         apply_s5(proj, run_s5(proj, llm=llm))
     return {"analysis": analysis, "status": normalized_status, "projects": projects}

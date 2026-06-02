@@ -34,10 +34,10 @@ def _default_extractor_version() -> str:
     # provider/model + 分阶段路由 纳入哈希：各供应商/混合配置各自独立缓存、报告可比
     provider_tag = (os.getenv("S01B_PROVIDER", "gemini") + os.getenv("S01B_MODEL", "")
                     + os.getenv("DEEPSEEK_MODEL", "") + os.getenv("DS_MODEL", "")
-                    + os.getenv("S01B_STAGE_PROVIDERS", ""))
+                    + os.getenv("S01B_STAGE_PROVIDERS", "") + os.getenv("S01B_MERGE_S34", ""))
     src = inspect.getsource(orchestrator) + (provider_tag or _DEFAULT_MODEL)
     # 各阶段 prompt 模块加入哈希（存在才纳入，便于逐 Phase 增量上线）
-    for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary"):
+    for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary", "s34_entity_finance"):
         try:
             mod = __import__(f"s01b_project_extractor.prompts.{modname}", fromlist=["*"])
             src += inspect.getsource(mod)
