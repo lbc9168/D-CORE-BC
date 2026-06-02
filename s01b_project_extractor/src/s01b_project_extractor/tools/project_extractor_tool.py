@@ -673,7 +673,7 @@ class ProjectExtractorTool:
         country_db: dict,
         projects_db_path: str,
         review_db_path: str,
-        max_workers: int = 4,
+        max_workers: int = 24,  # 内层文章并发（v2.1 C1 全量重录入提速；原 4。Gemini 10k RPM / DeepSeek-flash 2500 足够）
     ) -> str:
         """处理一个 DataFrame，执行 AI 提取并写入数据库。"""
         # 加载已处理过的 URL（去重）
