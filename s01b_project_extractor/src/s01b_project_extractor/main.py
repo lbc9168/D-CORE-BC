@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 import concurrent.futures
+import logging
+import sys
 import warnings
+from datetime import datetime
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -11,6 +14,31 @@ load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
 _S01B_ROOT = Path(__file__).resolve().parents[2]
+
+logger = logging.getLogger(__name__)
+_RUN_LOG_PATH: Path | None = None  # 本进程的运行日志路径（幂等：只配置一次）
+
+
+def _setup_run_logging() -> Path:
+    """配置运行日志：为 s01b 包级 logger 接上带时间戳的文件 + 控制台两个 handler，返回日志文件路径（幂等）。"""
+    global _RUN_LOG_PATH
+    if _RUN_LOG_PATH is not None:
+        return _RUN_LOG_PATH
+    log_dir = _S01B_ROOT / "data" / "logs"
+    log_dir.mkdir(parents=True, exist_ok=True)
+    log_path = log_dir / f"run_extract_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+    fmt = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
+    fh = logging.FileHandler(log_path, encoding="utf-8")
+    fh.setFormatter(fmt)
+    sh = logging.StreamHandler(sys.stdout)
+    sh.setFormatter(fmt)
+    # 挂在 s01b 包级 logger 上：捕获 main + 各 stage + tool 的批级 guardrail 日志；不向 root 传播以免与 eval/review 的 root 配置重复打印。
+    pkg = logging.getLogger("s01b_project_extractor")
+    pkg.setLevel(logging.INFO)
+    pkg.handlers = [fh, sh]
+    pkg.propagate = False
+    _RUN_LOG_PATH = log_path
+    return log_path
 
 
 def run():
@@ -39,6 +67,9 @@ def run_bulk_extract(
 
     from s01b_project_extractor.tools.project_extractor_tool import ProjectExtractorTool
 
+    log_path = _setup_run_logging()
+    logger.info("run_bulk_extract 启动；运行日志写入 %s", log_path)
+
     if raw_news_db_path is None:
         raw_news_db_path = str(_S01B_ROOT.parent / "s01a_news_crawler" / "data" / "raw_news.db")
 
@@ -56,16 +87,16 @@ def run_bulk_extract(
         ]
         conn.close()
     except Exception as e:
-        print(f"错误：读取 raw_news.db 失败: {e}")
+        logger.error("读取 raw_news.db 失败: %s", e)
         return
 
     if not batch_ids:
-        print("raw_news.db 中无关键词匹配记录，流程结束。")
+        logger.info("raw_news.db 中无关键词匹配记录，流程结束。")
         return
 
-    print(f"\n{'='*60}")
-    print(f"  并发 AI 提取（{len(batch_ids)} 个批次，{max_extract_workers} 并发）")
-    print(f"{'='*60}")
+    logger.info("=" * 60)
+    logger.info("并发 AI 提取（%d 个批次，%d 并发）", len(batch_ids), max_extract_workers)
+    logger.info("=" * 60)
 
     def _extract_one(bid: str) -> str:
         try:
@@ -84,6 +115,6 @@ def run_bulk_extract(
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_extract_workers) as executor:
         futures = {executor.submit(_extract_one, bid): bid for bid in batch_ids}
         for future in concurrent.futures.as_completed(futures):
-            print(future.result())
+            logger.info("%s", future.result())
 
-    print(f"\n✅ run_bulk_extract 完成。AI 提取 {len(batch_ids)} 个批次。")
+    logger.info("✅ run_bulk_extract 完成。AI 提取 %d 个批次。运行日志：%s", len(batch_ids), log_path)
