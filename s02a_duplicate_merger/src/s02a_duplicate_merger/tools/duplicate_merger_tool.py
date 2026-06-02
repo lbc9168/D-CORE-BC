@@ -19,10 +19,9 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
-from crewai.tools import BaseTool
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -1452,16 +1451,8 @@ class DuplicateMergerInput(BaseModel):
     )
 
 
-class DuplicateMergerTool(BaseTool):
-    name: str = "duplicate_merger_tool"
-    description: str = (
-        "从 s01 的 projects.db 读取未导入记录，执行四阶段去重合并流程，"
-        "将规范化数据写入 SQLite 三表结构"
-        "（canonical_projects + project_events + chinese_entities）。"
-        "处理完成后标记已导入记录（imported_to_s02a=1），防止重复入库。"
-        "返回处理摘要和数据库路径。"
-    )
-    args_schema: Type[BaseModel] = DuplicateMergerInput
+class DuplicateMergerTool:
+    """从 s01 的 projects.db 读取未导入记录，执行四阶段去重合并流程，写入 SQLite 三表结构。"""
 
     def _run(
         self,
