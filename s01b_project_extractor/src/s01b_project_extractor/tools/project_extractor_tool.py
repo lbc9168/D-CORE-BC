@@ -731,6 +731,7 @@ class ProjectExtractorTool:
 
         _lock = threading.Lock()
         _skip_count = [0]  # 用列表包装以便在闭包中修改
+        _fail_count = [0]  # worker 隔离的单篇异常计数（Design 1：失败篇不落任何表，仅记日志，重跑自动重试）
 
         def _process_article(row_num_row: tuple) -> None:
             row_num, row = row_num_row
@@ -960,10 +961,27 @@ class ProjectExtractorTool:
                 if status == "chinese_unnamed":
                     unnamed_review_links.extend(local_unnamed_review)
 
-        # 并发处理所有文章
+        def _process_article_safe(row_num_row: tuple) -> None:
+            """worker 隔离：单篇任何异常只记日志(含 traceback)+计数，不落任何表；失败篇不进去重集，重跑 run_bulk_extract 会自动重试（Design 1）。"""
+            try:
+                _process_article(row_num_row)
+            except Exception as e:
+                row_num, row = row_num_row
+                with _lock:
+                    _fail_count[0] += 1
+                logger.error(
+                    "文章处理失败（已隔离跳过，不中断批次；未落库，重跑将重试）row=%s link=%s title=%s: %s",
+                    row_num, str(row.get("原文链接", ""))[:120],
+                    str(row.get("文章标题", ""))[:40], e, exc_info=True,
+                )
+
+        # 并发处理所有文章（每篇经 _process_article_safe 隔离，单篇异常不拖垮整批）
         rows_indexed = [(i + 1, row) for i, (_, row) in enumerate(df.iterrows())]
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-            list(executor.map(_process_article, rows_indexed))
+            list(executor.map(_process_article_safe, rows_indexed))
+        if _fail_count[0]:
+            logger.error("本批 %s：%d 篇因异常被隔离跳过（未落库，重跑 run_bulk_extract 会自动重试）",
+                         batch_id, _fail_count[0])
 
         if _skip_count[0]:
             print(f">>> 共跳过 {_skip_count[0]} 条已处理文章（已在数据库中）")

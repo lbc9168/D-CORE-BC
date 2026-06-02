@@ -20,7 +20,13 @@ _RUN_LOG_PATH: Path | None = None  # 本进程的运行日志路径（幂等：�
 
 
 def _setup_run_logging() -> Path:
-    """配置运行日志：为 s01b 包级 logger 接上带时间戳的文件 + 控制台两个 handler，返回日志文件路径（幂等）。"""
+    """配置运行日志：强制 stdout/stderr UTF-8 + 为 s01b 包级 logger 接上带时间戳的文件 + 控制台两个 handler，返回日志文件路径（幂等）。"""
+    # Windows 控制台默认 GBK；提取过程大量中文 print 遇非 GBK 字符会抛 UnicodeEncodeError 中断整轮——强制 UTF-8（errors=replace 兜底）。
+    for _stream in (sys.stdout, sys.stderr):
+        try:
+            _stream.reconfigure(encoding="utf-8", errors="replace")
+        except (AttributeError, ValueError):
+            pass
     global _RUN_LOG_PATH
     if _RUN_LOG_PATH is not None:
         return _RUN_LOG_PATH
