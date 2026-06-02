@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-05-24
+> 最后更新：2026-06-02
 
 ---
 
@@ -14,6 +14,7 @@
 - S4–S5：待执行（事件级时间建模 / 去重分组与地点归一化）。
 - **v2.1 P0 提取评测框架 ✅（2026-05-24）**：新增根 `eval/` 模块（metrics/predict/article_store/build_draft/gold_loader/run_eval + README），为 s01b 提取建立约 150 篇金标准 + 字段级准确率「尺子」，使每次 prompt/agent 改动可量化判断进步/退步；含端到端 mock 测试（无真实 Gemini）。**待人工步骤：金标准标注（~150 篇）→ `gold_set.jsonl`** 后才能跑真实评测。详见 [`eval.md`](eval.md) 与 `docs/changes/2026-W21h.md`。
 - **v2.1 P2 复核机制 ✅ + P2.1 exclude 机制/范围对齐/critic 约束 ✅（代码+单测，2026-06-02）**：详见 [`review.md`](review.md)。⚠️ **机制已建好但尚未在真实数据上跑出效果**（主库仍是旧 prompt 数据）；真实数据落地 + P2/P2.1 未完事项 + P3/P4/P5 提醒见 [`backlog-v2.1.md`](backlog-v2.1.md)。
+- **v2.1 P5 去 crewAI 薄壳清理 ✅（2026-06-02）**：把 crewAI 从仓库彻底移除（老版 `s01_data_collector_filter` 除外，归档候选）。s01a/s02a/s02c 三个「1 agent + 1 task」薄壳 → 工具去 `BaseTool` 改普通类、删 `crew.py`+config、`main.run()` 直调 `Tool()._run()`、pyproject 去 crewai；`pipeline/flow.py` 由 crewAI `Flow` 改纯 Python `run_pipeline(cfg)`（并修 P1 后已断的 s01b crew import）。纯机械、行为不变、零 LLM 花费。详见 `docs/changes/2026-W22h.md`。
 
 ---
 
@@ -70,10 +71,10 @@
 
 ```
 BRI_RE_Database_v2/
-├── pipeline/                           # 全流水线 crewai Flow 编排
+├── pipeline/                           # 全流水线纯 Python 顺序编排
 │   ├── pyproject.toml
 │   └── src/bri_pipeline/
-│       └── flow.py                 # BRIPipelineFlow + PipelineState
+│       └── flow.py                 # run_pipeline(cfg) + PipelineConfig（v2.1 P5 去 crewAI Flow）
 │
 ├── s01_data_collector_filter/          # 阶段一（旧版合并子项目，仍可独立使用）
 │   ├── pyproject.toml
@@ -87,49 +88,44 @@ BRI_RE_Database_v2/
 │       ├── tools/project_extractor_tool.py
 │       └── tools/custom_tool.py
 │
-├── s01a_news_crawler/                  # 阶段一A：新闻爬虫（拆分版）
+├── s01a_news_crawler/                  # 阶段一A：新闻爬虫（拆分版，v2.1 P5 去 crewAI）
 │   ├── pyproject.toml
 │   ├── WorldCountryList.json
 │   └── src/s01a_news_crawler/
-│       ├── main.py
-│       ├── crew.py
-│       ├── config/{agents,tasks}.yaml
-│       └── tools/news_crawler_tool.py
+│       ├── main.py                 # run() 直调 tool，无 crewAI
+│       └── tools/news_crawler_tool.py   # NewsCrawlerTool 纯 Python 类
 │
-├── s01b_project_extractor/             # 阶段一B：AI 提取（拆分版，含三层 Guardrail）
+├── s01b_project_extractor/             # 阶段一B：AI 提取（拆分版，含三层 Guardrail；P1 已去 crewAI）
 │   ├── pyproject.toml
 │   ├── WorldCountryList.json
 │   └── src/s01b_project_extractor/
-│       ├── main.py
-│       ├── crew.py
-│       ├── config/{agents,tasks}.yaml
+│       ├── main.py                 # run_bulk_extract（分阶段 orchestrator）
+│       ├── stages/                 # S1-S5 分阶段提取
+│       ├── prompts/                # 各阶段 prompt
+│       ├── llm/                    # 统一 LLM client + StageRouter
 │       ├── knowledge/user_preference.txt
 │       ├── tools/project_extractor_tool.py
 │       └── guardrails/             # format_checks / semantic_checks / batch_checks
 │
-├── s02a_duplicate_merger/               # 阶段二A crewai 子项目（去重合并与入库）
+├── s02a_duplicate_merger/               # 阶段二A 子项目（去重合并与入库，v2.1 P5 去 crewAI）
 │   ├── pyproject.toml
 │   ├── data/db/                    # SQLite 数据库（bri_re_database.db）
 │   └── src/s02a_duplicate_merger/
-│       ├── main.py
-│       ├── crew.py
-│       ├── config/{agents,tasks}.yaml
-│       └── tools/duplicate_merger_tool.py
+│       ├── main.py                 # run() 直调 tool，无 crewAI
+│       └── tools/duplicate_merger_tool.py   # DuplicateMergerTool 纯 Python 类
 │
 ├── s02b_entity_normalizer/              # 阶段二B 独立子项目（实体名称归一化）
 │   ├── pyproject.toml
 │   └── src/s02b_entity_normalizer/
 │       └── entity_normalizer.py    # 三信号候选筛查 + LLM 归一化
 │
-├── s02c_cross_verification/             # 阶段二C crewai 子项目（外部交叉验证，可选）
+├── s02c_cross_verification/             # 阶段二C 子项目（外部交叉验证，可选，v2.1 P5 去 crewAI）
 │   ├── pyproject.toml
 │   ├── data/verification_cache/    # GDELT 文章 & 向量嵌入缓存
 │   ├── data/manual_review/         # 低置信度人工核查 Excel
 │   └── src/s02c_cross_verification/
-│       ├── main.py
-│       ├── crew.py
-│       ├── config/{agents,tasks}.yaml
-│       └── tools/cross_verification_tool.py
+│       ├── main.py                 # run() 直调 tool，无 crewAI
+│       └── tools/cross_verification_tool.py   # CrossVerificationTool 纯 Python 类
 │
 ├── s03_data_exporter/                  # 阶段三：数据库整理与导出
 │   ├── pyproject.toml
@@ -175,8 +171,8 @@ BRI_RE_Database_v2/
 
 | 组件      | 技术                                       |
 | ------- | ---------------------------------------- |
-| AI 框架   | crewai 1.9.3                             |
-| LLM（主）  | Gemini gemini-2.5-flash-lite             |
+| 编排      | 纯 Python（v2.1 P5 已移除 crewAI；老版 s01_data_collector_filter 仍用 crewai 1.9.3，归档候选） |
+| LLM（主）  | Gemini gemini-2.5-flash-lite（可选 DeepSeek，见 eval.md A/B；分阶段路由 StageRouter） |
 | LLM（嵌入） | Gemini text-embedding-004                |
 | AI SDK  | google-genai >= 1.49.0                   |
 | 外部数据源   | GDELT 国际新闻数据库（免费，无 API Key）              |
@@ -198,7 +194,8 @@ BRI_RE_Database_v2/
 | `pipeline` 预留模块导入耦合、`s01a` 归档目录不存在崩溃、`s01b` Guardrail 潜在误删（batch_id 缺失） | 高   | 已修复（2026-03-22） |
 | `s02b` CLI 参数解析覆盖流程传参、`s02a` imported 标记失败静默导致潜在重复导入                    | 高   | 已修复（2026-03-22） |
 | `s01_data_collector_filter/custom_tool.py` 仍为模板占位符                      | 低   | 未修复             |
-| `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步）          | 低   | 未修复             |
-| Windows 终端 GBK 编码导致 emoji 乱码（crewai 事件总线）                               | 低   | 未修复（仅影响显示）      |
+| `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步）          | 低   | 未修复（老版归档候选）     |
+| 老版 `s01_data_collector_filter` 仍依赖 crewAI（s01a+s01b 已取代它）               | 低   | 归档/删除候选，单独决策   |
+| s01b orchestrator 3 个 s34 测试预存失败（`_FakeLLM` 缺 's34' 键，源自 e0cc102）       | 中   | 未修复（s01b 线单独处理，与去 crewAI 无关） |
 | `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖                                    | 低   | 已知，文档说明         |
 | s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN                                      | 中   | 已知，待解决          |

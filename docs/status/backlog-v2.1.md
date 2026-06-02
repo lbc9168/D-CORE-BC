@@ -44,11 +44,12 @@
 |---|---|---|---|
 | **P3 · 去重分组 + 地点归一化**（从 v2.0 S5 推迟） | s02a 侧：分组去掉 stage 维度、地点/容量硬锚点防误并、地点音译归一化、实体归一化副作用（S5 草稿 Task2-5，见 `sessions/S5_dedup_location.md`） | ❌ 不动 | ✅ 动（s02a/canonical） |
 | **P4 · 外部信源换源**（可选/最后） | s02b/s02c 侧：E.3 把 GDELT 换成证券/官方公告源做交叉验证 | ❌ 不动 | ❌ 不动（下游验证层） |
-| **P5 · 去 crewAI 薄壳**（机械/独立） | 清理 s01a/s02a/s02b 的 crewAI 冗余薄壳（删 crew.py + yaml、工具去 BaseTool、main 改纯 Python、pyproject 移除 crewai）。**纯机械重构，不改任何数据逻辑/输出。** | ❌ 不动 | ❌ 不动 |
+| **P5 · 去 crewAI 薄壳**（机械/独立） | 清理 s01a/s02a/**s02c**（roadmap 原写"s02b"为笔误）的 crewAI 冗余薄壳（删 crew.py + yaml、工具去 BaseTool、main 改纯 Python、pyproject 移除 crewai）+ pipeline/flow.py Flow→纯 Python。**纯机械重构，不改任何数据逻辑/输出。** | ❌ 不动 | ❌ 不动 | ✅ **已完成（2026-06-02）** |
 
 **关键事实**：**只有 P3 动 s02a/canonical 层；P4、P5 都不动数据产出。提取层（s01b）在 P2.1 后已冻结，P3/P4/P5 都不再改它。**
 
-> **P5 实施计划已就绪**（2026-06-02）：`docs/superpowers/plans/2026-06-02-v2.1-P5-remove-crewai.md`。范围 = s01a/s02a/s02c 去 crewAI 薄壳 + 修 pipeline/flow.py（已断的 s01b crew 引用 + Flow→纯 Python）。纯机械、零 LLM 花费、~1 session。建议在干净对话中用 subagent-driven-development 执行。
+> ~~**P5 实施计划已就绪**~~ → **✅ P5 已完成（2026-06-02）**：见 `docs/changes/2026-W22h.md`。s01a/s02a/s02c 三薄壳 + pipeline/flow.py 全去 crewAI（工具改普通类、删 crew.py+yaml、main 直调 `_run`、flow 改 `run_pipeline(cfg)` 并修 P1 后已断的 s01b crew import）；全仓 `git grep crewai` 仅剩老版 `s01_data_collector_filter`（归档候选）。行为不变、零 LLM 花费；s02a 单测 12 passed、smoke import 全通过。
+> **遗留**：① 老版 `s01_data_collector_filter` 仍依赖 crewAI（归档/删除候选，单独决策）；② s01b orchestrator 3 个 s34 测试预存失败（源自 e0cc102，与去 crewAI 无关，s01b 线单独修）。
 
 ## E. 真实数据该现在跑还是等 P3/P4/P5 之后？（决策待用户拍板）
 
