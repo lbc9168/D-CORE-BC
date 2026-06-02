@@ -26,6 +26,21 @@ def _normalize_record_type(rt) -> str:
     s = str(rt or "").strip()
     return s if s in VALID_RECORD_TYPES else "具体项目"
 
+
+# 物理上单个电站装机不可能 ≥ 50000 MW（最大三峡 ~22500 MW）；≥50000 几乎必是「千瓦数误填进 MW 字段」。
+_CAPACITY_MW_IMPOSSIBLE = 50000.0
+
+
+def _normalize_capacity_mw(mw):
+    """容量兜底归一：物理不可能的超大 MW（≥50000，几乎必是 LLM 把千瓦/万千瓦原数倾进 MW 字段）÷1000 还原为 MW；其余原样。原文 *_raw 列保留不动。"""
+    if mw is None:
+        return None
+    try:
+        v = float(mw)
+    except (TypeError, ValueError):
+        return mw
+    return v / 1000.0 if v >= _CAPACITY_MW_IMPOSSIBLE else v
+
 # ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 if str(_root) not in sys.path:
@@ -1077,7 +1092,7 @@ class ProjectExtractorTool:
                         row_data.get("Location (State)", ""),
                         row_data.get("Category", ""),
                         cap_raw,
-                        bri_parse.parse_number(cap_raw),
+                        _normalize_capacity_mw(bri_parse.parse_number(cap_raw)),
                         row_data.get("Capacity Details", ""),
                         None,  # storage_power_mw：提取属 v2.1，本次留空
                         None,  # storage_energy_mwh
