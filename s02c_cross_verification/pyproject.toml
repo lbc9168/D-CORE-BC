@@ -1,25 +1,21 @@
 [project]
 name = "s02c_cross_verification"
 version = "0.1.0"
-description = "BRI RE Database Stage 2C - External Cross-Verification using crewAI"
+description = "BRI RE Database Stage 2C - External Cross-Verification"
 authors = [{ name = "Your Name", email = "you@example.com" }]
 requires-python = ">=3.10,<3.14"
 dependencies = [
-    "crewai[tools,google-genai]==1.9.3",
     "pandas>=2.0.0",
     "openpyxl>=3.1.0",
     "python-dotenv>=1.0.0",
     "google-genai>=1.49.0",
     "requests>=2.31.0",
+    "pydantic>=2.0.0",
 ]
 
 [project.scripts]
 s02c_cross_verification = "s02c_cross_verification.main:run"
-run_crew                = "s02c_cross_verification.main:run"
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-
-[tool.crewai]
-type = "crew"
