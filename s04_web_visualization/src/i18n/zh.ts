@@ -3,6 +3,7 @@ const zh = {
   nav: {
     title: '"一带一路"可再生能源项目数据库',
     home: "首页",
+    overview: "总览",
     map: "地图视图",
     table: "数据表格",
     reports: "研究报告",

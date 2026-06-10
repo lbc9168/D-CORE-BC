@@ -4,6 +4,7 @@ const en: Translations = {
   nav: {
     title: "Database of Chinese Overseas Renewable Energy Investment",
     home: "Map",
+    overview: "Overview",
     map: "Map View",
     table: "Data Table",
     reports: "Reports",

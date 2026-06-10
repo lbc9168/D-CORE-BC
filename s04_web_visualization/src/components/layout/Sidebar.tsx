@@ -1,44 +1,87 @@
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Globe, Table2, FileText, Info } from "lucide-react";
+import {
+  Globe, LayoutDashboard, Table2, FileText, Info, ChevronRight,
+} from "lucide-react";
 import { useLang } from "@/contexts/LanguageContext";
 
+/** 导航项配置：未来新增页面（如"企业信息"）只需在此数组加一行 { to, icon, labelKey } */
+const NAV_ITEMS = [
+  { to: "/", end: true, icon: Globe, labelKey: "nav.home" },
+  { to: "/overview", end: false, icon: LayoutDashboard, labelKey: "nav.overview" },
+  { to: "/table", end: false, icon: Table2, labelKey: "nav.table" },
+  { to: "/reports", end: false, icon: FileText, labelKey: "nav.reports" },
+  { to: "/about", end: false, icon: Info, labelKey: "nav.about" },
+] as const;
+
+/** 左侧导航栏：折叠态仅图标（3.75rem），点击右缘圆钮丝滑展开显示文字（13.5rem） */
 export default function Sidebar() {
   const { t } = useLang();
+  const [expanded, setExpanded] = useState(
+    () => localStorage.getItem("sidebar_expanded") === "1",
+  );
+  const toggle = () =>
+    setExpanded((v) => {
+      localStorage.setItem("sidebar_expanded", v ? "0" : "1");
+      return !v;
+    });
 
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-      isActive
-        ? "bg-white/20 text-white"
-        : "text-white/70 hover:bg-white/10 hover:text-white"
-    }`;
+  const labelClass = `whitespace-nowrap overflow-hidden transition-all duration-200 ${
+    expanded ? "opacity-100 max-w-[9rem] ml-2.5" : "opacity-0 max-w-0 ml-0"
+  }`;
 
   return (
-    <aside className="w-[13rem] min-w-[180px] h-full bg-brand-700 flex flex-col flex-shrink-0">
-      {/* Logo / Title */}
-      <div className="px-4 py-4 border-b border-white/10">
-        <div className="font-semibold text-white text-base leading-snug">
+    <aside
+      className={`relative h-full bg-brand-700 flex flex-col flex-shrink-0
+                  transition-[width] duration-300 ease-in-out ${
+                    expanded ? "w-[13.5rem]" : "w-[3.75rem]"
+                  }`}
+    >
+      {/* Logo / 标题 */}
+      <div className="flex items-center px-3 py-4 border-b border-white/10 min-h-[3.5rem]">
+        <div className="w-8 h-8 rounded-lg bg-white/15 text-white flex items-center justify-center
+                        font-bold text-xs flex-shrink-0 select-none">
+          RE
+        </div>
+        <div className={`font-semibold text-white text-sm leading-snug ${labelClass}`}>
           {t("nav.title")}
         </div>
       </div>
 
-      {/* Nav items */}
-      <nav className="flex flex-col gap-1 p-2 flex-1">
-        <NavLink to="/" end className={linkClass}>
-          <Globe size={16} />
-          {t("nav.home")}
-        </NavLink>
-        <NavLink to="/table" className={linkClass}>
-          <Table2 size={16} />
-          {t("nav.table")}
-        </NavLink>
-        <NavLink to="/reports" className={linkClass}>
-          <FileText size={16} />
-          {t("nav.reports")}
-        </NavLink>
-        <NavLink to="/about" className={linkClass}>
-          <Info size={16} />
-          {t("nav.about")}
-        </NavLink>
+      {/* 展开/收起 切换钮（悬浮在右缘） */}
+      <button
+        onClick={toggle}
+        aria-label={expanded ? "collapse sidebar" : "expand sidebar"}
+        className="absolute -right-3 top-16 z-30 w-6 h-6 rounded-full bg-white border border-slate-200
+                   shadow-sm flex items-center justify-center text-slate-500 hover:text-brand-600
+                   hover:shadow transition-all"
+      >
+        <ChevronRight
+          size={13}
+          className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {/* 导航项 */}
+      <nav className="flex flex-col gap-1 p-2 flex-1 overflow-x-hidden">
+        {NAV_ITEMS.map(({ to, end, icon: Icon, labelKey }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={end}
+            title={expanded ? undefined : t(labelKey)}
+            className={({ isActive }) =>
+              `flex items-center rounded-lg px-2.5 py-2.5 text-sm font-medium transition-colors ${
+                isActive
+                  ? "bg-white/20 text-white"
+                  : "text-white/70 hover:bg-white/10 hover:text-white"
+              }`
+            }
+          >
+            <Icon size={17} className="flex-shrink-0" />
+            <span className={labelClass}>{t(labelKey)}</span>
+          </NavLink>
+        ))}
       </nav>
     </aside>
   );
