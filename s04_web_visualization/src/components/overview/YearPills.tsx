@@ -16,11 +16,11 @@ export default function YearPills({
     }`;
   return (
     <div className="flex items-center gap-0.5 bg-white border border-slate-200 rounded-full p-1 shadow-sm">
-      <button className={pill(value == null)} onClick={() => onChange(null)}>
+      <button type="button" aria-pressed={value == null} className={pill(value == null)} onClick={() => onChange(null)}>
         {allLabel}
       </button>
       {years.map((y) => (
-        <button key={y} className={pill(value === y)} onClick={() => onChange(y)}>
+        <button type="button" key={y} aria-pressed={value === y} className={pill(value === y)} onClick={() => onChange(y)}>
           {y}
         </button>
       ))}
