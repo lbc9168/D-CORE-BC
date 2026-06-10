@@ -7,6 +7,7 @@ import WorldMap from "@/components/map/WorldMap";
 import ProvinceMap from "@/components/map/ProvinceMap";
 import ProvinceMapErrorBoundary from "@/components/map/ProvinceMapErrorBoundary";
 import ProjectList from "@/components/projects/ProjectList";
+import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
 import type { ColorBy, MapLevel, Project } from "@/types";
 
 export default function MapPage() {
@@ -183,6 +184,12 @@ export default function MapPage() {
           </div>
         </div>
       </div>
+
+      {/* 项目详情滑出抽屉（覆盖层，不挤占布局） */}
+      <ProjectDetailDrawer
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </div>
   );
 }

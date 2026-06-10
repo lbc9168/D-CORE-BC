@@ -5,7 +5,7 @@ import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import FilterBar from "@/components/filters/FilterBar";
-import ProjectDetail from "@/components/projects/ProjectDetail";
+import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
 import { formatCountryName } from "@/utils/display";
 import { downloadCSV } from "@/utils/csvExport";
 import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
@@ -305,15 +305,11 @@ export default function TablePage() {
         )}
       </div>
 
-      {/* 右：项目详情侧边栏 */}
-      {selectedProject && (
-        <div className="w-80 border-l border-slate-200 flex-shrink-0 overflow-hidden bg-white shadow-lg">
-          <ProjectDetail
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        </div>
-      )}
+      {/* 项目详情滑出抽屉 */}
+      <ProjectDetailDrawer
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
 
       {/* 下载问卷弹窗 */}
       {showSurvey && (
