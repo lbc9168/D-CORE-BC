@@ -15,6 +15,7 @@
 - **v2.1 P0 提取评测框架 ✅（2026-05-24）**：新增根 `eval/` 模块（metrics/predict/article_store/build_draft/gold_loader/run_eval + README），为 s01b 提取建立约 150 篇金标准 + 字段级准确率「尺子」，使每次 prompt/agent 改动可量化判断进步/退步；含端到端 mock 测试（无真实 Gemini）。**待人工步骤：金标准标注（~150 篇）→ `gold_set.jsonl`** 后才能跑真实评测。详见 [`eval.md`](eval.md) 与 `docs/changes/2026-W21h.md`。
 - **v2.1 P2 复核机制 ✅ + P2.1 exclude 机制/范围对齐/critic 约束 ✅（代码+单测，2026-06-02）**：详见 [`review.md`](review.md)。⚠️ **机制已建好但尚未在真实数据上跑出效果**（主库仍是旧 prompt 数据）；真实数据落地 + P2/P2.1 未完事项 + P3/P4/P5 提醒见 [`backlog-v2.1.md`](backlog-v2.1.md)。
 - **v2.1 P5 去 crewAI 薄壳清理 ✅（2026-06-02）**：把 crewAI 从仓库彻底移除（老版 `s01_data_collector_filter` 除外，归档候选）。s01a/s02a/s02c 三个「1 agent + 1 task」薄壳 → 工具去 `BaseTool` 改普通类、删 `crew.py`+config、`main.run()` 直调 `Tool()._run()`、pyproject 去 crewai；`pipeline/flow.py` 由 crewAI `Flow` 改纯 Python `run_pipeline(cfg)`（并修 P1 后已断的 s01b crew import）。纯机械、行为不变、零 LLM 花费。详见 `docs/changes/2026-W22h.md`。
+- **仓库物理结构整理 ✅（2026-06-10）**：第一档纯搬家（根目录散文件清理、`scripts/oneoff/` 一次性脚本留档、老版 s01 → `archive/`、git 取消跟踪垃圾、review 运行产物 → `review/data/`）+ 第二档根 tests 按归属拆分（s01b 15 个、s02a 1 个下放，顺带修掉 test_id_generation collection error）。零行为变更，四套 pytest + smoke import + npm build 全过。第三档（sNN 骨架）明确不动。详见 `docs/changes/2026-W23b.md`。
 - **v2.1 真实数据落地 C1 重录入 ✅ + C2 review 全量 dry-run ✅（2026-06-02/03）**：新提取链对全量 raw_news 重录入主库（101 批，`extracted_projects` 11,909 行 / 6,678 篇，提取时 excluded 176）；review 全量 dry-run（candidates 4,012：拟纠正 397、拟 exclude 1,717、入队 4,413、critic 失败 181），CSV 已导出待人工复看。**真跑落库 GATED 未做**（推荐按 dry-run 报告 `would_change` 确定性重放，勿直接去 `--dry-run` 重跑——会重复入队+重花 LLM 钱）。后续主线（用户已拍板）：P3 → C2 真跑（用户自做）→ s02a 重建 → s03 → s04；**P4 不做**。详见 `docs/changes/2026-W23a.md` 与 [`backlog-v2.1.md`](backlog-v2.1.md)。
 
 ---
@@ -46,7 +47,7 @@
 
 | 阶段     | 子项目                         | 状态                      | 详情                         |
 | ------ | --------------------------- | ----------------------- | -------------------------- |
-| 阶段一（旧） | `s01_data_collector_filter` | ✅ 已完成（2026-03-21 更新知识库） | [s01.md](s01.md)           |
+| 阶段一（旧） | `archive/s01_data_collector_filter` | 📦 已归档（2026-06-10，被 s01a+s01b 取代） | [s01.md](s01.md)           |
 | 阶段一A   | `s01a_news_crawler`         | ✅ 已完成                   | —                          |
 | 阶段一B   | `s01b_project_extractor`    | ✅ 已完成（2026-03-21 更新知识库） | [s01b.md](s01b.md)         |
 | 阶段二A   | `s02a_duplicate_merger`     | ✅ 已完成                   | [s02a.md](s02a.md)         |
@@ -77,17 +78,8 @@ BRI_RE_Database_v2/
 │   └── src/bri_pipeline/
 │       └── flow.py                 # run_pipeline(cfg) + PipelineConfig（v2.1 P5 去 crewAI Flow）
 │
-├── s01_data_collector_filter/          # 阶段一（旧版合并子项目，仍可独立使用）
-│   ├── pyproject.toml
-│   ├── knowledge/user_preference.txt
-│   ├── WorldCountryList.json
-│   └── src/s01_data_collector_filter/
-│       ├── main.py                 # run() + run_parallel() + run_bulk() + split_date_range()
-│       ├── crew.py
-│       ├── config/{agents,tasks}.yaml
-│       ├── tools/news_crawler_tool.py
-│       ├── tools/project_extractor_tool.py
-│       └── tools/custom_tool.py
+├── archive/                            # 已被取代的旧版子项目（仅留档，勿使用）
+│   └── s01_data_collector_filter/      # 旧版阶段一（爬虫+提取合并版，2026-06-10 归档，被 s01a+s01b 取代）
 │
 ├── s01a_news_crawler/                  # 阶段一A：新闻爬虫（拆分版，v2.1 P5 去 crewAI）
 │   ├── pyproject.toml
@@ -160,9 +152,14 @@ BRI_RE_Database_v2/
 │   ├── status/                     # 各阶段详细状态
 │   └── changes/                    # 按周改动记录
 │
+├── eval/                           # s01b 提取评测框架（金标准 + 字段级准确率）
+├── review/                         # 提取复核机制（critic + 复核队列；运行产物在 review/data/）
+├── scripts/                        # 管线/迁移脚本（oneoff/ = 一次性脚本与输出留档）
+├── tests/                          # 根模块（eval/review/bri_*）测试；子项目测试在各自 tests/
+├── external-tools/                 # 独立外部小工具
 ├── enums_mapping.json              # 枚举字段映射表
-├── project_status.md               # 状态文档快速索引
-├── change_record.md                # 改动记录快速索引
+├── bri_enums.py / bri_parse.py     # 枚举 / 数值解析单一可信源
+├── README.md                       # 目录导览 + 文档指引
 └── .env                            # API Key（不入 git）
 ```
 
@@ -194,10 +191,8 @@ BRI_RE_Database_v2/
 | ----------------------------------------------------------------------- | --- | --------------- |
 | `pipeline` 预留模块导入耦合、`s01a` 归档目录不存在崩溃、`s01b` Guardrail 潜在误删（batch_id 缺失） | 高   | 已修复（2026-03-22） |
 | `s02b` CLI 参数解析覆盖流程传参、`s02a` imported 标记失败静默导致潜在重复导入                    | 高   | 已修复（2026-03-22） |
-| `s01_data_collector_filter/custom_tool.py` 仍为模板占位符                      | 低   | 未修复             |
-| `s01_data_collector_filter/README.md` 仍是 crewAI 默认模板（路径与说明未同步）          | 低   | 未修复（老版归档候选）     |
-| 老版 `s01_data_collector_filter` 仍依赖 crewAI（s01a+s01b 已取代它）               | 低   | 归档/删除候选，单独决策   |
+| 老版 `s01_data_collector_filter`（含 crewAI 依赖、模板占位符等遗留）              | 低   | ✅ 已整体归档至 `archive/`（2026-06-10），不再维护 |
 | s01b orchestrator 3 个 s34 测试预存失败（`_FakeLLM` 缺 's34' 键，源自 e0cc102）       | 中   | ✅ 已修复（2026-06-02，测试改 hermetic 显式控 `S01B_MERGE_S34` + 补合并路径用例） |
-| root `tests/test_id_generation.py` 在 s01b venv 下 collection error（import 不到 s02a） | 低   | 已知，环境隔离非回归（在 s02a venv 下正常） |
+| root `tests/test_id_generation.py` 在 s01b venv 下 collection error（import 不到 s02a） | 低   | ✅ 已修复（2026-06-10，测试下放 `s02a/tests/` 用 s02a venv 跑） |
 | `pipeline/` 首次 `uv sync` 需要各子项目已安装依赖                                    | 低   | 已知，文档说明         |
 | s04 省级地图数据（10m zip）在国内网络下载受限，需 VPN                                      | 中   | 已知，待解决          |

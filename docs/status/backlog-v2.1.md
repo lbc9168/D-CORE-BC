@@ -49,7 +49,7 @@
 **关键事实**：**只有 P3 动 s02a/canonical 层；P4、P5 都不动数据产出。提取层（s01b）在 P2.1 后已冻结，P3/P4/P5 都不再改它。**
 
 > ~~**P5 实施计划已就绪**~~ → **✅ P5 已完成（2026-06-02）**：见 `docs/changes/2026-W22h.md`。s01a/s02a/s02c 三薄壳 + pipeline/flow.py 全去 crewAI（工具改普通类、删 crew.py+yaml、main 直调 `_run`、flow 改 `run_pipeline(cfg)` 并修 P1 后已断的 s01b crew import）；全仓 `git grep crewai` 仅剩老版 `s01_data_collector_filter`（归档候选）。行为不变、零 LLM 花费；s02a 单测 12 passed、smoke import 全通过。
-> **遗留**：① 老版 `s01_data_collector_filter` 仍依赖 crewAI（归档/删除候选，单独决策）；② s01b orchestrator 3 个 s34 测试预存失败（源自 e0cc102，与去 crewAI 无关，s01b 线单独修）。
+> **遗留**：① ~~老版 `s01_data_collector_filter` 仍依赖 crewAI（归档/删除候选，单独决策）~~ → ✅ 已归档至 `archive/`（2026-06-10，repo 整理 Commit `875edf2`）；② ~~s01b orchestrator 3 个 s34 测试预存失败~~ → ✅ 已修（2026-06-02，commit 2e439d6）。
 
 ## E. 真实数据该现在跑还是等 P3/P4/P5 之后？（✅ 已决策并执行）
 
