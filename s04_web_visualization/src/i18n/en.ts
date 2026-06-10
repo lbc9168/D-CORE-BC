@@ -89,6 +89,21 @@ const en: Translations = {
     investment: "Investment (M USD)",
     externalLinks: "External Links",
   },
+  // Overview dashboard
+  overview: {
+    title: "Overview ·",
+    allYears: "All Years",
+    kpiActive: "Active Projects",
+    kpiCapacity: "Total Capacity (MW)",
+    kpiCountries: "Countries Covered",
+    kpiEntities: "Chinese Entities",
+    banner:
+      "Note: \"Active projects\" are those whose earliest–latest milestone span covers the selected year. Capacity is total installed capacity (not annual additions); energy-storage and grid projects are excluded from capacity sums. Events before 2022 are not counted.",
+    statusMix: "Project Status Mix",
+    share: "Share",
+    topByCount: "Top Countries by Projects",
+    topByCapacity: "Top Countries by Capacity (MW)",
+  },
   chart: {
     timelineTitle: "Annual Milestone Trend",
     entityTitle: "Top Chinese Entities by Project Count",

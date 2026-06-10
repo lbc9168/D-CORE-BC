@@ -92,6 +92,21 @@ const zh = {
     investment: "总投资 (百万美元)",
     externalLinks: "外部链接",
   },
+  // 总览仪表盘
+  overview: {
+    title: "项目总览 ·",
+    allYears: "全部年份",
+    kpiActive: "活跃项目数",
+    kpiCapacity: "装机容量合计 (MW)",
+    kpiCountries: "覆盖国家数",
+    kpiEntities: "参与中企数",
+    banner:
+      "口径说明：「活跃项目」指所选年份落在该项目最早与最晚里程碑事件之间；装机容量为项目总装机（非当年新增），储能与输变电类项目不计入容量合计；2022 年前的事件不进入统计。",
+    statusMix: "项目状态构成",
+    share: "占比",
+    topByCount: "项目数 Top 国家",
+    topByCapacity: "装机容量 Top 国家 (MW)",
+  },
   // 图表
   chart: {
     timelineTitle: "各年各里程碑数趋势",
