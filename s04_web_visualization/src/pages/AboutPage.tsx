@@ -26,12 +26,12 @@ export default function AboutPage() {
 
   return (
     <div className="flex-1 overflow-y-auto bg-slate-50">
-      <div className="max-w-3xl mx-auto px-8 py-10 space-y-10">
+      <div className="max-w-3xl mx-auto px-8 py-10 space-y-4">
 
         {/* Hero */}
         <div className="card p-8 flex flex-col items-center text-center gap-3">
           <Info size={40} className="text-brand-300" />
-          <h2 className="text-xl font-semibold text-slate-700">
+          <h2 className="text-2xl font-semibold text-slate-700">
             Database of Chinese Overseas Renewable Energy Investment
           </h2>
           <p className="text-sm text-slate-500 leading-relaxed max-w-xl">
