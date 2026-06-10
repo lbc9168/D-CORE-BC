@@ -5,7 +5,8 @@ import pathlib
 from s01b_project_extractor.guardrails import format_checks as fc
 from s01b_project_extractor.guardrails import semantic_checks as sc
 
-_ROOT = pathlib.Path(__file__).resolve().parents[1]
+# 上溯找仓库根（enums_mapping.json 所在目录），不依赖本文件所处层级
+_ROOT = next(p for p in pathlib.Path(__file__).resolve().parents if (p / "enums_mapping.json").exists())
 _RAW = json.loads((_ROOT / "enums_mapping.json").read_text(encoding="utf-8"))
 
 
