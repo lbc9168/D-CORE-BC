@@ -1,6 +1,7 @@
 {
   "extraPaths": [
-    "s01_data_collector_filter/src",
+    "s01a_news_crawler/src",
+    "s01b_project_extractor/src",
     "s02a_duplicate_merger/src",
     "s02b_entity_normalizer/src",
     "s02c_cross_verification/src",
