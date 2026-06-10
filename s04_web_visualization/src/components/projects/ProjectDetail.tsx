@@ -43,8 +43,8 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         </button>
       </div>
 
-      {/* 标签 */}
-      <div className="flex flex-wrap gap-1.5 px-3 py-2 border-b border-slate-100">
+      {/* 标签（capacity 徽章已移除——数字条中有更醒目的展示） */}
+      <div className="flex flex-wrap gap-1.5 px-4 py-2 border-b border-slate-100">
         {cat && (
           <span className="badge text-white text-xs" style={{ backgroundColor: cat.color }}>
             {cat.en}
@@ -56,11 +56,6 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         >
           {p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}
         </span>
-        {p.capacity_mw != null && (
-          <span className="badge bg-slate-100 text-slate-600 text-xs">
-            {p.capacity_mw.toFixed(1)} MW
-          </span>
-        )}
         {p.bri_country === "Yes" && (
           <span className="badge bg-green-100 text-green-700 text-xs">BRI</span>
         )}
@@ -69,33 +64,31 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         )}
       </div>
 
-      {/* 关键数字条（cobalt 风格：彩色竖线 + 大数字） */}
-      {(p.capacity_mw != null || p.total_investment_usd != null) && (
-        <div className="flex gap-6 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
-          {p.capacity_mw != null && (
-            <div className="border-l-[3px] pl-2.5" style={{ borderColor: cat?.color ?? "#2F6562" }}>
-              <div className="text-lg font-bold text-slate-800 leading-tight">
-                {p.capacity_mw.toFixed(1)}
-                <span className="text-xs font-medium text-slate-400 ml-1">MW</span>
-              </div>
-              <div className="text-[11px] text-slate-400">{t("projectDetail.capacity")}</div>
+      {/* 关键数字条（cobalt 风格：彩色竖线 + 大数字）；event_count 恒有值，故无条件渲染 */}
+      <div className="flex gap-6 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
+        {p.capacity_mw != null && (
+          <div className="border-l-[3px] pl-2.5" style={{ borderColor: cat?.color ?? "#2F6562" }}>
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.capacity_mw.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">MW</span>
             </div>
-          )}
-          {p.total_investment_usd != null && (
-            <div className="border-l-[3px] border-amber-400 pl-2.5">
-              <div className="text-lg font-bold text-slate-800 leading-tight">
-                {p.total_investment_usd.toFixed(1)}
-                <span className="text-xs font-medium text-slate-400 ml-1">M USD</span>
-              </div>
-              <div className="text-[11px] text-slate-400">{t("projectDetail.investment")}</div>
-            </div>
-          )}
-          <div className="border-l-[3px] border-slate-300 pl-2.5">
-            <div className="text-lg font-bold text-slate-800 leading-tight">{p.event_count}</div>
-            <div className="text-[11px] text-slate-400">{t("projectDetail.eventCount")}</div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.capacity")}</div>
           </div>
+        )}
+        {p.total_investment_usd != null && (
+          <div className="border-l-[3px] border-amber-400 pl-2.5">
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.total_investment_usd.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">M USD</span>
+            </div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.investment")}</div>
+          </div>
+        )}
+        <div className="border-l-[3px] border-slate-300 pl-2.5">
+          <div className="text-lg font-bold text-slate-800 leading-tight">{p.event_count}</div>
+          <div className="text-[11px] text-slate-400">{t("projectDetail.eventCount")}</div>
         </div>
-      )}
+      </div>
 
       {/* 正文 */}
       <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4">
