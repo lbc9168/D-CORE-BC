@@ -63,6 +63,9 @@ eval/*.log
 
 # review 复核模块运行产物（不入 git）
 review/reports/
+review/data/
+review/*.log
+review/*.csv
 # .bak 备份：project_extractor_tool 用 .bak.YYYYMMDD（点号），run_review 用 .bak_YYYYMMDD（下划线）
 *.db.bak.*
 *.db.bak_*
