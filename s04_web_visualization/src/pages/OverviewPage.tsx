@@ -6,6 +6,8 @@ import YearPills from "@/components/overview/YearPills";
 import KpiCard from "@/components/overview/KpiCard";
 import StatusDonut from "@/components/overview/StatusDonut";
 import TopCountriesBar from "@/components/overview/TopCountriesBar";
+import TimelineChart from "@/components/charts/TimelineChart";
+import EntityChart from "@/components/charts/EntityChart";
 import { activeProjectsAt, buildYearSeries, formatBig } from "@/utils/overviewStats";
 import { hasCapacity } from "@/utils/capacityPolicy";
 
@@ -109,7 +111,15 @@ export default function OverviewPage() {
             title={t("overview.topByCapacity")} color="#F59E0B" />
         </div>
 
-        {/* Task 5 在此填充：趋势 + 企业图 */}
+        {/* 趋势 + 企业排名（原首页两个面板迁入） */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+          <div className="card p-4 min-h-[20rem] flex flex-col min-w-0">
+            <TimelineChart projects={allProjects} groups={[]} />
+          </div>
+          <div className="card p-4 min-h-[20rem] flex flex-col min-w-0">
+            <EntityChart projects={activeProjects} />
+          </div>
+        </div>
       </div>
     </div>
   );
