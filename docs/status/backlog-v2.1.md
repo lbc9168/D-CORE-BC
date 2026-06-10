@@ -1,7 +1,9 @@
 # v2.1 待办清单（P2 / P2.1 未完事项 + 真实数据落地 + P3/P4/P5 提醒）
 
-> 创建：2026-06-02。记录"机制已建好、但还没在真实数据上跑出效果 / 当初标推迟"的事项，避免遗忘。
-> 上游：`docs/rules_and_plans/v2.1_plan.md`（roadmap）、`docs/status/review.md`（P2/P2.1 状态）。
+> 创建：2026-06-02；**更新：2026-06-10**（C1 重录入✅、C2 dry-run✅、E 部分决策已拍板）。
+> 上游：`docs/rules_and_plans/v2.1_plan.md`（roadmap）、`docs/status/review.md`（P2/P2.1 状态）、`docs/changes/2026-W23a.md`（C1/C2 实跑记录）。
+>
+> **当前主线（2026-06-10 用户拍板）**：P3（去重分组+地点归一化，待设计）→ C2 真跑落库（用户自做，先复看 dry-run CSV）→ s02a canonical 重建 → s03 导出 → s04。**P4 不做**（改动过大，搁置）。
 
 ---
 
@@ -17,26 +19,24 @@
 
 | # | 事项 | 状态 |
 |---|---|---|
-| B1 | **真跑改库**（去 `--dry-run`，把 critic 自动 exclude / 自动改写真正落主库） | ❌ 未做，GATED（须人看 dry-run report 同意；动 schema 前 `.bak`，写库代码已含主库自动备份） |
+| B1 | **真跑改库**（把 critic 自动 exclude / 自动改写真正落主库） | ❌ 未做，GATED（dry-run 已全量跑完，报告/CSV 待人工复看；**推荐按 `reports/20260603_005742.json` 的 `would_change` 确定性重放**，勿直接去 `--dry-run` 重跑——queue 无去重会重复入队 4,413 条 + 重花 critic LLM 钱；181 条 critic_failed 单独补跑） |
 | B2 | eval 提取并行化（`eval/predict.py`/`run_eval.py` 现完全串行，97 篇 ~24 分钟） | ❌ 未做（v2.1 follow-up；改加 ThreadPool 即可） |
 | B3 | s02a `_fmt_entities`/`_merge_records` 实体去重排除占位实体 | ❌ 未做（影响有限，小迭代） |
 | B4 | `exclude_source='manual'` 写入路径（人工 UI 反标 exclude / 一键翻回） | ❌ 未做（机制留了 manual 取值，但无写入入口） |
 
 ## C. ⚠️ 最关键：真实数据落地（"机制 vs 生效"的鸿沟）
 
-**现状**：P1 + P2 + P2.1 的提取/复核改动**都只对新提取生效**。**主库 `s01b_project_extractor/data/projects.db` 仍是旧 prompt 的老数据**——里面没有任何 `excluded` 标记、没纳入新能源制造业/输变电、没经过新 critic。机制建好了，真实数据上的效果还没产生。
+**更新（2026-06-10）**：C1 已完成、C2 的 dry-run 部分已完成（详见 `docs/changes/2026-W23a.md`）。
 
-要"真正生效"需要两步（按依赖排序）：
+1. **C1 · 用新 prompt 重新录入主库** ✅（2026-06-02）
+   - 101 月度批全量重跑完成：`extracted_projects` 11,909 行（6,678 篇 distinct），提取时 `excluded=1` 176 行，unnamed 占位流入队 61 条；仅 1 篇网络异常隔离（重跑自动补）。
+   - 容量清洗 56→0；备份保留 `projects.db.bak_20260602_235452`（清洗前 C1 产出）。
 
-1. **C1 · 用新 prompt 重新录入主库**（大动作、大 LLM 花费）
-   - 对 `s01a` raw_news（~10815 篇通过关键词的）重跑 s01b 提取 → 新 `extracted_projects`（带 `in_scope`→`excluded`、新范围、火电保留）。
-   - **只依赖提取层（s01b S1-S5 prompt）。P3/P4/P5 都不动提取层 → 现在重录入不会被它们作废。**
-   - 动主库前 `.bak`（首次写会触发 ALTER 加三列）。
-
-2. **C2 · 真跑 review 改库**（= B1）+ **重建 s02a canonical**
-   - review 真跑：对新 `extracted_projects` 跑 `run_review`（去 `--dry-run`），落 `excluded`/字段纠正；先看 dry-run report 同意。
-   - s02a 重跑：`extracted_projects` → `canonical_projects`（exclude OR 传播生效）。
-   - ⚠️ **s02a/canonical 这层会被 P3（去重分组+地点归一化）改变** → 若现在重建 canonical，P3 落地后需**再重跑一次 s02a**（但**不必再重录入 s01b**，s02a 重跑比重录入便宜很多）。
+2. **C2 · 真跑 review 改库**（= B1）+ **重建 s02a canonical** —— **dry-run ✅ / 真跑 ❌**
+   - **已做**：全量 dry-run（2026-06-03）：candidates 4,012 / 拟纠正 397 / 拟 exclude 1,717 / 入队 4,413 / critic 失败 181；CSV `review/review_queue_c2_dryrun.csv` 待人工复看。
+   - **未做（GATED，用户之后自做）**：真跑落库。推荐按报告 `would_change` 确定性重放（见 B1 注）。
+   - **未做**：s02a 重跑 `extracted_projects` → `canonical_projects`（exclude OR 传播生效）。
+   - ⚠️ **s02a/canonical 这层会被 P3（去重分组+地点归一化）改变** → 已决策：**s02a 重建放到 P3 落地之后一次做**（不必再重录入 s01b，s02a 重跑比重录入便宜很多）。
 
 ## D. P3 / P4 / P5 是什么（roadmap 提醒）
 
@@ -51,7 +51,9 @@
 > ~~**P5 实施计划已就绪**~~ → **✅ P5 已完成（2026-06-02）**：见 `docs/changes/2026-W22h.md`。s01a/s02a/s02c 三薄壳 + pipeline/flow.py 全去 crewAI（工具改普通类、删 crew.py+yaml、main 直调 `_run`、flow 改 `run_pipeline(cfg)` 并修 P1 后已断的 s01b crew import）；全仓 `git grep crewai` 仅剩老版 `s01_data_collector_filter`（归档候选）。行为不变、零 LLM 花费；s02a 单测 12 passed、smoke import 全通过。
 > **遗留**：① 老版 `s01_data_collector_filter` 仍依赖 crewAI（归档/删除候选，单独决策）；② s01b orchestrator 3 个 s34 测试预存失败（源自 e0cc102，与去 crewAI 无关，s01b 线单独修）。
 
-## E. 真实数据该现在跑还是等 P3/P4/P5 之后？（决策待用户拍板）
+## E. 真实数据该现在跑还是等 P3/P4/P5 之后？（✅ 已决策并执行）
+
+> **决策结果（2026-06-02 执行 / 2026-06-10 拍板补全）**：采纳"现在跑 C1 + dry-run 全量复看"方案——C1 重录入与 review 全量 dry-run 已完成；**C2 真跑由用户复看 CSV 后自做**；**s02a canonical 最终成型推迟到 P3 之后**；**P4 不做**。以下为当时的权衡分析（留档）。
 
 **核心权衡**（基于"提取层已冻结、只有 P3 动 canonical"）：
 

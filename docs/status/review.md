@@ -1,6 +1,14 @@
 # review — P2 复核机制（E.1 低置信二次核验 + E.2 chinese_unnamed）
 
-> 最后更新：2026-06-01（T10 实跑：gold 复查 + eval 重跑 + 全量 dry-run + CSV 导出；新增 --concurrency 并行、value_validator 枚值校验、export_queue）
+> 最后更新：2026-06-10（补记 C2 全量 dry-run 结果与真跑建议）
+
+---
+
+## C2 · 对 C1 新库的全量 dry-run ✅（2026-06-03，详见 `docs/changes/2026-W23a.md`）
+
+- `python -m review.run_review --dry-run`（critic=DeepSeek）对重录入后的 11,909 行跑完：**candidates 4,012 / 拟纠正 397 / 拟 exclude 1,717 / 入队 4,413 / critic 失败 181**；报告 `review/reports/20260603_005742.json`（含完整 `would_change` 2,114 条）；CSV `review/review_queue_c2_dryrun.csv`（06-04 导出，待人工复看）。
+- ⚠️ dry-run 只挡 projects.db 的 UPDATE，**review_queue 仍真写**：review.db 现 4,474 条 pending（4,357 low_confidence_field + 61 unnamed_entity + 56 exclude_suggested）；`queue.add_item` 无去重。
+- **真跑落库（backlog B1）未做、GATED**。推荐方式：人工复看通过后**按报告 `would_change` 写小脚本确定性重放**（零 LLM 花费、无重复入队、与复看内容一致），181 条 critic_failed 单独补跑；**不要**直接去 `--dry-run` 整体重跑。
 
 **模块路径：** `review/`（仓库根）
 
