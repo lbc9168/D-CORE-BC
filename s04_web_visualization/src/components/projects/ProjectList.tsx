@@ -32,9 +32,6 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
 
   return (
     <div className="overflow-y-auto h-full">
-      <div className="text-xs text-slate-500 px-3 py-2 border-b border-slate-100 sticky top-0 bg-white">
-        {t("filter.projectsCount", { count: projects.length })}
-      </div>
       <ul className="divide-y divide-slate-50">
         {ordered.map((p) => {
           const cat = CATEGORIES[p.category];

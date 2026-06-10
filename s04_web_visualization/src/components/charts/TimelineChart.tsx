@@ -14,10 +14,11 @@ import { CATEGORIES } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { BASELINE_YEAR } from "@/contexts/DataContext";
 
-// 各年里程碑数趋势图：按 年份 × 类别 堆叠；里程碑大类由上方 Filter Bar 的 Status 决定（空 = 全部 = 总数），无独立 tab
+// 各年里程碑数趋势图：按 年份 × 类别 堆叠；里程碑大类由 groups 参数决定（空 = 全部 = 总数）
+// 唯一调用方：OverviewPage，传入 allProjects + groups=[]（总数线）；groups 参数保留供未来扩展
 interface TimelineChartProps {
-  projects: Project[];   // trendProjects：除 refYear/groups 外已过滤
-  groups: VizGroup[];    // 来自 FilterBar 的 Status 选择；空 = 全部大类
+  projects: Project[];   // 项目集合（OverviewPage 传 allProjects）
+  groups: VizGroup[];    // 里程碑大类过滤；空数组 = 展示全部大类（总数）
 }
 
 // 类别主色与浅灰背景混合，柔化堆叠色
