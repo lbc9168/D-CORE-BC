@@ -4,6 +4,8 @@ import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import YearPills from "@/components/overview/YearPills";
 import KpiCard from "@/components/overview/KpiCard";
+import StatusDonut from "@/components/overview/StatusDonut";
+import TopCountriesBar from "@/components/overview/TopCountriesBar";
 import { activeProjectsAt, buildYearSeries, formatBig } from "@/utils/overviewStats";
 import { hasCapacity } from "@/utils/capacityPolicy";
 
@@ -93,7 +95,21 @@ export default function OverviewPage() {
           <p className="text-xs text-slate-600 leading-relaxed">{t("overview.banner")}</p>
         </div>
 
-        {/* Task 4-5 在此填充：状态构成 / Top 国家 / 趋势 + 企业图 */}
+        {/* 状态构成 + Top 国家 */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
+          <StatusDonut
+            projects={activeProjects}
+            year={year}
+            title={t("overview.statusMix")}
+            shareLabel={t("overview.share")}
+          />
+          <TopCountriesBar projects={activeProjects} metric="count"
+            title={t("overview.topByCount")} color="#2F6562" />
+          <TopCountriesBar projects={activeProjects} metric="capacity"
+            title={t("overview.topByCapacity")} color="#F59E0B" />
+        </div>
+
+        {/* Task 5 在此填充：趋势 + 企业图 */}
       </div>
     </div>
   );
