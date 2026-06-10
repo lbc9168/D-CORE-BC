@@ -14,17 +14,37 @@ const NAV_ITEMS = [
   { to: "/about", end: false, icon: Info, labelKey: "nav.about" },
 ] as const;
 
+/** localStorage key，集中管理避免魔法字符串 */
+const STORAGE_KEY = "sidebar_expanded";
+
+/** 从 localStorage 读取侧栏展开状态；storage 不可用时降级为收起。 */
+function readStorage(): boolean {
+  try {
+    return localStorage.getItem(STORAGE_KEY) === "1";
+  } catch {
+    // localStorage 不可用时静默失败
+    return false;
+  }
+}
+
+/** 将侧栏展开状态写入 localStorage；storage 不可用时静默失败。 */
+function writeStorage(value: boolean): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, value ? "1" : "0");
+  } catch {
+    // localStorage 不可用时静默失败
+  }
+}
+
 /** 左侧导航栏：折叠态仅图标（3.75rem），点击右缘圆钮丝滑展开显示文字（13.5rem） */
 export default function Sidebar() {
   const { t } = useLang();
-  const [expanded, setExpanded] = useState(
-    () => localStorage.getItem("sidebar_expanded") === "1",
-  );
-  const toggle = () =>
-    setExpanded((v) => {
-      localStorage.setItem("sidebar_expanded", v ? "0" : "1");
-      return !v;
-    });
+  const [expanded, setExpanded] = useState(() => readStorage());
+  const toggle = () => {
+    const next = !expanded;
+    writeStorage(next);
+    setExpanded(next);
+  };
 
   const labelClass = `whitespace-nowrap overflow-hidden transition-all duration-200 ${
     expanded ? "opacity-100 max-w-[9rem] ml-2.5" : "opacity-0 max-w-0 ml-0"
@@ -52,6 +72,7 @@ export default function Sidebar() {
       <button
         onClick={toggle}
         aria-label={expanded ? "collapse sidebar" : "expand sidebar"}
+        aria-expanded={expanded}
         className="absolute -right-3 top-16 z-30 w-6 h-6 rounded-full bg-white border border-slate-200
                    shadow-sm flex items-center justify-center text-slate-500 hover:text-brand-600
                    hover:shadow transition-all"
