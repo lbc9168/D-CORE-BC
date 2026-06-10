@@ -18,7 +18,7 @@ export default function KpiCard({
   // SVG 渐变 id 不能含中文/空格，用色值派生（四卡颜色互异，无冲突）
   const gradId = `kpi-${color.replace("#", "")}`;
   return (
-    <div className="card p-4 flex flex-col gap-1 min-h-[10rem]">
+    <div className="card p-4 flex flex-col gap-1 min-h-[10rem] min-w-0">
       <div className="flex items-start justify-between">
         <div className="text-2xl font-bold text-slate-800 leading-tight">{value}</div>
         <div
