@@ -85,7 +85,7 @@ export default function EntityChart({ projects }: EntityChartProps) {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="text-xs font-medium text-slate-600 mb-2">
+      <div className="text-sm font-semibold text-slate-700 mb-2">
         {t("chart.entityTitle")}
       </div>
       <div className="mb-2 inline-flex rounded-lg border border-slate-200 bg-white p-0.5 w-fit">

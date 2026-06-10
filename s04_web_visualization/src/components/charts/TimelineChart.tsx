@@ -106,7 +106,7 @@ export default function TimelineChart({ projects, groups }: TimelineChartProps) 
 
   return (
     <div className="h-full flex flex-col">
-      <div className="text-xs font-medium text-slate-600 mb-2">{t("chart.timelineTitle")}</div>
+      <div className="text-sm font-semibold text-slate-700 mb-2">{t("chart.timelineTitle")}</div>
       {data.length === 0 ? (
         <div className="flex-1 flex items-center justify-center text-slate-400 text-sm">
           {t("chart.noData")}

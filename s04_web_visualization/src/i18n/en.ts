@@ -33,7 +33,6 @@ const en: Translations = {
     allCategories: "All Types",
     allStages: "All Stages",
     allEntities: "All Entities",
-    projectsCount: "{{count}} projects",
     soe: "Central SOE",
     soeAll: "All",
     soeYes: "With Central SOE",
