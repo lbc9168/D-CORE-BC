@@ -38,16 +38,19 @@ export default function ProjectDetailDrawer({
         onClick={onClose}
         aria-hidden
       />
-      {/* 抽屉面板 */}
+      {/* 抽屉面板：关闭后 invisible（visibility 在 transform 动画结束才翻转），避免离屏内容残留焦点序列 */}
       <aside
         className={`fixed inset-y-0 right-0 z-50 w-[26rem] max-w-[92vw] bg-white shadow-2xl
-                    border-l border-slate-200 transition-transform duration-300 ease-in-out ${
-                      open ? "translate-x-0" : "translate-x-full"
+                    border-l border-slate-200 transition-[transform,visibility] duration-300 ease-in-out ${
+                      open ? "translate-x-0 visible" : "translate-x-full invisible"
                     }`}
         role="dialog"
         aria-modal="true"
+        aria-hidden={!open}
       >
-        {shown && <ProjectDetail project={shown} onClose={onClose} />}
+        {shown && (
+          <ProjectDetail key={shown.project_id} project={shown} onClose={onClose} />
+        )}
       </aside>
     </>
   );
