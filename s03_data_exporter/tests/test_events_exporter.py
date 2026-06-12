@@ -4,6 +4,54 @@ import sqlite3
 
 from s03_data_exporter import events_exporter
 
+# ── 基线政策纯函数（对齐前端 shouldExcludeByPolicy）──────────────────────────────
+
+_OK = {
+    "project_id": "IND-PV-0001", "country_iso": "IND",
+    "first_event_year": 2022, "last_event_year": 2024,
+    "category": "光伏", "primary_entity": "中国电建", "capacity_mw": 50.0,
+}
+
+
+def test_baseline_accepts_normal_project():
+    assert events_exporter.passes_baseline(dict(_OK)) is True
+
+
+def test_baseline_excludes_china_iso():
+    assert events_exporter.passes_baseline({**_OK, "country_iso": "CHN"}) is False
+    assert events_exporter.passes_baseline({**_OK, "country_iso": "twn"}) is False
+
+
+def test_baseline_excludes_pre_2022_last_event():
+    assert events_exporter.passes_baseline({**_OK, "last_event_year": 2021}) is False
+
+
+def test_baseline_excludes_null_event_years():
+    assert events_exporter.passes_baseline({**_OK, "first_event_year": None}) is False
+    assert events_exporter.passes_baseline({**_OK, "last_event_year": None}) is False
+
+
+def test_baseline_excludes_hidden_category():
+    # 核电 = hidden
+    assert events_exporter.passes_baseline({**_OK, "category": "核电"}) is False
+
+
+def test_baseline_excludes_unknown_primary_entity():
+    assert events_exporter.passes_baseline({**_OK, "primary_entity": "未知"}) is False
+    assert events_exporter.passes_baseline({**_OK, "primary_entity": ""}) is False
+
+
+def test_baseline_excludes_missing_capacity_for_capacity_category():
+    # 光伏 应有容量，capacity 缺失 → 排除
+    assert events_exporter.passes_baseline({**_OK, "capacity_mw": None}) is False
+
+
+def test_baseline_allows_no_capacity_category_without_capacity():
+    # 储能 = no_capacity，缺容量也通过
+    assert events_exporter.passes_baseline(
+        {**_OK, "category": "储能", "capacity_mw": None}
+    ) is True
+
 
 def _mk(src):
     c = sqlite3.connect(src)

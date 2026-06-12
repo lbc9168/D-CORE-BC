@@ -15,6 +15,41 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums  # noqa: E402
 
+BASELINE_YEAR = 2022
+_EXCLUDED_ISO3 = {"CHN", "HKG", "MAC", "TWN"}
+_UNKNOWN_TEXTS = {"unknown", "未知", "未披露", "n/a", "na", "-", "—"}
+
+
+def _is_unknown_text(value) -> bool:
+    """文本是否视作"未知"（空或占位符）；对齐前端 isUnknownText。"""
+    if not value:
+        return True
+    return str(value).strip().lower() in _UNKNOWN_TEXTS
+
+
+def passes_baseline(p: dict) -> bool:
+    """projects_flat 行是否进入网页可视化口径（逐条对齐前端 shouldExcludeByPolicy）。
+
+    ⚠️ 改这里须同步前端 src/contexts/DataContext.tsx 的 shouldExcludeByPolicy；
+    TS/Python 无法共享代码，靠本文件测试钉住一致性。
+    """
+    iso = (p.get("country_iso") or "").upper()
+    if iso in _EXCLUDED_ISO3:
+        return False
+    if p.get("first_event_year") is None or p.get("last_event_year") is None:
+        return False
+    if p["last_event_year"] < BASELINE_YEAR:
+        return False
+    category = p.get("category") or ""
+    if enums.is_excluded_category(category) or enums.is_hidden_category(category):
+        return False
+    if _is_unknown_text(p.get("primary_entity")):
+        return False
+    if category and not enums.is_no_capacity(category) and p.get("capacity_mw") is None:
+        return False
+    return True
+
+
 _COLUMNS = [
     "canonical_id", "event_id",
     "project_name_en", "project_name_cn",
