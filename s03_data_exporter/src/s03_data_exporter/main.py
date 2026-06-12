@@ -134,6 +134,7 @@ def run() -> None:
     n_ev = events_exporter.export_events_csv(
         SRC_DB,
         [DST_DIR / "events_export.csv", S04_DATA_DIR / "events_export.csv"],
+        flat_db=DST_DB,
         iso3_to_en=flat_builder.ISO3_TO_EN_NAME,
         province_map=province_map,
     )
