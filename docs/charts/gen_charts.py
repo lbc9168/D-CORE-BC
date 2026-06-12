@@ -39,9 +39,11 @@ rows = c.fetchall()
 
 cats_order = ['光伏', '综合能源', '风电', '新能源制造业', '储能', '输变电建设']
 iso_order  = ['SAU', 'ARE', 'OMN', 'BHR', 'KWT', 'QAT']
+# Sentence case; RE and T&D spelled out in full
 cat_labels_en = {
-    '光伏': 'Solar PV', '综合能源': 'Hybrid/Integrated', '风电': 'Wind',
-    '新能源制造业': 'RE Manufacturing', '储能': 'Storage', '输变电建设': 'Grid/T&D'
+    '光伏': 'Solar PV', '综合能源': 'Hybrid/integrated', '风电': 'Wind',
+    '新能源制造业': 'Renewable energy manufacturing', '储能': 'Storage',
+    '输变电建设': 'Grid/transmission and distribution'
 }
 colors_c1 = ['#f4a828', '#2196F3', '#4CAF50', '#FF5722', '#00BCD4', '#9C27B0']
 
@@ -62,61 +64,117 @@ cap_gw = {
 cap_cats = ['光伏', '综合能源', '风电']
 cap_colors = ['#f4a828', '#2196F3', '#4CAF50']
 
+def _place_outside_labels(ax, outside_list, x_offset=0.42, min_spacing_frac=0.025,
+                          fontsize=8.5):
+    """Place small-segment labels outside the bar with a connector line.
+
+    Spacing is a fraction of the current y-axis range so labels stay separated
+    even when axis scale is dominated by a large bar (e.g. Saudi Arabia dwarfs Bahrain).
+    Must be called AFTER ax.set_ylim() so the range is final.
+    """
+    from collections import defaultdict
+    ymin, ymax = ax.get_ylim()
+    min_spacing = (ymax - ymin) * min_spacing_frac
+
+    by_col = defaultdict(list)
+    for j, y_seg, lbl in outside_list:
+        by_col[j].append((y_seg, lbl))
+    for j, items in by_col.items():
+        items.sort(key=lambda x: x[0])
+        placed_y = []
+        for y_seg, lbl in items:
+            y_text = y_seg
+            for yp in placed_y:
+                if abs(y_text - yp) < min_spacing:
+                    y_text = yp + min_spacing
+            placed_y.append(y_text)
+            ax.annotate(lbl,
+                        xy=(j + 0.33, y_seg),
+                        xytext=(j + x_offset, y_text),
+                        fontsize=fontsize, color='#222222', fontweight='bold',
+                        ha='left', va='center',
+                        arrowprops=dict(arrowstyle='-', lw=0.7, color='#999999'))
+
+def _cap_label(v):
+    """Format capacity total: omit decimal if whole number, else 1 decimal place."""
+    v1 = round(v, 1)
+    return f'{int(v1)}' if v1 == int(v1) else f'{v1}'
+
 x_labels = [GCC_NAMES[iso] for iso in iso_order]
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(11, 9), sharex=True)
 fig.subplots_adjust(hspace=0.08)
 
-# ── Top: project count ────────────────────────────────────────────────
+# ── Top: project count — draw bars, collect outside labels ────────────
+INSIDE_MIN_COUNT = 3   # label inside if v >= this; otherwise outside with line
 btm1 = np.zeros(len(iso_order))
+outside_count = []  # (j, y_seg_center, label)
 for cat, col in zip(cats_order, colors_c1):
     vals = np.array([data_count[iso][cat] for iso in iso_order], dtype=float)
     ax1.bar(x_labels, vals, bottom=btm1, color=col, label=cat_labels_en[cat],
             edgecolor='white', linewidth=0.5, width=0.65)
     for j, v in enumerate(vals):
-        if v > 2:
+        if v == 0:
+            pass
+        elif v >= INSIDE_MIN_COUNT:
             ax1.text(j, btm1[j] + v / 2, str(int(v)), ha='center', va='center',
-                     fontsize=7.5, color='white', fontweight='bold')
+                     fontsize=8.5, color='white', fontweight='bold')
+        else:
+            outside_count.append((j, btm1[j] + v / 2, str(int(v))))
     btm1 += vals
 
-for j, tot in enumerate(btm1):
-    ax1.text(j, tot + 1, str(int(tot)), ha='center', va='bottom',
-             fontsize=9, fontweight='bold', color='#333333')
-
-ax1.set_title('Chinese Renewable Energy Projects in GCC Countries by Technology',
-              fontsize=13, fontweight='bold', pad=12)
-ax1.set_ylabel('Number of Projects', fontsize=11)
-ax1.set_ylim(0, max(btm1) * 1.20)
-ax1.legend(loc='upper right', fontsize=8.5, framealpha=0.9, ncol=2)
-ax1.spines['top'].set_visible(False)
-ax1.spines['right'].set_visible(False)
-
-# ── Bottom: contracted capacity GW ────────────────────────────────────
+# ── Bottom: contracted capacity — draw bars, collect outside labels ───
+INSIDE_MIN_CAP = 2.0   # GW; label inside if v >= this
 btm2 = np.zeros(len(iso_order))
+outside_cap = []  # (j, y_seg_center, label)
 for cat, col in zip(cap_cats, cap_colors):
     vals = np.array([cap_gw[iso].get(cat, 0) for iso in iso_order], dtype=float)
     ax2.bar(x_labels, vals, bottom=btm2, color=col, label=cat_labels_en[cat],
             edgecolor='white', linewidth=0.5, width=0.65)
     for j, v in enumerate(vals):
-        if v >= 3:
-            ax2.text(j, btm2[j] + v / 2, f'{v:.0f}', ha='center', va='center',
-                     fontsize=7.5, color='white', fontweight='bold')
+        if v == 0:
+            pass
+        elif v >= INSIDE_MIN_CAP:
+            ax2.text(j, btm2[j] + v / 2, f'{v:.1f}', ha='center', va='center',
+                     fontsize=8.5, color='white', fontweight='bold')
+        else:
+            outside_cap.append((j, btm2[j] + v / 2, f'{v:.1f}'))
     btm2 += vals
+
+# Set ylim BEFORE outside-label placement so fraction-based spacing is accurate
+ax1.set_ylim(0, max(btm1) * 1.22)
+ax2.set_ylim(0, max(btm2) * 1.18)
+
+_place_outside_labels(ax1, outside_count, x_offset=0.42, min_spacing_frac=0.025,
+                      fontsize=8.5)
+_place_outside_labels(ax2, outside_cap,   x_offset=0.42, min_spacing_frac=0.025,
+                      fontsize=8.5)
+
+# Bar totals — integers for count; 1 decimal for capacity if non-integer
+for j, tot in enumerate(btm1):
+    ax1.text(j, tot + 1, str(int(tot)), ha='center', va='bottom',
+             fontsize=10, fontweight='bold', color='#333333')
 
 for j, tot in enumerate(btm2):
     if tot > 0:
-        ax2.text(j, tot + 0.8, f'{tot:.0f}', ha='center', va='bottom',
-                 fontsize=9, fontweight='bold', color='#333333')
+        ax2.text(j, tot + 0.8, f'{tot:.1f}', ha='center', va='bottom',
+                 fontsize=10, fontweight='bold', color='#333333')
 
-ax2.set_ylabel('Contracted Capacity (GW)', fontsize=11)
-ax2.set_ylim(0, max(btm2) * 1.18)
+ax1.set_title('Chinese renewable energy projects in GCC countries by technology',
+              fontsize=14, fontweight='bold', pad=12)
+ax1.set_ylabel('Number of projects', fontsize=12)
+ax1.legend(loc='upper right', fontsize=9.5, framealpha=0.9, ncol=2)
+ax1.spines['top'].set_visible(False)
+ax1.spines['right'].set_visible(False)
+
+ax2.set_ylabel('Contracted capacity (GW)', fontsize=12)
 ax2.spines['top'].set_visible(False)
 ax2.spines['right'].set_visible(False)
 
 plt.tight_layout()
 fig.subplots_adjust(bottom=0.07)
 fig.text(0.5, 0.01,
-         'Capacity: signed/awarded/construction/operational projects only; single projects capped at 5 GW; generation technologies only (PV, Hybrid, Wind)',
-         ha='center', va='bottom', fontsize=7.5, color='gray')
+         'Capacity: signed/awarded/construction/operational projects only; single projects capped at 5 GW; generation technologies only (solar PV, hybrid, wind)',
+         ha='center', va='bottom', fontsize=8.5, color='gray')
 plt.savefig(f"{OUT}/chart1_gcc_country_technology.png", dpi=150, bbox_inches='tight')
 plt.close()
 print("Chart 1 saved")
@@ -126,14 +184,15 @@ print("Chart 1 saved")
 # CHART 2: Chinese company role distribution — stacked SOE vs non-SOE
 # ─────────────────────────────────────────────────────────────────────
 # (role, soe_count, non_soe_count) — sorted ascending by total
+# Sentence case; BOT/BOOT spelled out; Mgmt → management
 roles_data2 = [
-    ('BOT/BOOT',                  6,  1),
-    ('Investment+EPC',            3,  6),
-    ('Financier',                15, 11),
-    ('Design / Construction Mgmt',24,  8),
-    ('Equity Investor',          22, 28),
-    ('Equipment Supplier',       11, 71),
-    ('EPC Contractor',          183, 65),
+    ('Build-operate-transfer /\nbuild-operate-own-transfer', 6,  1),
+    ('Investment+EPC',                                      3,  6),
+    ('Financier',                                          15, 11),
+    ('Design / construction management',                   24,  8),
+    ('Equity investor',                                    22, 28),
+    ('Equipment supplier',                                 11, 71),
+    ('EPC contractor',                                    183, 65),
 ]
 labels_r2  = [r[0] for r in roles_data2]
 soe_vals   = np.array([r[1] for r in roles_data2])
@@ -144,33 +203,31 @@ grand_total = totals_r2.sum()
 SOE_COL  = '#1565C0'
 PRIV_COL = '#F57C00'
 
-fig, ax = plt.subplots(figsize=(10, 4.5))
+fig, ax = plt.subplots(figsize=(10, 5))
 bars_soe  = ax.barh(labels_r2, soe_vals,  color=SOE_COL,  edgecolor='white', height=0.65, label='SOE')
 bars_priv = ax.barh(labels_r2, priv_vals, color=PRIV_COL, edgecolor='white', height=0.65,
                     left=soe_vals, label='Private / Mixed')
 
 # label each segment if wide enough
 for i, (s, p) in enumerate(zip(soe_vals, priv_vals)):
-    y = i
-    h = 0.65
     if s >= 8:
-        ax.text(s / 2, y, str(s), ha='center', va='center', fontsize=8,
+        ax.text(s / 2, i, str(s), ha='center', va='center', fontsize=8,
                 color='white', fontweight='bold')
     if p >= 8:
-        ax.text(s + p / 2, y, str(p), ha='center', va='center', fontsize=8,
+        ax.text(s + p / 2, i, str(p), ha='center', va='center', fontsize=8,
                 color='white', fontweight='bold')
 
-# total + share label at bar end
+# total + share label at bar end — 1 decimal avoids integer-rounding to 101%
 for i, tot in enumerate(totals_r2):
-    ax.text(tot + 3, i, f'{tot}  ({tot / grand_total * 100:.0f}%)',
+    ax.text(tot + 3, i, f'{tot}  ({tot / grand_total * 100:.1f}%)',
             va='center', fontsize=9)
 
-ax.set_title("Chinese Firms' Roles in GCC RE Projects (SOE vs Private)",
+ax.set_title("Chinese firms' roles in GCC RE projects (SOE vs private)",
              fontsize=13, fontweight='bold', pad=12)
-ax.set_xlabel('Number of Entity-Event Records', fontsize=10)
-ax.set_xlim(0, 310)
-soe_patch  = mpatches.Patch(color=SOE_COL,  label='State-owned Enterprise (SOE)')
-priv_patch = mpatches.Patch(color=PRIV_COL, label='Private / Mixed Enterprise')
+ax.set_xlabel('Number of entity-event records', fontsize=10)
+ax.set_xlim(0, 320)
+soe_patch  = mpatches.Patch(color=SOE_COL,  label='State-owned enterprise')
+priv_patch = mpatches.Patch(color=PRIV_COL, label='Private / mixed enterprise')
 ax.legend(handles=[soe_patch, priv_patch], loc='lower right', fontsize=9)
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)

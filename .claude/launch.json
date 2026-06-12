@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "s04-web-v2-worktree",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", ".claude/worktrees/v2/s04_web_visualization", "run", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "s04-web-main",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "s04_web_visualization", "run", "dev"],
+      "port": 5173
+    }
+  ]
+}
