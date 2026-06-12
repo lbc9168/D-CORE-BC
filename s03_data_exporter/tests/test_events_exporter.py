@@ -53,7 +53,10 @@ def test_baseline_allows_no_capacity_category_without_capacity():
     ) is True
 
 
-def _mk(src):
+# ── 实体级集成测试 ──────────────────────────────────────────────────────────────
+
+def _mk(src, flat):
+    """构造 s02a 三表（src）与 projects_flat（flat）测试库。"""
     c = sqlite3.connect(src)
     c.executescript(
         """
@@ -68,62 +71,111 @@ def _mk(src):
         );
         CREATE TABLE chinese_entities(
             id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT,
-            implementing_entity TEXT, is_central_soe INTEGER
+            implementing_entity TEXT, implementing_entity_en TEXT,
+            subsidiary_name TEXT, subsidiary_name_en TEXT,
+            involvement_type TEXT, is_central_soe INTEGER
         );
         """
     )
-    c.execute(
-        "INSERT INTO canonical_projects(id, project_name_en, country_iso, category, excluded) "
-        "VALUES('IND-PV-0001','Solar A','IND','光伏',0)"
-    )
+    # 项目 A：合格；E01 两家公司、E02 无公司、E03 为 2021（应被 year 过滤）
+    c.execute("INSERT INTO canonical_projects(id, project_name, project_name_en, country_iso, category, excluded) "
+              "VALUES('IND-PV-0001','光伏A','Solar A','IND','光伏',0)")
     c.executemany(
-        "INSERT INTO project_events(id, canonical_id, project_stage, capacity_mw, publish_date) "
-        "VALUES(?,?,?,?,?)",
+        "INSERT INTO project_events(id, canonical_id, project_stage, capacity_mw, publish_date) VALUES(?,?,?,?,?)",
         [
             ("IND-PV-0001-01", "IND-PV-0001", "签约", 50.0, "2023-01-15"),
             ("IND-PV-0001-02", "IND-PV-0001", "竣工", 50.0, "2025-10-01"),
+            ("IND-PV-0001-03", "IND-PV-0001", "签约", 50.0, "2021-05-01"),
         ],
     )
-    c.execute(
-        "INSERT INTO chinese_entities(event_id, implementing_entity, is_central_soe) "
-        "VALUES('IND-PV-0001-01','中国电建',1)"
+    c.executemany(
+        "INSERT INTO chinese_entities(event_id, implementing_entity, implementing_entity_en, "
+        "subsidiary_name, subsidiary_name_en, involvement_type, is_central_soe) VALUES(?,?,?,?,?,?,?)",
+        [
+            ("IND-PV-0001-01", "中国电建", "PowerChina", "山东电建", "Shandong Electric", "EPC", 1),
+            ("IND-PV-0001-01", "中国能建", "Energy China", "", "", "投资", 1),
+        ],
     )
-    # excluded 项目的事件不应进 CSV
-    c.execute(
-        "INSERT INTO canonical_projects(id, project_name_en, country_iso, category, excluded) "
-        "VALUES('X','X','IND','光伏',1)"
-    )
-    c.execute(
-        "INSERT INTO project_events(id, canonical_id, project_stage, publish_date) "
-        "VALUES('X-01','X','签约','2024-01')"
-    )
+    # 项目 B：中国境内（基线应排除，但 flat_db=None 时保留）
+    c.execute("INSERT INTO canonical_projects(id, project_name_en, country_iso, category, excluded) "
+              "VALUES('CHN-PV-0002','Solar B','CHN','光伏',0)")
+    c.execute("INSERT INTO project_events(id, canonical_id, project_stage, capacity_mw, publish_date) "
+              "VALUES('CHN-PV-0002-01','CHN-PV-0002','签约',10.0,'2023-03-01')")
+    c.execute("INSERT INTO chinese_entities(event_id, implementing_entity, is_central_soe) "
+              "VALUES('CHN-PV-0002-01','某公司',0)")
+    # 项目 C：excluded=1，永远排除
+    c.execute("INSERT INTO canonical_projects(id, project_name_en, country_iso, category, excluded) "
+              "VALUES('X','X','IND','光伏',1)")
+    c.execute("INSERT INTO project_events(id, canonical_id, project_stage, publish_date) "
+              "VALUES('X-01','X','签约','2024-01')")
     c.commit()
     c.close()
 
+    # projects_flat（仅含基线判定所需列）：A 合格、B 因 CHN 不合格
+    f = sqlite3.connect(flat)
+    f.execute(
+        "CREATE TABLE projects_flat(project_id TEXT PRIMARY KEY, country_iso TEXT, "
+        "first_event_year INTEGER, last_event_year INTEGER, category TEXT, "
+        "primary_entity TEXT, capacity_mw REAL)"
+    )
+    f.executemany(
+        "INSERT INTO projects_flat VALUES(?,?,?,?,?,?,?)",
+        [
+            ("IND-PV-0001", "IND", 2023, 2025, "光伏", "中国电建", 50.0),
+            ("CHN-PV-0002", "CHN", 2023, 2023, "光伏", "某公司", 10.0),
+        ],
+    )
+    f.commit()
+    f.close()
 
-def test_events_csv_one_row_per_event(tmp_path):
-    src = tmp_path / "s.db"
-    out = tmp_path / "events_export.csv"
-    _mk(str(src))
+
+def test_entity_level_rows_with_baseline(tmp_path):
+    src, flat, out = tmp_path / "s.db", tmp_path / "f.db", tmp_path / "events_export.csv"
+    _mk(str(src), str(flat))
+
+    n = events_exporter.export_events_csv(
+        src, [out], flat_db=flat, iso3_to_en={"IND": "India"})
+
+    with open(out, encoding="utf-8-sig", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+        header = rows[0].keys() if rows else []
+
+    # A: E01 两家公司(2 行) + E02 无公司(1 行) = 3；E03(2021) 被过滤；B(CHN) 基线排除；C excluded
+    assert n == 3 and len(rows) == 3
+
+    e01 = [r for r in rows if r["event_id"] == "IND-PV-0001-01"]
+    assert len(e01) == 2
+    pc = next(r for r in e01 if r["entity_cn"] == "中国电建")
+    assert pc["entity_en"] == "PowerChina"
+    assert pc["subsidiary_cn"] == "山东电建" and pc["subsidiary_en"] == "Shandong Electric"
+    assert pc["involvement_type_cn"] == "EPC" and pc["involvement_type_en"] == "EPC"
+    assert pc["is_central_soe"] == "1"
+    assert pc["stage_cn"] == "签约" and pc["stage_en"] == "Signed"
+    assert pc["stage_group_cn"] == "前期" and pc["stage_group_en"] == "Pre-construction"
+    assert pc["year"] == "2023" and pc["month"] == "2023-01" and pc["country_en"] == "India"
+
+    # E02 无公司：实体列全空
+    e02 = next(r for r in rows if r["event_id"] == "IND-PV-0001-02")
+    assert e02["entity_cn"] == "" and e02["entity_en"] == "" and e02["is_central_soe"] == ""
+    assert e02["stage_group_cn"] == "完工"
+
+    # 删除的旧列不存在，新列存在
+    assert "entities" not in header
+    assert "entity_cn" in header and "involvement_type_en" in header
+    # 被过滤/排除的项目均不出现
+    ids = {r["canonical_id"] for r in rows}
+    assert ids == {"IND-PV-0001"}
+
+
+def test_no_flat_db_skips_baseline_only_excluded(tmp_path):
+    """flat_db=None：不做基线，仅排 excluded=1（B 的 CHN 项目会保留）。"""
+    src, flat, out = tmp_path / "s.db", tmp_path / "f.db", tmp_path / "events_export.csv"
+    _mk(str(src), str(flat))
 
     n = events_exporter.export_events_csv(src, [out], iso3_to_en={"IND": "India"})
-    assert n == 2  # excluded 项目的事件被过滤
 
-    with open(out, encoding="utf-8-sig", newline="") as f:
-        rows = list(csv.DictReader(f))
-    assert len(rows) == 2
-
-    r0 = next(r for r in rows if r["event_id"] == "IND-PV-0001-01")
-    assert r0["canonical_id"] == "IND-PV-0001"
-    assert r0["stage_cn"] == "签约" and r0["stage_en"] == "Signed"
-    assert r0["stage_group_cn"] == "前期" and r0["stage_group_en"] == "Pre-construction"
-    assert r0["year"] == "2023" and r0["month"] == "2023-01"
-    assert r0["country_en"] == "India"
-    assert r0["entities"] == "中国电建" and r0["is_central_soe"] == "1"
-
-    r1 = next(r for r in rows if r["event_id"] == "IND-PV-0001-02")
-    assert r1["stage_cn"] == "竣工" and r1["stage_en"] == "Completed"
-    assert r1["stage_group_cn"] == "完工" and r1["stage_group_en"] == "Completed"
-    assert r1["year"] == "2025" and r1["month"] == "2025-10"
-    # 该事件无中方实体 → entities 空、is_central_soe 为 0
-    assert r1["entities"] == "" and r1["is_central_soe"] == "0"
+    with open(out, encoding="utf-8-sig", newline="") as fh:
+        ids = {r["canonical_id"] for r in csv.DictReader(fh)}
+    # A(3 行) + B(1 行) = 4；C 仍排除；E03(2021) 仍按 year 过滤
+    assert n == 4
+    assert ids == {"IND-PV-0001", "CHN-PV-0002"}
