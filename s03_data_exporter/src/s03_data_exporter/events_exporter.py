@@ -81,7 +81,7 @@ def passes_baseline(p: dict) -> bool:
     return True
 
 
-def _eligible_ids(flat_db) -> Optional[set]:
+def _eligible_ids(flat_db: "Optional[Path | str]") -> Optional[set]:
     """读 projects_flat 取通过基线政策的 project_id 集合；flat_db 为 None 返回 None（不做基线）。"""
     if flat_db is None:
         return None
@@ -100,7 +100,7 @@ def _eligible_ids(flat_db) -> Optional[set]:
 def export_events_csv(
     src_db,
     out_paths: list,
-    flat_db=None,
+    flat_db: "Optional[Path | str]" = None,
     iso3_to_en: Optional[dict] = None,
     province_map: Optional[dict] = None,
 ) -> int:

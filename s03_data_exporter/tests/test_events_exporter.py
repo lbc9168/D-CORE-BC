@@ -92,7 +92,7 @@ def _mk(src, flat):
         "INSERT INTO chinese_entities(event_id, implementing_entity, implementing_entity_en, "
         "subsidiary_name, subsidiary_name_en, involvement_type, is_central_soe) VALUES(?,?,?,?,?,?,?)",
         [
-            ("IND-PV-0001-01", "中国电建", "PowerChina", "山东电建", "Shandong Electric", "EPC", 1),
+            ("IND-PV-0001-01", "中国电建", "PowerChina", "山东电建", "Shandong Electric", "EPC总承包", 1),
             ("IND-PV-0001-01", "中国能建", "Energy China", "", "", "投资", 1),
         ],
     )
@@ -148,8 +148,13 @@ def test_entity_level_rows_with_baseline(tmp_path):
     pc = next(r for r in e01 if r["entity_cn"] == "中国电建")
     assert pc["entity_en"] == "PowerChina"
     assert pc["subsidiary_cn"] == "山东电建" and pc["subsidiary_en"] == "Shandong Electric"
-    assert pc["involvement_type_cn"] == "EPC" and pc["involvement_type_en"] == "EPC"
+    # 真实枚举键 → 走查表
+    assert pc["involvement_type_cn"] == "EPC总承包"
+    assert pc["involvement_type_en"] == "EPC General Contractor"
     assert pc["is_central_soe"] == "1"
+    # 非枚举键 → involvement_type_en 兜底回原文
+    ec = next(r for r in e01 if r["entity_cn"] == "中国能建")
+    assert ec["involvement_type_cn"] == "投资" and ec["involvement_type_en"] == "投资"
     assert pc["stage_cn"] == "签约" and pc["stage_en"] == "Signed"
     assert pc["stage_group_cn"] == "前期" and pc["stage_group_en"] == "Pre-construction"
     assert pc["year"] == "2023" and pc["month"] == "2023-01" and pc["country_en"] == "India"
