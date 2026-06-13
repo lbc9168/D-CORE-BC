@@ -200,3 +200,26 @@ def test_canonical_location_assist_blocked_by_capacity_guard(monkeypatch, tmp_pa
     assert is_new is True and cid != "PAK-WD-0001"
     assert calls == []
     conn.close()
+
+
+# ───────────────────── P3 (c)：批内 in-memory 地点归一化接线 ─────────────────────
+
+def test_apply_location_norm_sets_norm_per_country(monkeypatch):
+    import bri_location
+    monkeypatch.setattr(
+        bri_location, "build_location_mapping",
+        lambda grouped, client: {"巴基斯坦": {"达旺德米": "达瓦德密"}},
+    )
+    a = _proj(location="达旺德米")
+    b = _proj(location="达瓦德密")
+    c = _proj(location="达旺德米", country="肯尼亚")   # 别国同名地名不受巴基斯坦映射影响
+    n = dmt._apply_location_norm([a, b, c], client=object())
+    assert n == 1
+    assert a["location_norm"] == "达瓦德密"
+    assert "location_norm" not in b and "location_norm" not in c
+
+
+def test_apply_location_norm_noop_without_client():
+    a = _proj(location="达旺德米")
+    assert dmt._apply_location_norm([a], client=None) == 0
+    assert "location_norm" not in a

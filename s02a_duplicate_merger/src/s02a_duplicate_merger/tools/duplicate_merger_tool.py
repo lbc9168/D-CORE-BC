@@ -33,6 +33,7 @@ _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py")
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
+import bri_location
 import bri_parse
 
 load_dotenv()
@@ -541,6 +542,36 @@ def _infer_location_from_name(
             print(f"  [location 推断] 批次 {i // batch_size + 1} 失败，跳过：{e}")
 
     print(f"  [location 推断] 完成，成功填充 {filled}/{len(targets)} 条")
+
+
+def _apply_location_norm(projects: List[Dict], client) -> int:
+    """批内地点归一化（in-memory）：按国家分组调 bri_location，写 project["location_norm"]。
+
+    让 Signal 6 锚点能命中音译变体；失败仅记日志，锚点回退原 location，不阻塞主流程。
+    返回应用条数。
+    """
+    if client is None:
+        return 0
+    by_country: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
+    for p in projects:
+        loc = _clean(p.get("location", ""))
+        if loc:
+            by_country[p["country"]][loc] += 1
+    grouped = {c: list(d.items()) for c, d in by_country.items() if len(d) >= 2}
+    if not grouped:
+        return 0
+    try:
+        mapping = bri_location.build_location_mapping(grouped, client)
+    except Exception as e:
+        logging.error("批内地点归一化失败，Signal 6 锚点将回退原 location: %s", e)
+        return 0
+    applied = 0
+    for p in projects:
+        norm = mapping.get(p["country"], {}).get(_clean(p.get("location", "")))
+        if norm:
+            p["location_norm"] = norm
+            applied += 1
+    return applied
 
 
 def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, float]]:
@@ -1571,6 +1602,11 @@ class DuplicateMergerTool:
         projects = [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"]
         non_projects = [p for p in all_projects if p.get("record_type", "具体项目") != "具体项目"]
         print(f"  具体项目: {len(projects)} 条，非项目记录（设备订单/一般合作）: {len(non_projects)} 条")
+
+        # ── 批内地点归一化（in-memory）：供 Signal 6 锚点与 canonical 地点辅助使用 ──
+        n_norm = _apply_location_norm(projects, client)
+        if n_norm:
+            print(f"  [地点归一化] in-memory 应用 {n_norm} 条 location_norm")
 
         # ── 阶段二：候选筛查（仅针对具体项目）──────────────────────────────
         print(f"\n>>> [阶段二] 候选重复筛查...")

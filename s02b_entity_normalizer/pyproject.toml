@@ -13,6 +13,7 @@ dependencies = [
 [project.scripts]
 s02b_entity_normalizer = "s02b_entity_normalizer.entity_normalizer:run"
 normalize_entities     = "s02b_entity_normalizer.entity_normalizer:run"
+normalize_locations    = "s02b_entity_normalizer.location_normalizer:run"
 
 [build-system]
 requires = ["hatchling"]

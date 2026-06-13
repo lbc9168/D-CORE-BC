@@ -66,6 +66,7 @@ class PipelineConfig:
     # ── 跑哪些段（标志位；与原 PipelineState 同名同义）──
     skip_s01a:              bool = False   # True=跳过爬虫，用已有 raw_news.db
     run_entity_normalize:   bool = True    # False=跳过 s02b
+    run_location_normalize: bool = True    # False=跳过地点归一化（s02b 第二步，写 location_norm）
     run_cross_verification: bool = False   # True=跑 s02c（预留段）
     run_export:             bool = False   # True=跑 s03 导出（预留段）
 
@@ -105,6 +106,14 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> None:
         _run_s02b(db_path=cfg.db_path)
     else:
         print("\n[Pipeline] ⏭  阶段二B：跳过实体归一化")
+
+    # 阶段二B-2：地点归一化（除非关闭）
+    if cfg.run_location_normalize:
+        from s02b_entity_normalizer.location_normalizer import run as _run_locnorm
+        _print_stage_header("2B-2", "项目地点归一化（location_norm）")
+        _run_locnorm(db_path=cfg.db_path)
+    else:
+        print("\n[Pipeline] ⏭  阶段二B-2：跳过地点归一化")
 
     # 阶段二C：交叉验证（预留段，默认关）
     if cfg.run_cross_verification:
