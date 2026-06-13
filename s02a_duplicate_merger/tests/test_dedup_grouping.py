@@ -11,7 +11,6 @@ if str(_root) not in sys.path:
 import s02a_duplicate_merger.tools.duplicate_merger_tool as dmt
 from s02a_duplicate_merger.tools.duplicate_merger_tool import (
     _deduplicate_projects, _find_duplicate_candidates, _init_db, _write_to_db,
-    _find_or_create_canonical,
 )
 
 
@@ -132,6 +131,17 @@ def test_location_anchor_prefers_location_norm():
     assert len(_find_duplicate_candidates([a, b])) == 1
 
 
+def test_location_anchor_requires_min_capacity_and_both_values():
+    """容量缺失或低于 10MW 门槛 → Signal 6 不触发。"""
+    a = _proj(project_name="达瓦德密风电项目", category="风电", capacity_mw="",
+              location="达瓦德密", source_links=["http://a"])
+    b = _proj(project_name="信德绿色能源二期", category="风电", capacity_mw="52",
+              location="达瓦德密", source_links=["http://b"])
+    assert _find_duplicate_candidates([a, b]) == []
+    a["capacity_mw"], b["capacity_mw"] = "5", "5.2"   # 低于 LOCATION_ANCHOR_MIN_MW=10
+    assert _find_duplicate_candidates([a, b]) == []
+
+
 # ───────────────────── P3 (b)：跨批次 canonical 匹配的地点辅助 ─────────────────────
 
 def _seed_canonical(conn, cid="PAK-WD-0001", name="信德风能项目", loc="达瓦德密", cap=50.0):
@@ -171,6 +181,21 @@ def test_canonical_no_location_match_creates_new(monkeypatch, tmp_path):
                         lambda *args, **kw: calls.append(1) or True)
     project = _full_proj(project_name="俾路支风电场", category="风电", capacity_mw="52",
                          location="俾路支", location_norm="俾路支")
+    cid, is_new = dmt._find_or_create_canonical(conn, project, client=object(), config=None)
+    assert is_new is True and cid != "PAK-WD-0001"
+    assert calls == []
+    conn.close()
+
+
+def test_canonical_location_assist_blocked_by_capacity_guard(monkeypatch, tmp_path):
+    """规范地名相同但容量差 >20% → 容量守卫拦截，不触 LLM，新建 canonical。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    _seed_canonical(conn)  # 既有 canonical 容量 50MW
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_canonical",
+                        lambda *args, **kw: calls.append(1) or True)
+    project = _full_proj(project_name="达瓦德密风电场", category="风电", capacity_mw="500",
+                         location="达瓦德密", location_norm="达瓦德密")
     cid, is_new = dmt._find_or_create_canonical(conn, project, client=object(), config=None)
     assert is_new is True and cid != "PAK-WD-0001"
     assert calls == []
