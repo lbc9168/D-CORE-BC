@@ -54,6 +54,7 @@ def find_location_candidates(names_with_counts: List[Tuple[str, int]]) -> List[D
             score_partial = fuzz.partial_ratio(a, b)
             if score_token >= LOC_TOKEN_THRESHOLD:
                 signals.append(f"token_sort={score_token:.0f}")
+            # 地名短、嵌套少，故省略 entity_normalizer 的长度比护栏（partial 过宽由 LLM 确认兜底）
             if score_partial >= LOC_PARTIAL_THRESHOLD:
                 signals.append(f"partial={score_partial:.0f}")
             # 信号3 仅在信号1/2 均未触发时运行，专门捕获音译逐字变体
