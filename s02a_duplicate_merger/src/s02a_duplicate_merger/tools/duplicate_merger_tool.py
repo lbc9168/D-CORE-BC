@@ -3,7 +3,7 @@
 
 四阶段处理：
 1. 候选筛查：Python 端 fuzzy matching 找潜在跨源重复对
-2. LLM 确认：Gemini 确认是否为同一项目（同阶段）
+2. LLM 确认：Gemini 确认是否为同一物理项目（阶段可不同）
 3. 字段仲裁：LLM 解决冲突字段，合并实体列表
 4. SQLite 写入：规范化三表结构（canonical_projects / project_events / chinese_entities）
 """
@@ -538,7 +538,7 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
     找出潜在的跨源重复对，采用多信号 OR 逻辑以最大化召回率。
 
     硬过滤（必须同时满足）：
-      - 相同国家 + 能源类型 + 项目阶段（由预分组保证，无需循环内检查）
+      - 相同国家 + 能源类型（由预分组保证，无需循环内检查）
       - 不共享信源链接
 
     软信号（满足任一即送 LLM 确认）：
@@ -557,10 +557,11 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
     """
     candidates: List[Tuple[int, int, float]] = []
 
-    # 预分组：仅在相同国家 + 类别 + 阶段的组内两两比较（O(k²) 代替 O(n²)）
+    # 预分组：仅在相同国家 + 类别的组内两两比较（O(k²) 代替 O(n²)）
+    # P3 (a)：去掉 project_stage 维度——同一物理项目的签约/开工/竣工记录必须能进同一候选组
     groups: Dict[Tuple, List[int]] = defaultdict(list)
     for idx, p in enumerate(projects):
-        groups[(p["country"], p["category"], p["project_stage"])].append(idx)
+        groups[(p["country"], p["category"])].append(idx)
 
     for group_indices in groups.values():
         ng = len(group_indices)
@@ -672,11 +673,11 @@ def _llm_confirm(
     a: Dict,
     b: Dict,
 ) -> bool:
-    """调用 Gemini 确认两条记录是否为同一项目（同阶段）。"""
+    """调用 Gemini 确认两条记录是否为同一物理项目（阶段可不同）。"""
     src_a = a["source_links"][0] if a["source_links"] else "未知"
     src_b = b["source_links"][0] if b["source_links"] else "未知"
     prompt = f"""
-请判断以下两条记录是否描述同一个能源项目（同一工程、同一阶段）。
+请判断以下两条记录是否描述同一个能源项目（同一物理工程；项目阶段可以不同——签约/开工/竣工/投运属于同一项目生命周期的不同阶段事件）。
 
 记录A：
 - 项目名称（中）：{a['project_name']}
@@ -699,12 +700,13 @@ def _llm_confirm(
 - 信源：{src_b}
 
 判断依据（按优先级）：
-1. 如果两个项目均没有“location”和“capacity_mw”信息 → 不匹配
+1. 如果两个项目均没有”location”和”capacity_mw”信息 → 不匹配
 2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
     2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
 3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
 4. 装机容量差异较大（>10%）→ 倾向不匹配
-5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略"项目""电站"等后缀）而不同，不应视为不同项目的依据
+5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略”项目””电站”等后缀）而不同，不应视为不同项目的依据
+6. 两条记录的项目阶段不同，不构成”不是同一项目”的依据
 
 
 严格返回 JSON（无其他内容）：
@@ -954,13 +956,27 @@ def _deduplicate_projects(
         groups[find(i)].append(i)
 
     result: List[Dict] = []
-    for indices in groups.values():
+    for root, indices in groups.items():
         if len(indices) == 1:
             result.append(projects[indices[0]])
-        else:
-            recs = [projects[i] for i in indices]
-            print(f"  合并 {len(recs)} 条 → [{recs[0]['project_name'][:30]}...]")
-            result.append(_merge_group(client, config, recs))
+            continue
+        # 跨阶段同项目：按 stage 分摊，各阶段内部合并为一条，全部打共享 gid
+        # 落库语义 = 一条 canonical + 每阶段一条 event（_write_to_db 按 gid 复用 canonical_id）
+        by_stage: Dict[str, List[int]] = defaultdict(list)
+        for i in indices:
+            by_stage[projects[i]["project_stage"]].append(i)
+        gid = f"grp-{root}"
+        for stage_indices in by_stage.values():
+            recs = [projects[i] for i in stage_indices]
+            if len(recs) == 1:
+                merged_rec = recs[0]
+            else:
+                print(f"  合并 {len(recs)} 条 → [{recs[0]['project_name'][:30]}...]")
+                merged_rec = _merge_group(client, config, recs)
+            if len(by_stage) > 1:
+                merged_rec = dict(merged_rec)
+                merged_rec["dedup_group_id"] = gid
+            result.append(merged_rec)
 
     return result
 
@@ -1141,9 +1157,18 @@ def _write_to_db(
         key = (row[3], row[4])  # (country_iso, category)
         canonical_cache.setdefault(key, []).append((row[0], row[1], row[2]))
 
+    # 同一 dedup_group_id（去重阶段确认的跨阶段同项目）强制共用 canonical，跳过名称匹配
+    group_canonical: Dict[str, str] = {}
+
     for project in projects:
         # ── canonical_projects ──────────────────────────────────────────────
-        canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
+        gid = project.get("dedup_group_id")
+        if gid and gid in group_canonical:
+            canonical_id, is_new = group_canonical[gid], False
+        else:
+            canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
+            if gid:
+                group_canonical[gid] = canonical_id
         if is_new:
             cnt["canonical_new"] += 1
 
