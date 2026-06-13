@@ -3,7 +3,9 @@
 > 创建：2026-06-02；**更新：2026-06-10**（C1 重录入✅、C2 dry-run✅、E 部分决策已拍板）。
 > 上游：`docs/rules_and_plans/v2.1_plan.md`（roadmap）、`docs/status/review.md`（P2/P2.1 状态）、`docs/changes/2026-W23a.md`（C1/C2 实跑记录）。
 >
-> **当前主线（2026-06-10 用户拍板）**：P3（去重分组+地点归一化，待设计）→ C2 真跑落库（用户自做，先复看 dry-run CSV）→ s02a canonical 重建 → s03 导出 → s04。**P4 不做**（改动过大，搁置）。
+> **当前主线（2026-06-10 用户拍板；2026-06-13 P3 代码完成更新）**：~~P3（去重分组+地点归一化，待设计）~~ **P3 代码✅（2026-06-13，实跑 GATED 并入重建 runbook）** → C2 真跑落库（用户自做，先复看 dry-run CSV）→ s02a canonical 重建（届时自动走 P3 新去重逻辑）→ s03 导出 → s04。**P4 不做**（改动过大，搁置）。
+>
+> **P3 代码完成（2026-06-13，6 commit `62b08cf..4b8264f`，subagent-driven）**：(a) 分组去 stage + 跨阶段分摊合并 + dedup_group_id；(b) Signal 6 地点/容量锚点 + canonical 地点辅助通道 + `location_norm` 列；(c) 新建根 `bri_location.py` + s02b `normalize_locations` CLI + s02a 批内 in-memory 归一；顺手 `LLM_CONFIRM_MODEL` env 化。计划 `docs/superpowers/plans/2026-06-13-v2.1-P3-dedup-location.md`，日志 + **Phase B 实跑 runbook** `docs/changes/2026-W24b.md`。测试 s02a 30 / 根 101 / s03 13 全绿。**实跑落库 GATED（用户在主工作区配合 C2/重建一次性做，见 W24b runbook）**。
 
 ---
 
@@ -42,7 +44,7 @@
 
 | 子项目 | 做什么 | 是否动"提取层" | 是否动"去重/canonical 层" |
 |---|---|---|---|
-| **P3 · 去重分组 + 地点归一化**（从 v2.0 S5 推迟） | s02a 侧：分组去掉 stage 维度、地点/容量硬锚点防误并、地点音译归一化、实体归一化副作用（S5 草稿 Task2-5，见 `sessions/S5_dedup_location.md`） | ❌ 不动 | ✅ 动（s02a/canonical） |
+| **P3 · 去重分组 + 地点归一化**（从 v2.0 S5 推迟） | s02a 侧：分组去掉 stage 维度、地点/容量硬锚点防误并、地点音译归一化、实体归一化副作用（S5 草稿 Task2-5，见 `sessions/S5_dedup_location.md`） | ❌ 不动 | ✅ **代码已完成（2026-06-13，6 commit `62b08cf..4b8264f`）；实跑 GATED**（计划 `docs/superpowers/plans/2026-06-13-v2.1-P3-dedup-location.md`，日志+runbook `docs/changes/2026-W24b.md`） |
 | **P4 · 外部信源换源**（可选/最后） | s02b/s02c 侧：E.3 把 GDELT 换成证券/官方公告源做交叉验证 | ❌ 不动 | ❌ 不动（下游验证层） |
 | **P5 · 去 crewAI 薄壳**（机械/独立） | 清理 s01a/s02a/**s02c**（roadmap 原写"s02b"为笔误）的 crewAI 冗余薄壳（删 crew.py + yaml、工具去 BaseTool、main 改纯 Python、pyproject 移除 crewai）+ pipeline/flow.py Flow→纯 Python。**纯机械重构，不改任何数据逻辑/输出。** | ❌ 不动 | ❌ 不动 | ✅ **已完成（2026-06-02）** |
 

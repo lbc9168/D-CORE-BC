@@ -1,5 +1,7 @@
 # S5 实施计划：去重分组改造 + 地点归一化
 
+> ✅ **Task 2-5 已由 v2.1 P3 实施（2026-06-13）**：实施计划 `docs/superpowers/plans/2026-06-13-v2.1-P3-dedup-location.md`（含设计更新：跨阶段分摊合并 + dedup_group_id、地点归一化拆两个消费端、存量回溯被"P3 后全量重建"化解），实跑 runbook 见 `docs/changes/2026-W24b.md`。本文档 Task 2-5 为当时的起草稿，留档。
+>
 > ⚠️ **范围调整（2026-05-24）**：v2.0 **只执行 Task 1（S5d：修 `_update_db` bug）**。Task 2-5（(a) 分组去 stage、(b) 锚点、(c) 地点归一化、存量重去重）**全部推迟到 v2.1**，与 agent 重构一起做（本文档 Task 2-5 即 v2.1 起草稿）。原因：与 v2.1 的 agent/复核重构同属一摊、最易被覆盖，且数据操作高风险+费 LLM。
 >
 > 上级计划：[v2_plan.md](../v2_plan.md) §三 S5
