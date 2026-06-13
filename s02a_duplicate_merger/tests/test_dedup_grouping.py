@@ -1,4 +1,6 @@
-"""P3 (a)：去重分组去掉 stage 维度；跨阶段同项目 → 按阶段分摊 + dedup_group_id 锚定同一 canonical。"""
+"""P3 (a)：去重分组去掉 stage 维度；跨阶段同项目 → 按阶段分摊 + dedup_group_id 锚定同一 canonical。
+P3 (b)：Signal 6 地点/容量硬锚点 + 跨批次 canonical 匹配地点辅助通道 + location_norm 列。
+"""
 import sys
 from pathlib import Path
 
@@ -9,6 +11,7 @@ if str(_root) not in sys.path:
 import s02a_duplicate_merger.tools.duplicate_merger_tool as dmt
 from s02a_duplicate_merger.tools.duplicate_merger_tool import (
     _deduplicate_projects, _find_duplicate_candidates, _init_db, _write_to_db,
+    _find_or_create_canonical,
 )
 
 
@@ -80,4 +83,95 @@ def test_write_to_db_same_gid_shares_canonical(tmp_path):
     cnt = _write_to_db(conn, [p1, p2])  # client=None 降级路径，零 LLM
     assert cnt["canonical_new"] == 1
     assert cnt["event_new"] == 2
+    conn.close()
+
+
+def test_mixed_stage_group_two_outputs(monkeypatch):
+    """3 条记录：2 条签约同名 + 1 条开工同名 → 输出 2 条（签约合并为 1）均带相同 gid。"""
+    a = _proj(project_name="古杜光伏电站", project_stage="签约", capacity_mw="100", source_links=["http://a"])
+    b = _proj(project_name="古杜光伏电站", project_stage="签约", capacity_mw="100", source_links=["http://b"])
+    c = _proj(project_name="古杜光伏电站", project_stage="开工",  capacity_mw="100", source_links=["http://c"])
+    # candidates 由调用者传入：(0,1) 同名同阶段；(0,2) 跨阶段
+    monkeypatch.setattr(dmt, "_merge_group", lambda cl, cfg, recs: dict(recs[0]))
+    merged = _deduplicate_projects(None, None, [a, b, c], [(0, 1, 100.0), (0, 2, 100.0)])
+    assert len(merged) == 2
+    gids = [m.get("dedup_group_id") for m in merged]
+    assert gids[0] is not None and gids[0] == gids[1]
+    stages = {m["project_stage"] for m in merged}
+    assert stages == {"签约", "开工"}
+
+
+# ───────────────────────── P3 (b)：Signal 6 地点/容量锚点 ─────────────────────────
+
+def test_location_capacity_anchor_creates_candidate():
+    """名称完全不相似 + 同地名 + 容量 15% 内 → Signal 6 锚点送 LLM 候选。"""
+    a = _proj(project_name="达瓦德密风电项目", category="风电", capacity_mw="50",
+              location="达瓦德密", source_links=["http://a"])
+    b = _proj(project_name="信德绿色能源二期", category="风电", capacity_mw="52",
+              location="达瓦德密", source_links=["http://b"])
+    assert len(_find_duplicate_candidates([a, b])) == 1
+
+
+def test_location_anchor_requires_close_capacity():
+    """同地名但容量差 10 倍 → 不成候选（防同省项目互串）。"""
+    a = _proj(project_name="达瓦德密风电项目", category="风电", capacity_mw="50",
+              location="达瓦德密", source_links=["http://a"])
+    b = _proj(project_name="信德绿色能源二期", category="风电", capacity_mw="500",
+              location="达瓦德密", source_links=["http://b"])
+    assert _find_duplicate_candidates([a, b]) == []
+
+
+def test_location_anchor_prefers_location_norm():
+    """原始地名是音译变体（不相等）→ 锚不上；写入 location_norm 后 → 锚上。"""
+    a = _proj(project_name="达瓦德密风电项目", category="风电", capacity_mw="50",
+              location="达瓦德密", source_links=["http://a"])
+    b = _proj(project_name="信德绿色能源二期", category="风电", capacity_mw="52",
+              location="达旺德米", source_links=["http://b"])
+    assert _find_duplicate_candidates([a, b]) == []
+    a["location_norm"] = b["location_norm"] = "达瓦德密"
+    assert len(_find_duplicate_candidates([a, b])) == 1
+
+
+# ───────────────────── P3 (b)：跨批次 canonical 匹配的地点辅助 ─────────────────────
+
+def _seed_canonical(conn, cid="PAK-WD-0001", name="信德风能项目", loc="达瓦德密", cap=50.0):
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, country, country_iso, category, location, location_norm) "
+        "VALUES (?, ?, '巴基斯坦', 'PAK', '风电', ?, ?)",
+        (cid, name, loc, loc),
+    )
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw) VALUES (?, ?, '在建', ?)",
+        (f"{cid}-01", cid, cap),
+    )
+    conn.commit()
+
+
+def test_canonical_location_assist_sends_to_llm(monkeypatch, tmp_path):
+    """名称分 <70 但规范地名相同 + 容量守卫通过 → 送 LLM 确认；确认后匹配既有 canonical。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    _seed_canonical(conn)
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_canonical",
+                        lambda *args, **kw: calls.append(1) or True)
+    project = _full_proj(project_name="达瓦德密风电场", category="风电", capacity_mw="52",
+                         location="达瓦德密", location_norm="达瓦德密")
+    cid, is_new = dmt._find_or_create_canonical(conn, project, client=object(), config=None)
+    assert cid == "PAK-WD-0001" and is_new is False
+    assert len(calls) == 1
+    conn.close()
+
+
+def test_canonical_no_location_match_creates_new(monkeypatch, tmp_path):
+    """名称分 <70 且地点不同 → 不触 LLM，直接新建 canonical。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    _seed_canonical(conn)
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_canonical",
+                        lambda *args, **kw: calls.append(1) or True)
+    project = _full_proj(project_name="俾路支风电场", category="风电", capacity_mw="52",
+                         location="俾路支", location_norm="俾路支")
+    cid, is_new = dmt._find_or_create_canonical(conn, project, client=object(), config=None)
+    assert is_new is True and cid != "PAK-WD-0001"
+    assert calls == []
     conn.close()

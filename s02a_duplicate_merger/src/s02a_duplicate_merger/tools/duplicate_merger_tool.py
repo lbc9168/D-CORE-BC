@@ -54,8 +54,11 @@ CAPACITY_BROAD_TOLERANCE = 0.15  # Signal 5 容量"接近"判定（15% 以内）
 CANONICAL_AUTO_MATCH_SCORE = 97  # 跨批次：名称 ≥ 此分 → 自动匹配，无需 LLM
 CANONICAL_LLM_MIN_SCORE    = 70  # 跨批次：[70, 97) → LLM 确认是否匹配已有 canonical
 CANONICAL_CAP_GUARD_TOLERANCE = 0.20  # ≥97分自动匹配时的容量安全检查阈值（20%）
+LOCATION_ANCHOR_CAP_TOLERANCE = 0.15  # Signal 6 容量"接近"判定（15% 以内）
+LOCATION_ANCHOR_MIN_MW = 10           # Signal 6 最低容量门槛（地点相等已是强约束，可低于 Signal 4 的 50）
 GEMINI_MODEL      = "gemini-2.5-flash-lite"  # 字段仲裁等非关键 LLM 调用
-LLM_CONFIRM_MODEL = "gemini-3-flash-preview"  # 项目合并确认（可改为 gemini-3-flash-preview 提升准确率）
+# 项目合并确认模型：默认稳定版；要换更强模型用环境变量覆盖，不改代码（P3 收口，原写死 preview 版）
+LLM_CONFIRM_MODEL = os.getenv("S02A_LLM_CONFIRM_MODEL", "gemini-2.5-flash-lite")
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
 
@@ -96,6 +99,7 @@ CREATE TABLE IF NOT EXISTS canonical_projects (
     bri_country      TEXT,
     ldc              TEXT,
     location         TEXT,
+    location_norm    TEXT,               -- 规范地名（音译归一；NULL=未归一，消费方回退 location）
     category         TEXT,
     excluded         INTEGER DEFAULT 0,   -- 1=非可再生能源等，排除出统计
     excluded_reason  TEXT,
@@ -205,6 +209,7 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE non_project_records ADD COLUMN subcontract_amount_raw TEXT",
         "ALTER TABLE canonical_projects ADD COLUMN excluded INTEGER DEFAULT 0",
         "ALTER TABLE canonical_projects ADD COLUMN excluded_reason TEXT",
+        "ALTER TABLE canonical_projects ADD COLUMN location_norm TEXT",
     ]:
         try:
             conn.execute(col_def)
@@ -478,6 +483,11 @@ def _entity_overlap(a: Dict, b: Dict) -> bool:
     return bool(ents_a & ents_b)
 
 
+def _norm_location(p: Dict) -> str:
+    """取项目的规范地名：location_norm 优先，回退原 location。"""
+    return _clean(p.get("location_norm", "")) or _clean(p.get("location", ""))
+
+
 def _infer_location_from_name(
     client: genai.Client,
     config: types.GenerateContentConfig,
@@ -547,11 +557,13 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
       - Signal 4（跨语言容量信道）：容量在 1% 误差内且 ≥ 0.5MW
         适用于翻译机制加入前的历史数据：一方以英文作 project_name，
         另一方以中文，名称模糊得分极低（5~30），但容量精确匹配。
+      - Signal 6（地点/容量硬锚点）：所有名称/实体/容量信号均未命中时，
+        规范地名相同（音译归一后）+ 容量 15% 以内 → 锚定候选。
 
     容量豁免：
       - 任一名称信号得分 ≥ CAPACITY_BYPASS_SCORE 时跳过容量检查
         （名称已高度吻合，容量差异由 LLM 判断）
-      - Signal 4 路径已在触发时完成容量验证，不再重复检查
+      - Signal 4/5/6 路径已在触发时完成容量验证，不再重复检查
 
     返回 (i, j, best_score)，best_score 用于高分直接确认判断。
     """
@@ -621,11 +633,32 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
                                 f"(name={best_score})"
                             )
 
+                # ── Signal 6（P3b 地点/容量硬锚点）：名称信号全部未命中的最后防线 ──
+                # 音译归一后的同地名 + 容量接近 → 候选（如 达瓦德密 vs 达旺德米 的同一风电场）
+                location_boost = False
                 if not name_ok and not entity_boost and not cross_lang_boost and not broad_llm_boost:
+                    loc_a, loc_b = _norm_location(a), _norm_location(b)
+                    if loc_a and len(loc_a) >= 2 and loc_a == loc_b:
+                        cap_a = _parse_capacity(a.get("capacity_mw"))
+                        cap_b = _parse_capacity(b.get("capacity_mw"))
+                        if (
+                            cap_a and cap_b
+                            and cap_a >= LOCATION_ANCHOR_MIN_MW
+                            and cap_b >= LOCATION_ANCHOR_MIN_MW
+                            and abs(cap_a - cap_b) / max(cap_a, cap_b) <= LOCATION_ANCHOR_CAP_TOLERANCE
+                        ):
+                            location_boost = True
+                            print(
+                                f"  [Signal 6] 地点锚点候选: "
+                                f"[{a['project_name'][:20]}] vs [{b['project_name'][:20]}] "
+                                f"(location={loc_a})"
+                            )
+
+                if not name_ok and not entity_boost and not cross_lang_boost and not broad_llm_boost and not location_boost:
                     continue
 
-                # ── 容量检查（名称高度相似时豁免；Signal 4/5 路径已验证容量）
-                if not cross_lang_boost and not broad_llm_boost and best_score < CAPACITY_BYPASS_SCORE:
+                # ── 容量检查（名称高度相似时豁免；Signal 4/5/6 路径已验证容量）
+                if not cross_lang_boost and not broad_llm_boost and not location_boost and best_score < CAPACITY_BYPASS_SCORE:
                     cap_a = _parse_capacity(a["capacity_mw"])
                     cap_b = _parse_capacity(b["capacity_mw"])
                     if cap_a and cap_b and cap_a > 0 and cap_b > 0:
@@ -700,13 +733,13 @@ def _llm_confirm(
 - 信源：{src_b}
 
 判断依据（按优先级）：
-1. 如果两个项目均没有”location”和”capacity_mw”信息 → 不匹配
+1. 如果两个项目均没有“location”和“capacity_mw”信息 → 不匹配
 2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
     2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
 3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
 4. 装机容量差异较大（>10%）→ 倾向不匹配
-5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略”项目””电站”等后缀）而不同，不应视为不同项目的依据
-6. 两条记录的项目阶段不同，不构成”不是同一项目”的依据
+5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略“项目”“电站”等后缀）而不同，不应视为不同项目的依据
+6. 两条记录的项目阶段不同，不构成“不是同一项目”的依据
 
 
 严格返回 JSON（无其他内容）：
@@ -760,7 +793,7 @@ def _llm_confirm_canonical(
 - 能源类型：{project['category']}，装机容量（代表值）：{db_capacity or '未知'} MW
 
 判断依据（按优先级）：
-1. 如果两个项目均没有”location”和”capacity_mw”信息 → 不匹配
+1. 如果两个项目均没有“location”和“capacity_mw”信息 → 不匹配
 2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
     2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
 3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
@@ -1038,6 +1071,7 @@ def _find_or_create_canonical(
       score ≥ CANONICAL_AUTO_MATCH_SCORE (97) → 自动匹配（容量守卫：差异 > 20% 且有 LLM 时降级确认）
       CANONICAL_LLM_MIN_SCORE (70) ≤ score < 97 且 client 非空 → LLM 确认
       client 为空时降级：score ≥ FUZZY_THRESHOLD (85) → 自动匹配
+      地点辅助（P3b）：score < 70 但规范地名相同 + 容量守卫通过 → 降门槛送 LLM 确认
       其余 → 新建
 
     返回 (canonical_id, is_new)。
@@ -1051,13 +1085,15 @@ def _find_or_create_canonical(
         rows = canonical_cache.get((iso, cat), [])
     else:
         rows = conn.execute(
-            "SELECT id, project_name, project_name_en FROM canonical_projects WHERE country_iso = ? AND category = ?",
+            "SELECT id, project_name, project_name_en, "
+            "COALESCE(NULLIF(location_norm, ''), location, '') "
+            "FROM canonical_projects WHERE country_iso = ? AND category = ?",
             (iso, cat),
         ).fetchall()
 
     best_id: Optional[str] = None
     best_score = 0
-    for row_id, row_name, row_name_en in rows:
+    for row_id, row_name, row_name_en, _row_loc in rows:
         score = fuzz.token_sort_ratio(name, row_name or "")
         if incoming_en and row_name:
             score = max(score, fuzz.token_sort_ratio(incoming_en, row_name))
@@ -1069,8 +1105,22 @@ def _find_or_create_canonical(
         if score >= CANONICAL_LLM_MIN_SCORE and score > best_score:
             best_id, best_score = row_id, score
 
+    # ── P3b 地点辅助：名称分不足 70 时，同规范地名 + 容量守卫通过 → 仍送 LLM 确认 ──
+    # 覆盖跨批次音译变体/异名同项目（名称分可能 <20，加权救不回，走独立通道）
+    loc_assist = False
+    incoming_loc = _norm_location(project)
+    if best_id is None and client is not None and len(incoming_loc) >= 2:
+        loc_rows = [r for r in rows if (r[3] or "") == incoming_loc]
+        if loc_rows:
+            cand = max(loc_rows, key=lambda r: fuzz.token_sort_ratio(name, r[1] or ""))
+            if not _capacity_guard(conn, cand[0], project):
+                best_id = cand[0]
+                best_score = fuzz.token_sort_ratio(name, cand[1] or "")
+                loc_assist = True
+                print(f"  [地点辅助] {best_id} 同规范地名「{incoming_loc}」，降门槛送 LLM (score={best_score})")
+
     if best_id:
-        if best_score >= CANONICAL_AUTO_MATCH_SCORE:
+        if best_score >= CANONICAL_AUTO_MATCH_SCORE and not loc_assist:
             if _capacity_guard(conn, best_id, project) and client is not None:
                 # 容量差异大，高分名称不足以自动匹配 → 降级 LLM 确认
                 print(
@@ -1082,7 +1132,7 @@ def _find_or_create_canonical(
                 # 高度相似且容量无异常，直接匹配
                 return best_id, False
 
-        if best_id and client is not None and best_score >= CANONICAL_LLM_MIN_SCORE:
+        if best_id and client is not None and (best_score >= CANONICAL_LLM_MIN_SCORE or loc_assist):
             # LLM 确认（含：70-97 原有路径 + 被容量守卫降级的 ≥97 路径）
             print(
                 f"  [LLM canonical 核验] {best_id} vs "
@@ -1123,20 +1173,22 @@ def _find_or_create_canonical(
     conn.execute(
         """INSERT INTO canonical_projects
            (id, project_name, project_name_en, name_en_quality,
-            country, country_iso, bri_country, ldc, location, category, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+            country, country_iso, bri_country, ldc, location, location_norm, category, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
         (
             new_id, name, name_en,
             project.get("name_en_quality", "ai_translated"),
             project["country"], iso,
             project["bri_country"], project["ldc"],
-            project["location"], cat,
+            project["location"], project.get("location_norm", ""), cat,
             datetime.now().isoformat(),
         ),
     )
     # 更新内存缓存，使后续项目能匹配到此次新建的 canonical
     if canonical_cache is not None:
-        canonical_cache.setdefault((iso, cat), []).append((new_id, name, name_en))
+        canonical_cache.setdefault((iso, cat), []).append(
+            (new_id, name, name_en, _norm_location(project))
+        )
     return new_id, True
 
 
@@ -1152,12 +1204,14 @@ def _write_to_db(
     # 预加载所有 canonical_projects 到内存，避免逐项 SQL 查询
     canonical_cache: Dict[Tuple[str, str], List] = {}
     for row in conn.execute(
-        "SELECT id, project_name, project_name_en, country_iso, category FROM canonical_projects"
+        "SELECT id, project_name, project_name_en, country_iso, category, "
+        "COALESCE(NULLIF(location_norm, ''), location, '') FROM canonical_projects"
     ).fetchall():
         key = (row[3], row[4])  # (country_iso, category)
-        canonical_cache.setdefault(key, []).append((row[0], row[1], row[2]))
+        canonical_cache.setdefault(key, []).append((row[0], row[1], row[2], row[5]))
 
     # 同一 dedup_group_id（去重阶段确认的跨阶段同项目）强制共用 canonical，跳过名称匹配
+    # gid 仅在单次运行内有效；跨批次低名称分场景由 _find_or_create_canonical 的地点辅助通道兜底
     group_canonical: Dict[str, str] = {}
 
     for project in projects:
