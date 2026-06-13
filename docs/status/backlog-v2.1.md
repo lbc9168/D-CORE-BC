@@ -67,3 +67,27 @@
 - P3 完成后：重跑 s02a 一次 → 最终 canonical → s03 导出 → s04。
 
 若优先**省钱/省返工**且信任现有 eval+小样本信号，则**等 P3 之后一次性跑全部**也合理——代价是延后全量验证。**这是成本/风险偏好题，待用户定。**
+
+---
+
+## F. 最后一遍带原文 AI 复核（设计草案，2026-06-13；待 C2/重建之后建）
+
+> 起因：C2 dry-run 把 4,357 条标为 `low_confidence_field` 入队。详拆后发现——**约 90% 没有具体建议值**（critic 只标"可疑"给不出修正），且部分"建议"套用反而更糟（involvement →Unknown 降级、project_name 张冠李戴）。真正可操作的高价值子集很小。决策：**本轮不手工复核**，改为打 severity 标记 + 留到一个独立的"带原文 AI 复核"步骤统一处理。
+
+### confidence 的真实语义（看 review/critic.py 确认）
+- **不是计算值，是 critic LLM 自报的数**（Verdict.confidence，pydantic 仅校验 ∈[0,1]）。
+- 整个 prompt **只有 exclude 一处校准**（critic.py:57「确定该排除 1.0；存疑 <1.0」）；字段纠正类 confidence **无任何指引** → 未校准的模型"感觉"。
+- 推论：`conf=1` ≠ 改动可信；如 1,846 条 capacity 是 conf=1 但无建议值（模型自信"可疑"却给不出数）。**当软信号，别当概率。**
+
+### severity 标记（与 confidence 正交，确定性算，见 scripts/oneoff/output/tag_severity.py）
+- **severity = 若 critic 说得对、后果多大**（看字段+方向）；**confidence = 说对的可能性**（LLM 自报）。两轴**不可合并**——低 conf + 高 severity（如"可能该排除的非 RE"）正是最该让第二遍带原文重看的，合并会把它埋掉。confidence 只在**低 severity 端**强化"忽略"。
+- 规则：**高**=category 改成非 RE/exclude；**中**=category 任何类别挑战（含无建议）/involvement 真·角色换角色（非→Unknown）/capacity 有建议且≥30%变/project_name 非张冠李戴真改；**低**=其余（capacity 无建议或小变、involvement →Unknown 或无建议、project_name 疑似张冠李戴）。
+- C2 实际分布：**高 1 / 中 854 / 低 3,502** → 最后一遍只扫**高+中 = 855 条**，低的 3,502 维持原值。交叉表证实正交：中 severity 里有 140 条 conf<0.9（最该二次复核的"重要但不确定"）。
+
+### 最后一遍复核步骤设计（未建）
+- **本质 = 带原文的第二轮 critic**（不是对队列文本做判断——90% 无建议值，等于 critic 已看过一次原文没判出来；必须重新喂原文）。
+- **输入**：severity∈{高,中} 的 855 条 + 各自 source_link → 从 `raw_news.db` 取原文 + 第一遍的 verdict/confidence/evidence 作上下文。
+- **建议增强**：换更强模型/更细提示；产出仍须过二次闸（防 →Unknown 降级、张冠李戴被采纳）。
+- **落点（待定）**：在 s02a 重建**之前**（让纠正/排除先进 extracted_projects 再去重）或 s03 **之前**——倾向前者；需用户拍板。
+- **与日常增量的关系**：日常新数据的"应用复核结论"由 `run_review`（非 --dry-run）内联完成；本步是针对"第一遍拿不准"那批的**二次兜底**，可考虑将来并入 run_review 作为"低置信项二次 pass"。
+- **状态**：设计草案，**待 C2 真跑 + s02a 重建走完再建**（届时 canonical 已成型，范围/落点更清晰）。打标脚本 `scripts/oneoff/output/tag_severity.py` 已就绪可复跑。
