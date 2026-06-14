@@ -36,6 +36,8 @@ import bri_enums as enums
 import bri_location
 import bri_parse
 
+from s02a_duplicate_merger.tools import dedup_cache  # 同包：去重判断结果缓存（断点续跑）
+
 load_dotenv()
 
 logger = logging.getLogger(__name__)
@@ -62,6 +64,8 @@ GEMINI_MODEL      = "gemini-2.5-flash-lite"  # 字段仲裁等非关键 LLM 调�
 LLM_CONFIRM_MODEL = os.getenv("S02A_LLM_CONFIRM_MODEL", "gemini-2.5-flash-lite")
 # 去重并行 LLM 核验线程数：默认 3 保守；Gemini 限额大时用环境变量调高（库写仍在主线程串行，线程安全）
 DEDUP_WORKERS = int(os.getenv("S02A_DEDUP_WORKERS", "3"))
+# 去重确认每批对数：每批跑完即 commit 缓存（断点续跑粒度）
+DEDUP_BATCH_SIZE = int(os.getenv("S02A_DEDUP_BATCH", "500"))
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
 
@@ -742,13 +746,13 @@ def _fmt_entities(project: Dict) -> str:
     return "、".join(ents) if ents else "未知"
 
 
-def _llm_confirm(
+def _llm_confirm_raising(
     client: genai.Client,
     config: types.GenerateContentConfig,
     a: Dict,
     b: Dict,
 ) -> bool:
-    """调用 Gemini 确认两条记录是否为同一物理项目（阶段可不同）。"""
+    """确认两条记录是否同一物理项目（阶段可不同）；LLM/解析持久失败时**抛出**（供缓存标 failed）。"""
     src_a = a["source_links"][0] if a["source_links"] else "未知"
     src_b = b["source_links"][0] if b["source_links"] else "未知"
     prompt = f"""
@@ -787,19 +791,29 @@ def _llm_confirm(
 严格返回 JSON（无其他内容）：
 {{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
     """
+    resp = _llm_call_with_retry(
+        client.models.generate_content,
+        model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
+    )
+    result = json.loads(resp.text)
+    if isinstance(result, list):
+        result = result[0]
+    if result.get("same_project") is True and result.get("confidence") != "low":
+        return True
+    if result.get("same_project") is True and result.get("confidence") == "low":
+        print(f"    → [低置信度，不合并] {result.get('reasoning', '')}")
+    return False
+
+
+def _llm_confirm(
+    client: genai.Client,
+    config: types.GenerateContentConfig,
+    a: Dict,
+    b: Dict,
+) -> bool:
+    """调用 Gemini 确认两条记录是否为同一物理项目（阶段可不同）；吞错返回 False（兼容旧调用）。"""
     try:
-        resp = _llm_call_with_retry(
-            client.models.generate_content,
-            model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
-        )
-        result = json.loads(resp.text)
-        if isinstance(result, list):
-            result = result[0]
-        if result.get("same_project") is True and result.get("confidence") != "low":
-            return True
-        if result.get("same_project") is True and result.get("confidence") == "low":
-            print(f"    → [低置信度，不合并] {result.get('reasoning', '')}")
-        return False
+        return _llm_confirm_raising(client, config, a, b)
     except Exception as e:
         print(f"    [LLM 确认失败] {e}")
         return False
@@ -965,13 +979,71 @@ def _merge_group(
     return base
 
 
+def _run_confirm_batches(client, config, projects, todo, cache_db, cache) -> None:
+    """分批并行确认 todo=[(pi,pj,key)]；每批 commit 缓存并回填内存 cache（断点续跑核心）。"""
+    for start in range(0, len(todo), DEDUP_BATCH_SIZE):
+        batch = todo[start:start + DEDUP_BATCH_SIZE]
+
+        def _confirm(item):
+            pi, pj, k = item
+            try:
+                same = _llm_confirm_raising(client, config, projects[pi], projects[pj])
+                return k, (1 if same else 0), "done"
+            except Exception as e:  # 持久失败（socket 等）→ 标 failed 待重跑
+                logging.error("确认失败 pair_key=%s: %s", k, e)
+                return k, None, "failed"
+
+        rows = []
+        with ThreadPoolExecutor(max_workers=DEDUP_WORKERS) as exe:
+            for k, same, status in exe.map(_confirm, batch):
+                rows.append((k, same, status))
+                cache[k] = (same, status)
+        if cache_db:
+            dedup_cache.upsert(cache_db, rows)
+        print(f"    批次 {start // DEDUP_BATCH_SIZE + 1}：确认 {len(batch)} 对"
+              f"（累计 {min(start + len(batch), len(todo))}/{len(todo)}）")
+
+
+def _confirm_llm_pairs(client, config, projects, llm_pairs, cache_db) -> Dict[Tuple[int, int], bool]:
+    """对 llm_pairs 做可缓存/可续跑/失败重跑的确认，返回 {(pi,pj): same_bool}。"""
+    keyed = [(pi, pj, dedup_cache.pair_key(projects[pi], projects[pj])) for pi, pj in llm_pairs]
+    cache: Dict[str, Tuple] = {}
+    if cache_db:
+        dedup_cache.init_cache(cache_db)
+        cache = dedup_cache.load_cache(cache_db)
+
+    todo = [(pi, pj, k) for pi, pj, k in keyed if cache.get(k, (None, "none"))[1] != "done"]
+    print(f"  LLM 核验 {len(llm_pairs)} 对（已缓存 {len(llm_pairs) - len(todo)} / 待确认 {len(todo)}"
+          f" / workers={DEDUP_WORKERS} / batch={DEDUP_BATCH_SIZE}）…")
+    _run_confirm_batches(client, config, projects, todo, cache_db, cache)
+
+    failed = [(pi, pj, k) for pi, pj, k in keyed if cache.get(k, (None, "none"))[1] == "failed"]
+    if failed:
+        print(f"  失败重跑 {len(failed)} 对…")
+        _run_confirm_batches(client, config, projects, failed, cache_db, cache)
+
+    still = sum(1 for _, _, k in keyed if cache.get(k, (None, "none"))[1] == "failed")
+    if still:
+        logging.warning("仍有 %d 对确认失败，按「不合并」处理（缓存保留 failed，将来重跑可补）", still)
+
+    out: Dict[Tuple[int, int], bool] = {}
+    for pi, pj, k in keyed:
+        same, status = cache.get(k, (None, "none"))
+        out[(pi, pj)] = (status == "done" and bool(same))
+    return out
+
+
 def _deduplicate_projects(
     client: genai.Client,
     config: types.GenerateContentConfig,
     projects: List[Dict],
     candidates: List[Tuple[int, int, float]],
+    cache_db: Optional[str] = None,
 ) -> List[Dict]:
-    """Union-Find 分组后逐对确认（高分自动确认，其余 LLM 核验），合并确认重复的记录。"""
+    """Union-Find 分组后逐对确认（高分自动确认，其余 LLM 核验），合并确认重复的记录。
+
+    cache_db 非空时：LLM 确认走持久缓存（断点续跑 + 失败重跑）；为 None 时行为同现状。
+    """
     n = len(projects)
     parent = list(range(n))
 
@@ -1005,26 +1077,10 @@ def _deduplicate_projects(
         union(i, j)
 
     if llm_pairs:
-        # 并行 LLM 核验（max_workers 由 DEDUP_WORKERS 控制，默认 3；库写仍在主线程串行）
-        print(f"  并行 LLM 核验 {len(llm_pairs)} 对候选（workers={DEDUP_WORKERS}）…")
-
-        def _confirm_pair(pair: Tuple[int, int]) -> Tuple[int, int, bool]:
-            pi, pj = pair
-            a, b = projects[pi], projects[pj]
-            print(f"    核验: [{a['project_name'][:25]}] vs [{b['project_name'][:25]}]")
-            result = _llm_confirm(client, config, a, b)
-            return pi, pj, result
-
-        with ThreadPoolExecutor(max_workers=DEDUP_WORKERS) as exe:
-            futures = {exe.submit(_confirm_pair, pair): pair for pair in llm_pairs}
-            for fut in as_completed(futures):
-                pi, pj, confirmed = fut.result()
-                a, b = projects[pi], projects[pj]
-                if confirmed:
-                    union(pi, pj)
-                    print(f"    → [{a['project_name'][:25]}] 确认为同一项目，待合并")
-                else:
-                    print(f"    → [{a['project_name'][:25]}] 不同项目，各自保留")
+        verdicts = _confirm_llm_pairs(client, config, projects, llm_pairs, cache_db)
+        for (pi, pj), same in verdicts.items():
+            if same:
+                union(pi, pj)
 
     groups: Dict[int, List[int]] = defaultdict(list)
     for i in range(n):

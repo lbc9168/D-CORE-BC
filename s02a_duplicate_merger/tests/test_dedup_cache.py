@@ -1,0 +1,151 @@
+"""dedup_cache + 缓存集成 + 续跑/失败重跑 测试。"""
+import sys
+from pathlib import Path
+
+import pytest
+
+_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+
+from s02a_duplicate_merger.tools import dedup_cache as dc
+import s02a_duplicate_merger.tools.duplicate_merger_tool as dmt
+
+
+# ─────────────────────────── Task 1：dedup_cache 模块 ───────────────────────────
+
+def _p(name, **kw):
+    base = {"project_name": name, "country": "巴基斯坦", "category": "光伏",
+            "capacity_mw": "100", "source_links": ["http://a"]}
+    base.update(kw)
+    return base
+
+
+def test_pair_key_symmetric():
+    a, b = _p("项目A"), _p("项目B", source_links=["http://b"])
+    assert dc.pair_key(a, b) == dc.pair_key(b, a)
+
+
+def test_pair_key_distinguishes_content():
+    a, b, c = _p("项目A"), _p("项目B"), _p("项目C")
+    assert dc.pair_key(a, b) != dc.pair_key(a, c)
+
+
+def test_pair_key_stable_across_calls():
+    a, b = _p("项目A"), _p("项目B")
+    assert dc.pair_key(a, b) == dc.pair_key(dict(a), dict(b))
+
+
+def test_init_load_upsert_roundtrip(tmp_path):
+    db = str(tmp_path / "c.db")
+    dc.init_cache(db)
+    assert dc.load_cache(db) == {}
+    dc.upsert(db, [("k1", 1, "done"), ("k2", 0, "done"), ("k3", None, "failed")])
+    got = dc.load_cache(db)
+    assert got["k1"] == (1, "done")
+    assert got["k2"] == (0, "done")
+    assert got["k3"] == (None, "failed")
+
+
+def test_upsert_replaces(tmp_path):
+    db = str(tmp_path / "c.db")
+    dc.init_cache(db)
+    dc.upsert(db, [("k1", None, "failed")])
+    dc.upsert(db, [("k1", 1, "done")])
+    assert dc.load_cache(db)["k1"] == (1, "done")
+
+
+def test_init_idempotent(tmp_path):
+    db = str(tmp_path / "c.db")
+    dc.init_cache(db); dc.init_cache(db)
+    dc.upsert(db, [("k", 1, "done")])
+    assert dc.load_cache(db)["k"] == (1, "done")
+
+
+# ──────────────────── Task 2：_llm_confirm 抛错版 / 兼容版 ────────────────────
+
+def _min_proj(name):
+    return {"project_name": name, "project_name_en": "", "source_links": [], "location": "",
+            "country": "巴基斯坦", "category": "光伏", "capacity_mw": "1",
+            "project_stage": "在建", "project_developer": ""}
+
+
+class _FakeModels:
+    def generate_content(self, *a, **k):
+        raise RuntimeError("should be intercepted by _llm_call_with_retry mock")
+
+
+class _FakeClient:
+    models = _FakeModels()
+
+
+def test_llm_confirm_raising_propagates(monkeypatch):
+    def boom(*a, **k):
+        raise RuntimeError("socket boom")
+    monkeypatch.setattr(dmt, "_llm_call_with_retry", boom)
+    with pytest.raises(RuntimeError):
+        dmt._llm_confirm_raising(_FakeClient(), None, _min_proj("A"), _min_proj("B"))
+
+
+def test_llm_confirm_wrapper_swallows(monkeypatch):
+    monkeypatch.setattr(dmt, "_llm_confirm_raising",
+                        lambda *a, **k: (_ for _ in ()).throw(RuntimeError("x")))
+    assert dmt._llm_confirm(None, None, _min_proj("A"), _min_proj("B")) is False
+
+
+# ──────────────── Task 3：_deduplicate_projects 缓存集成 ────────────────
+
+def _proj_full(name, stage="在建", **kw):
+    base = {"record_type": "具体项目", "project_name": name, "project_name_en": "",
+            "name_en_quality": "ai_translated", "country": "巴基斯坦", "country_iso": "PAK",
+            "bri_country": "是", "ldc": "否", "location": "", "category": "光伏",
+            "capacity_mw": "100", "capacity_details": "", "project_stage": stage,
+            "project_developer": "", "planned_start_date": "", "planned_complete_date": "",
+            "total_investment_usd": "", "investment_date": "", "financing_model": "",
+            "financing_details": "", "source_links": [f"http://{name}"],
+            "official_website_links": [], "non_official_website_links": [],
+            "publish_date": "", "additional_remarks": "", "project_summary": "",
+            "excluded": 0, "exclude_reason": "", "entities": []}
+    base.update(kw)
+    return base
+
+
+def test_cache_skips_already_confirmed(monkeypatch, tmp_path):
+    a, b, c = _proj_full("古杜电站"), _proj_full("信德二期"), _proj_full("旁遮普三期")
+    projects = [a, b, c]
+    cands = [(0, 1, 60.0), (0, 2, 60.0)]
+    cache_db = str(tmp_path / "cache.db")
+    dc.init_cache(cache_db)
+    dc.upsert(cache_db, [(dc.pair_key(a, b), 1, "done")])
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_raising",
+                        lambda cl, cf, x, y: calls.append((x["project_name"], y["project_name"])) or False)
+    merged = dmt._deduplicate_projects(object(), None, projects, cands, cache_db=cache_db)
+    assert len(calls) == 1
+    assert len(merged) == 2
+
+
+def test_cache_persists_and_retries_failed(monkeypatch, tmp_path):
+    a, b = _proj_full("古杜电站"), _proj_full("信德二期")
+    projects = [a, b]
+    cands = [(0, 1, 60.0)]
+    cache_db = str(tmp_path / "cache.db")
+    seq = {"n": 0}
+    def flaky(cl, cf, x, y):
+        seq["n"] += 1
+        if seq["n"] == 1:
+            raise RuntimeError("socket boom")
+        return True
+    monkeypatch.setattr(dmt, "_llm_confirm_raising", flaky)
+    merged = dmt._deduplicate_projects(object(), None, projects, cands, cache_db=cache_db)
+    assert seq["n"] == 2
+    assert dc.load_cache(cache_db)[dc.pair_key(a, b)] == (1, "done")
+    assert len(merged) == 1
+
+
+def test_no_cache_db_unchanged(monkeypatch):
+    """cache_db=None：仍正常确认+合并（no-cache 路径走 _confirm_llm_pairs→_llm_confirm_raising）。"""
+    a, b = _proj_full("古杜电站"), _proj_full("信德二期")
+    monkeypatch.setattr(dmt, "_llm_confirm_raising", lambda cl, cf, x, y: True)
+    merged = dmt._deduplicate_projects(object(), None, [a, b], [(0, 1, 60.0)])
+    assert len(merged) == 1
