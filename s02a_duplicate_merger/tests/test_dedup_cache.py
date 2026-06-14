@@ -157,3 +157,34 @@ def test_no_cache_db_unchanged(monkeypatch):
     monkeypatch.setattr(dmt, "_llm_confirm_raising", lambda cl, cf, x, y: True)
     merged = dmt._deduplicate_projects(object(), None, [a, b], [(0, 1, 60.0)])
     assert len(merged) == 1
+
+
+# ──────────────── 并行组装：_assemble_multi_group ────────────────
+
+def test_assemble_multi_group_cross_stage():
+    """跨阶段组：按 stage 分摊、各阶段一条、共享 gid（不触 _merge_group，单条阶段直接用）。"""
+    a, b = _proj_full("古杜", stage="签约"), _proj_full("古杜", stage="开工")
+    out = dmt._assemble_multi_group([0, 1], 7, [a, b], None, None)
+    assert len(out) == 2
+    assert {r["project_stage"] for r in out} == {"签约", "开工"}
+    assert all(r["dedup_group_id"] == "grp-7" for r in out)
+
+
+def test_assemble_multi_group_same_stage_merges(monkeypatch):
+    """同阶段组：调 _merge_group 合一条，单阶段无 gid。"""
+    monkeypatch.setattr(dmt, "_merge_group", lambda c, cf, recs: dict(recs[0]))
+    a, b = _proj_full("古杜A", stage="在建"), _proj_full("古杜B", stage="在建")
+    out = dmt._assemble_multi_group([0, 1], 3, [a, b], None, None)
+    assert len(out) == 1
+    assert out[0].get("dedup_group_id") is None
+
+
+def test_parallel_assembly_multiple_groups(monkeypatch):
+    """并行组装多个合并组：结果含每组的合并体 + 未合并的单体，总数正确。"""
+    monkeypatch.setattr(dmt, "_merge_group", lambda c, cf, recs: dict(recs[0]))
+    monkeypatch.setattr(dmt, "_llm_confirm_raising", lambda cl, cf, x, y: True)
+    # 3 组：(0,1) 合并、(2,3) 合并、4 单体
+    projs = [_proj_full(f"P{i}") for i in range(5)]
+    cands = [(0, 1, 60.0), (2, 3, 60.0)]
+    merged = dmt._deduplicate_projects(object(), None, projs, cands)
+    assert len(merged) == 3   # 两个合并体 + 一个单体

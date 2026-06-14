@@ -1033,6 +1033,26 @@ def _confirm_llm_pairs(client, config, projects, llm_pairs, cache_db) -> Dict[Tu
     return out
 
 
+def _assemble_multi_group(indices, root, projects, client, config) -> List[Dict]:
+    """组装一个多记录 union-find 组：按 stage 分摊合并，多阶段打共享 gid，返回该组所有记录。
+
+    各组互相独立 → 可并行（_merge_group 的字段仲裁 LLM 是大头，串行会拖几小时）。
+    """
+    by_stage: Dict[str, List[int]] = defaultdict(list)
+    for i in indices:
+        by_stage[projects[i]["project_stage"]].append(i)
+    gid = f"grp-{root}"
+    out: List[Dict] = []
+    for stage_indices in by_stage.values():
+        recs = [projects[i] for i in stage_indices]
+        merged_rec = recs[0] if len(recs) == 1 else _merge_group(client, config, recs)
+        if len(by_stage) > 1:
+            merged_rec = dict(merged_rec)
+            merged_rec["dedup_group_id"] = gid
+        out.append(merged_rec)
+    return out
+
+
 def _deduplicate_projects(
     client: genai.Client,
     config: types.GenerateContentConfig,
@@ -1086,28 +1106,22 @@ def _deduplicate_projects(
     for i in range(n):
         groups[find(i)].append(i)
 
+    # 单体直接收；多记录组并行组装（落库语义 = 一条 canonical + 每阶段一条 event）
     result: List[Dict] = []
+    multi: List[Tuple[int, List[int]]] = []
     for root, indices in groups.items():
         if len(indices) == 1:
             result.append(projects[indices[0]])
-            continue
-        # 跨阶段同项目：按 stage 分摊，各阶段内部合并为一条，全部打共享 gid
-        # 落库语义 = 一条 canonical + 每阶段一条 event（_write_to_db 按 gid 复用 canonical_id）
-        by_stage: Dict[str, List[int]] = defaultdict(list)
-        for i in indices:
-            by_stage[projects[i]["project_stage"]].append(i)
-        gid = f"grp-{root}"
-        for stage_indices in by_stage.values():
-            recs = [projects[i] for i in stage_indices]
-            if len(recs) == 1:
-                merged_rec = recs[0]
-            else:
-                print(f"  合并 {len(recs)} 条 → [{recs[0]['project_name'][:30]}...]")
-                merged_rec = _merge_group(client, config, recs)
-            if len(by_stage) > 1:
-                merged_rec = dict(merged_rec)
-                merged_rec["dedup_group_id"] = gid
-            result.append(merged_rec)
+        else:
+            multi.append((root, indices))
+
+    if multi:
+        print(f"  并行组装 {len(multi)} 个合并组（workers={DEDUP_WORKERS}）…")
+        with ThreadPoolExecutor(max_workers=DEDUP_WORKERS) as exe:
+            for recs in exe.map(
+                lambda ri: _assemble_multi_group(ri[1], ri[0], projects, client, config), multi
+            ):
+                result.extend(recs)
 
     return result
 
