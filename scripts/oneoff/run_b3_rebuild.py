@@ -13,8 +13,8 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 # 并发：必须在 import 工具前设好（DEDUP_WORKERS 在模块导入时读取）。
-# Windows 临时端口（TIME_WAIT）限制：150 会触发 WinError 10048 端口耗尽 → 降到 32 稳态远低于上限。
-os.environ["S02A_DEDUP_WORKERS"] = os.environ.get("S02A_DEDUP_WORKERS", "32")
+# 150 触发 WinError 10048 端口耗尽；60 稳态端口占用远低于上限，配合 socket 重试 + 缓存续跑。
+os.environ["S02A_DEDUP_WORKERS"] = os.environ.get("S02A_DEDUP_WORKERS", "60")
 
 _root = Path(__file__).resolve().parents[2]  # worktree 根
 from dotenv import find_dotenv, load_dotenv
@@ -24,10 +24,13 @@ from s02a_duplicate_merger.tools.duplicate_merger_tool import DuplicateMergerToo
 
 INPUT_DB = str(_root / "s01b_project_extractor" / "data" / "projects.db")
 DB_PATH = str(_root / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db")
+# 判断结果缓存：断点续跑 + 失败重跑（进程被杀重起会从这里接着走，不重花已判的钱）
+CACHE_DB = str(_root / "s02a_duplicate_merger" / "data" / "db" / "dedup_cache.db")
 
 print(f"[B3] DEDUP_WORKERS={os.environ['S02A_DEDUP_WORKERS']}")
 print(f"[B3] input_db = {INPUT_DB}")
 print(f"[B3] db_path  = {DB_PATH}")
-result = DuplicateMergerTool()._run(input_db=INPUT_DB, db_path=DB_PATH)
+print(f"[B3] cache_db = {CACHE_DB}")
+result = DuplicateMergerTool()._run(input_db=INPUT_DB, db_path=DB_PATH, cache_db=CACHE_DB)
 print(result)
 print("[B3] DONE")

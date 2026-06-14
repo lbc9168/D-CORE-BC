@@ -1635,6 +1635,7 @@ class DuplicateMergerTool:
         self,
         input_db: str = "../s01b_project_extractor/data/projects.db",
         db_path: str = "data/db/bri_re_database.db",
+        cache_db: Optional[str] = None,
     ) -> str:
         # 初始化 Gemini
         api_key = os.getenv("GEMINI_API_KEY")
@@ -1683,7 +1684,7 @@ class DuplicateMergerTool:
         # ── 阶段三：LLM 确认 + 合并 ─────────────────────────────────────────
         print(f"\n>>> [阶段三] LLM 确认 + 合并...")
         if candidates:
-            merged = _deduplicate_projects(client, gen_config, projects, candidates)
+            merged = _deduplicate_projects(client, gen_config, projects, candidates, cache_db=cache_db)
         else:
             merged = projects
             print(f"  无需合并，直接进入入库阶段")
