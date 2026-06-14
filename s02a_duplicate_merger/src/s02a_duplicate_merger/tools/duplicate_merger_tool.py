@@ -60,6 +60,8 @@ LOCATION_ANCHOR_MIN_MW = 10           # Signal 6 最低容量门槛（地点相�
 GEMINI_MODEL      = "gemini-2.5-flash-lite"  # 字段仲裁等非关键 LLM 调用
 # 项目合并确认模型：默认稳定版；要换更强模型用环境变量覆盖，不改代码（P3 收口，原写死 preview 版）
 LLM_CONFIRM_MODEL = os.getenv("S02A_LLM_CONFIRM_MODEL", "gemini-2.5-flash-lite")
+# 去重并行 LLM 核验线程数：默认 3 保守；Gemini 限额大时用环境变量调高（库写仍在主线程串行，线程安全）
+DEDUP_WORKERS = int(os.getenv("S02A_DEDUP_WORKERS", "3"))
 
 # ── SQLite 建表 SQL ────────────────────────────────────────────────────────────
 
@@ -704,7 +706,11 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
 # ── 阶段三：LLM 确认 & 合并 ────────────────────────────────────────────────────
 
 def _llm_call_with_retry(fn, *args, max_retries: int = 5, **kwargs):
-    """LLM 调用包装：仅在遇到限速（429）时指数退避重试，其他异常直接上抛。"""
+    """LLM 调用包装：限速（429）+ 瞬时网络/socket 错误均指数退避重试，其他异常直接上抛。
+
+    socket 错误（如 Windows 高并发下 WinError 10048 端口耗尽）必须重试——否则被上层
+    _llm_confirm 当成"不是同一项目"静默漏并、污染去重；退避还能让 TIME_WAIT 端口排空。
+    """
     delay = 2.0
     for attempt in range(max_retries + 1):
         try:
@@ -713,8 +719,13 @@ def _llm_call_with_retry(fn, *args, max_retries: int = 5, **kwargs):
             if attempt >= max_retries:
                 raise
             msg = str(e).lower()
-            if "429" in msg or "resource_exhausted" in msg or "quota" in msg or "rate" in msg:
-                print(f"  [限速重试 {attempt + 1}/{max_retries}] 等待 {delay:.0f}s…")
+            transient = (
+                "429" in msg or "resource_exhausted" in msg or "quota" in msg or "rate" in msg
+                or "10048" in msg or "winerror" in msg or "socket" in msg or "connection" in msg
+                or "timed out" in msg or "timeout" in msg or "temporarily" in msg or "unavailable" in msg
+            )
+            if transient:
+                print(f"  [瞬时错误重试 {attempt + 1}/{max_retries}] {type(e).__name__} 等待 {delay:.0f}s…")
                 time.sleep(delay)
                 delay = min(delay * 2, 60)
             else:
@@ -994,8 +1005,8 @@ def _deduplicate_projects(
         union(i, j)
 
     if llm_pairs:
-        # 并行 LLM 核验（max_workers=3 避免触发 Gemini QPM 限速）
-        print(f"  并行 LLM 核验 {len(llm_pairs)} 对候选…")
+        # 并行 LLM 核验（max_workers 由 DEDUP_WORKERS 控制，默认 3；库写仍在主线程串行）
+        print(f"  并行 LLM 核验 {len(llm_pairs)} 对候选（workers={DEDUP_WORKERS}）…")
 
         def _confirm_pair(pair: Tuple[int, int]) -> Tuple[int, int, bool]:
             pi, pj = pair
@@ -1004,7 +1015,7 @@ def _deduplicate_projects(
             result = _llm_confirm(client, config, a, b)
             return pi, pj, result
 
-        with ThreadPoolExecutor(max_workers=3) as exe:
+        with ThreadPoolExecutor(max_workers=DEDUP_WORKERS) as exe:
             futures = {exe.submit(_confirm_pair, pair): pair for pair in llm_pairs}
             for fut in as_completed(futures):
                 pi, pj, confirmed = fut.result()
