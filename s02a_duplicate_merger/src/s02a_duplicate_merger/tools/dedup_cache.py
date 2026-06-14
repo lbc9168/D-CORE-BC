@@ -3,6 +3,7 @@
 判断（每对项目是否同一）互相独立，故可分批落盘；键用两个项目的对称内容哈希，跨运行稳定。
 """
 import hashlib
+import os
 import sqlite3
 from typing import Dict, List, Optional, Tuple
 
@@ -23,7 +24,10 @@ def pair_key(a: dict, b: dict) -> str:
 
 
 def init_cache(db_path: str) -> None:
-    """建缓存表（幂等）。"""
+    """建缓存表（幂等）；父目录不存在时先创建（缓存在写库前就用，data/db/ 可能尚未建）。"""
+    parent = os.path.dirname(os.path.abspath(db_path))
+    if parent:
+        os.makedirs(parent, exist_ok=True)
     conn = sqlite3.connect(db_path)
     try:
         conn.execute(

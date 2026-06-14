@@ -62,6 +62,14 @@ def test_init_idempotent(tmp_path):
     assert dc.load_cache(db)["k"] == (1, "done")
 
 
+def test_init_creates_missing_parent_dir(tmp_path):
+    """父目录不存在时 init_cache 应自建（缓存在写库前先用，data/db/ 可能尚未建）。"""
+    db = str(tmp_path / "data" / "db" / "c.db")   # data/db/ 不存在
+    dc.init_cache(db)
+    dc.upsert(db, [("k", 0, "done")])
+    assert dc.load_cache(db)["k"] == (0, "done")
+
+
 # ──────────────────── Task 2：_llm_confirm 抛错版 / 兼容版 ────────────────────
 
 def _min_proj(name):
