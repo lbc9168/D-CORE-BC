@@ -1163,6 +1163,38 @@ def _capacity_guard(
     return abs(cap_new - cap_db) / max(cap_new, cap_db) > CANONICAL_CAP_GUARD_TOLERANCE
 
 
+def _create_canonical(
+    conn: sqlite3.Connection,
+    project: Dict,
+    canonical_cache: Optional[Dict[Tuple[str, str], List]] = None,
+) -> str:
+    """直接新建一个 canonical_project（不做任何名称匹配），返回 new_id，并更新内存缓存。"""
+    iso = project["country_iso"] or "UNK"
+    cat = project["category"]
+    name = project["project_name"]
+    name_en = project.get("project_name_en", "")
+    new_id = _gen_canonical_id(conn, iso, _get_cat_code(cat))
+    conn.execute(
+        """INSERT INTO canonical_projects
+           (id, project_name, project_name_en, name_en_quality,
+            country, country_iso, bri_country, ldc, location, location_norm, category, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            new_id, name, name_en,
+            project.get("name_en_quality", "ai_translated"),
+            project["country"], iso,
+            project["bri_country"], project["ldc"],
+            project["location"], project.get("location_norm", ""), cat,
+            datetime.now().isoformat(),
+        ),
+    )
+    if canonical_cache is not None:
+        canonical_cache.setdefault((iso, cat), []).append(
+            (new_id, name, name_en, _norm_location(project))
+        )
+    return new_id
+
+
 def _find_or_create_canonical(
     conn: sqlite3.Connection,
     project: Dict,
@@ -1279,29 +1311,8 @@ def _find_or_create_canonical(
             # 无 LLM 降级模式：保持原有 ≥ 85 自动匹配行为
             return best_id, False
 
-    # 新建 canonical_project
-    new_id = _gen_canonical_id(conn, iso, _get_cat_code(cat))
-    name_en = project.get("project_name_en", "")
-    conn.execute(
-        """INSERT INTO canonical_projects
-           (id, project_name, project_name_en, name_en_quality,
-            country, country_iso, bri_country, ldc, location, location_norm, category, created_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
-        (
-            new_id, name, name_en,
-            project.get("name_en_quality", "ai_translated"),
-            project["country"], iso,
-            project["bri_country"], project["ldc"],
-            project["location"], project.get("location_norm", ""), cat,
-            datetime.now().isoformat(),
-        ),
-    )
-    # 更新内存缓存，使后续项目能匹配到此次新建的 canonical
-    if canonical_cache is not None:
-        canonical_cache.setdefault((iso, cat), []).append(
-            (new_id, name, name_en, _norm_location(project))
-        )
-    return new_id, True
+    # 名称匹配未命中 → 新建 canonical
+    return _create_canonical(conn, project, canonical_cache), True
 
 
 def _write_to_db(
@@ -1309,8 +1320,14 @@ def _write_to_db(
     projects: List[Dict],
     client: Optional[genai.Client] = None,
     config: Optional[types.GenerateContentConfig] = None,
+    trust_dedup: bool = False,
 ) -> Dict[str, int]:
-    """将合并后的逻辑项目写入三张 SQLite 表，返回各表新增条数。"""
+    """将合并后的逻辑项目写入三张 SQLite 表，返回各表新增条数。
+
+    trust_dedup=True（从空库全局重建）：dedup 结果即权威，非 gid 每条直接新建 canonical，
+    跳过 `_find_or_create_canonical` 的 LLM 重匹配（避免冗余 + ≥97 误并覆盖 dedup 决定）；
+    gid 组照常复用。默认 False（季度增量：新批须与库里旧 canonical 匹配，不可跳）。
+    """
     cnt = {"canonical_new": 0, "event_new": 0, "entity_new": 0, "event_cross_merged": 0}
 
     # 预加载所有 canonical_projects 到内存，避免逐项 SQL 查询
@@ -1331,6 +1348,11 @@ def _write_to_db(
         gid = project.get("dedup_group_id")
         if gid and gid in group_canonical:
             canonical_id, is_new = group_canonical[gid], False
+        elif trust_dedup:
+            # 从空库全局重建：dedup 已全局比过，直接建新 canonical（跳过 LLM 重匹配）
+            canonical_id, is_new = _create_canonical(conn, project, canonical_cache), True
+            if gid:
+                group_canonical[gid] = canonical_id
         else:
             canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
             if gid:
@@ -1650,6 +1672,7 @@ class DuplicateMergerTool:
         input_db: str = "../s01b_project_extractor/data/projects.db",
         db_path: str = "data/db/bri_re_database.db",
         cache_db: Optional[str] = None,
+        trust_dedup: bool = False,
     ) -> str:
         # 初始化 Gemini
         api_key = os.getenv("GEMINI_API_KEY")
@@ -1707,7 +1730,7 @@ class DuplicateMergerTool:
         # ── 阶段四：SQLite 写入 ──────────────────────────────────────────────
         print(f"\n>>> [阶段四] 写入 SQLite：{db_path}")
         conn = _init_db(db_path)
-        counts = _write_to_db(conn, merged, client, gen_config)
+        counts = _write_to_db(conn, merged, client, gen_config, trust_dedup=trust_dedup)
         non_project_count = _write_non_project_records(conn, non_projects)
         conn.close()
 

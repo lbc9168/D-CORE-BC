@@ -188,3 +188,37 @@ def test_parallel_assembly_multiple_groups(monkeypatch):
     cands = [(0, 1, 60.0), (2, 3, 60.0)]
     merged = dmt._deduplicate_projects(object(), None, projs, cands)
     assert len(merged) == 3   # 两个合并体 + 一个单体
+
+
+# ──────────────── trust_dedup：从空库全局重建跳过 canonical LLM 重匹配 ────────────────
+
+def test_trust_dedup_creates_own_canonical_no_llm(tmp_path):
+    """trust_dedup=True：名称相似的两条非 gid 也各建自己的 canonical，全程不调 LLM。"""
+    conn = dmt._init_db(str(tmp_path / "t.db"))
+    a = _proj_full("古杜光伏电站")
+    b = _proj_full("古杜光伏电站项目")   # 名称高度相似（若走匹配会撞）
+    # client=object()：若误触 _find_or_create_canonical / _llm_confirm_canonical 会 AttributeError
+    cnt = dmt._write_to_db(conn, [a, b], client=object(), config=None, trust_dedup=True)
+    assert cnt["canonical_new"] == 2     # 各建自己的，未合并
+    assert cnt["event_new"] == 2
+    conn.close()
+
+
+def test_trust_dedup_gid_reuses_canonical(tmp_path):
+    """trust_dedup=True：同 gid 跨阶段两条 → 1 canonical + 2 event。"""
+    conn = dmt._init_db(str(tmp_path / "t.db"))
+    p1 = _proj_full("古杜", stage="签约", dedup_group_id="grp-0")
+    p2 = _proj_full("信德省项目", stage="开工", dedup_group_id="grp-0")
+    cnt = dmt._write_to_db(conn, [p1, p2], client=object(), config=None, trust_dedup=True)
+    assert cnt["canonical_new"] == 1
+    assert cnt["event_new"] == 2
+    conn.close()
+
+
+def test_create_canonical_inserts_row(tmp_path):
+    """_create_canonical 直接插一条 canonical 并返回 id。"""
+    conn = dmt._init_db(str(tmp_path / "t.db"))
+    cid = dmt._create_canonical(conn, _proj_full("某项目"), canonical_cache={})
+    row = conn.execute("SELECT project_name FROM canonical_projects WHERE id=?", (cid,)).fetchone()
+    assert row[0] == "某项目"
+    conn.close()
