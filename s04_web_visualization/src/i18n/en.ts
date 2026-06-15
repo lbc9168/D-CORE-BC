@@ -95,7 +95,7 @@ const en: Translations = {
     kpiActive: "Active Projects",
     kpiCapacity: "Total Capacity (MW)",
     kpiCountries: "Countries Covered",
-    kpiEntities: "Chinese Entities",
+    kpiEntities: "Chinese entities involved",
     banner:
       "Note: \"Active projects\" are those whose earliest–latest milestone span covers the selected year. Capacity is total installed capacity (not annual additions); energy-storage and grid projects are excluded from capacity sums. Events before 2022 are not counted.",
     statusMix: "Project Status Mix",

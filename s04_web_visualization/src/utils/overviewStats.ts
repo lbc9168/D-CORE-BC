@@ -2,14 +2,6 @@ import type { Project, VizGroup } from "@/types";
 import { statusGroupAt } from "@/contexts/DataContext";
 import { hasCapacity } from "@/utils/capacityPolicy";
 
-export interface YearStat {
-  year: number;
-  active: number;      // 活跃项目数（year ∈ [first,last]）
-  capacityMw: number;  // 活跃且 hasCapacity 项目的装机合计
-  countries: number;   // 活跃项目覆盖国家数
-  entities: number;    // 活跃项目 distinct primary_entity 数
-}
-
 /** 选定年（null=全部）下的活跃项目集合 */
 export function activeProjectsAt(projects: Project[], year: number | null): Project[] {
   if (year == null) return projects;
@@ -20,22 +12,6 @@ export function activeProjectsAt(projects: Project[], year: number | null): Proj
       p.first_event_year <= year &&
       year <= p.last_event_year,
   );
-}
-
-/** 每个可用年份的四项 KPI 序列（喂 KPI 卡迷你趋势线） */
-export function buildYearSeries(projects: Project[], years: number[]): YearStat[] {
-  return years.map((year) => {
-    const active = activeProjectsAt(projects, year);
-    let capacityMw = 0;
-    const countries = new Set<string>();
-    const entities = new Set<string>();
-    for (const p of active) {
-      if (hasCapacity(p.category)) capacityMw += p.capacity_mw ?? 0;
-      if (p.country_iso) countries.add(p.country_iso);
-      if (p.primary_entity) entities.add(p.primary_entity);
-    }
-    return { year, active: active.length, capacityMw, countries: countries.size, entities: entities.size };
-  });
 }
 
 /** 选定年下 4 大类状态分布（year=null 用项目最终状态） */

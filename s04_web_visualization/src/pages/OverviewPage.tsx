@@ -8,7 +8,7 @@ import StatusDonut from "@/components/overview/StatusDonut";
 import TopCountriesBar from "@/components/overview/TopCountriesBar";
 import TimelineChart from "@/components/charts/TimelineChart";
 import EntityChart from "@/components/charts/EntityChart";
-import { activeProjectsAt, buildYearSeries, formatBig } from "@/utils/overviewStats";
+import { activeProjectsAt, formatBig } from "@/utils/overviewStats";
 import { hasCapacity } from "@/utils/capacityPolicy";
 
 /** Overview 信息仪表盘：年份胶囊驱动全页统计（与 FilterBar 解耦，消费 allProjects） */
@@ -18,11 +18,6 @@ export default function OverviewPage() {
   // null = 全部年份（默认）；选中某年后全页统计随之切换
   const [year, setYear] = useState<number | null>(null);
 
-  // 迷你趋势线序列：每个可用年份各算一行 KPI
-  const yearSeries = useMemo(
-    () => buildYearSeries(allProjects, availableYears),
-    [allProjects, availableYears],
-  );
   // 选中年（null=全部）下的活跃项目集合，喂当前 KPI 与下方各图
   const activeProjects = useMemo(
     () => activeProjectsAt(allProjects, year),
@@ -78,17 +73,13 @@ export default function OverviewPage() {
         {/* KPI 大数字卡 ×4 */}
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
           <KpiCard label={t("overview.kpiActive")} value={formatBig(current.active)}
-            icon={Layers} color="#2F6562"
-            series={yearSeries.map((s) => ({ year: s.year, v: s.active }))} />
+            icon={Layers} color="#2F6562" />
           <KpiCard label={t("overview.kpiCapacity")} value={formatBig(current.capacityMw)}
-            icon={Zap} color="#F59E0B"
-            series={yearSeries.map((s) => ({ year: s.year, v: s.capacityMw }))} />
+            icon={Zap} color="#F59E0B" />
           <KpiCard label={t("overview.kpiCountries")} value={formatBig(current.countries)}
-            icon={Globe2} color="#3B82F6"
-            series={yearSeries.map((s) => ({ year: s.year, v: s.countries }))} />
+            icon={Globe2} color="#3B82F6" />
           <KpiCard label={t("overview.kpiEntities")} value={formatBig(current.entities)}
-            icon={Building2} color="#8B5CF6"
-            series={yearSeries.map((s) => ({ year: s.year, v: s.entities }))} />
+            icon={Building2} color="#8B5CF6" />
         </div>
 
         {/* 口径说明条（cobalt 风格浅蓝信息条） */}
