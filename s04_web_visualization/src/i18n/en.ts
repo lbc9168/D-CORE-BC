@@ -92,7 +92,7 @@ const en: Translations = {
   overview: {
     title: "Overview ·",
     allYears: "All Years",
-    kpiActive: "Active Projects",
+    kpiActive: "Project Milestones",
     kpiCapacity: "Total Capacity (MW)",
     kpiCountries: "Countries Covered",
     kpiEntities: "Chinese entities involved",
