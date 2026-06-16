@@ -192,3 +192,52 @@ def run_recheck(
         json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     logger.info("run_recheck 完成 %s → %s", report, path)
     return report
+
+
+def _build_llm(*, provider: str, model: str, _factory: Optional[Callable] = None):
+    """按 provider/model 经统一 client 工厂建 LLM（_factory 为测试注入 seam）。"""
+    from s01b_project_extractor.llm.client import LLMClient, _config_for_provider
+    cfg = _config_for_provider(provider)
+    if model:
+        cfg.model = model
+    factory = _factory or (lambda c: LLMClient(c))
+    return factory(cfg)
+
+
+def main() -> None:
+    """CLI：dry-run 默认安全；--apply 才真改库。残留导出 CSV。"""
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(levelname)s %(message)s",
+                        handlers=[logging.StreamHandler(sys.stdout),
+                                  logging.FileHandler(str(_root / "review" / "recheck.log"), encoding="utf-8")])
+    ap = argparse.ArgumentParser(description="第二遍带原文 AI 复核（severity 高+中）")
+    ap.add_argument("--projects-db", default=str(_root / "s01b_project_extractor" / "data" / "projects.db"))
+    ap.add_argument("--review-db", default=str(_root / "s01b_project_extractor" / "data" / "review.db"))
+    ap.add_argument("--raw-news-db", default=str(_root / "s01a_news_crawler" / "data" / "raw_news.db"))
+    ap.add_argument("--residual-csv", default=str(_root / "review" / "data" / "recheck_residual.csv"))
+    ap.add_argument("--apply", action="store_true", help="真改库（默认 dry-run 不改）")
+    ap.add_argument("--llm-provider", default="deepseek")
+    ap.add_argument("--llm-model", default="")
+    args = ap.parse_args()
+
+    for p in (args.projects_db, args.review_db, args.raw_news_db):
+        if not pathlib.Path(p).exists():
+            print(f"路径不存在: {p}"); sys.exit(1)
+
+    from dotenv import find_dotenv, load_dotenv
+    load_dotenv(find_dotenv(usecwd=True))
+    llm = _build_llm(provider=args.llm_provider, model=args.llm_model)
+
+    rep = run_recheck(args.projects_db, args.review_db, raw_news_db=args.raw_news_db, llm=llm,
+                      dry_run=not args.apply, residual_csv=args.residual_csv)
+    print(f"\n=== run_recheck {'APPLY' if args.apply else 'DRY-RUN'} ===\n"
+          f"  candidates    : {rep['n_candidates']}\n"
+          f"  auto_corrected: {rep['n_auto_corrected']}\n"
+          f"  auto_excluded : {rep['n_auto_excluded']}\n"
+          f"  queued(残留)  : {rep['n_queued']}\n"
+          f"  critic_failed : {rep['n_critic_failed']}\n"
+          f"  no_article    : {rep['n_no_article']}\n"
+          f"  残留 CSV      : {args.residual_csv}")
+
+
+if __name__ == "__main__":
+    main()

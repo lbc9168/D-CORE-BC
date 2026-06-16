@@ -152,3 +152,15 @@ def test_run_recheck_dry_run_no_write(tmp_path):
     assert c.execute("SELECT capacity_mw FROM extracted_projects WHERE id=10").fetchone()[0] in (None, "")
     c.close()
     assert rep["dry_run"] is True and rep.get("would_change")
+
+
+def test_build_llm_from_args_uses_provider_model():
+    """_build_llm 按 provider/model 走注入的 client 工厂（不真建连，验证 provider/model 装配正确）。"""
+    from review import recheck
+    captured = {}
+    def fake_factory(cfg):
+        captured["provider"], captured["model"] = cfg.provider, cfg.model
+        return object()
+    llm = recheck._build_llm(provider="deepseek", model="deepseek-v4-pro", _factory=fake_factory)
+    assert captured["provider"] == "deepseek" and captured["model"] == "deepseek-v4-pro"
+    assert llm is not None
