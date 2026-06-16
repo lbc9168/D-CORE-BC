@@ -154,6 +154,36 @@ def test_run_recheck_dry_run_no_write(tmp_path):
     assert rep["dry_run"] is True and rep.get("would_change")
 
 
+def test_run_recheck_concurrency_matches_serial(tmp_path):
+    """concurrency>1：并发取原文+critic、库写仍串行；分流计数与串行一致。"""
+    from review import recheck
+    from review.critic import Verdict
+    pdb, rdb = str(tmp_path / "p.db"), str(tmp_path / "r.db")
+    _seed_projects_db(pdb); _seed_review_db(rdb)
+
+    def fake_article(url, db_path=None):
+        return {"title": "t", "content": "c"}
+
+    def fake_critic(*, article, project, suspicious_with_prior, llm):
+        if project["project_name"] == "项目甲":
+            return [Verdict(field="capacity_mw", verdict="wrong", suggested_value="100",
+                            confidence=0.95, evidence="x")]
+        return [Verdict(field="status", verdict="exclude", suggested_value=None,
+                        confidence=1.0, evidence="x")]
+
+    rep = recheck.run_recheck(pdb, rdb, raw_news_db="unused", llm=object(),
+                              critic_fn=fake_critic, article_fn=fake_article,
+                              dry_run=False, residual_csv=str(tmp_path / "r.csv"),
+                              concurrency=4, ts="20260617_000002")
+    assert rep["n_candidates"] == 2
+    assert rep["n_auto_corrected"] == 1
+    assert rep["n_auto_excluded"] == 1
+    c = sqlite3.connect(pdb)
+    assert c.execute("SELECT capacity_mw FROM extracted_projects WHERE id=10").fetchone()[0] == 100.0
+    assert c.execute("SELECT excluded FROM extracted_projects WHERE id=20").fetchone()[0] == 1
+    c.close()
+
+
 def test_build_llm_from_args_uses_provider_model():
     """_build_llm 按 provider/model 走注入的 client 工厂（不真建连，验证 provider/model 装配正确）。"""
     from review import recheck

@@ -7,6 +7,7 @@ import logging
 import pathlib
 import sqlite3
 import sys
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 from typing import Callable, Optional
 
@@ -100,6 +101,7 @@ def run_recheck(
     article_fn: Optional[Callable] = None,
     dry_run: bool = False,
     conf_threshold: float = 0.8,
+    concurrency: int = 1,
     value_validator: Optional[Callable] = None,
     residual_csv: str = "",
     ts: Optional[str] = None,
@@ -108,6 +110,7 @@ def run_recheck(
 
     残留写**独立** recheck_queue.db（projects_db + '.recheck_queue.db'），不污染原 review_db。
     注入 seam：critic_fn(article,project,suspicious_with_prior,llm)、article_fn(url,db_path=)。
+    并发模型同 run_review：Phase 2 取原文+critic 走线程池（仅 I/O/LLM），Phase 3 库写串行主线程（sqlite 线程安全）。
     """
     import shutil
     _ts = ts or datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -135,39 +138,66 @@ def run_recheck(
     _critic = critic_fn if critic_fn is not None else critic.recheck_project
     _article = article_fn if article_fn is not None else get_article
 
+    # ── Phase 2：取原文 + recheck critic（仅读 + LLM，无库写 → 可并发）─────────────
+    def _fetch_and_critic(cand: dict) -> dict:
+        """单候选：取原文→recheck critic；产出带 outcome 的结果（已知错误吞掉并标记，不中断池）。"""
+        rid, link = cand["row_id"], cand["source_link"]
+        try:
+            article = _article(link, db_path=raw_news_db)
+        except sqlite3.Error as e:
+            logger.error("取原文失败 row_id=%d: %s", rid, e)
+            return {**cand, "outcome": "no_article"}
+        if article is None:
+            logger.warning("找不到原文 row_id=%d，跳过", rid)
+            return {**cand, "outcome": "no_article"}
+        try:
+            verdicts = _critic(article=article, project=cand["full_project"],
+                               suspicious_with_prior=cand["suspicious_with_prior"], llm=llm)
+        except (ValidationError, RuntimeError) as e:  # 解析非法/LLM 持久失败逐条隔离，不连累整批
+            logger.error("recheck critic 失败 row_id=%d: %s", rid, e)
+            return {**cand, "outcome": "critic_failed"}
+        return {**cand, "outcome": "ok", "verdicts": verdicts}
+
+    results: list[Optional[dict]] = [None] * len(candidates)
+    workers = max(1, int(concurrency))
+    if workers == 1 or len(candidates) <= 1:
+        for i, cand in enumerate(candidates):
+            results[i] = _fetch_and_critic(cand)
+    else:
+        with ThreadPoolExecutor(max_workers=workers) as ex:
+            futs = [ex.submit(_fetch_and_critic, cand) for cand in candidates]
+            for i, fut in enumerate(futs):
+                results[i] = fut.result()  # 已知错误已在 worker 内标记 outcome
+
+    # ── Phase 3：分流 + 库写（串行、主线程，sqlite 写线程安全）────────────────────
     wconn = sqlite3.connect(str(projects_db))
     try:
-        for cand in candidates:
-            rid, link = cand["row_id"], cand["source_link"]
-            try:
-                article = _article(link, db_path=raw_news_db)
-            except sqlite3.Error as e:
-                logger.error("取原文失败 row_id=%d: %s", rid, e); n["no_article"] += 1; continue
-            if article is None:
-                logger.warning("找不到原文 row_id=%d，跳过", rid); n["no_article"] += 1; continue
-            try:
-                verdicts = _critic(article=article, project=cand["full_project"],
-                                   suspicious_with_prior=cand["suspicious_with_prior"], llm=llm)
-            except (ValidationError, RuntimeError) as e:  # 解析非法/LLM 持久失败逐条隔离，不连累整批
-                logger.error("recheck critic 失败 row_id=%d: %s", rid, e); n["critic_failed"] += 1; continue
+        for res in results:
+            if res is None:
+                continue
+            if res["outcome"] == "no_article":
+                n["no_article"] += 1; continue
+            if res["outcome"] == "critic_failed":
+                n["critic_failed"] += 1; continue
 
+            rid, link = res["row_id"], res["source_link"]
             # 白名单预过滤（同 run_review）：非法字段 verdict 丢弃
-            allowed = [v for v in verdicts
+            allowed = [v for v in res["verdicts"]
                        if v.verdict in ("ok", "exclude") or v.field == "status" or v.field in _UPDATABLE]
 
             failed = [0]
             update_field = _make_update_field(rid, wconn, dry_run, would_change, failed)
             exclude_field = _make_exclude_field(rid, wconn, dry_run, would_change, failed)
-            res = apply.route(
+            res2 = apply.route(
                 canonical_id=str(rid), source_link=link, verdicts=allowed,
                 review_db=resid_db, update_field=update_field, conf_threshold=conf_threshold,
                 value_validator=validator, exclude_fn=exclude_field,
             )
-            n["auto_corrected"] += res["auto_corrected"]
-            n["auto_excluded"] += res.get("auto_excluded", 0)
-            n["queued"] += res["queued"]
+            n["auto_corrected"] += res2["auto_corrected"]
+            n["auto_excluded"] += res2.get("auto_excluded", 0)
+            n["queued"] += res2["queued"]
             n["update_failed"] += failed[0]
-            for rt in res.get("reasons", []):
+            for rt in res2.get("reasons", []):
                 reasons[rt] = reasons.get(rt, 0) + 1
     finally:
         wconn.close()
@@ -217,6 +247,8 @@ def main() -> None:
     ap.add_argument("--apply", action="store_true", help="真改库（默认 dry-run 不改）")
     ap.add_argument("--llm-provider", default="deepseek")
     ap.add_argument("--llm-model", default="")
+    ap.add_argument("--concurrency", type=int, default=1,
+                    help="取原文+critic 并发数（仅 LLM/读并发，库写仍串行）；deepseek v4-pro 建议 300-400")
     args = ap.parse_args()
 
     for p in (args.projects_db, args.review_db, args.raw_news_db):
@@ -228,7 +260,7 @@ def main() -> None:
     llm = _build_llm(provider=args.llm_provider, model=args.llm_model)
 
     rep = run_recheck(args.projects_db, args.review_db, raw_news_db=args.raw_news_db, llm=llm,
-                      dry_run=not args.apply, residual_csv=args.residual_csv)
+                      dry_run=not args.apply, concurrency=args.concurrency, residual_csv=args.residual_csv)
     print(f"\n=== run_recheck {'APPLY' if args.apply else 'DRY-RUN'} ===\n"
           f"  candidates    : {rep['n_candidates']}\n"
           f"  auto_corrected: {rep['n_auto_corrected']}\n"
