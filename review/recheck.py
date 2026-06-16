@@ -15,8 +15,6 @@ _root = next(p for p in pathlib.Path(__file__).resolve().parents if (p / "bri_en
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
-from pydantic import ValidationError  # noqa: E402
-
 from review import apply, critic, queue  # noqa: E402
 from review.export_queue import export_pending  # noqa: E402
 from review.run_review import (  # noqa: E402  复用闭包工厂 + 默认校验器（不重复造）
@@ -153,8 +151,8 @@ def run_recheck(
         try:
             verdicts = _critic(article=article, project=cand["full_project"],
                                suspicious_with_prior=cand["suspicious_with_prior"], llm=llm)
-        except (ValidationError, RuntimeError) as e:  # 解析非法/LLM 持久失败逐条隔离，不连累整批
-            logger.error("recheck critic 失败 row_id=%d: %s", rid, e)
+        except Exception as e:  # 逐条隔离：任何 LLM/解析/网络异常都不连累整批（worker 边界，已 logging 不静默）
+            logger.error("recheck critic 失败 row_id=%d: %s: %s", rid, type(e).__name__, e)
             return {**cand, "outcome": "critic_failed"}
         return {**cand, "outcome": "ok", "verdicts": verdicts}
 
