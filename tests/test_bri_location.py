@@ -45,6 +45,65 @@ def test_unrelated_locations_not_candidates():
     assert cands == []
 
 
+def test_directional_prefix_provinces_not_candidates():
+    """东/西/中/南/北 同核心地名是不同子地区，绝不得成为候选（防跨省级联误并）。"""
+    assert bri_location.find_location_candidates([("东爪哇省", 5), ("西爪哇省", 10)]) == []
+    assert bri_location.find_location_candidates([("北苏拉威西省", 3), ("南苏拉威西省", 6)]) == []
+    # 一方有方向前缀、一方无（岛/省 通名）也算不同粒度，不合并
+    assert bri_location.find_location_candidates([("苏拉威西省", 4), ("中苏拉威西省", 13)]) == []
+    assert bri_location.find_location_candidates([("加里曼丹", 3), ("西加里曼丹", 3)]) == []
+
+
+def test_positional_not_overreaching_on_long_names():
+    """南苏拉威西省 vs 南苏门答腊省（len6, 南苏…省 共 3/6=0.5）不得因 positional 成候选——
+    苏拉威西(Sulawesi)≠苏门答腊(Sumatra)，LLM 易混，须在门控阶段拦下。"""
+    assert bri_location.find_location_candidates([("南苏拉威西省", 6), ("南苏门答腊省", 7)]) == []
+    # 但真·音译变体（威/维）靠 token_sort 仍是候选（不依赖 positional）
+    assert len(bri_location.find_location_candidates([("南苏拉威西省", 6), ("南苏拉维西省", 3)])) == 1
+
+
+def test_compound_and_suffix_direction_not_candidates():
+    """方向以复合(中部)或后缀(西部)出现时也要识别为不同子地区。"""
+    # 中部爪哇省 vs 西爪哇省：中部(中+部) vs 西
+    assert bri_location.find_location_candidates([("中部爪哇省", 1), ("西爪哇省", 10)]) == []
+    # 爪哇岛西部 vs 中爪哇岛：方向作后缀(西部) vs 前缀(中)
+    assert bri_location.find_location_candidates([("爪哇岛西部", 2), ("中爪哇岛", 1)]) == []
+
+
+def test_same_direction_compound_variant_still_candidate():
+    """中爪哇 vs 中部爪哇省：同为中(部) → 仍是候选（守卫不误杀同方向）。"""
+    cands = bri_location.find_location_candidates([("中爪哇", 2), ("中部爪哇省", 1)])
+    assert len(cands) == 1
+
+
+def test_same_direction_suffix_variant_still_candidate():
+    """方向相同、仅行政后缀差异 → 仍是候选（守卫不能误杀真合并）。"""
+    cands = bri_location.find_location_candidates([("东爪哇", 2), ("东爪哇省", 5)])
+    assert len(cands) == 1
+
+
+def test_short_abbrev_not_partial_matched_into_long():
+    """「南苏」partial=100 子串嵌进「南苏拉威西省」，长度比守卫必须拦下（防缩写桥接误并）。"""
+    assert bri_location.find_location_candidates([("南苏", 1), ("南苏拉威西省", 6)]) == []
+    assert bri_location.find_location_candidates(
+        [("雅加达", 1), ("雅加达东部卡拉旺阿尔萨工业园区", 1)]) == []
+
+
+def test_multiregion_string_excluded():
+    """含分隔符的多地名串无法归一到单一规范名，排除其参与任何候选对。"""
+    assert bri_location.find_location_candidates(
+        [("北马鲁古省, 西爪哇省", 1), ("西爪哇省", 10)]) == []
+    assert bri_location.find_location_candidates(
+        [("塔什干、安集延、纳曼干", 1), ("塔什干州", 5)]) == []
+
+
+def test_positional_requires_min_length():
+    """positional 信号对 ≤3 字地名过宽（广东/广西、江苏/江西 同首字仅 0.5），需最小长度限制。"""
+    assert bri_location.find_location_candidates([("广东", 4), ("广西", 2)]) == []
+    assert bri_location.find_location_candidates([("江苏", 1), ("江西", 3)]) == []
+    assert bri_location.find_location_candidates([("巴厘岛", 7), ("巴淡岛", 1)]) == []
+
+
 def test_build_union_mapping_selects_canonical():
     names = [("达瓦德密", 3), ("达旺德米", 1)]
     confirmed = [{"name_a": "达瓦德密", "name_b": "达旺德米",
