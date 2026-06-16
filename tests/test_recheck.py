@@ -57,8 +57,9 @@ from review import queue as _queue
 def _seed_projects_db(path):
     """建最小 extracted_projects（id/字段/source_link）。"""
     c = sqlite3.connect(path)
+    # capacity_mw 用 REAL（与真实 extracted_projects schema 一致；v2 规则：数值字段 REAL + *_raw 原文列）
     c.execute("""CREATE TABLE extracted_projects (id INTEGER PRIMARY KEY, project_name TEXT,
-                 category TEXT, capacity_mw TEXT, capacity_mw_raw TEXT, involvement_type TEXT,
+                 category TEXT, capacity_mw REAL, capacity_mw_raw TEXT, involvement_type TEXT,
                  implementing_entity TEXT, source_link TEXT, excluded INTEGER DEFAULT 0,
                  exclude_source TEXT, exclude_reason TEXT)""")
     c.executemany("INSERT INTO extracted_projects (id,project_name,category,capacity_mw,involvement_type,implementing_entity,source_link) VALUES (?,?,?,?,?,?,?)",
@@ -98,3 +99,56 @@ def test_load_recheck_candidates_filters_and_aggregates(tmp_path):
     # id=20 是 exclude_suggested（field=status，高）
     assert by_id[20]["suspicious_with_prior"][0]["field"] == "status"
     assert by_id[20]["full_project"]["project_name"] == "项目乙"
+
+
+import csv as _csv
+
+
+def test_run_recheck_routes_and_writes_residual(tmp_path, monkeypatch):
+    """e2e：capacity 高置信有效→自动改；exclude conf=1.0→自动排除；其余→残留 CSV。"""
+    from review import recheck
+    pdb, rdb = str(tmp_path / "p.db"), str(tmp_path / "r.db")
+    _seed_projects_db(pdb); _seed_review_db(rdb)
+
+    # fake article_fn：恒返回原文；fake critic_fn：按 row_id 给不同 verdict
+    def fake_article(url, db_path=None):
+        return {"title": "t", "content": "c"}
+
+    def fake_critic(*, article, project, suspicious_with_prior, llm):
+        from review.critic import Verdict
+        if project["project_name"] == "项目甲":      # id=10：capacity 有效高置信 → 自动改
+            return [Verdict(field="capacity_mw", verdict="wrong", suggested_value="100",
+                            confidence=0.95, evidence="原文100MW")]
+        return [Verdict(field="status", verdict="exclude", suggested_value=None,
+                        confidence=1.0, evidence="确系油气")]              # id=20：exclude 自动
+
+    residual = str(tmp_path / "residual.csv")
+    rep = recheck.run_recheck(pdb, rdb, raw_news_db="unused", llm=object(),
+                              critic_fn=fake_critic, article_fn=fake_article,
+                              dry_run=False, residual_csv=residual, ts="20260617_000000")
+    assert rep["n_candidates"] == 2
+    assert rep["n_auto_corrected"] == 1      # capacity_mw=100 自动改
+    assert rep["n_auto_excluded"] == 1       # exclude conf=1.0
+    # 库已改
+    c = sqlite3.connect(pdb)
+    assert c.execute("SELECT capacity_mw FROM extracted_projects WHERE id=10").fetchone()[0] == 100.0
+    assert c.execute("SELECT excluded FROM extracted_projects WHERE id=20").fetchone()[0] == 1
+    c.close()
+
+
+def test_run_recheck_dry_run_no_write(tmp_path):
+    """dry_run：不改库，would_change 记录到 report。"""
+    from review import recheck
+    from review.critic import Verdict
+    pdb, rdb = str(tmp_path / "p.db"), str(tmp_path / "r.db")
+    _seed_projects_db(pdb); _seed_review_db(rdb)
+    rep = recheck.run_recheck(
+        pdb, rdb, raw_news_db="unused", llm=object(),
+        critic_fn=lambda **k: [Verdict(field="capacity_mw", verdict="wrong",
+                                       suggested_value="100", confidence=0.95, evidence="x")],
+        article_fn=lambda url, db_path=None: {"title": "t", "content": "c"},
+        dry_run=True, residual_csv=str(tmp_path / "r.csv"), ts="20260617_000001")
+    c = sqlite3.connect(pdb)
+    assert c.execute("SELECT capacity_mw FROM extracted_projects WHERE id=10").fetchone()[0] in (None, "")
+    c.close()
+    assert rep["dry_run"] is True and rep.get("would_change")

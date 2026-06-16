@@ -85,3 +85,110 @@ def load_recheck_candidates(review_db: str, projects_db: str) -> list[dict]:
             }
         agg[rid]["suspicious_with_prior"].append(prior)
     return list(agg.values())
+
+
+_REPORTS_DIR = pathlib.Path(__file__).resolve().parent / "reports"
+
+
+def run_recheck(
+    projects_db: str,
+    review_db: str,
+    *,
+    raw_news_db: str,
+    llm,
+    critic_fn: Optional[Callable] = None,
+    article_fn: Optional[Callable] = None,
+    dry_run: bool = False,
+    conf_threshold: float = 0.8,
+    value_validator: Optional[Callable] = None,
+    residual_csv: str = "",
+    ts: Optional[str] = None,
+) -> dict:
+    """编排第二遍复核：load_candidates→取原文→recheck_project→apply.route 分层→残留独立 queue→CSV。
+
+    残留写**独立** recheck_queue.db（projects_db + '.recheck_queue.db'），不污染原 review_db。
+    注入 seam：critic_fn(article,project,suspicious_with_prior,llm)、article_fn(url,db_path=)。
+    """
+    import shutil
+    _ts = ts or datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    # 改库前备份（与 run_review 一致）
+    bak = f"{projects_db}.bak_recheck_{_ts}"
+    try:
+        shutil.copy2(projects_db, bak)
+        logger.info("已备份 projects_db → %s", bak)
+    except OSError as e:
+        logger.error("备份失败 %s→%s: %s", projects_db, bak, e); raise
+
+    # 残留 queue（独立库，幂等建表；每次运行清空避免叠加）
+    resid_db = f"{projects_db}.recheck_queue.db"
+    if pathlib.Path(resid_db).exists():
+        pathlib.Path(resid_db).unlink()
+    queue.init_queue(resid_db)
+
+    candidates = load_recheck_candidates(review_db, projects_db)
+    n = {"cand": len(candidates), "auto_corrected": 0, "auto_excluded": 0,
+         "queued": 0, "critic_failed": 0, "no_article": 0, "update_failed": 0}
+    reasons: dict[str, int] = {}
+    would_change: list[dict] = []
+    validator = value_validator if value_validator is not None else _default_value_validator
+    _critic = critic_fn if critic_fn is not None else critic.recheck_project
+    _article = article_fn if article_fn is not None else get_article
+
+    wconn = sqlite3.connect(str(projects_db))
+    try:
+        for cand in candidates:
+            rid, link = cand["row_id"], cand["source_link"]
+            try:
+                article = _article(link, db_path=raw_news_db)
+            except sqlite3.Error as e:
+                logger.error("取原文失败 row_id=%d: %s", rid, e); n["no_article"] += 1; continue
+            if article is None:
+                logger.warning("找不到原文 row_id=%d，跳过", rid); n["no_article"] += 1; continue
+            try:
+                verdicts = _critic(article=article, project=cand["full_project"],
+                                   suspicious_with_prior=cand["suspicious_with_prior"], llm=llm)
+            except (ValidationError, RuntimeError) as e:  # 解析非法/LLM 持久失败逐条隔离，不连累整批
+                logger.error("recheck critic 失败 row_id=%d: %s", rid, e); n["critic_failed"] += 1; continue
+
+            # 白名单预过滤（同 run_review）：非法字段 verdict 丢弃
+            allowed = [v for v in verdicts
+                       if v.verdict in ("ok", "exclude") or v.field == "status" or v.field in _UPDATABLE]
+
+            failed = [0]
+            update_field = _make_update_field(rid, wconn, dry_run, would_change, failed)
+            exclude_field = _make_exclude_field(rid, wconn, dry_run, would_change, failed)
+            res = apply.route(
+                canonical_id=str(rid), source_link=link, verdicts=allowed,
+                review_db=resid_db, update_field=update_field, conf_threshold=conf_threshold,
+                value_validator=validator, exclude_fn=exclude_field,
+            )
+            n["auto_corrected"] += res["auto_corrected"]
+            n["auto_excluded"] += res.get("auto_excluded", 0)
+            n["queued"] += res["queued"]
+            n["update_failed"] += failed[0]
+            for rt in res.get("reasons", []):
+                reasons[rt] = reasons.get(rt, 0) + 1
+    finally:
+        wconn.close()
+
+    # 残留 → CSV（join projects_db 补原值）
+    if residual_csv:
+        try:
+            export_pending(resid_db, projects_db, residual_csv)
+        except (OSError, sqlite3.Error) as e:
+            logger.error("写残留 CSV 失败 %s: %s", residual_csv, e)
+
+    report = {
+        "n_candidates": n["cand"], "n_auto_corrected": n["auto_corrected"],
+        "n_auto_excluded": n["auto_excluded"], "n_queued": n["queued"],
+        "n_critic_failed": n["critic_failed"], "n_no_article": n["no_article"],
+        "n_update_failed": n["update_failed"], "reasons": reasons, "dry_run": dry_run,
+    }
+    if dry_run and would_change:
+        report["would_change"] = would_change
+    _REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    (path := _REPORTS_DIR / f"recheck_{_ts}.json").write_text(
+        json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    logger.info("run_recheck 完成 %s → %s", report, path)
+    return report
