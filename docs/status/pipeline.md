@@ -1,14 +1,14 @@
 # 流水线编排与批量采集
 
-> 最后更新：2026-03-22
+> 最后更新：2026-06-02（v2.1 P5：去 crewAI Flow → 纯 Python `run_pipeline(cfg)`）
 
 ---
 
-## 流水线编排（crewAI Flows）
+## 流水线编排（纯 Python 顺序编排）
 
 **子项目路径：** `pipeline/`
 
-一次命令运行完整流水线，支持按需跳过各阶段。
+一次命令运行完整流水线，支持按需跳过各阶段。**v2.1 P5 起**：由 crewAI `Flow`（`@start`/`@listen`）改为纯 Python 顺序函数 `run_pipeline(cfg: PipelineConfig)`——阶段间靠 SQLite 文件接力（不靠内存 state），能力等价、命令名不变。
 
 ### 当前支持路径
 
@@ -20,21 +20,23 @@
 ### 执行流程
 
 ```
-BRIPipelineFlow
-  stage_01a_crawl   (@start)    ← skip_s01a=True 时跳过
-       ↓ @listen
-  stage_01b_extract             ← 始终执行
-       ↓ @listen
-  stage_02a_merge               ← 始终执行
-       ↓ @listen
-  stage_02b_normalize           ← run_entity_normalize=False 时跳过（不建议）
+run_pipeline(cfg)
+  阶段一A：新闻采集            ← cfg.skip_s01a=True 时跳过（→ _run_s01a = s01a.run_single）
+       ↓
+  阶段一B：AI 提取            ← 始终执行（→ _run_s01b = s01b.run_bulk_extract，仅传 raw_news_db_path）
+       ↓
+  阶段二A：去重合并入库        ← 始终执行（→ 直调 DuplicateMergerTool()._run(input_db, db_path)，绝对路径）
+       ↓
+  阶段二B：实体归一化          ← cfg.run_entity_normalize=False 时跳过（不建议）
        ↓
   打印"✅ 流水线执行完毕"
 
-预留（后续路径扩展）：
-  stage_02c_verify              ← s02c 交叉验证（代码已预留，未挂载）
-  stage_03_export               ← s03 数据库导出（代码已预留，未挂载）
+预留（默认关，置标志位即启用，函数内延迟 import）：
+  阶段二C：交叉验证            ← cfg.run_cross_verification=True（→ s02c.run）
+  阶段三：导出                ← cfg.run_export=True（→ s03.run）
 ```
+
+> 「串某几段」= 构造 `PipelineConfig(skip_s01a=True, run_entity_normalize=False, run_cross_verification=True)` 之类再调 `run_pipeline(cfg)`；「单独跑某段」仍可进对应子项目 `uv run sNN_xxx`。
 
 ### 运行方式
 
@@ -64,7 +66,7 @@ make export-only     # 等同 uv run run_export_only
 ./bri.sh from-s01b
 ```
 
-### PipelineState 参数
+### PipelineConfig 参数（`@dataclass`，替代原 crewAI PipelineState）
 
 | 参数 | 类型 | 默认 | 说明 |
 |------|------|------|------|
@@ -74,8 +76,9 @@ make export-only     # 等同 uv run run_export_only
 | `run_export` | bool | False | 是否执行 s03 导出（后续路径，预留） |
 | `start_date` / `end_date` | str | 见代码 | s01a 爬取日期范围 |
 | `raw_news_db_path` | str | s01a/data/raw_news.db | s01a 输出 / s01b 输入 |
-| `projects_db_path` | str | s01b/data/projects.db | s01b 输出 / s02a 输入 |
-| `db_path` | str | s02a/data/db/bri_re_database.db | s02a 输出（主数据库） |
+| `projects_db_path` / `review_db_path` | str | s01b/data/*.db | 保留供参考；`run_bulk_extract` 内部固定这两路径，当前不透传 |
+| `input_db` | str | s01b/data/projects.db | s02a 输入（直调 tool 时传入） |
+| `db_path` | str | s02a/data/db/bri_re_database.db | s02a 输出（主数据库），同时作 s02b 入参 |
 
 ---
 
@@ -117,7 +120,14 @@ uv run run_bulk_extract  # 默认 4 并发
 
 ---
 
+## 2026-06-02（v2.1 P5）去 crewAI Flow → 纯 Python
+
+- `flow.py` 由 crewAI `Flow[PipelineState]`（`@start`/`@listen`）改为 `@dataclass PipelineConfig` + `run_pipeline(cfg)` 顺序编排；删 `crewai.flow.flow` / `pydantic.BaseModel` / pysbd 警告抑制；pyproject 去 `crewai[tools,google-genai]` + `[tool.crewai]`。三入口 `run_full_pipeline`/`run_from_s01b`/`run_export_only` 与脚本名、能力不变。
+- 一并修复 P1 后已断的 import：原 `from s01b_project_extractor.crew import ProjectExtractor`（crew 已在 P1 删）导致整个 pipeline import 报错——改为 `from s01b_project_extractor.main import run_bulk_extract`。
+- 行为对齐：s01b 段仅传 `raw_news_db_path`（`run_bulk_extract` 内部固定 projects/review 路径）；s02a 段直调 `DuplicateMergerTool()._run(input_db, db_path)` 用**绝对路径**，保持原 crewAI kickoff 行为（不调 s02a.run()，因其写死相对路径会按 pipeline CWD 写错文件）。
+- 验证：smoke import 通过（不再因 crewai/已删 crew 报错）；未真跑全流水线。
+
 ## 2026-03-22 稳定性修复
 
-- `flow.py` 调整为按需导入 `s03_data_exporter`，降低 `run_pipeline` / `run_from_s01b` 对后续预留阶段模块的导入耦合风险。
-- `stage_01a_crawl` 归档逻辑增加目录存在性保护：`s01a/data/raw` 不存在时跳过归档，不再因 `FileNotFoundError` 中断流水线。
+- `flow.py` 调整为按需导入 `s03_data_exporter`，降低 `run_pipeline` / `run_from_s01b` 对后续预留阶段模块的导入耦合风险（P5 后仍保留：s02c/s03 在各自 `if` 块内延迟 import）。
+- `_archive_s01a_files` 归档逻辑增加目录存在性保护：`s01a/data/raw` 不存在时跳过归档，不再因 `FileNotFoundError` 中断流水线（P5 保留原逻辑不变）。

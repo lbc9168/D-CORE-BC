@@ -7,13 +7,11 @@ import WorldMap from "@/components/map/WorldMap";
 import ProvinceMap from "@/components/map/ProvinceMap";
 import ProvinceMapErrorBoundary from "@/components/map/ProvinceMapErrorBoundary";
 import ProjectList from "@/components/projects/ProjectList";
-import ProjectDetail from "@/components/projects/ProjectDetail";
-import TimelineChart from "@/components/charts/TimelineChart";
-import EntityChart from "@/components/charts/EntityChart";
+import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
 import type { ColorBy, MapLevel, Project } from "@/types";
 
 export default function MapPage() {
-  const { filteredProjects, trendProjects, filter, loading, error } = useData();
+  const { filteredProjects, loading, error } = useData();
   const { t } = useLang();
 
   const [colorBy, setColorBy] = useState<ColorBy>("count");
@@ -93,10 +91,6 @@ export default function MapPage() {
     );
   }
 
-  // 右侧面板内容决策
-  const showDetail = selectedProject != null;
-  const showProjectList = selectedProvince != null || (mapLevel === "province" && !showDetail);
-  const showCharts = mapLevel === "world" && !showDetail;
   const selectedProjectId = selectedProject?.project_id ?? null;
 
   return (
@@ -167,47 +161,35 @@ export default function MapPage() {
           )}
         </div>
 
-        {/* 右：上下文面板 */}
+        {/* 右：项目列表（世界层=全部筛选结果；国家/省层=对应子集） */}
         <div className="w-[26rem] max-w-[42vw] min-w-[20rem] border-l border-slate-200 flex flex-col overflow-hidden bg-slate-50 flex-shrink-0">
-          {showDetail && selectedProject ? (
-            // 项目详情
-            <div className="m-2 card flex flex-col flex-1 overflow-hidden">
-              <ProjectDetail
-                project={selectedProject}
-                onClose={() => setSelectedProject(null)}
-              />
-            </div>
-          ) : showProjectList ? (
-            // 项目列表
-            <div className="flex flex-col flex-1 overflow-hidden p-2">
-              <div className="card flex flex-col flex-1 overflow-hidden">
-                <div className="px-3 py-2.5 border-b border-slate-100 font-medium text-sm text-slate-700 flex items-center gap-1.5">
+          <div className="flex flex-col flex-1 overflow-hidden p-2">
+            <div className="card flex flex-col flex-1 overflow-hidden">
+              <div className="px-3 py-2.5 border-b border-slate-100 font-medium text-sm text-slate-700 flex items-center justify-between gap-1.5">
+                <span>
                   {selectedProvince === "__no_province__"
                     ? t("map.noProvince")
                     : selectedProvince ?? selectedCountry?.name ?? t("projectList.title")}
-                </div>
-                <div className="flex-1 overflow-hidden">
-                  <ProjectList
-                    projects={panelProjects}
-                    onSelect={setSelectedProject}
-                    selectedId={selectedProjectId}
-                  />
-                </div>
+                </span>
+                <span className="badge bg-slate-100 text-slate-500">{panelProjects.length}</span>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <ProjectList
+                  projects={panelProjects}
+                  onSelect={setSelectedProject}
+                  selectedId={selectedProjectId}
+                />
               </div>
             </div>
-          ) : showCharts ? (
-            // 统计图表
-            <div className="flex flex-col h-full overflow-hidden p-2 gap-2">
-              <div className="card p-3 flex-1 min-h-0 flex flex-col">
-                <TimelineChart projects={trendProjects} groups={filter.groups} />
-              </div>
-              <div className="card p-3 flex-[0.6] min-h-0 flex flex-col">
-                <EntityChart projects={filteredProjects} />
-              </div>
-            </div>
-          ) : null}
+          </div>
         </div>
       </div>
+
+      {/* 项目详情滑出抽屉（覆盖层，不挤占布局） */}
+      <ProjectDetailDrawer
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </div>
   );
 }

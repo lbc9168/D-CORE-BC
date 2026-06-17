@@ -22,6 +22,8 @@ env/
 
 # 6. 运行时生成的数据目录（体积大，不上传）
 s01_data_collector_filter/data/
+s01a_news_crawler/data/
+s01b_project_extractor/data/
 s02a_duplicate_merger/data/
 s02b_entity_normalizer/data/
 s02c_cross_verification/data/
@@ -51,6 +53,22 @@ uv.lock
 
 # 5. VS Code 配置 (可选，如果你不想上传你的个人编辑器配置)
 .vscode/
+
+# eval 评测本地产物（不入 git）
+eval/cache/
+eval/reports/
+eval/draft*.csv
+eval/gold_set.jsonl
+eval/*.log
+
+# review 复核模块运行产物（不入 git）
+review/reports/
+review/data/
+review/*.log
+review/*.csv
+# .bak 备份：project_extractor_tool 用 .bak.YYYYMMDD（点号），run_review 用 .bak_YYYYMMDD（下划线）
+*.db.bak.*
+*.db.bak_*
 
 # s04_web_visualization
 s04_web_visualization/frontend/node_modules/

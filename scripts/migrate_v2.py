@@ -26,8 +26,8 @@ if str(_root) not in sys.path:
 import bri_enums as enums
 import bri_parse
 
-# ── 复用既有清洗映射（同目录脚本）──
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+# ── 复用既有清洗映射（一次性脚本已归档至 scripts/oneoff/）──
+sys.path.insert(0, str(Path(__file__).resolve().parent / "oneoff"))
 from clean_historical_data import STAGE_MAP, INVOLVEMENT_MAP
 
 from pydantic import BaseModel, ConfigDict, FilePath

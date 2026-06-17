@@ -3,17 +3,7 @@ import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { formatCountryName } from "@/utils/display";
-
-const ROLE_ZH_TO_EN: Record<string, string> = {
-  "BOT/BOOT": "BOT/BOOT",
-  "EPC总承包": "EPC General Contractor",
-  "设计/施工服务方": "Design/Construction Service",
-  "股权投资方": "Equity Investor",
-  "设备供应商": "Equipment Supplier",
-  "投融资+EPC": "Investment + EPC",
-  "融资方": "Financier",
-  "Unknown": "Unknown",
-};
+import { INVOLVEMENT_TYPES } from "@/utils/enums";
 
 interface ProjectDetailProps {
   project: Project;
@@ -40,10 +30,10 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
   return (
     <div className="flex flex-col h-full bg-white">
       {/* 顶栏 */}
-      <div className="flex items-start gap-2 p-3 border-b border-slate-100">
+      <div className="flex items-start gap-2 p-4 border-b border-slate-100">
         <div className="flex-1">
           <div className="text-xs text-slate-400 mb-0.5">{p.project_id}</div>
-          <h3 className="text-sm font-semibold text-slate-800 leading-snug">{name}</h3>
+          <h3 className="text-base font-semibold text-slate-800 leading-snug">{name}</h3>
           {p.project_name && p.project_name_en && p.project_name !== p.project_name_en && (
             <div className="text-xs text-slate-400 mt-0.5">{p.project_name}</div>
           )}
@@ -53,8 +43,8 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         </button>
       </div>
 
-      {/* 标签 */}
-      <div className="flex flex-wrap gap-1.5 px-3 py-2 border-b border-slate-100">
+      {/* 标签（capacity 徽章已移除——数字条中有更醒目的展示） */}
+      <div className="flex flex-wrap gap-1.5 px-4 py-2 border-b border-slate-100">
         {cat && (
           <span className="badge text-white text-xs" style={{ backgroundColor: cat.color }}>
             {cat.en}
@@ -66,11 +56,6 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         >
           {p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}
         </span>
-        {p.capacity_mw != null && (
-          <span className="badge bg-slate-100 text-slate-600 text-xs">
-            {p.capacity_mw.toFixed(1)} MW
-          </span>
-        )}
         {p.bri_country === "Yes" && (
           <span className="badge bg-green-100 text-green-700 text-xs">BRI</span>
         )}
@@ -79,31 +64,52 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
         )}
       </div>
 
+      {/* 关键数字条（cobalt 风格：彩色竖线 + 大数字）；event_count 恒有值，故无条件渲染 */}
+      <div className="flex gap-6 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
+        {p.capacity_mw != null && (
+          <div className="border-l-[3px] pl-2.5" style={{ borderColor: cat?.color ?? "#2F6562" }}>
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.capacity_mw.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">MW</span>
+            </div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.capacity")}</div>
+          </div>
+        )}
+        {p.total_investment_usd != null && (
+          <div className="border-l-[3px] border-amber-400 pl-2.5">
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.total_investment_usd.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">M USD</span>
+            </div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.investment")}</div>
+          </div>
+        )}
+        <div className="border-l-[3px] border-slate-300 pl-2.5">
+          <div className="text-lg font-bold text-slate-800 leading-tight">{p.event_count}</div>
+          <div className="text-[11px] text-slate-400">{t("projectDetail.eventCount")}</div>
+        </div>
+      </div>
+
       {/* 正文 */}
-      <div className="flex-1 overflow-y-auto px-3 py-2 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4">
         {/* 基本信息 */}
         <section>
           <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
             {t("projectDetail.basicInfo")}
           </h4>
-          <dl>
+          <dl className="bg-slate-50 rounded-xl px-3 py-1.5">
             <Row
               label={t("projectDetail.country")}
               value={formatCountryName(p.country, p.country_iso, "en")}
             />
             <Row
-              label={t("projectDetail.category")}
-              value={cat ? cat.en : (p.category_en || p.category)}
-            />
-            <Row
-              label={t("projectDetail.capacity")}
-              value={p.capacity_mw != null ? `${p.capacity_mw.toFixed(1)} MW` : undefined}
-            />
-            <Row
               label={t("projectDetail.province")}
               value={p.province ?? t("projectDetail.noProvince")}
             />
-            <Row label={t("projectDetail.eventCount")} value={p.event_count} />
+            <Row
+              label={t("projectDetail.category")}
+              value={cat ? cat.en : (p.category_en || p.category)}
+            />
             {p.verification_status === "verified" && (
               <Row label={t("projectDetail.verification")} value={t("projectDetail.verified")} />
             )}
@@ -116,7 +122,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               {t("projectDetail.timeline")}
             </h4>
-            <p className="text-xs text-slate-700 leading-relaxed">
+            <p className="bg-slate-50 rounded-xl px-3 py-2.5 text-xs text-slate-700 leading-relaxed">
               {p.timeline_notes
                 ? p.timeline_notes
                 : `${p.latest_stage_en || STAGES[p.latest_stage]?.en || p.latest_stage}: ${p.event_month}`}
@@ -132,7 +138,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             </h4>
             <div className="space-y-2">
               {p.all_entities.map((ent, i) => (
-                <div key={i} className="bg-slate-50 rounded-lg p-2.5 text-xs">
+                <div key={i} className="bg-slate-50 rounded-xl p-3 text-xs">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span className="font-medium text-slate-800">
                       {ent.name_en || ent.name}
@@ -151,7 +157,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
                   )}
                   {ent.involvement_type && (
                     <div className="text-slate-400 mt-0.5">
-                      {ent.involvement_type_en || ROLE_ZH_TO_EN[ent.involvement_type] || ent.involvement_type}
+                      {ent.involvement_type_en || INVOLVEMENT_TYPES[ent.involvement_type]?.en || ent.involvement_type}
                     </div>
                   )}
                 </div>
@@ -159,6 +165,28 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             </div>
           </section>
         )}
+
+        {/* 项目业主（逻辑同 Financing：有业主才显示；unknown 不显示）*/}
+        {(() => {
+          const ownerRaw = (p.project_developer_en || p.project_developer || "").trim();
+          const isUnknown =
+            !ownerRaw ||
+            ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(ownerRaw.toLowerCase());
+          if (isUnknown) return null;
+          return (
+            <section>
+              <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                {t("projectDetail.ownerSection")}
+              </h4>
+              <div className="bg-slate-50 rounded-xl p-3 text-xs">
+                <div className="flex gap-2">
+                  <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.owner")}</span>
+                  <span className="text-slate-800 break-words">{ownerRaw}</span>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
         {/* 融资信息 */}
         {(() => {
@@ -174,7 +202,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                 {t("projectDetail.financingSection")}
               </h4>
-              <div className="bg-slate-50 rounded-lg p-2.5 text-xs space-y-1.5">
+              <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5">
                 {fmValue && (
                   <div className="flex gap-2">
                     <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.financing")}</span>
@@ -199,7 +227,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               {t("projectDetail.externalLinks")}
             </h4>
-            <div className="bg-slate-50 rounded-lg p-2.5 text-xs space-y-1.5">
+            <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5">
               {[...(p.official_website_links ?? []), ...(p.non_official_website_links ?? [])].map((url, i) => (
                 <div key={i}>
                   <a

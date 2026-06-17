@@ -52,6 +52,8 @@ export interface Project {
   non_official_website_links?: string[];
   primary_entity: string;
   primary_entity_en: string;
+  project_developer: string;        // 业主中文
+  project_developer_en: string;     // 业主英文
   all_entities: Entity[];
   has_soe: 0 | 1;
   verification_status: string;

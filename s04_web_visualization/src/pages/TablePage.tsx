@@ -5,7 +5,7 @@ import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import FilterBar from "@/components/filters/FilterBar";
-import ProjectDetail from "@/components/projects/ProjectDetail";
+import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
 import { formatCountryName } from "@/utils/display";
 import { downloadCSV } from "@/utils/csvExport";
 import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
@@ -131,7 +131,7 @@ export default function TablePage() {
         <FilterBar colorBy={colorBy} onColorByChange={setColorBy} />
 
         {/* 工具栏 */}
-        <div className="flex items-center gap-3 px-4 py-2 bg-white border-b border-slate-100 flex-shrink-0">
+        <div className="flex items-center gap-3 px-4 py-2.5 bg-white border-b border-slate-100 flex-shrink-0">
           <div className="relative flex-1 max-w-xs">
             <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400" />
             <input
@@ -157,9 +157,10 @@ export default function TablePage() {
         </div>
 
         {/* 表格 */}
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-hidden p-3">
+          <div className="card h-full overflow-auto">
           <table className="w-full text-xs border-collapse">
-            <thead className="sticky top-0 bg-slate-50 z-10">
+            <thead className="sticky top-0 bg-slate-50/95 backdrop-blur z-10">
               <tr className="border-b border-slate-200">
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
                   <SortBtn k="project_id" label={col["id"] ?? "ID"} />
@@ -278,6 +279,7 @@ export default function TablePage() {
               )}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* 分页 */}
@@ -287,7 +289,7 @@ export default function TablePage() {
             <button
               onClick={() => setPage((p) => Math.max(0, p - 1))}
               disabled={page === 0}
-              className="btn-outline disabled:opacity-40 py-1 px-2"
+              className="btn-outline disabled:opacity-40 py-1 px-2.5 rounded-full"
             >
               ←
             </button>
@@ -297,7 +299,7 @@ export default function TablePage() {
             <button
               onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
               disabled={page === totalPages - 1}
-              className="btn-outline disabled:opacity-40 py-1 px-2"
+              className="btn-outline disabled:opacity-40 py-1 px-2.5 rounded-full"
             >
               →
             </button>
@@ -305,15 +307,11 @@ export default function TablePage() {
         )}
       </div>
 
-      {/* 右：项目详情侧边栏 */}
-      {selectedProject && (
-        <div className="w-80 border-l border-slate-200 flex-shrink-0 overflow-hidden bg-white shadow-lg">
-          <ProjectDetail
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
-        </div>
-      )}
+      {/* 项目详情滑出抽屉 */}
+      <ProjectDetailDrawer
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
 
       {/* 下载问卷弹窗 */}
       {showSurvey && (

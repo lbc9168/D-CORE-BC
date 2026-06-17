@@ -3,6 +3,7 @@ const zh = {
   nav: {
     title: '"一带一路"可再生能源项目数据库',
     home: "首页",
+    overview: "总览",
     map: "地图视图",
     table: "数据表格",
     reports: "研究报告",
@@ -32,7 +33,6 @@ const zh = {
     allCategories: "全部类型",
     allStages: "全部阶段",
     allEntities: "全部企业",
-    projectsCount: "{{count}} 个项目",
     soe: "央企参与",
     soeAll: "全部",
     soeYes: "含央企项目",
@@ -89,7 +89,24 @@ const zh = {
     verified: "已核验",
     financingSection: "融资信息",
     investment: "总投资 (百万美元)",
+    owner: "业主",
+    ownerSection: "项目业主",
     externalLinks: "外部链接",
+  },
+  // 总览仪表盘
+  overview: {
+    title: "项目总览 ·",
+    allYears: "全部年份",
+    kpiActive: "活跃项目数",
+    kpiCapacity: "装机容量合计 (MW)",
+    kpiCountries: "覆盖国家数",
+    kpiEntities: "参与中企数",
+    banner:
+      "口径说明：「活跃项目」指所选年份落在该项目最早与最晚里程碑事件之间；装机容量为项目总装机（非当年新增），储能与输变电类项目不计入容量合计；2022 年前的事件不进入统计。",
+    statusMix: "项目状态构成",
+    share: "占比",
+    topByCount: "项目数 Top 国家",
+    topByCapacity: "装机容量 Top 国家 (MW)",
   },
   // 图表
   chart: {

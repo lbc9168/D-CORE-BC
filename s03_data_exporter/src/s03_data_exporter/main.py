@@ -15,7 +15,12 @@
 
 import os
 import sqlite3
+import sys
 from pathlib import Path
+
+# Windows GBK 控制台下强制 UTF-8 输出，避免 ✓/中文等字符触发 UnicodeEncodeError（与 s02b CLI 一致）
+if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp950"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[union-attr]
 
 from dotenv import load_dotenv
 
@@ -134,6 +139,7 @@ def run() -> None:
     n_ev = events_exporter.export_events_csv(
         SRC_DB,
         [DST_DIR / "events_export.csv", S04_DATA_DIR / "events_export.csv"],
+        flat_db=DST_DB,
         iso3_to_en=flat_builder.ISO3_TO_EN_NAME,
         province_map=province_map,
     )

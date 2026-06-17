@@ -30,6 +30,19 @@ def test_loader_matches_json():
     assert e.stage_priority("竣工") == 6
     assert e.is_no_capacity("储能") is True
     assert e.is_hidden_category("核电") is True
-    assert e.is_excluded_category("火电") is True
+    assert e.is_excluded_category("火电") is False  # P2.1: 火电 excluded→false
     assert set(e.valid_categories()) == set(RAW["category"].keys())
     assert set(e.valid_stages()) == set(RAW["project_stage"].keys())
+
+
+def test_thermal_power_not_excluded():
+    """火电属发电项目，必须录入保留：excluded 应为 False（v2.1 P2.1 决策）。"""
+    import bri_enums
+    assert bri_enums.is_excluded_category("火电") is False, "火电不应再被基线排除"
+
+
+def test_no_category_excluded_after_p21():
+    """P2.1 后无任何 category 处于 excluded=true（火电是历史上唯一一个）。"""
+    import bri_enums
+    excluded = [c for c in bri_enums.valid_categories() if bri_enums.is_excluded_category(c)]
+    assert excluded == [], f"不应有 excluded category，实际={excluded}"

@@ -4,6 +4,7 @@ const en: Translations = {
   nav: {
     title: "Database of Chinese Overseas Renewable Energy Investment",
     home: "Map",
+    overview: "Overview",
     map: "Map View",
     table: "Data Table",
     reports: "Reports",
@@ -32,7 +33,6 @@ const en: Translations = {
     allCategories: "All Types",
     allStages: "All Stages",
     allEntities: "All Entities",
-    projectsCount: "{{count}} projects",
     soe: "Central SOE",
     soeAll: "All",
     soeYes: "With Central SOE",
@@ -86,7 +86,24 @@ const en: Translations = {
     verified: "Verified",
     financingSection: "Financing",
     investment: "Investment (M USD)",
+    owner: "Owner",
+    ownerSection: "Project Owner",
     externalLinks: "External Links",
+  },
+  // Overview dashboard
+  overview: {
+    title: "Overview ·",
+    allYears: "All Years",
+    kpiActive: "Project Milestones",
+    kpiCapacity: "Total Capacity (MW)",
+    kpiCountries: "Countries Covered",
+    kpiEntities: "Chinese entities involved",
+    banner:
+      "Note: \"Active projects\" are those whose earliest–latest milestone span covers the selected year. Capacity is total installed capacity (not annual additions); energy-storage and grid projects are excluded from capacity sums. Events before 2022 are not counted.",
+    statusMix: "Project Status Mix",
+    share: "Share",
+    topByCount: "Top Countries by Projects",
+    topByCapacity: "Top Countries by Capacity (MW)",
   },
   chart: {
     timelineTitle: "Annual Milestone Trend",

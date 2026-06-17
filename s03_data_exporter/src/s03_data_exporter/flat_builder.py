@@ -75,6 +75,8 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     financing_model_en  TEXT,
     primary_entity      TEXT,
     primary_entity_en   TEXT,
+    project_developer    TEXT,
+    project_developer_en TEXT,
     all_entities        TEXT,
     has_soe                    INTEGER,
     verification_status        TEXT,
@@ -251,6 +253,12 @@ def build_flat(
         primary_entity    = (latest_entities[0].get("implementing_entity") or "").strip() if latest_entities else ""
         primary_entity_en = (latest_entities[0].get("implementing_entity_en") or "").strip() if latest_entities else ""
 
+        # 业主：优先代表(终态)事件，缺则取首个有值事件（cn/en 同源于该事件）
+        _dev_ev = latest if (latest.get("project_developer") or "").strip() else next(
+            (ev for ev in proj_events if (ev.get("project_developer") or "").strip()), latest)
+        project_developer    = (_dev_ev.get("project_developer") or "").strip()
+        project_developer_en = (_dev_ev.get("project_developer_en") or "").strip()
+
         # 事件年份（取最终状态事件日期的年份）
         event_year = _parse_year(
             latest.get("publish_date") or latest.get("investment_date")
@@ -361,6 +369,8 @@ def build_flat(
                 "financing_model_en":  enums.financing_en(financing_model) or financing_model,
                 "primary_entity":      primary_entity,
                 "primary_entity_en":   primary_entity_en,
+                "project_developer":    project_developer,
+                "project_developer_en": project_developer_en,
                 "all_entities":        json.dumps(all_entities_list, ensure_ascii=False),
                 "has_soe":                    has_soe,
                 "verification_status":        latest.get("verification_status") or "unverified",

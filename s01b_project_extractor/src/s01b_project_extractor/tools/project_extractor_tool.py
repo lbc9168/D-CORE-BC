@@ -1,20 +1,45 @@
 import concurrent.futures
 import json
+import logging
 import os
+import shutil
 import sqlite3
 import sys
 import threading
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Type
-
 import pandas as pd
-from crewai.tools import BaseTool
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
+
+from s01b_project_extractor.guardrails.format_checks import run_format_checks, VALID_RECORD_TYPES
+from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
+
+logger = logging.getLogger(__name__)
+
+
+def _normalize_record_type(rt) -> str:
+    """Record Type 兜底归一：合法三类原样返回；空/缺失/非法（如把类别「新能源制造业」或事件词「中标/收购」当 Record Type）一律归「具体项目」，避免真项目被 s02a 误分流到 non_project_records。"""
+    s = str(rt or "").strip()
+    return s if s in VALID_RECORD_TYPES else "具体项目"
+
+
+# 物理上单个电站装机不可能 ≥ 50000 MW（最大三峡 ~22500 MW）；≥50000 几乎必是「千瓦数误填进 MW 字段」。
+_CAPACITY_MW_IMPOSSIBLE = 50000.0
+
+
+def _normalize_capacity_mw(mw):
+    """容量兜底归一：物理不可能的超大 MW（≥50000，几乎必是 LLM 把千瓦/万千瓦原数倾进 MW 字段）÷1000 还原为 MW；其余原样。原文 *_raw 列保留不动。"""
+    if mw is None:
+        return None
+    try:
+        v = float(mw)
+    except (TypeError, ValueError):
+        return mw
+    return v / 1000.0 if v >= _CAPACITY_MW_IMPOSSIBLE else v
 
 # ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
@@ -22,6 +47,7 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
 import bri_parse
+from review import queue as review_queue
 
 load_dotenv()
 
@@ -195,6 +221,7 @@ def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
             entry = cache[name_cn]
             return entry.get("en_abbr") or entry.get("en", "")
     # 缓存未命中 → 调用 Gemini 翻译
+    success = True
     try:
         translate_prompt = (
             f"请将以下中国企业名称翻译为英文官方名称（如有官方英文名优先使用，否则给出合理译名）。"
@@ -207,12 +234,14 @@ def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
         en_name = resp.text.strip().strip('"').strip("'")
     except Exception as e:
         print(f">>> [警告] 翻译失败 ({name_cn}): {e}")
-        en_name = name_cn  # 翻译失败时保留中文
-    with _name_cache_lock:
-        cache = _load_name_cache()
-        if name_cn not in cache:  # 再次检查（double-check locking）
-            cache[name_cn] = {"en": en_name, "en_abbr": None, "verified": False, "source": "ai"}
-            _save_name_cache(cache)
+        en_name = name_cn      # 翻译失败时回退中文
+        success = False        # 但**不写缓存**：避免把失败结果（=中文）固化、永久阻止重试（防 503 等瞬时故障污染共享缓存）
+    if success:
+        with _name_cache_lock:
+            cache = _load_name_cache()
+            if name_cn not in cache:  # 再次检查（double-check locking）
+                cache[name_cn] = {"en": en_name, "en_abbr": None, "verified": False, "source": "ai"}
+                _save_name_cache(cache)
     return en_name
 
 
@@ -302,6 +331,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             capacity_source         TEXT,
             project_stage           TEXT,
             project_developer       TEXT,
+            project_developer_en    TEXT,
             multiple_chinese        TEXT,
             implementing_entity     TEXT,
             implementing_entity_en  TEXT,
@@ -326,6 +356,9 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             project_summary         TEXT,
             batch_id                TEXT,
             imported_to_s02a        INTEGER DEFAULT 0,
+            excluded                INTEGER DEFAULT 0,
+            exclude_reason          TEXT,
+            exclude_source          TEXT,
             created_at              TEXT
         )
     """)
@@ -339,6 +372,11 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN capacity_source TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN subcontract_amount_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN total_investment_usd_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN is_unnamed_placeholder INTEGER DEFAULT 0",
+        "ALTER TABLE extracted_projects ADD COLUMN excluded INTEGER DEFAULT 0",
+        "ALTER TABLE extracted_projects ADD COLUMN exclude_reason TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN exclude_source TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN project_developer_en TEXT",
     ]:
         try:
             conn.execute(col_def)
@@ -375,6 +413,13 @@ def _init_review_db(db_path: str) -> sqlite3.Connection:
     """)
     conn.commit()
     return conn
+
+
+# 单一可信源的生成配置：JSON 输出 + 低温度，供 extract_one 复用
+_GENERATION_CONFIG = types.GenerateContentConfig(
+    response_mime_type="application/json",
+    temperature=0.14,
+)
 
 
 # ── Prompt 构建 ────────────────────────────────────────────────────────────────
@@ -544,6 +589,16 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     """
 
 
+def extract_one(title: str, content: str, date: str, *, client, model: str = "gemini-2.5-flash-lite") -> dict:
+    """对单篇文章跑一次分阶段提取，返回原始结果 dict；支持按 S01B_STAGE_PROVIDERS 分阶段路由（默认全 gemini，复用传入的 client）。"""
+    from s01b_project_extractor.llm.client import LLMClient, LLMConfig, build_stage_router_from_env
+    from s01b_project_extractor.stages.orchestrator import extract_staged
+    # 默认 gemini 阶段复用调用方已建好的 client；被 S01B_STAGE_PROVIDERS 覆盖的阶段（如 deepseek）从 env 另建
+    gemini_llm = LLMClient(LLMConfig(provider="gemini", model=model), _client=client)
+    router = build_stage_router_from_env(default_client=gemini_llm)
+    return extract_staged(title, content, date, llm=router)
+
+
 # ── Input Schema ──────────────────────────────────────────────────────────────
 
 class ProjectExtractorInput(BaseModel):
@@ -571,15 +626,8 @@ class ProjectExtractorInput(BaseModel):
 
 # ── Tool ──────────────────────────────────────────────────────────────────────
 
-class ProjectExtractorTool(BaseTool):
-    name: str = "project_extractor_tool"
-    description: str = (
-        "从 raw_news.db 读取已爬取的新闻，逐条调用 AI 进行筛选和结构化提取，"
-        "将结果分三类写入 SQLite 数据库：有效项目（→ projects_db_path）、"
-        "无中方参与项目和被剔除无关新闻（→ review_db_path）。"
-        "返回各类别数量摘要和数据库路径。"
-    )
-    args_schema: Type[BaseModel] = ProjectExtractorInput
+class ProjectExtractorTool:
+    """从 raw_news.db 读取新闻，调用 AI 提取项目信息并分类写入 SQLite 数据库。"""
 
     def _run(
         self,
@@ -595,10 +643,6 @@ class ProjectExtractorTool(BaseTool):
             return "错误：未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。"
 
         client = genai.Client(api_key=api_key)
-        generation_config = types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.14,
-        )
         country_db = _load_country_db(country_db_path)
 
         try:
@@ -624,7 +668,7 @@ class ProjectExtractorTool(BaseTool):
         df = pd.DataFrame(rows, columns=["原文链接", "文章标题", "正文内容", "发布日期"])
         ts = datetime.now().strftime("%Y%m%d_%H%M")
         effective_batch_id = batch_id or f"all_{ts}"
-        return self._process_df(df, effective_batch_id, ts, client, generation_config,
+        return self._process_df(df, effective_batch_id, ts, client,
                                 country_db, projects_db_path, review_db_path)
 
     def _run_from_db(
@@ -652,11 +696,10 @@ class ProjectExtractorTool(BaseTool):
         batch_id: str,
         ts: str,
         client: "genai.Client",
-        generation_config: "types.GenerateContentConfig",
         country_db: dict,
         projects_db_path: str,
         review_db_path: str,
-        max_workers: int = 4,
+        max_workers: int = 24,  # 内层文章并发（v2.1 C1 全量重录入提速；原 4。Gemini 10k RPM / DeepSeek-flash 2500 足够）
     ) -> str:
         """处理一个 DataFrame，执行 AI 提取并写入数据库。"""
         # 加载已处理过的 URL（去重）
@@ -667,8 +710,8 @@ class ProjectExtractorTool(BaseTool):
             cur.execute("SELECT DISTINCT source_link FROM extracted_projects WHERE source_link IS NOT NULL AND source_link != ''")
             already_processed.update(r[0] for r in cur.fetchall())
             _chk.close()
-        except Exception:
-            pass
+        except sqlite3.Error as e:
+            logger.error("预加载 projects.db 已处理 URL 失败（跳过，增量去重将降级）: %s", e)
         try:
             _chk2 = _init_review_db(review_db_path)
             cur2 = _chk2.cursor()
@@ -676,8 +719,8 @@ class ProjectExtractorTool(BaseTool):
                          "UNION SELECT source_link FROM discarded_records WHERE source_link IS NOT NULL AND source_link != ''")
             already_processed.update(r[0] for r in cur2.fetchall())
             _chk2.close()
-        except Exception:
-            pass
+        except sqlite3.Error as e:
+            logger.error("预加载 review.db 已处理 URL 失败（跳过，增量去重将降级）: %s", e)
         if already_processed:
             print(f">>> 增量模式：已跳过 {len(already_processed)} 个已处理 URL")
 
@@ -690,6 +733,7 @@ class ProjectExtractorTool(BaseTool):
             print(">>> [警告] 全部文章均被 already_processed 跳过，输出将为0条。")
 
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
+        unnamed_review_links: list[str] = []  # source_link of chinese_unnamed articles for review_queue
         total = len(df)
         print(f"开始处理 {total} 条数据（并发 {max_workers} 线程）...")
 
@@ -713,6 +757,7 @@ class ProjectExtractorTool(BaseTool):
 
         _lock = threading.Lock()
         _skip_count = [0]  # 用列表包装以便在闭包中修改
+        _fail_count = [0]  # worker 隔离的单篇异常计数（Design 1：失败篇不落任何表，仅记日志，重跑自动重试）
 
         def _process_article(row_num_row: tuple) -> None:
             row_num, row = row_num_row
@@ -744,35 +789,15 @@ class ProjectExtractorTool(BaseTool):
 
             print("--------------------------------")
             print(f"[{row_num}/{total}] AI处理中: {title[:25]}...")
-            prompt = _build_prompt(title, content, pub_date)
-
-            MAX_RETRIES = 3
-            result = None
-            last_error = ""
-            for attempt in range(1, MAX_RETRIES + 1):
-                try:
-                    response = client.models.generate_content(
-                        model="gemini-2.5-flash-lite",
-                        contents=prompt,
-                        config=generation_config,
-                    )
-                    result = json.loads(response.text)
-                    break
-                except Exception as e:
-                    last_error = str(e)
-                    if attempt < MAX_RETRIES:
-                        wait = 2 ** attempt
-                        print(f"  -> 处理出错（第{attempt}次）: {e}，{wait}s 后重试...")
-                        time.sleep(wait)
-                    else:
-                        print(f"  -> 处理出错（已重试{MAX_RETRIES}次，放弃）: {e}")
-
-            if result is None:
+            try:
+                result = extract_one(title, content, pub_date, client=client)
+            except RuntimeError as e:
+                print(f"  -> 处理出错（已重试3次，放弃）: {e}")
                 with _lock:
                     discarded_rows.append({
                         "文章标题": title,
                         "正文内容": content,
-                        "拒绝原因": f"程序异常（重试{MAX_RETRIES}次失败）: {last_error}",
+                        "拒绝原因": f"程序异常: {e}",
                     })
                 return
 
@@ -784,9 +809,10 @@ class ProjectExtractorTool(BaseTool):
             print(f"  -> 分析: [{subject}] - {reasoning}")
             print(f"  -> 结论: {status}")
 
-            local_valid: list[dict]      = []
-            local_no_chinese: list[dict] = []
-            local_discarded: list[dict]  = []
+            local_valid: list[dict]          = []
+            local_no_chinese: list[dict]     = []
+            local_discarded: list[dict]      = []
+            local_unnamed_review: list[str]  = []
 
             if status == "irrelevant":
                 local_discarded.append({
@@ -814,7 +840,7 @@ class ProjectExtractorTool(BaseTool):
                     meta = _get_country_meta(country_name, country_db)
 
                     base = {
-                        "Record Type": common.get("Record Type", "具体项目"),
+                        "Record Type": _normalize_record_type(common.get("Record Type")),
                         "Project Name": common.get("Project Name", ""),
                         "Project Name (EN)": common.get("Project Name (EN)", ""),
                         "Name EN Quality": "ai_translated",
@@ -828,6 +854,8 @@ class ProjectExtractorTool(BaseTool):
                         "Capacity Details": common.get("Capacity Details", ""),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
+                        # 业主英文：与 implementing_entity_en 同走 _resolve_entity_en（缓存+Gemini），future imports 自动带上
+                        "Project Developer (EN)": _resolve_entity_en(common.get("Project Developer", ""), client),
                         "Multiple Chinese Enterprises Involved": (
                             "Yes" if len(entities) > 1 else "No"
                         ),
@@ -847,6 +875,10 @@ class ProjectExtractorTool(BaseTool):
                         "Non-official website link": "",
                         "Additional Remarks": "",
                         "Project Summary": project_summary,
+                        # ── exclude 出口（来自 S2 的 in_scope 判定）──
+                        "_excluded": 0 if proj.get("in_scope", True) else 1,
+                        "_exclude_reason": "" if proj.get("in_scope", True) else str(proj.get("out_of_scope_reason", "")),
+                        "_exclude_source": "" if proj.get("in_scope", True) else "extraction",
                     }
 
                     if not entities:
@@ -893,16 +925,93 @@ class ProjectExtractorTool(BaseTool):
                             })
                             local_valid.append(row_data)
 
+            elif status == "chinese_unnamed":
+                # 中企未具名：项目信息写库，实体行用占位符，后续人工补录公司名
+                for proj in result.get("projects", []):
+                    common = proj.get("common_info", {})
+                    project_summary = proj.get("project_summary", "")
+                    country_name = common.get("Country", "")
+                    meta = _get_country_meta(country_name, country_db)
+
+                    base = {
+                        "Record Type": _normalize_record_type(common.get("Record Type")),
+                        "Project Name": common.get("Project Name", ""),
+                        "Project Name (EN)": common.get("Project Name (EN)", ""),
+                        "Name EN Quality": "ai_translated",
+                        "Country": country_name,
+                        "Country ISO": meta["iso"],
+                        "BRI country": meta["bri"],
+                        "LDCs": meta["ldc"],
+                        "Location (State)": common.get("Location(State)", ""),
+                        "Category": common.get("Category", ""),
+                        "Capacity (MW)": common.get("Capacity (MW)", ""),
+                        "Capacity Details": common.get("Capacity Details", ""),
+                        "Project Stage": common.get("Project Stage", ""),
+                        "Project Developer": common.get("Project Developer", ""),
+                        # 业主英文：与 implementing_entity_en 同走 _resolve_entity_en（缓存+Gemini），future imports 自动带上
+                        "Project Developer (EN)": _resolve_entity_en(common.get("Project Developer", ""), client),
+                        "Multiple Chinese Enterprises Involved": "No",
+                        "(Planned) Start Date": common.get("(Planned) Start Date", ""),
+                        "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
+                        "Total Project Investment (Million USD)": common.get(
+                            "Total Project Investment (Million USD)", ""
+                        ),
+                        "Investment (or Financial Close) Date": common.get(
+                            "Investment (or Financial Close) Date", ""
+                        ),
+                        "Financing Model": common.get("Financing Model", ""),
+                        "Financing Model Details": common.get("Financing Model Details", ""),
+                        "Publish Date": pub_date,
+                        "Source Link": orig_link,
+                        "Official Website link": "",
+                        "Non-official website link": "",
+                        "Additional Remarks": "",
+                        "Project Summary": project_summary,
+                        # 占位实体标记（写库时用于设置 is_unnamed_placeholder=1）
+                        "_is_unnamed_placeholder": True,
+                    }
+                    row_data = base.copy()
+                    row_data.update({
+                        "Implementing Chinese Entity": enums.UNNAMED_ENTITY_PLACEHOLDER,
+                        "Implementing Chinese Entity (EN)": "",
+                        "Is Central SOE": None,
+                        "Subsidiary Name": "",
+                        "Subsidiary Name (EN)": "",
+                        "Type of involvement of Chinese Entities": "Unknown",
+                        "Subcontract Amount (Million USD)": "",
+                    })
+                    local_valid.append(row_data)
+                    local_unnamed_review.append(orig_link)
+
             with _lock:
                 all_ai_results.append({"index": row_num, "title": title, "result": result})
                 valid_rows.extend(local_valid)
                 no_chinese_rows.extend(local_no_chinese)
                 discarded_rows.extend(local_discarded)
+                if status == "chinese_unnamed":
+                    unnamed_review_links.extend(local_unnamed_review)
 
-        # 并发处理所有文章
+        def _process_article_safe(row_num_row: tuple) -> None:
+            """worker 隔离：单篇任何异常只记日志(含 traceback)+计数，不落任何表；失败篇不进去重集，重跑 run_bulk_extract 会自动重试（Design 1）。"""
+            try:
+                _process_article(row_num_row)
+            except Exception as e:
+                row_num, row = row_num_row
+                with _lock:
+                    _fail_count[0] += 1
+                logger.error(
+                    "文章处理失败（已隔离跳过，不中断批次；未落库，重跑将重试）row=%s link=%s title=%s: %s",
+                    row_num, str(row.get("原文链接", ""))[:120],
+                    str(row.get("文章标题", ""))[:40], e, exc_info=True,
+                )
+
+        # 并发处理所有文章（每篇经 _process_article_safe 隔离，单篇异常不拖垮整批）
         rows_indexed = [(i + 1, row) for i, (_, row) in enumerate(df.iterrows())]
         with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
-            list(executor.map(_process_article, rows_indexed))
+            list(executor.map(_process_article_safe, rows_indexed))
+        if _fail_count[0]:
+            logger.error("本批 %s：%d 篇因异常被隔离跳过（未落库，重跑 run_bulk_extract 会自动重试）",
+                         batch_id, _fail_count[0])
 
         if _skip_count[0]:
             print(f">>> 共跳过 {_skip_count[0]} 条已处理文章（已在数据库中）")
@@ -935,6 +1044,17 @@ class ProjectExtractorTool(BaseTool):
                 json.dump(payload, f, ensure_ascii=False, indent=2)
             return str(json_path)
 
+        # ── 主库 schema 迁移前备份（仅对真实默认库，tmp 测试库不触发）──
+        _real_db_path = Path(projects_db_path).resolve()
+        _default_db_path = Path(_DEFAULT_PROJECTS_DB).resolve()
+        if _real_db_path == _default_db_path and _real_db_path.exists():
+            _bak = str(_real_db_path) + "." + datetime.now().strftime("bak.%Y%m%d_%H%M%S")
+            try:
+                shutil.copy2(str(_real_db_path), _bak)
+                logger.info("已备份主库至 %s（schema 迁移前保护）", _bak)
+            except OSError as e:
+                logger.error("主库备份失败，继续执行（风险：迁移如失败无法回滚）: %s", e)
+
         try:
             proj_conn = _init_projects_db(projects_db_path)
             review_conn = _init_review_db(review_db_path)
@@ -952,20 +1072,23 @@ class ProjectExtractorTool(BaseTool):
                 cap_raw = row_data.get("Capacity (MW)", "")
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
                 inv_raw = row_data.get("Total Project Investment (Million USD)", "")
+                is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
                 proj_conn.execute(
                     """INSERT INTO extracted_projects
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
                         bri_country, ldc, location, category, capacity_mw_raw, capacity_mw, capacity_details,
                         storage_power_mw, storage_energy_mwh, capacity_source,
-                        project_stage, project_developer, multiple_chinese, implementing_entity,
+                        project_stage, project_developer, project_developer_en, multiple_chinese, implementing_entity,
                         implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
                         involvement_type, subcontract_amount_usd_raw, subcontract_amount_usd, planned_start_date,
                         planned_complete_date, total_investment_usd_raw, total_investment_usd, investment_date,
                         financing_model, financing_model_details,
                         source_link, publish_date, official_website, non_official_website,
-                        additional_remarks, project_summary, batch_id, imported_to_s02a, created_at)
+                        additional_remarks, project_summary, batch_id, imported_to_s02a,
+                        excluded, exclude_reason, exclude_source,
+                        is_unnamed_placeholder, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)""",
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
                         row_data.get("Project Name", ""),
@@ -978,13 +1101,14 @@ class ProjectExtractorTool(BaseTool):
                         row_data.get("Location (State)", ""),
                         row_data.get("Category", ""),
                         cap_raw,
-                        bri_parse.parse_number(cap_raw),
+                        _normalize_capacity_mw(bri_parse.parse_number(cap_raw)),
                         row_data.get("Capacity Details", ""),
                         None,  # storage_power_mw：提取属 v2.1，本次留空
                         None,  # storage_energy_mwh
                         "original",  # capacity_source：新提取数值来自原文
                         row_data.get("Project Stage", ""),
                         row_data.get("Project Developer", ""),
+                        row_data.get("Project Developer (EN)", ""),
                         row_data.get("Multiple Chinese Enterprises Involved", ""),
                         impl_entity,
                         impl_entity_en,
@@ -1008,6 +1132,10 @@ class ProjectExtractorTool(BaseTool):
                         row_data.get("Additional Remarks", ""),
                         row_data.get("Project Summary", ""),
                         batch_id,
+                        int(row_data.get("_excluded", 0)),
+                        row_data.get("_exclude_reason", "") or None,
+                        row_data.get("_exclude_source", "") or None,
+                        is_unnamed_ph,
                         created_at,
                     ),
                 )
@@ -1031,8 +1159,9 @@ class ProjectExtractorTool(BaseTool):
                             created_at,
                         ),
                     )
-                except Exception:
-                    pass
+                except sqlite3.Error as e:
+                    # INSERT OR IGNORE 不应失败，记录异常供排查
+                    logger.error("写入 no_chinese_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
             review_conn.commit()
 
             # 写入 review.db → discarded_records
@@ -1051,9 +1180,29 @@ class ProjectExtractorTool(BaseTool):
                             created_at,
                         ),
                     )
-                except Exception:
-                    pass
+                except sqlite3.Error as e:
+                    # INSERT OR IGNORE 不应失败，记录异常供排查
+                    logger.error("写入 discarded_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
             review_conn.commit()
+
+            # 写入 review_queue → chinese_unnamed 条目（待人工补录公司名）
+            if unnamed_review_links:
+                review_queue.init_queue(review_db_path)  # 幂等建表
+                for link in unnamed_review_links:
+                    try:
+                        review_queue.add_item(
+                            review_db_path,
+                            canonical_id=None,
+                            source_link=link,
+                            reason_type="unnamed_entity",
+                            field=None,
+                            current_value=None,
+                            suggested_value=None,
+                            critic_confidence=None,
+                            evidence="S1 判 chinese_unnamed，待补公司名",
+                        )
+                    except (sqlite3.Error, ValueError) as e:
+                        logger.error("写入 review_queue 失败（已跳过）: %s | link=%s", e, link)
         except Exception as e:
             fallback_path = _dump_failed_parse_results(str(e))
             raise RuntimeError(
@@ -1064,6 +1213,23 @@ class ProjectExtractorTool(BaseTool):
                 proj_conn.close()
             if review_conn is not None:
                 review_conn.close()
+
+        # ── 批级 guardrail（format + batch）：bulk/单批写库后统一校验，修掉原 bulk 裸奔 ──
+        # 不删记录、不抛错（bulk 无 LLM 重跑循环）；仅 logging.error 记录，交由人工复核。
+        try:
+            _vconn = sqlite3.connect(projects_db_path)
+            _vconn.row_factory = sqlite3.Row
+            _vrows = [dict(r) for r in _vconn.execute(
+                "SELECT * FROM extracted_projects WHERE batch_id=?", (batch_id,)).fetchall()]
+            _vconn.close()
+            _fmt_errors = run_format_checks(_vrows)
+            _batch_errors, _batch_warns = run_batch_checks(_vrows, total_input_articles=len(df))
+            if _fmt_errors or _batch_errors:
+                logger.error("批 %s guardrail 异常 format=%d batch=%d 示例=%s",
+                             batch_id, len(_fmt_errors), len(_batch_errors),
+                             (_fmt_errors[:3] + _batch_errors[:3]))
+        except sqlite3.Error as e:
+            logger.error("批 %s guardrail 校验读库失败: %s", batch_id, e)
 
         # AI 原始结果 JSON
         json_path_str = ""

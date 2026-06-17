@@ -125,7 +125,6 @@ interface DataContextValue {
 
   // 过滤后数据
   filteredProjects: Project[];
-  trendProjects: Project[];
   statusGroupOf: (p: Project) => VizGroup | null;
 
   // 可用选项（来自数据）
@@ -197,12 +196,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     [policyProjects, filter],
   );
 
-  // 趋势图数据源：应用除 refYear/groups 外的全部筛选（图自带 4 tab + 全时间轴）
-  const trendProjects = useMemo(
-    () => applyFilter(policyProjects, { ...filter, refYear: null, groups: [] }),
-    [policyProjects, filter],
-  );
-
   const availableYears = useMemo(() => {
     if (!policyProjects.length) return [];
     const years = new Set<number>();
@@ -230,7 +223,6 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     setFilter,
     resetFilter,
     filteredProjects,
-    trendProjects,
     statusGroupOf: (p: Project) => statusGroupAt(p, filter.refYear),
     availableYears,
     availableEntities,

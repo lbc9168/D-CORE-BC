@@ -61,7 +61,7 @@ function MultiSelect({
       <button
         onClick={() => setIsOpen((o) => !o)}
         className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900
-                   bg-white border border-slate-200 rounded-lg px-2.5 py-1.5
+                   bg-white border border-slate-200 rounded-full px-2.5 py-1.5
                    transition-all hover:border-brand-300 hover:shadow-sm"
       >
         <span>{label}</span>
@@ -145,7 +145,7 @@ function RegionSelect({
       <button
         onClick={() => setIsOpen((o) => !o)}
         className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900
-                   bg-white border border-slate-200 rounded-lg px-2.5 py-1.5
+                   bg-white border border-slate-200 rounded-full px-2.5 py-1.5
                    transition-all hover:border-brand-300 hover:shadow-sm"
       >
         <Globe size={11} className="text-slate-400" />

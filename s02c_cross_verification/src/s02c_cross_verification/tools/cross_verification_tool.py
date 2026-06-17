@@ -14,11 +14,10 @@ import os
 import sqlite3
 import time
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Tuple, Type
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 import requests
-from crewai.tools import BaseTool
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -538,14 +537,8 @@ class CrossVerificationInput(BaseModel):
     )
 
 
-class CrossVerificationTool(BaseTool):
-    name: str = "cross_verification_tool"
-    description: str = (
-        "从 SQLite 数据库读取待验证项目，通过 GDELT 国际新闻库进行外部交叉验证，"
-        "使用 Gemini 多语言嵌入向量匹配 + LLM 最终确认，"
-        "将验证结果写回数据库，并导出低置信度记录的人工核查清单。"
-    )
-    args_schema: Type[BaseModel] = CrossVerificationInput
+class CrossVerificationTool:
+    """外部交叉验证工具：GDELT 查询 → 向量匹配 → LLM 确认 → 写回数据库。"""
 
     def _run(
         self,
