@@ -67,7 +67,8 @@ def _mk(src, flat):
         CREATE TABLE project_events(
             id TEXT PRIMARY KEY, canonical_id TEXT, project_stage TEXT,
             capacity_mw REAL, total_investment_usd REAL, publish_date TEXT,
-            investment_date TEXT, financing_model TEXT, verification_status TEXT
+            investment_date TEXT, financing_model TEXT, verification_status TEXT,
+            project_developer TEXT, project_developer_en TEXT
         );
         CREATE TABLE chinese_entities(
             id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT,
@@ -88,6 +89,9 @@ def _mk(src, flat):
             ("IND-PV-0001-03", "IND-PV-0001", "签约", 50.0, "2021-05-01"),
         ],
     )
+    # 业主中英文（per-event）：E01 有，E02 无
+    c.execute("UPDATE project_events SET project_developer='印尼PLN', project_developer_en='PLN' "
+              "WHERE id='IND-PV-0001-01'")
     c.executemany(
         "INSERT INTO chinese_entities(event_id, implementing_entity, implementing_entity_en, "
         "subsidiary_name, subsidiary_name_en, involvement_type, is_central_soe) VALUES(?,?,?,?,?,?,?)",
@@ -167,6 +171,14 @@ def test_entity_level_rows_with_baseline(tmp_path):
     # 删除的旧列不存在，新列存在
     assert "entities" not in header
     assert "entity_cn" in header and "involvement_type_en" in header
+    # 业主中英文：在 entity 列之前；verification_status 已删
+    hdr = list(header)
+    assert "verification_status" not in hdr
+    assert "owner_cn" in hdr and "owner_en" in hdr
+    assert hdr.index("owner_cn") < hdr.index("entity_cn")
+    assert hdr.index("owner_en") < hdr.index("entity_cn")
+    assert pc["owner_cn"] == "印尼PLN" and pc["owner_en"] == "PLN"
+    assert e02["owner_cn"] == "" and e02["owner_en"] == ""
     # 被过滤/排除的项目均不出现
     ids = {r["canonical_id"] for r in rows}
     assert ids == {"IND-PV-0001"}

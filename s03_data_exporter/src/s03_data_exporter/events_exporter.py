@@ -28,7 +28,7 @@ _COLUMNS = [
     "stage_cn", "stage_en", "stage_group_cn", "stage_group_en",
     "year", "month",
     "capacity_mw", "total_investment_usd", "financing_model_en",
-    "verification_status",
+    "owner_cn", "owner_en",
     "entity_cn", "entity_en", "subsidiary_cn", "subsidiary_en",
     "involvement_type_cn", "involvement_type_en", "is_central_soe",
 ]
@@ -161,7 +161,8 @@ def export_events_csv(
             "capacity_mw": cap if cap is not None else "",
             "total_investment_usd": inv if inv is not None else "",
             "financing_model_en": enums.financing_en(ev.get("financing_model") or "") or (ev.get("financing_model") or ""),
-            "verification_status": ev.get("verification_status") or "",
+            "owner_cn": ev.get("project_developer") or "",
+            "owner_en": ev.get("project_developer_en") or "",
         }
 
         ents = entities_by_event.get(ev["id"], [])
