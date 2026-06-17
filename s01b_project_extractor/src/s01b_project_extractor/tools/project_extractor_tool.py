@@ -328,6 +328,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             capacity_source         TEXT,
             project_stage           TEXT,
             project_developer       TEXT,
+            project_developer_en    TEXT,
             multiple_chinese        TEXT,
             implementing_entity     TEXT,
             implementing_entity_en  TEXT,
@@ -372,6 +373,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN excluded INTEGER DEFAULT 0",
         "ALTER TABLE extracted_projects ADD COLUMN exclude_reason TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN exclude_source TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN project_developer_en TEXT",
     ]:
         try:
             conn.execute(col_def)
@@ -849,6 +851,8 @@ class ProjectExtractorTool:
                         "Capacity Details": common.get("Capacity Details", ""),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
+                        # 业主英文：与 implementing_entity_en 同走 _resolve_entity_en（缓存+Gemini），future imports 自动带上
+                        "Project Developer (EN)": _resolve_entity_en(common.get("Project Developer", ""), client),
                         "Multiple Chinese Enterprises Involved": (
                             "Yes" if len(entities) > 1 else "No"
                         ),
@@ -941,6 +945,8 @@ class ProjectExtractorTool:
                         "Capacity Details": common.get("Capacity Details", ""),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
+                        # 业主英文：与 implementing_entity_en 同走 _resolve_entity_en（缓存+Gemini），future imports 自动带上
+                        "Project Developer (EN)": _resolve_entity_en(common.get("Project Developer", ""), client),
                         "Multiple Chinese Enterprises Involved": "No",
                         "(Planned) Start Date": common.get("(Planned) Start Date", ""),
                         "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
@@ -1069,7 +1075,7 @@ class ProjectExtractorTool:
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
                         bri_country, ldc, location, category, capacity_mw_raw, capacity_mw, capacity_details,
                         storage_power_mw, storage_energy_mwh, capacity_source,
-                        project_stage, project_developer, multiple_chinese, implementing_entity,
+                        project_stage, project_developer, project_developer_en, multiple_chinese, implementing_entity,
                         implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
                         involvement_type, subcontract_amount_usd_raw, subcontract_amount_usd, planned_start_date,
                         planned_complete_date, total_investment_usd_raw, total_investment_usd, investment_date,
@@ -1079,7 +1085,7 @@ class ProjectExtractorTool:
                         excluded, exclude_reason, exclude_source,
                         is_unnamed_placeholder, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
                         row_data.get("Project Name", ""),
@@ -1099,6 +1105,7 @@ class ProjectExtractorTool:
                         "original",  # capacity_source：新提取数值来自原文
                         row_data.get("Project Stage", ""),
                         row_data.get("Project Developer", ""),
+                        row_data.get("Project Developer (EN)", ""),
                         row_data.get("Multiple Chinese Enterprises Involved", ""),
                         impl_entity,
                         impl_entity_en,
