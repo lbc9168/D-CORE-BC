@@ -70,7 +70,15 @@
 
 ---
 
-## F. 最后一遍带原文 AI 复核（设计草案，2026-06-13；待 C2/重建之后建）
+## F. 最后一遍带原文 AI 复核 —— ✅ 代码 + 真跑落库已完成（2026-06-17，详见 `docs/changes/2026-W24e.md`）
+
+> **状态更新（2026-06-17）**：spec/plan 落地（`docs/superpowers/{specs,plans}/2026-06-17-v2.1-recheck-second-pass*`）。新建 `review/recheck.py`（薄编排器，复用 critic/apply/run_review 闭包）+ critic `recheck_project`；TDD 9 测试、根回归 127 全绿。
+> - **dry-run → 用户复看 → `--apply` 真跑**（v4-pro / concurrency=40，主仓库 raw_news.db 只读）：**净新增 exclude 46 条（exclude_source='recheck'）+ involvement_type 纠正 23 条**；category/capacity 未自动改（→残留 894 行 CSV）。改前 .bak。
+> - 实跑暴露并 TDD 修复两问题：①首版串行 ~5–6h → 并发化 ~11min；②concurrency=300 连接风暴炸整批 → 降 40 + worker 广捕隔离；③apply 复用旧闭包误写 source='review' → 修为 'recheck' + relabel 46 条。
+> - **剩余 GATED（待用户单独批准）**：重跑 **B3→B7**（s02a 重建→B4/B5→同名漏并重新检测决策→B6/B7/s04）。
+> - 下方为原设计草案（留档）。
+
+### 原设计草案（2026-06-13）
 
 > 起因：C2 dry-run 把 4,357 条标为 `low_confidence_field` 入队。详拆后发现——**约 90% 没有具体建议值**（critic 只标"可疑"给不出修正），且部分"建议"套用反而更糟（involvement →Unknown 降级、project_name 张冠李戴）。真正可操作的高价值子集很小。决策：**本轮不手工复核**，改为打 severity 标记 + 留到一个独立的"带原文 AI 复核"步骤统一处理。
 
