@@ -17,8 +17,8 @@ if str(_root) not in sys.path:
 
 from review import apply, critic, queue  # noqa: E402
 from review.export_queue import export_pending  # noqa: E402
-from review.run_review import (  # noqa: E402  复用闭包工厂 + 默认校验器（不重复造）
-    _make_update_field, _make_exclude_field, _default_value_validator, _UPDATABLE,
+from review.run_review import (  # noqa: E402  复用 update 闭包 + 默认校验器（exclude 用本模块 recheck 专用版以写 'recheck' source）
+    _make_update_field, _default_value_validator, _UPDATABLE,
 )
 from eval.article_store import get_article  # noqa: E402
 
@@ -87,6 +87,27 @@ def load_recheck_candidates(review_db: str, projects_db: str) -> list[dict]:
 
 
 _REPORTS_DIR = pathlib.Path(__file__).resolve().parent / "reports"
+
+
+def _make_recheck_exclude_field(rid, wconn, _dry_run, _would_change, _failed_counter):
+    """工厂：recheck 专用 exclude 闭包——置 excluded=1, exclude_source='recheck'（保留 provenance，区别 run_review 的 'review'）。"""
+    def exclude_field(canonical_id, reason):
+        """执行（或模拟）置 excluded；dry_run 时只记 would_change。"""
+        if _dry_run:
+            logger.info("[DRY_RUN] 会将 id=%s 置 excluded=1（recheck），理由=%r", rid, reason)
+            _would_change.append({"id": rid, "field": "excluded", "new_value": 1, "reason": reason})
+            return
+        try:
+            with wconn:
+                wconn.execute(
+                    "UPDATE extracted_projects SET excluded=1, exclude_source='recheck', exclude_reason=? WHERE id=?",
+                    (reason, rid),
+                )
+            logger.info("已置 excluded id=%d source=recheck 理由=%r", rid, reason)
+        except sqlite3.Error as e:
+            logger.error("置 excluded 失败 id=%d: %s", rid, e)
+            _failed_counter[0] += 1
+    return exclude_field
 
 
 def run_recheck(
@@ -185,7 +206,7 @@ def run_recheck(
 
             failed = [0]
             update_field = _make_update_field(rid, wconn, dry_run, would_change, failed)
-            exclude_field = _make_exclude_field(rid, wconn, dry_run, would_change, failed)
+            exclude_field = _make_recheck_exclude_field(rid, wconn, dry_run, would_change, failed)
             res2 = apply.route(
                 canonical_id=str(rid), source_link=link, verdicts=allowed,
                 review_db=resid_db, update_field=update_field, conf_threshold=conf_threshold,

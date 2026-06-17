@@ -184,6 +184,25 @@ def test_run_recheck_concurrency_matches_serial(tmp_path):
     c.close()
 
 
+def test_run_recheck_exclude_source_is_recheck(tmp_path):
+    """recheck 自动 exclude 必须写 exclude_source='recheck'（保留 provenance，区别 run_review 的 'review'）。"""
+    from review import recheck
+    from review.critic import Verdict
+    pdb, rdb = str(tmp_path / "p.db"), str(tmp_path / "r.db")
+    _seed_projects_db(pdb); _seed_review_db(rdb)
+    recheck.run_recheck(
+        pdb, rdb, raw_news_db="unused", llm=object(),
+        critic_fn=lambda **k: [Verdict(field="status", verdict="exclude", suggested_value=None,
+                                       confidence=1.0, evidence="x")],
+        article_fn=lambda url, db_path=None: {"title": "t", "content": "c"},
+        dry_run=False, residual_csv=str(tmp_path / "r.csv"), ts="20260617_000004")
+    c = sqlite3.connect(pdb)
+    rows = c.execute("SELECT id, exclude_source FROM extracted_projects WHERE excluded=1 ORDER BY id").fetchall()
+    c.close()
+    assert rows, "应有记录被排除"
+    assert all(r[1] == "recheck" for r in rows), f"exclude_source 应均为 recheck，实际 {rows}"
+
+
 def test_run_recheck_isolates_unexpected_critic_error(tmp_path):
     """单候选 critic 抛非 RuntimeError/ValidationError 异常（如连接错误）应被隔离为 critic_failed，不连累整批。"""
     from review import recheck
