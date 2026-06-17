@@ -103,12 +103,12 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               value={formatCountryName(p.country, p.country_iso, "en")}
             />
             <Row
-              label={t("projectDetail.category")}
-              value={cat ? cat.en : (p.category_en || p.category)}
-            />
-            <Row
               label={t("projectDetail.province")}
               value={p.province ?? t("projectDetail.noProvince")}
+            />
+            <Row
+              label={t("projectDetail.category")}
+              value={cat ? cat.en : (p.category_en || p.category)}
             />
             {p.verification_status === "verified" && (
               <Row label={t("projectDetail.verification")} value={t("projectDetail.verified")} />
@@ -165,6 +165,28 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             </div>
           </section>
         )}
+
+        {/* 项目业主（逻辑同 Financing：有业主才显示；unknown 不显示）*/}
+        {(() => {
+          const ownerRaw = (p.project_developer_en || p.project_developer || "").trim();
+          const isUnknown =
+            !ownerRaw ||
+            ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(ownerRaw.toLowerCase());
+          if (isUnknown) return null;
+          return (
+            <section>
+              <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                {t("projectDetail.ownerSection")}
+              </h4>
+              <div className="bg-slate-50 rounded-xl p-3 text-xs">
+                <div className="flex gap-2">
+                  <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.owner")}</span>
+                  <span className="text-slate-800 break-words">{ownerRaw}</span>
+                </div>
+              </div>
+            </section>
+          );
+        })()}
 
         {/* 融资信息 */}
         {(() => {

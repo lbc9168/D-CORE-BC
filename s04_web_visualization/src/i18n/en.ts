@@ -86,6 +86,8 @@ const en: Translations = {
     verified: "Verified",
     financingSection: "Financing",
     investment: "Investment (M USD)",
+    owner: "Owner",
+    ownerSection: "Project Owner",
     externalLinks: "External Links",
   },
   // Overview dashboard

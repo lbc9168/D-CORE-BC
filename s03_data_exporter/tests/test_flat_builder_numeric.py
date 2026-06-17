@@ -28,7 +28,8 @@ def _make_src(path):
             total_investment_usd REAL, total_investment_usd_raw TEXT,
             publish_date TEXT, investment_date TEXT,
             official_website_links TEXT, non_official_website_links TEXT,
-            verification_status TEXT
+            verification_status TEXT,
+            project_developer TEXT, project_developer_en TEXT
         );
         CREATE TABLE chinese_entities (
             id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT,
@@ -51,7 +52,8 @@ def _make_src(path):
     conn.execute(
         "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw, "
         "storage_power_mw, storage_energy_mwh, capacity_source, total_investment_usd, "
-        "publish_date) VALUES ('A-02','A',?,100.0,20.0,80.0,'legacy',200.0,'2022-06')",
+        "publish_date, project_developer, project_developer_en) "
+        "VALUES ('A-02','A',?,100.0,20.0,80.0,'legacy',200.0,'2022-06','印尼PLN','PLN')",
         (_TERMINAL,),
     )
     # 项目 B（excluded=1，应被过滤）
@@ -87,3 +89,16 @@ def test_flat_builder_numeric(tmp_path):
     assert row[3] == 20.0           # 储能功率透传
     assert row[4] == 80.0           # 储能能量透传
     assert row[5] == "legacy"
+
+
+def test_flat_builder_carries_owner(tmp_path):
+    """projects_flat 带上代表(终态)事件的业主中英文 project_developer/_en。"""
+    src, dst = tmp_path / "src.db", tmp_path / "dst.db"
+    _make_src(str(src))
+    flat_builder.build_flat(src, dst, province_map={})
+    conn = sqlite3.connect(dst)
+    row = conn.execute(
+        "SELECT project_developer, project_developer_en FROM projects_flat WHERE project_id='A'").fetchone()
+    conn.close()
+    assert row[0] == "印尼PLN"
+    assert row[1] == "PLN"

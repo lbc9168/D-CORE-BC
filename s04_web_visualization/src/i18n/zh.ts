@@ -89,6 +89,8 @@ const zh = {
     verified: "已核验",
     financingSection: "融资信息",
     investment: "总投资 (百万美元)",
+    owner: "业主",
+    ownerSection: "项目业主",
     externalLinks: "外部链接",
   },
   // 总览仪表盘
