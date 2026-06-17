@@ -221,6 +221,7 @@ def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
             entry = cache[name_cn]
             return entry.get("en_abbr") or entry.get("en", "")
     # 缓存未命中 → 调用 Gemini 翻译
+    success = True
     try:
         translate_prompt = (
             f"请将以下中国企业名称翻译为英文官方名称（如有官方英文名优先使用，否则给出合理译名）。"
@@ -233,12 +234,14 @@ def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
         en_name = resp.text.strip().strip('"').strip("'")
     except Exception as e:
         print(f">>> [警告] 翻译失败 ({name_cn}): {e}")
-        en_name = name_cn  # 翻译失败时保留中文
-    with _name_cache_lock:
-        cache = _load_name_cache()
-        if name_cn not in cache:  # 再次检查（double-check locking）
-            cache[name_cn] = {"en": en_name, "en_abbr": None, "verified": False, "source": "ai"}
-            _save_name_cache(cache)
+        en_name = name_cn      # 翻译失败时回退中文
+        success = False        # 但**不写缓存**：避免把失败结果（=中文）固化、永久阻止重试（防 503 等瞬时故障污染共享缓存）
+    if success:
+        with _name_cache_lock:
+            cache = _load_name_cache()
+            if name_cn not in cache:  # 再次检查（double-check locking）
+                cache[name_cn] = {"en": en_name, "en_abbr": None, "verified": False, "source": "ai"}
+                _save_name_cache(cache)
     return en_name
 
 
