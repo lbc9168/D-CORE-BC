@@ -67,7 +67,9 @@
       "Skill(superpowers:writing-plans)",
       "Skill(superpowers:writing-plans:*)",
       "Bash(git rev-list *)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "Bash(python docs/charts/gen_charts.py)",
+      "Bash(py docs/charts/gen_charts.py)"
     ]
   }
 }
