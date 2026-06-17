@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS project_events (
     storage_energy_mwh      REAL,
     capacity_source         TEXT,
     project_developer       TEXT,
+    project_developer_en    TEXT,
     planned_start_date      TEXT,
     planned_complete_date   TEXT,
     total_investment_usd_raw TEXT,
@@ -217,6 +218,7 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE canonical_projects ADD COLUMN excluded INTEGER DEFAULT 0",
         "ALTER TABLE canonical_projects ADD COLUMN excluded_reason TEXT",
         "ALTER TABLE canonical_projects ADD COLUMN location_norm TEXT",
+        "ALTER TABLE project_events ADD COLUMN project_developer_en TEXT",
     ]:
         try:
             conn.execute(col_def)
@@ -288,6 +290,7 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
         "capacity_details":        "Capacity Details",
         "project_stage":           "Project Stage",
         "project_developer":       "Project Developer",
+        "project_developer_en":    "Project Developer (EN)",
         "multiple_chinese":        "Multiple Chinese Enterprises Involved",
         "implementing_entity":     "Implementing Chinese Entity",
         "implementing_entity_en":  "Implementing Chinese Entity (EN)",
@@ -415,6 +418,7 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "capacity_details":     _clean(first.get("Capacity Details", "")),
             "project_stage":        _clean(first.get("Project Stage", "")),
             "project_developer":    _clean(first.get("Project Developer", "")),
+            "project_developer_en": _clean(first.get("Project Developer (EN)", "")),
             "planned_start_date":   _clean(first.get("(Planned) Start Date", "")),
             "planned_complete_date":_clean(first.get("(Planned) Complete Date", "")),
             "total_investment_usd": _clean(first.get("Total Project Investment (Million USD)", "")),
@@ -949,7 +953,7 @@ def _merge_group(
     base["entities"] = merged_entities
 
     # EN 翻译字段：取首个非空值，无需 LLM 仲裁
-    for en_field in ["project_name_en"]:
+    for en_field in ["project_name_en", "project_developer_en"]:
         vals = [r.get(en_field, "") for r in records if r.get(en_field)]
         if vals:
             base[en_field] = vals[0]
@@ -1387,7 +1391,7 @@ def _write_to_db(
                     """UPDATE project_events SET
                            capacity_mw_raw = ?, capacity_mw = ?, capacity_source = ?,
                            capacity_details = ?,
-                           project_developer = ?,
+                           project_developer = ?, project_developer_en = ?,
                            planned_start_date = ?, planned_complete_date = ?,
                            total_investment_usd_raw = ?, total_investment_usd = ?,
                            investment_date = ?,
@@ -1402,6 +1406,7 @@ def _write_to_db(
                         "original",
                         merged_rec["capacity_details"],
                         merged_rec["project_developer"],
+                        merged_rec.get("project_developer_en", ""),
                         merged_rec["planned_start_date"],
                         merged_rec["planned_complete_date"],
                         merged_rec["total_investment_usd"],
@@ -1436,19 +1441,19 @@ def _write_to_db(
                    (id, canonical_id, project_stage,
                     capacity_mw_raw, capacity_mw, capacity_details,
                     storage_power_mw, storage_energy_mwh, capacity_source,
-                    project_developer, planned_start_date, planned_complete_date,
+                    project_developer, project_developer_en, planned_start_date, planned_complete_date,
                     total_investment_usd_raw, total_investment_usd, investment_date,
                     financing_model, financing_model_details, source_links,
                     official_website_links, non_official_website_links,
                     publish_date, additional_remarks, project_summary, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     event_id, canonical_id,
                     project["project_stage"],
                     project["capacity_mw"], bri_parse.parse_number(project["capacity_mw"]),
                     project["capacity_details"],
                     None, None, "original",  # storage 提取属 v2.1，本次留空
-                    project["project_developer"],
+                    project["project_developer"], project.get("project_developer_en", ""),
                     project["planned_start_date"], project["planned_complete_date"],
                     project["total_investment_usd"], bri_parse.parse_number(project["total_investment_usd"]),
                     project["investment_date"],
@@ -1507,7 +1512,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
     row = conn.execute("""
         SELECT
             pe.project_stage, pe.capacity_mw_raw, pe.capacity_details,
-            pe.project_developer, pe.planned_start_date, pe.planned_complete_date,
+            pe.project_developer, pe.project_developer_en, pe.planned_start_date, pe.planned_complete_date,
             pe.total_investment_usd_raw, pe.investment_date,
             pe.financing_model, pe.financing_model_details,
             pe.source_links, pe.official_website_links, pe.non_official_website_links,
@@ -1544,7 +1549,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
     ]
 
     (project_stage, capacity_mw, capacity_details,
-     project_developer, planned_start_date, planned_complete_date,
+     project_developer, project_developer_en, planned_start_date, planned_complete_date,
      total_investment_usd, investment_date,
      financing_model, financing_model_details,
      source_links_raw, official_website_links_raw, non_official_website_links_raw,
@@ -1567,6 +1572,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
         "capacity_details":           capacity_details or "",
         "project_stage":              project_stage or "",
         "project_developer":          project_developer or "",
+        "project_developer_en":       project_developer_en or "",
         "planned_start_date":         planned_start_date or "",
         "planned_complete_date":      planned_complete_date or "",
         "total_investment_usd":       total_investment_usd or "",
