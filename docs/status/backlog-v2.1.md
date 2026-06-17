@@ -75,7 +75,8 @@
 > **状态更新（2026-06-17）**：spec/plan 落地（`docs/superpowers/{specs,plans}/2026-06-17-v2.1-recheck-second-pass*`）。新建 `review/recheck.py`（薄编排器，复用 critic/apply/run_review 闭包）+ critic `recheck_project`；TDD 9 测试、根回归 127 全绿。
 > - **dry-run → 用户复看 → `--apply` 真跑**（v4-pro / concurrency=40，主仓库 raw_news.db 只读）：**净新增 exclude 46 条（exclude_source='recheck'）+ involvement_type 纠正 23 条**；category/capacity 未自动改（→残留 894 行 CSV）。改前 .bak。
 > - 实跑暴露并 TDD 修复两问题：①首版串行 ~5–6h → 并发化 ~11min；②concurrency=300 连接风暴炸整批 → 降 40 + worker 广捕隔离；③apply 复用旧闭包误写 source='review' → 修为 'recheck' + relabel 46 条。
-> - **剩余 GATED（待用户单独批准）**：重跑 **B3→B7**（s02a 重建→B4/B5→同名漏并重新检测决策→B6/B7/s04）。
+> - **落地（用户拍板：不做全量 B3→B7，改增量）**：69 改动直接外科手术打进现有 `bri_re_database.db`（exclude 走 OR 语义置 canonical.excluded，靠 source_link→event→canonical 消歧）——**canonical excluded 1196→1229（净+33）+ 22 involvement 更新**，保留 B4/B5 归一 + 6 组合并；只重跑 B7（`projects_flat 3835→3802`，events_export 2657→2642）。脚本 `scripts/oneoff/output/_recheck_incremental_{match,apply}.py`，备份 `bri_re_database.db.bak_pre_incremental_20260617_083533`。
+> - **残留**：s04 浏览器实测（数据已导出，未做）；recheck_residual.csv 894 行未自动改项；2/1 条 critic_failed 可补跑。
 > - 下方为原设计草案（留档）。
 
 ### 原设计草案（2026-06-13）
