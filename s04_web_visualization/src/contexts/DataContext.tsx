@@ -84,15 +84,16 @@ export function statusGroupAt(p: Project, year: number | null): VizGroup | null 
 
 function applyFilter(projects: Project[], f: FilterState): Project[] {
   return projects.filter((p) => {
-    // 区间存在性：选定年 Y 须落在项目 [first,last] 区间内
-    if (f.refYear != null) {
+    // 区间存在性：项目活动区间 [first,last] 须与所选范围 [start,end] 有交叠
+    if (f.yearRange != null) {
       if (p.first_event_year == null || p.last_event_year == null) return false;
-      if (f.refYear < p.first_event_year || f.refYear > p.last_event_year) return false;
+      const [start, end] = f.yearRange;
+      if (p.last_event_year < start || p.first_event_year > end) return false;
     }
     if (f.categories.length > 0 && !f.categories.includes(p.category)) return false;
-    // 按当年状态筛选
+    // 按状态筛选：状态取范围结束年（end）的快照
     if (f.groups.length > 0) {
-      const g = statusGroupAt(p, f.refYear);
+      const g = statusGroupAt(p, f.yearRange ? f.yearRange[1] : null);
       if (g == null || !f.groups.includes(g)) return false;
     }
     if (f.entities.length > 0 && !f.entities.includes(p.primary_entity)) return false;
@@ -142,7 +143,7 @@ interface DataContextValue {
 // ── 默认过滤状态 ──────────────────────────────────────────────────────────────
 
 const DEFAULT_FILTER: FilterState = {
-  refYear: null,
+  yearRange: null,
   categories: [],
   groups: [],
   entities: [],
@@ -223,7 +224,7 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     setFilter,
     resetFilter,
     filteredProjects,
-    statusGroupOf: (p: Project) => statusGroupAt(p, filter.refYear),
+    statusGroupOf: (p: Project) => statusGroupAt(p, filter.yearRange ? filter.yearRange[1] : null),
     availableYears,
     availableEntities,
     lastUpdated: raw?.lastUpdated ?? "",

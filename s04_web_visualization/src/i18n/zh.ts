@@ -13,7 +13,6 @@ const zh = {
   filter: {
     title: "筛选",
     yearRange: "年份范围",
-    year: "参考年",
     status: "项目状态",
     allStatuses: "全部状态",
     category: "能源类型",
@@ -139,6 +138,7 @@ const zh = {
     },
     empty: "没有符合条件的数据",
     total: "共 {{count}} 条",
+    downloadError: "下载失败：数据文件暂时无法获取，请稍后重试或联系管理员。",
   },
   // 报告页
   reports: {

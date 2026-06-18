@@ -124,7 +124,7 @@ export interface RegionFilter {
 }
 
 export interface FilterState {
-  refYear: number | null;                // 单一参考年 Y；null = 不限年份（UI 默认显示最新年）
+  yearRange: [number, number] | null;    // 年份范围 [start, end]；null = 不限年份。状态/配色按 end 年（结束年）计算
   categories: string[];                  // 空数组 = 全选
   groups: VizGroup[];                    // 4 大类状态；空数组 = 全选
   entities: string[];                    // 空数组 = 全选

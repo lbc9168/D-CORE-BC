@@ -13,7 +13,6 @@ const en: Translations = {
   filter: {
     title: "Filters",
     yearRange: "Year Range",
-    year: "Year",
     status: "Status",
     allStatuses: "All statuses",
     category: "Project Type",
@@ -134,6 +133,7 @@ const en: Translations = {
     },
     empty: "No data matches current filters",
     total: "{{count}} records total",
+    downloadError: "Download failed: the data file is temporarily unavailable. Please try again later or contact the administrator.",
   },
   reports: {
     title: "Research Reports",

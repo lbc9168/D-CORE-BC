@@ -213,8 +213,8 @@ function RegionSelect({
   );
 }
 
-/** 单柄参考年滑块（"截至 Y"语义）。 */
-function SingleYearSlider({
+/** 双柄年份范围滑块（[start, end]；状态/配色按 end 年计算）。 */
+function YearRangeSlider({
   minYear,
   maxYear,
   value,
@@ -222,19 +222,50 @@ function SingleYearSlider({
 }: {
   minYear: number;
   maxYear: number;
-  value: number;
-  onChange: (v: number) => void;
+  value: [number, number];
+  onChange: (v: [number, number]) => void;
 }) {
+  const range = maxYear - minYear || 1;
+  const leftPct = ((value[0] - minYear) / range) * 100;
+  const rightPct = 100 - ((value[1] - minYear) / range) * 100;
+
+  // 当下限 thumb 靠近右侧时，让它浮在上层以便可拖动
+  const lowerZClass = value[0] >= value[1] ? "z-20" : "z-10";
+
   return (
-    <input
-      type="range"
-      min={minYear}
-      max={maxYear}
-      value={value}
-      onChange={(e) => onChange(Number(e.target.value))}
-      className="single-year-input"
-      style={{ width: "120px" }}
-    />
+    <div className="relative h-5 flex items-center" style={{ width: "96px" }}>
+      {/* 背景轨道 */}
+      <div className="absolute inset-x-0 h-1 bg-slate-200 rounded-full" />
+      {/* 选中区间高亮 */}
+      <div
+        className="absolute h-1 bg-brand-400 rounded-full"
+        style={{ left: `${leftPct}%`, right: `${rightPct}%` }}
+      />
+      {/* 下限滑块 */}
+      <input
+        type="range"
+        min={minYear}
+        max={maxYear}
+        value={value[0]}
+        className={`dual-range-input ${lowerZClass}`}
+        onChange={(e) => {
+          const v = Number(e.target.value);
+          onChange([Math.min(v, value[1]), value[1]]);
+        }}
+      />
+      {/* 上限滑块 */}
+      <input
+        type="range"
+        min={minYear}
+        max={maxYear}
+        value={value[1]}
+        className="dual-range-input z-10"
+        onChange={(e) => {
+          const v = Number(e.target.value);
+          onChange([value[0], Math.max(v, value[0])]);
+        }}
+      />
+    </div>
   );
 }
 
@@ -244,7 +275,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
 
   const minYear = availableYears[0] ?? 2022;   // 数据集起始年兜底（availableYears 为空时）
   const maxYear = availableYears[availableYears.length - 1] ?? new Date().getFullYear();
-  const currentYear = filter.refYear ?? maxYear;
+  const currentRange = filter.yearRange ?? [minYear, maxYear];
   const categoryOptions = useMemo(
     () => Object.keys(CATEGORIES).filter((k) => !isHiddenCategory(k)),
     [],
@@ -261,16 +292,17 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
                     flex-wrap text-xs flex-shrink-0">
 
 
-      {/* 参考年（单年） */}
+      {/* 年份范围（双柄） */}
       <div className="flex items-center gap-2">
-        <span className="text-slate-500">{t("filter.year")}</span>
-        <SingleYearSlider
+        <span className="text-slate-500">{t("filter.yearRange")}</span>
+        <span className="text-slate-700 font-mono">{currentRange[0]}</span>
+        <YearRangeSlider
           minYear={minYear}
           maxYear={maxYear}
-          value={currentYear}
-          onChange={(v) => setFilter((f) => ({ ...f, refYear: v }))}
+          value={currentRange}
+          onChange={(v) => setFilter((f) => ({ ...f, yearRange: v }))}
         />
-        <span className="text-slate-700 font-mono">{currentYear}</span>
+        <span className="text-slate-700 font-mono">{currentRange[1]}</span>
       </div>
 
       <div className="w-px h-4 bg-slate-200 mx-1" />

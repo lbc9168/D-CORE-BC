@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Download } from "lucide-react";
+import { Search, Download, AlertCircle, X } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
@@ -25,6 +25,7 @@ export default function TablePage() {
   const [sortAsc, setSortAsc] = useState(true);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [showSurvey, setShowSurvey] = useState(false);
+  const [downloadFailed, setDownloadFailed] = useState(false);
 
   // 搜索
   const searched = useMemo(() => {
@@ -62,7 +63,7 @@ export default function TablePage() {
     setPage(0);
   };
 
-  // 获取静态 events_export.csv 并触发浏览器下载
+  // 获取静态 events_export.csv 并触发浏览器下载；失败时弹出可见提示
   const triggerDownload = async (data?: SurveyData) => {
     const base = import.meta.env.BASE_URL;
     const filename = `dcore_events_${new Date().toISOString().slice(0, 10)}.csv`;
@@ -74,6 +75,8 @@ export default function TablePage() {
       downloadCSV("﻿" + text.replace(/^﻿/, ""), filename);
     } catch (err) {
       console.error("下载 events_export.csv 失败", err);
+      setDownloadFailed(true);
+      window.setTimeout(() => setDownloadFailed(false), 8000);
     }
     if (data) saveSurveyRecord(data.email);
   };
@@ -320,6 +323,23 @@ export default function TablePage() {
           onConfirm={handleSurveyConfirm}
           onClose={() => setShowSurvey(false)}
         />
+      )}
+
+      {/* 下载失败提示（8 秒后自动消失，可手动关闭） */}
+      {downloadFailed && (
+        <div className="fixed bottom-5 right-5 z-50 max-w-sm flex items-start gap-2.5
+                        bg-red-50 border border-red-200 text-red-700 rounded-xl shadow-lg
+                        px-4 py-3 text-sm">
+          <AlertCircle size={18} className="flex-shrink-0 mt-0.5 text-red-500" />
+          <span className="flex-1">{t("table.downloadError")}</span>
+          <button
+            onClick={() => setDownloadFailed(false)}
+            className="flex-shrink-0 text-red-400 hover:text-red-600 transition"
+            aria-label="Close"
+          >
+            <X size={15} />
+          </button>
+        </div>
       )}
     </div>
   );

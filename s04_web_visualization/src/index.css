@@ -60,52 +60,6 @@
     @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium;
   }
 
-  /* 单年参考滑块：统一灰轨道、无左侧填充（单点选择观感），品牌色圆点 */
-  .single-year-input {
-    appearance: none;
-    -webkit-appearance: none;
-    height: 4px;
-    border-radius: 9999px;
-    background: #e2e8f0;
-    cursor: pointer;
-  }
-  .single-year-input::-webkit-slider-runnable-track {
-    height: 4px;
-    border-radius: 9999px;
-    background: #e2e8f0;
-  }
-  .single-year-input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #2F6562;
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 1px #2F6562;
-    cursor: pointer;
-    margin-top: -5px;
-  }
-  .single-year-input::-moz-range-track {
-    height: 4px;
-    border-radius: 9999px;
-    background: #e2e8f0;
-  }
-  /* 关闭 Firefox 左侧进度填充，使轨道统一 */
-  .single-year-input::-moz-range-progress {
-    height: 4px;
-    border-radius: 9999px;
-    background: #e2e8f0;
-  }
-  .single-year-input::-moz-range-thumb {
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #2F6562;
-    border: 2px solid #fff;
-    box-shadow: 0 0 0 1px #2F6562;
-    cursor: pointer;
-  }
-
   /* 双柄年份范围滑块 */
   .dual-range-input {
     position: absolute;
