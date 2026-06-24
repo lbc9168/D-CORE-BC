@@ -1,7 +1,7 @@
 # v2.1 待办清单（P2 / P2.1 未完事项 + 真实数据落地 + P3/P4/P5 提醒）
 
 > 创建：2026-06-02；**更新：2026-06-10**（C1 重录入✅、C2 dry-run✅、E 部分决策已拍板）。
-> 上游：`docs/rules_and_plans/v2.1_plan.md`（roadmap）、`docs/status/review.md`（P2/P2.1 状态）、`docs/changes/2026-W23a.md`（C1/C2 实跑记录）。
+> 上游：`docs/rules_and_plans/v2.1_plan.md`（roadmap）、`docs/rules_and_plans/review.md`（P2/P2.1 状态）、`docs/changes/2026-W23a.md`（C1/C2 实跑记录）。
 >
 > **当前主线（2026-06-10 用户拍板；2026-06-13 P3 代码完成更新）**：~~P3（去重分组+地点归一化，待设计）~~ **P3 代码✅（2026-06-13，实跑 GATED 并入重建 runbook）** → C2 真跑落库（用户自做，先复看 dry-run CSV）→ s02a canonical 重建（届时自动走 P3 新去重逻辑）→ s03 导出 → s04。**P4 不做**（改动过大，搁置）。
 >
