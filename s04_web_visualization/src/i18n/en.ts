@@ -2,7 +2,7 @@ import type { Translations } from "./zh";
 
 const en: Translations = {
   nav: {
-    title: "Database of Chinese Overseas Renewable Energy Investment",
+    title: "Database of Chinese Overseas Renewable Energy Projects",
     home: "Map",
     overview: "Overview",
     map: "Map View",
@@ -85,8 +85,8 @@ const en: Translations = {
     verified: "Verified",
     financingSection: "Financing",
     investment: "Investment (M USD)",
-    owner: "Owner",
-    ownerSection: "Project Owner",
+    developer: "Developer",
+    developerSection: "Project Developer",
     externalLinks: "External Links",
   },
   // Overview dashboard
@@ -106,7 +106,8 @@ const en: Translations = {
   },
   chart: {
     timelineTitle: "Annual Milestone Trend",
-    entityTitle: "Top Chinese Entities by Project Count",
+    entityTitleByCount: "Top Chinese Entities by Project Count",
+    entityTitleByCapacity: "Top Chinese Entities by Capacity",
     projects: "Milestones",
     total: "Total",
     capacity: "Capacity (MW)",
@@ -128,7 +129,7 @@ const en: Translations = {
       capacity: "Capacity (MW)",
       stage: "Stage",
       year: "Year",
-      entity: "Chinese Entity",
+      developer: "Developer",
       verification: "Verified",
     },
     empty: "No data matches current filters",
@@ -142,7 +143,7 @@ const en: Translations = {
   },
   about: {
     description:
-      "This database tracks Chinese-involved renewable energy projects overseas, compiled from public sources and validated through cross-verification.",
+      "This database and website is produced by the International Institute of Green Finance (IIGF) at Central University of Finance and Economics (CUFE), Beijing, China. In collaboration with Institute of Development Studies (IDS), Brighton, UK.",
     devTeam: "Development Team",
     thanks: "Special Thanks",
     interns: "Interns",
@@ -153,6 +154,9 @@ const en: Translations = {
     license: "Copyright & License",
     licenseText:
       "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License (CC BY-NC 4.0).",
+    disclaimer: "Disclaimer",
+    disclaimerText:
+      "While we strive to ensure the accuracy and completeness of the information presented, this database is compiled from publicly available sources and may contain errors, omissions, or outdated information. The data is provided \"as is\", without warranties of any kind. Users should independently verify the information and exercise their own judgment before relying on it. The authors and affiliated institutions assume no liability for any loss or damage arising from its use.",
     cite: "How to Cite",
     lastUpdated: "Data Last Updated",
   },

@@ -171,14 +171,14 @@ def test_entity_level_rows_with_baseline(tmp_path):
     # 删除的旧列不存在，新列存在
     assert "entities" not in header
     assert "entity_cn" in header and "involvement_type_en" in header
-    # 业主中英文：在 entity 列之前；verification_status 已删
+    # 开发商中英文：在 entity 列之前；verification_status 已删
     hdr = list(header)
     assert "verification_status" not in hdr
-    assert "owner_cn" in hdr and "owner_en" in hdr
-    assert hdr.index("owner_cn") < hdr.index("entity_cn")
-    assert hdr.index("owner_en") < hdr.index("entity_cn")
-    assert pc["owner_cn"] == "印尼PLN" and pc["owner_en"] == "PLN"
-    assert e02["owner_cn"] == "" and e02["owner_en"] == ""
+    assert "developer_cn" in hdr and "developer_en" in hdr
+    assert hdr.index("developer_cn") < hdr.index("entity_cn")
+    assert hdr.index("developer_en") < hdr.index("entity_cn")
+    assert pc["developer_cn"] == "印尼PLN" and pc["developer_en"] == "PLN"
+    assert e02["developer_cn"] == "" and e02["developer_en"] == ""
     # 被过滤/排除的项目均不出现
     ids = {r["canonical_id"] for r in rows}
     assert ids == {"IND-PV-0001"}

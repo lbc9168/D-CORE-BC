@@ -50,6 +50,13 @@ export default function Sidebar() {
     expanded ? "opacity-100 max-w-[9rem] ml-2.5" : "opacity-0 max-w-0 ml-0"
   }`;
 
+  // 方案 B：标题展开态始终用最终宽度 w-[9rem] 排版，绝不在动画中途的窄宽度下重排（消除展开抖动）；
+  // 仅淡入 opacity，由 header 的 overflow-hidden 在侧栏变宽时把标题横向"擦出"。
+  // flex-shrink-0：窄侧栏阶段标题保持 9rem 被裁剪，而非被压缩重排。收缩态 w-0+nowrap 单行 0 宽、不增高度。
+  const titleClass = `flex-shrink-0 overflow-hidden transition-opacity duration-300 ${
+    expanded ? "opacity-100 w-[9rem] ml-2.5" : "opacity-0 w-0 ml-0 whitespace-nowrap"
+  }`;
+
   return (
     <aside
       className={`relative h-full bg-brand-700 flex flex-col flex-shrink-0
@@ -58,12 +65,12 @@ export default function Sidebar() {
                   }`}
     >
       {/* Logo / 标题 */}
-      <div className="flex items-center px-3 py-4 border-b border-white/10 min-h-[3.5rem]">
+      <div className="flex items-center px-3 py-4 border-b border-white/10 min-h-[3.5rem] overflow-hidden">
         <div className="w-8 h-8 rounded-lg bg-white/15 text-white flex items-center justify-center
                         font-bold text-xs flex-shrink-0 select-none">
           RE
         </div>
-        <div className={`font-semibold text-white text-sm leading-snug ${labelClass}`}>
+        <div className={`font-semibold text-white text-sm leading-snug ${titleClass}`}>
           {t("nav.title")}
         </div>
       </div>

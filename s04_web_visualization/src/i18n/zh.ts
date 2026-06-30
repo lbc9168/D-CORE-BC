@@ -88,8 +88,8 @@ const zh = {
     verified: "已核验",
     financingSection: "融资信息",
     investment: "总投资 (百万美元)",
-    owner: "业主",
-    ownerSection: "项目业主",
+    developer: "业主",
+    developerSection: "项目业主",
     externalLinks: "外部链接",
   },
   // 总览仪表盘
@@ -110,7 +110,8 @@ const zh = {
   // 图表
   chart: {
     timelineTitle: "各年各里程碑数趋势",
-    entityTitle: "中方企业项目数排名",
+    entityTitleByCount: "中方企业项目数排名",
+    entityTitleByCapacity: "中方企业装机容量排名",
     projects: "里程碑数",
     total: "总计",
     capacity: "容量 (MW)",
@@ -133,7 +134,7 @@ const zh = {
       capacity: "容量 (MW)",
       stage: "阶段",
       year: "年份",
-      entity: "中方主体",
+      developer: "业主",
       verification: "核验",
     },
     empty: "没有符合条件的数据",
@@ -149,7 +150,7 @@ const zh = {
   // 关于页
   about: {
     description:
-      "本数据库收录中国企业参与的海外可再生能源项目，数据来源于公开信息并经交叉验证。",
+      "本数据库与网站由中央财经大学（CUFE）绿色金融国际研究院（IIGF，中国·北京）制作，并与英国发展研究院（IDS，英国·布莱顿）合作完成。",
     devTeam: "开发团队",
     thanks: "特别感谢",
     interns: "实习生",
@@ -160,6 +161,9 @@ const zh = {
     license: "版权与许可",
     licenseText:
       "本作品采用知识共享 署名-非商业性使用 4.0 国际许可协议（CC BY-NC 4.0）进行许可。",
+    disclaimer: "免责声明",
+    disclaimerText:
+      "我们已尽力确保所呈现信息的准确与完整，但本数据库基于公开信息整理，仍可能存在错误、遗漏或信息过时。数据按“现状”提供，不作任何明示或暗示的保证。使用前请自行核实并独立判断，作者及相关机构对因使用本数据库造成的任何损失或损害不承担责任。",
     cite: "引用格式",
     lastUpdated: "数据最后更新",
   },

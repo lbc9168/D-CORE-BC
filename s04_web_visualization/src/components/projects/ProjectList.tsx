@@ -86,12 +86,17 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                 )}
               </div>
 
-              {/* 中方实体 */}
-              {p.primary_entity && (
-                <div className="text-slate-500 mt-0.5" style={{ fontSize: "11px" }}>
-                  {p.primary_entity_en || p.primary_entity}
-                </div>
-              )}
+              {/* 业主/开发商（无值或 unknown 显示 —）*/}
+              {(() => {
+                const dev = (p.project_developer_en || p.project_developer || "").trim();
+                const isUnknown =
+                  !dev || ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(dev.toLowerCase());
+                return (
+                  <div className="text-slate-500 mt-0.5" style={{ fontSize: "11px" }}>
+                    {isUnknown ? "—" : dev}
+                  </div>
+                );
+              })()}
             </li>
           );
         })}

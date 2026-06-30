@@ -1,4 +1,5 @@
-const EMPTY_COLOR = "#D5E7E6";
+// 无数据国家/省份的填充色：中性冷灰，刻意脱离蓝绿色阶，与最浅档明显区分（世界图+省级图共用）
+export const EMPTY_COLOR = "#CBD5E1";
 const BIN_COLORS = ["#93C4C2", "#5A9896", "#2F6562"] as const;
 const BIN_COUNT = 3;
 

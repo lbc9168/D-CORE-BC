@@ -6,7 +6,7 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import type { ColorBy } from "@/types";
-import { valueToColor, buildColorBins } from "@/utils/colorScale";
+import { valueToColor, buildColorBins, EMPTY_COLOR } from "@/utils/colorScale";
 import { getIso3FromNumericId } from "@/utils/isoMapping";
 import { useLang } from "@/contexts/LanguageContext";
 
@@ -188,6 +188,16 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                 </span>
               </div>
             ))}
+            {/* 无数据说明项：与数据分档用细分隔线隔开 */}
+            <div className="flex items-center gap-2 mt-0.5 pt-1.5 border-t border-slate-100">
+              <div
+                className="w-7 h-3 rounded-sm flex-shrink-0"
+                style={{ backgroundColor: EMPTY_COLOR }}
+              />
+              <span className="text-slate-500 leading-none" style={{ fontSize: "10px" }}>
+                {t("map.noData")}
+              </span>
+            </div>
           </div>
         </div>
       )}

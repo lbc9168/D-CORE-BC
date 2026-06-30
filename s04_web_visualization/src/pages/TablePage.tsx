@@ -37,6 +37,8 @@ export default function TablePage() {
         p.project_name_en?.toLowerCase().includes(q) ||
         p.primary_entity?.toLowerCase().includes(q) ||
         p.primary_entity_en?.toLowerCase().includes(q) ||
+        p.project_developer?.toLowerCase().includes(q) ||
+        p.project_developer_en?.toLowerCase().includes(q) ||
         p.country?.toLowerCase().includes(q),
     );
   }, [filteredProjects, search]);
@@ -190,7 +192,7 @@ export default function TablePage() {
                   <SortBtn k="event_year" label={col.year || "Year"} />
                 </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 min-w-32">
-                  {col.entity || "Chinese Entity"}
+                  {col.developer || "Developer"}
                 </th>
                 <th className="text-center px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
                   Central SOE
@@ -209,7 +211,11 @@ export default function TablePage() {
                   const cat = CATEGORIES[p.category];
                   const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
                   const name = p.project_name_en || p.project_name;
-                  const entity = p.primary_entity_en || p.primary_entity;
+                  const devRaw = (p.project_developer_en || p.project_developer || "").trim();
+                  const developer =
+                    !devRaw || ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(devRaw.toLowerCase())
+                      ? "—"
+                      : devRaw;
                   const isSelected = selectedProject?.project_id === p.project_id;
 
                   return (
@@ -265,7 +271,7 @@ export default function TablePage() {
                         </span>
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600">{p.event_year}</td>
-                      <td className="px-3 py-2 text-slate-600 max-w-xs truncate">{entity}</td>
+                      <td className="px-3 py-2 text-slate-600 max-w-xs truncate">{developer}</td>
                       <td className="px-3 py-2 text-center">
                         {p.has_soe === 1 ? (
                           <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold

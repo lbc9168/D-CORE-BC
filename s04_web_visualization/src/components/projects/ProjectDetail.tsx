@@ -166,22 +166,22 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           </section>
         )}
 
-        {/* 项目业主（逻辑同 Financing：有业主才显示；unknown 不显示）*/}
+        {/* 项目开发商（逻辑同 Financing：有值才显示；unknown 不显示）*/}
         {(() => {
-          const ownerRaw = (p.project_developer_en || p.project_developer || "").trim();
+          const developerRaw = (p.project_developer_en || p.project_developer || "").trim();
           const isUnknown =
-            !ownerRaw ||
-            ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(ownerRaw.toLowerCase());
+            !developerRaw ||
+            ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(developerRaw.toLowerCase());
           if (isUnknown) return null;
           return (
             <section>
               <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-                {t("projectDetail.ownerSection")}
+                {t("projectDetail.developerSection")}
               </h4>
               <div className="bg-slate-50 rounded-xl p-3 text-xs">
                 <div className="flex gap-2">
-                  <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.owner")}</span>
-                  <span className="text-slate-800 break-words">{ownerRaw}</span>
+                  <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.developer")}</span>
+                  <span className="text-slate-800 break-words">{developerRaw}</span>
                 </div>
               </div>
             </section>
