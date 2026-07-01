@@ -102,3 +102,10 @@ def test_flat_builder_carries_owner(tmp_path):
     conn.close()
     assert row[0] == "印尼PLN"
     assert row[1] == "PLN"
+
+
+def test_iso3_to_en_name_loaded():
+    """路径修复回归测试：ISO3→英文名映射必须成功加载且含已知国家（防 parents 层级回归）。"""
+    assert len(flat_builder.ISO3_TO_EN_NAME) > 100          # WorldCountryList 有 200+ 国
+    assert flat_builder.ISO3_TO_EN_NAME.get("CHL") == "Chile"
+    assert flat_builder.ISO3_TO_EN_NAME.get("CHN") == "China"

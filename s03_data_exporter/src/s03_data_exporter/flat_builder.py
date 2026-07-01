@@ -9,6 +9,7 @@
 """
 
 import json
+import logging
 import sqlite3
 import sys
 from pathlib import Path
@@ -24,18 +25,21 @@ import bri_enums as enums
 import bri_parse
 
 # ── 国家英文名查找表（从 WorldCountryList.json 加载） ──────────────────────────
+# parents: flat_builder.py 在 s03_data_exporter/src/s03_data_exporter/ 下，parents[3] = 仓库根
 _WORLD_LIST_PATH = (
-    Path(__file__).resolve().parents[5]
+    Path(__file__).resolve().parents[3]
     / "s01b_project_extractor"
     / "WorldCountryList.json"
 )
 
 def _load_iso3_to_en() -> dict[str, str]:
+    """从 WorldCountryList.json 读 {ISO3: 英文名}；文件缺失/解析失败时记录错误并返回空表。"""
     try:
         with open(_WORLD_LIST_PATH, encoding="utf-8") as f:
             data = json.load(f)
         return {c["iso"]: c["name_en"] for c in data if c.get("iso") and c.get("name_en")}
-    except Exception:
+    except (OSError, json.JSONDecodeError) as e:
+        logging.error("加载 WorldCountryList 失败 path=%s err=%s", _WORLD_LIST_PATH, e)
         return {}
 
 ISO3_TO_EN_NAME: dict[str, str] = _load_iso3_to_en()
