@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 import calendar
+import sys
 import time
 import warnings
 from datetime import date, timedelta
 from pathlib import Path
 
 from dotenv import load_dotenv
+
+# Windows GBK 控制台/管道下强制 UTF-8 输出，避免文章标题含非 GBK 字符（如片假名中点 U+30FB）
+# 时 print 触发 UnicodeEncodeError 使爬虫崩溃（与 s03/s02b main.py 一致的护栏）
+for _stream in (sys.stdout, sys.stderr):
+    if _stream and _stream.encoding and _stream.encoding.lower() in ("gbk", "cp936", "cp950"):
+        _stream.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[union-attr]
 
 # 确保 .env 在 s01a_news_crawler 目录下被加载
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
