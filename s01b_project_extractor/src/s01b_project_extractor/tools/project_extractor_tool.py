@@ -15,6 +15,12 @@ from google import genai
 from google.genai import types
 from pydantic import BaseModel, Field
 
+# ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
+# 必须在导入 guardrails 之前就绪：format_checks/batch_checks 顶部直接 import bri_enums。
+_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+
 from s01b_project_extractor.guardrails.format_checks import run_format_checks, VALID_RECORD_TYPES
 from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
 
@@ -41,10 +47,7 @@ def _normalize_capacity_mw(mw):
         return mw
     return v / 1000.0 if v >= _CAPACITY_MW_IMPOSSIBLE else v
 
-# ── 枚举/解析单一可信源：健壮上溯找仓库根（含 bri_enums.py），避免脆弱的 parents[N] ──
-_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
-if str(_root) not in sys.path:
-    sys.path.insert(0, str(_root))
+# 仓库根已在文件顶部 import guardrails 前插入 sys.path，这里直接导入枚举/解析单一可信源。
 import bri_enums as enums
 import bri_parse
 from review import queue as review_queue
