@@ -24,4 +24,18 @@ export const updates: Update[] = [
       "The Overview trend chart now switches between project count and capacity and can break a single year down by energy type; the map greys out countries with no data; project details, the table, and the CSV all show each project's developer now; and a new Excel data dictionary ships with the download. Pages load noticeably faster, too.\n\n" +
       "Thanks for following along — more to come!",
   },
+  {
+    id: "2026-launch",
+    date: "2026-04-28",
+    title_en: "D-CORE is live!",
+    body_en:
+      "Welcome to D-CORE — the Database of Chinese Overseas Renewable Energy Projects! We built this to make it easy to see where Chinese companies are backing renewable energy around the world. Here's what you can do in this first release:\n\n" +
+      "🗺️ Explore the map\n" +
+      "An interactive world map shades each country by its number of projects (or total capacity). Click a country to drop into a province-level view, then open any project for the full story.\n\n" +
+      "🔎 Filter to what matters\n" +
+      "Slice the data by year, energy type, project stage, Belt-and-Road vs. non-BRI, development status (LDC / developing / developed), and whether a Chinese state-owned enterprise is involved.\n\n" +
+      "📋 Dig into the details\n" +
+      "The Data Table lets you search, sort, and export the full dataset, and the Reports section gathers our research PDFs.\n\n" +
+      "That's the starting point — thanks for stopping by, and stay tuned for more!",
+  },
 ];
