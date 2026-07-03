@@ -17,3 +17,26 @@ def test_s1_mineral_products_excluded():
 def test_s1_hydrogen_rule():
     p = build_s1_prompt("t", "c", "2026-01-01")
     assert "只提「绿氢/电解」而无明确能源种类" in p
+
+
+def test_s2_hybrid_requires_generation_subitems():
+    p = build_s2_prompt("t", "c", "2026-01-01")
+    assert "每个子项都必须是发电/储能类别且以 MW/MWh 计" in p
+
+
+def test_s2_hydrogen_classified_by_source():
+    p = build_s2_prompt("t", "c", "2026-01-01")
+    assert "如光伏制氢→归「光伏」" in p
+    assert "不要**仅因带「绿氢」就归「综合能源」" in p
+
+
+def test_s2_out_of_scope_category_unknown():
+    p = build_s2_prompt("t", "c", "2026-01-01")
+    assert "in_scope=false 时 Category 一律填 \"Unknown\"" in p
+
+
+def test_validate_s2_accepts_unknown_category():
+    from s01b_project_extractor.stages.s2_basic import validate_s2
+    errs = validate_s2([{"common_info": {"Category": "Unknown", "Project Stage": "在建",
+                                         "Project Name": "某油气项目"}}])
+    assert errs == []
