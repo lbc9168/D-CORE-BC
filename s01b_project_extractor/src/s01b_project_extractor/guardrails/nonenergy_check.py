@@ -33,7 +33,7 @@ _NONENERGY_WORDS = [
 # 非能源英文词（部分项目名为纯英文，如 "Muga Potash Greenfield Project"）；小写匹配
 _NONENERGY_WORDS_EN = [
     "potash", "gold mine", "copper", "iron ore", "refinery", "petrochemical",
-    "cement", "alumina", "smelter", "gas field", "chlor-alkali",
+    "cement", "alumina", "smelter", "gas field", "chlor-alkali", "lng",
 ]
 
 # 硬排除词：含「电站」字样但属用电设施，先于发电语义保护判定
@@ -44,6 +44,7 @@ _POWER_WORDS = [
     "发电", "电站", "电厂", "光伏", "风电", "水电", "储能", "光储", "微网", "微电网",
     "太阳能", "风能", "风光", "光热", "地热", "生物质", "并网", "输变电", "变电站",
     "输电", "联网", "电力贸易", "装机", "mw", "gw", "兆瓦",
+    "联合循环", "燃机",
 ]
 
 # 明确可再生能源种类词（绿氢规则用；用户判定规则 2026-07-02）
@@ -107,6 +108,7 @@ def check_nonenergy(name, summary, category, capacity_mw, capacity_details):
         return f"非能源产业项目（名称命中「{hit}」且无发电语义）"
 
     # 规则 3：发电类别但容量字段只有吨/年（新能源制造业以产能计，豁免）
+    # capacity_mw 数值本身无单位信息，规则3只看 Capacity Details 文本，故 raw 传 None
     if category != "新能源制造业" and capacity_is_tonnage(None, details):
         if not any(w in name.lower() for w in _POWER_WORDS):
             return "容量为吨/年产能而非装机，疑似非发电项目"
