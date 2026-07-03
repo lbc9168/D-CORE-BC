@@ -26,12 +26,14 @@ def sweep(db_path: str, apply: bool = False, out_csv: str | None = None) -> list
     """扫描 extracted_projects 未排除行，返回命中列表；apply=True 时先备份再事务批量置 excluded=1。"""
     # 第一阶段：只读扫描，完成后关闭连接
     conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
-    rows = conn.execute(
-        "SELECT id, project_name, project_summary, category, capacity_mw, capacity_details "
-        "FROM extracted_projects WHERE COALESCE(excluded, 0) = 0"
-    ).fetchall()
-    conn.close()
+    try:
+        conn.row_factory = sqlite3.Row
+        rows = conn.execute(
+            "SELECT id, project_name, project_summary, category, capacity_mw, capacity_details "
+            "FROM extracted_projects WHERE COALESCE(excluded, 0) = 0"
+        ).fetchall()
+    finally:
+        conn.close()
 
     hits: list[dict] = []
     for r in rows:
@@ -58,13 +60,18 @@ def sweep(db_path: str, apply: bool = False, out_csv: str | None = None) -> list
         logger.info("已备份 %s", bak)
         # 第二阶段：开新连接写库
         conn2 = sqlite3.connect(db_path)
-        conn2.executemany(
-            "UPDATE extracted_projects SET excluded=1, exclude_reason=?, exclude_source=? WHERE id=?",
-            [(h["reason"], DETERMINISTIC_GUARD_SOURCE, h["id"]) for h in hits],
-        )
-        conn2.commit()
-        conn2.close()
-        logger.info("已落库 excluded=1：%d 行（source=%s）", len(hits), DETERMINISTIC_GUARD_SOURCE)
+        try:
+            conn2.executemany(
+                "UPDATE extracted_projects SET excluded=1, exclude_reason=?, exclude_source=? WHERE id=?",
+                [(h["reason"], DETERMINISTIC_GUARD_SOURCE, h["id"]) for h in hits],
+            )
+            conn2.commit()
+            logger.info("已落库 excluded=1：%d 行（source=%s）", len(hits), DETERMINISTIC_GUARD_SOURCE)
+        except sqlite3.Error as e:
+            logger.error("落库失败（备份在 %s，库可能未完整更新）: %s", bak, e)
+            raise
+        finally:
+            conn2.close()
     return hits
 
 
