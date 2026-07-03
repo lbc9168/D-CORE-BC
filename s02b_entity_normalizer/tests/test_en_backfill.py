@@ -22,6 +22,7 @@ def test_resolve_en_statuses():
     assert resolve_en(CACHE, None) == (None, "skip")
     assert resolve_en(CACHE, "中国电建;阳光电源") == ("PowerChina; Sungrow Power Supply Co., Ltd.", "hit_multi")
     assert resolve_en(CACHE, "中国电建;没收录公司") == (None, "partial_miss")
+    assert resolve_en(CACHE, "中国电建;ACWA Power") == ("PowerChina; ACWA Power", "hit_multi")
 
 
 def _mk_main_db(path):

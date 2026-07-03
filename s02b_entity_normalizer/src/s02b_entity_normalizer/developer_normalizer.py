@@ -5,8 +5,9 @@
 developer_en 不在此处理——由 en_backfill 在归一后统一重算。
 
 用法（s02b_entity_normalizer/ 目录下）：
-    uv run normalize_developers --preview        # 只看候选与 would-change，不写库
-    uv run normalize_developers                  # LLM 确认后写库（.bak 先备份）
+    uv run normalize_developers              # 预览：只看候选与 would-change，不写库（等同 --preview）
+    uv run normalize_developers --preview    # 同上，显式 preview
+    uv run normalize_developers --apply      # LLM 确认后写库（.bak 先备份）
     uv run normalize_developers --db PATH --out CSV
 """
 import argparse
@@ -123,18 +124,28 @@ def _collect_parts(conn) -> List[Tuple[str, int]]:
     return counter.most_common()
 
 
-def run(db_path: Optional[str] = None, preview: bool = False) -> None:
-    """主流程：候选筛查 →（非 preview）LLM 确认 → 映射 → would-change CSV →（非 preview）落库。"""
-    if db_path is None and preview is False:
+def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = False) -> None:
+    """主流程：候选筛查 →（apply=True 时）LLM 确认 → 映射 → would-change CSV →（apply=True 时）落库。
+
+    CLI 裸跑（无 --apply）等同 preview=True：不调 LLM、不写库。
+    程序调用：apply=True 才触发 LLM 与写库路径（preview=False 且 apply=False 时也只预览）。
+    """
+    if db_path is None:
         parser = argparse.ArgumentParser(description="业主(project_developer)归一化")
-        parser.add_argument("--preview", action="store_true", help="只看候选与 would-change，不写库")
+        parser.add_argument("--preview", action="store_true", help="只看候选与 would-change，不写库（默认行为）")
+        parser.add_argument("--apply", action="store_true", help="确认后落库（默认等同 --preview，只看不写）")
         parser.add_argument("--db", type=str, default=None)
         parser.add_argument("--out", type=str, default=None, help="would-change CSV 路径")
-        args, _ = parser.parse_known_args()
-        preview = args.preview
+        args = parser.parse_args()
+        # 裸跑（无 --apply）= preview；--preview 或无 --apply 均为 preview
+        preview = not args.apply or args.preview
+        apply = args.apply and not args.preview
         db_path = args.db
         out_csv = args.out
     else:
+        # 程序调用：apply=True 且 preview=False 才写库
+        if preview:
+            apply = False
         out_csv = None
 
     if db_path is None:
@@ -157,7 +168,7 @@ def run(db_path: Optional[str] = None, preview: bool = False) -> None:
         candidates = _find_candidates(parts)
         print(f">>> 三信号候选对：{len(candidates)}")
 
-        if preview:
+        if not apply:
             pairs = plan_value_changes(conn, {})
             _write_csv(out_csv, candidates, pairs)
             print(f">>> [preview] 垃圾值统一 would-change {len(pairs)} 个值；候选对已写 {out_csv}（LLM 未调用）")
@@ -182,7 +193,7 @@ def run(db_path: Optional[str] = None, preview: bool = False) -> None:
     finally:
         conn.close()
 
-    if not preview and pairs:
+    if apply and pairs:
         n = apply_value_changes(db_path, pairs)
         print(f">>> 已落库 {n} 行。注意：developer_en 需随后跑 backfill_entity_en 重算。")
 

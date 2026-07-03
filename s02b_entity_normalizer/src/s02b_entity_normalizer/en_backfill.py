@@ -62,7 +62,12 @@ def resolve_en(cache: Dict[str, dict], cn) -> Tuple[Optional[str], str]:
     if len(parts) <= 1:
         en = _cache_en(cache, s)
         return (en, "hit") if en else (None, "miss")
-    ens = [_cache_en(cache, p) for p in parts]
+    # 逐段解析：纯 ASCII 段直通（镜像 s01b _resolve_entity_en 行为）；含 CJK 段须缓存命中
+    def _resolve_part(p: str) -> str:
+        if not _CJK_RE.search(p):
+            return p  # ASCII 直通
+        return _cache_en(cache, p)
+    ens = [_resolve_part(p) for p in parts]
     if all(ens):
         return "; ".join(ens), "hit_multi"
     return None, "partial_miss"
@@ -108,7 +113,7 @@ def apply_db(db_path: str, plan_rows: List[dict]) -> int:
     conn = sqlite3.connect(db_path)
     total = 0
     try:
-        groups: Dict[Tuple[str, str], List[dict]] = {}
+        groups: Dict[Tuple[str, str, str], List[dict]] = {}
         for p in updates:
             en_col = next(e for t, c, e in TARGETS_MAIN + TARGETS_PROJECTS
                           if t == p["table"] and c == p["cn_col"])

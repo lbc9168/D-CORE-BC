@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 _ROOT = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 DEFAULT_CACHE = str(_ROOT / "supporting_docs" / "company_name_cache.json")
 
-_SEP_RE = re.compile(r"[;；、，,/]")
+_SEP_RE = re.compile(r"[;；、，,/]")  # 搜索用（无 +），意在检测"键中有没有分隔符"，不做拆串
 _CJK_RE = re.compile(r"[一-鿿]")
 _TITLE_WORDS = ["董事长", "总经理", "书记", "副总裁", "党委", "首席"]
 _GENERIC_WORDS = ["知名", "数家", "多家", "该公司", "未指明", "全球公司"]
@@ -93,8 +93,8 @@ def plan_corrections(cache: dict, corrections: list[dict]) -> list[dict]:
     return plan
 
 
-def apply_changes(cache_path: str, remove_keys: list[str], corrections: list[dict]) -> dict:
-    """备份 .bak 后写回：删除 remove_keys（verified 键豁免不删）+ upsert corrections；保留 _ 元字段。"""
+def apply_changes(cache_path: str, remove_keys: list[str], corrections: list[dict]) -> tuple[dict, int]:
+    """备份 .bak 后写回：删除 remove_keys（verified 键豁免不删）+ upsert corrections；保留 _ 元字段。返回 (新缓存 dict, 实际删除数)。"""
     raw = json.loads(Path(cache_path).read_text(encoding="utf-8"))
     bak = cache_path + datetime.now().strftime(".bak.%Y%m%d_%H%M%S")
     shutil.copy2(cache_path, bak)
@@ -115,7 +115,7 @@ def apply_changes(cache_path: str, remove_keys: list[str], corrections: list[dic
                         "verified": c["verified"], "source": c["source"]}
     Path(cache_path).write_text(json.dumps(raw, ensure_ascii=False, indent=2), encoding="utf-8")
     logger.info("缓存写回：删除 %d 键、upsert %d 条", removed, len(corrections))
-    return {k: v for k, v in raw.items() if not k.startswith("_")}
+    return {k: v for k, v in raw.items() if not k.startswith("_")}, removed
 
 
 def main() -> None:
@@ -130,6 +130,8 @@ def main() -> None:
 
     if not Path(args.cache).exists():
         parser.error(f"缓存文件不存在: {args.cache}")
+    if args.corrections and not Path(args.corrections).exists():
+        parser.error(f"corrections 文件不存在: {args.corrections}")
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_csv = args.out or str(Path(args.cache).parent / f"cache_hygiene_{ts}.csv")
     logging.basicConfig(
@@ -163,8 +165,8 @@ def main() -> None:
             for r in csv.DictReader(f):
                 if str(r.get("kind") or "") == "remove_candidate":
                     remove_keys.append(str(r.get("key_or_cn") or ""))
-    apply_changes(args.cache, remove_keys, corrections)
-    print(f">>> 已 apply：删除 {len(remove_keys)} 键（verified 豁免除外）、upsert {len(corrections)} 条")
+    _, removed = apply_changes(args.cache, remove_keys, corrections)
+    print(f">>> 已 apply：删除 {removed} 键（verified 豁免除外；请求 {len(remove_keys)} 键）、upsert {len(corrections)} 条")
 
 
 if __name__ == "__main__":

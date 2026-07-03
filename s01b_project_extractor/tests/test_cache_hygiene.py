@@ -67,7 +67,8 @@ def test_apply_removes_upserts_and_backs_up(tmp_path):
                           encoding="utf-8")
     corr = [{"cn": "上能电气", "en": "Sineng Electric Co., Ltd.",
              "en_abbr": "Sineng Electric", "verified": False, "source": "correction-20260704"}]
-    new_cache = apply_changes(str(cache_path), remove_keys=["N/A", "未指明"], corrections=corr)
+    new_cache, removed = apply_changes(str(cache_path), remove_keys=["N/A", "未指明"], corrections=corr)
+    assert removed == 2
     assert "N/A" not in new_cache and "未指明" not in new_cache
     assert new_cache["上能电气"]["en_abbr"] == "Sineng Electric"
     on_disk = json.loads(cache_path.read_text(encoding="utf-8"))
@@ -79,7 +80,8 @@ def test_apply_removes_upserts_and_backs_up(tmp_path):
 def test_apply_never_removes_verified(tmp_path):
     cache_path = tmp_path / "cache.json"
     cache_path.write_text(json.dumps(_cache(), ensure_ascii=False), encoding="utf-8")
-    new_cache = apply_changes(str(cache_path), remove_keys=["中国电建"], corrections=[])
+    new_cache, removed = apply_changes(str(cache_path), remove_keys=["中国电建"], corrections=[])
+    assert removed == 0, "verified 键不应被删除"
     assert "中国电建" in new_cache, "verified 键即使被点名也不删（防误操作）"
     on_disk = json.loads(cache_path.read_text(encoding="utf-8"))
     assert "中国电建" in on_disk, "verified 键必须保留在磁盘文件里"

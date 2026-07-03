@@ -2,7 +2,7 @@
 import sqlite3
 from pathlib import Path
 from s02b_entity_normalizer.developer_normalizer import (
-    apply_value_changes, plan_value_changes, rebuild, split_developer, unify_junk,
+    apply_value_changes, plan_value_changes, rebuild, run, split_developer, unify_junk,
 )
 
 
@@ -64,6 +64,7 @@ def test_apply_value_changes_with_backup(tmp_path):
     vals = {r[0] for r in conn.execute("SELECT project_developer FROM project_events").fetchall()}
     conn.close()
     assert "Unknown" in vals and "中国电力建设集团有限公司" in vals and "业主" not in vals
+    assert "中国电建;阳光电源" in vals, "未列入 pairs 的行必须原样保留"
     assert list(Path(db).parent.glob("t.db.bak.*")), "apply 前必须备份"
 
 
@@ -72,3 +73,21 @@ def test_apply_empty_pairs_no_backup(tmp_path):
     _mk_db(db).close()
     assert apply_value_changes(db, []) == 0
     assert not list(Path(db).parent.glob("t.db.bak.*")), "无变更不产生备份"
+
+
+def test_bare_run_is_preview_no_write_no_backup(tmp_path):
+    """裸跑 run(db_path=...) 默认等同 preview：不写库、不备份、不需要 GEMINI_API_KEY。"""
+    db = str(tmp_path / "t.db")
+    conn = _mk_db(db)
+    conn.close()
+    # 不设 GEMINI_API_KEY，preview 路径应直接返回不调 LLM
+    run(db_path=db)  # apply 默认 False → preview 路径
+    assert not list(Path(db).parent.glob("t.db.bak.*")), "preview 不产生备份"
+    conn = sqlite3.connect(db)
+    vals = {r[0] for r in conn.execute(
+        "SELECT project_developer FROM project_events WHERE project_developer IS NOT NULL"
+    ).fetchall()}
+    conn.close()
+    # 原值未改写：业主、中国电建 依然是原值（未归一）
+    assert "业主" in vals, "preview 不改写库"
+    assert "中国电建" in vals, "preview 不改写库"
