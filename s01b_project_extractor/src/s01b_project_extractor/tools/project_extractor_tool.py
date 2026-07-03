@@ -1103,6 +1103,12 @@ class ProjectExtractorTool:
                 ).strip() or ("Unknown" if impl_entity == "Unknown" else "")
                 # 数值字段：原文写入 *_raw，解析值写入 REAL 列（单一可信源 bri_parse）
                 cap_raw = row_data.get("Capacity (MW)", "")
+                # ── 容量单位守卫：容量字段以吨计（产能非装机）→ 数值列置 NULL，raw 保留供审计。
+                # 注意不能交给 _normalize_capacity_mw 的 ÷1000 启发式——那会把吨位"修"成貌似合理的 MW。
+                if capacity_is_tonnage(str(cap_raw), str(row_data.get("Capacity Details", ""))):
+                    cap_mw_val = None
+                else:
+                    cap_mw_val = _normalize_capacity_mw(bri_parse.parse_number(cap_raw))
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
                 inv_raw = row_data.get("Total Project Investment (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
@@ -1134,7 +1140,7 @@ class ProjectExtractorTool:
                         row_data.get("Location (State)", ""),
                         row_data.get("Category", ""),
                         cap_raw,
-                        _normalize_capacity_mw(bri_parse.parse_number(cap_raw)),
+                        cap_mw_val,
                         row_data.get("Capacity Details", ""),
                         None,  # storage_power_mw：提取属 v2.1，本次留空
                         None,  # storage_energy_mwh

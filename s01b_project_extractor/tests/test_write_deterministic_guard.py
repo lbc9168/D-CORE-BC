@@ -89,3 +89,29 @@ def test_unnamed_nonenergy_forced_excluded(tmp_path, monkeypatch, _patch_side_ef
     })
     assert row[0] == 1
     assert row[1] == "deterministic_guard"
+
+
+def test_tonnage_capacity_blanked(tmp_path, monkeypatch, _patch_side_effects):
+    """容量明细为吨/年 → capacity_mw 置 NULL（raw 保留），不再产出 3.8TW 怪值。"""
+    row = _run(monkeypatch, tmp_path, "valid_project", {
+        "project_summary": "并购钾盐矿", "in_scope": True, "out_of_scope_reason": "",
+        "common_info": {"Project Name": "加拿大盐湖钾肥矿业并购项目", "Category": "综合能源",
+                        "Capacity (MW)": "3800000", "Capacity Details": "380万吨/年",
+                        "Country": "加拿大", "Project Stage": "签约"},
+        "chinese_entities": [{"Implementing Chinese Entity": "某矿业公司",
+                              "Type of involvement of Chinese Entities": "投资"}],
+    })
+    assert row[3] is None, "吨/年容量应置 NULL"
+
+
+def test_mw_capacity_kept(tmp_path, monkeypatch, _patch_side_effects):
+    """正常 MW 容量不受守卫影响。"""
+    row = _run(monkeypatch, tmp_path, "valid_project", {
+        "project_summary": "", "in_scope": True, "out_of_scope_reason": "",
+        "common_info": {"Project Name": "肯尼亚50MW光伏项目", "Category": "光伏",
+                        "Capacity (MW)": "50", "Capacity Details": "",
+                        "Country": "肯尼亚", "Project Stage": "在建"},
+        "chinese_entities": [{"Implementing Chinese Entity": "中国电建",
+                              "Type of involvement of Chinese Entities": "EPC总承包"}],
+    })
+    assert row[3] == 50.0
