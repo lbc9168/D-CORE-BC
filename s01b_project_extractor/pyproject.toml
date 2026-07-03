@@ -17,6 +17,7 @@ dependencies = [
 [project.scripts]
 s01b_project_extractor = "s01b_project_extractor.main:run"
 run_bulk_extract       = "s01b_project_extractor.main:run_bulk_extract"
+sweep_nonenergy        = "s01b_project_extractor.tools.nonenergy_sweep:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -23,6 +23,9 @@ if str(_root) not in sys.path:
 
 from s01b_project_extractor.guardrails.format_checks import run_format_checks, VALID_RECORD_TYPES
 from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
+from s01b_project_extractor.guardrails.nonenergy_check import (
+    check_nonenergy, capacity_is_tonnage, DETERMINISTIC_GUARD_SOURCE,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -884,6 +887,17 @@ class ProjectExtractorTool:
                         "_exclude_source": "" if proj.get("in_scope", True) else "extraction",
                     }
 
+                    # ── Layer 0 确定性非能源兜底：LLM 判定不作数，命中即强制排除（2026-07-02 审计治本）──
+                    if not base["_excluded"]:
+                        _guard_reason = check_nonenergy(
+                            base["Project Name"], project_summary, base["Category"],
+                            base["Capacity (MW)"], base["Capacity Details"],
+                        )
+                        if _guard_reason:
+                            base["_excluded"] = 1
+                            base["_exclude_reason"] = _guard_reason
+                            base["_exclude_source"] = DETERMINISTIC_GUARD_SOURCE
+
                     if not entities:
                         row_data = base.copy()
                         row_data.update({
@@ -972,7 +986,23 @@ class ProjectExtractorTool:
                         "Project Summary": project_summary,
                         # 占位实体标记（写库时用于设置 is_unnamed_placeholder=1）
                         "_is_unnamed_placeholder": True,
+                        # ── exclude 出口（来自 S2 的 in_scope 判定；此前 unnamed 分支缺失，导致 in_scope=false 被静默丢弃）──
+                        "_excluded": 0 if proj.get("in_scope", True) else 1,
+                        "_exclude_reason": "" if proj.get("in_scope", True) else str(proj.get("out_of_scope_reason", "")),
+                        "_exclude_source": "" if proj.get("in_scope", True) else "extraction",
                     }
+
+                    # ── Layer 0 确定性非能源兜底：LLM 判定不作数，命中即强制排除（2026-07-02 审计治本）──
+                    if not base["_excluded"]:
+                        _guard_reason = check_nonenergy(
+                            base["Project Name"], project_summary, base["Category"],
+                            base["Capacity (MW)"], base["Capacity Details"],
+                        )
+                        if _guard_reason:
+                            base["_excluded"] = 1
+                            base["_exclude_reason"] = _guard_reason
+                            base["_exclude_source"] = DETERMINISTIC_GUARD_SOURCE
+
                     row_data = base.copy()
                     row_data.update({
                         "Implementing Chinese Entity": enums.UNNAMED_ENTITY_PLACEHOLDER,
@@ -1073,6 +1103,12 @@ class ProjectExtractorTool:
                 ).strip() or ("Unknown" if impl_entity == "Unknown" else "")
                 # 数值字段：原文写入 *_raw，解析值写入 REAL 列（单一可信源 bri_parse）
                 cap_raw = row_data.get("Capacity (MW)", "")
+                # ── 容量单位守卫：容量字段以吨计（产能非装机）→ 数值列置 NULL，raw 保留供审计。
+                # 注意不能交给 _normalize_capacity_mw 的 ÷1000 启发式——那会把吨位"修"成貌似合理的 MW。
+                if capacity_is_tonnage(str(cap_raw), str(row_data.get("Capacity Details", ""))):
+                    cap_mw_val = None
+                else:
+                    cap_mw_val = _normalize_capacity_mw(bri_parse.parse_number(cap_raw))
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
                 inv_raw = row_data.get("Total Project Investment (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
@@ -1104,7 +1140,7 @@ class ProjectExtractorTool:
                         row_data.get("Location (State)", ""),
                         row_data.get("Category", ""),
                         cap_raw,
-                        _normalize_capacity_mw(bri_parse.parse_number(cap_raw)),
+                        cap_mw_val,
                         row_data.get("Capacity Details", ""),
                         None,  # storage_power_mw：提取属 v2.1，本次留空
                         None,  # storage_energy_mwh
