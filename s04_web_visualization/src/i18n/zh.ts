@@ -97,7 +97,7 @@ const zh = {
     title: "项目总览 ·",
     allYears: "全部年份",
     kpiActive: "活跃项目数",
-    kpiCapacity: "装机容量合计 (MW)",
+    kpiCapacity: "装机容量合计 (GW)",
     kpiCountries: "覆盖国家数",
     kpiEntities: "参与中企数",
     banner:

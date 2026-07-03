@@ -94,7 +94,7 @@ const en: Translations = {
     title: "Overview ·",
     allYears: "All Years",
     kpiActive: "Active Projects",
-    kpiCapacity: "Total Capacity (MW)",
+    kpiCapacity: "Total Capacity (GW)",
     kpiCountries: "Countries Covered",
     kpiEntities: "Chinese entities involved",
     banner:

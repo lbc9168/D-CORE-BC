@@ -74,7 +74,8 @@ export default function OverviewPage() {
         <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
           <KpiCard label={t("overview.kpiActive")} value={formatBig(current.active)}
             icon={Layers} color="#2F6562" />
-          <KpiCard label={t("overview.kpiCapacity")} value={formatBig(current.capacityMw)}
+          <KpiCard label={t("overview.kpiCapacity")}
+            value={(current.capacityMw / 1000).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             icon={Zap} color="#F59E0B" />
           <KpiCard label={t("overview.kpiCountries")} value={formatBig(current.countries)}
             icon={Globe2} color="#3B82F6" />
