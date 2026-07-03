@@ -10,10 +10,21 @@ dependencies = [
     "rapidfuzz>=3.0.0",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
+
 [project.scripts]
 s02b_entity_normalizer = "s02b_entity_normalizer.entity_normalizer:run"
 normalize_entities     = "s02b_entity_normalizer.entity_normalizer:run"
 normalize_locations    = "s02b_entity_normalizer.location_normalizer:run"
+normalize_developers   = "s02b_entity_normalizer.developer_normalizer:run"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", ".."]
+addopts = "-v --tb=short"
 
 [build-system]
 requires = ["hatchling"]
