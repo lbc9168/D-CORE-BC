@@ -2,6 +2,7 @@ import concurrent.futures
 import json
 import logging
 import os
+import re
 import shutil
 import sqlite3
 import sys
@@ -76,6 +77,12 @@ _soe_set_cache: set = set()           # Python 查表用（央企名称 set）
 _name_cache: dict = {}                # 中→英翻译缓存（company_name_cache.json）
 _name_cache_lock = threading.Lock()   # 写缓存时的线程锁
 _last_batch_id: str = ""              # side-channel: 供 guardrail 读取最近批次 ID
+
+
+# developer 多公司串分隔符 与 中文字符检测（翻译入口守卫用）
+_DEV_SEP_RE = re.compile(r"[;；、，,/]+")
+_CJK_CHAR_RE = re.compile(r"[一-鿿]")
+_CACHE_KEY_MAX_LEN = 30
 
 
 def _normalize_implementing_entity(value: str) -> str:
@@ -221,6 +228,9 @@ def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
     """
     if not name_cn or name_cn in ("Unknown", "未知", "不详"):
         return name_cn or ""
+    # ── ASCII 直通：无中文字符（英文名/代号）原样返回——不查缓存、不翻译、不写缓存 ──
+    if not _CJK_CHAR_RE.search(str(name_cn)):
+        return str(name_cn)
     with _name_cache_lock:
         cache = _load_name_cache()
         if name_cn in cache:
@@ -242,13 +252,25 @@ def _resolve_entity_en(name_cn: str, client: "genai.Client") -> str:
         print(f">>> [警告] 翻译失败 ({name_cn}): {e}")
         en_name = name_cn      # 翻译失败时回退中文
         success = False        # 但**不写缓存**：避免把失败结果（=中文）固化、永久阻止重试（防 503 等瞬时故障污染共享缓存）
-    if success:
+    # 垃圾键守卫：多公司串（应在上游拆串）与超长键不固化进缓存；翻译结果照常返回
+    if success and not _DEV_SEP_RE.search(name_cn) and len(name_cn) <= _CACHE_KEY_MAX_LEN:
         with _name_cache_lock:
             cache = _load_name_cache()
             if name_cn not in cache:  # 再次检查（double-check locking）
                 cache[name_cn] = {"en": en_name, "en_abbr": None, "verified": False, "source": "ai"}
                 _save_name_cache(cache)
     return en_name
+
+
+def _resolve_developer_en(dev_str, client) -> str:
+    """业主字段可含多家公司（;／、等分隔）：拆串逐家走 _resolve_entity_en 再以 '; ' 拼回，杜绝整串垃圾缓存键。"""
+    s = str(dev_str or "").strip()
+    if not s:
+        return ""
+    parts = [p.strip() for p in _DEV_SEP_RE.split(s) if p.strip()]
+    if len(parts) <= 1:
+        return _resolve_entity_en(s, client)
+    return "; ".join(_resolve_entity_en(p, client) for p in parts)
 
 
 # ── 国家数据库 ─────────────────────────────────────────────────────────────────
@@ -860,8 +882,8 @@ class ProjectExtractorTool:
                         "Capacity Details": common.get("Capacity Details", ""),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
-                        # 业主英文：与 implementing_entity_en 同走 _resolve_entity_en（缓存+Gemini），future imports 自动带上
-                        "Project Developer (EN)": _resolve_entity_en(common.get("Project Developer", ""), client),
+                        # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
+                        "Project Developer (EN)": _resolve_developer_en(common.get("Project Developer", ""), client),
                         "Multiple Chinese Enterprises Involved": (
                             "Yes" if len(entities) > 1 else "No"
                         ),
@@ -965,8 +987,8 @@ class ProjectExtractorTool:
                         "Capacity Details": common.get("Capacity Details", ""),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
-                        # 业主英文：与 implementing_entity_en 同走 _resolve_entity_en（缓存+Gemini），future imports 自动带上
-                        "Project Developer (EN)": _resolve_entity_en(common.get("Project Developer", ""), client),
+                        # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
+                        "Project Developer (EN)": _resolve_developer_en(common.get("Project Developer", ""), client),
                         "Multiple Chinese Enterprises Involved": "No",
                         "(Planned) Start Date": common.get("(Planned) Start Date", ""),
                         "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
