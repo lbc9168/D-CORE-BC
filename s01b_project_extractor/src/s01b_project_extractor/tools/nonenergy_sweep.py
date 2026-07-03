@@ -24,12 +24,15 @@ _DEFAULT_DB = str(Path(__file__).resolve().parents[3] / "data" / "projects.db")
 
 def sweep(db_path: str, apply: bool = False, out_csv: str | None = None) -> list[dict]:
     """扫描 extracted_projects 未排除行，返回命中列表；apply=True 时先备份再事务批量置 excluded=1。"""
+    # 第一阶段：只读扫描，完成后关闭连接
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     rows = conn.execute(
         "SELECT id, project_name, project_summary, category, capacity_mw, capacity_details "
         "FROM extracted_projects WHERE COALESCE(excluded, 0) = 0"
     ).fetchall()
+    conn.close()
+
     hits: list[dict] = []
     for r in rows:
         reason = check_nonenergy(
@@ -46,19 +49,22 @@ def sweep(db_path: str, apply: bool = False, out_csv: str | None = None) -> list
             w = csv.DictWriter(f, fieldnames=["id", "project_name", "category", "reason"])
             w.writeheader()
             w.writerows(hits)
-        logger.info("dry-run 报告已写 %s", out_csv)
+        logger.info("命中清单已写 %s", out_csv)
 
     if apply and hits:
+        # 备份在无任何连接打开时进行，保证备份捕获写前状态
         bak = db_path + datetime.now().strftime(".bak.%Y%m%d_%H%M%S")
         shutil.copy2(db_path, bak)
         logger.info("已备份 %s", bak)
-        conn.executemany(
+        # 第二阶段：开新连接写库
+        conn2 = sqlite3.connect(db_path)
+        conn2.executemany(
             "UPDATE extracted_projects SET excluded=1, exclude_reason=?, exclude_source=? WHERE id=?",
             [(h["reason"], DETERMINISTIC_GUARD_SOURCE, h["id"]) for h in hits],
         )
-        conn.commit()
+        conn2.commit()
+        conn2.close()
         logger.info("已落库 excluded=1：%d 行（source=%s）", len(hits), DETERMINISTIC_GUARD_SOURCE)
-    conn.close()
     return hits
 
 
@@ -69,6 +75,9 @@ def main() -> None:
     parser.add_argument("--apply", action="store_true", help="落库（默认 dry-run）")
     parser.add_argument("--out", default=None, help="命中清单 CSV 输出路径")
     args = parser.parse_args()
+
+    if not Path(args.db).exists():
+        parser.error(f"数据库不存在: {args.db}")
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_csv = args.out or str(Path(args.db).parent / f"nonenergy_sweep_{ts}.csv")

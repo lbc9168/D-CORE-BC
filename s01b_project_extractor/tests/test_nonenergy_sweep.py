@@ -42,7 +42,14 @@ def test_apply_writes_with_backup(tmp_path):
     conn.close()
     assert (excl, src) == (1, "deterministic_guard")
     assert legit == 0, "legit 行不许被动"
-    assert list(Path(db).parent.glob("projects.db.bak.*")), "apply 前应有备份"
+    bak_files = list(Path(db).parent.glob("projects.db.bak.*"))
+    assert bak_files, "apply 前应有备份"
+    # 验证备份在写库前拍摄：备份文件中钾肥行 excluded 应仍为 0（写前状态）
+    bak_conn = sqlite3.connect(str(bak_files[0]))
+    bak_excl = bak_conn.execute(
+        "SELECT excluded FROM extracted_projects WHERE id=1").fetchone()[0]
+    bak_conn.close()
+    assert bak_excl == 0, "备份应捕获写前状态（excluded=0），不得含写后数据"
 
 
 def test_out_csv_written(tmp_path):
