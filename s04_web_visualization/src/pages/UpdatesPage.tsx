@@ -20,10 +20,11 @@ export default function UpdatesPage() {
         <div className="max-w-2xl mx-auto flex flex-col gap-4">
           {sorted.map((u) => (
             <article key={u.id} className="card p-6">
-              <div className="flex items-center gap-2 mb-3 text-brand-400">
+              <div className="flex items-center gap-2 mb-1 text-brand-400">
                 <Megaphone size={16} className="shrink-0" />
                 <time className="text-xs font-medium text-slate-500">{u.date}</time>
               </div>
+              <h3 className="text-base font-semibold text-slate-700 mb-2">{u.title_en}</h3>
               <p className="text-sm text-slate-600 leading-relaxed whitespace-pre-line">
                 {u.body_en}
               </p>

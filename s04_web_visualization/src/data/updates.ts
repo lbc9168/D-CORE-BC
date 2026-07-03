@@ -1,21 +1,27 @@
 export interface Update {
   id: string;
   date: string;      // YYYY-MM-DD
-  body_en: string;   // 200–300 word note (English)
+  title_en: string;  // short headline (English)
+  body_en: string;   // ~200 word note (English); blank lines separate paragraphs
 }
 
 /**
  * 更新动态：每次更新在数组顶部新增一条即可（页面按 date 倒序展示）。
- * body_en 支持用空行分段（渲染时保留换行）。
+ * body_en 用空行分段（渲染时保留换行）。
  */
 export const updates: Update[] = [
   {
-    id: "2026-07-03",
+    id: "2026-q2",
     date: "2026-07-03",
+    title_en: "2026 Q2 Update",
     body_en:
-      "Welcome to the D-CORE updates feed. This is where we post a short note each time the database is refreshed or the website changes, so you can see at a glance what is new.\n\n" +
-      "In this update, the project database was refreshed with the latest milestone data through mid-2026, adding newly reported signings, construction starts, and completions across the markets we track. The Overview dashboard's annual trend chart now lets you switch between project count and installed capacity, and drill into a single year to see how activity breaks down by energy type. We also clarified the three core concepts used throughout the site — projects, milestones, and events — in the note at the top of the Overview page.\n\n" +
-      "On the data side, the downloadable CSV on the Data Table page now comes with an Excel data dictionary describing every column, making the event-level export easier to work with. Chart category colors were unified with the rest of the site for a cleaner, more consistent look, and countries with no tracked projects now appear in a neutral gray on the map.\n\n" +
-      "As always, the database is compiled from public sources and validated through cross-verification. While we work hard to keep it accurate, errors and omissions are possible — please use your own judgment when relying on the data, and feel free to reach out with corrections or questions. Thank you for following the project.",
+      "We've been busy this quarter — here's the big stuff:\n\n" +
+      "📊 Fresh data\n" +
+      "The database is now current through the end of Q2 2026 (April 1 – June 30), with new signings, construction starts, and completions across every market we track. We also rebuilt the dataset from the ground up and re-checked entries against their original sources for a real accuracy boost.\n\n" +
+      "🧠 Smarter extraction\n" +
+      "We overhauled how projects get identified and cleaned: better filtering to keep out non-renewable and non-power items, more accurate company names, smarter duplicate-merging, and normalized locations — so a project no longer shows up twice or in the wrong place.\n\n" +
+      "✨ On the site\n" +
+      "The Overview trend chart now switches between project count and capacity and can break a single year down by energy type; the map greys out countries with no data; project details, the table, and the CSV all show each project's developer now; and a new Excel data dictionary ships with the download. Pages load noticeably faster, too.\n\n" +
+      "Thanks for following along — more to come!",
   },
 ];
