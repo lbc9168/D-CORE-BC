@@ -21,7 +21,7 @@ export const updates: Update[] = [
       "🧠 Smarter extraction\n" +
       "We overhauled how projects get identified and cleaned: better filtering to keep out non-renewable and non-power items, more accurate company names, smarter duplicate-merging, and normalized locations — so a project no longer shows up twice or in the wrong place.\n\n" +
       "✨ On the site\n" +
-      "The Overview trend chart now switches between project count and capacity and can break a single year down by energy type; the map greys out countries with no data; project details, the table, and the CSV all show each project's developer now; and a new Excel data dictionary ships with the download. Pages load noticeably faster, too.\n\n" +
+      "We gave the whole site a major UI refresh for a smoother, friendlier experience while you explore the data. The two big ones: a brand-new Overview tab for a bird's-eye view of the entire database, and a revamped project details view, go dive in and see for yourself! On the map, countries with no data are now greyed out. Each project's developer now shows up. And a new Excel data dictionary comes with the download. Pages load faster, too.\n\n" +
       "Thanks for following along — more to come!",
   },
   {
