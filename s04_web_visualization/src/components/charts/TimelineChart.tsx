@@ -109,7 +109,10 @@ export default function TimelineChart({ projects, year, groups }: TimelineChartP
     const rows = payload.filter((item) => Number(item.value) > 0);
     const total = rows.reduce((sum, item) => sum + Number(item.value || 0), 0);
     return (
-      <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]">
+      <div
+        className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]"
+        style={{ transform: "translateY(-50%)" }}
+      >
         <div className="font-medium text-slate-700 mb-1">{t("chart.year")}: {label}</div>
         <div className="space-y-0.5">
           {rows.map((item, idx) => (
@@ -139,7 +142,10 @@ export default function TimelineChart({ projects, year, groups }: TimelineChartP
     const d = payload[0]?.payload;
     if (!d) return null;
     return (
-      <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]">
+      <div
+        className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]"
+        style={{ transform: "translateY(-50%)" }}
+      >
         <div className="flex items-center gap-1.5 text-slate-700">
           <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: d.color }} />
           <span>{d.label}</span>
