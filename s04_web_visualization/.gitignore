@@ -9,5 +9,7 @@ src/generated/
 public/data/*.json
 # 但 world-atlas TopoJSON 是静态资产，需入 git
 !public/data/countries-110m.json
+# 数据字典是固定参考文件（描述 CSV 列），需入 git（覆盖根 .gitignore 的 *.xlsx）
+!public/data/data_dictionary.xlsx
 # public/geo/provinces/ 已改为入 git（方案A：静态资产一次性提交）
 scripts/_ne_admin1_cache.geojson

@@ -7,6 +7,7 @@ const zh = {
     map: "地图视图",
     table: "数据表格",
     reports: "研究报告",
+    updates: "更新",
     about: "关于",
   },
   // 筛选栏
@@ -143,12 +144,18 @@ const zh = {
     empty: "没有符合条件的数据",
     total: "共 {{count}} 条",
     downloadError: "下载失败：数据文件暂时无法获取，请稍后重试或联系管理员。",
+    dictionary: "数据字典 (Excel)",
   },
   // 报告页
   reports: {
     title: "研究报告",
     open: "打开 PDF",
     empty: "暂无报告，敬请期待",
+  },
+  // 更新动态页
+  updates: {
+    title: "更新动态",
+    empty: "暂无更新",
   },
   // 关于页
   about: {

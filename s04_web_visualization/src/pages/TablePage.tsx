@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { Search, Download, AlertCircle, X } from "lucide-react";
+import { Search, Download, FileSpreadsheet, AlertCircle, X } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
 import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
@@ -159,6 +159,14 @@ export default function TablePage() {
             <Download size={13} />
             {t("table.export")}
           </button>
+          <a
+            href={`${import.meta.env.BASE_URL}data/data_dictionary.xlsx`}
+            download
+            className="flex items-center gap-1.5 text-xs text-slate-500 hover:text-brand-600 transition-colors flex-shrink-0"
+          >
+            <FileSpreadsheet size={13} />
+            {t("table.dictionary")}
+          </a>
         </div>
 
         {/* 表格 */}

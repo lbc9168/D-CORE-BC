@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import {
-  Globe, LayoutDashboard, Table2, FileText, Info, ChevronRight,
+  Globe, LayoutDashboard, Table2, FileText, Megaphone, Info, ChevronRight,
 } from "lucide-react";
 import { useLang } from "@/contexts/LanguageContext";
 
@@ -11,6 +11,7 @@ const NAV_ITEMS = [
   { to: "/overview", end: false, icon: LayoutDashboard, labelKey: "nav.overview" },
   { to: "/table", end: false, icon: Table2, labelKey: "nav.table" },
   { to: "/reports", end: false, icon: FileText, labelKey: "nav.reports" },
+  { to: "/updates", end: false, icon: Megaphone, labelKey: "nav.updates" },
   { to: "/about", end: false, icon: Info, labelKey: "nav.about" },
 ] as const;
 

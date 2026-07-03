@@ -8,6 +8,7 @@ const en: Translations = {
     map: "Map View",
     table: "Data Table",
     reports: "Reports",
+    updates: "Updates",
     about: "About",
   },
   filter: {
@@ -138,16 +139,21 @@ const en: Translations = {
     empty: "No data matches current filters",
     total: "{{count}} records total",
     downloadError: "Download failed: the data file is temporarily unavailable. Please try again later or contact the administrator.",
+    dictionary: "Data dictionary (Excel)",
   },
   reports: {
     title: "Research Reports",
     open: "Open PDF",
     empty: "No reports available yet. Stay tuned.",
   },
+  updates: {
+    title: "Updates",
+    empty: "No updates yet.",
+  },
   about: {
     description:
       "This database and website is produced by the International Institute of Green Finance (IIGF) at Central University of Finance and Economics (CUFE), Beijing, China. In collaboration with Institute of Development Studies (IDS), Brighton, UK.",
-    devTeam: "Development Team",
+    devTeam: "Developer Team",
     thanks: "Special Thanks",
     interns: "Interns",
     internsNote:
