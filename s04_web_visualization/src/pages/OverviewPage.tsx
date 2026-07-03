@@ -105,7 +105,7 @@ export default function OverviewPage() {
         {/* 趋势 + 企业排名（原首页两个面板迁入） */}
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           <div className="card p-4 min-h-[20rem] flex flex-col min-w-0">
-            <TimelineChart projects={allProjects} groups={[]} />
+            <TimelineChart projects={allProjects} year={year} groups={[]} />
           </div>
           <div className="card p-4 min-h-[20rem] flex flex-col min-w-0">
             <EntityChart projects={activeProjects} />

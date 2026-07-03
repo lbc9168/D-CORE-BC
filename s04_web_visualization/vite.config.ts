@@ -13,4 +13,16 @@ export default defineConfig({
   publicDir: "public",
   // 使用相对 base，兼容本地静态部署与子路径部署
   base: "./",
+  build: {
+    rollupOptions: {
+      output: {
+        // 重型第三方库拆成独立 chunk：并行下载 + 长期缓存（版本不变则命中缓存）
+        manualChunks: {
+          react: ["react", "react-dom", "react-router-dom"],
+          recharts: ["recharts"],
+          "simple-maps": ["react-simple-maps", "topojson-client"],
+        },
+      },
+    },
+  },
 });

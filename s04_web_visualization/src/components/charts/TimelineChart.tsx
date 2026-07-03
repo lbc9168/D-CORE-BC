@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   BarChart,
   Bar,
@@ -8,67 +8,98 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  Cell,
 } from "recharts";
 import type { Project, VizGroup } from "@/types";
 import { CATEGORIES } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { BASELINE_YEAR } from "@/contexts/DataContext";
+import { hasCapacity } from "@/utils/capacityPolicy";
 
-// 各年里程碑数趋势图：按 年份 × 类别 堆叠；里程碑大类由 groups 参数决定（空 = 全部 = 总数）
-// 唯一调用方：OverviewPage，传入 allProjects + groups=[]（总数线）；groups 参数保留供未来扩展
+type Metric = "count" | "capacity";
+
+// 里程碑趋势/构成图：All Years=年×类别堆叠趋势；具体年=该年各能源类别分布。指标可切 项目数/装机容量。
+// 数据口径：活动模型——项目在其有里程碑的每个年份各计一次；类别用原色（与站内徽章一致）。
 interface TimelineChartProps {
-  projects: Project[];   // 项目集合（OverviewPage 传 allProjects）
-  groups: VizGroup[];    // 里程碑大类过滤；空数组 = 展示全部大类（总数）
+  projects: Project[];   // OverviewPage 传 allProjects
+  year: number | null;   // null = 全部年份（趋势）；具体年 = 该年类别分布
+  groups: VizGroup[];    // 里程碑大类过滤；空数组 = 全部大类
 }
 
-// 类别主色与浅灰背景混合，柔化堆叠色
-function softenHexColor(hex: string, ratio = 0.35): string {
-  const normalized = hex.replace("#", "");
-  if (normalized.length !== 6) return hex;
-  const r = Number.parseInt(normalized.slice(0, 2), 16);
-  const g = Number.parseInt(normalized.slice(2, 4), 16);
-  const b = Number.parseInt(normalized.slice(4, 6), 16);
-  if ([r, g, b].some((v) => Number.isNaN(v))) return hex;
-  const bg = 0xd9;
-  const mix = (v: number) => Math.round(v * (1 - ratio) + bg * ratio);
-  const toHex = (v: number) => v.toString(16).padStart(2, "0");
-  return `#${toHex(mix(r))}${toHex(mix(g))}${toHex(mix(b))}`;
+interface CatDatum {
+  key: string;
+  label: string;
+  value: number;
+  color: string;
 }
 
-export default function TimelineChart({ projects, groups }: TimelineChartProps) {
+// 数值格式化：容量带 MW，项目数取整
+function fmtValue(v: number, metric: Metric): string {
+  return metric === "capacity" ? `${Math.round(v).toLocaleString()} MW` : String(Math.round(v));
+}
+
+export default function TimelineChart({ projects, year, groups }: TimelineChartProps) {
   const { t } = useLang();
+  const [metric, setMetric] = useState<Metric>("count");
 
-  const data = useMemo(() => {
-    // 按 年份 × 类别 计数里程碑数；大类由 groups 决定（空=全部=总数）
-    const map = new Map<number, Record<string, number>>();
-    for (const p of projects) {
-      // 同一项目在同一大类同一年只计一次（避免 中标+签约 同年同归"前期"被重复计数；
-      // 不同大类同年仍各计一次，如 签约 2023 与 开工 2023）
-      const seen = new Set<string>();
-      for (const e of p.stage_events ?? []) {
-        if (e.year < BASELINE_YEAR) continue;   // 隐藏基线年（2022）前的里程碑
-        if (groups.length > 0 && !groups.includes(e.group)) continue;
-        const key = `${e.group}:${e.year}`;
-        if (seen.has(key)) continue;
-        seen.add(key);
-        const row = map.get(e.year) ?? {};
-        row[p.category] = (row[p.category] ?? 0) + 1;
-        map.set(e.year, row);
+  const { trendData, trendCats, catData } = useMemo(() => {
+    const allowed = (g: VizGroup) => groups.length === 0 || groups.includes(g);
+    const inc = (p: Project) => (metric === "capacity" ? p.capacity_mw ?? 0 : 1);
+    // 容量模式跳过无 MW 装机的类别（储能/输变电/制造）
+    const capOk = (p: Project) => metric !== "capacity" || hasCapacity(p.category);
+
+    if (year == null) {
+      // ── All Years：年 × 类别（活动模型，项目在每个有里程碑的年份各计一次）──
+      const map = new Map<number, Record<string, number>>();
+      for (const p of projects) {
+        if (!capOk(p)) continue;
+        const add = inc(p);
+        if (add === 0) continue;
+        const activeYears = new Set<number>();
+        for (const e of p.stage_events ?? []) {
+          if (e.year < BASELINE_YEAR || !allowed(e.group)) continue;
+          activeYears.add(e.year);
+        }
+        for (const y of activeYears) {
+          const row = map.get(y) ?? {};
+          row[p.category] = (row[p.category] ?? 0) + add;
+          map.set(y, row);
+        }
       }
+      const trendData = Array.from(map.entries())
+        .sort(([a], [b]) => a - b)
+        .map(([yr, cats]) => ({ year: yr, ...cats }));
+      const trendCats = Object.keys(CATEGORIES).filter((k) =>
+        trendData.some((r) => (r as Record<string, unknown>)[k] != null),
+      );
+      return { trendData, trendCats, catData: [] as CatDatum[] };
     }
-    return Array.from(map.entries())
-      .sort(([a], [b]) => a - b)
-      .map(([year, cats]) => ({ year, ...cats }));
-  }, [projects, groups]);
 
-  const activeCats = Object.keys(CATEGORIES).filter((k) =>
-    data.some((row) => (row as Record<string, unknown>)[k] != null),
-  );
+    // ── 具体年：该年有里程碑的项目，按能源类别聚合 ──
+    const acc = new Map<string, number>();
+    for (const p of projects) {
+      if (!capOk(p)) continue;
+      const active = (p.stage_events ?? []).some((e) => e.year === year && allowed(e.group));
+      if (!active) continue;
+      const add = inc(p);
+      if (add === 0) continue;
+      acc.set(p.category, (acc.get(p.category) ?? 0) + add);
+    }
+    const catData: CatDatum[] = Object.keys(CATEGORIES)
+      .filter((k) => (acc.get(k) ?? 0) > 0)
+      .map((k) => ({ key: k, label: CATEGORIES[k].en, value: acc.get(k) as number, color: CATEGORIES[k].color }));
+    return { trendData: [] as Record<string, number>[], trendCats: [] as string[], catData };
+  }, [projects, year, groups, metric]);
 
-  const renderTooltip = ({
-    active,
-    payload,
-    label,
+  const isYear = year != null;
+  const title = isYear
+    ? `${year} ${metric === "count" ? t("chart.byTypeCount") : t("chart.byTypeCapacity")}`
+    : metric === "count" ? t("chart.trendCount") : t("chart.trendCapacity");
+  const hasData = isYear ? catData.length > 0 : trendData.length > 0;
+
+  // 堆叠趋势 tooltip（年 + 各类别 + 合计）
+  const trendTooltip = ({
+    active, payload, label,
   }: {
     active?: boolean;
     payload?: Array<{ name?: string; value?: number | string; color?: string }>;
@@ -79,26 +110,40 @@ export default function TimelineChart({ projects, groups }: TimelineChartProps) 
     const total = rows.reduce((sum, item) => sum + Number(item.value || 0), 0);
     return (
       <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]">
-        <div className="font-medium text-slate-700 mb-1">
-          {t("chart.year")}: {label}
-        </div>
+        <div className="font-medium text-slate-700 mb-1">{t("chart.year")}: {label}</div>
         <div className="space-y-0.5">
-          {rows.map((item, idx) => {
-            const rawName = item.name || "";
-            const cat = CATEGORIES[rawName];
-            const labelText = cat ? cat.en : rawName;
-            return (
-              <div key={`${rawName}-${idx}`} className="flex items-center gap-1.5 text-slate-600">
-                <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: item.color || "#94a3b8" }} />
-                <span>{labelText}</span>
-                <span className="ml-auto font-medium">{Number(item.value || 0)}</span>
-              </div>
-            );
-          })}
+          {rows.map((item, idx) => (
+            <div key={`${item.name}-${idx}`} className="flex items-center gap-1.5 text-slate-600">
+              <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: item.color || "#94a3b8" }} />
+              <span>{CATEGORIES[item.name ?? ""]?.en ?? item.name}</span>
+              <span className="ml-auto font-medium">{fmtValue(Number(item.value || 0), metric)}</span>
+            </div>
+          ))}
         </div>
         <div className="mt-1 pt-1 border-t border-slate-100 flex items-center text-slate-700">
           <span>{t("chart.total")}</span>
-          <span className="ml-auto font-semibold">{total}</span>
+          <span className="ml-auto font-semibold">{fmtValue(total, metric)}</span>
+        </div>
+      </div>
+    );
+  };
+
+  // 具体年类别 tooltip（单类别 + 数值）
+  const yearTooltip = ({
+    active, payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{ payload?: CatDatum }>;
+  }) => {
+    if (!active || !payload || payload.length === 0) return null;
+    const d = payload[0]?.payload;
+    if (!d) return null;
+    return (
+      <div className="bg-white border border-slate-200 rounded-lg px-2.5 py-2 shadow-sm text-[11px]">
+        <div className="flex items-center gap-1.5 text-slate-700">
+          <span className="inline-block w-2 h-2 rounded-full" style={{ backgroundColor: d.color }} />
+          <span>{d.label}</span>
+          <span className="ml-auto font-semibold">{fmtValue(Number(d.value || 0), metric)}</span>
         </div>
       </div>
     );
@@ -106,19 +151,62 @@ export default function TimelineChart({ projects, groups }: TimelineChartProps) 
 
   return (
     <div className="h-full flex flex-col">
-      <div className="text-sm font-semibold text-slate-700 mb-2">{t("chart.timelineTitle")}</div>
-      {data.length === 0 ? (
+      <div className="text-sm font-semibold text-slate-700 mb-2">{title}</div>
+
+      {/* 指标切换（同 EntityChart） */}
+      <div className="mb-2 inline-flex rounded-lg border border-slate-200 bg-white p-0.5 w-fit">
+        <button
+          className={`px-2 py-1 text-[11px] rounded-md ${metric === "count" ? "bg-brand-600 text-white" : "text-slate-600"}`}
+          onClick={() => setMetric("count")}
+        >
+          {t("map.byCount")}
+        </button>
+        <button
+          className={`px-2 py-1 text-[11px] rounded-md ${metric === "capacity" ? "bg-brand-600 text-white" : "text-slate-600"}`}
+          onClick={() => setMetric("capacity")}
+        >
+          {t("map.byCapacity")}
+        </button>
+      </div>
+
+      {!hasData ? (
         <div className="flex-1 flex items-center justify-center text-slate-400 text-sm">
           {t("chart.noData")}
         </div>
-      ) : (
+      ) : isYear ? (
+        // 具体年：每个能源类别一根柱（原色）
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <BarChart data={catData} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <XAxis
+              dataKey="label"
+              tick={{ fontSize: 10 }}
+              interval={0}
+              tickFormatter={(v: string) => (v.length > 10 ? v.slice(0, 10) + "…" : v)}
+            />
+            <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+            <Tooltip
+              content={yearTooltip}
+              wrapperStyle={{ zIndex: 9999, pointerEvents: "none" }}
+              offset={14}
+              allowEscapeViewBox={{ x: false, y: true }}
+            />
+            <Bar dataKey="value" radius={[3, 3, 0, 0]}>
+              {catData.map((d) => (
+                <Cell key={d.key} fill={d.color} />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+      ) : (
+        // All Years：年 × 类别堆叠（原色）
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart data={trendData} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
             <XAxis dataKey="year" tick={{ fontSize: 10 }} />
             <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
             <Tooltip
-              content={renderTooltip}
+              content={trendTooltip}
               wrapperStyle={{ zIndex: 9999, pointerEvents: "none" }}
               reverseDirection={{ x: true, y: false }}
               offset={14}
@@ -127,18 +215,15 @@ export default function TimelineChart({ projects, groups }: TimelineChartProps) 
             <Legend
               iconSize={8}
               iconType="circle"
-              formatter={(value) => {
-                const cat = CATEGORIES[value];
-                return cat ? cat.en : value;
-              }}
+              formatter={(value) => CATEGORIES[value]?.en ?? value}
               wrapperStyle={{ fontSize: 10 }}
             />
-            {activeCats.map((cat) => (
+            {trendCats.map((cat) => (
               <Bar
                 key={cat}
                 dataKey={cat}
                 stackId="a"
-                fill={softenHexColor(CATEGORIES[cat]?.color ?? "#94a3b8")}
+                fill={CATEGORIES[cat]?.color ?? "#94a3b8"}
                 name={cat}
               />
             ))}
