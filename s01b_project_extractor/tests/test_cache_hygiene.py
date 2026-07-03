@@ -35,6 +35,8 @@ def test_scan_flags_junk_rules():
     assert "未指明" in flagged
     assert "这是一个超过三十个字符的假想公司名称用来测试超长键规则触发不触发" in flagged
     assert "中国企业与挪威Scatec公司" in flagged
+    by_key = {f["key"]: f["rule"] for f in findings}
+    assert by_key["N/A"] == "R3_key_placeholder"
 
 
 def test_scan_never_flags_clean_or_verified():
@@ -79,3 +81,5 @@ def test_apply_never_removes_verified(tmp_path):
     cache_path.write_text(json.dumps(_cache(), ensure_ascii=False), encoding="utf-8")
     new_cache = apply_changes(str(cache_path), remove_keys=["中国电建"], corrections=[])
     assert "中国电建" in new_cache, "verified 键即使被点名也不删（防误操作）"
+    on_disk = json.loads(cache_path.read_text(encoding="utf-8"))
+    assert "中国电建" in on_disk, "verified 键必须保留在磁盘文件里"

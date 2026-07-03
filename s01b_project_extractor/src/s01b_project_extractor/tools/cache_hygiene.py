@@ -45,12 +45,12 @@ def scan_cache(cache: dict) -> list[dict]:
         if entry.get("verified"):
             continue  # 人工核实条目豁免
         en = str(entry.get("en") or "")
-        if _SEP_RE.search(key):
+        if key.strip().lower() in _PLACEHOLDER_KEYS or any(w in key for w in _GENERIC_WORDS):
+            _add(key, "R3_key_placeholder", en, "键为占位/泛指短语")
+        elif _SEP_RE.search(key):
             _add(key, "R1_key_separator", en, "键含分隔符（多公司串/头衔串）")
         elif any(w in key for w in _TITLE_WORDS):
             _add(key, "R2_key_person_title", en, "键含人名头衔词")
-        elif key.strip().lower() in _PLACEHOLDER_KEYS or any(w in key for w in _GENERIC_WORDS):
-            _add(key, "R3_key_placeholder", en, "键为占位/泛指短语")
         elif len(key) > _MAX_KEY_LEN:
             _add(key, "R4_key_too_long", en, f"键长 {len(key)} > {_MAX_KEY_LEN}")
         elif _CJK_RE.search(en):
