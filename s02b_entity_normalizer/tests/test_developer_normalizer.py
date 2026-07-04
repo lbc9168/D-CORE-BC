@@ -91,3 +91,26 @@ def test_bare_run_is_preview_no_write_no_backup(tmp_path):
     # 原值未改写：业主、中国电建 依然是原值（未归一）
     assert "业主" in vals, "preview 不改写库"
     assert "中国电建" in vals, "preview 不改写库"
+
+
+def test_filter_candidates_conservative():
+    """保守预过滤：联合体/连字符串（多主体载体）不得参与合并。"""
+    from s02b_entity_normalizer.developer_normalizer import filter_candidates_conservative
+    cands = [
+        {"name_a": "中国电建", "name_b": "中国电建-国电电力联合体"},
+        {"name_a": "中国电建与上海电建组成的联合体", "name_b": "中国电建"},
+        {"name_a": "中国电力建设集团有限公司", "name_b": "中国电建"},
+    ]
+    out = filter_candidates_conservative(cands)
+    assert len(out) == 1
+    assert out[0]["name_a"] == "中国电力建设集团有限公司"
+
+
+def test_dev_confirm_prompt_conservative_clauses():
+    """业主专用确认提示词：同一法人变体才合并、母子公司不合并的条款必须在。"""
+    from s02b_entity_normalizer.developer_normalizer import _build_dev_confirm_prompt
+    p = _build_dev_confirm_prompt([{"id": 0, "name_a": "甲", "count_a": 1,
+                                    "name_b": "乙", "count_b": 1, "signals": "s"}])
+    assert "同一家法人" in p
+    assert "母公司与子公司" in p and "不合并" in p
+    assert "联合体" in p

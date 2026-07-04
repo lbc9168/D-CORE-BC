@@ -30,7 +30,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp95
 from dotenv import load_dotenv
 
 from s02b_entity_normalizer.entity_normalizer import (
-    BATCH_SIZE, DEFAULT_DB, _build_mapping, _find_candidates, _llm_confirm_batch,
+    BATCH_SIZE, DEFAULT_DB, _build_mapping, _find_candidates,
 )
 
 logger = logging.getLogger(__name__)
@@ -41,6 +41,75 @@ load_dotenv()
 DEV_SEP_RE = re.compile(r"[;；、，,/]+")
 # 整值等于这些（大小写无关）→ 统一 'Unknown'（"业主"是占位词不是公司名）
 DEV_JUNK_VALUES = {"unknown", "未知", "不详", "不明", "暂无", "n/a", "na", "-", "业主", "业主方"}
+
+
+# 保守归一（用户拍板 2026-07-04）：业主字段保留产权层级——联合体/连字符串是多主体载体，禁止参与合并
+_JV_MARKERS = ("联合体", "-", "－", "–")
+
+
+def filter_candidates_conservative(candidates: List[Dict]) -> List[Dict]:
+    """剔除任一侧含联合体/连字符标记的候选对（折叠 JV 串会丢合资伙伴）。"""
+    return [c for c in candidates
+            if not any(m in c["name_a"] or m in c["name_b"] for m in _JV_MARKERS)]
+
+
+def _build_dev_confirm_prompt(batch: List[Dict]) -> str:
+    """业主专用 LLM 确认提示词：仅同一家法人的写法变体才合并，母子公司/联合体一律不合并。"""
+    pairs_text = "\n".join(
+        f"{p['id']}. 「{p['name_a']}」(出现{p['count_a']}次)"
+        f" vs 「{p['name_b']}」(出现{p['count_b']}次)"
+        f"  [信号: {p['signals']}]"
+        for p in batch
+    )
+    return f"""你是一个专注于中国企业的数据库清洗专家。
+下面列出"一带一路"可再生能源项目数据库中候选重复的**项目业主**名称对。请判断每对是否为**同一家法人主体的不同写法**，并选定规范名。
+
+【判断标准——业主字段务必保守】
+- 仅当两个名称是同一家法人的全称/简称/繁简体/笔误变体时才算同一（如"中国电力建设集团有限公司"<->"中国电建"）。
+- **母公司与子公司/分公司/事业部/院所一律不合并**（如"中国电建" vs "中国电建海投公司"是不同法人，业主字段需保留持股主体层级），选 is_same=false。
+- 联合体、多主体串一律不合并；业务实质不同的企业不合并。
+- 规范名选择：优先行业通用的正式简称。
+
+【候选对】
+{pairs_text}
+
+请以 JSON 数组返回，每个元素格式：
+{{"id": <编号>, "is_same": <true|false>, "canonical_name": "<规范名；is_same=false时留空>"}}
+
+只返回 JSON，不要有其他文字。"""
+
+
+def _llm_confirm_batch_dev(client, batch: List[Dict]) -> List[Dict]:
+    """Gemini 批量确认（业主保守口径提示词）；调用/解析机制同 entity_normalizer，仅 prompt 不同。"""
+    import json as _json
+    import time as _time
+    from google.genai import types as _types
+    prompt = _build_dev_confirm_prompt(batch)
+    for attempt in range(3):
+        try:
+            resp = client.models.generate_content(
+                model="gemini-2.5-flash-lite", contents=prompt,
+                config=_types.GenerateContentConfig(temperature=0, response_mime_type="application/json"),
+            )
+            raw = resp.text.strip()
+            if raw.startswith("```"):
+                raw = raw.split("```")[1]
+                if raw.startswith("json"):
+                    raw = raw[4:]
+            results = _json.loads(raw)
+            result_map = {r["id"]: r for r in results}
+            for p in batch:
+                info = result_map.get(p["id"], {})
+                p["is_same"] = bool(info.get("is_same", False))
+                p["canonical_name"] = str(info.get("canonical_name", "")).strip()
+            return batch
+        except Exception as e:  # API/解析异常型号繁多：统一记录并退避重试（与 entity_normalizer 同模式）
+            logger.error("业主确认 LLM 调用失败 attempt=%d/3: %s", attempt + 1, e)
+            _time.sleep(2 ** attempt)
+    for p in batch:
+        p["is_same"] = False
+        p["canonical_name"] = ""
+    return batch
 
 
 def split_developer(value) -> List[str]:
@@ -166,7 +235,9 @@ def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = Fals
         parts = _collect_parts(conn)
         print(f">>> 业主部件（中文、去垃圾）：{len(parts)} 个")
         candidates = _find_candidates(parts)
-        print(f">>> 三信号候选对：{len(candidates)}")
+        n_raw = len(candidates)
+        candidates = filter_candidates_conservative(candidates)
+        print(f">>> 三信号候选对：{n_raw}（保守预过滤剔除联合体/连字符串 {n_raw - len(candidates)} 对，余 {len(candidates)}）")
 
         if not apply:
             pairs = plan_value_changes(conn, {})
@@ -183,7 +254,7 @@ def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = Fals
         for i in range(0, len(candidates), BATCH_SIZE):
             batch = candidates[i:i + BATCH_SIZE]
             print(f">>> LLM 确认批次 {i // BATCH_SIZE + 1}/{(len(candidates) - 1) // BATCH_SIZE + 1}")
-            confirmed.extend(_llm_confirm_batch(client, batch))
+            confirmed.extend(_llm_confirm_batch_dev(client, batch))
             time.sleep(0.5)
         mapping = _build_mapping(parts, confirmed)
         print(f">>> 部件映射 {len(mapping)} 条")
