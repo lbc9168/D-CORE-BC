@@ -1,0 +1,2 @@
+2026-07-04 15:21:26,171 [s01b_project_extractor.tools.nonenergy_sweep_maindb] INFO 扫描 4414 个未排除 canonical，命中 181 个
+2026-07-04 15:21:26,173 [s01b_project_extractor.tools.nonenergy_sweep_maindb] INFO 命中清单已写 ../docs/rules_and_plans/2026-07-04-maindb-nonenergy-backfill-dryrun.csv

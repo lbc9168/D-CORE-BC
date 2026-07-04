@@ -1,0 +1,2 @@
+2026-07-04 15:21:28,165 [s01b_project_extractor.tools.nonenergy_sweep] INFO 扫描 10581 行未排除记录，命中 39 行
+2026-07-04 15:21:28,165 [s01b_project_extractor.tools.nonenergy_sweep] INFO 命中清单已写 ../docs/rules_and_plans/2026-07-04-projectsdb-civil-words-dryrun.csv

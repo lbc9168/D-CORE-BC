@@ -1,0 +1,4 @@
+2026-07-04 15:44:42,632 [s01b_project_extractor.tools.nonenergy_sweep] INFO 扫描 10581 行未排除记录，命中 39 行
+2026-07-04 15:44:42,632 [s01b_project_extractor.tools.nonenergy_sweep] INFO 命中清单已写 ../docs/rules_and_plans/2026-07-04-projectsdb-civil-words-applied.csv
+2026-07-04 15:44:42,637 [s01b_project_extractor.tools.nonenergy_sweep] INFO 已备份 E:\Projects\BRI_RE_Database_v2\s01b_project_extractor\data\projects.db.bak.20260704_154442
+2026-07-04 15:44:42,641 [s01b_project_extractor.tools.nonenergy_sweep] INFO 已落库 excluded=1：39 行（source=deterministic_guard）

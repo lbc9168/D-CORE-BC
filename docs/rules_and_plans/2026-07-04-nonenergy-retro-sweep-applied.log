@@ -1,0 +1,4 @@
+2026-07-04 10:46:21,037 [s01b_project_extractor.tools.nonenergy_sweep] INFO 扫描 11106 行未排除记录，命中 525 行
+2026-07-04 10:46:21,040 [s01b_project_extractor.tools.nonenergy_sweep] INFO 命中清单已写 ../docs/rules_and_plans/2026-07-04-nonenergy-retro-sweep-applied.csv
+2026-07-04 10:46:21,040 [s01b_project_extractor.tools.nonenergy_sweep] INFO 已备份 E:\Projects\BRI_RE_Database_v2\s01b_project_extractor\data\projects.db.bak.20260704_104621
+2026-07-04 10:46:21,099 [s01b_project_extractor.tools.nonenergy_sweep] INFO 已落库 excluded=1：525 行（source=deterministic_guard）

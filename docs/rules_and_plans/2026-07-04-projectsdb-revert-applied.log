@@ -1,0 +1,4 @@
+2026-07-04 15:45:10,378 INFO 反悔 id：[322, 323, 2775, 4083, 4907, 6215, 6282, 8106, 8611, 10304, 10305]
+2026-07-04 15:45:10,382 INFO 已备份 E:\Projects\BRI_RE_Database_v2\s01b_project_extractor\data\projects.db.bak.20260704_154510
+2026-07-04 15:45:10,396 INFO 已置回 excluded=0：11 行
+2026-07-04 15:45:10,403 INFO 校验通过：11/11 已置回；projects.db excluded=1 总数=557

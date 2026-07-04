@@ -1,0 +1,4 @@
+2026-07-04 15:37:14,070 [s02b_entity_normalizer.en_backfill] INFO 库已备份 E:/Projects/BRI_RE_Database_v2/s02a_duplicate_merger/data/db/bri_re_database.db.bak.20260704_153714
+2026-07-04 15:37:16,806 [s02b_entity_normalizer.en_backfill] INFO 英文名回填落库 9640 行（1726 个值级更新）
+2026-07-04 15:37:16,811 [s02b_entity_normalizer.en_backfill] INFO 库已备份 E:/Projects/BRI_RE_Database_v2/s01b_project_extractor/data/projects.db.bak.20260704_153716
+2026-07-04 15:37:43,629 [s02b_entity_normalizer.en_backfill] INFO 英文名回填落库 15221 行（2295 个值级更新）

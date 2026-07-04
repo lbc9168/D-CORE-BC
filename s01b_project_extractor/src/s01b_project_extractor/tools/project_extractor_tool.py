@@ -27,6 +27,7 @@ from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
 from s01b_project_extractor.guardrails.nonenergy_check import (
     check_nonenergy, capacity_is_tonnage, DETERMINISTIC_GUARD_SOURCE,
 )
+from s01b_project_extractor.guardrails.developer_check import clean_developer
 
 logger = logging.getLogger(__name__)
 
@@ -360,6 +361,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             project_stage           TEXT,
             project_developer       TEXT,
             project_developer_en    TEXT,
+            project_developer_evidence TEXT,
             multiple_chinese        TEXT,
             implementing_entity     TEXT,
             implementing_entity_en  TEXT,
@@ -405,6 +407,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN exclude_reason TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN exclude_source TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN project_developer_en TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN project_developer_evidence TEXT",
     ]:
         try:
             conn.execute(col_def)
@@ -867,6 +870,15 @@ class ProjectExtractorTool:
                     country_name = common.get("Country", "")
                     meta = _get_country_meta(country_name, country_db)
 
+                    # ── Layer 0 确定性业主守卫：developer 与同事件承包方/设备商重名 → 剔除
+                    # （先清洗再翻译，避免给被剔部件白跑翻译）──
+                    dev_cn, dev_dropped = clean_developer(
+                        common.get("Project Developer", ""), entities, common.get("Category", ""),
+                    )
+                    if dev_dropped:
+                        logger.info("developer 守卫剔除 %s（项目=%s）",
+                                    dev_dropped, common.get("Project Name", ""))
+
                     base = {
                         "Record Type": _normalize_record_type(common.get("Record Type")),
                         "Project Name": common.get("Project Name", ""),
@@ -881,9 +893,10 @@ class ProjectExtractorTool:
                         "Capacity (MW)": common.get("Capacity (MW)", ""),
                         "Capacity Details": common.get("Capacity Details", ""),
                         "Project Stage": common.get("Project Stage", ""),
-                        "Project Developer": common.get("Project Developer", ""),
+                        "Project Developer": dev_cn,
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
-                        "Project Developer (EN)": _resolve_developer_en(common.get("Project Developer", ""), client),
+                        "Project Developer (EN)": _resolve_developer_en(dev_cn, client),
+                        "Project Developer Evidence": common.get("Project Developer Evidence", ""),
                         "Multiple Chinese Enterprises Involved": (
                             "Yes" if len(entities) > 1 else "No"
                         ),
@@ -988,7 +1001,9 @@ class ProjectExtractorTool:
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
+                        # （unnamed 路径无实体角色可交叉，守卫不适用）
                         "Project Developer (EN)": _resolve_developer_en(common.get("Project Developer", ""), client),
+                        "Project Developer Evidence": common.get("Project Developer Evidence", ""),
                         "Multiple Chinese Enterprises Involved": "No",
                         "(Planned) Start Date": common.get("(Planned) Start Date", ""),
                         "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
@@ -1139,7 +1154,8 @@ class ProjectExtractorTool:
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
                         bri_country, ldc, location, category, capacity_mw_raw, capacity_mw, capacity_details,
                         storage_power_mw, storage_energy_mwh, capacity_source,
-                        project_stage, project_developer, project_developer_en, multiple_chinese, implementing_entity,
+                        project_stage, project_developer, project_developer_en, project_developer_evidence,
+                        multiple_chinese, implementing_entity,
                         implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
                         involvement_type, subcontract_amount_usd_raw, subcontract_amount_usd, planned_start_date,
                         planned_complete_date, total_investment_usd_raw, total_investment_usd, investment_date,
@@ -1148,7 +1164,7 @@ class ProjectExtractorTool:
                         additional_remarks, project_summary, batch_id, imported_to_s02a,
                         excluded, exclude_reason, exclude_source,
                         is_unnamed_placeholder, created_at)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
                                ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
@@ -1170,6 +1186,7 @@ class ProjectExtractorTool:
                         row_data.get("Project Stage", ""),
                         row_data.get("Project Developer", ""),
                         row_data.get("Project Developer (EN)", ""),
+                        row_data.get("Project Developer Evidence", ""),
                         row_data.get("Multiple Chinese Enterprises Involved", ""),
                         impl_entity,
                         impl_entity_en,

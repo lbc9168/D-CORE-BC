@@ -1,0 +1,4 @@
+2026-07-04 16:10:42,723 [s01b_project_extractor.tools.nonenergy_sweep_maindb] INFO 扫描 4233 个未排除 canonical，命中 10 个
+2026-07-04 16:10:42,724 [s01b_project_extractor.tools.nonenergy_sweep_maindb] INFO 命中清单已写 ../docs/rules_and_plans/2026-07-04-maindb-rule4-unknown-applied.csv
+2026-07-04 16:10:42,727 [s01b_project_extractor.tools.nonenergy_sweep_maindb] INFO 已备份 E:\Projects\BRI_RE_Database_v2\s02a_duplicate_merger\data\db\bri_re_database.db.bak.20260704_161042
+2026-07-04 16:10:42,735 [s01b_project_extractor.tools.nonenergy_sweep_maindb] INFO 已落库 excluded=1：10 个 canonical

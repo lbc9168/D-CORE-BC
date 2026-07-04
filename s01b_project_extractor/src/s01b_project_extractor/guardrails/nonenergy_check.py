@@ -28,6 +28,10 @@ _NONENERGY_WORDS = [
     "港口", "码头", "物流", "清关", "货运站", "边关站",
     # 水务
     "海水淡化", "供水", "污水",
+    # 民用基建（2026-07-04 主库回填诊断补充：基准案 SUR-XX-0001 灌溉排水修复；
+    # 「光储灌溉」「机场光伏」等合法共存例由发电语义词保护，不含「水利」以免误杀水利枢纽水电）
+    "灌溉", "排水", "水渠", "道路", "公路", "机场", "铁路", "桥梁",
+    "体育场", "体育馆", "医院", "学校", "教学楼",
 ]
 
 # 非能源英文词（部分项目名为纯英文，如 "Muga Potash Greenfield Project"）；小写匹配
@@ -45,6 +49,12 @@ _POWER_WORDS = [
     "太阳能", "风能", "风光", "光热", "地热", "生物质", "并网", "输变电", "变电站",
     "输电", "联网", "电力贸易", "装机", "mw", "gw", "兆瓦",
     "联合循环", "燃机",
+    # 输变电语义（2026-07-04：TFM矿区供电/米桑油田132千伏电网等真输变电工程曾被
+    # 「矿区/油田」词误杀——电网工程在录入范围（发电/新能源制造/输变电）内）
+    "电网", "千伏", "供电",
+    # 新能源制造/光伏建筑语义：多晶硅=光伏产业链硅料（AGO 冶金硅+多晶硅项目曾被「冶金」误杀）；
+    # bipv 保护名称无中文发电词的光伏建筑一体化项目
+    "多晶硅", "bipv",
 ]
 
 # 明确可再生能源种类词（绿氢规则用；用户判定规则 2026-07-02）
@@ -52,6 +62,12 @@ _RE_TYPE_WORDS = ["光伏", "风电", "水电", "太阳能", "风能", "风光",
 
 # 绿氢/电解类词：须同时有「明确 RE 种类 + 明确装机容量」才纳入
 _HYDROGEN_WORDS = ["绿氢", "绿色氢", "绿氨", "绿色氨", "制氢", "电解槽", "电解水"]
+
+# 规则 3 豁免类别：这些类别以处理吨量计装机为正常口径（垃圾焚烧发电/生物质/余热），不按吨/年判非发电
+_TONNAGE_EXEMPT_CATEGORIES = {"新能源制造业", "生物质", "地热及余热"}
+
+# 确凿发电语义（规则 3 放行用）：名称无「发电」但摘要证明确为发电项目时不误杀（如垃圾焚烧发电）
+_GENERATION_EVIDENCE = ["发电", "绿色电力"]
 
 # 吨/年产能模式 与 MW 装机语义
 _TONNAGE_RE = re.compile(r"[\d,.]+\s*万?\s*吨|吨/年|万吨|t/a|tpa|mtpa", re.IGNORECASE)
@@ -80,7 +96,8 @@ def check_nonenergy(name, summary, category, capacity_mw, capacity_details):
     """确定性非能源判定：返回排除理由字符串（命中）或 None（放行）。
 
     规则按序：⓪ 硬排除词（充换电站）；① 绿氢/电解类须同时有明确 RE 种类+装机容量；
-    ② 名称命中非能源词且名称+容量明细无发电语义；③ 发电类别但容量只有吨/年（制造业豁免）。
+    ② 名称命中非能源词且名称+容量明细无发电语义；③ 发电类别但容量只有吨/年（制造业豁免）；
+    ④ Unknown 类别兜底——空项目名，或全文无发电语义且无装机（词表列不全的长尾民用项目）。
     """
     name = str(name or "")
     summary = str(summary or "")
@@ -107,10 +124,27 @@ def check_nonenergy(name, summary, category, capacity_mw, capacity_details):
     if hit and not any(w in protect_text for w in _POWER_WORDS):
         return f"非能源产业项目（名称命中「{hit}」且无发电语义）"
 
-    # 规则 3：发电类别但容量字段只有吨/年（新能源制造业以产能计，豁免）
-    # capacity_mw 数值本身无单位信息，规则3只看 Capacity Details 文本，故 raw 传 None
-    if category != "新能源制造业" and capacity_is_tonnage(None, details):
-        if not any(w in name.lower() for w in _POWER_WORDS):
+    # 规则 3：非豁免类别但容量字段只有吨/年（产能计量而非装机，疑似非发电）
+    # capacity_mw 数值本身无单位信息（且可能是毒值，如天然气处理厂 mw=2250），故不据其判定。
+    # 只查 name+summary 的发电语义，不查 capacity_details——后者可能含辅助供电「风电+太阳能」等
+    # 误导词（如壳牌油气平台）。名称无「发电」但摘要证明确为发电项目（垃圾焚烧发电）不得误杀。
+    if category not in _TONNAGE_EXEMPT_CATEGORIES and capacity_is_tonnage(None, details):
+        gen_text = name + " " + summary
+        if not any(w in name.lower() for w in _POWER_WORDS) and not any(
+            w in gen_text for w in _GENERATION_EVIDENCE
+        ):
             return "容量为吨/年产能而非装机，疑似非发电项目"
+
+    # 规则 4：Unknown 类别兜底（2026-07-04）——S2 不敢给发电类别的行是词表漏网聚集地
+    # （别墅/食品厂/度假村/办公楼等长尾民用项目枚举不完）。与规则 2 相反，这里查全文
+    # （名称+摘要+容量明细）且认装机数值，只有毫无发电证据才排除，偏保守。
+    if category == "Unknown":
+        if not name.strip():
+            return "Unknown类别且项目名为空（提取残留，非可用记录）"
+        full_text = (name + " " + summary + " " + details).lower()
+        if not any(w in full_text for w in _POWER_WORDS) and not _has_positive_mw(
+            capacity_mw, name, details
+        ):
+            return "Unknown类别且全文无发电语义（民用/未分类漏网兜底）"
 
     return None

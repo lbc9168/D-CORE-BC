@@ -1,0 +1,2 @@
+2026-07-04 15:56:42,685 [s01b_project_extractor.tools.nonenergy_sweep] INFO 扫描 10553 行未排除记录，命中 38 行
+2026-07-04 15:56:42,686 [s01b_project_extractor.tools.nonenergy_sweep] INFO 命中清单已写 ../docs/rules_and_plans/2026-07-04-projectsdb-rule4-unknown-dryrun.csv

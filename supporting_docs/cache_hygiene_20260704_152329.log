@@ -1,0 +1,2 @@
+2026-07-04 15:23:29,187 [s01b_project_extractor.tools.cache_hygiene] INFO 缓存已备份 E:/Projects/BRI_RE_Database_v2/supporting_docs/company_name_cache.json.bak.20260704_152329
+2026-07-04 15:23:29,198 [s01b_project_extractor.tools.cache_hygiene] INFO 缓存写回：删除 0 键、upsert 107 条
