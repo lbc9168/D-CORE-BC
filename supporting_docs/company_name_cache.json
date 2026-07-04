@@ -241,16 +241,16 @@
     "source": "official"
   },
   "中国能源建设集团有限公司": {
-    "en": "China Energy Engineering Group Co., Ltd. (CEEC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Energy Engineering Group Co., Ltd.",
+    "en_abbr": "CEEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国葛洲坝集团有限公司": {
     "en": "China Gezhouba Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en_abbr": "CGGC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国葛洲坝集团（甘肃）工程有限公司": {
     "en": "China Gezhouba Group (Gansu) Engineering Co., Ltd.",
@@ -259,10 +259,10 @@
     "source": "company_hierarchy"
   },
   "中国电力工程顾问集团有限公司": {
-    "en": "China Power Engineering Consulting Group Co., Ltd. (CPECC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Power Engineering Consulting Group Co., Ltd.",
+    "en_abbr": "CPECC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国能建集团装备有限公司": {
     "en": "CEEC Equipment Co., Ltd.",
@@ -619,10 +619,10 @@
     "source": "company_hierarchy"
   },
   "中国电力建设集团有限公司": {
-    "en": "Power Construction Corporation of China (PowerChina)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "Power Construction Corporation of China",
+    "en_abbr": "PowerChina",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中电建新能源集团股份有限公司": {
     "en": "PowerChina New Energy Group Co., Ltd.",
@@ -847,10 +847,10 @@
     "source": "company_hierarchy"
   },
   "国家电力投资集团有限公司": {
-    "en": "State Power Investment Corporation Limited (SPIC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "State Power Investment Corporation Limited",
+    "en_abbr": "SPIC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "国家核电技术有限公司": {
     "en": "State Nuclear Power Technology Corporation",
@@ -925,10 +925,10 @@
     "source": "company_hierarchy"
   },
   "国家能源投资集团有限责任公司": {
-    "en": "CHN Energy Investment Group Co., Ltd. (CHN Energy)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "CHN Energy Investment Group Co., Ltd.",
+    "en_abbr": "CHN Energy",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国神华能源股份有限公司": {
     "en": "China Shenhua Energy Company Limited",
@@ -1123,10 +1123,10 @@
     "source": "company_hierarchy"
   },
   "中国华能集团有限公司": {
-    "en": "China Huaneng Group Co., Ltd. (China Huaneng)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Huaneng Group Co., Ltd.",
+    "en_abbr": "China Huaneng",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "华能国际电力股份有限公司": {
     "en": "Huaneng Power International, Inc.",
@@ -1213,10 +1213,10 @@
     "source": "company_hierarchy"
   },
   "中国大唐集团有限公司": {
-    "en": "China Datang Corporation Ltd. (China Datang)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Datang Corporation Ltd.",
+    "en_abbr": "CDT",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "大唐国际发电股份有限公司": {
     "en": "Datang International Power Generation Co., Ltd.",
@@ -1285,10 +1285,10 @@
     "source": "company_hierarchy"
   },
   "中国华电集团有限公司": {
-    "en": "China Huadian Corporation Ltd. (China Huadian)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Huadian Corporation Ltd.",
+    "en_abbr": "China Huadian",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "华电国际电力股份有限公司": {
     "en": "Huadian Power International Corporation Limited",
@@ -1333,10 +1333,10 @@
     "source": "company_hierarchy"
   },
   "中国长江三峡集团有限公司": {
-    "en": "China Three Gorges Corporation (CTG)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Three Gorges Corporation",
+    "en_abbr": "CTG",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国长江电力股份有限公司": {
     "en": "China Yangtze Power Co., Ltd.",
@@ -1399,10 +1399,10 @@
     "source": "company_hierarchy"
   },
   "中国广核集团有限公司": {
-    "en": "China General Nuclear Power Group (CGN)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China General Nuclear Power Corporation",
+    "en_abbr": "CGN",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中广核核电运营有限公司": {
     "en": "CGN Nuclear Power Operations Co., Ltd.",
@@ -1453,10 +1453,10 @@
     "source": "company_hierarchy"
   },
   "中国核工业集团有限公司": {
-    "en": "China National Nuclear Corporation (CNNC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China National Nuclear Corporation",
+    "en_abbr": "CNNC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国核电股份有限公司": {
     "en": "China National Nuclear Power Co., Ltd.",
@@ -1507,10 +1507,10 @@
     "source": "company_hierarchy"
   },
   "国家电网有限公司": {
-    "en": "State Grid Corporation of China (SGCC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "State Grid Corporation of China",
+    "en_abbr": "State Grid",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "国家电网有限公司华北分部": {
     "en": "State Grid North China Branch",
@@ -1567,10 +1567,10 @@
     "source": "company_hierarchy"
   },
   "中国南方电网有限责任公司": {
-    "en": "China Southern Power Grid Co., Ltd. (CSG)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China Southern Power Grid Co., Ltd.",
+    "en_abbr": "CSG",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国南方电力调度控制中心": {
     "en": "China Southern Power Grid Dispatch and Control Center",
@@ -1669,10 +1669,10 @@
     "source": "company_hierarchy"
   },
   "中国东方电气集团有限公司": {
-    "en": "Dongfang Electric Corporation (DEC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "Dongfang Electric Corporation",
+    "en_abbr": "DEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "东方电气集团东方电机有限公司": {
     "en": "Dongfang Electric Machinery Co., Ltd.",
@@ -1729,10 +1729,10 @@
     "source": "company_hierarchy"
   },
   "哈尔滨电气集团有限公司": {
-    "en": "Harbin Electric Corporation (HE)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "Harbin Electric Corporation",
+    "en_abbr": "HEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "哈尔滨电气股份有限公司": {
     "en": "Harbin Electric Company Limited",
@@ -1813,10 +1813,10 @@
     "source": "company_hierarchy"
   },
   "中国机械工业集团有限公司": {
-    "en": "Sinomach (China National Machinery Industry Corporation)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en": "China National Machinery Industry Corporation",
+    "en_abbr": "Sinomach",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "国机财务有限责任公司": {
     "en": "Sinomach Finance Co., Ltd.",
@@ -1904,9 +1904,9 @@
   },
   "上海电气集团股份有限公司": {
     "en": "Shanghai Electric Group Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en_abbr": "Shanghai Electric",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "电站集团": {
     "en": "Power Station Group",
@@ -1988,9 +1988,9 @@
   },
   "三一集团有限公司": {
     "en": "SANY Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "company_hierarchy"
+    "en_abbr": "SANY",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "三一重工股份有限公司": {
     "en": "Sany Heavy Industry Co., Ltd.",
@@ -2089,10 +2089,10 @@
     "source": "ai"
   },
   "中国石油化工集团有限公司": {
-    "en": "Sinopec Group Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Petrochemical Corporation",
+    "en_abbr": "Sinopec",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中石化炼化工程集团": {
     "en": "Sinopec Engineering Group",
@@ -2137,10 +2137,10 @@
     "source": "ai"
   },
   "东方希望集团": {
-    "en": "East Hope Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "East Hope Group Co., Ltd.",
+    "en_abbr": "East Hope Group",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "晶科电力": {
     "en": "Jinko Power",
@@ -2162,9 +2162,9 @@
   },
   "中国化学工程集团有限公司": {
     "en": "China National Chemical Engineering Group Corporation Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CNCEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国化学工程股份有限公司": {
     "en": "China National Chemical Engineering Co., Ltd.",
@@ -2192,9 +2192,9 @@
   },
   "中国建筑集团有限公司": {
     "en": "China State Construction Engineering Corporation Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CSCEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国建筑第三工程局有限公司": {
     "en": "China Construction Third Engineering Bureau Co., Ltd.",
@@ -2210,9 +2210,9 @@
   },
   "阳光电源股份有限公司": {
     "en": "Sungrow Power Supply Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Sungrow",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "亚钾国际": {
     "en": "Asia Pacific Potash Corporation",
@@ -2366,9 +2366,9 @@
   },
   "联合能源集团": {
     "en": "United Energy Group Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "UEG",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "BTR新材料集团": {
     "en": "BTR New Material Group",
@@ -2467,10 +2467,10 @@
     "source": "ai"
   },
   "永福股份": {
-    "en": "Yongfu Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Fujian Yongfu Power Engineering Co., Ltd.",
+    "en_abbr": "Yongfu",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "永福新能源": {
     "en": "Yongfu New Energy",
@@ -2480,9 +2480,9 @@
   },
   "中国通用技术（集团）控股有限责任公司": {
     "en": "China General Technology (Group) Holding Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Genertec",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "上海电力能源发展（香港）有限公司": {
     "en": "Shanghai Electric Power Energy Development (Hong Kong) Limited",
@@ -2504,9 +2504,9 @@
   },
   "东方日升新能源股份有限公司": {
     "en": "Risen Energy Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Risen Energy",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "东方日升": {
     "en": "Risen Energy Co., Ltd.",
@@ -2599,10 +2599,10 @@
     "source": "ai"
   },
   "中国民生银行": {
-    "en": "China Minsheng Bank",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Minsheng Banking Corp., Ltd.",
+    "en_abbr": "CMBC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国能源建设集团装备有限公司": {
     "en": "China Energy Engineering Group Equipment Co., Ltd.",
@@ -2630,9 +2630,9 @@
   },
   "金风科技股份有限公司": {
     "en": "Goldwind Science & Technology Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Goldwind",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "亿纬锂能马来西亚有限公司": {
     "en": "EVE Energy Malaysia Sdn. Bhd.",
@@ -2713,10 +2713,10 @@
     "source": "ai"
   },
   "中国中材国际工程股份有限公司": {
-    "en": "China National Building Material International Engineering Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sinoma International Engineering Co., Ltd.",
+    "en_abbr": "Sinoma International",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中材海外工程有限公司": {
     "en": "Sinoma Overseas Engineering Co., Ltd.",
@@ -2731,10 +2731,10 @@
     "source": "ai"
   },
   "中国天楹股份有限公司": {
-    "en": "China Tonly Environment Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Tianying Inc.",
+    "en_abbr": "China Tianying",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "Europe TianYing BV": {
     "en": "Europe TianYing BV",
@@ -2768,9 +2768,9 @@
   },
   "中国土木工程集团有限公司": {
     "en": "China Civil Engineering Construction Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CCECC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国建材工程集团有限公司": {
     "en": "CNBM Engineering Group Co., Ltd.",
@@ -2797,16 +2797,16 @@
     "source": "ai"
   },
   "阿特斯阳光电力集团": {
-    "en": "Canadian Solar Inc.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "CSI Solar Co., Ltd.",
+    "en_abbr": "Canadian Solar",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国电子科技集团有限公司": {
     "en": "China Electronics Technology Group Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CETC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国电科": {
     "en": "China Electronics Technology Group Corporation",
@@ -2827,10 +2827,10 @@
     "source": "ai"
   },
   "苏美达股份有限公司": {
-    "en": "SUMEC Corporation Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sumec Corporation Limited",
+    "en_abbr": "SUMEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "苏美达能源": {
     "en": "SUMEC Energy",
@@ -2845,10 +2845,10 @@
     "source": "ai"
   },
   "中腾微网（北京）科技有限公司": {
-    "en": "ZTE Microelectronics (Beijing) Technology Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sino Soar Hybrid (Beijing) Technology Co., Ltd.",
+    "en_abbr": "Sinosoar",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国能源建设集团江西水电工程局有限公司": {
     "en": "China Energy Engineering Group Jiangxi Hydropower Engineering Co., Ltd.",
@@ -2858,9 +2858,9 @@
   },
   "中国中铁股份有限公司": {
     "en": "China Railway Group Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CREC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "通威集团有限公司": {
     "en": "Tongwei Group Co., Ltd.",
@@ -2899,10 +2899,10 @@
     "source": "ai"
   },
   "中国港湾工程有限责任公司": {
-    "en": "China Harbor Engineering Company Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Harbour Engineering Company Ltd.",
+    "en_abbr": "CHEC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国三峡（欧洲）有限公司": {
     "en": "China Three Gorges (Europe) Limited",
@@ -2954,9 +2954,9 @@
   },
   "中国铁建股份有限公司": {
     "en": "China Railway Construction Corporation Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CRCC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中铁建工集团东非有限公司": {
     "en": "CRCC East Africa Construction Co., Ltd.",
@@ -2978,9 +2978,9 @@
   },
   "中国西电集团有限公司": {
     "en": "China XD Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "China XD Group",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "西电国际工程有限责任公司": {
     "en": "Xidian International Engineering Co., Ltd.",
@@ -3049,10 +3049,10 @@
     "source": "ai"
   },
   "华为": {
-    "en": "Huawei",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Huawei Technologies Co., Ltd.",
+    "en_abbr": "Huawei",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国水电十一局": {
     "en": "China Hydropower Eleventh Engineering Bureau",
@@ -3193,10 +3193,10 @@
     "source": "ai"
   },
   "中国船舶集团有限公司": {
-    "en": "China State Shipbuilding Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China State Shipbuilding Corporation Limited",
+    "en_abbr": "CSSC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国船舶黄埔文冲公司": {
     "en": "CSSC Huangpu Wenchong Shipbuilding Company",
@@ -3235,10 +3235,10 @@
     "source": "ai"
   },
   "中国信保": {
-    "en": "China Export and Credit Insurance Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Export & Credit Insurance Corporation",
+    "en_abbr": "Sinosure",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "华南外运": {
     "en": "Sinotrans South China",
@@ -3583,10 +3583,10 @@
     "source": "ai"
   },
   "中国北方工业有限公司": {
-    "en": "NORINCO Group Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China North Industries Corporation",
+    "en_abbr": "NORINCO",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国银行北京分行": {
     "en": "Bank of China Beijing Branch",
@@ -3608,9 +3608,9 @@
   },
   "中国海洋石油集团有限公司": {
     "en": "China National Offshore Oil Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CNOOC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国船舶工业集团有限公司": {
     "en": "China State Shipbuilding Corporation",
@@ -3716,9 +3716,9 @@
   },
   "中国远洋海运集团有限公司": {
     "en": "China COSCO SHIPPING Corporation Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "COSCO SHIPPING",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中远海运工程物流": {
     "en": "COSCO SHIPPING Engineering Logistics",
@@ -3866,9 +3866,9 @@
   },
   "浙江正泰新能源开发有限公司": {
     "en": "Zhejiang Chint New Energy Development Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CHINT New Energy",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "晶澳太阳能科技有限公司": {
     "en": "JA Solar Holdings Co., Ltd.",
@@ -4123,10 +4123,10 @@
     "source": "ai"
   },
   "协鑫集团": {
-    "en": "Xinyi Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "GCL Group Holdings Co., Ltd.",
+    "en_abbr": "GCL",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国电建国际公司": {
     "en": "PowerChina International Group Limited",
@@ -4147,10 +4147,10 @@
     "source": "ai"
   },
   "隆基": {
-    "en": "LONGi",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "LONGi Green Energy Technology Co., Ltd.",
+    "en_abbr": "LONGi",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "云南国际": {
     "en": "Yunnan International",
@@ -4207,10 +4207,10 @@
     "source": "ai"
   },
   "伟能集团": {
-    "en": "Bright Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "VPower Group International Holdings Limited",
+    "en_abbr": "VPower",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "招商局重工（CMHI）": {
     "en": "China Merchants Heavy Industry (Shenzhen) Co., Ltd.",
@@ -4352,9 +4352,9 @@
   },
   "中国铁路工程集团有限公司": {
     "en": "China Railway Engineering Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CREC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "三峡国际招标有限责任公司": {
     "en": "Three Gorges International Tendering Co., Ltd.",
@@ -4423,10 +4423,10 @@
     "source": "ai"
   },
   "中信博": {
-    "en": "CITIC Global",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Arctech Solar Holding Co., Ltd.",
+    "en_abbr": "Arctech",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "工银亚洲": {
     "en": "ICBC (Asia)",
@@ -4531,10 +4531,10 @@
     "source": "ai"
   },
   "中国建材集团": {
-    "en": "China National Building Material Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China National Building Material Group Co., Ltd.",
+    "en_abbr": "CNBM Group",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "晋能清洁能源": {
     "en": "Jinneng Clean Energy",
@@ -5401,10 +5401,10 @@
     "source": "ai"
   },
   "正泰集团": {
-    "en": "CHINT Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "CHINT Group Co., Ltd.",
+    "en_abbr": "CHINT",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "Chint Energy": {
     "en": "Chint Energy",
@@ -5419,10 +5419,10 @@
     "source": "ai"
   },
   "北方国际合作股份有限公司": {
-    "en": "NORINCO INTERNATIONAL COOPERATION LIMITED",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "NORINCO International Cooperation Ltd.",
+    "en_abbr": "NORINCO International",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "特变电工股份有限公司": {
     "en": "TBEA Co., Ltd.",
@@ -5821,10 +5821,10 @@
     "source": "ai"
   },
   "上能电气股份有限公司": {
-    "en": "SUNGREE Electric Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sineng Electric Co., Ltd.",
+    "en_abbr": "Sineng",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "China State Construction Engineering Corporation Ltd.": {
     "en": "China State Construction Engineering Corporation Ltd.",
@@ -5857,10 +5857,10 @@
     "source": "ai"
   },
   "汉伏能源": {
-    "en": "Hanvu Energy",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Hanersun Technology Co., Ltd.",
+    "en_abbr": "Hanersun",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国建筑安装": {
     "en": "China Construction Installation",
@@ -5887,10 +5887,10 @@
     "source": "ai"
   },
   "华西能源工业股份有限公司": {
-    "en": "West China Energy Industry Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Western Power Industrial Co., Ltd.",
+    "en_abbr": "China Western Power",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中建三局集团有限公司": {
     "en": "China Construction Third Engineering Group Co., Ltd.",
@@ -5971,10 +5971,10 @@
     "source": "ai"
   },
   "青山控股集团": {
-    "en": "Qingshan Holdings Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Tsingshan Holding Group Co., Ltd.",
+    "en_abbr": "Tsingshan",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "北票电力电杆制造有限公司": {
     "en": "Beipiao Electric Pole Manufacturing Co., Ltd.",
@@ -6056,9 +6056,9 @@
   },
   "天合光能股份有限公司": {
     "en": "Trina Solar Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Trina Solar",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "新奥集团": {
     "en": "Enn Group",
@@ -6398,9 +6398,9 @@
   },
   "中国五矿集团有限公司": {
     "en": "China Minmetals Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "China Minmetals",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "天辰公司": {
     "en": "Tianchen Company",
@@ -6511,10 +6511,10 @@
     "source": "ai"
   },
   "威海国际经济技术合作股份有限公司": {
-    "en": "Weihai International Economic and Technical Cooperation Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Weihai International Economic & Technical Cooperative Co., Ltd.",
+    "en_abbr": "WIETC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "深圳远信储能技术股份有限公司": {
     "en": "Shenzhen Yuanxin Energy Storage Technology Co., Ltd.",
@@ -6553,10 +6553,10 @@
     "source": "ai"
   },
   "中国能建国际集团": {
-    "en": "China Energy Engineering Group International Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Energy International Group Co., Ltd.",
+    "en_abbr": "Energy China International",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "上海陕耀新能源投资有限公司": {
     "en": "Shanghai Shanyao New Energy Investment Co., Ltd.",
@@ -6595,16 +6595,16 @@
     "source": "ai"
   },
   "晶科能源股份有限公司": {
-    "en": "JinkoSolar Holding Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Jinko Solar Co., Ltd.",
+    "en_abbr": "JinkoSolar",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "晶科储能": {
-    "en": "Jinko Power",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Jinko ESS",
+    "en_abbr": "Jinko ESS",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "华晟新能源": {
     "en": "Huashang New Energy",
@@ -6625,10 +6625,10 @@
     "source": "ai"
   },
   "正泰电源": {
-    "en": "CHINT Power",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Shanghai CHINT Power Systems Co., Ltd.",
+    "en_abbr": "CHINT Power",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "特变电工电气装备集团有限公司": {
     "en": "TBEA Co., Ltd.",
@@ -6721,10 +6721,10 @@
     "source": "ai"
   },
   "南都电源": {
-    "en": "Narada Power Source Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Zhejiang Narada Power Source Co., Ltd.",
+    "en_abbr": "Narada",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "易助能源": {
     "en": "EZ Energy",
@@ -6781,10 +6781,10 @@
     "source": "ai"
   },
   "海博思创": {
-    "en": "Hybroadcom",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Beijing HyperStrong Technology Co., Ltd.",
+    "en_abbr": "HyperStrong",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "达驰电气": {
     "en": "Dach Electric",
@@ -6980,9 +6980,9 @@
   },
   "湖南军信环保股份有限公司": {
     "en": "Hunan Junxin Environmental Protection Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Junxin Environmental",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "晨科太阳能": {
     "en": "Morningstar Solar",
@@ -7033,10 +7033,10 @@
     "source": "ai"
   },
   "海辰储能": {
-    "en": "Hycheer Energy",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Xiamen Hithium Energy Storage Technology Co., Ltd.",
+    "en_abbr": "Hithium",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "保变电气": {
     "en": "Baobian Electric",
@@ -7172,9 +7172,9 @@
   },
   "中国石油工程建设有限公司": {
     "en": "China Petroleum Engineering & Construction Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "CPECC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国石油天然气集团有限公司": {
     "en": "PetroChina Company Limited",
@@ -7219,16 +7219,16 @@
     "source": "ai"
   },
   "紫金矿业集团股份有限公司": {
-    "en": "Zijin Mining Group Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Zijin Mining Group Co., Ltd.",
+    "en_abbr": "Zijin Mining",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "山东电工电气集团有限公司": {
-    "en": "Shandong Electric Power Engineering Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Shandong Electrical Engineering & Equipment Group Co., Ltd.",
+    "en_abbr": "SDEE",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "艾郎科技股份有限公司": {
     "en": "Ailong Technology Co., Ltd.",
@@ -7309,10 +7309,10 @@
     "source": "ai"
   },
   "寰泰能源股份有限公司": {
-    "en": "Huatai Energy Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Universal Energy Co., Ltd.",
+    "en_abbr": "Universal Energy",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国建筑第八工程局有限公司": {
     "en": "China Construction Eighth Engineering Division Corp., Ltd.",
@@ -7363,10 +7363,10 @@
     "source": "ai"
   },
   "云南能投集团": {
-    "en": "Yunnan Energy Investment Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Yunnan Provincial Energy Investment Group Co., Ltd.",
+    "en_abbr": "YEIG",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中建八局": {
     "en": "China Construction Eighth Engineering Division",
@@ -7574,9 +7574,9 @@
   },
   "隆基绿能科技股份有限公司": {
     "en": "LONGi Green Energy Technology Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "LONGi",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国宝安集团股份有限公司": {
     "en": "Shenzhen Baolong Group Co., Ltd.",
@@ -7957,10 +7957,10 @@
     "source": "ai"
   },
   "江西国际": {
-    "en": "Jiangxi International",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Jiangxi International Economic & Technical Cooperation Co., Ltd.",
+    "en_abbr": "CJIC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中材国际(南京)": {
     "en": "Sinoma Nanjing",
@@ -8653,10 +8653,10 @@
     "source": "ai"
   },
   "中国水利水电建设集团公司": {
-    "en": "China Water Resources and Hydropower Construction Group Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sinohydro Corporation Limited",
+    "en_abbr": "Sinohydro",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国电力成都工程公司": {
     "en": "China Power Chengdu Engineering Co., Ltd.",
@@ -8690,9 +8690,9 @@
   },
   "中国工商银行股份有限公司": {
     "en": "Industrial and Commercial Bank of China Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "ICBC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国电力建设公司贵州工程有限公司": {
     "en": "China Power Construction Guizhou Engineering Co., Ltd.",
@@ -9254,9 +9254,9 @@
   },
   "深圳能源集团股份有限公司": {
     "en": "Shenzhen Energy Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Shenzhen Energy",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "北重集团": {
     "en": "NORINCO Group",
@@ -9511,10 +9511,10 @@
     "source": "ai"
   },
   "山东高速集团有限公司": {
-    "en": "Shandong Expressway Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Shandong Hi-Speed Group Co., Ltd.",
+    "en_abbr": "Shandong Hi-Speed",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "湖北院": {
     "en": "Hubei Academy",
@@ -9662,9 +9662,9 @@
   },
   "中国银行股份有限公司": {
     "en": "Bank of China Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Bank of China",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国建设银行股份有限公司": {
     "en": "China Construction Bank Corporation",
@@ -9800,9 +9800,9 @@
   },
   "天合储能": {
     "en": "Trina Storage",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Trina Storage",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "国网智能电网研究院有限公司": {
     "en": "State Grid Smart Grid Research Institute Co., Ltd.",
@@ -10819,10 +10819,10 @@
     "source": "ai"
   },
   "宁德时代新能源科技股份有限公司": {
-    "en": "Contemporary Amperex Technology Co. Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Contemporary Amperex Technology Co., Limited",
+    "en_abbr": "CATL",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "蔚来": {
     "en": "NIO",
@@ -10957,10 +10957,10 @@
     "source": "ai"
   },
   "盛新锂能集团股份有限公司": {
-    "en": "Shenzhen Shengxin Lithium Energy Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Chengxin Lithium Group Co., Ltd.",
+    "en_abbr": "Chengxin Lithium",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国化学工程第十四建设有限公司": {
     "en": "China National Chemical Engineering Fourteenth Construction Co., Ltd.",
@@ -11245,10 +11245,10 @@
     "source": "ai"
   },
   "明阳智慧能源集团": {
-    "en": "MY Renewable Energy Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Ming Yang Smart Energy Group Co., Ltd.",
+    "en_abbr": "MingYang",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "格润内泽姆": {
     "en": "Green Grotto\"}",
@@ -11696,9 +11696,9 @@
   },
   "远景科技集团": {
     "en": "Envision Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Envision",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "首钢国际工程公司": {
     "en": "SINOSTEEL ENGINEERING & TECHNOLOGY CO., LTD.",
@@ -11743,10 +11743,10 @@
     "source": "ai"
   },
   "阳光新能源开发股份有限公司": {
-    "en": "SUNGROW POWER SUPPLY CO., LTD.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sungrow Renewables Development Co., Ltd.",
+    "en_abbr": "Sungrow Renewables",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "湖南建设投资集团有限责任公司": {
     "en": "Hunan Construction Investment Group Co., Ltd.",
@@ -11983,10 +11983,10 @@
     "source": "ai"
   },
   "山西建投国际投资有限公司": {
-    "en": "Shanxi Construction Investment International Investment Co., Ltd.",
-    "en_abbr": null,
+    "en": "Shanxi CIG International Investment Co., Ltd.",
+    "en_abbr": "Shanxi CIG International",
     "verified": false,
-    "source": "ai"
+    "source": "campaign-20260704"
   },
   "中国电建湖北工程有限公司": {
     "en": "China Power Construction Hubei Engineering Co., Ltd.",
@@ -12452,9 +12452,9 @@
   },
   "国轩高科股份有限公司": {
     "en": "Gotion High-Tech Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "Gotion",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "能源公司": {
     "en": "Energy Company",
@@ -12884,9 +12884,9 @@
   },
   "TCL中环新能源科技股份有限公司": {
     "en": "TCL Zhonghuan Renewable Energy Technology Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "TCL Zhonghuan",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中交天津航道局有限公司": {
     "en": "China Communications Construction Company Tianjin Dredging Co., Ltd.",
@@ -13567,10 +13567,10 @@
     "source": "ai"
   },
   "旺能环境股份有限公司": {
-    "en": "Wonder Environment Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Wangneng Environment Co., Ltd.",
+    "en_abbr": "Wangneng Environment",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "浙江旺能环保有限公司": {
     "en": "Zhejiang Wangneng Environmental Protection Co., Ltd.",
@@ -14695,10 +14695,10 @@
     "source": "ai"
   },
   "惠生清洁能源科技集团股份有限公司": {
-    "en": "HPC Energy Technology Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Wison New Energies",
+    "en_abbr": "Wison",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中帛集团": {
     "en": "Sino-Swiss Group",
@@ -15277,10 +15277,10 @@
     "source": "ai"
   },
   "湖南建投水利": {
-    "en": "Hunan Construction Investment Water Conservancy",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Hunan Construction Investment Water Conservancy Company",
+    "en_abbr": "HNJT Water Conservancy",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国二十冶设计院": {
     "en": "China Twenty Metallurgical Design Institute",
@@ -16237,10 +16237,10 @@
     "source": "ai"
   },
   "军信股份": {
-    "en": "Junxin Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Hunan Junxin Environmental Protection Co., Ltd.",
+    "en_abbr": "Junxin",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国海洋石油工程公司": {
     "en": "China Offshore Oil Engineering Corporation",
@@ -16484,9 +16484,9 @@
   },
   "特变电工国际工程有限公司": {
     "en": "TBEA International Engineering Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en_abbr": "TBEA International Engineering",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国银行澳门分行": {
     "en": "Bank of China Macau Branch",
@@ -17491,10 +17491,10 @@
     "source": "ai"
   },
   "中国电气装备集团": {
-    "en": "China Electrical Equipment Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Electric Equipment Group Co., Ltd.",
+    "en_abbr": "China Electric Equipment Group",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国民生银行云南省分行": {
     "en": "China Minsheng Bank Yunnan Branch",
@@ -17863,10 +17863,10 @@
     "source": "ai"
   },
   "开山控股集团": {
-    "en": "Kaisan Holdings Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Kaishan Holding Group Co., Ltd.",
+    "en_abbr": "Kaishan",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "湖南建投新西兰公司": {
     "en": "Hunan Construction Investment New Zealand Company",
@@ -18367,10 +18367,10 @@
     "source": "ai"
   },
   "陕西建工集团": {
-    "en": "Shaanxi Construction Engineering Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Shaanxi Construction Engineering Group Corporation",
+    "en_abbr": "SCEGC",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国建材装备集团天津水泥工业设计研究院有限公司": {
     "en": "China National Building Material Equipment Group Tianjin Cement Industry Design & Research Institute Co., Ltd.",
@@ -18595,10 +18595,10 @@
     "source": "ai"
   },
   "中国光大环境(集团)有限公司": {
-    "en": "China Everbright Environment (Group) Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "China Everbright Environment Group Limited",
+    "en_abbr": "China Everbright Environment",
+    "verified": true,
+    "source": "campaign-20260704"
   },
   "中国电建（老挝）有限公司": {
     "en": "China Power Construction (Laos) Co., Ltd.",
@@ -25241,5 +25241,41 @@
     "en_abbr": null,
     "verified": false,
     "source": "ai"
+  },
+  "中国交通建设集团": {
+    "en": "China Communications Construction Group Co., Ltd.",
+    "en_abbr": "CCCC",
+    "verified": true,
+    "source": "campaign-20260704"
+  },
+  "晶科科技股份有限公司": {
+    "en": "Jinko Power Technology Co., Ltd.",
+    "en_abbr": "Jinko Power",
+    "verified": true,
+    "source": "campaign-20260704"
+  },
+  "中国中材节能股份有限公司": {
+    "en": "Sinoma Energy Conservation Ltd.",
+    "en_abbr": "Sinoma Energy Conservation",
+    "verified": true,
+    "source": "campaign-20260704"
+  },
+  "中国上海康恒环境股份有限公司": {
+    "en": "Shanghai SUS Environment Co., Ltd.",
+    "en_abbr": "SUS Environment",
+    "verified": true,
+    "source": "campaign-20260704"
+  },
+  "中国东方国际集团有限公司": {
+    "en": "Orient International (Holding) Co., Ltd.",
+    "en_abbr": "OIH",
+    "verified": true,
+    "source": "campaign-20260704"
+  },
+  "中国节能环保集团有限公司": {
+    "en": "China Energy Conservation and Environmental Protection Group Co., Ltd.",
+    "en_abbr": "CECEP",
+    "verified": true,
+    "source": "campaign-20260704"
   }
 }
