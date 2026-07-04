@@ -2125,10 +2125,10 @@
     "source": "ai"
   },
   "中国水电": {
-    "en": "China Three Gorges Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sinohydro Group Limited",
+    "en_abbr": "Sinohydro",
+    "verified": true,
+    "source": "correction-20260704"
   },
   "中湘资本": {
     "en": "Zhong Xiang Capital",
@@ -2492,12 +2492,6 @@
   },
   "中国葛洲坝集团国际公司": {
     "en": "China Gezhouba Group International Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "N/A": {
-    "en": "N/A",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -3012,12 +3006,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中国能源建设集团设备物资部/采购中心": {
-    "en": "China Energy Engineering Group Equipment and Materials Department / Procurement Center",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "中国能源建设集团核电公司": {
     "en": "China Energy Engineering Corporation Nuclear Power Co., Ltd.",
     "en_abbr": null,
@@ -3044,12 +3032,6 @@
   },
   "斯尔邦石化": {
     "en": "Surben Petrochemical",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国能源建设集团党委副书记、总经理陈观福": {
-    "en": "China Energy Engineering Corporation Limited",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -3109,10 +3091,10 @@
     "source": "ai"
   },
   "泰豪国际": {
-    "en": "TBEA Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "TELLHOW international contracting Co.Ltd",
+    "en_abbr": "Tellhow",
+    "verified": true,
+    "source": "correction-20260704"
   },
   "中国能源建设集团湖北工程有限公司": {
     "en": "China Energy Engineering Group Hubei Engineering Co., Ltd.",
@@ -6727,10 +6709,10 @@
     "source": "ai"
   },
   "上能电气": {
-    "en": "Sungrow Power Supply Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Sineng Electric Co., Ltd.",
+    "en_abbr": "Sineng Electric",
+    "verified": true,
+    "source": "correction-20260704"
   },
   "国电南瑞科技股份有限公司阿曼分公司": {
     "en": "Nanjing R&D Center of State Grid Corporation of China Oman Branch",
@@ -8952,12 +8934,6 @@
     "verified": false,
     "source": "ai"
   },
-  "CHINT Solar/Astronergy": {
-    "en": "Astronergy",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "江西省水利规划设计研究院": {
     "en": "Jiangxi Provincial Water Resources Survey and Design Institute",
     "en_abbr": null,
@@ -10182,12 +10158,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中国水利水电第十一工程局有限公司,中国水利水电第六工程局有限公司": {
-    "en": "China Water Resources and Hydropower No. 11 Engineering Bureau Co., Ltd.\nChina Water Resources and Hydropower No. 6 Engineering Bureau Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "中水电苏阿皮蒂项目部": {
     "en": "Sinohydro Sua Piti Project Department",
     "en_abbr": null,
@@ -10418,12 +10388,6 @@
   },
   "中建材浚鑫科技有限公司": {
     "en": "CMig Solargiga Technology Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中远海运工程物流事业部/分公司": {
-    "en": "COSCO SHIPPING Engineering Logistics Department/Branch",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -11448,12 +11412,6 @@
     "verified": false,
     "source": "ai"
   },
-  "高速千方公司": {
-    "en": "Highway Four</br>\nGansu Highway and Transportation Construction Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "中远海运特运": {
     "en": "COSCO Shipping Specialized Carrier",
     "en_abbr": null,
@@ -11846,12 +11804,6 @@
   },
   "中国水电（马来西亚）有限公司": {
     "en": "China Water Resources and Hydropower (Malaysia) Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "PT Envision Green Energy Indonesia (EGEI)": {
-    "en": "PT Envision Green Energy Indonesia",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -12702,12 +12654,6 @@
     "verified": false,
     "source": "ai"
   },
-  "Gotion, Inc.": {
-    "en": "Gotion, Inc.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "建设银行四川分行": {
     "en": "China Construction Bank Sichuan Branch",
     "en_abbr": null,
@@ -12716,12 +12662,6 @@
   },
   "金风科技可再生能源": {
     "en": "Goldwind Science & Technology Renewable Energy",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "渤海银行成都银行": {
-    "en": "China Bohai Bank\nBank of Chengdu",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -13938,12 +13878,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中船贸易": {
-    "en": "CSIC</b><br>\n**CSIC TRADING CO., LTD.**",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "博达新能EliTe Solar": {
     "en": "EliTe Solar",
     "en_abbr": null,
@@ -14480,12 +14414,6 @@
   },
   "中国能建葛洲坝一公司": {
     "en": "China Gezhouba Group Co., Ltd. No. 1 Engineering Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国电建集团河北省电力勘测设计研究院有限公司": {
-    "en": "China Power Engineering Consulting Group Corporation Hebei Provincial Electric Power Survey and Design Institute Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -17466,12 +17394,6 @@
     "verified": false,
     "source": "ai"
   },
-  "威泰迅/威能": {
-    "en": "Wintec / Vaillant",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "十五冶对外公司": {
     "en": "China Nonferrous Metal Industry Foreign Trade Co., Ltd.",
     "en_abbr": null,
@@ -17521,10 +17443,10 @@
     "source": "ai"
   },
   "中地海外": {
-    "en": "China Civil Engineering Construction Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "CGCOC Group Co., Ltd.",
+    "en_abbr": "CGCOC",
+    "verified": true,
+    "source": "correction-20260704"
   },
   "协鑫能科国际公司": {
     "en": "Xinyu Energy Technology International Company",
@@ -19134,20 +19056,8 @@
     "verified": false,
     "source": "ai"
   },
-  "迪拜水电局;沙特国际电力和水务公司": {
-    "en": "Dubai Electricity and Water Authority (DEWA)\nSaudi Arabia's International Company for Electricity and Water",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "越南龙山集团": {
     "en": "Long Son Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国华电;孟加拉国电力发展局": {
-    "en": "China Huadian Corporation\nPower Development Board",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19158,20 +19068,8 @@
     "verified": false,
     "source": "ai"
   },
-  "上海电气集团上海市机电设计研究院有限公司, 中国电建集团江西电建公司调试事业部": {
-    "en": "Shanghai Electric Group Shanghai Mechanical & Electrical Design Institute Co., Ltd.\nPowerChina Jiangxi Engineering Co., Ltd. Commissioning Division",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "南非政府": {
     "en": "Republic of South Africa",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "三峡新能源, 四川电力设计咨询有限责任公司, 四川省吉林商会": {
-    "en": "Three Gorges New Energy\nSichuan Electric Power Design & Consulting Co., Ltd.\nSichuan Jilin Chamber of Commerce",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19188,12 +19086,6 @@
     "verified": false,
     "source": "ai"
   },
-  "俄罗斯石油天然气集团;塞尔维亚油气集团": {
-    "en": "PJSC Rosneft\nNIS a.d. Novi Sad",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "Toba集团": {
     "en": "Toba Group",
     "en_abbr": null,
@@ -19202,12 +19094,6 @@
   },
   "太阳纸业": {
     "en": "Sun Paper",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "隆基新能源;Cao Nguyen Investing Energy Joint Stock Company": {
-    "en": "LONGi Green Energy Technology Co., Ltd.\nCao Nguyen Investing Energy Joint Stock Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19320,12 +19206,6 @@
     "verified": false,
     "source": "ai"
   },
-  "三峡集团, 麦格理开发公司": {
-    "en": "China Three Gorges Corporation\nMacquarie Development Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "哥斯达黎加公共工程和运输部": {
     "en": "Ministry of Public Works and Transport of Costa Rica",
     "en_abbr": null,
@@ -19358,12 +19238,6 @@
   },
   "阿特斯阳光电力泰国有限公司": {
     "en": "CANADIAN SOLAR (THAILAND) CO., LTD.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "迪拜水电局 (Dewa);沙特Acwa公司": {
-    "en": "Dubai Electricity and Water Authority (DEWA)\nACWA Power",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19418,12 +19292,6 @@
   },
   "顿巴斯能源公司": {
     "en": "Donbas Energy Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "尼日利亚输电公司的合格客户": {
-    "en": "[Discontinued - No official English name available]",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19502,12 +19370,6 @@
   },
   "国家电网电力公司（ENDE CORANI）": {
     "en": "State Grid Corporation of China",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "迪拜水电局（DEWA）;沙特国际电力和水务集团（ACWA Power）": {
-    "en": "Dubai Electricity and Water Authority (DEWA)\nACWA Power",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19596,12 +19458,6 @@
     "verified": false,
     "source": "ai"
   },
-  "孟加拉西北电力公司;西门子;英国石油（BP);中机CMC": {
-    "en": "Northwest Power Company of Bangladesh\nSiemens\nBP\nChina National Machinery Industry Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "业主单位": {
     "en": "Owner Unit",
     "en_abbr": null,
@@ -19628,12 +19484,6 @@
   },
   "恰利克莱公司": {
     "en": "CHARICKLYE COMPANY",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "云南能投联合外经股份有限公司;杭州锦江集团有限公司;孟加拉reliant incorporation limited公司": {
-    "en": "Yunnan Energy Investment United Foreign Economic Cooperation Co., Ltd.\nHangzhou Jinjiang Group Co., Ltd.\nReliance Incorporation Limited (Bangladesh)",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19710,12 +19560,6 @@
     "verified": false,
     "source": "ai"
   },
-  "格鲁吉亚政府,世界银行": {
-    "en": "The World Bank",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "乌干达国家乡村电力局": {
     "en": "Uganda National Rural Electrification Agency",
     "en_abbr": null,
@@ -19740,32 +19584,14 @@
     "verified": false,
     "source": "ai"
   },
-  "Hevel集团;匈牙利Jarlene Energy KFT": {
-    "en": "Hevel Group\nJarlene Energy Hungary KFT",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "塞尔维亚政府": {
     "en": "Serbian Government",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
   },
-  "川投国际尼泊尔水电联合开发公司;尼泊尔BPC公司": {
-    "en": "Sichuan Investment International Nepal Hydropower Joint Development Company Limited\nNepal BPC Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "墨西哥BG Titan能源矿产公司": {
     "en": "BG Titan Energy Minerals (Mexico)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国华能山东发电有限公司和中国山东如意集团": {
-    "en": "China Huaneng Shandong Power Generation Co., Ltd.\nShandong Ruyi Group",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19890,18 +19716,6 @@
     "verified": false,
     "source": "ai"
   },
-  "挪威国家石油公司, SSE": {
-    "en": "Equinor ASA, SSE",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中煤开发;迪拜王室马克图姆阁下私人公司;英国Oracal电力公司": {
-    "en": "China Coal Development\nPrivate Office of His Highness Sheikh Saeed bin Maktoum Al Maktoum\nOracal Power (UK) Ltd",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "刚果基建股份有限公司": {
     "en": "Congo Infrastructure Co., Ltd.",
     "en_abbr": null,
@@ -19916,12 +19730,6 @@
   },
   "加纳政府": {
     "en": "Government of Ghana",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "老挝计划与投资部;老挝能源与矿产部;杭州赛芳科技有限公司": {
-    "en": "Lao People's Democratic Republic Ministry of Planning and Investment\nLao People's Democratic Republic Ministry of Energy and Mines\nHangzhou Safon Technology Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -19980,12 +19788,6 @@
     "verified": false,
     "source": "ai"
   },
-  "几内亚政府和马里政府": {
-    "en": "Guinean Government\nMalian Government",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "俄罗斯国家原子能公司": {
     "en": "Rosatom",
     "en_abbr": null,
@@ -20006,12 +19808,6 @@
   },
   "摩洛哥可持续能源局": {
     "en": "Moroccan Agency for Sustainable Energy",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "莫桑比克公共工程、住房和水资源部": {
-    "en": "Ministry of Public Works, Housing and Water Resources of Mozambique",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -20130,12 +19926,6 @@
     "verified": false,
     "source": "ai"
   },
-  "比亚迪, Loxley集团": {
-    "en": "BYD\nLoxley Public Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "G公司": {
     "en": "G Company",
     "en_abbr": null,
@@ -20244,12 +20034,6 @@
     "verified": false,
     "source": "ai"
   },
-  "Seraphim;南非工业发展公司(IDC)": {
-    "en": "Seraphim\nIndustrial Development Corporation (IDC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "福特汽车菲律经销商(Fairlane Automotive Ventures)": {
     "en": "Ford Philippines",
     "en_abbr": null,
@@ -20352,12 +20136,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中沙合资企业 (中国杭州锦江集团和沙特阿拉伯的Ajlan Group)": {
-    "en": "Zhongsha Joint Venture (Hangzhou Jinjiang Group, China and Ajlan Group, Saudi Arabia)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "喀麦隆水资源及能源部": {
     "en": "Cameroon Ministry of Water Resources and Energy",
     "en_abbr": null,
@@ -20414,12 +20192,6 @@
   },
   "巴西圣保罗地铁公司": {
     "en": "São Paulo Metro Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "波兰奥得河防洪水库项目管理部;弗罗茨瓦夫地区水务局": {
-    "en": "Oder Flood Control Reservoir Project Management Department of Poland; Regional Water Management Authority in Wrocław",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -20556,18 +20328,6 @@
     "verified": false,
     "source": "ai"
   },
-  "马来西亚国家电力公司TNB;三井;日本中国电力株式会社": {
-    "en": "Malaysian National Power Company TNB\nMitsui & Co., Ltd.\nThe Chugoku Electric Power Co., Inc.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "华润电力;三井;JPower;日本开发银行": {
-    "en": "China Resources Power\nMitsui\nJ-POWER\nDevelopment Bank of Japan",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "比利时独立能源开发商": {
     "en": "Belgian Independent Energy Developer",
     "en_abbr": null,
@@ -20610,12 +20370,6 @@
     "verified": false,
     "source": "ai"
   },
-  "EDF可再生能源公司;Mitstui公司": {
-    "en": "EDF Renewables\nMitsui & Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "津巴布韦力拓能源公司（RioEnergy（Private）Limited）": {
     "en": "RioEnergy (Private) Limited",
     "en_abbr": null,
@@ -20636,12 +20390,6 @@
   },
   "TTC公司": {
     "en": "TTC Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "印尼国电公司PLN;印尼本土华商企业Barito Pacific;韩国电力公司KEPCO": {
-    "en": "PLN (Persero)\nBarito Pacific\nKEPCO",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -20690,12 +20438,6 @@
   },
   "越南晨星集团": {
     "en": "Vietnam Morning Star Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "阿布扎比国家石油公司;阿布扎比电力公司": {
-    "en": "Abu Dhabi National Oil Company\nAbu Dhabi Electricity Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -20762,18 +20504,6 @@
   },
   "非洲绿色能源和可再生能源公司 (SABER-ABREC)": {
     "en": "SABER-ABREC",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "葛洲坝集团、西电集团、长江委设计院联合体": {
-    "en": "China Gezhouba Group Corporation\nChina XD Group Corporation\nYangtze River Water Conservancy Commission Design and Research Institute Consortium",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "TAQA;丸红;晶科": {
-    "en": "TAQA\nMarubeni Corporation\nJinkoSolar Holding Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -20994,12 +20724,6 @@
     "verified": false,
     "source": "ai"
   },
-  "山东鑫海科技股份有限公司;中国宝武钢铁集团有限公司;巴西淡水河谷公司": {
-    "en": "Shandong Xinhai Technology Co., Ltd.\nChina Baowu Steel Group Corporation Limited\nVale S.A.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "德龙镍业": {
     "en": "Delong Nickel Industry",
     "en_abbr": null,
@@ -21030,18 +20754,6 @@
     "verified": false,
     "source": "ai"
   },
-  "西门子能源;KG电力公司;越南电力工程咨询股份公司PECC2": {
-    "en": "Siemens Energy\nKG Power Company\nPECC2 Energy Consulting Joint Stock Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "刚果（金）交通运输部多模运输项目和安全升级项目执行办公室": {
-    "en": "Office for the Implementation of the Multimodal Transport and Security Sector Improvement Project, Ministry of Transport of the Democratic Republic of Congo",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "中国电力建设集团公司": {
     "en": "Power Construction Corporation of China",
     "en_abbr": null,
@@ -21050,12 +20762,6 @@
   },
   "波黑富通有限公司": {
     "en": "Boshan Futong Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "德国西门子电气天然气公司;韩国三星物产": {
-    "en": "Siemens Energy\nSamsung C&T Corporation",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -21096,18 +20802,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中国建材;WElink": {
-    "en": "China National Building Material Group Co., Ltd.; WElink",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "越南T&T集团;越南石油公司": {
-    "en": "T&T Group\nPetroVietnam",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "巴基斯坦拉合尔水务局（WASA）": {
     "en": "Water and Sanitation Agency (WASA), Lahore",
     "en_abbr": null,
@@ -21132,12 +20826,6 @@
     "verified": false,
     "source": "ai"
   },
-  "阿特斯阳光电力集团;VTRM": {
-    "en": "CANADIAN SOLAR INC.\nVTRM",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "红海项目业主": {
     "en": "Red Sea Project Owner",
     "en_abbr": null,
@@ -21150,12 +20838,6 @@
     "verified": false,
     "source": "ai"
   },
-  "班达亚齐大学;大唐": {
-    "en": "Banda Aceh University; Datang",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "尼日利亚尼日尔三角洲电力控股公司（NDPHC）": {
     "en": "Niger Delta Power Holding Company Plc",
     "en_abbr": null,
@@ -21164,12 +20846,6 @@
   },
   "贝洛赞光伏电站有限公司": {
     "en": "BLZN PV Power Station Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "赞比亚西部电力公司 (Western Solar Power);塞伦盖蒂能源公司 (Serengeti Energy)": {
-    "en": "Western Power Zambia Limited\nSerengeti Energy Holdings (Pty) Ltd",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -21444,12 +21120,6 @@
     "verified": false,
     "source": "ai"
   },
-  "卡拉奇电力公司（KE）;世界银行": {
-    "en": "K-Electric Limited\nWorld Bank",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "哥本哈根基础设施合作伙伴（CIP）": {
     "en": "Copenhagen Infrastructure Partners",
     "en_abbr": null,
@@ -21528,12 +21198,6 @@
     "verified": false,
     "source": "ai"
   },
-  "青山控股集团,埃赫曼集团": {
-    "en": "Qingshan Holdings Group\nAHEMAAN GROUP",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "安哥拉能源水利部国家水资源局": {
     "en": "National Directorate of Water Resources of the Ministry of Energy and Water of Angola",
     "en_abbr": null,
@@ -21596,12 +21260,6 @@
   },
   "坦桑尼亚萨斯能源公司": {
     "en": "Tanzania SAS Energy Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "四家全球知名公司": {
-    "en": "**1. 腾讯控股有限公司 (Tencent Holdings Limited)**\n\n**2. 阿里巴巴集团控股有限公司 (Alibaba Group Holding Limited)**\n\n**3. 华为技术有限公司 (Huawei Technologies Co., Ltd.)**\n\n**4. 小米集团 (Xiaomi Corporation)**",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -21756,12 +21414,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中材国际;中材科技": {
-    "en": "SINOMA INTERNATIONAL ENGINEERING CO., LTD.\nSINOMA SCIENCE & TECHNOLOGY CO., LTD.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "国家隧道局NAT": {
     "en": "National Tunnel Administration",
     "en_abbr": null,
@@ -21788,12 +21440,6 @@
   },
   "国油气体子公司Regas Terminal (Lahad Datu)私人有限公司": {
     "en": "Regas Terminal (Lahad Datu) Sdn. Bhd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "该公司和马耳他政府": {
-    "en": "There is no specific company name provided, only \"该公司\" (this company) and \"马耳他政府\" (the Maltese Government).\n\nIf you can provide the actual Chinese company name, I can translate it for you.\n\nAssuming \"马耳他政府\" refers to the government itself, the official English name is:\n\n**Government of Malta**",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -21830,12 +21476,6 @@
   },
   "彭莎塔维集团": {
     "en": "Penta-Star Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "巨石埃及公司;Enara Capital集团": {
-    "en": "JUMBO EGYPT COMPANY\nEnara Capital Group",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -21888,26 +21528,8 @@
     "verified": false,
     "source": "ai"
   },
-  "甲骨文电力(Oracle Power);中国电建(Powerchina)": {
-    "en": "Oracle Power\nPowerChina",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "毛里塔尼亚电力公司": {
     "en": "Mauritania Electric Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国广核集团;法国电力集团": {
-    "en": "China General Nuclear Power Group\nEDF",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "马斯达尔公司;赞比亚电力供应公司": {
-    "en": "Masdar; Zesco Limited",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -21944,12 +21566,6 @@
   },
   "Celsia电力公司": {
     "en": "Celsia Power Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中交产投;中国电力国际有限公司;山东海王化工股份有限公司": {
-    "en": "China Communications Construction Company Industry Investment\nChina Power International Limited\nShandong Haiwang Chemical Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22044,12 +21660,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中能建建筑集团, 中国能建广西院": {
-    "en": "China Energy Engineering Group Co., Ltd.\nChina Energy Engineering Group Guangxi Electric Power Design Institute Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "Megaworld Vest私人有限公司": {
     "en": "Megaworld Vest Pte. Ltd.",
     "en_abbr": null,
@@ -22074,26 +21684,8 @@
     "verified": false,
     "source": "ai"
   },
-  "Antam, 印度尼西亚电池公司 (IBC)": {
-    "en": "PT Aneka Tambang Tbk",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "厄瓜多尔能源与不可再生资源部": {
     "en": "Ministry of Energy and Non-Renewable Natural Resources of Ecuador",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Ørsted;全球基础设施合作伙伴(GIP)": {
-    "en": "Ørsted\nGlobal Infrastructure Partners",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "维斯塔斯;Finnfund;发展中国家投资基金": {
-    "en": "Vestas;Finnfund;Development Finance Corporation",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22122,12 +21714,6 @@
     "verified": false,
     "source": "ai"
   },
-  "三峡拉美公司;三峡上海院": {
-    "en": "Three Gorges Latin America Company\nChina Three Gorges Corporation Shanghai Electric Power Design Institute",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "亚美尼亚领土发展基金会": {
     "en": "Armenia Territorial Development Fund",
     "en_abbr": null,
@@ -22146,32 +21732,14 @@
     "verified": false,
     "source": "ai"
   },
-  "中核集团;法国电力集团": {
-    "en": "China National Nuclear Corporation\nÉlectricité de France",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "阿布扎比国家石油公司": {
     "en": "Abu Dhabi National Oil Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
   },
-  "PLN;丹麦能源局": {
-    "en": "PLN\nDanish Energy Agency",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "路德斯公司": {
     "en": "Loders Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Adaro;道达尔": {
-    "en": "Adaro\nTotalEnergies",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22202,18 +21770,6 @@
   },
   "Aora新能源公司": {
     "en": "Aora New Energy Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "几内亚能源、水利和油气部": {
-    "en": "Ministry of Energy, Water Resources and Petroleum of Guinea",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "正泰, Arabian Transformers Co.(ATC)": {
-    "en": "CHINT",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22254,20 +21810,8 @@
     "verified": false,
     "source": "ai"
   },
-  "Adaro, 道达尔": {
-    "en": "Adaro Energy\nTOTAL",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "道达尔": {
     "en": "Total",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "阿特斯集团;Recurrent Energy, LLC": {
-    "en": "Canadian Solar Inc.\nRecurrent Energy, LLC",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22292,12 +21836,6 @@
   },
   "菲律宾谷峰水泥有限公司": {
     "en": "Philippine Valley Peak Cement Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "协鑫;MAAVI Agro Lanka International": {
-    "en": "Xinyi;MAAVI Agro Lanka International",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22386,12 +21924,6 @@
     "verified": false,
     "source": "ai"
   },
-  "黄河公司;ACWA Power": {
-    "en": "Yellow River Company; ACWA Power",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "扬堡": {
     "en": "Yangbao",
     "en_abbr": null,
@@ -22424,12 +21956,6 @@
   },
   "UEC公司（USNY ERCHIM LLC）": {
     "en": "USNY ERCHIM LLC",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国中原对外工程有限公司;世福资本管理有限公司": {
-    "en": "China Zhongyuan Overseas Engineering Co., Ltd.\nSEAFOOD CAPITAL MANAGEMENT CO., LTD.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22476,12 +22002,6 @@
     "verified": false,
     "source": "ai"
   },
-  "远景绿色能源印尼公司（PT Envision Green Energy Indonesia/EGEI)": {
-    "en": "Envision Green Energy Indonesia (PT Envision Green Energy Indonesia/EGEI)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "申洲国际": {
     "en": "Shenzhou International Group Holdings Limited",
     "en_abbr": null,
@@ -22524,18 +22044,6 @@
     "verified": false,
     "source": "ai"
   },
-  "扶轮社;振华重工;MIT码头": {
-    "en": "Rotary Club\nZhenhua Heavy Industries Co., Ltd.\nMIT Terminal",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中建材浚鑫科技;金顶集团": {
-    "en": "CNBM XINXIN SOLAR CO., LTD.\nKingdo Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "KAB能源控股": {
     "en": "KAB Energy Holdings",
     "en_abbr": null,
@@ -22568,12 +22076,6 @@
   },
   "尼日尔国家电力公司（NIGELEC）": {
     "en": "NIGELEC",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "马尔代夫环境、气候变化和技术部": {
-    "en": "Ministry of Environment, Climate Change and Technology of the Maldives",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22620,26 +22122,8 @@
     "verified": false,
     "source": "ai"
   },
-  "Lakdhanavi Limited、Wind Force PLC 和 Blue Circle Pte Ltd 联合体": {
-    "en": "Lakdhanavi Limited, Wind Force PLC, and Blue Circle Pte Ltd Consortium",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "上海电力日本公司": {
     "en": "Shanghai Electric Power Japan Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "厄瓜多尔知名商业集团": {
-    "en": "Ecuadorian Renowned Business Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "NASENG-WAYO可再生资源开发和投资公司;UPC越南（新加坡）": {
-    "en": "NASENG-WAYO Renewable Resources Development and Investment Company\nUPC Vietnam (Singapore)",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22680,26 +22164,8 @@
     "verified": false,
     "source": "ai"
   },
-  "中国西子清洁能源设备制造有限公司;Cassiopea Fashion Ltd;Cassiopea Apparels Ltd": {
-    "en": "Xizi Clean Energy Equipment Manufacturing Co., Ltd.\nCassiopea Fashion Ltd.\nCassiopea Apparels Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Amwaj集团;Al Jomaih集团": {
-    "en": "Amwaj Group\nAl Jomaih Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "奥多棉芷电力产业有限公司": {
     "en": "ODOT Cotton & Energy Industry Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "马斯达尔;阿布扎比国家能源公司;法国电力集团可再生能源公司;晶科能源公司": {
-    "en": "Masdar\nAbu Dhabi National Energy Company\nEDF Energies Nouvelles\nJinkoSolar Holding Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22770,26 +22236,8 @@
     "verified": false,
     "source": "ai"
   },
-  "香港青山发电有限公司;香港电灯有限公司": {
-    "en": "Hong Kong Electric Holdings Limited\nThe Hongkong Electric Company, Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "立讯精密": {
     "en": "Luxshare Precision Industry Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "华友钴业;LG化学": {
-    "en": "Huayou Cobalt\nLG Chem",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "瑞浦兰钧;VENA ENERGY": {
-    "en": "Ruipu Lanjun\nVENA ENERGY",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -22830,12 +22278,6 @@
     "verified": false,
     "source": "ai"
   },
-  "天合光能;能建国际;中国葛洲坝集团": {
-    "en": "Trina Solar\nCEEC International\nChina Gezhouba Group Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "波黑塞族共和国政府": {
     "en": "Government of Republika Srpska",
     "en_abbr": null,
@@ -22868,18 +22310,6 @@
   },
   "埃及电力控股公司(EEHC)": {
     "en": "Egyptian Electricity Holding Company (EEHC)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Citicore;克拉克电力分销公司": {
-    "en": "Citicore;Clark Electric Distribution Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "乌兹别克水电公司;中国南方电网国际公司": {
-    "en": "UzbekHydro;China Southern Power Grid International Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23100,12 +22530,6 @@
     "verified": false,
     "source": "ai"
   },
-  "砂拉越经济发展机构能源私人有限公司;ENEOS;住友商事株式会社": {
-    "en": "Sarawak Economic Development Corporation Energy Sdn. Bhd.\nENEOS Corporation\nSumitomo Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "多米尼加交通重组办公室OPRET": {
     "en": "OPRET (Oficina de Reordenamiento del Transporte)",
     "en_abbr": null,
@@ -23114,12 +22538,6 @@
   },
   "博茨瓦纳电力公司": {
     "en": "Botswana Power Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "道达尔能源, Mulino公司": {
-    "en": "TotalEnergies\nMulino Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23148,12 +22566,6 @@
     "verified": false,
     "source": "ai"
   },
-  "SalalaH2绿氢项目联合体; 阿曼国家氢能公司": {
-    "en": "SalalaH2 Green Hydrogen Project Consortium; Oman Hydrogen Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "泰国ASEAN集团": {
     "en": "Thailand ASEAN Group",
     "en_abbr": null,
@@ -23172,26 +22584,8 @@
     "verified": false,
     "source": "ai"
   },
-  "中湘资本国合公司;广东天亿马数字能源有限公司": {
-    "en": "Zhongxiang Capital International Cooperation Co., Ltd.\nGuangdong Tianyi Ma Digital Energy Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "比亚迪;Enerpoint": {
-    "en": "BYD Company Limited\nEnerpoint",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "斐济水务局": {
     "en": "Fiji Water Authority",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Masdar;Citaglobal;TIZA环球公司": {
-    "en": "Masdar\nCitaglobal\nTIZA Global Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23244,12 +22638,6 @@
     "verified": false,
     "source": "ai"
   },
-  "国富氢能;ADVAIT": {
-    "en": "Gotion Hydrogen Energy; ADVAIT",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "Malaysia Rail Link私人有限公司": {
     "en": "Malaysia Rail Link Sdn. Bhd.",
     "en_abbr": null,
@@ -23280,12 +22668,6 @@
     "verified": false,
     "source": "ai"
   },
-  "马哈拉尼能源港公司, CEIG（马）私人有限公司": {
-    "en": "Maharani Energy Port Company, CEIG (M) Sdn. Bhd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "上海电力土耳其公司": {
     "en": "Shanghai Electric Turkey Company",
     "en_abbr": null,
@@ -23300,12 +22682,6 @@
   },
   "圣保罗地铁公司": {
     "en": "São Paulo Metro Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "华电集团;Minh Quang JSC": {
-    "en": "China Huadian Corporation\nMinh Quang JSC",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23346,12 +22722,6 @@
     "verified": false,
     "source": "ai"
   },
-  "ACWA Power;迪拜水电局": {
-    "en": "ACWA Power\nDubai Electricity & Water Authority",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "法国电力新能源公司": {
     "en": "EDF Renewables",
     "en_abbr": null,
@@ -23388,12 +22758,6 @@
     "verified": false,
     "source": "ai"
   },
-  "安泰新能源;Bahra Electric": {
-    "en": "ANTAI NEW ENERGY\nBahra Electric",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "特斯拉": {
     "en": "Tesla",
     "en_abbr": null,
@@ -23408,12 +22772,6 @@
   },
   "KIPAS控股集团旗下KÇS水泥工业公司": {
     "en": "KÇS Cement Industry Company of KIPAS Holding Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "冈比亚政府, 当地可持续能源服务有限公司（SESCO）": {
-    "en": "Government of The Gambia\nSustainable Energy Services Company (SESCO) Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23460,12 +22818,6 @@
     "verified": false,
     "source": "ai"
   },
-  "土耳其Bros能源公司;伊拉克Ster集团": {
-    "en": "Turkey Bros Energy Company\nIraq Ster Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "纳米比亚国家电力公司": {
     "en": "Namibia Power Corporation (NamPower)",
     "en_abbr": null,
@@ -23474,12 +22826,6 @@
   },
   "国电投(SPIC)": {
     "en": "State Power Investment Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "山西建投集团;哈比比拉菲克私人有限公司": {
-    "en": "Shanxi Construction Investment Group Co., Ltd.\nHabib Rafique (Private) Limited",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23532,12 +22878,6 @@
     "verified": false,
     "source": "ai"
   },
-  "AngloGold Ashanti公司;Regis Resources Ltd公司": {
-    "en": "AngloGold Ashanti Limited\nRegis Resources Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "蒙古国能源部": {
     "en": "Ministry of Energy of Mongolia",
     "en_abbr": null,
@@ -23574,18 +22914,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中伟股份;AI Mada": {
-    "en": "Green Innovation Group Limited\nAI Mada",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "天合光能;Terna": {
-    "en": "Trina Solar\nTerna",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "阿布扎比未来能源公司 (Masdar)": {
     "en": "Masdar",
     "en_abbr": null,
@@ -23610,18 +22938,6 @@
     "verified": false,
     "source": "ai"
   },
-  "海诚控股;中国电工": {
-    "en": "Seagull Holdings\nChina National Electrical Equipment Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "ACWA Power;Badeel;沙特阿美电力公司": {
-    "en": "ACWA Power\nBadeel\nSaudi Aramco Power Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "Gold Energy(金色能源)": {
     "en": "Gold Energy",
     "en_abbr": null,
@@ -23636,18 +22952,6 @@
   },
   "尼日利亚大学及教学医院": {
     "en": "University of Nigeria Teaching Hospital",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "天合储能;天合光能海外电站事业部（ISBU）": {
-    "en": "Trina Storage\nTrina Solar Overseas Business Unit (ISBU)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "ACWA Power;阳光新能源开发股份有限公司": {
-    "en": "ACWA Power\nSuntech Power Holdings Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23700,12 +23004,6 @@
     "verified": false,
     "source": "ai"
   },
-  "秦能光电;Bakarat Investment": {
-    "en": "Qineng Optoelectronics\nBakarat Investment",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "马尔代夫当地政府和企业": {
     "en": "Maldives Local Government and Enterprises",
     "en_abbr": null,
@@ -23724,12 +23022,6 @@
     "verified": false,
     "source": "ai"
   },
-  "远景科技, 沙特阿拉伯公共投资基金（PIF）, Vision Industries": {
-    "en": "Envision Technology\nPublic Investment Fund (PIF)\nVision Industries",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "喀麦隆国家输电公司": {
     "en": "Cameroon National Electricity Transmission Company",
     "en_abbr": null,
@@ -23738,12 +23030,6 @@
   },
   "英国光伏电站开发商": {
     "en": "UK Solar Farm Developer",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "ACWA Power;明阳智慧能源集团股份公司": {
-    "en": "ACWA Power\nMingyang Smart Energy Group Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23778,12 +23064,6 @@
     "verified": false,
     "source": "ai"
   },
-  "Forestalia;中国绿色能源公司（CGE）": {
-    "en": "Forestalia\nChina Green Energy Corporation (CGE)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "萨姆鲁克能源股份公司": {
     "en": "SAMRUK ENERGY CO., LTD.",
     "en_abbr": null,
@@ -23792,12 +23072,6 @@
   },
   "摩洛哥": {
     "en": "Morocco",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "晶科中东;RELC;VI": {
-    "en": "JinkoSolar Middle East\nRELC\nVI",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23816,12 +23090,6 @@
   },
   "中国华为公司": {
     "en": "Huawei Technologies Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "天合光能海外电站事业部;EGO能源公司": {
-    "en": "Trina Solar Overseas Power Plant Business Unit\nEGO Energy Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23846,12 +23114,6 @@
   },
   "CITICORE可再生能源公司 (CREC)": {
     "en": "CITICORE Renewable Energy Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "天合集团;Arbro集团": {
-    "en": "Trina Solar Group\nArbro Group",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -23910,12 +23172,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中国天楹;越南辉英环保公司": {
-    "en": "China Everbright; Vietnam Huaying Environmental Protection Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "北拓株式会社": {
     "en": "Beituo Co., Ltd.",
     "en_abbr": null,
@@ -23960,18 +23216,6 @@
   },
   "特多国家保险财产开发有限公司（NIPDEC）": {
     "en": "NIPDEC",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "ACWA Power; Masdar; 阿塞拜疆共和国国家石油公司": {
-    "en": "ACWA Power\nMasdar\nState Oil Company of the Azerbaijan Republic",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "南非某大型新能源开发商": {
-    "en": "[Official English Name if available, otherwise a reasonable translation. Since no specific company name was provided, a placeholder is used. For actual company translation, the specific company name is crucial.]\n\n[Placeholder for Official English Name]",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24036,26 +23280,8 @@
     "verified": false,
     "source": "ai"
   },
-  "未指明": {
-    "en": "未指明",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "AWTCS公司": {
     "en": "AWTCS Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "楚能新能源;印度合作伙伴": {
-    "en": "CHONENG NEW ENERGY; India Partner",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "刚果共和国, AMEA Power": {
-    "en": "Republic of the Congo, AMEA Power",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24074,12 +23300,6 @@
   },
   "法马通公司": {
     "en": "Framatome Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "尼日利亚输电公司(TCN);非洲开发银行(AfDB)": {
-    "en": "Transmission Company of Nigeria (TCN)\nAfrican Development Bank (AfDB)",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24182,12 +23402,6 @@
   },
   "明云产业": {
     "en": "Mingyun Industry",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "三星C&T;日立能源": {
-    "en": "Samsung C&T Corporation\nHitachi Energy Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24324,18 +23538,6 @@
     "verified": false,
     "source": "ai"
   },
-  "XAYSANA集团、WIS和SISAN INTERNATIONAL JOINT DEVELOPMENT SOLE.,LTD": {
-    "en": "XAYSANA Group\nWIS & SISAN INTERNATIONAL JOINT DEVELOPMENT SOLE. LTD",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "康恒环境, 泰国超能（Super Earth Energy Co.,Ltd）": {
-    "en": "Capcora Environment, Super Earth Energy Co.,Ltd",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "旺能环境越南龙兴绿色能源有限公司": {
     "en": "Wangneng Environment Longxing Vietnam Green Energy Co., Ltd.",
     "en_abbr": null,
@@ -24350,12 +23552,6 @@
   },
   "康托尔股份有限公司": {
     "en": "Kantor Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "缅甸好兄弟公司;昆自海外电力发展有限公司": {
-    "en": "Myanmar Brothers Company\nKunzi Overseas Electric Power Development Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24408,12 +23604,6 @@
     "verified": false,
     "source": "ai"
   },
-  "天合光能;印尼国家电力公司;印尼金光集团": {
-    "en": "Trina Solar\nPT PLN (Persero)\nSinar Mas Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "金辰马来西亚": {
     "en": "Jinchen Malaysia",
     "en_abbr": null,
@@ -24438,12 +23628,6 @@
     "verified": false,
     "source": "ai"
   },
-  "旺能环境股份有限公司;Dragonventures投资开发股份公司": {
-    "en": "Wanneng Environment Co., Ltd.\nDragonventures Investment & Development Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "南非国家电网公司": {
     "en": "State Grid Corporation of China",
     "en_abbr": null,
@@ -24452,12 +23636,6 @@
   },
   "多米尼加政府": {
     "en": "Government of the Dominican Republic",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "科威特电力、水利和可再生能源部 (MEWRE) / 科威特伙伴关系项目局 (Kapp)": {
-    "en": "Ministry of Electricity, Water and Renewable Energy of Kuwait (MEWRE)\nKuwait Authority for Partnership Projects (Kapp)",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24582,12 +23760,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中国能建中电工程国际公司与东北院联合体": {
-    "en": "China Energy Engineering Corporation International Engineering Co., Ltd. and Northeast Electric Power Design Institute Joint Venture",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "赣锋锂业阿根廷有限公司": {
     "en": "Ganfeng Lithium Argentina Co., Ltd.",
     "en_abbr": null,
@@ -24596,12 +23768,6 @@
   },
   "日本客户": {
     "en": "Japan Customers",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "WV-International;三一重能": {
-    "en": "WV-International\nSany Renewable Energy Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24660,12 +23826,6 @@
     "verified": false,
     "source": "ai"
   },
-  "华能香港公司;华能四川公司": {
-    "en": "China Power (Hong Kong) Company Limited\nChina Power (Sichuan) Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "民都鲁港口控股有限公司": {
     "en": "Bintulu Port Holdings Berhad",
     "en_abbr": null,
@@ -24674,24 +23834,6 @@
   },
   "CPECC海湾地区公司": {
     "en": "CPECC GULF REGION COMPANY",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "红太阳新能源, 尼日利亚某集团": {
-    "en": "Red Sun New Energy\n[Nigerian Group - If you have the specific name of the Nigerian group, please provide it for a more accurate translation. Otherwise, this is a placeholder.]",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "乌兹别克斯坦能源部、电网公司": {
-    "en": "Ministry of Energy of Uzbekistan\nNational Electric Networks of Uzbekistan",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "CYMI电网公司;Neoenergia公司;ISA Cteep公司": {
-    "en": "CYMI Electric Power Company\nNeoenergia\nISA CTEEP",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24834,12 +23976,6 @@
     "verified": false,
     "source": "ai"
   },
-  "SEP (Malta) Holding牵头的Code Zero联合体; GreenIT SpA牵头的联合体Atlas Med Wind; MCKEDRIK Sole Member Ltd": {
-    "en": "Code Zero Consortium, led by SEP (Malta) Holding\nAtlas Med Wind Consortium, led by GreenIT SpA\nMCKEDRIK Sole Member Ltd",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "佩尔迈金属（印尼）有限公司": {
     "en": "Pearlman Metal (Indonesia) Co., Ltd.",
     "en_abbr": null,
@@ -24852,50 +23988,8 @@
     "verified": false,
     "source": "ai"
   },
-  "民海能源集团欧洲公司SINOLAR;法国某能源公司": {
-    "en": "MINHAI ENERGY GROUP EUROPE B.V.\nNOBLE ENERGY, INC.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "安塔姆, 印尼电池公司, 宁波普勤时代有限公司": {
-    "en": "Antam Tbk\nIndonesia Battery Corporation\nNingbo Puguang Times Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "远景能源;FERA Australia": {
-    "en": "Envision Energy;FERA Australia",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "沙特电力公司;阿尔法纳集团": {
-    "en": "Saudi Electricity Company\nAlfanar Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "沙索 (Sasol);液化空气集团 (Air Liquide);道达尔(TotalEnergies);穆利洛(Mulilo);瑞泰尔(Reatile)集团;JUWI": {
-    "en": "Sasol\nAir Liquide\nTotalEnergies\nMulilo\nReatile Group\nJUWI",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "A公司": {
     "en": "A Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "振华石油,伊拉克中部石油公司": {
-    "en": "Zhenhua Oil\nCentral Oil Company of Iraq",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "嘉能可(Glencore);JUWI;佩莱(Pele)绿色能源公司": {
-    "en": "Glencore\nJUWI\nPele Green Energy Co., Ltd.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -24978,12 +24072,6 @@
     "verified": false,
     "source": "ai"
   },
-  "某钢铁厂": {
-    "en": "[Company Name] Steel Plant",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "上海农村商业银行股份有限公司（上海农商银行）": {
     "en": "Shanghai Rural Commercial Bank Co., Ltd.",
     "en_abbr": null,
@@ -25062,12 +24150,6 @@
     "verified": false,
     "source": "ai"
   },
-  "柬埔寨矿产与能源部;柬埔寨国家电力公司": {
-    "en": "Ministry of Mines and Energy of Cambodia\nElectricité du Cambodge",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "纳瓦集团": {
     "en": "NAVA GROUP",
     "en_abbr": null,
@@ -25104,12 +24186,6 @@
     "verified": false,
     "source": "ai"
   },
-  "国内某知名新能源企业": {
-    "en": "BYD Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "ERN Holding & Yildizlar集团": {
     "en": "ERN Holding & Yildizlar Group",
     "en_abbr": null,
@@ -25118,18 +24194,6 @@
   },
   "沙特电力公司 SEC": {
     "en": "Saudi Electricity Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "欧洲知名工程企业": {
-    "en": "[No official English name found for \"欧洲知名工程企业\". The following is a reasonable translation:]\n\nRenowned European Engineering Enterprise",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "阿尔法纳集团;比亚迪股份有限公司": {
-    "en": "AlphaNova Group;BYD Company Limited",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25146,20 +24210,8 @@
     "verified": false,
     "source": "ai"
   },
-  "沙特国际电力和水务公司 (ACWA POWER);沙特公共投资基金 (PIF);沙特阿美(Aramco)": {
-    "en": "ACWA Power\nPublic Investment Fund\nSaudi Aramco",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "波兰用户": {
     "en": "Polish Users",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "当地知名企业": {
-    "en": "Local Renowned Enterprise",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25194,12 +24246,6 @@
     "verified": false,
     "source": "ai"
   },
-  "尼日利亚农村电气化局;尼日利亚基础设施公司;Solarge BV": {
-    "en": "Rural Electrification Agency of Nigeria\nInfrastructure Corporation of Nigeria\nSolarge B.V.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "越南达芳集团": {
     "en": "Dai Phuong Group",
     "en_abbr": null,
@@ -25214,12 +24260,6 @@
   },
   "深能加纳公司": {
     "en": "Shenergy Ghana Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "能源矿产部、经济协调部及粮食协调部": {
-    "en": "Ministry of Energy and Mineral Resources, Ministry of Economic Coordination, Ministry of Food Coordination",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25248,12 +24288,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中广核巴西;金风科技巴西": {
-    "en": "CGN Brazil\nGoldwind Brazil",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "桑给巴尔电力公司": {
     "en": "Zanzibar Electricity Corporation",
     "en_abbr": null,
@@ -25262,12 +24296,6 @@
   },
   "CGE集团": {
     "en": "CGE Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "刚果民主共和国, 卢旺达, 布隆迪": {
-    "en": "Democratic Republic of Congo\nRepublic of Rwanda\nRepublic of Burundi",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25302,26 +24330,8 @@
     "verified": false,
     "source": "ai"
   },
-  "耐克;天合光能;Energy Aware": {
-    "en": "Nike\nTrina Solar\nEnergy Aware",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "南美洲知名工程企业": {
-    "en": "Southern America Engineering Enterprise",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "EDP公司": {
     "en": "EDP",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "正泰新能源;绿金能源": {
-    "en": "CHINT Solar\nGreen Energy",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25334,12 +24344,6 @@
   },
   "蓝十字水泥": {
     "en": "Blue Cross Cement",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "ACWA Power;住友商事": {
-    "en": "ACWA Power\nSumitomo Corporation",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25362,32 +24366,8 @@
     "verified": false,
     "source": "ai"
   },
-  "上海电力股份有限公司;马耳他政府": {
-    "en": "Shanghai Electric Power Company Limited\nGovernment of Malta",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "威海国际经济技术合作股份有限公司;深圳远信储能技术股份有限公司": {
-    "en": "Weihai International Economic & Technical Cooperation Co., Ltd.\nShenzhen Yuanxin Energy Storage Technology Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "老挝Sheng Ta Van公司": {
     "en": "Laos Sheng Ta Van Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "隆基太阳能科技;Sino Green Technology": {
-    "en": "LONGi Solar Technology Co., Ltd.\nSino Green Technology",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "云木数能, 中航成套": {
-    "en": "Yunmu Shunen (unless they have an official English name, which is unknown to me)\nAVIC Integrated Systems (unless they have an official English name, which is unknown to me)",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25440,24 +24420,6 @@
     "verified": false,
     "source": "ai"
   },
-  "蒙古国国家电网公司;蒙古国国家调度公司": {
-    "en": "State Grid of Mongolia Co., Ltd.; National Dispatching Company of Mongolia",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "法国路易达孚航运集团（LD Armateurs，简称LDA）": {
-    "en": "Louis Dreyfus Armateurs",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "天能集团;VCI Global Limited": {
-    "en": "Tianneng Group\nVCI Global Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "安春集团": {
     "en": "Anchun Group",
     "en_abbr": null,
@@ -25476,26 +24438,8 @@
     "verified": false,
     "source": "ai"
   },
-  "埃及凯米特公司;中国协鑫集团": {
-    "en": "Egypt Carmeuse Company\nXinyi Glass Holdings Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "萨姆鲁克-卡泽纳投资公司;远景能源": {
-    "en": "Samruk-Kazyna Investment Company\nEnvision Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "越南VICEM松涛水泥公司": {
     "en": "VICEM Songjiang Cement Company (Vietnam)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国企业与挪威Scatec公司": {
-    "en": "[中国企业] & Scatec ASA",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25536,12 +24480,6 @@
     "verified": false,
     "source": "ai"
   },
-  "隆基, SEV": {
-    "en": "LONGi\nSEV",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "联邦拉各斯大学": {
     "en": "Federal University of Lagos",
     "en_abbr": null,
@@ -25568,12 +24506,6 @@
   },
   "智利国铁EFE": {
     "en": "EFE",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中电工程国际公司;马来西亚捷硕公司": {
-    "en": "CEEC International Company\nJASO Malaysia",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25614,12 +24546,6 @@
     "verified": false,
     "source": "ai"
   },
-  "塔吉克斯坦哈特隆州政府, 中国电子科技集团有限公司": {
-    "en": "Tajikistan's Khatlon Province Government\nChina Electronics Technology Group Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "越南VICEM工业水泥集团旗下松涛水泥有限公司": {
     "en": "Song Tao Cement Company Limited, under VICEM VICEM Industrial Cement Group of Vietnam",
     "en_abbr": null,
@@ -25640,12 +24566,6 @@
   },
   "惠泰（柬埔寨）有限公司": {
     "en": "Huitai (Cambodia) Co., Ltd.",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Qatar Free Zones Authority (QFZ);三星C&T公司": {
-    "en": "Samsung C&T Corporation",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25730,12 +24650,6 @@
   },
   "云南能投集团所属香港公司与老挝国家电力有限公司": {
     "en": "Yunnan Energy Investment Group (Hong Kong) Co., Ltd. and Electricité du Laos",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国电力建设集团有限公司;卡塔尔ALMirqab Capital S.P.C.": {
-    "en": "Power Construction Corporation of China, Limited\nAl Mirqab Capital S.P.C.",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25836,12 +24750,6 @@
     "verified": false,
     "source": "ai"
   },
-  "北方国际合作股份有限公司;孟加拉国乡村电力公司": {
-    "en": "North China Industries Corporation; Rural Electrification Board",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "尼泊尔电力局全资子公司——尼泊尔塔纳湖水电站有限公司": {
     "en": "Nepal Tanahu Hydropower Company Limited",
     "en_abbr": null,
@@ -25878,18 +24786,6 @@
     "verified": false,
     "source": "ai"
   },
-  "ERG;中国华电集团公司;哈萨克斯坦Argestus电力公司": {
-    "en": "ERG\nChina Huadian Corporation\nArgestus Power Company of Kazakhstan",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "日本国际协力机构（JICA）;亚洲开发银行（ADB）": {
-    "en": "Japan International Cooperation Agency (JICA)\nAsian Development Bank (ADB)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "葛洲坝股份公司附属公司海投公司和国际公司": {
     "en": "China Gezhouba Group International Engineering Co., Ltd.",
     "en_abbr": null,
@@ -25898,12 +24794,6 @@
   },
   "塔吉克斯坦国家电力公司": {
     "en": "Tajikistan National Power Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "华电海外投资有限公司;印尼国有煤炭公司": {
-    "en": "CEI (Overseas) Investment Co., Ltd.\nPT Pertambangan Nasional Indonesia",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -25968,12 +24858,6 @@
     "verified": false,
     "source": "ai"
   },
-  "中国能建国际集团、广东院、广东火电组成的联合体": {
-    "en": "China Energy Engineering Corporation International Group, Guangdong Survey and Design Institute, Guangdong Electric Power Engineering Company Consortium",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "加纳本土领先的能源企业": {
     "en": "Leading Ghanaian Energy Enterprise",
     "en_abbr": null,
@@ -26022,12 +24906,6 @@
     "verified": false,
     "source": "ai"
   },
-  "巴基斯坦信德省政府;卡拉奇市政部门": {
-    "en": "Government of Sindh, Pakistan\nKarachi Metropolitan Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "SEC": {
     "en": "SEC",
     "en_abbr": null,
@@ -26036,12 +24914,6 @@
   },
   "山东鲁信集团": {
     "en": "Shandong Loxin Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "IKAV;MoveOn;Cubenergy": {
-    "en": "iKAV\nMoveOn\nCubenergy",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -26060,12 +24932,6 @@
   },
   "Sluxer": {
     "en": "Sluxer",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Byhmgard AB;国机集团旗下中国机械设备工程股份有限公司（CMEC）": {
-    "en": "China National Machinery Import & Export Corporation\nChina Machinery Engineering Corporation (CMEC)",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -26124,12 +24990,6 @@
     "verified": false,
     "source": "ai"
   },
-  "塞内加尔河流域开发组织（OMVS）下属的马南塔利能源管理公司（SOGEM）": {
-    "en": "Manantali Energy Management Company (SOGEM) under the Senegal River Basin Development Authority (OMVS)",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "ACWA Power": {
     "en": "ACWA Power",
     "en_abbr": null,
@@ -26138,12 +24998,6 @@
   },
   "三峡集团所属三峡国际": {
     "en": "China Three Gorges International Corporation",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "中国能建海投公司;萨姆鲁克能源公司": {
-    "en": "China Energy Engineering Corporation Investment Company\nSamruk-Energy Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -26202,12 +25056,6 @@
     "verified": false,
     "source": "ai"
   },
-  "TotalEnergies;Samruk-Kazyna;KazMunayGas": {
-    "en": "TotalEnergies\nSamruk-Kazyna\nKazMunayGas",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
   "南山印尼宾坦工业园": {
     "en": "Nanshan Indonesia Bintan Industrial Park",
     "en_abbr": null,
@@ -26228,12 +25076,6 @@
   },
   "缅甸金色能源公司": {
     "en": "Myanmar Golden Energy Company Limited",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "Masdar;EWEC": {
-    "en": "Masdar\nEmirates Water and Electricity Company",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
@@ -26336,18 +25178,6 @@
   },
   "巴西国家石油公司": {
     "en": "Petrobras",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "天赐材料;EA集团": {
-    "en": "Tianci Materials\nEA Group",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
-  },
-  "华电海投;中国电装": {
-    "en": "China Huadian International Investment Co., Ltd.\nChina Denso",
     "en_abbr": null,
     "verified": false,
     "source": "ai"
