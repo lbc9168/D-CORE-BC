@@ -85,3 +85,22 @@ def test_apply_db_updates_and_backs_up(tmp_path):
     assert dev_en == "PowerChina; Sungrow Power Supply Co., Ltd."
     conn.close()
     assert list(Path(db).parent.glob("main.db.bak.*")), "apply 前必须备份"
+
+
+def test_run_backfill_orchestration_entry(tmp_path):
+    """pipeline 编排入口：单库回填返回行数，等效 plan_db+apply_db。"""
+    import json
+    from s02b_entity_normalizer.en_backfill import run_backfill
+    db = str(tmp_path / "main.db")
+    _mk_main_db(db).close()
+    cache_path = str(tmp_path / "cache.json")
+    with open(cache_path, "w", encoding="utf-8") as f:
+        json.dump({"_comment": "meta", **CACHE}, f, ensure_ascii=False)
+    n = run_backfill(db, cache_path)
+    assert n >= 3
+    import sqlite3
+    conn = sqlite3.connect(db)
+    ens = [r[0] for r in conn.execute(
+        "SELECT implementing_entity_en FROM chinese_entities WHERE implementing_entity='中国电建'")]
+    conn.close()
+    assert ens == ["PowerChina", "PowerChina"]

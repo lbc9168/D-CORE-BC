@@ -134,6 +134,22 @@ def apply_db(db_path: str, plan_rows: List[dict]) -> int:
         conn.close()
 
 
+def run_backfill(db_path: str, cache_path: str | None = None) -> int:
+    """编排入口（pipeline 增量流程用）：对单个主库按缓存口径回填英文名列，返回更新行数。"""
+    cache_path = cache_path or DEFAULT_CACHE
+    raw = json.loads(Path(cache_path).read_text(encoding="utf-8"))
+    cache = {k: v for k, v in raw.items() if not k.startswith("_")}
+    conn = sqlite3.connect(db_path)
+    try:
+        plan = plan_db(conn, TARGETS_MAIN, cache)
+    finally:
+        conn.close()
+    n = apply_db(db_path, plan)
+    n_miss = sum(1 for p in plan if p["action"] == "report_only")
+    logger.info("pipeline 英文名回填：%d 行更新，miss %d 值（仅报告）", n, n_miss)
+    return n
+
+
 def main() -> None:
     """CLI：默认 dry-run 产计划 CSV（含 miss=campaign 候选）；--apply 时逐库备份后落库。"""
     parser = argparse.ArgumentParser(description="公司英文名确定性回填（缓存 en_abbr 优先口径）")

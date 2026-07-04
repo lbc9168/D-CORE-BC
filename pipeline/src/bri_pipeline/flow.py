@@ -67,6 +67,8 @@ class PipelineConfig:
     skip_s01a:              bool = False   # True=跳过爬虫，用已有 raw_news.db
     run_entity_normalize:   bool = True    # False=跳过 s02b
     run_location_normalize: bool = True    # False=跳过地点归一化（s02b 第二步，写 location_norm）
+    run_developer_normalize: bool = True   # False=跳过业主归一化（s02b 第三步，写 project_developer）
+    run_en_backfill:        bool = True    # False=跳过英文名回填（归一后按缓存口径重算 *_en 列）
     run_cross_verification: bool = False   # True=跑 s02c（预留段）
     run_export:             bool = False   # True=跑 s03 导出（预留段）
 
@@ -114,6 +116,23 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> None:
         _run_locnorm(db_path=cfg.db_path)
     else:
         print("\n[Pipeline] ⏭  阶段二B-2：跳过地点归一化")
+
+    # 阶段二B-3：业主归一化（除非关闭）
+    if cfg.run_developer_normalize:
+        from s02b_entity_normalizer.developer_normalizer import run as _run_devnorm
+        _print_stage_header("2B-3", "业主(project_developer)归一化")
+        _run_devnorm(db_path=cfg.db_path, apply=True)
+    else:
+        print("\n[Pipeline] ⏭  阶段二B-3：跳过业主归一化")
+
+    # 阶段二B-4：英文名回填（归一化改了中文名后，*_en 列按缓存 en_abbr 优先口径重算；miss 只报告不改写）
+    if cfg.run_en_backfill:
+        from s02b_entity_normalizer.en_backfill import run_backfill as _run_en_backfill
+        _print_stage_header("2B-4", "公司英文名回填（缓存口径）")
+        _n_backfilled = _run_en_backfill(cfg.db_path)
+        print(f"[Pipeline] 英文名回填 {_n_backfilled} 行")
+    else:
+        print("\n[Pipeline] ⏭  阶段二B-4：跳过英文名回填")
 
     # 阶段二C：交叉验证（预留段，默认关）
     if cfg.run_cross_verification:
