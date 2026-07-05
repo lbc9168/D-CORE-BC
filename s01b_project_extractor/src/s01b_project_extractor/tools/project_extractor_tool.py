@@ -907,6 +907,10 @@ class ProjectExtractorTool:
                         "Total Project Investment (Million USD)": common.get(
                             "Total Project Investment (Million USD)", ""
                         ),
+                        # 投资额原文短语（S3/S34 stage 注入，供 total_investment_usd_raw 落库）
+                        "_total_investment_usd_raw_phrase": common.get(
+                            "total_investment_usd_raw_phrase", ""
+                        ),
                         "Investment (or Financial Close) Date": common.get(
                             "Investment (or Financial Close) Date", ""
                         ),
@@ -1016,6 +1020,10 @@ class ProjectExtractorTool:
                         "(Planned) Complete Date": common.get("(Planned) Complete Date", ""),
                         "Total Project Investment (Million USD)": common.get(
                             "Total Project Investment (Million USD)", ""
+                        ),
+                        # 投资额原文短语（S3/S34 stage 注入，供 total_investment_usd_raw 落库）
+                        "_total_investment_usd_raw_phrase": common.get(
+                            "total_investment_usd_raw_phrase", ""
                         ),
                         "Investment (or Financial Close) Date": common.get(
                             "Investment (or Financial Close) Date", ""
@@ -1161,7 +1169,9 @@ class ProjectExtractorTool:
                         category=row_data.get("Category"),
                     )
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
-                inv_raw = row_data.get("Total Project Investment (Million USD)", "")
+                # 投资额原文短语（stage 层注入 total_investment_usd_raw_phrase，写入 total_investment_usd_raw）
+                inv_raw = row_data.get("_total_investment_usd_raw_phrase") or ""
+                inv_val_field = row_data.get("Total Project Investment (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
                 proj_conn.execute(
                     """INSERT INTO extracted_projects
@@ -1215,8 +1225,8 @@ class ProjectExtractorTool:
                         bri_parse.parse_number(sub_raw),
                         row_data.get("(Planned) Start Date", ""),
                         row_data.get("(Planned) Complete Date", ""),
-                        inv_raw,
-                        bri_parse.parse_number(inv_raw),
+                        inv_raw or None,
+                        bri_parse.parse_number(inv_val_field),
                         row_data.get("Investment (or Financial Close) Date", ""),
                         row_data.get("Financing Model", ""),
                         row_data.get("Financing Model Details", ""),

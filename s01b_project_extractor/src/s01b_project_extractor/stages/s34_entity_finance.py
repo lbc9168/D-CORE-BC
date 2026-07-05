@@ -35,9 +35,16 @@ def run_s34(title: str, content: str, project_name: str, category: str, *, llm) 
         e["Implementing Chinese Entity"] = parent
         if not (e.get("Subsidiary Name") or "").strip() and sub:
             e["Subsidiary Name"] = sub
-    # ── 金融部分：切出 + 投资额经 bri_parse（与 run_s3 一致）──
+    # ── 金融部分：切出 + 原文短语保留 + 投资额经 bri_parse（与 run_s3 一致）──
     finance = {k: out[k] for k in _FINANCE_KEYS if k in out}
-    parsed = parse_number(finance.get("Total Project Investment (Million USD)", ""))
+    # 原文短语：优先取 LLM 新字段 "Total Project Investment Raw"；降级兼容同 run_s3。
+    inv_raw_field = out.pop("Total Project Investment Raw", None)
+    inv = finance.get("Total Project Investment (Million USD)", "")
+    if inv_raw_field is not None:
+        finance["total_investment_usd_raw_phrase"] = str(inv_raw_field).strip()
+    else:
+        finance["total_investment_usd_raw_phrase"] = str(inv).strip() if inv else ""
+    parsed = parse_number(inv)
     if parsed is not None:
         finance["Total Project Investment (Million USD)"] = parsed
     return {"chinese_entities": ents, "finance": finance}
