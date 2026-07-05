@@ -450,8 +450,10 @@ def _build_report(
 
 
 def _execute_apply_plan(task: str, plan_path: Path, **kwargs: Any) -> None:
-    """占位：apply_actions 将在后续任务中接入，本 CLI 不暴露触发参数。"""
-    raise NotImplementedError("apply_actions 于后续任务接入")
+    """接缝：委托 apply_actions.execute_apply_plan 执行；ingest CLI 不直接触发。"""
+    from codex_review.apply_actions import execute_apply_plan
+
+    execute_apply_plan(task, plan_path, **kwargs)
 
 
 # ──────────────────────────────────────────────
