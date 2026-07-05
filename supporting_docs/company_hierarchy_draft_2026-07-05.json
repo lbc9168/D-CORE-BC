@@ -1679,11 +1679,13 @@
     },
     {
      "name_cn": "电建海投公司",
-     "legal_full_name_cn": "中国电建集团海外投资有限公司"
+     "legal_full_name_cn": "中国电建集团海外投资有限公司",
+     "note": "auto-added 2026-07-06 by fix ee86828（库内证据定案的名称讹变变体），非用户复核条目"
     },
     {
      "name_cn": "中国电建海投",
-     "legal_full_name_cn": "中国电建集团海外投资有限公司"
+     "legal_full_name_cn": "中国电建集团海外投资有限公司",
+     "note": "auto-added 2026-07-06 by fix ee86828（库内证据定案的名称讹变变体），非用户复核条目"
     }
    ],
    "sources": [

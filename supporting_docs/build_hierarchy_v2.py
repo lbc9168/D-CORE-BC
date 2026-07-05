@@ -106,6 +106,29 @@ def flatten_legacy_subsidiaries(
     return result
 
 
+def clean_group(group: dict) -> dict:
+    """清理 draft 中的 group，移除非 v2 schema 的字段（如 note）。
+
+    v2 schema 字段：canonical_name_cn, is_central_soe, provenance, as_of, aliases, subsidiaries, sources。
+    subsidiaries 中每条仅保留 name_cn 和 legal_full_name_cn。
+    """
+    subs = []
+    for sub in group.get("subsidiaries", []):
+        subs.append({
+            "name_cn": sub.get("name_cn"),
+            "legal_full_name_cn": sub.get("legal_full_name_cn"),
+        })
+    return {
+        "canonical_name_cn": group.get("canonical_name_cn"),
+        "is_central_soe": group.get("is_central_soe"),
+        "provenance": group.get("provenance"),
+        "as_of": group.get("as_of"),
+        "aliases": group.get("aliases", []),
+        "subsidiaries": subs,
+        "sources": group.get("sources", []),
+    }
+
+
 def convert_legacy_to_v2(
     company: dict,
     exclude_sub_names: set[str] | None = None,
@@ -270,8 +293,9 @@ def main() -> None:
                 f"草稿新组 {canonical!r} 与已有组（旧文件转换）重名，"
                 "应放 additions_to_existing_groups 而非 new_groups"
             )
-        v2_groups_map[canonical] = ng
-        logger.info(f"  新组: {canonical!r}（子公司 {len(ng.get('subsidiaries', []))} 个）")
+        ng_clean = clean_group(ng)
+        v2_groups_map[canonical] = ng_clean
+        logger.info(f"  新组: {canonical!r}（子公司 {len(ng_clean.get('subsidiaries', []))} 个）")
 
     # ── Step 4: 14 条 additions 并入对应组 ───────────────────
     additions = draft_data.get("additions_to_existing_groups", [])
@@ -284,11 +308,12 @@ def main() -> None:
                 "请检查拼写或调整到 new_groups"
             )
         before_subs = len(v2_groups_map[canonical].get("subsidiaries", []))
-        v2_groups_map[canonical] = merge_group(v2_groups_map[canonical], add)
+        add_clean = clean_group(add)
+        v2_groups_map[canonical] = merge_group(v2_groups_map[canonical], add_clean)
         after_subs = len(v2_groups_map[canonical].get("subsidiaries", []))
         logger.info(
             f"  追加到 {canonical!r}: "
-            f"+aliases={add.get('aliases', [])} "
+            f"+aliases={add_clean.get('aliases', [])} "
             f"子公司 {before_subs}→{after_subs}"
         )
 
