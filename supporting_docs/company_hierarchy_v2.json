@@ -598,6 +598,10 @@
     {
      "name_cn": "中国电建集团贵州工程公司",
      "legal_full_name_cn": "中国电建集团贵州工程有限公司"
+    },
+    {
+     "name_cn": "中国水电",
+     "legal_full_name_cn": "中国水利水电建设集团有限公司"
     }
    ],
    "sources": [
@@ -2166,6 +2170,10 @@
     {
      "name_cn": "阿特斯储能科技有限公司",
      "legal_full_name_cn": "阿特斯储能科技有限公司"
+    },
+    {
+     "name_cn": "阿特斯储能",
+     "legal_full_name_cn": null
     }
    ],
    "sources": [

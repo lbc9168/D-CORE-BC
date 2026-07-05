@@ -452,6 +452,11 @@
     {
      "name_cn": "阿特斯储能科技有限公司",
      "legal_full_name_cn": "阿特斯储能科技有限公司"
+    },
+    {
+     "name_cn": "阿特斯储能",
+     "legal_full_name_cn": null,
+     "note": "auto-added 2026-07-06 misses campaign 补漏（阿特斯储能业务品牌/子单元，英文 e-STORAGE）"
     }
    ],
    "sources": [
@@ -2260,6 +2265,11 @@
      "name_cn": "中国电建集团贵州工程公司",
      "legal_full_name_cn": "中国电建集团贵州工程有限公司",
      "note": "auto-added 2026-07-06 misses campaign（旧称/简称，2017年12月更名加'有限'）"
+    },
+    {
+     "name_cn": "中国水电",
+     "legal_full_name_cn": "中国水利水电建设集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign 补漏（电建/Sinohydro 旧称简称，沿用电建海投旧名先例）"
     }
    ],
    "sources": [
