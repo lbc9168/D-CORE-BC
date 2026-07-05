@@ -105,11 +105,11 @@ def test_tonnage_capacity_blanked(tmp_path, monkeypatch, _patch_side_effects):
 
 
 def test_mw_capacity_kept(tmp_path, monkeypatch, _patch_side_effects):
-    """正常 MW 容量不受守卫影响。"""
+    """正常 MW 容量不受守卫影响（S2 prompt 改后 LLM 输出原文短语如「50MW」而非裸数字）。"""
     row = _run(monkeypatch, tmp_path, "valid_project", {
         "project_summary": "", "in_scope": True, "out_of_scope_reason": "",
         "common_info": {"Project Name": "肯尼亚50MW光伏项目", "Category": "光伏",
-                        "Capacity (MW)": "50", "Capacity Details": "",
+                        "Capacity (MW)": "50MW", "Capacity Details": "",
                         "Country": "肯尼亚", "Project Stage": "在建"},
         "chinese_entities": [{"Implementing Chinese Entity": "中国电建",
                               "Type of involvement of Chinese Entities": "EPC总承包"}],

@@ -25,8 +25,9 @@ if str(_root) not in sys.path:
 from s01b_project_extractor.guardrails.format_checks import run_format_checks, VALID_RECORD_TYPES
 from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
 from s01b_project_extractor.guardrails.nonenergy_check import (
-    check_nonenergy, capacity_is_tonnage, DETERMINISTIC_GUARD_SOURCE,
+    check_nonenergy, DETERMINISTIC_GUARD_SOURCE,
 )
+from s01b_project_extractor.capacity_parser import parse_capacity_mw
 from s01b_project_extractor.guardrails.developer_check import clean_developer
 
 logger = logging.getLogger(__name__)
@@ -37,20 +38,6 @@ def _normalize_record_type(rt) -> str:
     s = str(rt or "").strip()
     return s if s in VALID_RECORD_TYPES else "具体项目"
 
-
-# 物理上单个电站装机不可能 ≥ 50000 MW（最大三峡 ~22500 MW）；≥50000 几乎必是「千瓦数误填进 MW 字段」。
-_CAPACITY_MW_IMPOSSIBLE = 50000.0
-
-
-def _normalize_capacity_mw(mw):
-    """容量兜底归一：物理不可能的超大 MW（≥50000，几乎必是 LLM 把千瓦/万千瓦原数倾进 MW 字段）÷1000 还原为 MW；其余原样。原文 *_raw 列保留不动。"""
-    if mw is None:
-        return None
-    try:
-        v = float(mw)
-    except (TypeError, ValueError):
-        return mw
-    return v / 1000.0 if v >= _CAPACITY_MW_IMPOSSIBLE else v
 
 # 仓库根已在文件顶部 import guardrails 前插入 sys.path，这里直接导入枚举/解析单一可信源。
 import bri_enums as enums
@@ -1138,14 +1125,13 @@ class ProjectExtractorTool:
                 impl_entity_en = str(
                     row_data.get("Implementing Chinese Entity (EN)", "")
                 ).strip() or ("Unknown" if impl_entity == "Unknown" else "")
-                # 数值字段：原文写入 *_raw，解析值写入 REAL 列（单一可信源 bri_parse）
+                # 数值字段：原文短语写入 capacity_mw_raw，确定性解析结果写入 capacity_mw（REAL）
                 cap_raw = row_data.get("Capacity (MW)", "")
-                # ── 容量单位守卫：容量字段以吨计（产能非装机）→ 数值列置 NULL，raw 保留供审计。
-                # 注意不能交给 _normalize_capacity_mw 的 ÷1000 启发式——那会把吨位"修"成貌似合理的 MW。
-                if capacity_is_tonnage(str(cap_raw), str(row_data.get("Capacity Details", ""))):
-                    cap_mw_val = None
-                else:
-                    cap_mw_val = _normalize_capacity_mw(bri_parse.parse_number(cap_raw))
+                # ── 容量换算由确定性解析器完成（TX/MF→null、产能类→null、单位换算→MW float）
+                cap_mw_val, _cap_details_note = parse_capacity_mw(
+                    str(cap_raw) if cap_raw else None,
+                    category=row_data.get("Category"),
+                )
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
                 inv_raw = row_data.get("Total Project Investment (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0

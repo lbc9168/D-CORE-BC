@@ -1,27 +1,45 @@
-"""测试 _normalize_capacity_mw：物理不可能的超大 MW（≥50000，几乎必是千瓦原数误填）÷1000 还原；正常值原样。"""
-from s01b_project_extractor.tools.project_extractor_tool import _normalize_capacity_mw
+"""
+_normalize_capacity_mw 已删除（换算由 capacity_parser.parse_capacity_mw 接管）。
+本文件保留为等效验证：原 _normalize_capacity_mw 的三个核心场景，现在由 parse_capacity_mw
+通过逐字短语解析来正确处理——不再需要 ≥50000 ÷1000 的启发式兜底。
+
+等效场景：
+  "6000000千瓦"（原始短语）→ 6000.0 MW（千瓦÷1000）
+  "950000千瓦"（原始短语）  → 950.0 MW
+  "2242000千瓦"（原始短语）  → 2242.0 MW
+"""
+from s01b_project_extractor.capacity_parser import parse_capacity_mw
 
 
-def test_impossible_large_divided_by_1000():
-    """≥50000 MW 视为千瓦误填 → ÷1000（如 600万千瓦误填 6000000 → 6000 MW）。"""
-    assert _normalize_capacity_mw(6000000.0) == 6000.0
-    assert _normalize_capacity_mw(950000.0) == 950.0
-    assert _normalize_capacity_mw(2242000.0) == 2242.0
+def test_large_qianwa_converts_correctly():
+    """原千瓦大数经 parse_capacity_mw 正确换算（不依赖 ≥50000 启发式）。"""
+    mw, _ = parse_capacity_mw("6000000千瓦")
+    assert mw == 6000.0
+
+    mw, _ = parse_capacity_mw("950000千瓦")
+    assert mw == 950.0
+
+    mw, _ = parse_capacity_mw("2242000千瓦")
+    assert mw == 2242.0
 
 
-def test_threshold_boundary():
-    """恰好 50000 视为不可能 → ÷1000；49999 视为正常保留。"""
-    assert _normalize_capacity_mw(50000.0) == 50.0
-    assert _normalize_capacity_mw(49999.0) == 49999.0
+def test_wan_qianwa_converts_correctly():
+    """万千瓦短语（如 LLM 新输出格式）正确换算（×10）。"""
+    mw, _ = parse_capacity_mw("600万千瓦")
+    assert mw == 6000.0
+
+    mw, _ = parse_capacity_mw("95万千瓦")
+    assert mw == 950.0
 
 
-def test_normal_values_unchanged():
-    """正常量级 MW 原样返回。"""
-    for v in (1.0, 60.0, 1320.0, 22500.0):
-        assert _normalize_capacity_mw(v) == v
+def test_normal_mw_unchanged():
+    """正常 MW 量级直接解析，不受任何 ÷1000 影响。"""
+    for raw, expected in [("1MW", 1.0), ("60MW", 60.0), ("1320MW", 1320.0), ("22500MW", 22500.0)]:
+        mw, _ = parse_capacity_mw(raw)
+        assert mw == expected, f"{raw} → 期望 {expected}，实际 {mw}"
 
 
-def test_none_and_nonnumeric():
-    """None 原样；非数值原样返回（不抛错）。"""
-    assert _normalize_capacity_mw(None) is None
-    assert _normalize_capacity_mw("abc") == "abc"
+def test_none_and_empty_return_null():
+    """None / 空字符串 → (None, None)。"""
+    assert parse_capacity_mw(None) == (None, None)
+    assert parse_capacity_mw("") == (None, None)
