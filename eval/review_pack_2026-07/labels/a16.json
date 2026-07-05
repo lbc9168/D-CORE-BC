@@ -1,0 +1,34 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/77416.html",
+  "status": "valid",
+  "status_reason": "输变电项目，具名中企特变电工承建东帝汶科摩罗变电站，已开工",
+  "status_evidence": "特变电工在东帝汶科摩罗输变电项目开工典礼盛大举行",
+  "projects": [
+    {
+      "project_name": "东帝汶帝力科摩罗输变电项目",
+      "matches_ai": "东帝汶帝力科摩罗输变电项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "开工",
+      "location": "帝力",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "特变电工",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "特变电工在东帝汶科摩罗输变电项目开工典礼盛大举行",
+        "entities": "特变电工在东帝汶科摩罗输变电项目开工典礼盛大举行",
+        "capacity_note": "将在科摩罗发电厂区域新建一座 3x40MVA变电站"
+      },
+      "note": "变电容量3x40MVA（非发电装机，capacity_mw=null）；Camea变电站和利基萨变电站扩容项目也由特变电工承建，但本文报道焦点是科摩罗项目开工，其余两个扩容项目属过去已建，不另立条目"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线填capacity_mw=120（3x40=120，但MVA是变电容量非发电装机MW），已更正为null。Camea/利基萨扩容项目文中仅作背景提及，不满足当前事件条件，不收录。"
+}

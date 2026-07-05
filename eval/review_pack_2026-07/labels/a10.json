@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/69260.html",
+  "status": "valid",
+  "status_reason": "能源范围内（火电/自备电厂发电项目）且有具名中企中国电建福建院中标EPC",
+  "status_evidence": "中国电建福建院成功中标沙巴旗滨光伏新材料（马来西亚）有限公司自备电厂二期内燃机组总承包工程",
+  "projects": [
+    {
+      "project_name": "马来西亚沙巴州旗滨自备电厂二期内燃机组工程",
+      "matches_ai": "马来西亚沙巴州旗滨自备电厂二期内燃机组工程",
+      "category": "火电",
+      "capacity_mw": 26,
+      "project_stage": "中标",
+      "location": "沙巴州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国电建福建院",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "新建一座约20兆瓦双燃料内燃机发电厂，配套尾气处理装置、余热锅炉和全部辅机系统。另新建一座6兆瓦余热蒸汽轮机发电厂",
+        "total_investment_usd": null,
+        "project_stage": "中国电建福建院成功中标沙巴旗滨光伏新材料（马来西亚）有限公司自备电厂二期内燃机组总承包工程",
+        "entities": "中国电建福建院成功中标沙巴旗滨光伏新材料（马来西亚）有限公司自备电厂二期内燃机组总承包工程，该项目是公司在马来西亚市场的第二个EPCC业务"
+      },
+      "note": "装机容量：约20MW内燃机+6MW余热汽轮机=约26MW，与流水线一致。项目服务旗滨光伏玻璃厂（自备电厂），属发电项目范畴，收录。"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "中国电建福建院全称为中国电建集团福建省电力勘测设计院有限公司，原文简称\"中国电建福建院\"，按原文填写。"
+}

@@ -1,0 +1,58 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/31138.html",
+  "status": "valid",
+  "status_reason": "文中包含巴基斯坦卡洛特水电站这一具名中企（中国三峡集团）参与的能源项目；文章其余部分均为非能源基础设施项目",
+  "status_evidence": "由\n中国三峡集团\n为主投资开发的中巴经济走廊首个水电投资项目——巴基斯坦卡洛特水电站6月29日全面投入商业运营",
+  "projects": [
+    {
+      "project_name": "巴基斯坦卡洛特水电站72万千瓦水电站",
+      "matches_ai": "巴基斯坦卡洛特水电站",
+      "category": "水电",
+      "capacity_mw": 720,
+      "project_stage": "投入运营",
+      "location": "旁遮普省",
+      "total_investment_usd": 1740,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国三峡集团",
+          "involvement_type": "股权投资方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "总投资约17.4亿美元，总装机72万千瓦，投产后预计每年可节约标准煤约140万吨",
+        "total_investment_usd": "总投资约17.4亿美元，总装机72万千瓦",
+        "project_stage": "巴基斯坦卡洛特水电站6月29日全面投入商业运营",
+        "entities": "由\n中国三峡集团\n为主投资开发的中巴经济走廊首个水电投资项目——巴基斯坦卡洛特水电站6月29日全面投入商业运营"
+      },
+      "note": "总投资17.4亿美元（文中「约17.4亿美元」）换算：17.4×100=1740百万美元。financing_model 文中未明确说明融资方式，标 Unknown。"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "印尼雅万高铁动车组项目",
+      "reason": "铁路项目，非能源范围（发电/制造/输变电），属基础设施交通类，irrelevant"
+    },
+    {
+      "name": "中老铁路",
+      "reason": "铁路项目，非能源范围，已被流水线自行标记 excluded"
+    },
+    {
+      "name": "克罗地亚佩列沙茨大桥",
+      "reason": "公路桥梁项目，非能源范围，属基础设施"
+    },
+    {
+      "name": "以色列特拉维夫轻轨红线项目",
+      "reason": "轻轨交通项目，非能源范围；且投资额29,300M USD 为整个8条线路系统总投资，非该合同额，数值存疑"
+    },
+    {
+      "name": "喀麦隆克里比-罗拉贝高速公路",
+      "reason": "公路项目，非能源范围，已被流水线自行标记 excluded"
+    },
+    {
+      "name": "安哥拉比耶省城市供水项目",
+      "reason": "供水工程，非能源范围，已被流水线自行标记 excluded"
+    }
+  ],
+  "article_note": "文章为综合性一带一路工程综述，7个项目中只有卡洛特水电站属能源范围且有具名中企。流水线将高铁/轻轨归入'综合能源'属错误分类。卡洛特水电站 total_investment_usd：文中'约17.4亿美元'＝1740百万美元。financing_model 文中提'主投资开发'，实为股权投资，但无融资结构说明，标 Unknown 保守。"
+}

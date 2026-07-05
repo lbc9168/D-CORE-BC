@@ -1,0 +1,31 @@
+{
+ "idx": 20,
+ "stratum": "tx",
+ "source_link": "https://news.goalfore.cn/topstories/detail/1502.html",
+ "article_id": 24911,
+ "title": "山东电建签约缅甸首条500kV输电线路项目",
+ "publish_date": "2018-12-27 18:27:02",
+ "content": "近日，山东电建签署缅甸第一条500kV输电线路建设项目的承包合同，缅甸电力能源部部长吴温凯出席签约仪式。\n该项目起点位于缅甸密铁拉市，终点到内比都南部的东吁市，全长234公里，是缅甸第一条500kV双回路输电线路，建成后将有效缓解缅甸电力分配不均、线路老化损耗严重的现状。该项目是缅甸政府大力发展电力事业、改善人民生活水平、提振缅甸经济工业发展活力的标志性工程，对缅甸工业民生有着深远的影响。\n签约仪式上，缅甸电力能源部部长吴温凯表示，中国电建有着雄厚的技术实力及丰富的施工经验，相信一定能将此项目建设好，为缅甸人民谋福利，为缅甸社会发展做出重大贡献。\n缅甸密铁拉到东吁500kV输电线路项目的成功签约，是山东电建在缅甸市场的重大突破，对于提升POWERCHINA和SEPCO品牌在缅甸以及东南亚地区影响力，更深层次地开发缅甸市场起到了积极的推动作用。",
+ "pipeline_rows": [
+  {
+   "id": 9937,
+   "record_type": "具体项目",
+   "project_name": "缅甸密铁拉至东吁500kV输电线路项目",
+   "category": "输变电建设",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "签约",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国电力建设集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "山东电力建设第三工程有限公司",
+   "project_developer": null,
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "山东电建（SEPCO）在缅甸签约了首条500kV输电线路建设项目合同。该项目全长234公里，连接密铁拉市至东吁市，旨在缓解缅甸电力分配不均和线路损耗问题。这是山东电建在缅甸市场的重大突破。"
+  }
+ ]
+}

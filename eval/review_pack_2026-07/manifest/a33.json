@@ -1,0 +1,31 @@
+{
+ "idx": 33,
+ "stratum": "unit",
+ "source_link": "https://news.goalfore.cn/topstories/detail/80548.html",
+ "article_id": 4331,
+ "title": "上能电气巴西Ceasa车棚光伏电站在戈亚斯州正式并网投运",
+ "publish_date": "2025-03-26 07:58:04",
+ "content": "近日，巴西Ceasa车棚光伏电站在戈亚斯州正式并网投运，上能电气海外案例版图再添工商业标杆之作，在这片充满无限生机的土地上奏响绿色可持续发展的交响曲。\n总投资3350万雷亚尔，该项目隶属于Ceasa 5MW光伏电站的一部分，总占地25000平方米，包含245个车棚和980个停车位。据戈亚斯州政府报道，本项目是\n巴西迄今为止最大的车棚光伏电站\n，也是\n当地能源效率计划的重要组成部分之一\n。\n上能电气为该电站提供\n高效灵活的\n组\n串式逆变解决方案，\n产品\n全面适配高功率及双面组件\n，配备的\nI-V曲线诊断技术\n可以轻松\n实现远程故障排查\n，\n简化现场运维\n。电站正式投运后，每年预估可发电11.8GWh，相当于减排二氧化碳1697吨，为超3000户中等规模人口的家庭提供日常用电，节省约340万雷亚尔的年均公共财政支出。\n本次巴西Ceasa车棚光伏电站的顺利并网是上能电气深入布局巴西及周边光储市场的又一里程碑。上能电气正在\n不断加快美洲乃至全球范围的拓展步伐\n，以更具针对性和竞争力的光储解决方案助推全球双碳目标早日实现。",
+ "pipeline_rows": [
+  {
+   "id": 2039,
+   "record_type": "具体项目",
+   "project_name": "巴西Ceasa车棚光伏电站",
+   "category": "光伏",
+   "capacity_mw": "5",
+   "capacity_mw_raw": null,
+   "project_stage": "投入运营",
+   "location": "戈亚斯州",
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "上能电气",
+   "involvement_type": "设备供应商",
+   "subsidiary_name": null,
+   "project_developer": "Ceasa",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "上能电气为巴西戈亚斯州Ceasa车棚光伏电站提供了高效灵活的组串式逆变解决方案。该项目是巴西迄今为止最大的车棚光伏电站，已于近日正式并网投运，年发电量预估为11.8GWh。"
+  }
+ ]
+}

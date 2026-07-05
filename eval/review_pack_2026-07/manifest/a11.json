@@ -1,0 +1,31 @@
+{
+ "idx": 11,
+ "stratum": "tender",
+ "source_link": "https://news.goalfore.cn/topstories/detail/28072.html",
+ "article_id": 16478,
+ "title": "沙特阿拉伯将建第一座含350MW光热的混合电站",
+ "publish_date": "2022-04-28 20:10:32",
+ "content": "据外媒Meed报道，为了开发沙特阿拉伯的\n第一个光热混合电站\n，当地能源部的可再生能源团队预计将在\n5月中旬\n发布合同资格申请。\n据业内人士透露，名为\nHinakiyah的光热混合电站\n将以IPP形式进行开发。尽管该电站的最终装机量尚未最终确定，但该项目的\nCSP部分预计装机为350MW\n。\n早些时候，在沙特阿拉伯能源部长的见证下，沙特能源部已将开发\n700MW Al-Rass 太阳能光伏项目\n的IPP合同授予由ACWA Power、国家电投黄河上游水电开发有限责任公司（“国电投黄河公司”）及WEHC公司组成的联合体(“中标联合体”）。\n所有这些项目都是国家目标的一部分，即到\n2024年可再生能源装机达到27.3GW，到2030年达到58.7GW。",
+ "pipeline_rows": [
+  {
+   "id": 6977,
+   "record_type": "具体项目",
+   "project_name": "沙特阿拉伯Al-Rass太阳能光伏项目",
+   "category": "光伏",
+   "capacity_mw": "700",
+   "capacity_mw_raw": null,
+   "project_stage": "中标",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "国家电力投资集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "黄河上游水电开发有限责任公司",
+   "project_developer": "ACWA Power; 国家电投黄河上游水电开发有限责任公司; WEHC公司",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "国家电投黄河公司参与了沙特阿拉伯700MW Al-Rass太阳能光伏项目，该项目由ACWA Power、国家电投黄河上游水电开发有限责任公司及WEHC公司组成的联合体中标开发，是沙特实现可再生能源目标的一部分。"
+  }
+ ]
+}

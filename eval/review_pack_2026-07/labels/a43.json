@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/37280.html",
+  "status": "valid",
+  "status_reason": "中国电力新源智储为墨西哥佩尼亚斯科港光伏电站配套储能项目提供整套解决方案，具名中方企业明确",
+  "status_evidence": "由中国电力新源智储提供整套储能解决方案、先进储能装备、整体调试和技术支持的配套储能工程同步完工",
+  "projects": [
+    {
+      "project_name": "墨西哥佩尼亚斯科港光伏电站配套储能工程",
+      "matches_ai": "墨西哥佩尼亚斯科港120MW光伏配套储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "竣工",
+      "location": "索诺拉州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国电力新源智储",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "由中国电力新源智储提供整套储能解决方案、先进储能装备、整体调试和技术支持的配套储能工程同步完工",
+        "entities": "由中国电力新源智储提供整套储能解决方案、先进储能装备、整体调试和技术支持的配套储能工程同步完工"
+      },
+      "note": "储能系统的MW功率容量文中未披露（120MW是配套的光伏电站装机，非储能功率），故capacity_mw=null；新源智储提供方案+装备+调试=一体化方案提供商；光伏电站本身由CFE（墨西哥国有电力委员会）主导建设，无具名中企，不单独录入"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline将capacity_mw填为120，实为光伏电站装机容量，储能系统本身的MW容量文中未说明，应填null。新源智储是国家电投子公司，中企确认。"
+}

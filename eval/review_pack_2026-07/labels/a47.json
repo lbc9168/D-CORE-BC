@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/49836.html",
+  "status": "valid",
+  "status_reason": "科陆电子与美洲客户签订储能系统供应合同，具名中方企业明确",
+  "status_evidence": "科陆电子发布公告称，近日公司与美洲某客户签订了电池储能系统供应合同，合计437MWh",
+  "projects": [
+    {
+      "project_name": "北美洲437MWh集装箱式电池储能系统项目",
+      "matches_ai": "北美洲437MWh电池储能系统项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": "北美洲",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "科陆电子",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "近日公司与美洲某客户签订了电池储能系统供应合同，合计437MWh",
+        "entities": "近日公司与美洲某客户签订了电池储能系统供应合同，合计437MWh"
+      },
+      "note": "容量单位为MWh（能量），非MW（功率），故capacity_mw=null；合同金额保密未披露；客户名称保密；项目地点仅知北美洲；pipeline填capacity_mw=437为错误（误将MWh当MW）"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline将437MWh错标为437MW，应为null。文中另提到南美洲485MWh储能项目已发货，但此为已完成交付的另一事件（无具体项目名/地点/客户），不符合可识别具体单体项目条件，不录入。"
+}

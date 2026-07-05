@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/7440.html",
+  "status": "valid",
+  "status_reason": "水发安和承建尼泊尔上崔树里3B水电站，具名中方企业明确",
+  "status_evidence": "水发安和承建的尼泊尔上崔树里3B水电站项目举行奠基仪式",
+  "projects": [
+    {
+      "project_name": "尼泊尔上崔树里3B水电站项目",
+      "matches_ai": "尼泊尔上崔树里3B水电站项目",
+      "category": "水电",
+      "capacity_mw": 37,
+      "project_stage": "开工",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "水发安和",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "上崔树里3B水电站项目位于尼泊尔首都加德满都西北面上崔树里河，装机容量37MW",
+        "total_investment_usd": null,
+        "project_stage": "水发安和承建的尼泊尔上崔树里3B水电站项目举行奠基仪式",
+        "entities": "水发安和承建的尼泊尔上崔树里3B水电站项目举行奠基仪式"
+      },
+      "note": "奠基仪式=开工；该项目是水发安和首个通过国际招投标的海外水电EPC总承包工程；行政位置文中只说'上崔树里河'无省级地名，location填null；pipeline的implementing_entity填了Unknown，实际明确是水发安和"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline的implementing_entity错填Unknown，应为水发安和（水发安和水利水电工程有限公司）；project_stage开工正确。"
+}

@@ -1,0 +1,30 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/50107.html",
+  "status": "valid",
+  "status_reason": "隆基绿能（具名中企）在马来西亚建设光伏组件制造工厂，属新能源制造业范围",
+  "status_evidence": "隆基绿能双文丹组件厂的正式投产，标志着隆基绿能在马来西亚实现光伏全产业链闭环",
+  "projects": [
+    {
+      "project_name": "马来西亚雪兰莪双文丹8.8GW光伏组件工厂",
+      "matches_ai": "马来西亚双文丹组件工厂",
+      "category": "新能源制造业",
+      "capacity_mw": null,
+      "project_stage": "投入运营",
+      "location": "雪兰莪州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "隆基绿能科技股份有限公司", "involvement_type": "股权投资方"}
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "双文丹组件工厂一期正式投产",
+        "entities": "双文丹组件工厂一期正式投产"
+      },
+      "note": "产能8.8GW/年（全部建成后），一期2.8GW/年，capacity_mw=null（工厂产能非发电装机）；投资18亿令吉≈28亿人民币，令吉属指南未规定币种→null+note：马来令吉18亿令吉，约合28亿人民币，指南无令吉→人民币换算规则，total_investment_usd=null；文章描述一期投产同时二期启动，project_stage按报道当前事件为'投入运营'（一期）；两期合为一条（同一物理项目的不同期，指南允许合并为一条）"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线capacity_mw='8.8GW'错误（应为null，产能不是发电装机）；total_investment_usd=385.5（百万美元）推算来源不明（18亿令吉≈4亿美元，28亿人民币≈3.9亿美元），令吉折算无规则→null。involvement_type流水线填'设备供应商'不准确，隆基是工厂业主应为'股权投资方'。"
+}

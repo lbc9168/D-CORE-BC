@@ -1,0 +1,79 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/86364.html",
+  "status": "valid",
+  "status_reason": "上海电气在伊拉克参与多个发电项目，具名中方企业明确",
+  "status_evidence": "伊拉克电力部正与上海电气就建设总容量高达10000兆瓦的发电厂进行最后阶段的讨论",
+  "projects": [
+    {
+      "project_name": "伊拉克10000兆瓦发电厂项目",
+      "matches_ai": "伊拉克10000兆瓦发电厂项目",
+      "category": "火电",
+      "capacity_mw": 10000,
+      "project_stage": "拟开发",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "上海电气",
+          "involvement_type": "Unknown"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "伊拉克电力部正与上海电气就建设总容量高达10000兆瓦的发电厂进行最后阶段的讨论",
+        "total_investment_usd": null,
+        "project_stage": "伊拉克电力部正与上海电气就建设总容量高达10000兆瓦的发电厂进行最后阶段的讨论",
+        "entities": "伊拉克电力部正与上海电气就建设总容量高达10000兆瓦的发电厂进行最后阶段的讨论"
+      },
+      "note": "文中仅称'最后阶段的讨论'，尚未签约，阶段为拟开发；无投资额、地点信息；involvement_type未明确（谈判阶段），填Unknown"
+    },
+    {
+      "project_name": "伊拉克巴士拉省Al Faw 3000兆瓦电力和海水淡化厂",
+      "matches_ai": "伊拉克巴士拉省3000兆瓦电力和海水淡化厂项目",
+      "category": "综合能源",
+      "capacity_mw": 3000,
+      "project_stage": "签约",
+      "location": "巴士拉省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "上海电气",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "该厂的发电能力为3000兆瓦，海水淡化能力为1250000立方米/天",
+        "total_investment_usd": null,
+        "project_stage": "上海电气于2023年12月赢得南巴士拉海水淡化厂项目合同",
+        "entities": "伊拉克港口总公司（GCPI）和中国上海电气签署了一项框架协议，将在巴士拉省开发一座电力和海水淡化厂"
+      },
+      "note": "电力+海水淡化 → 综合能源；2022年框架协议+2023年正式合同，取最新事件'赢得合同'=签约；capacity=3000MW（发电装机）；海水淡化产能不计入capacity_mw"
+    },
+    {
+      "project_name": "伊拉克巴格达以南发电站扩建项目",
+      "matches_ai": "伊拉克巴格达以南发电站扩建项目",
+      "category": "火电",
+      "capacity_mw": null,
+      "project_stage": "竣工",
+      "location": "巴格达以南",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "上海电气",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "2011年4月上海电气获得10亿美元巴格达以南的一座发电站扩建合同。上海电气于2010年5月开始建设该项目",
+        "entities": "2011年4月上海电气获得10亿美元巴格达以南的一座发电站扩建合同"
+      },
+      "note": "10亿美元为合同金额非总投资，按指南填null；2010年开始建设、2011年获合同（顺序描述有误可能是媒体翻译问题），项目作为历史背景出现，视为已竣工；装机容量文中未提"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline_rows对巴格达扩建项目投资额填了1000M USD（10亿美元），但原文是'合同额'非'总投资'，按指南应填null。巴士拉省项目pipeline标为'签约'阶段正确。10GW项目pipeline标为'签约'但原文是'进行最后阶段的讨论'，应为'拟开发'。"
+}

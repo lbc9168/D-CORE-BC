@@ -1,0 +1,63 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/33084.html",
+  "status": "valid",
+  "status_reason": "能源范围内（火电项目），具名中方企业中国能建西南院/华北电力试研院/中能建建筑集团参与",
+  "status_evidence": "中国能建西南院设计、华北电力试研院承接调试的柬埔寨西港2×350兆瓦项目1号机组一次并网成功",
+  "projects": [
+    {
+      "project_name": "柬埔寨西哈努克港2×350兆瓦燃煤电站项目",
+      "matches_ai": "柬埔寨西哈努克港2×350兆瓦燃煤电站项目",
+      "category": "火电",
+      "capacity_mw": 700,
+      "project_stage": "在建",
+      "location": "西哈努克港",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国能建西南院",
+          "involvement_type": "设计\\施工服务方"
+        },
+        {
+          "name": "华北电力试研院",
+          "involvement_type": "设计\\施工服务方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "柬埔寨西港2×350兆瓦项目1号机组一次并网成功",
+        "project_stage": "柬埔寨西港2×350兆瓦项目1号机组一次并网成功。系统各项指标优良，运行稳定，为机组整套试运行打下坚实的基础",
+        "entities": "中国能建西南院设计、华北电力试研院承接调试的柬埔寨西港2×350兆瓦项目1号机组一次并网成功"
+      },
+      "note": "总装机2×350=700MW；流水线填350（单机）有误。project_stage：1号机组首次并网并进入'整套试运行'阶段，2号机未提及→在建（非投入运营）。流水线标'投入运营'有误。"
+    },
+    {
+      "project_name": "土耳其胡努特鲁2×660兆瓦燃煤电厂",
+      "matches_ai": "土耳其胡努特鲁2×660兆瓦燃煤电厂项目",
+      "category": "火电",
+      "capacity_mw": 1320,
+      "project_stage": "投入运营",
+      "location": "阿达纳省尤穆尔塔勒克市",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中能建建筑集团",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "中能建建筑集团承建的土耳其胡努特鲁2×660兆瓦燃煤电厂2号机组并网一次成功",
+        "project_stage": "土耳其胡努特鲁2×660兆瓦燃煤电厂2号机组并网一次成功，机组各系统参数正常，设备运行平稳，运行质量优良",
+        "entities": "中能建建筑集团承建的土耳其胡努特鲁2×660兆瓦燃煤电厂2号机组并网一次成功"
+      },
+      "note": "总装机2×660=1320MW；流水线填660（单机）有误。2号机并网成功意味着两台机组均已并网→投入运营。"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "安哥拉卡宾达港口项目海洋客运站工程",
+      "reason": "港口海运工程，非能源产业范围（不属于发电、新能源制造业、输变电工程），应排除"
+    }
+  ],
+  "article_note": "流水线将柬埔寨项目拆成两条重复行（id=6385和6386内容完全相同），属于重复录入，合并为一条。capacity_mw均取总装机（2×N）。"
+}

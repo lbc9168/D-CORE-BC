@@ -1,0 +1,42 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/30025.html",
+  "status": "valid",
+  "status_reason": "文章含吉尔吉斯斯坦输变电项目且具名中方企业（中国重机）参与",
+  "status_evidence": "中国重机与吉尔吉斯斯坦国家电网公司签订220kV/250MVA自耦变压器及500kV电抗器供货合同",
+  "projects": [
+    {
+      "project_name": "吉尔吉斯斯坦220kV/500kV变压器及电抗器供货项目",
+      "matches_ai": "吉尔吉斯斯坦220kV/250MVA自耦变压器及500kV电抗器供货项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": "比什凯克",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国重机",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "国机重装中国重机与吉尔吉斯斯坦国家电网公司签订220kV/250MVA自耦变压器及500kV电抗器供货合同",
+        "entities": "国机重装中国重机与吉尔吉斯斯坦国家电网公司签订220kV/250MVA自耦变压器及500kV电抗器供货合同"
+      },
+      "note": "输变电设备供货合同，无发电装机容量；合同金额未披露；location来自文中'解决首都比什凯克供电短缺问题'"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "乌兹别克斯坦200万吨炼钢工程项目",
+      "reason": "冶金/炼钢项目，非能源范围"
+    },
+    {
+      "name": "某客户火电机组改造三维测绘检测项目",
+      "reason": "国内项目（文中未提海外），且属于测绘检测服务而非发电项目本身；即便视为有效也无具体可锁定的海外物理工程"
+    }
+  ],
+  "article_note": "第二段火电机组改造是国内业务（'某客户'无海外指向），不属于一带一路海外项目；第三段吉尔吉斯斯坦项目为输变电建设，符合能源范围。"
+}

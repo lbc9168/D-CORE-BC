@@ -1,0 +1,38 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/28072.html",
+  "status": "valid",
+  "status_reason": "能源范围内（光伏/光热），Al-Rass项目有具名中企国家电投黄河公司参与联合体中标",
+  "status_evidence": "国家电投黄河上游水电开发有限责任公司",
+  "projects": [
+    {
+      "project_name": "沙特Al-Rass 700MW太阳能光伏项目",
+      "matches_ai": "沙特阿拉伯Al-Rass太阳能光伏项目",
+      "category": "光伏",
+      "capacity_mw": 700,
+      "project_stage": "中标",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "国家电投黄河上游水电开发有限责任公司",
+          "involvement_type": "BOT\\BOOT"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "国家电投黄河上游水电开发有限责任公司",
+        "total_investment_usd": null,
+        "project_stage": "700MW Al-Rass 太阳能光伏项目",
+        "entities": "国家电投黄河上游水电开发有限责任公司"
+      },
+      "note": "IPP合同授予=中标/签约阶段（IPP通常在授标后再签PPA/融资，这里合同已授予，取中标）。国电投黄河公司以IPP联合体成员身份参与，involvement_type取BOT/BOOT（IPP独立发电商=建设-运营模式）。"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "沙特Hinakiyah光热混合电站（350MW CSP）",
+      "reason": "无具名中企：文章仅说预计5月中旬发布合同资格申请（招标尚未发布），未提及任何中企参与，不满足收录硬条件"
+    }
+  ],
+  "article_note": "文章主体是Hinakiyah光热混合电站即将招标的预告（无中企），顺带提及Al-Rass已授标含国电投黄河公司联合体。流水线involvement_type写\"EPC总承包\"存疑——国电投黄河公司是IPP联合体成员（投资方/开发商），而非EPC总包商，改为BOT/BOOT更准确。"
+}

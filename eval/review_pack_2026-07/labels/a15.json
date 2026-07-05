@@ -1,0 +1,38 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/22234.html",
+  "status": "valid",
+  "status_reason": "输变电项目，具名中企中国电力技术装备有限公司投资建设、中南电力设计院牵头设计，项目已商业运行",
+  "status_evidence": "中国电力技术装备有限公司投资建设，是国家电网公司在海外的首个BOOT（建设-拥有-经营-转让）项目",
+  "projects": [
+    {
+      "project_name": "巴基斯坦默蒂亚里—拉合尔±660千伏直流输电工程",
+      "matches_ai": "巴基斯坦默蒂亚里—拉合尔±660千伏直流输电工程",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "投入运营",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国电力技术装备有限公司",
+          "involvement_type": "BOT\\BOOT"
+        },
+        {
+          "name": "中南电力设计院有限公司",
+          "involvement_type": "设计\\施工服务方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "2021年9月1日，中南电力设计院有限公司牵头设计的中巴经济走廊优先实施项目清单下唯一的输电项目——巴基斯坦默蒂亚里—拉合尔±660千伏直流输电工程（以下简称默拉直流工程）成功商业运行。",
+        "entities": "默拉直流工程由中国电力技术装备有限公司投资建设，是国家电网公司在海外的首个BOOT（建设-拥有-经营-转让）项目",
+        "capacity_note": "输电容量4000兆瓦"
+      },
+      "note": "输送容量4000MW（非发电装机，capacity_mw=null）；电压等级±660kV；线路886km；含两座±660kV直流换流站"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线拆成两条（中国电力技术装备有限公司+中南电力设计院），合并为一条多实体是正确做法。原文称中南电力设计院有限公司，取原文名。流水线将capacity_mw填4000属错误（输送容量非发电装机），已更正为null。"
+}

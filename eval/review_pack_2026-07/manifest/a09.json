@@ -1,0 +1,31 @@
+{
+ "idx": 9,
+ "stratum": "tender",
+ "source_link": "https://news.goalfore.cn/topstories/detail/34424.html",
+ "article_id": 14787,
+ "title": "晶科能源将为巴西Santa Luzia Complex光伏项目一期提供约522兆瓦组件",
+ "publish_date": "2022-11-26 12:49:45",
+ "content": "近日，全球极具创新力的光伏企业晶科能源宣布，公司依托自主研发的高效N型TOPCon技术Tiger Neo组件，\n成功中标巴西大型光伏项目\n，其子公司晶科能源股份有限公司将为位于巴西帕拉伊巴州的Santa Luzia Complex一期项目提供约522兆瓦的Tiger Neo 78片组件。\n位于圣卢西亚市和圣马梅迪市的圣卢西亚综合体是巴西当地最大的太阳能项目之一，占地超1,700公顷，总投资额约为41亿巴西雷亚尔（约合人民币54.7亿元）。根据规划，项目将分为三期进行建设，完成并网后总发电将达\n1.2吉瓦\n，可为当地\n123,000户\n家庭提供绿色电力，相当于减少\n380,000吨\n一氧化碳排放量。目前，一期工程已于今年开工，预计2023年5月将完工，预计在2024年1月投入商业运营。\n此次晶科能源为项目所提供Tiger Neo 78片组件是公司的拳头产品之一。得益于高效N型TOPCon技术电池\n转换效率高、发电量高、衰减率小、温度系数小、双面率高、弱光表现好\n等优势，该系列组件发电性能及可靠性显著优于传统组件。相比PERC组件，其单片组件功率可\n高出至少15瓦\n，功率直接\n提高至少3.7%\n，相同装机容量下可带来\n至少3%\n发电增益。\n作为新能源领域领军企业，晶科能源凭借强劲的技术优势、品牌优势及垂直一体化产能优势，获得项目建设方高度信任。\nRio Alto新能源公司采购与执行总裁\nJoao Batista Meirelles表示：\n“晶科能源是一家致力于为所有人建设可持续未来的公司，我们很高兴能与晶科能源合作。有如此知名且可信赖的伙伴参与，项目的价值和可靠性也得到了提升。”\n晶科能源拉美和意大利总经理\nAlberto Cuter表示：\n“Rio Alto集团为巴西这一重要项目选择了晶科能源的高性能组件，我们感到很自豪。巴西是致力于发展可再生能源的重要国家之一，而Rio Alto集团是巴西能源转型的重要参与者。”\n关于Rio Alto.\nRio Alto成立于2009年，是一家聚焦光伏电站的独立新能源专业公司。公司业务模式通过垂直整合项目从构思、实施、安装、运营到商业化的各个阶段发展而成，拥有100%整合平台，多学科团队以及能源板块的大量经验。公司与业内主要公司建立了长期合作，以高标准开发光伏电站。公司注重ESG政策，致力于新能源项目建设的同时，通过关注当地社区，创造工作岗位，参与社会经济发展体现对环境的尊重。公司太阳能项目储备共达1.8吉瓦，包括运营和正在开发的资产。",
+ "pipeline_rows": [
+  {
+   "id": 6252,
+   "record_type": "设备订单",
+   "project_name": "巴西Santa Luzia Complex光伏项目一期",
+   "category": "光伏",
+   "capacity_mw": "522",
+   "capacity_mw_raw": null,
+   "project_stage": "中标",
+   "location": "帕拉伊巴州",
+   "total_investment_usd": "650.5",
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "晶科能源",
+   "involvement_type": "设备供应商",
+   "subsidiary_name": null,
+   "project_developer": "Rio Alto新能源公司",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "晶科能源作为供应商，中标巴西Santa Luzia Complex光伏项目一期，将提供约522兆瓦的组件。该项目位于巴西帕拉伊巴州，是当地最大的太阳能项目之一，预计2024年1月投入商业运营。"
+  }
+ ]
+}

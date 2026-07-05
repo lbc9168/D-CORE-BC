@@ -1,0 +1,31 @@
+{
+ "idx": 14,
+ "stratum": "tender",
+ "source_link": "https://news.goalfore.cn/topstories/detail/68773.html",
+ "article_id": 7546,
+ "title": "6.66亿元！林洋能源斩获波兰智能电表订单",
+ "publish_date": "2024-07-22 10:52:01",
+ "content": "7月21日，林洋能源发布公告，公司全资子公司UAB ELGAMA ELEKTRONIKA（以下简称“ELGAMA公司”）与当地合作伙伴组成联合体共同参与PGE Dystrybucja S.A.（以下简称“PGE公司”）智能电能表项目并签订经营合同。基于协议，ELGAMA公司与合作伙伴将为本次项目提供单相智能电能表、三相智能电能表，合同金额为359,754,613.37兹罗提，折合人民币约6.66亿元。据统计，ELGAMA公司与PGE公司自2020年以来合作项目订单金额累计已超12亿元（含本次公告金额）。\n近年来，林洋能源紧抓双碳机遇，围绕“智能、储能、新能源”三大核心业务，推动新型电力系统发展。公司深耕智能计量领域多年，依托严谨高效的研发能力、强数智化的制造水平及稳健安全的供应链优势，不断拓展市场空间，扩张业务版图，在全球多个重点项目招标中取得良好成绩，产品已销往全国各个省市，并远销欧洲、中东、东亚、东南亚、非洲、南美洲等30多个国家和地区。",
+ "pipeline_rows": [
+  {
+   "id": 3456,
+   "record_type": "设备订单",
+   "project_name": "波兰PGE公司智能电能表项目",
+   "category": "新能源制造业",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "中标",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "林洋能源",
+   "involvement_type": "设备供应商",
+   "subsidiary_name": "UAB ELGAMA ELEKTRONIKA",
+   "project_developer": "PGE Dystrybucja S.A.",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "林洋能源的全资子公司ELGAMA公司与当地合作伙伴组成的联合体，中标波兰PGE公司智能电能表项目，合同金额约6.66亿元人民币。该项目将为波兰提供单相和三相智能电能表。"
+  }
+ ]
+}

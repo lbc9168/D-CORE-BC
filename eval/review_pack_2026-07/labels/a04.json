@@ -1,0 +1,22 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/15652.html",
+  "status": "irrelevant",
+  "status_reason": "文章为光伏海外市场统计综述，罗列多国规划数据，无任何具名中方企业参与的具体单体项目",
+  "status_evidence": "据不完全统计，2020年7月-8月，全球海外市场已知对外公布的光伏拟开发/建设项目量超11.1GW",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "阿联酋AI Dhafra 2GW光伏项目",
+      "reason": "文中无任何具名中方企业参与，仅提及PPA签约电价，pipeline_rows 的 implementing_entity 为空，project_summary 也承认'具体企业未提及'"
+    },
+    {
+      "name": "沙特阿拉伯40GW太阳能光伏发电装机规划",
+      "reason": "国家级规划目标，非可识别具体单体项目，且无具名中方参与"
+    },
+    {
+      "name": "英国每年1.5GW太阳能项目规划",
+      "reason": "国家级年度目标规划，非可识别具体单体项目，且无具名中方参与"
+    }
+  ],
+  "article_note": "典型的行业综述/市场报告类文章，列举全球7-8月光伏拟开发量统计数据，无具体项目信息，无中方企业参与。全部三条流水线项目均无据可依，应全部拒收。"
+}

@@ -1,0 +1,130 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/42499.html",
+  "status": "valid",
+  "status_reason": "多个输变电及火电项目均有具名中方企业（中国西电集团）参与",
+  "status_evidence": "中标中电装备孟加拉400kV变电站项目全部组合电器供货订单",
+  "projects": [
+    {
+      "project_name": "孟加拉国400kV变电站组合电器供货项目",
+      "matches_ai": "孟加拉国400kV变电站项目组合电器供货",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "中标",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国西电集团",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "中标中电装备孟加拉400kV变电站项目全部组合电器供货订单",
+        "entities": "中标中电装备孟加拉400kV变电站项目全部组合电器供货订单，创近年组合电器设备供货海外最大订单"
+      },
+      "note": "仅知是400kV变电站，具体地点未提及；capacity_mw为null（变电站输送容量不填发电装机）"
+    },
+    {
+      "project_name": "印尼工业园区500余面中压开关柜项目",
+      "matches_ai": "印度尼西亚工业园区开关柜项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "中标",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国西电集团",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "中标印尼工业园区500余面开关柜项目订单",
+        "entities": "中标印尼工业园区500余面开关柜项目订单，该项目包含产品全部为中压开关柜，创西电宝鸡电气国际市场单笔订单金额历史之最"
+      },
+      "note": "工业园区开关柜属于输变电设备，服务对象是工业园区供电"
+    },
+    {
+      "project_name": "苏丹10台变压器设备采购项目",
+      "matches_ai": "苏丹变压器设备采购项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "中标",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国西电集团",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "中标苏丹项目10台变压器设备采购项目",
+        "entities": "中标苏丹项目10台变压器设备采购项目"
+      },
+      "note": "仅一句话，无容量、地点、金额信息"
+    },
+    {
+      "project_name": "埃及十月六日城北区扩建变电站项目",
+      "matches_ai": "埃及十月六日城北区扩建变电站项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "中标",
+      "location": "十月六日城北区",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国西电集团",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "中标埃及十月六日城北区扩建变电站项目",
+        "entities": "中标埃及十月六日城北区扩建变电站项目"
+      },
+      "note": "仅一句话，无容量及金额"
+    },
+    {
+      "project_name": "OBI 4×380MW电厂项目",
+      "matches_ai": "OBI 4×380MW电厂项目",
+      "category": "火电",
+      "capacity_mw": 1520,
+      "project_stage": "中标",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国西电集团",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "中标OBI 4×380MW电厂项目",
+        "total_investment_usd": null,
+        "project_stage": "中标OBI 4×380MW电厂项目",
+        "entities": "中标OBI 4×380MW电厂项目"
+      },
+      "note": "4×380MW=1520MW；OBI是印尼北马鲁古省奥比岛（North Maluku）工业园区，但文中仅写OBI，location填null；西电作为设备供应商中标"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "北加电解铝项目",
+      "reason": "电解铝属于冶金/化工工业，非能源范围"
+    }
+  ],
+  "article_note": "文章为二季度市场捷报汇总，各项目均为一行描述，信息有限；OBI电厂是火电（燃气/煤电），容量4×380=1520MW；北加电解铝明确非能源。"
+}

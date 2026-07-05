@@ -1,0 +1,56 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/24889.html",
+  "status": "valid",
+  "status_reason": "东方日升新能源（香港）有限公司为具名中方企业，与越南电力集团签署越南太阳能电站EPC总承包协议",
+  "status_evidence": "东方日升旗下子公司东方日升新能源（香港）有限公司和TASCO JOINT STOCK COMPANY（越南塔斯克公司）一起与VIETNAM ELECTRICITY（越南电力集团）签订了越南太阳能电站EPC总承包协议，包含100MW和50MW项目",
+  "projects": [
+    {
+      "project_name": "越南100MW太阳能电站EPC项目",
+      "matches_ai": "越南150MW光伏项目",
+      "category": "光伏",
+      "capacity_mw": 100,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "东方日升新能源（香港）有限公司",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "签订了越南太阳能电站EPC总承包协议，包含100MW和50MW项目",
+        "total_investment_usd": null,
+        "project_stage": "签订了越南太阳能电站EPC总承包协议，包含100MW和50MW项目",
+        "entities": "东方日升旗下子公司东方日升新能源（香港）有限公司和TASCO JOINT STOCK COMPANY（越南塔斯克公司）一起与VIETNAM ELECTRICITY（越南电力集团）签订了越南太阳能电站EPC总承包协议"
+      },
+      "note": "文中明确两个独立项目（100MW和50MW），按指南分两条录入；具体地点未提；东方日升香港子公司属港澳台企业，按指南算中企"
+    },
+    {
+      "project_name": "越南50MW太阳能电站EPC项目",
+      "matches_ai": "越南150MW光伏项目",
+      "category": "光伏",
+      "capacity_mw": 50,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "东方日升新能源（香港）有限公司",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "签订了越南太阳能电站EPC总承包协议，包含100MW和50MW项目",
+        "total_investment_usd": null,
+        "project_stage": "签订了越南太阳能电站EPC总承包协议，包含100MW和50MW项目",
+        "entities": "东方日升旗下子公司东方日升新能源（香港）有限公司和TASCO JOINT STOCK COMPANY（越南塔斯克公司）一起与VIETNAM ELECTRICITY（越南电力集团）签订了越南太阳能电站EPC总承包协议"
+      },
+      "note": "同上；两项目的具体地点、投资额均未披露"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline将100MW+50MW合并为150MW一条，按指南'不同物理项目各一条'应拆分为两条。两项目无具体专名和地点，但文中明确说是两个独立项目，拆条是否合适存疑——如果认为缺乏锁定信息可合并，但从指南精神看应拆。"
+}

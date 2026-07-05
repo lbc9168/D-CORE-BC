@@ -1,0 +1,30 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/81918.html",
+  "status": "valid",
+  "status_reason": "山东玲珑轮胎（具名中企）在巴西建设项目包含35MW独立光伏发电站，属能源范围",
+  "status_evidence": "项目拟建设的35MW光伏发电站，年平均可实现发电量4,287.18万kW·h",
+  "projects": [
+    {
+      "project_name": "巴西巴拉纳州蓬塔格罗萨35MW光伏发电站",
+      "matches_ai": "巴西玲珑轮胎生产及光伏发电项目",
+      "category": "光伏",
+      "capacity_mw": 35,
+      "project_stage": "拟开发",
+      "location": "巴拉纳州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "山东玲珑轮胎股份有限公司", "involvement_type": "股权投资方"}
+      ],
+      "evidence": {
+        "capacity_mw": "项目拟建设的35MW光伏发电站，年平均可实现发电量4,287.18万kW·h",
+        "total_investment_usd": null,
+        "project_stage": "公司拟自行或通过境外子公司与SUNSETS.A.COMERCIALINDUSTRIAL Y DE SERVICIOS 共同直接或间接出资设立玲珑轮胎（巴西）公司",
+        "entities": "公司经广泛调研、比选，决定开展境外（巴西）投资建设项目，公司拟自行或通过境外子公司与SUNSETS.A.COMERCIALINDUSTRIAL Y DE SERVICIOS 共同直接或间接出资设立玲珑轮胎（巴西）公司"
+      },
+      "note": "光伏电站是轮胎厂配套设施，按指南可独立成条；项目总投资119,315.07万美元为轮胎厂整体投资，光伏部分无单独投资额，total_investment_usd=null；project_stage判为拟开发（董事会已批准但尚未开工，文中'计划于2025年第三季度开工'为未来计划）；financing_model：整体项目有自筹+贷款但光伏部分未单独说明→Unknown"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线把整个项目（轮胎厂+光伏）合为一条，category=新能源制造业，这不准确——主体是轮胎制造（irrelevant），光伏电站是配套，按指南单独成条。流水线的total_investment_usd=1193.1507（百万美元）对应整体项目投资，用于光伏单条不合适故null。capacity_mw=35正确。project_stage流水线标'开工'不对（原文是计划开工），标'拟开发'更准确。"
+}

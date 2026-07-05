@@ -1,0 +1,31 @@
+{
+ "idx": 10,
+ "stratum": "tender",
+ "source_link": "https://news.goalfore.cn/topstories/detail/69260.html",
+ "article_id": 7432,
+ "title": "中国电建福建院中标沙巴旗滨（马来西亚） 自备电厂二期内燃机组工程总包项目",
+ "publish_date": "2024-07-31 14:22:03",
+ "content": "近日，中国电建福建院成功中标沙巴旗滨光伏新材料（马来西亚）有限公司自备电厂二期内燃机组总承包工程，该项目是公司在马来西亚市场的第二个EPCC业务。\n项目位于马来西亚沙巴州，根据一期情况进行总体规划，在自备电厂二期预留用地内，新建一座约20兆瓦双燃料内燃机发电厂，配套尾气处理装置、余热锅炉和全部辅机系统。另新建一座6兆瓦余热蒸汽轮机发电厂配套完整独立的辅机系统，接入玻璃厂孤网配电系统。\n项目建成后，可向旗滨光伏玻璃厂生产供电提升近40%以上产能，对当地电网调峰、提高电力系统稳定性及供电质量，助推园区经济发展具有重要意义。",
+ "pipeline_rows": [
+  {
+   "id": 3411,
+   "record_type": "具体项目",
+   "project_name": "马来西亚沙巴州旗滨自备电厂二期内燃机组工程",
+   "category": "火电",
+   "capacity_mw": "26",
+   "capacity_mw_raw": null,
+   "project_stage": "中标",
+   "location": "沙巴州",
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国电力建设集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "中国电建集团福建省电力勘测设计院有限公司",
+   "project_developer": "沙巴旗滨光伏新材料（马来西亚）有限公司",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "中国电建福建院中标马来西亚沙巴州旗滨光伏新材料有限公司自备电厂二期内燃机组工程总承包项目。该项目将新建一座约20兆瓦双燃料内燃机发电厂和一座6兆瓦余热蒸汽轮机发电厂，总装机容量为26兆瓦，旨在为玻璃厂提供电力支持。项目处于中标阶段。"
+  }
+ ]
+}

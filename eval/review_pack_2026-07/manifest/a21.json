@@ -1,0 +1,51 @@
+{
+ "idx": 21,
+ "stratum": "tx",
+ "source_link": "https://news.goalfore.cn/topstories/detail/22493.html",
+ "article_id": 18101,
+ "title": "福建公司印尼玻雅500千伏送出线路工程全线贯通",
+ "publish_date": "2021-09-13 11:36:10",
+ "content": "9月10日，由上海电建福建公司承建的华电（印尼）玻雅电站500千伏送出线路工程再现“电建速度”，在全部立塔施工结束后仅用 7天实现全线贯通。\n据悉，该项目是华电（印尼）玻雅2×660兆瓦坑口电站的配套送出线路工程，同时也是中资企业在印尼承建电压等级最高、距离最长的输变电工程。位于印度尼西亚南苏门答腊省，全长40公里，共计99基铁塔，导线为四分裂架设。\n工程建设期间，项目团队连续克服沿线地理环境复杂、资源匮乏、道路桥梁等基础设施薄弱、跨雨季施工、现场阻工等诸多不利因素，通过组建具有丰富海外施工经验的管理团队，科学编制施工计划、方案及实施细则，精心挑选供应能强的厂家等措施，确保项目施工稳步推进，质量、安全可控在控。受新冠肺炎疫情及当地施工环境影响，项目进展曾一度陷入困局。为提升现场施工效率，印尼公司果断调整方案，从国内调遣十余个专业施工班组近百人投入现场施工，积极引进中国设备，全面助力项目建设。\n玻雅电站送出线路工程建成后，可以为南苏门答腊省居民输送充足的电力，有效缓解当地电力紧张的局面，促进社会经济发展，造福当地人民，并将成为“一带一路”倡议的又一典型实践。",
+ "pipeline_rows": [
+  {
+   "id": 7953,
+   "record_type": "具体项目",
+   "project_name": "印度尼西亚南苏门答腊省玻雅电站500千伏送出线路工程",
+   "category": "输变电建设",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "竣工",
+   "location": "南苏门答腊省",
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国能源建设集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "中国能源建设集团福建公司",
+   "project_developer": "华电（印尼）",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "上海电建福建公司在印度尼西亚南苏门答腊省承建了华电（印尼）玻雅电站500千伏送出线路工程。该项目全长40公里，是中资企业在印尼承建的电压等级最高、距离最长的输变电工程，目前已全线贯通。"
+  },
+  {
+   "id": 7954,
+   "record_type": "具体项目",
+   "project_name": "印度尼西亚南苏门答腊省玻雅电站500千伏送出线路工程",
+   "category": "输变电建设",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "竣工",
+   "location": "南苏门答腊省",
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国华电集团有限公司",
+   "involvement_type": "股权投资方",
+   "subsidiary_name": null,
+   "project_developer": "华电（印尼）",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "上海电建福建公司在印度尼西亚南苏门答腊省承建了华电（印尼）玻雅电站500千伏送出线路工程。该项目全长40公里，是中资企业在印尼承建的电压等级最高、距离最长的输变电工程，目前已全线贯通。"
+  }
+ ]
+}

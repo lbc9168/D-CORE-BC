@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/77043.html",
+  "status": "valid",
+  "status_reason": "输变电项目，具名中企西电国际承建坦桑尼亚变电站扩建，已送电竣工",
+  "status_evidence": "该项目由西电国际承建，并由坦桑尼亚电力公司（TANESCO）联合管理实施",
+  "projects": [
+    {
+      "project_name": "坦桑尼亚220kV Bulyanhulu变电站扩建项目",
+      "matches_ai": "坦桑尼亚220kV Bulyanhulu变电站扩建项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "投入运营",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "西电国际",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "坦桑尼亚220kV Bulyanhulu变电站扩建项目顺利完成送电，为该地区电力供应能力的提升和稳定性增强奠定了坚实基础",
+        "entities": "该项目由西电国际承建，并由坦桑尼亚电力公司（TANESCO）联合管理实施"
+      },
+      "note": "电压等级220kV；无变电容量数值；送电完成判为投入运营"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线实体写中国西电集团/西电国际工程有限责任公司，原文仅写西电国际，取原文。"
+}

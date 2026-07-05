@@ -1,0 +1,31 @@
+{
+ "idx": 46,
+ "stratum": "ordinary",
+ "source_link": "https://news.goalfore.cn/topstories/detail/18558.html",
+ "article_id": 19312,
+ "title": "水电十六局中标喀麦隆曼维莱水电站项目运维合同",
+ "publish_date": "2021-02-20 10:30:30",
+ "content": "新春伊始，远在中部非洲的喀麦隆传来喜讯，公司顺利签署喀麦隆曼维莱水电站项目运维合同，该合同的签署为公司拓展中西非区域市场开启新的篇章，为公司开年献上了一份新春礼物。\n曼维莱水电站项目运维合同是公司签署的第二个海外水电站项目运维合同。\n项目业主为喀麦隆电力发展公司（EDC），合同总金额5 818 653 495中非法郎（约合1075万美元），总工期27个月。主要工作内容是对公司承建的喀麦隆曼维莱水电站实施运行和维护。",
+ "pipeline_rows": [
+  {
+   "id": 8308,
+   "record_type": "具体项目",
+   "project_name": "喀麦隆曼维莱水电站项目",
+   "category": "水电",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "中标",
+   "location": null,
+   "total_investment_usd": "10.75",
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国电力建设集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "中国水利水电第十六工程局有限公司",
+   "project_developer": "喀麦隆电力发展公司（EDC）",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "水电十六局中标喀麦隆曼维莱水电站项目运维合同。该合同金额约1075万美元，工期27个月，主要负责该水电站的运行和维护工作。这是公司签署的第二个海外水电站项目运维合同。"
+  }
+ ]
+}

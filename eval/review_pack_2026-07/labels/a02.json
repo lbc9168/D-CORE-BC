@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/24033.html",
+  "status": "irrelevant",
+  "status_reason": "文章主体为韩国国家氢氨发电政策综述；唯一提到的具体项目是阿联酋蓝氨工厂（韩日企业合作，无中方参与），蓝氨属指南明确排除类别",
+  "status_evidence": "韩国GS Energy 已与日本三井物产达成协议，在阿联酋工业城市鲁韦斯开发的一座年产 100 万吨蓝色氨工厂中入股",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "阿联酋蓝色氨工厂项目",
+      "reason": "蓝氨项目，指南明确列为 irrelevant（无明确绿电来源的制氢）；且开发方为韩国GS Energy+日本三井物产，无任何中方企业参与，流水线错误关联中国能建/葛洲坝"
+    }
+  ],
+  "article_note": "全文无中方企业参与任何项目。流水线将中国能建/葛洲坝关联到该项目，原文完全无据，属幻觉提取。文章核心是韩国政府政策，属国家规划级别新闻综述，非能源项目报道。"
+}

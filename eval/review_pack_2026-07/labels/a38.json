@@ -1,0 +1,63 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/80987.html",
+  "status": "valid",
+  "status_reason": "能源范围内（光伏/综合能源项目），具名中方企业中国电建成都院及水电十一局参与",
+  "status_evidence": "中标方：中国电建成都院",
+  "projects": [
+    {
+      "project_name": "科特迪瓦西南部3个橡胶厂柴光储一体化项目",
+      "matches_ai": "科特迪瓦3个橡胶厂柴光储一体化勘测设计项目",
+      "category": "综合能源",
+      "capacity_mw": 33,
+      "project_stage": "中标",
+      "location": "西南部地区",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国电建成都院",
+          "involvement_type": "设计\\施工服务方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "3个橡胶厂柴光储项目位于科特迪瓦西南部地区，项目总装机容量13兆瓦+20兆瓦",
+        "project_stage": "中标方：中国电建成都院",
+        "entities": "中标方：中国电建成都院"
+      },
+      "note": "总装机13+20=33MW；柴油+光伏+储能一体化→综合能源。中标的是勘测设计，involvement_type=设计/施工服务方。流水线total_investment_usd=48（无依据，文中无投资额信息），故null。"
+    },
+    {
+      "project_name": "赞比亚中央省卢森发27兆瓦太阳能光伏项目",
+      "matches_ai": "赞比亚卢森发太阳能光伏项目",
+      "category": "光伏",
+      "capacity_mw": 27,
+      "project_stage": "签约",
+      "location": "中央省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "水电十一局",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "施工内容包括27兆瓦的光伏厂区、33千伏升压至66千伏的变电站以及2条约1公里的66千伏输电线路",
+        "project_stage": "签约方：水电十一局",
+        "entities": "签约方：水电十一局"
+      },
+      "note": "主体为27MW光伏发电，配套变电站和输电线路，category=光伏。capacity_mw=27（光伏装机）。"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "坦桑尼亚姆巴嘎拉道路升级工程",
+      "reason": "道路升级工程，非能源产业范围"
+    },
+    {
+      "name": "喀麦隆极北大区国土规划与私营领域开发项目（道路升级）",
+      "reason": "道路修复工程，非能源产业范围"
+    }
+  ],
+  "article_note": "流水线对科特迪瓦项目的total_investment_usd=48（百万美元），但原文中无任何投资金额信息，应为AI幻觉，故null。赞比亚项目配套有变电站和输电线，但主体是光伏发电，category=光伏。科特迪瓦项目文中明确写'中标方'→中标；赞比亚项目文中写'签约方'→签约。"
+}

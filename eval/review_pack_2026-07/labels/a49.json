@@ -1,0 +1,37 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/89652.html",
+  "status": "valid",
+  "status_reason": "晶澳科技（设备供应商）和协合新能源（项目开发方）均为具名中方企业参与韩国21MW光伏项目",
+  "status_evidence": "晶澳科技与韩国大宝集团签署合作协议，共同助力协合新能源在韩国江原道建设21MW光伏电站",
+  "projects": [
+    {
+      "project_name": "韩国江原道21MW光伏电站项目",
+      "matches_ai": "韩国江原道21MW光伏项目",
+      "category": "光伏",
+      "capacity_mw": 21,
+      "project_stage": "签约",
+      "location": "江原道",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "晶澳科技",
+          "involvement_type": "设备供应商"
+        },
+        {
+          "name": "协合新能源",
+          "involvement_type": "股权投资方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "晶澳科技与韩国大宝集团签署合作协议，共同助力协合新能源在韩国江原道建设21MW光伏电站",
+        "total_investment_usd": null,
+        "project_stage": "晶澳科技与韩国大宝集团签署合作协议，共同助力协合新能源在韩国江原道建设21MW光伏电站。晶澳科技将为项目提供高效光伏组件",
+        "entities": "晶澳科技与韩国大宝集团签署合作协议，共同助力协合新能源在韩国江原道建设21MW光伏电站。晶澳科技将为项目提供高效光伏组件"
+      },
+      "note": "同一物理项目有两家具名中方企业（晶澳科技=设备供应商，协合新能源=项目开发/股权投资方），合为一条录入，entities数组含两者；pipeline拆为两条有误；项目即将启动+签署合作协议=签约阶段"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline将同一项目拆为两条（分别对应两家中企），按指南应合并为一条、entities列表含两家企业。协合新能源是中国企业（协合新能源股份有限公司，A股上市）。"
+}

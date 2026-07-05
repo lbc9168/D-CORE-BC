@@ -1,0 +1,46 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/88359.html",
+  "status": "valid",
+  "status_reason": "文章含锡特拉独立水电厂项目（发电1400-1500MW），有具名中企中国能源建设集团与中国大唐海外（香港）联合体通过资格预审",
+  "status_evidence": "七家全球领先企业/联合体获得独立水电厂项目开发资格",
+  "projects": [
+    {
+      "project_name": "巴林锡特拉独立水电厂项目（1400-1500MW）",
+      "matches_ai": "巴林锡特拉独立水电厂项目",
+      "category": "综合能源",
+      "capacity_mw": 1400,
+      "project_stage": "拟开发",
+      "location": "锡特拉",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国能源建设集团",
+          "involvement_type": "BOT\\BOOT"
+        },
+        {
+          "name": "中国大唐海外（香港）",
+          "involvement_type": "BOT\\BOOT"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "该项目采用\"建设-拥有-运营\"模式，计划通过公私合作打造发电量1400-1500兆瓦、日产饮用水3000万英制加仑的综合性设施",
+        "total_investment_usd": null,
+        "project_stage": "巴林水电局宣布启动锡特拉独立水电厂项目的国际招标",
+        "entities": "由中国能源建设集团与中国大唐海外（香港）组成的联合体"
+      },
+      "note": "capacity_mw取范围下限1400MW（原文1400-1500兆瓦）。项目是IWPP（独立水电联产），发电属能源范围，category取综合能源。资格预审通过但正式招标刚启动，阶段取拟开发。中国大唐海外（香港）属港资中资企业，符合收录条件。"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "巴林锡特拉独立水电厂项目（流水线重复条）",
+      "reason": "流水线对同一项目列了三条（id 920/921/922），应合并为一条；id 920/921 重复，id 922 仅换了大唐海外子公司名，均指同一项目同一联合体"
+    },
+    {
+      "name": "巴林希德独立水厂项目",
+      "reason": "文中希德项目仅提及日产6000万英制加仑产水能力，无发电容量信息，属纯水务项目，非能源范围，不录；且CMEC是资格预审入围（非中标/授标），项目阶段尚在资格预审"
+    }
+  ],
+  "article_note": "文章主体为哈瓦尔海水淡化厂EPC招标（无中企，水务非能源，不收录）。锡特拉项目：中能建+大唐海外联合体已通过资格预审，正式招标已启动，尚未授标，阶段取拟开发。希德项目原文无发电容量描述，按能源定义不录。"
+}

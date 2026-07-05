@@ -1,0 +1,31 @@
+{
+ "idx": 18,
+ "stratum": "tx",
+ "source_link": "https://news.goalfore.cn/topstories/detail/77043.html",
+ "article_id": 5173,
+ "title": "坦桑尼亚220kV Bulyanhulu变电站扩建项目成功送电",
+ "publish_date": "2025-01-03 08:00:00",
+ "content": "近日，坦桑尼亚220kV Bulyanhulu变电站扩建项目顺利完成送电，为该地区电力供应能力的提升和稳定性增强奠定了坚实基础。该项目由西电国际承建，并由坦桑尼亚电力公司（TANESCO）联合管理实施。\nPART.01\n项目成功送电\n该项目的成功送电标志着Bulyanhulu变电站扩建工程的圆满完成，涵盖了新的变电设备安装、升级以及改造等工作。此次扩建将极大缓解该地区日益增长的电力需求，为包括矿业、工业以及居民区在内的各类用户提供更为稳定和高效的电力支持。\nPART.02\n中坦协作：\n技术与人才并进\n该项目的顺利实施得益于中坦两国政府的紧密协作，同时也得益于西电国际项目团队的不懈努力及高度的专业素养。在项目推进过程中，西电国际不仅引入了先进的技术与设备，还大力开展了本地技术人员的培训工作，为坦桑尼亚电力行业的技术发展与人才梯队建设做出了显著贡献。\n中坦合作新典范，共筑发展基石\n该项目显著改善了坦桑尼亚的电力基础设施，并为当地的经济发展、工业化进程以及民生改善提供了更为坚实的支撑。该项目的成功不仅为中坦双方在能源领域的合作树立了新的典范，还进一步巩固和深化了两国在基础设施建设领域的友好合作关系。",
+ "pipeline_rows": [
+  {
+   "id": 2461,
+   "record_type": "具体项目",
+   "project_name": "坦桑尼亚220kV Bulyanhulu变电站扩建项目",
+   "category": "输变电建设",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "投入运营",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国西电集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "西电国际工程有限责任公司",
+   "project_developer": "坦桑尼亚电力公司（TANESCO）",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "西电国际在坦桑尼亚承建了220kV Bulyanhulu变电站扩建项目，该项目已成功送电，为当地电力供应提供支持。"
+  }
+ ]
+}

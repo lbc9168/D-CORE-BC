@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/33672.html",
+  "status": "no_chinese",
+  "status_reason": "哈萨克斯坦绿氢项目（Hyrasia One）由欧洲公司Svevind开发，文中无任何中方企业参与",
+  "status_evidence": "哈萨克斯坦政府已经与欧洲可再生能源集团Svevind签署了一项500亿美元的协议，在曼格斯托地区建设世界上五大绿色氢气生产设施之一",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "哈萨克斯坦曼格斯托地区500亿美元绿色氢气项目",
+      "reason": "开发方为瑞典Svevind集团，文中无任何中方企业参与；绿氢项目本身在能源范围内（有40GW风光发电），但缺具名中方参与，不能录入"
+    }
+  ],
+  "article_note": "项目确为能源范围（40GW风光+制氢），但全文无任何中方参与提及，status应为 no_chinese。流水线 implementing_entity 为空，pipeline_rows 的 project_summary 也自注'目前新闻中未提及中国企业参与'，流水线收录本身即有误。"
+}

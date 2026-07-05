@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/1086.html",
+  "status": "valid",
+  "status_reason": "晶科能源（具名中企）与丹麦能源分销商签署940千瓦光伏组件供货协议，属能源范围",
+  "status_evidence": "晶科能源和丹麦能源分销商签署940千瓦供货协议，仅单张该订单就占据丹麦一年总装机容量的5%",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "丹麦940KW光伏组件供货项目",
+      "reason": "该批组件用于'当地民用屋顶'，无具名单体项目，无可锁定的物理工程（散户屋顶无专名），不满足收录硬条件'可识别的具体单体项目'"
+    }
+  ],
+  "article_note": "940千瓦=0.94MW，但这是批量供货容量，分散到多个民用屋顶，无单体项目名称或具体地点，无法锁定单一物理工程，不录。晶科能源为设备供应商角色，status=valid（能源范围内+具名中企），但projects为空。"
+}

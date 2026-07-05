@@ -1,0 +1,9 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/92194.html",
+  "status": "irrelevant",
+  "status_reason": "文章为隆基光伏组件销售框架协议新闻，属制造商产品出货/商业合作公告，无具体单体海外发电项目；300MW指组件采购量非装机项目",
+  "status_evidence": "根据协议，BM Energy将向隆基采购总计300兆瓦（MW）的HPBC 2.0高效光伏组件",
+  "projects": [],
+  "rejected_ai_projects": [],
+  "article_note": "拿不准点：隆基是中国企业（符合具名中方），且签约涉及300MW组件供应，技术上可视为'设备供应商参与'。但指南要求'可识别的具体单体项目——有专名或国家+地点+容量可锁定的物理工程'，此处300MW为框架协议总量，无明确的具体项目专名和安装地点，故不满足收录硬条件。文中德国Waldmattensee案例已是过去已建项目的引用案例，非本次协议对应项目。流水线无提取（pipeline_rows=[]），判断方向正确。"
+}

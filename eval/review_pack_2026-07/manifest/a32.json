@@ -1,0 +1,31 @@
+{
+ "idx": 32,
+ "stratum": "unit",
+ "source_link": "https://news.goalfore.cn/topstories/detail/68976.html",
+ "article_id": 7490,
+ "title": "阿特斯集团获3.94亿元融资，开发建设意大利光伏电站项目",
+ "publish_date": "2024-07-25 16:51:02",
+ "content": "2024年7月24日，阿特斯阳光电力集团发布新闻，宣布其子公司Recurrent Energy已成功获得欧洲投资银行提供的5000万欧元（约合人民币3.94亿元）贷款授信。该笔资金将用于Recurrent Energy意大利光伏电站项目的开发和建设。\n这笔为期5年的5000万欧元（约合人民币3.94亿元）贷款授信与EIB在可再生能源发展、气候行动以及社会经济一体化方面的新能源贷款政策相契合。此次交易不仅巩固了Recurrent Energy在推动意大利清洁能源转型中的领导地位，也将进一步提高意大利可再生能源项目装机量，并助力欧洲实现减少碳排和增强能源独立性的目标。\nRecurrent Energy首席执行官Ismael Guerrero表示：\n“我们很高兴能与欧洲投资银行深化合作。此次融资是我们朝着成为全球顶尖独立发电商（IPPs）目标迈出的关键一步，也彰显了我们致力于在欧洲乃至全球范围内促进可持续经济发展的坚定承诺。我们期待与EIB建立长期稳定的合作关系，携手共进，实现我们的共同目标。”\n自2017年起，Recurrent\nEnergy便开始在意大利积极拓展业务，并于近期在意大利西西里岛的马沙拉地区成功建设了51兆瓦的Anguillara太阳能光伏项目，为欧洲、中东和非洲（EMEA）地区的其他项目树立了标杆。目前，Recurrent Energy在EMEA地区拥有丰富的项目储备，包括10.3吉瓦的光伏发电项目和32.8吉瓦时的储能项目。",
+ "pipeline_rows": [
+  {
+   "id": 3433,
+   "record_type": "具体项目",
+   "project_name": "意大利光伏电站项目",
+   "category": "光伏",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "拟开发",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "信贷融资",
+   "implementing_entity": "阿特斯集团",
+   "involvement_type": "股权投资方",
+   "subsidiary_name": null,
+   "project_developer": "Recurrent Energy",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "阿特斯集团子公司Recurrent Energy在意大利开发建设光伏电站项目，获得欧洲投资银行5000万欧元贷款。该项目旨在提高意大利可再生能源装机量，助力欧洲实现减排目标。"
+  }
+ ]
+}

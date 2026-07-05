@@ -1,0 +1,55 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/78794.html",
+  "status": "valid",
+  "status_reason": "赣锋锂业（具名中企）在阿根廷盐湖项目周边建设了120MW光伏发电站和储能项目，属于能源范围",
+  "status_evidence": "赣锋仍在项目周边建设了120MW光伏发电站、及搭载赣锋自研自产电池产品的288MWh储能项目",
+  "projects": [
+    {
+      "project_name": "阿根廷萨尔塔省Mariana项目配套120MW光伏发电站",
+      "matches_ai": null,
+      "category": "光伏",
+      "capacity_mw": 120,
+      "project_stage": "投入运营",
+      "location": "萨尔塔省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "赣锋锂业", "involvement_type": "股权投资方"}
+      ],
+      "evidence": {
+        "capacity_mw": "赣锋仍在项目周边建设了120MW光伏发电站、及搭载赣锋自研自产电池产品的288MWh储能项目",
+        "total_investment_usd": null,
+        "project_stage": "不仅让Mariana项目完全使用可再生能源，还可实现24小时不间断的电力供应",
+        "entities": "赣锋仍在项目周边建设了120MW光伏发电站、及搭载赣锋自研自产电池产品的288MWh储能项目——不仅让Mariana项目完全使用可再生能源"
+      },
+      "note": "该光伏电站是Mariana盐湖项目的配套设施，文中称已实现可再生能源供电，推断已投入运营；Mariana盐湖主体项目本身是锂矿开采，不录"
+    },
+    {
+      "project_name": "阿根廷萨尔塔省Mariana项目配套288MWh储能项目",
+      "matches_ai": null,
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "投入运营",
+      "location": "萨尔塔省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "赣锋锂业", "involvement_type": "股权投资方"}
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "不仅让Mariana项目完全使用可再生能源，还可实现24小时不间断的电力供应",
+        "entities": "搭载赣锋自研自产电池产品的288MWh储能项目"
+      },
+      "note": "产能为288MWh（能量容量），非功率MW，capacity_mw=null；储能功率MW未提及；288MWh为储能电量"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "阿根廷Mariana盐湖锂项目",
+      "reason": "盐湖提锂属于纯矿产开采，不在能源范围内；配套光伏/储能电站已单独成条收录"
+    }
+  ],
+  "article_note": "文章主体是盐湖提锂项目（irrelevant），但明确提到配套120MW光伏+288MWh储能，赣锋锂业具名且是建设主体，按指南收录配套电站。project_stage判断：文中描述Mariana项目已正式投产，配套设施应同步运营，判为投入运营。"
+}

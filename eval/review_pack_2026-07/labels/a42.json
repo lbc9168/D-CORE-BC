@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/84429.html",
+  "status": "valid",
+  "status_reason": "东方电气作为主要供货商参与阿塞拜疆明盖恰乌尔联合循环发电项目，具名中方企业明确",
+  "status_evidence": "作为项目主要供货商，东方国际、东方菱日有关代表受邀参加仪式",
+  "projects": [
+    {
+      "project_name": "阿塞拜疆明盖恰乌尔联合循环扩建项目",
+      "matches_ai": "阿塞拜疆明盖恰乌尔联合循环项目",
+      "category": "火电",
+      "capacity_mw": 1880,
+      "project_stage": "投入运营",
+      "location": "明盖恰乌尔",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "东方电气",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "该项目新增装机1880兆瓦，投运后电厂年发电量将占阿塞拜疆全国总发电量40%以上",
+        "total_investment_usd": null,
+        "project_stage": "阿塞拜疆明盖恰乌尔联合循环项目举行投运仪式",
+        "entities": "东方电气为明盖恰乌尔联合循环项目提供四台F级余热锅炉及其附属设备"
+      },
+      "note": "联合循环电厂属火电；东方电气提供余热锅炉=设备供应商；location从项目名称'明盖恰乌尔'得出；文中还提及戈布斯坦光伏电站，但无足够信息（无容量、无阶段）单独录入"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "文末提及'戈布斯坦光伏电站'为东方电气此前项目，但本文无该项目的容量、阶段、投资等信息，不单独录入。pipeline对location填null，实际项目名称已含地名'明盖恰乌尔'，可填。"
+}

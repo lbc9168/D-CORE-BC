@@ -1,0 +1,58 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/35847.html",
+  "status": "valid",
+  "status_reason": "能源范围内，具名中方企业平高集团参与多个海外工程项目",
+  "status_evidence": "平高集团成功签订两个海外工程总承包项目——印尼南苏电气一体化工程总包项目及保加利亚舒门3×5MW光伏项目，中标意大利国家电力公司高压开关设备供货项目",
+  "projects": [
+    {
+      "project_name": "印尼南苏电气一体化工程总包项目",
+      "matches_ai": "印尼南苏电气一体化工程总包项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": "南苏",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "平高集团",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "project_stage": "平高集团成功签订两个海外工程总承包项目——印尼南苏电气一体化工程总包项目",
+        "entities": "平高集团成功签订两个海外工程总承包项目——印尼南苏电气一体化工程总包项目及保加利亚舒门3×5MW光伏项目"
+      },
+      "note": "流水线将此项目excluded并注'非能源产业'有误；'电气一体化'指电力工程总承包，属输变电建设范围，应收录。无发电装机容量信息。"
+    },
+    {
+      "project_name": "保加利亚舒门3×5MW光伏项目",
+      "matches_ai": "保加利亚舒门15MW光伏项目",
+      "category": "光伏",
+      "capacity_mw": 15,
+      "project_stage": "签约",
+      "location": "舒门",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "平高集团",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "保加利亚舒门3×5MW光伏项目总容量为15MW",
+        "project_stage": "平高集团成功签订两个海外工程总承包项目——印尼南苏电气一体化工程总包项目及保加利亚舒门3×5MW光伏项目",
+        "entities": "平高集团成功签订两个海外工程总承包项目——印尼南苏电气一体化工程总包项目及保加利亚舒门3×5MW光伏项目"
+      },
+      "note": "3×5MW=15MW，换算直接；project_stage取'签约'（已签约总承包）"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "意大利国家电力公司高压开关设备供货项目",
+      "reason": "该项目是设备供货订单，用于意大利、巴西、智利和哥伦比亚4个国家的电网建设，无法锁定单一可识别的物理工程单体，不满足收录硬条件第1条（无具名单体项目）"
+    }
+  ],
+  "article_note": "拿不准：印尼南苏电气一体化工程是否属输变电建设？文中强调'采用中国标准和中国制造'，为电力工程总包，归入输变电建设。意大利高压开关设备为多国电网供货，不是单体项目，不录。"
+}

@@ -1,0 +1,18 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/47528.html",
+  "status": "no_chinese",
+  "status_reason": "文章报道阿富汗10MW太阳能开工及土阿500kV输电线路，均在能源范围内，但全文无任何具名中方企业参与",
+  "status_evidence": "经济副总理阿卜杜勒·加尼·巴拉达·阿洪德（Abdul Ghani Baradar Akhund）参加了喀布尔司罗比县Naghlu大坝附近一个10兆瓦的太阳能发电项目开工仪式",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "阿富汗司罗比县10兆瓦太阳能发电项目",
+      "reason": "文中无任何具名中方企业参与，开发方为阿富汗伊斯兰酋长国自身，pipeline_rows 的 implementing_entity 为空"
+    },
+    {
+      "name": "土库曼斯坦-阿富汗500kV输电线路项目",
+      "reason": "文中明确表示'阿富汗投资公司'中标，无任何中方企业参与；且文中描述细节尚待考证（'如何交换矿山等细节，尚需要考证'）"
+    }
+  ],
+  "article_note": "文章后半段大量内容为阿富汗内政人事任命和农业部长讲话，与能源项目无关，系新闻聚合/杂项报道。两个能源项目均无中方参与。"
+}

@@ -1,0 +1,26 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/29532.html",
+  "status": "no_chinese",
+  "status_reason": "文章涉及四家西方/中东石油巨头的氢能投资，均为能源范围内项目，但全文无任何中方企业参与",
+  "status_evidence": "沙特阿美制定了到 2035 年 12GW 太阳能和风能装机容量的目标，并决定到 2030 年生产 1100 万吨蓝氨",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "沙特阿美蓝氨/蓝氢项目",
+      "reason": "蓝氨/蓝氢属指南明确排除类别（无绿电来源的制氢）；且为沙特阿美自身规划，无中方参与"
+    },
+    {
+      "name": "雪佛龙氢能业务投资",
+      "reason": "无具体单体项目，为企业级投资计划；无中方参与；已被流水线自行标记 excluded"
+    },
+    {
+      "name": "澳大利亚亚洲可再生能源中心（AREH）项目",
+      "reason": "bp收购项目，开发方均为西方公司（bp、洲际能源、CWP Global、麦格理），无任何中方参与"
+    },
+    {
+      "name": "印度阿达尼-道达尔绿氢生态系统项目",
+      "reason": "道达尔+阿达尼合作项目，无中方参与；制氢导向项目（电解槽），绿氢制造不属于发电项目"
+    }
+  ],
+  "article_note": "全文四大石油巨头均为非中方企业。AREH项目（26GW风光）和印度项目（4GW风光）有发电组件，属能源范围，但无中方参与，故 no_chinese 而非 irrelevant。沙特阿美蓝氨明确属 irrelevant 类，但单篇文章按主体分类，整体判 no_chinese。"
+}

@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/25590.html",
+  "status": "valid",
+  "status_reason": "能源范围内（输变电工程）且有具名中企西电国际中标EPC",
+  "status_evidence": "西电国际中标马来西亚砂拉越能源公司公开招标的Baleh—Kapit 500kV",
+  "projects": [
+    {
+      "project_name": "马来西亚砂拉越州Baleh—Kapit 500kV线路EPC工程",
+      "matches_ai": "马来西亚砂拉越州Baleh—Kapit 500kV线路EPC工程",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "中标",
+      "location": "砂拉越州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "西电国际",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "西电国际中标马来西亚砂拉越能源公司公开招标的Baleh—Kapit 500kV",
+        "entities": "西电国际中标马来西亚砂拉越能源公司公开招标的Baleh—Kapit 500kV"
+      },
+      "note": "输变电工程输送容量1300MW仅为配套水电站出力，不填capacity_mw。西电国际为中国电力工程顾问集团/中国能建旗下子公司，原文名称\"西电国际\"，按指南取原文名称。"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线列出两条，母公司写法不同（中国能源建设集团 vs 中国电力工程顾问集团），但均指同一个项目同一个承包主体，应合并为一条。西电国际全称见流水线中\"中国能建国际建设集团\"，原文只出现\"西电国际\"，按原文填写。"
+}

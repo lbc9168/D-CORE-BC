@@ -1,0 +1,35 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/77923.html",
+  "status": "valid",
+  "status_reason": "东方电气（具名中企）承接伊拉克祖拜尔375MW燃机联合循环电站EPC，属发电项目（火电）",
+  "status_evidence": "东方国际伊拉克祖拜尔燃机电站单循环改联合循环总承包项目合同正式生效。该项目是伊拉克重点项目",
+  "projects": [
+    {
+      "project_name": "伊拉克巴士拉省祖拜尔375MW燃机单改联合循环电站",
+      "matches_ai": "伊拉克祖拜尔燃机单改联总承包项目",
+      "category": "火电",
+      "capacity_mw": 375,
+      "project_stage": "签约",
+      "location": "巴士拉省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "东方电气集团国际合作有限公司", "involvement_type": "EPC总承包"}
+      ],
+      "evidence": {
+        "capacity_mw": "改造后将成为一座拥有375兆瓦发电能力的大型电厂",
+        "total_investment_usd": null,
+        "project_stage": "东方国际伊拉克祖拜尔燃机电站单循环改联合循环总承包项目合同正式生效",
+        "entities": "东方国际伊拉克祖拜尔燃机电站单循环改联合循环总承包项目合同正式生效"
+      },
+      "note": "文中提及'东方国际'承接，流水线subsidiary_name='东方电气集团国际合作有限公司'，与'东方国际'对应；总投资未提及；合同生效即签约阶段"
+    }
+  ],
+  "rejected_ai_projects": [
+    {
+      "name": "阿尔及利亚油气田材料订单",
+      "reason": "油气田材料属于油气行业，不在能源范围内"
+    }
+  ],
+  "article_note": "文章包含两个事件：①阿尔及利亚油气田订单（irrelevant）②伊拉克火电EPC（valid）。文章status=valid。entity用'东方国际'，即东方电气集团国际合作有限公司，involvement_type=EPC总承包。"
+}

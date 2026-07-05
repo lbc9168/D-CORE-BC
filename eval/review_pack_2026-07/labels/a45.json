@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/26994.html",
+  "status": "valid",
+  "status_reason": "中国机械进出口（集团）有限公司作为合资方业主参与孟加拉国帕亚拉电站建设，具名中方企业明确",
+  "status_evidence": "业主方为由中国通用技术集团所属中国机械进出口（集团）有限公司和孟加拉国西北电力公司合资成立的孟中电力公司，双方各占50%的股份",
+  "projects": [
+    {
+      "project_name": "孟加拉国帕亚拉2×660兆瓦超超临界燃煤电站",
+      "matches_ai": "孟加拉国帕亚拉1320MW燃煤电站",
+      "category": "火电",
+      "capacity_mw": 1320,
+      "project_stage": "投入运营",
+      "location": "博杜阿卡利县",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国机械进出口（集团）有限公司",
+          "involvement_type": "股权投资方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "孟加拉国最大电站项目帕亚拉2×660兆瓦超超临界燃煤电站落成典礼",
+        "total_investment_usd": null,
+        "project_stage": "随着该电站正式投运，孟加拉国进入了电力全覆盖的新时代",
+        "entities": "业主方为由中国通用技术集团所属中国机械进出口（集团）有限公司和孟加拉国西北电力公司合资成立的孟中电力公司，双方各占50%的股份"
+      },
+      "note": "2×660MW=1320MW；中机进出口通过合资公司（孟中电力公司）持股50%=股权投资方；文中未披露总投资额；博杜阿卡利县是项目所在地（南部博杜阿卡利县）；involvement_type选股权投资方（合资业主），不是EPC"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline将involvement_type标为'投融资+EPC'，但文中仅说中机进出口是业主方合资股东，未提EPC承包角色，应为'股权投资方'。financing_model文中未提融资信息，填Unknown。"
+}

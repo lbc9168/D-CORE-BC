@@ -1,0 +1,90 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/78677.html",
+  "status": "valid",
+  "status_reason": "正泰新能（具名中企）为巴基斯坦旁遮普地区四个具名屋顶光伏项目提供组件，属发电项目",
+  "status_evidence": "正泰新能助力巴基斯坦旁遮普地区四个屋顶光伏项目顺利并网，通过发展屋顶光伏助力巴基斯坦实现碳减排",
+  "projects": [
+    {
+      "project_name": "巴基斯坦木尔坦市拉伊克·拉菲克医院300kW屋顶光伏",
+      "matches_ai": "巴基斯坦旁遮普地区屋顶光伏项目",
+      "category": "光伏",
+      "capacity_mw": 0.3,
+      "project_stage": "投入运营",
+      "location": "旁遮普省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "正泰新能", "involvement_type": "设备供应商"}
+      ],
+      "evidence": {
+        "capacity_mw": "拉伊克·拉菲克医院300kW项目位于木尔坦市沙拉拉希德大道雅库布中心",
+        "total_investment_usd": null,
+        "project_stage": "正泰新能助力巴基斯坦旁遮普地区四个屋顶光伏项目顺利并网",
+        "entities": "四个项目均由正泰新能提供ASTRO N5系列产品"
+      },
+      "note": "300kW=0.3MW，换算：千瓦÷1000"
+    },
+    {
+      "project_name": "巴基斯坦木尔坦市雅库布工业集团625kW屋顶光伏",
+      "matches_ai": "巴基斯坦旁遮普地区屋顶光伏项目",
+      "category": "光伏",
+      "capacity_mw": 0.625,
+      "project_stage": "投入运营",
+      "location": "旁遮普省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "正泰新能", "involvement_type": "设备供应商"}
+      ],
+      "evidence": {
+        "capacity_mw": "雅库布工业集团625kW项目位于木尔坦市雅库布坎塔附近",
+        "total_investment_usd": null,
+        "project_stage": "正泰新能助力巴基斯坦旁遮普地区四个屋顶光伏项目顺利并网",
+        "entities": "四个项目均由正泰新能提供ASTRO N5系列产品"
+      },
+      "note": "625kW=0.625MW"
+    },
+    {
+      "project_name": "巴基斯坦奥卡拉农场30kW屋顶光伏",
+      "matches_ai": "巴基斯坦旁遮普地区屋顶光伏项目",
+      "category": "光伏",
+      "capacity_mw": 0.03,
+      "project_stage": "投入运营",
+      "location": "旁遮普省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "正泰新能", "involvement_type": "设备供应商"}
+      ],
+      "evidence": {
+        "capacity_mw": "奥卡拉农场30kW项目位于奥卡拉",
+        "total_investment_usd": null,
+        "project_stage": "正泰新能助力巴基斯坦旁遮普地区四个屋顶光伏项目顺利并网",
+        "entities": "四个项目均由正泰新能提供ASTRO N5系列产品"
+      },
+      "note": "30kW=0.03MW"
+    },
+    {
+      "project_name": "巴基斯坦卡莫基帕克大米厂400kW屋顶光伏",
+      "matches_ai": "巴基斯坦旁遮普地区屋顶光伏项目",
+      "category": "光伏",
+      "capacity_mw": 0.4,
+      "project_stage": "投入运营",
+      "location": "旁遮普省",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "正泰新能", "involvement_type": "设备供应商"}
+      ],
+      "evidence": {
+        "capacity_mw": "位于卡莫基GT路的巴基斯坦帕克大米厂400kW项目",
+        "total_investment_usd": null,
+        "project_stage": "正泰新能助力巴基斯坦旁遮普地区四个屋顶光伏项目顺利并网",
+        "entities": "四个项目均由正泰新能提供ASTRO N5系列产品"
+      },
+      "note": "400kW=0.4MW；项目位于卡莫基GT路"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线将四个项目合为一条，容量为空，按指南各有具名（医院/工厂/农场）和具体容量，应分四条。正泰新能为设备供应商，involvement_type=设备供应商。换算：kW÷1000=MW。四个项目均已并网，project_stage=投入运营。"
+}

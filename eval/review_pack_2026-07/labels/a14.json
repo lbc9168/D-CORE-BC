@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/68773.html",
+  "status": "irrelevant",
+  "status_reason": "智能电能表（电表设备订单）不属于发电项目、输变电工程或新能源制造业工厂，不在能源范围内",
+  "status_evidence": "ELGAMA公司与合作伙伴将为本次项目提供单相智能电能表、三相智能电能表，合同金额为359,754,613.37兹罗提",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "波兰PGE公司智能电能表项目",
+      "reason": "智能电表属电力计量设备，非发电项目、输变电工程或新能源制造业，不在能源范围内，为irrelevant文章，流水线category\"新能源制造业\"有误（产出为块/台电表，非GW/年产能）"
+    }
+  ],
+  "article_note": "智能电表（AMI/smart meter）是电力计量仪表，不属于指南定义的三类能源范围。流水线将其归为\"新能源制造业\"不当。"
+}

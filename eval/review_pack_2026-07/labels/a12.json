@@ -1,0 +1,18 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/29989.html",
+  "status": "valid",
+  "status_reason": "能源范围内（光伏）且有具名中企中信博作为设备供应商签约",
+  "status_evidence": "江苏中信博新能源科技股份有限公司（公司简称“中信博”，英文名：Arctech，股票代码：688408）与巴西Alexandria公司签署合作协议，向Alexandria公司提供装机容量300MW的天际跟踪支架",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "巴西Alexandria公司300MW光伏项目",
+      "reason": "无可识别的具体单体项目：文中未给出具体项目名称或地点，Alexandria在巴西16个州有100多座发电站，300MW系批量采购订单而非对应具体单体物理工程"
+    },
+    {
+      "name": "巴西Mori Energia公司168MW光伏项目",
+      "reason": "无可识别的具体单体项目：168MW分布于56座太阳能发电厂，文中无具体项目名称或地点，属分散分布式组合采购，不满足收录硬条件"
+    }
+  ],
+  "article_note": "两笔订单均为设备供应（跟踪支架），中企有具名（中信博）；但两个接受方均无具体项目专名或可锁定的单体物理工程信息，Alexandria是多州100+发电站组合，Mori是56座分布式电站，均拒收。"
+}

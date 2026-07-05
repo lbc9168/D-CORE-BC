@@ -1,0 +1,31 @@
+{
+ "idx": 50,
+ "stratum": "ordinary",
+ "source_link": "https://news.goalfore.cn/topstories/detail/24889.html",
+ "article_id": 17349,
+ "title": "东方日升与越南电力集团签署百兆瓦级EPC项目",
+ "publish_date": "2021-12-25 13:20:03",
+ "content": "近日，\n东方日升旗下子公司东方日升新能源（香港）有限公司和TASCO JOINT STOCK COMPANY（越南塔斯克公司）一起与VIETNAM ELECTRICITY（越南电力集团）签订了越南太阳能电站EPC总承包协议，包含100MW和50MW项目。\n这表明东方日升拥有深厚的国际化运营经验，企业一体化实力保证供应链稳定，为项目推进保驾护航。\n越南电力集团是越南国有公司，在当地电力发电、电力传输、配电和电力销售等领域实力领先，是支撑越南全国电网统一管辖的中坚力量，也是推动当地太阳能项目建设的核心公司。根据越南国家可再生能源发展战略，到2030年，越南政府计划将太阳能发电装机容量扩大至12GW，巨大的市场潜力仍待进一步开发。东方日升与越南电力集团通过此次EPC总承包项目达成战略伙伴关系，未来双方将进一步拓展合作纵深，以专业服务、国际化运营水准助力越南光伏市场高质量发展。\n东方日升香港公司总经理袁建平表示：“我们非常荣幸获得越南电力集团的充分信任，为关系到越南国家供电网络升级的历史性项目提供EPC整体服务。东方日升将凭借丰富的全球运营经验与专业知识、先进技术，助力该项目以最高的质量和安全水平完成建设，为业主带来最现代化的新能源组件工艺，实现客户生态收益与经济收益同步增长。未来东方日升也将加强与合作客户及越南省级客户的关联，随时准备协助越南各地区实现能源转型和可持续发展，携手迈入全球‘零碳时代’，共赴新能源绿色未来。”",
+ "pipeline_rows": [
+  {
+   "id": 7700,
+   "record_type": "具体项目",
+   "project_name": "越南150MW光伏项目",
+   "category": "光伏",
+   "capacity_mw": "150",
+   "capacity_mw_raw": null,
+   "project_stage": "签约",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "东方日升",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "东方日升新能源（香港）有限公司",
+   "project_developer": "VIETNAM ELECTRICITY",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "中国企业东方日升新能源（香港）有限公司与越南电力集团签订了越南太阳能电站EPC总承包协议，包含100MW和50MW两个项目，总计150MW。该项目处于签约阶段，旨在助力越南光伏市场发展。"
+  }
+ ]
+}

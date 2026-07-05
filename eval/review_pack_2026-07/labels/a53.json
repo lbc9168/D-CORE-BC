@@ -1,0 +1,9 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/36731.html",
+  "status": "no_chinese",
+  "status_reason": "文章报道德国PNE集团在越南平定省开发2000MW海上风电场，属能源范围，但全文无任何中方企业参与",
+  "status_evidence": "PNE集团（德意志联邦共和国）海上风电场项目建议区域",
+  "projects": [],
+  "rejected_ai_projects": [],
+  "article_note": "流水线无提取（pipeline_rows=[]），判断正确。项目开发方为德国PNE集团，无中方参与。项目本身是海上风电（属能源范围），但因无中方参与故 no_chinese 非 irrelevant。"
+}

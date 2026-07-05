@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/80820.html",
+  "status": "irrelevant",
+  "status_reason": "几内亚项目是铝土矿开采+氧化铝工厂（冶金/化工），不属于能源范围；文中国内配套光伏项目（青铜峡/盐池-宁东）均在中国境内，不录",
+  "status_evidence": "年产120万吨氧化铝工厂及其配套附属工程",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "几内亚氧化铝项目",
+      "reason": "铝土矿开采+氧化铝冶炼属于冶金/化工，不在能源范围内（非发电、非新能源制造业、非输变电）"
+    }
+  ],
+  "article_note": "文中提到国内青铜峡44万千瓦光伏、盐池-宁东45万千瓦光伏均为中国境内项目，不属于海外项目，不录。几内亚项目仅涉及矿产+冶炼。"
+}

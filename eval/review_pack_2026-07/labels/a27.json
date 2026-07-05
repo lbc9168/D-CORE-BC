@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/95702.html",
+  "status": "irrelevant",
+  "status_reason": "理士国际极板工厂生产铅酸蓄电池极板，属传统蓄电池制造（化工/冶金），不在新能源制造业范围（非光伏组件/锂电池/硅料/新能源装备）",
+  "status_evidence": "极板作为蓄电池核心部件",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "马来西亚吉隆坡理士国际极板工厂项目",
+      "reason": "极板为铅酸蓄电池部件，属传统蓄电池制造业，不属于新能源制造业（产出非GW/GWh/万吨新能源产品）"
+    }
+  ],
+  "article_note": "理士国际定位为'电源解决方案供应商'，但文中明确是'蓄电池'核心部件'极板'，铅酸蓄电池不在新能源制造业范畴。若理士国际有锂电产品线但本工厂是极板工厂，仍按极板（铅酸）判断。"
+}

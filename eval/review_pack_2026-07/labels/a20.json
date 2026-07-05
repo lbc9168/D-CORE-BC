@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/1502.html",
+  "status": "valid",
+  "status_reason": "输变电项目，具名中企山东电建签约缅甸首条500kV输电线路承包合同",
+  "status_evidence": "山东电建签署缅甸第一条500kV输电线路建设项目的承包合同",
+  "projects": [
+    {
+      "project_name": "缅甸密铁拉至东吁500kV输电线路项目",
+      "matches_ai": "缅甸密铁拉至东吁500kV输电线路项目",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "山东电建",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "山东电建签署缅甸第一条500kV输电线路建设项目的承包合同",
+        "entities": "山东电建签署缅甸第一条500kV输电线路建设项目的承包合同"
+      },
+      "note": "电压等级500kV双回路；线路全长234km；起点密铁拉市，终点东吁市"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "山东电建全称为山东电力建设第三工程有限公司/SEPCO，原文仅写山东电建，取原文。文中无投资额、无位置省份信息，location=null。"
+}

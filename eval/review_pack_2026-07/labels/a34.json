@@ -1,0 +1,14 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/90923.html",
+  "status": "no_chinese",
+  "status_reason": "能源范围内（核电项目），但建设联合体为西屋电气与柏克德集团（美国公司），文中无任何中方企业参与",
+  "status_evidence": "此项批准将使波兰能够与西屋电气和柏克德集团组成的建设联合体签署协议",
+  "projects": [],
+  "rejected_ai_projects": [
+    {
+      "name": "波兰首座核电站",
+      "reason": "无具名中方企业参与；建设方为西屋电气与柏克德集团（均为美国公司），文中未提及任何中资实体"
+    }
+  ],
+  "article_note": "流水线将implementing_entity留空（entity为空字符串），说明AI也未识别到中方企业，但仍将该项目列为具体项目，属于过度收录。投资额165亿美元是国家援助金额（公共援助），项目总资本支出约420亿欧元，两者均不是'总投资'口径。"
+}

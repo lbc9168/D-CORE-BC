@@ -1,0 +1,51 @@
+{
+ "idx": 12,
+ "stratum": "tender",
+ "source_link": "https://news.goalfore.cn/topstories/detail/29989.html",
+ "article_id": 15854,
+ "title": "中信博接连斩获巴西两大订单，共计468MW",
+ "publish_date": "2022-07-06 10:48:18",
+ "content": "日前，江苏中信博新能源科技股份有限公司（公司简称“中信博”，英文名：Arctech，股票代码：688408）与巴西Alexandria公司签署合作协议，向Alexandria公司提供装机容量300MW的天际跟踪支架。\n专注于光伏电站开发的Alexandria公司，在巴西16个州拥有100多座发电站，仅在2021年营收就达\n3.5亿\n雷亚尔（约合人民币\n4.47亿元\n）。此次合作是中信博与Alexandria公司再度携手，此前，中信博已经向Alexandria的其他项目供应了100MW以上的太阳能跟踪支架产品。\nAlexandria首席执行官Alexandre Brandão表示：“Alexandria相信，我们与中信博在多个业务层面的紧密合作，将为两家公司带来广泛的利益，而且还能确保我们在巴西处于领先地位。”\n中信博国际营销负责人刘敬尧与Alexandria首席执行官Alexandre Brandão签约\n与Alexandria签约，是不到半年时间内中信博在巴西市场斩获的第二个大单。今年早些时候，中信博与巴西Comerc Energia公司旗下的分布式电站公司Mori Energia签署了一份168MW的天际跟踪支架供应协议。项目建成后，将通过共享发电模式，将56座太阳能发电厂生产的电能输送给承购商。\nMori Energia公司是巴西市场分布式发电领域的主力军，是巴西最大的分布式发电平台之一。Mori Energia公司首席执行官Matheus Nogueira表示：“中信博可靠且富有竞争力的天际解决方案是满足我们需求的最佳选项，我们很高兴能够与中信博开展合作。”\n中信博国际营销负责人刘敬尧与Mori Energia首席执行官Matheus Nogueira签约\n中信博国际营销负责人刘敬尧表示：“巴西市场在全球太阳能市场中，是一颗冉冉升起的新星，其分布式发电（DG）项目和集中式发电（CG）招标正在蓬勃发展。感谢所有巴西客户对中信博的信任。通过签约此类新项目，中信博将加快在巴西实现出货量达1GW的里程碑。我们将继续在该地区投资，进一步满足当地对大型分布式发电项目的要求。\n光伏发电是巴西最具竞争力的可再生能源，凭借广阔的市场空间，巴西已经成为国际光伏市场的焦点。伍德麦肯兹《2022年全球太阳能光伏跟踪支架市场报告》显示，2021年，巴西市场跟踪支架出货量比2020年翻了一番，占拉美市场份额的53%。得益于巴西市场的爆发式增长，拉美市场以占市场19%的份额在2021年成为全球第二大光伏支架市场。\n近年来，中信博持续深耕拉美市场，如今已成为拉美地区新能源领域的重要参与者。伍德麦肯兹《2022年全球太阳能光伏跟踪支架市场报告》显示，2021年，中信博一跃成为拉美地区第五大太阳能跟踪支架解决方案提供商。而拉美市场也是中信博增长最快的市场之一，得益于此，中信博以全球跟踪支架历史出货量累计达11637MW，排名继续保持全球前五。\n未来，中信博仍将致力于提供可靠的定制化太阳能支架解决方案以及增值服务，以帮助全球客户最大限度地提高财务收益、降低不必要的风险。",
+ "pipeline_rows": [
+  {
+   "id": 6695,
+   "record_type": "设备订单",
+   "project_name": "巴西Alexandria公司300MW光伏项目",
+   "category": "光伏",
+   "capacity_mw": "300",
+   "capacity_mw_raw": null,
+   "project_stage": "签约",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "江苏中信博新能源科技股份有限公司",
+   "involvement_type": "设备供应商",
+   "subsidiary_name": null,
+   "project_developer": "Alexandria",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "江苏中信博新能源科技股份有限公司与巴西Alexandria公司签署协议，向其提供300MW的天际跟踪支架。该项目是中信博在巴西市场的一个重要订单，旨在支持Alexandria公司在巴西的光伏电站开发。"
+  },
+  {
+   "id": 6696,
+   "record_type": "设备订单",
+   "project_name": "巴西Mori Energia公司168MW光伏项目",
+   "category": "光伏",
+   "capacity_mw": "168",
+   "capacity_mw_raw": null,
+   "project_stage": "签约",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "江苏中信博新能源科技股份有限公司",
+   "involvement_type": "设备供应商",
+   "subsidiary_name": null,
+   "project_developer": "Mori Energia",
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "江苏中信博新能源科技股份有限公司与巴西Mori Energia公司签署协议，供应168MW的天际跟踪支架。该项目将支持Mori Energia公司在巴西的分布式发电业务，涉及56座太阳能发电厂。"
+  }
+ ]
+}

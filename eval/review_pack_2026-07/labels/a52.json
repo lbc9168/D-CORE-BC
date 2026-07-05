@@ -1,0 +1,9 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/18337.html",
+  "status": "irrelevant",
+  "status_reason": "文章报道哈萨克斯坦5座石化工厂规划（聚丙烯、甲醇、聚酯合成纤维等），属化工化肥冶金类，非能源范围",
+  "status_evidence": "这5座工厂包括：\n阿特劳州聚丙烯生产厂、奇姆肯特市聚丙烯和汽油添加剂生产厂、阿特劳州工业气体生产厂、西哈州甲醇生产厂和阿特劳州聚酯合成纤维生产厂",
+  "projects": [],
+  "rejected_ai_projects": [],
+  "article_note": "流水线无提取（pipeline_rows=[]），判断正确。石化工厂（聚丙烯/甲醇/合成纤维）属化工冶金类，明确排除。"
+}

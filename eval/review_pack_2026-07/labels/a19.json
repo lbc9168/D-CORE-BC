@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/66212.html",
+  "status": "valid",
+  "status_reason": "配网输变电项目，具名中企湖北工程公司签约肯尼亚KPLC最后一英里配网项目多个标段",
+  "status_evidence": "中国电建集团湖北工程有限公司（以下简称湖北工程公司）党委副书记、总经理鄢来辉出席活动，与KPLC签订最后一英里配网项目Lot3、7、9、15标段合同",
+  "projects": [
+    {
+      "project_name": "肯尼亚KPLC最后一英里配网项目Lot3、7、9、15标段",
+      "matches_ai": "肯尼亚KPLC最后一英里配网项目Lot3、7、9、15标段",
+      "category": "输变电建设",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国电建集团湖北工程有限公司",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "与KPLC签订最后一英里配网项目Lot3、7、9、15标段合同",
+        "entities": "中国电建集团湖北工程有限公司（以下简称湖北工程公司）党委副书记、总经理鄢来辉出席活动，与KPLC签订最后一英里配网项目Lot3、7、9、15标段合同"
+      },
+      "note": "配电网延伸改造工程，覆盖肯尼亚11个郡；世行资金项目，但文章未明说融资模式，填Unknown"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线location填内罗毕（签约仪式地点），但项目范围覆盖11个郡，非仅限内罗毕，location取null更准确。"
+}

@@ -1,0 +1,241 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/93373.html",
+  "status": "valid",
+  "status_reason": "能源范围内（储能项目），具名中方企业海博思创参与多国储能订单",
+  "status_evidence": "海博思创凭借领先的系统集成能力与丰富的项目交付经验，在欧洲储能市场取得一系列重要突破",
+  "projects": [
+    {
+      "project_name": "德国韦尔特海姆40MWh电网侧储能项目",
+      "matches_ai": "德国韦尔特海姆40MWh电网侧储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "签约韦尔特海姆40MWh电网侧储能项目，展现了双方深化长期合作的坚定意愿",
+        "entities": "公司与该客户再度携手，签约韦尔特海姆40MWh电网侧储能项目"
+      },
+      "note": "容量仅有40MWh（能量），无功率（MW）数据，capacity_mw=null"
+    },
+    {
+      "project_name": "德国戈尔斯多夫二期40MWh储能项目",
+      "matches_ai": "德国戈尔斯多夫二期40MWh储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "公司成功获得戈尔斯多夫二期40MWh储能项目订单，不仅提供全套核心设备，同时配套长达15年的全生命周期运维服务",
+        "entities": "公司成功获得戈尔斯多夫二期40MWh储能项目订单，不仅提供全套核心设备，同时配套长达15年的全生命周期运维服务"
+      },
+      "note": "容量仅有40MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "德国LEAG1.6GWh大型储能项目",
+      "matches_ai": "德国LEAG 1.6GWh大型储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "海博思创与德国LEAG清洁能源有限公司签署了容量规模高达1.6GWh的大型储能项目订单",
+        "entities": "海博思创与德国LEAG清洁能源有限公司签署了容量规模高达1.6GWh的大型储能项目订单"
+      },
+      "note": "容量为1.6GWh（能量），无MW功率数据，capacity_mw=null"
+    },
+    {
+      "project_name": "立陶宛60MWh储能项目",
+      "matches_ai": "立陶宛60MWh储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "公司近日再度赢得立陶宛60MWh储能项目订单，将采用HyperBlock III液冷储能系统",
+        "entities": "公司近日再度赢得立陶宛60MWh储能项目订单，将采用HyperBlock III液冷储能系统"
+      },
+      "note": "容量仅有60MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "拉脱维亚国家电网200MWh储能项目",
+      "matches_ai": "拉脱维亚国家电网200MWh储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "公司与拉脱维亚国家电网正式签订200MWh储能项目订单",
+        "entities": "公司与拉脱维亚国家电网正式签订200MWh储能项目订单"
+      },
+      "note": "容量仅有200MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "保加利亚100MWh储能项目（一）",
+      "matches_ai": null,
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "公司在保加利亚成功签约两个100MWh储能项目，将提供HyperBlock III液冷储能系统及中压集成电站等核心设备",
+        "entities": "公司在保加利亚成功签约两个100MWh储能项目，将提供HyperBlock III液冷储能系统及中压集成电站等核心设备"
+      },
+      "note": "文中明确说'两个100MWh储能项目'，拆为两条独立物理项目；流水线合并为一条（capacity=200）有误。容量仅有100MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "保加利亚100MWh储能项目（二）",
+      "matches_ai": "保加利亚100MWh储能项目（共2个）",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "公司在保加利亚成功签约两个100MWh储能项目，将提供HyperBlock III液冷储能系统及中压集成电站等核心设备",
+        "entities": "公司在保加利亚成功签约两个100MWh储能项目，将提供HyperBlock III液冷储能系统及中压集成电站等核心设备"
+      },
+      "note": "第二个保加利亚100MWh项目，容量仅有MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "匈牙利塔波尔曹一期140MWh储能项目",
+      "matches_ai": null,
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "匈牙利市场实现破局，塔波尔曹项目一期140MWh储能项目正式签约",
+        "entities": "匈牙利市场实现破局，塔波尔曹项目一期140MWh储能项目正式签约"
+      },
+      "note": "流水线漏录此项目；容量仅有140MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "克罗地亚12.5MWh储能项目",
+      "matches_ai": null,
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "公司在克罗地亚签约首个12.5MWh储能项目",
+        "entities": "公司在克罗地亚签约首个12.5MWh储能项目"
+      },
+      "note": "流水线漏录此项目；容量仅有12.5MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "意大利10MWh储能项目",
+      "matches_ai": "意大利10MWh储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "在意大利，公司成功签订首个10MWh项目订单",
+        "entities": "在意大利，公司成功签订首个10MWh项目订单"
+      },
+      "note": "容量仅有10MWh，capacity_mw=null"
+    },
+    {
+      "project_name": "芬兰525MWh储能项目",
+      "matches_ai": "芬兰525MWh储能项目",
+      "category": "储能",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "海博思创",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "project_stage": "随着芬兰525MWh项目的全新签订，公司在芬兰的累计项目总容量将突破1.2GWh",
+        "entities": "随着芬兰525MWh项目的全新签订，公司在芬兰的累计项目总容量将突破1.2GWh"
+      },
+      "note": "容量仅有525MWh，capacity_mw=null"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "全部容量均为MWh/GWh（能量），无功率MW数据，故所有项目capacity_mw=null。保加利亚两个100MWh项目文中明确说'两个'，应拆成两条，流水线合并为一条（capacity=200MW）属错误。匈牙利塔波尔曹140MWh和克罗地亚12.5MWh被流水线漏录。克罗地亚+斯洛文尼亚工商业储能项目无具体容量和项目名，不录。involvement_type：海博思创提供设备+运维，属一体化方案提供商。"
+}

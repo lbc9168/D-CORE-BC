@@ -1,0 +1,51 @@
+{
+ "idx": 28,
+ "stratum": "mf",
+ "source_link": "https://news.goalfore.cn/topstories/detail/77923.html",
+ "article_id": 4948,
+ "title": "东方电气中标阿尔及利亚新客户油气田材料订单、伊拉克祖拜尔燃机单改联总承包项目合同生效",
+ "publish_date": "2025-01-22 19:16:33",
+ "content": "中标阿尔及利亚新客户油气田材料订单\n近日，东方宏华所属宏华国际成功赢得阿尔及利亚新客户订单，为客户提供油气田材料相关产品。此次订单的签订，进一步夯实了宏华国际在阿尔及利亚市场的根基，为深度扎根当地市场、拓展业务版图筑牢了基础，也为后续与阿尔及利亚乃至整个非洲地区更多潜在客户的合作搭建了桥梁。\n伊拉克祖拜尔燃机单改联总承包项目\n合同生效\n近日，东方国际伊拉克祖拜尔燃机电站单循环改联合循环总承包项目合同正式生效。该项目是伊拉克重点项目，也是伊拉克电力部第一个单循环改联合循环项目。祖拜尔电厂位于伊拉克巴士拉省，改造后将成为一座拥有375兆瓦发电能力的大型电厂，提升原有电厂的发电能力，对提高当地能源利用效率、保证电力供应安全起到重要作用。",
+ "pipeline_rows": [
+  {
+   "id": 2337,
+   "record_type": "设备订单",
+   "project_name": "阿尔及利亚油气田材料订单",
+   "category": "新能源制造业",
+   "capacity_mw": null,
+   "capacity_mw_raw": null,
+   "project_stage": "中标",
+   "location": null,
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国东方电气集团有限公司",
+   "involvement_type": "设备供应商",
+   "subsidiary_name": "东方宏华",
+   "project_developer": null,
+   "excluded": 1,
+   "exclude_reason": "非能源产业项目（名称命中「油气」且无发电语义）",
+   "project_summary": "东方宏华所属宏华国际在阿尔及利亚赢得油气田材料订单，为当地客户提供产品。此次订单有助于巩固宏华国际在阿尔及利亚市场的地位，并为其拓展非洲业务奠定基础。"
+  },
+  {
+   "id": 2338,
+   "record_type": "具体项目",
+   "project_name": "伊拉克祖拜尔燃机单改联总承包项目",
+   "category": "火电",
+   "capacity_mw": "375",
+   "capacity_mw_raw": null,
+   "project_stage": "签约",
+   "location": "巴士拉省",
+   "total_investment_usd": null,
+   "total_investment_usd_raw": null,
+   "financing_model": "Unknown",
+   "implementing_entity": "中国东方电气集团有限公司",
+   "involvement_type": "EPC总承包",
+   "subsidiary_name": "东方电气集团国际合作有限公司",
+   "project_developer": null,
+   "excluded": 0,
+   "exclude_reason": null,
+   "project_summary": "东方国际承接的伊拉克祖拜尔燃机电站单循环改联合循环总承包项目合同已生效。该项目位于伊拉克巴士拉省，改造后将提升电厂发电能力至375兆瓦，对保障当地电力供应至关重要。"
+  }
+ ]
+}

@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/34424.html",
+  "status": "valid",
+  "status_reason": "能源范围内（光伏发电项目）且有具名中企晶科能源作为设备供应商中标",
+  "status_evidence": "晶科能源宣布，公司依托自主研发的高效N型TOPCon技术Tiger Neo组件",
+  "projects": [
+    {
+      "project_name": "巴西Santa Luzia Complex光伏项目一期",
+      "matches_ai": "巴西Santa Luzia Complex光伏项目一期",
+      "category": "光伏",
+      "capacity_mw": 522,
+      "project_stage": "中标",
+      "location": "帕拉伊巴州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "晶科能源股份有限公司",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "其子公司晶科能源股份有限公司将为位于巴西帕拉伊巴州的Santa Luzia Complex一期项目提供约522兆瓦的Tiger Neo 78片组件",
+        "total_investment_usd": null,
+        "project_stage": "成功中标巴西大型光伏项目",
+        "entities": "其子公司晶科能源股份有限公司将为位于巴西帕拉伊巴州的Santa Luzia Complex一期项目提供约522兆瓦的Tiger Neo 78片组件"
+      },
+      "note": "总投资41亿巴西雷亚尔约合人民币54.7亿元，但文中明确说这是整个综合体（三期合计1.2GW）的总投资，非一期单独投资，且换算为美元不确定（雷亚尔汇率非指南列出），故填null。capacity_mw=522为一期供货组件量，即一期装机容量。"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线total_investment_usd填了650.5（41亿雷亚尔/7.2×人民币→美元路径存疑，且该投资额对应三期合计而非一期），按指南\"合同额≠总投资\"且口径对应整体项目非一期，宜填null。"
+}

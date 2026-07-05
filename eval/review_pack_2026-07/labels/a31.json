@@ -1,0 +1,32 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/91460.html",
+  "status": "valid",
+  "status_reason": "能源范围内（光伏发电项目），具名中方企业正泰新能源承建并网",
+  "status_evidence": "一站式清洁能源解决方案提供商正泰新能源，位于新西兰的Maungaturoto 21兆瓦光伏项目已成功完成并网验收",
+  "projects": [
+    {
+      "project_name": "新西兰Maungaturoto21兆瓦光伏项目",
+      "matches_ai": "新西兰Maungaturoto 21MW光伏项目",
+      "category": "光伏",
+      "capacity_mw": 21,
+      "project_stage": "投入运营",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "正泰新能源",
+          "involvement_type": "一体化方案提供商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "位于新西兰的Maungaturoto 21兆瓦光伏项目已成功完成并网验收",
+        "project_stage": "Maungaturoto 21兆瓦光伏项目已成功完成并网验收",
+        "entities": "一站式清洁能源解决方案提供商正泰新能源，位于新西兰的Maungaturoto 21兆瓦光伏项目已成功完成并网验收"
+      },
+      "note": "正泰新能源定位为「一站式清洁能源解决方案提供商」，承建并并网，involvement_type选一体化方案提供商；文中无投资金额信息"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": null
+}

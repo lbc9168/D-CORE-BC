@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/22795.html",
+  "status": "valid",
+  "status_reason": "中国能建葛洲坝集团作为EPC总承包方参与巴基斯坦巴拉科特水电站项目，具名中方企业明确",
+  "status_evidence": "中国能建葛洲坝集团作为牵头方与巴基斯坦GRC公司组成的联营体3月9号与巴基斯坦开普省能源发展局（PEDO）签署巴基斯坦巴拉科特（Balakot）水电站现汇项目EPC合同",
+  "projects": [
+    {
+      "project_name": "巴基斯坦开普省巴拉科特300兆瓦水电站项目",
+      "matches_ai": "巴基斯坦开普省300兆瓦巴拉科特水电站项目",
+      "category": "水电",
+      "capacity_mw": 300,
+      "project_stage": "签约",
+      "location": "开普省",
+      "total_investment_usd": 755,
+      "financing_model": "混合融资",
+      "entities": [
+        {
+          "name": "中国能建葛洲坝集团",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "项目安装3台混流式机组，总装机容量30万千瓦",
+        "total_investment_usd": "项目资金来源：总成本7.55亿美金",
+        "project_stage": "中国能建葛洲坝集团作为牵头方与巴基斯坦GRC公司组成的联营体3月9号与巴基斯坦开普省能源发展局（PEDO）签署巴基斯坦巴拉科特（Balakot）水电站现汇项目EPC合同",
+        "entities": "中国能建葛洲坝集团作为牵头方与巴基斯坦GRC公司组成的联营体3月9号与巴基斯坦开普省能源发展局（PEDO）签署巴基斯坦巴拉科特（Balakot）水电站现汇项目EPC合同，项目合同额折合人民币约33.35亿元，葛洲坝集团合同占比90%"
+      },
+      "note": "30万千瓦=300MW；总成本7.55亿美元（非合同额，指南要求总投资口径，此处有明确总成本披露）；ADB+AIIB+巴基斯坦政府多方融资=混合融资；征地阶段在EPC合同签署之后、正式开工之前，project_stage取合同签署事件=签约"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline数据基本准确；total_investment_usd=755正确（7.55亿美元总成本）；financing_model混合融资正确；involvement_type pipeline标为'投融资+EPC'不准确，文中是现汇EPC合同（非葛洲坝自己融资），应为'EPC总承包'。"
+}

@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/63027.html",
+  "status": "valid",
+  "status_reason": "国电电力中标印尼卡朗卡德斯漂浮式光伏电站IPP项目，具名中方企业明确",
+  "status_evidence": "印度尼西亚国家电力公司（PLN）所属子公司PLN NP正式宣布国家能源集团所属国电电力中标印尼卡朗卡德斯10万千瓦漂浮式光伏电站项目",
+  "projects": [
+    {
+      "project_name": "印尼东爪哇省卡朗卡德斯100MW漂浮式光伏电站项目",
+      "matches_ai": "印尼卡朗卡德斯10万千瓦漂浮式光伏电站项目",
+      "category": "光伏",
+      "capacity_mw": 100,
+      "project_stage": "中标",
+      "location": "东爪哇省玛琅市",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "国电电力发展股份有限公司",
+          "involvement_type": "股权投资方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "项目规划装机容量10万千瓦",
+        "total_investment_usd": null,
+        "project_stage": "PLN NP正式宣布国家能源集团所属国电电力中标印尼卡朗卡德斯10万千瓦漂浮式光伏电站项目",
+        "entities": "国家能源集团所属国电电力中标印尼卡朗卡德斯10万千瓦漂浮式光伏电站项目。此次中标是国家能源集团深耕印尼、绿色转型的成果，也是国家能源集团首个境外光伏电站投资项目"
+      },
+      "note": "10万千瓦=100MW；IPP中标即股权投资方（独立发电商投资运营）；pipeline将involvement_type标为EPC总承包有误，应为股权投资方；国家能源集团=国家能源投资集团有限责任公司，具体中标方为其子公司国电电力"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline的involvement_type标为'EPC总承包'不准确，文中明确为IPP（独立发电商）项目，国电电力作为投资方中标，应为'股权投资方'。"
+}

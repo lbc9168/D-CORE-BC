@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/18558.html",
+  "status": "valid",
+  "status_reason": "水电十六局签署喀麦隆曼维莱水电站运维合同，具名中方企业明确",
+  "status_evidence": "公司顺利签署喀麦隆曼维莱水电站项目运维合同",
+  "projects": [
+    {
+      "project_name": "喀麦隆曼维莱水电站运维项目",
+      "matches_ai": "喀麦隆曼维莱水电站项目",
+      "category": "水电",
+      "capacity_mw": null,
+      "project_stage": "签约",
+      "location": null,
+      "total_investment_usd": 10.75,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "中国水利水电第十六工程局有限公司",
+          "involvement_type": "设计\\施工服务方"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": "合同总金额5 818 653 495中非法郎（约合1075万美元）",
+        "project_stage": "公司顺利签署喀麦隆曼维莱水电站项目运维合同",
+        "entities": "公司顺利签署喀麦隆曼维莱水电站项目运维合同，该合同的签署为公司拓展中西非区域市场开启新的篇章"
+      },
+      "note": "合同金额1075万美元=10.75M USD（文中已给出折算值）；本合同是运维(O&M)合同非EPC，involvement_type选最接近的'设计\\施工服务方'；水电站装机容量文中未提；project_stage以本次签约事件为准；pipeline标为中标但文中用'签署'而非'中标'，应为签约"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "pipeline将project_stage标为'中标'、total_investment_usd标为10.75，investment数值正确，但stage应为'签约'（文中用'签署'）。本文为O&M运维合同，involvement_type选'设计\\施工服务方'为最接近选项。"
+}

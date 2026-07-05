@@ -1,0 +1,32 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/80548.html",
+  "status": "valid",
+  "status_reason": "能源范围内（光伏发电项目），具名中方企业上能电气提供逆变器设备",
+  "status_evidence": "上能电气为该电站提供",
+  "projects": [
+    {
+      "project_name": "巴西戈亚斯州Ceasa5兆瓦车棚光伏电站",
+      "matches_ai": "巴西Ceasa车棚光伏电站",
+      "category": "光伏",
+      "capacity_mw": 5,
+      "project_stage": "投入运营",
+      "location": "戈亚斯州",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "上能电气",
+          "involvement_type": "设备供应商"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "该项目隶属于Ceasa 5MW光伏电站的一部分",
+        "project_stage": "巴西Ceasa车棚光伏电站在戈亚斯州正式并网投运",
+        "entities": "上能电气为该电站提供"
+      },
+      "note": "总投资3350万雷亚尔；雷亚尔兑美元汇率约0.19（2025年），换算约637万美元，但指南未给出雷亚尔折算标准，拿不准，故total_investment_usd=null。文中说'隶属于Ceasa 5MW光伏电站的一部分'，整体容量按5MW记录。"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "拿不准：总投资3350万雷亚尔是否换算填入？指南只给了欧元/英镑/人民币换算率，未列雷亚尔，按'其他币种或不确定→null+note'处理。"
+}

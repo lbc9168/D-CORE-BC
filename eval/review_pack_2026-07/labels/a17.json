@@ -1,0 +1,33 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/82673.html",
+  "status": "valid",
+  "status_reason": "火电项目，具名中企CMEC（国机工程集团）签署伊拉克萨拉哈丁电站三期运维合同，项目已在运营",
+  "status_evidence": "双方代表共同签署了《伊拉克萨拉哈丁2X630MW燃油气电站项目三期运维合同》",
+  "projects": [
+    {
+      "project_name": "伊拉克萨拉哈丁2×630MW燃油气电站",
+      "matches_ai": "伊拉克萨拉哈丁2X630MW燃油气电站项目",
+      "category": "火电",
+      "capacity_mw": 1260,
+      "project_stage": "投入运营",
+      "location": null,
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {
+          "name": "国机工程集团总部（CMEC）",
+          "involvement_type": "EPC总承包"
+        }
+      ],
+      "evidence": {
+        "capacity_mw": "双方代表共同签署了《伊拉克萨拉哈丁2X630MW燃油气电站项目三期运维合同》",
+        "total_investment_usd": null,
+        "project_stage": "萨拉哈丁电站作为伊拉克单机容量最大的主力机组，自2023年投运以来，机组性能卓越、发电效率稳定",
+        "entities": "国机工程集团总部（CMEC）董事长王博在公司总部会见了到访的伊拉克电力部高级代表团"
+      },
+      "note": "此文为火电项目运维合同，非输变电；capacity_mw=1260（2×630MW）；文章报道事件是签署三期运维合同，但项目已于2023年投运，stage取投入运营"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "本文为火电项目，非输变电，与标注批次tx层不符，但仍属能源范围内+具名中企，status=valid，category=火电。project_stage拿不准：文章事件是签署运维合同，项目已处于运营阶段，取投入运营（运维续期属运营期内行为）；若理解为签约事件则取签约。"
+}

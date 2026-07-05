@@ -1,0 +1,30 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/80607.html",
+  "status": "valid",
+  "status_reason": "中国二十冶设计院（具名中企）中标哈萨克斯坦智能风机及储能系统生产基地设计项目，属新能源制造业范围",
+  "status_evidence": "成功中标海外储能设计项目——哈萨克斯坦智能风机及智慧储能系统生产基地项目",
+  "projects": [
+    {
+      "project_name": "哈萨克斯坦霍尔果斯智能风机及智慧储能系统生产基地",
+      "matches_ai": "哈萨克斯坦智能风机及智慧储能系统生产基地项目",
+      "category": "新能源制造业",
+      "capacity_mw": null,
+      "project_stage": "中标",
+      "location": "霍尔果斯-东方之门经济特区",
+      "total_investment_usd": null,
+      "financing_model": "Unknown",
+      "entities": [
+        {"name": "中国二十冶设计院", "involvement_type": "设计\\施工服务方"}
+      ],
+      "evidence": {
+        "capacity_mw": null,
+        "total_investment_usd": null,
+        "project_stage": "成功中标海外储能设计项目——哈萨克斯坦智能风机及智慧储能系统生产基地项目",
+        "entities": "中国 二十冶设计院继沙特室内改造项目后，成功中标海外储能设计项目——哈萨克斯坦智能风机及智慧储能系统生产基地项目"
+      },
+      "note": "生产基地面积约15000平方米，无产能数字和总投资；capacity_mw=null（制造工厂，非发电装机）；中二十冶设计院仅中标设计合同，involvement_type=设计/施工服务方；流水线financing_model='银团贷款'无原文依据"
+    }
+  ],
+  "rejected_ai_projects": [],
+  "article_note": "流水线financing_model='银团贷款'在原文中无依据，应为Unknown。该项目为风机+储能设备的装配工厂，产出是设备（GW/GWh单位），符合新能源制造业定义，但文中未给出产能数字。"
+}

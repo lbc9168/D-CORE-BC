@@ -1,0 +1,9 @@
+{
+  "source_link": "https://news.goalfore.cn/topstories/detail/9564.html",
+  "status": "no_chinese",
+  "status_reason": "马达加斯加Sahofika水电站由法国联合体（Eiffage、Eranove、Themis）开发，属能源范围，但全文无任何中方企业参与",
+  "status_evidence": "马达加斯加能源、水务和燃料部与法国联合体New Onive Hydroelectric Energy签署了Sahofika水电站项目框架协议。\n该联合体由Eiffage、Eranove和Themis组成",
+  "projects": [],
+  "rejected_ai_projects": [],
+  "article_note": "流水线无提取（pipeline_rows=[]），判断正确。200MW水电项目属能源范围，但全法国联合体开发，无任何中方参与，故 no_chinese。"
+}
