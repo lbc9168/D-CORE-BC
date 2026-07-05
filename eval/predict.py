@@ -8,7 +8,10 @@ def _flat_project(proj: dict) -> dict:
     common = proj.get("common_info", {}) or {}
     entities = []
     for e in proj.get("chinese_entities", []) or []:
-        name = e.get("Implementing Chinese Entity", "")
+        # 来源名按⑨-2不变量重建：subsidiary 非空⇔原文名，空⇔implementing 即原文名。
+        # name_f1 度量"是否抽对文章中的实体"，解析归一质量由 s01b 单测保证。
+        sub = e.get("Subsidiary Name", "")
+        name = sub or e.get("Implementing Chinese Entity", "")
         if name:
             entities.append({"name": name, "involvement_type": e.get("Type of involvement of Chinese Entities", "")})
     # capacity_mw_parsed 由 s2_basic._apply_capacity_post_process() 在 stage 层注入（确定性解析结果）；
