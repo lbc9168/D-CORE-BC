@@ -246,3 +246,33 @@ def test_kwh_storage_phrase_is_null():
     mw, details = parse_capacity_mw("200kWh 储能系统")
     assert mw is None
     assert details is not None
+
+
+# ── 终审 I1：中文电量单位 兆瓦时/吉瓦时 必须拦截为 null（曾漏拦产错值）────────
+
+def test_zhaowashi_is_null():
+    """200兆瓦时（=MWh 电量）→ null + details（曾被 _MW_RE 误读为 200MW 装机）。"""
+    mw, details = parse_capacity_mw("200兆瓦时")
+    assert mw is None
+    assert details is not None and "兆瓦时" in details
+
+
+def test_jiwashi_is_null():
+    """5吉瓦时（=GWh 电量）→ null + details（曾被 _GW_RE 误读为 5000MW）。"""
+    mw, details = parse_capacity_mw("5吉瓦时")
+    assert mw is None
+    assert details is not None and "吉瓦时" in details
+
+
+# ── 终审 I2 搭车：混合能源短语的解析器现行为固化 ─────────────────────────────
+
+def test_mixed_phrase_takes_first_mw_number():
+    """已知取舍：混合短语「光伏100MW+储能50MW」当前取第一个 MW 数字 → 100.0。
+
+    S2 prompt（2026-07-06 终审 I2 起）要求：原文有总容量短语则逐字抄总容量短语、
+    无总数则 Capacity (MW) 留空、子项明细进 Capacity Details——正常路径不会把
+    混合明细串传进解析器。本断言固化解析器对漏网混合短语的现行为（取首个装机数字），
+    防止未察觉的行为漂移；若未来改为返回 null+details，须显式改此测试。"""
+    mw, details = parse_capacity_mw("光伏100MW+储能50MW")
+    assert mw == 100.0
+    assert details is None

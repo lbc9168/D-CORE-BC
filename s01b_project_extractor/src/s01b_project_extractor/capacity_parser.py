@@ -30,9 +30,10 @@ _NUM_RE = re.compile(r"(\d+(?:\.\d+)?)")
 # ── 产能类模式（有这些后缀 → 不是装机容量）──────────────────────────────────
 # 注：MWh/GWh/kWh 是电量/储能电量不是装机；GW/年/MW/年 是年产能不是装机；吨/年同理
 # kWh/KWh 必须先于 kW/KW 检测，否则 "500kWh" 会被 _QIANWA_RE 误读为 0.5MW
+# 兆瓦时/吉瓦时 = MWh/GWh 的中文写法，同为电量（终审 I1：曾漏拦被误读为装机）
 _PRODUCTION_RE = re.compile(
     r"(\d+(?:\.\d+)?)\s*"
-    r"(MWh|GWh|kWh|KWh|MW/年|GW/年|万吨/年|吨/年|千瓦时|千瓦时/年)",
+    r"(MWh|GWh|kWh|KWh|MW/年|GW/年|万吨/年|吨/年|千瓦时|千瓦时/年|兆瓦时|吉瓦时)",
     re.IGNORECASE,
 )
 
@@ -47,10 +48,10 @@ _TRANSMISSION_RE = re.compile(
 _WAN_QIANWA_RE = re.compile(r"(\d+(?:\.\d+)?)\s*万千瓦(?!时)")
 # 千瓦/kW（不带"万"前缀，不带"时"/"h"后缀——kWh 由 _PRODUCTION_RE 先行拦截，双保险）
 _QIANWA_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:千瓦|kW|KW)(?!时|h|p(?:k|h)?)", re.IGNORECASE)
-# GW / 吉瓦（不带"/年"后缀）
-_GW_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:GW|吉瓦)(?!/年)", re.IGNORECASE)
-# MW / 兆瓦 / MWp（不带h后缀、不带/年后缀）
-_MW_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:MW|兆瓦|MWp)(?!h|/年)", re.IGNORECASE)
+# GW / 吉瓦（不带"/年"后缀、不带"时"后缀——吉瓦时由 _PRODUCTION_RE 先行拦截，双保险）
+_GW_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:GW|吉瓦)(?!/年|时)", re.IGNORECASE)
+# MW / 兆瓦 / MWp（不带h后缀、不带/年后缀、不带"时"后缀——兆瓦时由 _PRODUCTION_RE 先行拦截，双保险）
+_MW_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(?:MW|兆瓦|MWp)(?!h|/年|时)", re.IGNORECASE)
 
 
 def parse_capacity_mw(
