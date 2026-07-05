@@ -1439,6 +1439,214 @@
    "sources": [
     "https://baike.baidu.com/item/%E6%9D%AD%E5%B7%9E%E9%94%A6%E6%B1%9F%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19976725"
    ]
+  },
+  {
+   "canonical_name_cn": "无锡华光环保能源集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "华光环能"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.chanluns.com/gupiao/600475/",
+    "https://baike.baidu.com/item/%E6%97%A0%E9%94%A1%E5%8D%8E%E5%85%89%E7%8E%AF%E4%BF%9D%E8%83%BD%E6%BA%90%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/51152368"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国农业银行股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "中国农业银行",
+    "农业银行"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.nfra.gov.cn/chinese/docfile/2025/e80bc363856b4032901e40a79d6a8486.pdf"
+   ],
+   "note": "国有大型商业银行，监管主体为金融监管总局，不属 SASAC 100家央企名录；本项目口径 is_central_soe=false（金融央企，口径外）"
+  },
+  {
+   "canonical_name_cn": "信息产业电子第十一设计研究院科技工程股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "十一科技",
+    "EDRI"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%BF%A1%E6%81%AF%E4%BA%A7%E4%B8%9A%E7%94%B5%E5%AD%90%E7%AC%AC%E5%8D%81%E4%B8%80%E8%AE%BE%E8%AE%A1%E7%A0%94%E7%A9%B6%E9%99%A2%E7%A7%91%E6%8A%80%E5%B7%A5%E7%A8%8B%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/4824138"
+   ]
+  },
+  {
+   "canonical_name_cn": "运达能源科技集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "运达能源科技集团",
+    "浙江运达风电股份有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E8%BF%90%E8%BE%BE%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/63605661",
+    "https://windeyenergy.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国航空工业集团有限公司",
+   "is_central_soe": true,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国航空技术国际工程有限公司",
+     "legal_full_name_cn": "中国航空技术国际工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（AVIC旗下国际工程总承包平台，首家进ENR225的中国企业）"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%88%AA%E7%A9%BA%E6%8A%80%E6%9C%AF%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/4248683",
+    "https://portal-oss.zhiye.com/102639/resource/0083caa5-851a-4140-9301-dbdc8d0b78a2.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "江西省水利水电建设集团有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "江西水建集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.qixin.com/company/1f303fae-5313-46f3-878c-11b8f69932c1",
+    "http://jxszchina.cn/mobile/list.aspx?nid=2"
+   ]
+  },
+  {
+   "canonical_name_cn": "浙江西子联合工程有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://bys.hqu.edu.cn/info/1011/15910.htm",
+    "https://www.xiziuhc.com/About/Index/1"
+   ]
+  },
+  {
+   "canonical_name_cn": "国家开发投资集团有限公司",
+   "is_central_soe": true,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "国投集团",
+    "国投"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "国投电力",
+     "legal_full_name_cn": "国投电力控股股份有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（A股600886，国投集团控股上市子公司）"
+    },
+    {
+     "name_cn": "国投电力控股股份有限公司",
+     "legal_full_name_cn": "国投电力控股股份有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    }
+   ],
+   "sources": [
+    "https://www.sdicpower.com/gtdln/gywm/gsjj/gsjj/A90010201index_1.htm",
+    "http://www.sasac.gov.cn/n2588025/n2588124/c34030824/content.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "上海环境集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://vip.stock.finance.sina.com.cn/corp/go.php/vCI_StockHolder/stockid/601200/displaytype/30.phtml",
+    "https://data.eastmoney.com/gdfx/stock/601200_2024-09-30.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "北京高能时代环境技术股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E9%AB%98%E8%83%BD%E6%97%B6%E4%BB%A3%E7%8E%AF%E5%A2%83%E6%8A%80%E6%9C%AF%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/8555094"
+   ]
+  },
+  {
+   "canonical_name_cn": "四川省能源投资集团有限责任公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "川能投"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%9B%9B%E5%B7%9D%E7%9C%81%E8%83%BD%E6%BA%90%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/2896575",
+    "https://www.sc.gov.cn/10462/c105962s/2025/2/26/75d5e776cd9e48d98a7b439e826622d6.shtml"
+   ],
+   "note": "2025年2月与川投集团重组，后续或更名为四川能源发展集团有限责任公司"
+  },
+  {
+   "canonical_name_cn": "浙江华友钴业股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "华友钴业",
+    "浙江华友钴业有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://vip.stock.finance.sina.com.cn/corp/go.php/vCI_StockHolder/stockid/603799.phtml",
+    "https://www.huayou.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "洛阳栾川钼业集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "洛阳钼业",
+    "CMOC"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E6%B4%9B%E9%99%BD%E9%89%AC%E6%A5%AD",
+    "https://www.cmoc.com/html/AboutUs/"
+   ]
+  },
+  {
+   "canonical_name_cn": "华自科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.qcc.com/firm/d2f4d6dbb1cc0ac17e07f68376f4b8c6.html",
+    "http://basic.10jqka.com.cn/300490/company.html"
+   ]
   }
  ],
  "additions_to_existing_groups": [
@@ -1862,6 +2070,404 @@
    ],
    "sources": [
     "https://news.goalfore.cn/a/2356.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国机械工业集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "兴电国际",
+     "legal_full_name_cn": "北京兴电国际工程管理有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（国机集团旗下中国电力工程有限公司（CNEEC）子公司）"
+    },
+    {
+     "name_cn": "北京兴电国际工程管理有限公司",
+     "legal_full_name_cn": "北京兴电国际工程管理有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    },
+    {
+     "name_cn": "江苏苏美达成套设备工程有限公司",
+     "legal_full_name_cn": "江苏苏美达成套设备工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（苏美达集团旗下工程子公司，孙公司级别）"
+    }
+   ],
+   "sources": [
+    "https://www.sinomach.com.cn/xwzx/zgsdt/2024_qydt/202402/t20240220_430418.html",
+    "https://baike.baidu.com/item/%E5%8C%97%E4%BA%AC%E5%85%B4%E7%94%B5%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E7%AE%A1%E7%90%86%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20979357",
+    "https://www.sinomach.com.cn/xwzx/zgsdt/2020_qydt/202011/t20201108_255598.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国五矿集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "五矿二十三冶",
+     "legal_full_name_cn": "五矿二十三冶建设集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（2006年起为五矿成员，2024年调整至中国中冶管理）"
+    },
+    {
+     "name_cn": "五矿二十三冶建设集团有限公司",
+     "legal_full_name_cn": "五矿二十三冶建设集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    },
+    {
+     "name_cn": "上海宝冶",
+     "legal_full_name_cn": "上海宝冶集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（五矿/中冶旗下骨干施工企业，始建1954年）"
+    },
+    {
+     "name_cn": "上海宝冶集团有限公司",
+     "legal_full_name_cn": "上海宝冶集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    }
+   ],
+   "sources": [
+    "https://www.23ye.com/introduce_1/7.html",
+    "https://www.sbc-mcc.com/",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%8A%E6%B5%B7%E5%AE%9D%E5%86%B6%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国化学工程集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国五环工程有限公司",
+     "legal_full_name_cn": "中国五环工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（中化工集团全资子公司，前身1958年化工部第四设计院）"
+    },
+    {
+     "name_cn": "中国化学工程第三建设有限公司",
+     "legal_full_name_cn": "中国化学工程第三建设有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    },
+    {
+     "name_cn": "中国化学工程第六建设有限公司",
+     "legal_full_name_cn": "中国化学工程第六建设有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    },
+    {
+     "name_cn": "中国天辰工程有限公司",
+     "legal_full_name_cn": "中国天辰工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（中化工集团化工工程总承包旗舰企业，前身化学工业部第一设计院1953年）"
+    }
+   ],
+   "sources": [
+    "https://www.cwcec.com/wuhuan/about.html",
+    "https://china-tcc.com/",
+    "http://www.ccesda.com/xiehuigongzuo/GWCL/2019-06-28/493.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国建筑集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中建西部建设",
+     "legal_full_name_cn": "中建西部建设股份有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（中建集团唯一独立上市混凝土平台，深交所002302）"
+    },
+    {
+     "name_cn": "中建西部建设股份有限公司",
+     "legal_full_name_cn": "中建西部建设股份有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%BB%BA%E8%A5%BF%E9%83%A8%E5%BB%BA%E8%AE%BE%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19981924"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国远洋海运集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中远海运物流供应链工程物流事业部",
+     "legal_full_name_cn": "中远海运物流供应链有限公司（工程物流事业部为其内设部门）",
+     "note": "auto-added 2026-07-06 misses campaign（工程物流事业部是十大事业线之一）"
+    }
+   ],
+   "sources": [
+    "https://www.xindemarinenews.com/m/view.php?aid=57738",
+    "https://logistics.coscoshipping.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国电力建设集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国电建湖北工程公司",
+     "legal_full_name_cn": "中国电建集团湖北工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内出现名，指向中国电建集团湖北工程有限公司）"
+    },
+    {
+     "name_cn": "水电十一局",
+     "legal_full_name_cn": "中国水利水电第十一工程局有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内简称变体）"
+    },
+    {
+     "name_cn": "中国水电十一局",
+     "legal_full_name_cn": "中国水利水电第十一工程局有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内简称变体）"
+    },
+    {
+     "name_cn": "中国能源建设集团水电十一局有限公司",
+     "legal_full_name_cn": "中国水利水电第十一工程局有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内旧名变体）"
+    },
+    {
+     "name_cn": "电建绿洲公司",
+     "legal_full_name_cn": "中国电建绿洲工程设计咨询有限责任公司",
+     "note": "auto-added 2026-07-06 misses campaign（2023年在沙特注册，电建首家建筑市政类设计咨询公司）"
+    },
+    {
+     "name_cn": "中国电建绿洲工程设计咨询有限责任公司",
+     "legal_full_name_cn": "中国电建绿洲工程设计咨询有限责任公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    },
+    {
+     "name_cn": "中国水电建设集团国际工程有限公司",
+     "legal_full_name_cn": "中国水电建设集团国际工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（中国电建集团国际工程有限公司旧名/别称，持有Sinohydro品牌）"
+    },
+    {
+     "name_cn": "中国水利水电第十五工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第十五工程局有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（即中国水电建设集团十五工程局有限公司更名后法定名）"
+    },
+    {
+     "name_cn": "中国电建集团贵州工程公司",
+     "legal_full_name_cn": "中国电建集团贵州工程有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（旧称/简称，2017年12月更名加'有限'）"
+    }
+   ],
+   "sources": [
+    "http://11j.powerchina.cn/",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B0%B4%E5%88%A9%E6%B0%B4%E7%94%B5%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7490631",
+    "https://news.bjx.com.cn/html/20231008/1335512.shtml",
+    "https://15j.powerchina.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国东方电气集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "东方电气"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "东方电气集团东方国际",
+     "legal_full_name_cn": "东方电气集团国际合作有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内出现简称，指向东方电气集团国际合作有限公司）"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%9C%E6%96%B9%E7%94%B5%E6%B0%94%E9%9B%86%E5%9B%A2%E5%9B%BD%E9%99%85%E5%90%88%E4%BD%9C%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24545192"
+   ]
+  },
+  {
+   "canonical_name_cn": "哈尔滨电气集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "哈尔滨电气集团国际工程有限责任公司",
+     "legal_full_name_cn": "哈尔滨电气国际工程有限责任公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内出现名多了'集团'二字，法定名不含'集团'）"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%93%88%E5%B0%94%E6%BB%A8%E7%94%B5%E6%B0%94%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/20020569"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国铁路工程集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中铁资源集团",
+     "legal_full_name_cn": "中铁资源集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（中国中铁全资子公司，从事有色金属资源开发）"
+    },
+    {
+     "name_cn": "中铁资源集团有限公司",
+     "legal_full_name_cn": "中铁资源集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    }
+   ],
+   "sources": [
+    "https://www.crmrc.com/ztzy/10241643/10241628/index.html",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E9%93%81%E8%B5%84%E6%BA%90"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国铁道建筑集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中铁二十局",
+     "legal_full_name_cn": "中铁二十局集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（中国铁建全资子公司，央企三级单位）"
+    },
+    {
+     "name_cn": "中铁二十局集团有限公司",
+     "legal_full_name_cn": "中铁二十局集团有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E9%93%81%E4%BA%8C%E5%8D%81%E5%B1%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/10219533",
+    "http://www.cr20g.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国建材集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中材国际工程股份有限公司",
+     "legal_full_name_cn": "中国中材国际工程股份有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内简称，法定名含'中国'前缀）"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%B8%AD%E6%9D%90%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/2007467"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国能源建设集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国能建科技公司",
+     "legal_full_name_cn": "中国能源建设集团科技发展有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（能建股份全资子公司，成立2016年，总部天津）"
+    },
+    {
+     "name_cn": "中国能源建设集团科技发展有限公司",
+     "legal_full_name_cn": "中国能源建设集团科技发展有限公司",
+     "note": "auto-added 2026-07-06 misses campaign"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E7%A7%91%E6%8A%80%E5%8F%91%E5%B1%95%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/51170390"
+   ]
+  },
+  {
+   "canonical_name_cn": "国家电力投资集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "山东电力工程咨询院有限公司",
+     "legal_full_name_cn": "山东电力工程咨询院有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（国家电投二级单位，招聘公告冠以'国家电投山东电力工程咨询院有限公司'）"
+    }
+   ],
+   "sources": [
+    "https://cpnn.com.cn/news/zhaopinxinxi2023/202309/t20230914_1634925.html",
+    "https://www.sdepci.com/col/col742/index.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国电子科技集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "湖南红太阳新能源科技有限公司",
+     "legal_full_name_cn": "湖南红太阳新能源科技有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（CETC第48所依托光伏研发技术创立，中电科电子装备集团全资子公司）"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%B9%96%E5%8D%97%E7%BA%A2%E5%A4%AA%E9%98%B3%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6269802"
+   ]
+  },
+  {
+   "canonical_name_cn": "隆基绿能科技股份有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "隆基股份"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://ggjd.cnstock.com/company/scp_ggjd/tjd_ggkx/202205/4878440.htm",
+    "https://baike.baidu.com/item/%E9%9A%86%E5%9F%BA%E7%BB%BF%E8%83%BD%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20616137"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国出口信用保险公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "中国出口信用保险公司四川分公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.sinosure.com.cn/"
+   ],
+   "note": "四川分公司作为alias处理（分支机构不独立入册）"
+  },
+  {
+   "canonical_name_cn": "三一集团有限公司",
+   "is_central_soe": null,
+   "provenance": "auto_added_misses_campaign_2026-07-06",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "三一硅能有限公司",
+     "legal_full_name_cn": "三一硅能（株洲）有限公司",
+     "note": "auto-added 2026-07-06 misses campaign（库内出现名，指向三一硅能（株洲）有限公司）"
+    }
+   ],
+   "sources": [
+    "https://siliconenergy.sany.com.cn/about/introduction.html"
    ]
   }
  ]
