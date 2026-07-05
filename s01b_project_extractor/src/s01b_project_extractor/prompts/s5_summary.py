@@ -25,7 +25,7 @@ def build_s5_prompt(structured_project: dict) -> str:
 {{
   "project_summary": "2-3 句中文摘要",
   "corrections": [
-    {{"field": "project_stage|category", "suggested_value": "合法枚举值", "confidence": 0.0}}
+    {{"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}}
   ]
 }}
 若无需纠偏，corrections 为 []。
