@@ -1,40 +1,79 @@
-"""母子公司归一测试：子公司/二级集团 → 规范顶级集团（复用 company_hierarchy.json）。
+"""母子公司归一测试（已按 v2 契约重写）：子公司/别名/集团自身 → 规范顶级集团。
 
-Real pair used:
-  KNOWN_SUBSIDIARY = "中国葛洲坝集团有限公司"   # subsidiaries_level2 of:
-  KNOWN_PARENT     = "中国能源建设集团有限公司"   # top-level (parent_company_cn=null)
+数据源：company_hierarchy_v2.json（schema_version=2）。
 
-Also tested:
-  SUB3 under 中国葛洲坝集团有限公司:
-  KNOWN_SUB3       = "中国葛洲坝集团（甘肃）工程有限公司"
-  → parent stays   = "中国能源建设集团有限公司"
+旧断言变更清单（按新契约重写）：
+  1. test_known_subsidiary_maps_to_parent
+       旧：仅断言 parent；未断言 sub
+       新：同时断言 sub == verbatim（不变量：子公司命中时 sub=原文）
+  2. test_known_sub3_maps_to_root_parent
+       旧：仅断言 parent；未断言 sub
+       新：同时断言 sub == verbatim
+  3. test_second_group_subsidiary_maps_correctly
+       旧：仅断言 parent
+       新：同时断言 sub == verbatim
+  4. test_top_level_parent_maps_to_itself
+       旧/新 一致：(parent, "") 无变更
+  5. test_unknown_entity_passthrough
+       旧：parent=verbatim, sub="" —— 但旧实现有包含匹配，该断言在旧版可能已通过（不在表就透传）
+       新：同样透传，但明确是因为三层都未命中，不是包含匹配回退
+  6. test_empty_returns_unknown / test_whitespace_returns_unknown
+       不变
+
+Real pairs from company_hierarchy_v2.json:
+  KNOWN_SUBSIDIARY = "中国葛洲坝集团有限公司"   # sub of 中国能源建设集团有限公司
+  KNOWN_PARENT     = "中国能源建设集团有限公司"   # top-level group
+  KNOWN_SUB3       = "中国葛洲坝集团（甘肃）工程有限公司" # direct sub of 中国能源建设集团有限公司（v2 扁平化）
+  KNOWN_SUB2_OTHER = "中电建新能源集团股份有限公司"        # sub of 中国电力建设集团有限公司
+  KNOWN_PARENT_2   = "中国电力建设集团有限公司"
 """
+import pytest
 from s01b_project_extractor.stages.entity_normalize import normalize_entity
 
-# Real values from company_hierarchy.json
-KNOWN_SUBSIDIARY = "中国葛洲坝集团有限公司"           # sub2 of 中国能源建设集团有限公司
+
+def _clear_cache():
+    """清 v2 索引 lru_cache，隔离测试。"""
+    from s01b_project_extractor.stages import entity_normalize
+    entity_normalize._hierarchy_index_v2.cache_clear()
+
+
+@pytest.fixture(autouse=True)
+def auto_clear():
+    _clear_cache()
+    yield
+    _clear_cache()
+
+
+# Real values from company_hierarchy_v2.json
+KNOWN_SUBSIDIARY = "中国葛洲坝集团有限公司"           # sub of 中国能源建设集团有限公司
 KNOWN_PARENT     = "中国能源建设集团有限公司"           # top-level group
-KNOWN_SUB3       = "中国葛洲坝集团（甘肃）工程有限公司" # sub3 under KNOWN_SUBSIDIARY
-KNOWN_SUB2_OTHER = "中电建新能源集团股份有限公司"        # sub2 of 中国电力建设集团有限公司
+KNOWN_SUB3       = "中国葛洲坝集团（甘肃）工程有限公司"  # direct sub (v2 扁平化) under KNOWN_PARENT
+KNOWN_SUB2_OTHER = "中电建新能源集团股份有限公司"         # sub of 中国电力建设集团有限公司
 KNOWN_PARENT_2   = "中国电力建设集团有限公司"
 
 
 def test_known_subsidiary_maps_to_parent():
-    """直接子公司应归一到顶级集团。"""
+    """直接子公司应归一到顶级集团，sub 等于 verbatim（不变量）。"""
     parent, sub = normalize_entity(KNOWN_SUBSIDIARY)
     assert parent == KNOWN_PARENT, f"Expected parent={KNOWN_PARENT!r}, got {parent!r}"
+    # 新契约：路径1 命中 → sub = verbatim
+    assert sub == KNOWN_SUBSIDIARY, f"Expected sub=verbatim={KNOWN_SUBSIDIARY!r}, got {sub!r}"
 
 
 def test_known_sub3_maps_to_root_parent():
-    """三级子公司应归一到同一顶级集团。"""
+    """子公司（v2 中扁平化，原 sub3）应归一到同一顶级集团，sub=verbatim。"""
     parent, sub = normalize_entity(KNOWN_SUB3)
     assert parent == KNOWN_PARENT, f"Expected parent={KNOWN_PARENT!r}, got {parent!r}"
+    # 新契约：sub = verbatim
+    assert sub == KNOWN_SUB3, f"Expected sub=verbatim={KNOWN_SUB3!r}, got {sub!r}"
 
 
 def test_second_group_subsidiary_maps_correctly():
-    """另一集团的子公司应归一到其对应顶级集团。"""
+    """另一集团的子公司应归一到其对应顶级集团，sub=verbatim。"""
     parent, sub = normalize_entity(KNOWN_SUB2_OTHER)
     assert parent == KNOWN_PARENT_2, f"Expected parent={KNOWN_PARENT_2!r}, got {parent!r}"
+    # 新契约：sub = verbatim
+    assert sub == KNOWN_SUB2_OTHER, f"Expected sub=verbatim={KNOWN_SUB2_OTHER!r}, got {sub!r}"
 
 
 def test_top_level_parent_maps_to_itself():

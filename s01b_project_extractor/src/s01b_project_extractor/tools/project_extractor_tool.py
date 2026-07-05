@@ -68,8 +68,9 @@ _DEFAULT_RAW_NEWS_DB = str(
 _SUPPORTING_DOCS = _S01B_ROOT.parent / "supporting_docs"
 
 # 运行期缓存（每个进程只读一次文件）
-_entity_lookup_cache: str = ""        # prompt 注入用（中文层级文本）
-_hierarchy_data_cache: dict = {}      # Python 查表用（原始 dict）
+_entity_lookup_cache: str = ""        # prompt 注入用（中文层级文本，旧 v1 hierarchy）
+_hierarchy_data_cache: dict = {}      # Python 查表用（原始 dict，旧 v1 hierarchy）
+_hierarchy_v2_data_cache: dict = {}   # Python 查表用（v2 hierarchy，新解析器专用）
 _soe_set_cache: set = set()           # Python 查表用（央企名称 set）
 _name_cache: dict = {}                # 中→英翻译缓存（company_name_cache.json）
 _name_cache_lock = threading.Lock()   # 写缓存时的线程锁
@@ -145,6 +146,23 @@ def _load_hierarchy_data() -> dict:
     return _hierarchy_data_cache
 
 
+def _load_hierarchy_v2_data() -> dict:
+    """加载 company_hierarchy_v2.json（schema_version=2）原始数据（带缓存）。"""
+    global _hierarchy_v2_data_cache
+    if _hierarchy_v2_data_cache:
+        return _hierarchy_v2_data_cache
+    try:
+        _hierarchy_v2_data_cache = json.loads(
+            (_SUPPORTING_DOCS / "company_hierarchy_v2.json").read_text(encoding="utf-8")
+        )
+        n = len(_hierarchy_v2_data_cache.get("groups", []))
+        logger.info("已加载 company_hierarchy_v2.json：%d 组", n)
+    except Exception as e:
+        logger.error("无法加载 company_hierarchy_v2.json: %s", e)
+        _hierarchy_v2_data_cache = {"schema_version": 2, "groups": []}
+    return _hierarchy_v2_data_cache
+
+
 def _get_soe_set() -> set:
     """从 soe.md 解析官方央企名单，返回名称 set（带缓存）。"""
     global _soe_set_cache
@@ -202,16 +220,20 @@ def _save_name_cache(cache: dict) -> None:
 
 
 def _resolve_is_central_soe(entity_cn: str) -> int:
-    """
-    Python 端确定性判断是否央企（不依赖 LLM）。
-    优先级：① hierarchy 对照表 → ② soe.md 兜底 → ③ 0（非央企）
+    """Python 端确定性判断是否央企（不依赖 LLM）。
+
+    优先级：① v2 登记册（company_hierarchy_v2.json 命中组的 is_central_soe）
+             → ② soe.md 名单兜底（透传实体也需要值）
+             → ③ 0（未命中，非央企）
     """
     if not entity_cn:
         return 0
-    data = _load_hierarchy_data()
-    for company in data.get("companies", []):
-        if company["company_name_cn"] == entity_cn:
-            return 1 if company.get("is_central_soe") else 0
+    # ① v2 登记册：按集团 canonical_name_cn 精确匹配
+    v2_data = _load_hierarchy_v2_data()
+    for grp in v2_data.get("groups", []):
+        if grp["canonical_name_cn"] == entity_cn:
+            return 1 if grp.get("is_central_soe") else 0
+    # ② soe.md 兜底
     soe_set = _get_soe_set()
     if entity_cn in soe_set:
         return 1
