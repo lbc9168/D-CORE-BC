@@ -243,6 +243,31 @@ def test_queue_file_invalid_quarter_short_year():
         T2QueueFile(task="T2", quarter="26Q1", generated_at="2026-07-06", items=[])
 
 
+def test_t2_queue_item_trigger_mf_boundary_scan_valid():
+    """合法：T2QueueItem.trigger 第三值 mf_boundary_scan 通过校验。"""
+    from codex_review.schemas import T2QueueItem
+    item = T2QueueItem(
+        item_id="abc123",
+        project_id="IND-PV-0001",
+        trigger="mf_boundary_scan",
+        audit_note="MF 边界关键词：蓝氨",
+        project=ProjectContext(**_project()),
+    )
+    assert item.trigger == "mf_boundary_scan"
+
+
+def test_t2_queue_item_trigger_unknown_invalid():
+    """非法：T2QueueItem.trigger 未知值被 Literal 拦截。"""
+    from codex_review.schemas import T2QueueItem
+    with pytest.raises(ValidationError):
+        T2QueueItem(
+            item_id="abc123",
+            project_id="IND-PV-0001",
+            trigger="unknown_trigger",
+            project=ProjectContext(**_project()),
+        )
+
+
 def test_t3_queue_file_valid_quarter():
     """T3QueueFile 合法 quarter 格式。"""
     f = T3QueueFile(

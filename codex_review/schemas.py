@@ -81,7 +81,7 @@ class T2QueueItem(BaseModel):
 
     item_id: str
     project_id: str
-    trigger: Literal["fixed_list", "no_chinese_entity_scan"]
+    trigger: Literal["fixed_list", "no_chinese_entity_scan", "mf_boundary_scan"]
     audit_note: str | None = None
     project: ProjectContext
 
