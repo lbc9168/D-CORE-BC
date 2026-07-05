@@ -30,15 +30,9 @@ from codex_review.ledger import (
     t3_key,
 )
 from codex_review.schemas import (
-    T1QueueFile,
     T1Verdict,
-    T1VerdictsFile,
-    T2QueueFile,
     T2Verdict,
-    T2VerdictsFile,
-    T3QueueFile,
     T3Verdict,
-    T3VerdictsFile,
     _T3_REQUIRE_GROUP,
 )
 
@@ -204,7 +198,11 @@ def _load_queue_ids(queue_path: Path, task: str) -> dict[str, dict]:
     T2: project_id → item dict（注意 T2 key 需要 trigger，存整条以便后续取）
     T3: raw_name → item dict
     """
-    raw = json.loads(queue_path.read_text(encoding="utf-8"))
+    try:
+        raw = json.loads(queue_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        logger.error("队列文件 JSON 解析失败，路径=%s，错误=%s", queue_path, e)
+        raise ValueError(f"队列文件 JSON 解析失败：{queue_path}（{e}）") from e
     items = raw.get("items", [])
     mapping: dict[str, dict] = {}
     for item in items:
