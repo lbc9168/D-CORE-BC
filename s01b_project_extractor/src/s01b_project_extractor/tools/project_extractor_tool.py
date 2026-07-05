@@ -22,7 +22,7 @@ _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py")
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 
-from s01b_project_extractor.guardrails.format_checks import run_format_checks, VALID_RECORD_TYPES
+from s01b_project_extractor.guardrails.format_checks import run_format_checks, run_format_checks_with_ids, VALID_RECORD_TYPES
 from s01b_project_extractor.guardrails.batch_checks import run_batch_checks
 from s01b_project_extractor.guardrails.nonenergy_check import (
     check_nonenergy, DETERMINISTIC_GUARD_SOURCE,
@@ -385,6 +385,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             excluded                INTEGER DEFAULT 0,
             exclude_reason          TEXT,
             exclude_source          TEXT,
+            needs_review            INTEGER DEFAULT 0,
             created_at              TEXT
         )
     """)
@@ -404,6 +405,7 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN exclude_source TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN project_developer_en TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN project_developer_evidence TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN needs_review INTEGER DEFAULT 0",
     ]:
         try:
             conn.execute(col_def)
@@ -411,6 +413,29 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             pass  # 列已存在（已知无害边界，按 CLAUDE.md 规则1 沉默）
     conn.commit()
     return conn
+
+
+def mark_format_failed_needs_review(db_path: str, failed_ids: set[int]) -> None:
+    """
+    把 format_checks 失败的记录在 extracted_projects 打 needs_review=1。
+
+    使用事务 + executemany 批量更新（规则：单次写入超 50 条用 executemany）。
+    空集合时直接返回，不开事务。
+    """
+    if not failed_ids:
+        return
+    params = [(rid,) for rid in failed_ids]
+    conn = sqlite3.connect(db_path)
+    try:
+        with conn:
+            conn.executemany(
+                "UPDATE extracted_projects SET needs_review=1 WHERE id=?",
+                params,
+            )
+    except sqlite3.Error as e:
+        logger.error("mark_format_failed_needs_review 写库失败: %s | db=%s", e, db_path)
+    finally:
+        conn.close()
 
 
 def _init_review_db(db_path: str) -> sqlite3.Connection:
@@ -1321,13 +1346,16 @@ class ProjectExtractorTool:
 
         # ── 批级 guardrail（format + batch）：bulk/单批写库后统一校验，修掉原 bulk 裸奔 ──
         # 不删记录、不抛错（bulk 无 LLM 重跑循环）；仅 logging.error 记录，交由人工复核。
+        # format_checks 失败的记录同步打 needs_review=1，供人工复核队列消费。
         try:
             _vconn = sqlite3.connect(projects_db_path)
             _vconn.row_factory = sqlite3.Row
             _vrows = [dict(r) for r in _vconn.execute(
                 "SELECT * FROM extracted_projects WHERE batch_id=?", (batch_id,)).fetchall()]
             _vconn.close()
-            _fmt_errors = run_format_checks(_vrows)
+            _fmt_errors, _fmt_failed_ids = run_format_checks_with_ids(_vrows)
+            if _fmt_failed_ids:
+                mark_format_failed_needs_review(projects_db_path, _fmt_failed_ids)
             _batch_errors, _batch_warns = run_batch_checks(_vrows, total_input_articles=len(df))
             if _fmt_errors or _batch_errors:
                 logger.error("批 %s guardrail 异常 format=%d batch=%d 示例=%s",

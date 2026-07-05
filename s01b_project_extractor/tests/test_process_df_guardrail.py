@@ -12,8 +12,10 @@ def test_process_df_invokes_format_checks(tmp_path):
                    "projects": [{"project_summary": "s", "common_info": {"Project Name": "肯尼亚100MW光伏项目", "Country": "肯尼亚", "Category": "光伏", "Project Stage": "在建"},
                                  "chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}]}
     tool = ProjectExtractorTool()
+    # 调用方已换为 run_format_checks_with_ids（返回 tuple[list[str], set[int]]）。
     with mock.patch("s01b_project_extractor.tools.project_extractor_tool.extract_one", return_value=fake_result), \
-         mock.patch("s01b_project_extractor.tools.project_extractor_tool.run_format_checks", return_value=[]) as mfc:
+         mock.patch("s01b_project_extractor.tools.project_extractor_tool.run_format_checks_with_ids",
+                    return_value=([], set())) as mfc:
         tool._process_df(df, "batch1", "20250101_0000", client=mock.MagicMock(),
                          country_db={}, projects_db_path=proj_db, review_db_path=rev_db, max_workers=1)
         assert mfc.called  # 写库路径确实跑了格式校验

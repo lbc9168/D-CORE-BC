@@ -49,17 +49,22 @@ def _is_empty(v: Any) -> bool:
     return s in ("", "nan", "NA", "None", "null")
 
 
-def run_format_checks(records: list[dict]) -> list[str]:
+def run_format_checks_with_ids(
+    records: list[dict],
+) -> tuple[list[str], set[int]]:
     """
-    对一批提取记录执行格式校验。
+    对一批提取记录执行格式校验，同时返回失败记录的 ID 集合。
 
     Args:
         records: 从 projects.db 查出的字典列表，键为列名
 
     Returns:
-        错误描述列表。空列表表示全部通过。
+        (errors, failed_ids)：
+            errors     — 错误描述列表，空列表表示全部通过。
+            failed_ids — 有至少一条错误的记录 id（int）集合；id 非 int 时跳过。
     """
     errors: list[str] = []
+    failed_ids: set[int] = set()
 
     # 枚举集合在循环外构建一次，避免逐条记录重复加载 JSON（性能优化）。
     valid_cats = valid_categories_set()
@@ -70,26 +75,27 @@ def run_format_checks(records: list[dict]) -> list[str]:
     for rec in records:
         rid = rec.get("id", "?")
         prefix = f"项目 #{rid}"
+        rec_errors: list[str] = []
 
         # ── 必填字段 ──
         for field in ("project_name", "country", "category", "implementing_entity"):
             if _is_empty(rec.get(field)):
-                errors.append(f"{prefix} 缺少必填字段: {field}")
+                rec_errors.append(f"{prefix} 缺少必填字段: {field}")
 
         # ── 项目名称必须含中文 ──
         pname = str(rec.get("project_name", ""))
         if pname and not _CHINESE_RE.search(pname):
-            errors.append(f"{prefix} 名称未使用中文: {pname[:40]}")
+            rec_errors.append(f"{prefix} 名称未使用中文: {pname[:40]}")
 
         # ── 国家ISO ──
         iso = str(rec.get("country_iso", "")).strip()
         if iso and iso != "NA" and not _ISO3_RE.match(iso):
-            errors.append(f"{prefix} 国家ISO无效: {iso}")
+            rec_errors.append(f"{prefix} 国家ISO无效: {iso}")
 
         # ── Category 枚举 ──
         cat = str(rec.get("category", "")).strip()
         if cat and cat not in valid_cats:
-            errors.append(f"{prefix} 分类不合法: {cat}")
+            rec_errors.append(f"{prefix} 分类不合法: {cat}")
 
         # ── 装机容量 ──
         cap = str(rec.get("capacity_mw", "")).strip()
@@ -97,34 +103,53 @@ def run_format_checks(records: list[dict]) -> list[str]:
             try:
                 cap_val = float(cap)
                 if cap_val <= 0 or cap_val >= 50000:
-                    errors.append(f"{prefix} 容量异常: {cap} MW（应 0 < x < 50000）")
+                    rec_errors.append(f"{prefix} 容量异常: {cap} MW（应 0 < x < 50000）")
             except ValueError:
-                errors.append(f"{prefix} 容量无法解析为数字: {cap}")
+                rec_errors.append(f"{prefix} 容量无法解析为数字: {cap}")
 
         # ── Project Stage 枚举 ──
         stage = str(rec.get("project_stage", "")).strip()
         if stage and stage not in valid_stages:
-            errors.append(f"{prefix} 阶段不合法: {stage}")
+            rec_errors.append(f"{prefix} 阶段不合法: {stage}")
 
         # ── 参与方式枚举 ──
         inv = str(rec.get("involvement_type", "")).strip()
         if inv and inv not in valid_inv:
-            errors.append(f"{prefix} 参与方式不合法: {inv}")
+            rec_errors.append(f"{prefix} 参与方式不合法: {inv}")
 
         # ── 融资模式枚举 ──
         fin = str(rec.get("financing_model", "")).strip()
         if fin and not _is_empty(fin) and fin not in valid_fin:
-            errors.append(f"{prefix} 融资模式不合法: {fin}")
+            rec_errors.append(f"{prefix} 融资模式不合法: {fin}")
 
         # ── 日期格式 ──
         for date_field in ("planned_start_date", "planned_complete_date"):
             dval = str(rec.get(date_field, "")).strip()
             if dval and not _is_empty(dval) and not _DATE_RE.match(dval):
-                errors.append(f"{prefix} 日期格式错误: {date_field}={dval}")
+                rec_errors.append(f"{prefix} 日期格式错误: {date_field}={dval}")
 
         # ── Record Type 枚举 ──
         rtype = str(rec.get("record_type", "")).strip()
         if rtype and rtype not in VALID_RECORD_TYPES:
-            errors.append(f"{prefix} 记录类型不合法: {rtype}")
+            rec_errors.append(f"{prefix} 记录类型不合法: {rtype}")
 
+        if rec_errors:
+            errors.extend(rec_errors)
+            if isinstance(rid, int):
+                failed_ids.add(rid)
+
+    return errors, failed_ids
+
+
+def run_format_checks(records: list[dict]) -> list[str]:
+    """
+    对一批提取记录执行格式校验（向后兼容接口）。
+
+    Args:
+        records: 从 projects.db 查出的字典列表，键为列名
+
+    Returns:
+        错误描述列表。空列表表示全部通过。
+    """
+    errors, _ = run_format_checks_with_ids(records)
     return errors
