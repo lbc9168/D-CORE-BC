@@ -43,9 +43,10 @@ def _default_extractor_version() -> str:
             src += inspect.getsource(mod)
         except (ImportError, OSError):
             pass
-    # 确定性解析层（capacity_parser + s2_basic stage 后处理）纳入哈希：
+    # 确定性解析层（capacity_parser + s2_basic stage 后处理 + entity_normalize + s4/s5 stage）纳入哈希：
     # 解析器修复应使旧 eval 缓存失效（否则 parser-only 改动不能触发重跑）
-    for modname in ("capacity_parser", "stages.s2_basic"):
+    for modname in ("capacity_parser", "stages.s2_basic", "stages.entity_normalize",
+                    "stages.s4_entity", "stages.s5_summary"):
         try:
             mod = __import__(f"s01b_project_extractor.{modname}", fromlist=["*"])
             src += inspect.getsource(mod)
