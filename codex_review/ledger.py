@@ -117,6 +117,13 @@ def is_settled(ledger: dict, key: str) -> bool:
     return key in ledger.get("entries", {})
 
 
+def _today() -> str:
+    """返回今日 ISO 日期字符串（YYYY-MM-DD）。"""
+    from datetime import date
+
+    return date.today().isoformat()
+
+
 def record(
     ledger: dict,
     key: str,
@@ -136,10 +143,3 @@ def record(
         "decided_at": _today(),
         "verdict_digest": verdict_digest,
     }
-
-
-def _today() -> str:
-    """返回今日 ISO 日期字符串（YYYY-MM-DD）。"""
-    from datetime import date
-
-    return date.today().isoformat()

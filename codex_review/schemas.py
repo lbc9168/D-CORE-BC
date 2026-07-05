@@ -183,7 +183,7 @@ class T1Verdict(BaseModel):
     confidence: Confidence
     evidence_quote: Annotated[str, Field(min_length=1)]
     survivor_id: str | None = None
-    reason: str
+    reason: Annotated[str, Field(min_length=1)]
 
     @field_validator("evidence_quote")
     @classmethod
