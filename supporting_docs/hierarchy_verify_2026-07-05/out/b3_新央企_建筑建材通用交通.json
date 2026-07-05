@@ -1,0 +1,371 @@
+{
+  "batch": "b3_新央企_建筑建材通用交通",
+  "results": [
+    {
+      "raw_name": "中国建筑集团有限公司",
+      "freq": 110,
+      "classification": "new_group",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cscec.com.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22259586"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国务院国资委直管中央企业，简称中建集团/CSCEC，总部北京，1983年成立；是中国建筑股份有限公司（601668）的控股股东（持股57.7%）。"
+    },
+    {
+      "raw_name": "中国建筑股份有限公司",
+      "freq": 6,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑股份有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7356460",
+        "https://www.chinamoney.org.cn/dqs/cm-s-notice-query/fileDownLoad.do?contentId=3128491&priority=0&mode=save"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中建集团旗下核心上市平台（A股601668），2007年成立，中建集团持股57.7%；中建三局、四局、五局等各工程局均为中建股份全资子公司，最终归属中建集团。"
+    },
+    {
+      "raw_name": "中建三局",
+      "freq": 12,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑第三工程局有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E7%AC%AC%E4%B8%89%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6807719",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中建三局即中国建筑第三工程局有限公司，1965年成立，总部武汉，是中国建筑股份有限公司全资子公司，最终归属中国建筑集团有限公司。"
+    },
+    {
+      "raw_name": "中建五局",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑第五工程局有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2",
+        "https://www.cehome.com/news/20211012/271940.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中建五局即中国建筑第五工程局有限公司，是中建股份全资子公司，最终归属中国建筑集团有限公司。"
+    },
+    {
+      "raw_name": "中国建筑第三工程局有限公司",
+      "freq": 12,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑第三工程局有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E7%AC%AC%E4%B8%89%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6807719"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与“中建三局“同一主体，全称即中国建筑第三工程局有限公司，中建股份全资子公司，归属中国建筑集团有限公司。"
+    },
+    {
+      "raw_name": "中国建筑第四工程局有限公司",
+      "freq": 15,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑第四工程局有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2",
+        "https://www.cehome.com/news/20211012/271940.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中建四局，是中建股份全资子公司，总部广州，归属中国建筑集团有限公司。"
+    },
+    {
+      "raw_name": "中国建筑第五工程局有限公司",
+      "freq": 14,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑第五工程局有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2",
+        "https://www.cehome.com/news/20211012/271940.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与“中建五局“同一主体，全称中国建筑第五工程局有限公司，中建股份全资子公司，归属中国建筑集团有限公司。"
+    },
+    {
+      "raw_name": "中国建材集团",
+      "freq": 63,
+      "classification": "new_group",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中国建材集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cnbm.com.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E6%9D%90%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国资委直管中央企业，英文缩写CNBM；2016年由中国建筑材料集团有限公司与中国中材集团有限公司重组而成，中材系各子公司随之并入。"
+    },
+    {
+      "raw_name": "中国中材节能股份有限公司",
+      "freq": 35,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中材节能股份有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.sinoma-ec.cn/",
+        "https://m.plfrog.com/review/48392.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "A股上市公司（603126），原属中国中材集团，2016年重组后并入中国建材集团；实际控制人为国资委。注：“中国中材节能“为数据库中的写法，上市公司全称为“中材节能股份有限公司“。"
+    },
+    {
+      "raw_name": "中材海外",
+      "freq": 12,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中国中材海外科技发展有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.sinomaee.com/",
+        "https://www.cnbm.com.cn/CNBM/000000010009/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国中材海外科技发展有限公司，是中材国际（中国中材国际工程股份有限公司，A股600970）的全资子公司，归属中国建材集团；专注海外水泥工程服务。"
+    },
+    {
+      "raw_name": "中材海外工程有限公司",
+      "freq": 11,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中国中材海外科技发展有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.sinomaee.com/",
+        "https://www.capco.org.cn/gjhz/ydyl/202209/20220928/j_2022092808314900016758393067144391.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "与“中材海外“指同一主体（中国中材海外科技发展有限公司），“中材海外工程有限公司“为数据库中的别名写法；归属中国建材集团旗下中材国际体系。"
+    },
+    {
+      "raw_name": "中材建设有限公司",
+      "freq": 6,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中材建设有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cbmi.com.cn/",
+        "https://www.capco.org.cn/gjhz/ydyl/202209/20220928/j_2022092808314900016758393067144391.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中材建设有限公司（CBMI），近60年历史，是中材国际（中国中材国际工程股份有限公司）旗下子公司，归属中国建材集团。"
+    },
+    {
+      "raw_name": "中材建设",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中材建设有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cbmi.com.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与“中材建设有限公司“同一主体，简称写法；归属中国建材集团旗下中材国际体系。"
+    },
+    {
+      "raw_name": "中国中材国际工程股份有限公司",
+      "freq": 12,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中国中材国际工程股份有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.sinoma.com.cn/",
+        "https://finance.sina.com.cn/roll/2024-08-04/doc-inchqann1232210.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "简称“中材国际“，A股上市（600970），是中国建材集团旗下水泥技术工程集成商，全球市场份额连续16年第一；中材海外、中材建设等为其子公司。"
+    },
+    {
+      "raw_name": "苏州中材科技股份有限公司",
+      "freq": 6,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "中材科技（苏州）有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://suzhou.sinomatech.com/",
+        "https://www.cnbm.com.cn/CNBM/000000010009/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "数据库中的“苏州中材科技股份有限公司“对应的实际主体为中材科技（苏州）有限公司，2004年成立，隶属于中建材旗下中材科技股份有限公司（深交所002080），专注储氢/气瓶业务；归属中国建材集团。注：中材科技股份有限公司（深交所002080）本身才是上市主体，苏州子公司非上市公司。"
+    },
+    {
+      "raw_name": "中国通用技术（集团）控股有限责任公司",
+      "freq": 59,
+      "classification": "new_group",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": "中国通用技术（集团）控股有限责任公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.gt.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E9%80%9A%E7%94%A8%E6%8A%80%E6%9C%AF%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国资委直管中央企业，简称通用技术集团/Genertec，1998年由6家原外经贸部直属企业组建；世界500强（2020年第477位），核心业务含先进制造、医药健康、贸易与工程服务。"
+    },
+    {
+      "raw_name": "通用技术国际公司",
+      "freq": 15,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": "通用技术集团国际控股有限公司",
+      "parent_cn": "中国通用技术（集团）控股有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.intlgt.cn/",
+        "https://m.bjx.com.cn/mnews/20220517/1225542.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "通用技术集团国际控股有限公司（Genertec International Holding Co., Ltd.），2022年5月成立，中国通用技术集团全资子公司；整合了中技公司、中机公司、通用咨询三家工程服务企业。"
+    },
+    {
+      "raw_name": "通用技术",
+      "freq": 11,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.gt.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E9%80%9A%E7%94%A8%E6%8A%80%E6%9C%AF%EF%BC%88%E9%9B%86%E5%9B%A2%EF%BC%89%E6%8E%A7%E8%82%A1%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/5048737"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "\"通用技术\"是中国通用技术（集团）控股有限责任公司的常用简称，无独立法人；数据中出现此名通常指集团本身或旗下通用技术集团国际控股有限公司业务口径。"
+    },
+    {
+      "raw_name": "通用技术中技公司",
+      "freq": 9,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": "中国技术进出口集团有限公司",
+      "parent_cn": "中国通用技术（集团）控股有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cntic.com.cn/",
+        "https://www.intlgt.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "\"通用技术中技公司\"即中国技术进出口集团有限公司（CNTIC），简称中技，1952年成立，1998年成为通用技术集团全资子公司，2022年并入通用技术集团国际控股有限公司体系；主营工程承包和贸易。"
+    },
+    {
+      "raw_name": "中国技术进出口集团有限公司",
+      "freq": 10,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": "中国技术进出口集团有限公司",
+      "parent_cn": "中国通用技术（集团）控股有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cntic.com.cn/",
+        "https://www.intlgt.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "简称中技/CNTIC，1952年成立，1998年起是中国通用技术集团全资子公司（创始成员），2022年成为通用技术集团国际控股有限公司成员企业；与“通用技术中技公司“同一主体。"
+    },
+    {
+      "raw_name": "中国中技国际招标有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": "中技国际招标有限公司",
+      "parent_cn": "中国通用技术（集团）控股有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.chinaitc.com.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E6%8A%80%E5%9B%BD%E9%99%85%E6%8B%9B%E6%A0%87%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20069600"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "数据库中写法为“中国中技国际招标有限公司“，工商注册全称为“中技国际招标有限公司“，1984年成立，是通用技术集团国际控股有限公司旗下业务单元，累计招标采购规模超4万亿元。"
+    },
+    {
+      "raw_name": "中国交通建设集团",
+      "freq": 58,
+      "classification": "new_group",
+      "canonical_group_cn": "中国交通建设集团有限公司",
+      "legal_full_name_cn": "中国交通建设集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%BA%A4%E9%80%9A%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7142811",
+        "http://www.sasac.gov.cn/n1180/template/6296372/template.htm"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国资委直管中央企业，简称中交集团/CCCC，2005年由原中国港湾建设集团总公司与原中国路桥集团总公司合并成立；2006年独家发起设立上市公司中国交通建设股份有限公司（港股HK0688/A股601800）；《财富》2022年世界500强第60位。"
+    },
+    {
+      "raw_name": "中国港湾工程有限责任公司",
+      "freq": 31,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国交通建设集团有限公司",
+      "legal_full_name_cn": "中国港湾工程有限责任公司",
+      "parent_cn": "中国交通建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.chec.bj.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B8%AF%E6%B9%BE%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/8332228"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "简称中国港湾/CHEC，是中国交通建设股份有限公司（中交股份）全资子公司，负责中交集团海外市场开拓；前身1980年成立，在100多个国家设有90余个分支机构；最终归属中国交通建设集团有限公司。"
+    }
+  ]
+}

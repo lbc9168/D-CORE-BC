@@ -1,0 +1,389 @@
+{
+  "batch": "b2_其他央企发电电网系",
+  "results": [
+    {
+      "raw_name": "国家电投",
+      "freq": 9,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "国家电力投资集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E5%9B%BD%E5%AE%B6%E7%94%B5%E5%8A%9B%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2",
+        "https://ngce.ncepu.edu.cn/docs/2025-09/0747367ea9984facb086efa67d3c8834.pdf"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国家电投是国家电力投资集团有限公司的官方简称，两者完全等同。"
+    },
+    {
+      "raw_name": "国家电投中电国际控股",
+      "freq": 24,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "国家电力投资集团有限公司",
+      "legal_full_name_cn": "中国电力国际有限公司",
+      "parent_cn": "国家电力投资集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cspplaza.com/article-16592-1.html",
+        "http://www.sasac.gov.cn/n2588035/n2588325/c24788712/content.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国电力国际有限公司（简称中电国际）是国家电投全资子公司，2019年重组为集团境外发展主力平台；'国家电投中电国际控股'是数据库中对该子公司的描述性写法，法定名称为中国电力国际有限公司。"
+    },
+    {
+      "raw_name": "中国电力国际有限公司",
+      "freq": 16,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "国家电力投资集团有限公司",
+      "legal_full_name_cn": "中国电力国际有限公司",
+      "parent_cn": "国家电力投资集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cpihl.com.cn/Mobile/List/index/cid/6.html",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9C%8B%E9%9B%BB%E5%8A%9B%E6%8A%95%E8%B3%87%E9%9B%86%E5%9C%98%E5%85%AC%E5%8F%B8"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国电力国际有限公司（中电国际）于1994年在香港注册成立，是国家电投全资子公司，负责集团境外业务；旗下上市公司为中国电力国际发展有限公司（港交所2380）。"
+    },
+    {
+      "raw_name": "黄河水电公司",
+      "freq": 15,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "国家电力投资集团有限公司",
+      "legal_full_name_cn": "国家电投集团黄河上游水电开发有限责任公司",
+      "parent_cn": "国家电力投资集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://finance.sina.com.cn/roll/2025-02-17/doc-inekvaiz4636178.shtml",
+        "https://www.gepic.cn/gywm/tzqy/cggs/art/2014/art_4b50415f7c074f109ca3208236f43911.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "黄河水电公司即国家电投集团黄河上游水电开发有限责任公司，国家电投控股94.2%，是集团核心水电资产平台，成立于1999年10月。"
+    },
+    {
+      "raw_name": "中国国家电力投资集团",
+      "freq": 6,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "国家电力投资集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E5%9B%BD%E5%AE%B6%E7%94%B5%E5%8A%9B%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2",
+        "https://baike.baidu.com/item/%E5%9B%BD%E5%AE%B6%E7%94%B5%E5%8A%9B%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22426027"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与国家电投完全等同，只是写法在国家前加了中国，系非规范写法或翻译回传，指同一央企。"
+    },
+    {
+      "raw_name": "大唐集团",
+      "freq": 14,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国大唐集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.china-cdt.com/",
+        "https://www.dteg.com.cn/dteg/gywm/jtjj/A041002001Gone1.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "大唐集团是中国大唐集团有限公司的常用简称。"
+    },
+    {
+      "raw_name": "大唐海投",
+      "freq": 8,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国大唐集团有限公司",
+      "legal_full_name_cn": "中国大唐集团海外投资有限公司",
+      "parent_cn": "中国大唐集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.china-cdto.com/",
+        "https://www.dteg.com.cn/dtwz/zywh/dtpp/2025/5/I1372860406954983424.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国大唐集团海外投资有限公司（品牌名大唐海投）是中国大唐集团全资子公司，2007年8月注册成立，是集团海外业务主平台。"
+    },
+    {
+      "raw_name": "华电海外投资有限公司",
+      "freq": 17,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国华电集团有限公司",
+      "legal_full_name_cn": "华电海外投资有限公司",
+      "parent_cn": "中国华电集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.bjx.com.cn/mnews/20220415/1217806.shtml",
+        "https://www.cpnn.com.cn/news/zhaopinxinxi2023/202311/t20231129_1655113.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "华电海外投资有限公司2022年1月在北京注册成立，由中国华电香港有限公司业务切换而来，是中国华电集团全资子公司和海外业务主平台。"
+    },
+    {
+      "raw_name": "华电海投",
+      "freq": 6,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国华电集团有限公司",
+      "legal_full_name_cn": "华电海外投资有限公司",
+      "parent_cn": "中国华电集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.bjx.com.cn/mnews/20220415/1217806.shtml",
+        "https://www.cpnn.com.cn/news/zhaopinxinxi2023/202311/t20231129_1655113.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "华电海投是华电海外投资有限公司的简称，与华电海外投资有限公司完全等同。"
+    },
+    {
+      "raw_name": "中国华电香港公司",
+      "freq": 7,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国华电集团有限公司",
+      "legal_full_name_cn": "中国华电香港有限公司",
+      "parent_cn": "中国华电集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://power.in-en.com/html/power-21003.shtml",
+        "http://www.sasac.gov.cn/n2588025/n2588124/c3843651/content.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国华电香港有限公司于2006年在香港注册成立，是华电集团全资子公司，2022年业务切换为华电海外投资有限公司（内地主体），但香港实体仍存续；现已是华电海外投资有限公司的前身/关联平台。"
+    },
+    {
+      "raw_name": "中国长江三峡集团公司",
+      "freq": 12,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国长江三峡集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E9%95%BF%E6%B1%9F%E4%B8%89%E5%B3%A1%E9%9B%86%E5%9B%A2",
+        "https://www.ctg.com.cn/sxjt/gywm1/jtjj/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国长江三峡集团公司是该集团2017年公司制改制前的旧称（2009年至2017年），2017年12月28日更名为中国长江三峡集团有限公司，属同一实体的历史名称。"
+    },
+    {
+      "raw_name": "三峡国际",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国长江三峡集团有限公司",
+      "legal_full_name_cn": "三峡国际能源投资集团有限公司",
+      "parent_cn": "中国长江三峡集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.ctgi.cn/ctgichina/1047919/1047902/index.html",
+        "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E9%95%BF%E6%B1%9F%E4%B8%89%E5%B3%A1%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "三峡国际即三峡国际能源投资集团有限公司，2011年成立，是三峡集团海外业务主平台。"
+    },
+    {
+      "raw_name": "三峡巴西公司",
+      "freq": 8,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国长江三峡集团有限公司",
+      "legal_full_name_cn": "中国三峡（巴西）股份有限公司",
+      "parent_cn": "三峡国际能源投资集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.ctg.com.cn/sxjt/xwzx55/zhxw23/2024081106361659407/index.html",
+        "https://www.ctgi.cn/ctgichina/1047999/1047904/2024082916531750297/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "三峡巴西公司即中国三峡（巴西）股份有限公司，2013年设立，归属三峡国际（三峡集团海外子公司），目前是巴西第三大发电企业。"
+    },
+    {
+      "raw_name": "中广核",
+      "freq": 9,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国广核集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%B9%BF%E6%A0%B8%E9%9B%86%E5%9B%A2",
+        "https://www.cgnpc.com.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中广核是中国广核集团有限公司的官方简称。"
+    },
+    {
+      "raw_name": "中广核巴西公司",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国广核集团有限公司",
+      "legal_full_name_cn": "中广核巴西能源控股有限公司",
+      "parent_cn": "中国广核能源国际控股有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cnnpn.cn/article/36999.html",
+        "https://www.ndrc.gov.cn/fggz/gjhz/zywj/202010/t20201010_1243953.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中广核巴西能源控股有限公司是中广核能源国际控股有限公司（中广核集团旗下）的海外子公司，成立于2019年，目前是巴西第五大清洁能源发电商，在运装机1444.8MW。"
+    },
+    {
+      "raw_name": "中广核老挝公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国广核集团有限公司",
+      "legal_full_name_cn": "中广核能源科技（老挝）有限公司",
+      "parent_cn": "中国广核能源国际控股有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.yidaiyilu.gov.cn/p/0H27466B.html",
+        "https://www.cgnpc.com.cn/cgn/c100944/2024-09/27/content_dc378e2136054f84918f567838a7a481.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中广核老挝公司即中广核能源科技（老挝）有限公司，是中广核为推进中老电力互联互通在老挝设立的属地化公司，开发老挝北部清洁能源基地（一期1GW光伏+556MW风电）。"
+    },
+    {
+      "raw_name": "中广核能源国际",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国广核集团有限公司",
+      "legal_full_name_cn": "中国广核能源国际控股有限公司",
+      "parent_cn": "中国广核集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.cgnei.com/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%B9%BF%E6%A0%B8%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中广核能源国际即中国广核能源国际控股有限公司，是中广核集团旗下负责海外新能源业务的专业子公司，持有中广核新能源72.33%股份。"
+    },
+    {
+      "raw_name": "中核集团",
+      "freq": 8,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国核工业集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cnnc.com.cn/cnnc/jtgk/jtjs/index.html",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%A0%B8%E5%B7%A5%E4%B8%9A%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中核集团是中国核工业集团有限公司的官方简称（英文CNNC）。"
+    },
+    {
+      "raw_name": "国网巴西控股公司",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "国家电网有限公司",
+      "legal_full_name_cn": "国家电网巴西控股公司",
+      "parent_cn": "国家电网有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://news.goalfore.cn/a/2356.html",
+        "https://lac.tsinghua.edu.cn/info/1062/1104.htm"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国家电网巴西控股公司（缩写SGBH）2010年在里约热内卢注册成立，是国家电网有限公司在巴西的控股投资平台，运营输电线路7623公里，是巴西第三大输电运营商。"
+    },
+    {
+      "raw_name": "南方电网云南国际公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国南方电网有限责任公司",
+      "legal_full_name_cn": "南方电网云南国际有限责任公司",
+      "parent_cn": "中国南方电网有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%8D%97%E6%96%B9%E7%94%B5%E7%BD%91%E4%BA%91%E5%8D%97%E5%9B%BD%E9%99%85%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/19996683",
+        "https://zhuanlan.zhihu.com/p/527304053"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "南方电网云南国际有限责任公司2013年5月在云南瑞丽注册成立，是中国南方电网控股子公司，主营跨境输变电项目资产经营及跨境购售电。"
+    },
+    {
+      "raw_name": "东方电气集团",
+      "freq": 7,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国东方电气集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%B8%9C%E6%96%B9%E7%94%B5%E6%B0%94%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5799929",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%9C%E6%96%B9%E7%94%B5%E6%B0%94"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "东方电气集团是中国东方电气集团有限公司的常用简称，两者等同。"
+    },
+    {
+      "raw_name": "三一硅能",
+      "freq": 30,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "三一集团有限公司",
+      "legal_full_name_cn": "三一硅能（株洲）有限公司",
+      "parent_cn": "三一集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://siliconenergy.sany.com.cn/about/introduction.html",
+        "https://solar.ofweek.com/2023-12/ART-260001-8420-30618740.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "三一硅能（株洲）有限公司是三一集团（民营）于2022年8月19日注册成立的光伏业务子公司，专注拉晶-切片-电池-组件全产业链及光伏EPC；三一集团为民营企业，is_central_soe=false。"
+    },
+    {
+      "raw_name": "上海电气",
+      "freq": 10,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "上海电气集团股份有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%8A%E6%B5%B7%E9%9B%BB%E6%B0%A3",
+        "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E7%94%B5%E6%B0%94%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/2853353"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "上海电气是上海电气集团股份有限公司的官方简称（A股601727，H股2727）；该公司是上海国资委控股的上市公司，非国资委直管央企，is_central_soe=false。"
+    },
+    {
+      "raw_name": "上海电气电站工程公司",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "上海电气集团股份有限公司",
+      "legal_full_name_cn": "上海电气电站工程公司",
+      "parent_cn": "上海电气集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.shanghai-electric.com/group/dqdzgcgsjs/",
+        "https://www.shanghai-electric.com/listed/wmdqy/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "上海电气电站工程公司是上海电气集团旗下负责国内外电站EPC承包的专业子公司，在全球25个国家承接224个项目，设有21个境外分支机构。"
+    }
+  ]
+}

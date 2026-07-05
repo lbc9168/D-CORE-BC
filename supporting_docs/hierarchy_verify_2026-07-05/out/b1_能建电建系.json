@@ -1,0 +1,483 @@
+{
+  "batch": "b1_能建电建系",
+  "results": [
+    {
+      "raw_name": "中国能建国际集团",
+      "freq": 1800,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建国际建设集团有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.geidco.org.cn/pcarticle/3986",
+        "https://www.ceec.net.cn/col/col57698/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2021年9月29日揭牌成立的中能建国际建设集团有限公司，是中国能源建设集团全资子公司，负责统筹中国能建所有海外业务，'中国能建国际集团'是其简称。"
+    },
+    {
+      "raw_name": "中国能建国际建设集团",
+      "freq": 40,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建国际建设集团有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.qcc.com/firm/c986c6d9a40b971c3a8a63daad7aeacb.html",
+        "https://www.ceec.net.cn/col/col57698/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与上条同实体，法定全称'中能建国际建设集团有限公司'的另一简称写法，均指同一公司。"
+    },
+    {
+      "raw_name": "中国能建集团国际建设集团有限公司",
+      "freq": 17,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建国际建设集团有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.qcc.com/firm/c986c6d9a40b971c3a8a63daad7aeacb.html",
+        "https://www.ceec.net.cn/col/col57698/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "同'中能建国际建设集团有限公司'，此为非标写法（将'中国能建'与'国际建设集团'叠拼），实为同一法律实体。"
+    },
+    {
+      "raw_name": "中国能源建设集团国际建设集团有限公司",
+      "freq": 7,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建国际建设集团有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.qcc.com/firm/c986c6d9a40b971c3a8a63daad7aeacb.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "同上，'中国能源建设集团'与'国际建设集团有限公司'叠拼，指中能建国际建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能源建设集团国际工程有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团国际工程有限公司",
+      "parent_cn": "中能建国际建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22605027",
+        "https://cn.linkedin.com/company/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2018年成立，中能建国际建设集团有限公司全资子公司，是国际工程业务履约核心平台，最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "能建海投",
+      "freq": 16,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建海外投资有限公司",
+      "parent_cn": "中能建国际建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.h2o-china.com/news/350716.html",
+        "https://www.ceec.net.cn/art/2025/1/11/art_11019_2534165.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2024年5月15日由'中国葛洲坝集团海外投资有限公司'更名为'中能建海外投资有限公司'（简称'能建海投'），归口中国能建国际集团管理，最终母公司为中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能建海投公司",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建海外投资有限公司",
+      "parent_cn": "中能建国际建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.h2o-china.com/news/350716.html",
+        "https://www.ceec.net.cn/art/2025/1/11/art_11019_2534165.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "同'能建海投'，为中能建海外投资有限公司的另一口语简称，2024年5月前原名'中国葛洲坝集团海外投资有限公司'。"
+    },
+    {
+      "raw_name": "中国能建中电工程国际公司",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团国际工程有限公司",
+      "parent_cn": "中能建国际建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.ceec.net.cn/art/2022/10/11/art_11018_2524356.html",
+        "https://www.ceec.net.cn/col/col57698/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "'中电工程国际'为中国电力工程顾问集团国际工程有限公司的品牌简称，属中国能建体系内国际工程平台，与中国能源建设集团国际工程有限公司并行归属中能建国际集团，最终母公司同为中国能源建设集团有限公司；未查到独立注册法人名'中国能建中电工程国际公司'，confidence降为medium。"
+    },
+    {
+      "raw_name": "中国能建葛洲坝集团",
+      "freq": 10,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国葛洲坝集团有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2",
+        "https://www.ceec.net.cn/col/col52865/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国葛洲坝集团有限公司2011年并入中国能建，是其骨干子企业，'中国能建葛洲坝集团'为加挂母公司名的口语写法。"
+    },
+    {
+      "raw_name": "中国能建葛洲坝国际公司",
+      "freq": 9,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国葛洲坝集团国际工程有限公司",
+      "parent_cn": "中国葛洲坝集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.gaoxiaojob.com/announcement/detail/253065.html",
+        "https://www.ceec.net.cn/col/col52865/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国葛洲坝集团国际工程有限公司是中国葛洲坝集团有限公司全资子公司，最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中能建葛洲坝工程科技有限公司",
+      "freq": 6,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "中国葛洲坝集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cggc.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "名称含'中能建葛洲坝'前缀，推断为葛洲坝集团旗下工程科技子公司，葛洲坝集团隶属中国能源建设集团有限公司；未在公开数据库查到完整注册名，confidence降为medium。"
+    },
+    {
+      "raw_name": "中国能建葛洲坝电力公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国葛洲坝集团电力有限责任公司",
+      "parent_cn": "中国葛洲坝集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://m.wh.bendibao.com/job/161872.shtm",
+        "https://www.ceec.net.cn/col/col52865/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国葛洲坝集团电力有限责任公司（简称'葛洲坝电力'）是葛洲坝集团重要建筑子企业，最终母公司为中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国葛洲坝集团股份有限公司",
+      "freq": 11,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国葛洲坝集团股份有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5433072",
+        "http://www.csrc.gov.cn/csrc/c100094/c1565022/content.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2021年中国能源建设股份有限公司换股吸收合并中国葛洲坝集团股份有限公司，葛洲坝退市，现为中国能建旗下非上市股份公司（即中国葛洲坝集团有限公司的股份制形式），最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "葛洲坝海投公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中能建海外投资有限公司",
+      "parent_cn": "中能建国际建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.h2o-china.com/news/350716.html",
+        "https://www.linkedin.com/company/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2%E6%B5%B7%E5%A4%96%E6%8A%95%E8%B5%84%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "原名'中国葛洲坝集团海外投资有限公司'，2024年5月更名为'中能建海外投资有限公司'，'葛洲坝海投公司'为其历史口语名称，最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能源建设集团第三工程局有限公司",
+      "freq": 15,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团第三工程局有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.ceec.net.cn/col/col52771/index.html",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6018349"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国能源建设集团旗下直属施工子企业（工程局），最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能源建设集团装备有限公司",
+      "freq": 12,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团装备有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.ceec.net.cn/col/col52771/index.html",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9C%8B%E8%83%BD%E6%BA%90%E5%BB%BA%E8%A8%AD%E9%9B%86%E5%9C%98"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国能源建设集团旗下装备制造子企业，归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能建广西工程局",
+      "freq": 8,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团广西水电工程局有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.tianyancha.com/company/649371924",
+        "https://mpower.in-en.com/html/power-2415849.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "全称'中国能源建设集团广西水电工程局有限公司'，中国能建旗下施工子企业，承接过安哥拉等海外项目，归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能源建设集团福建公司",
+      "freq": 7,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.ceec.net.cn/col/col52771/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "中国能建在福建设有多家子企业（如中国能建福建电力工程公司等），'福建公司'为笼统简称，未查到以此为名的独立注册法人；推断为中国能建旗下某福建子公司，confidence降为medium。"
+    },
+    {
+      "raw_name": "中国能建山西院",
+      "freq": 6,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团山西省电力勘测设计院有限公司",
+      "parent_cn": "中国电力工程顾问集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%B1%B1%E8%A5%BF%E7%9C%81%E7%94%B5%E5%8A%9B%E5%8B%98%E6%B5%8B%E8%AE%BE%E8%AE%A1%E9%99%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20002965",
+        "https://sxed.dlzbxx.com/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "全称'中国能源建设集团山西省电力勘测设计院有限公司'，是中国电力工程顾问集团有限公司（属中国能建体系）旗下设计院，最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能源建设集团云南院",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团云南省电力设计院有限公司",
+      "parent_cn": "中国电力工程顾问集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E4%BA%91%E5%8D%97%E7%9C%81%E7%94%B5%E5%8A%9B%E8%AE%BE%E8%AE%A1%E9%99%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20010135",
+        "https://yndlsjy.dlzbxx.com/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "全称'中国能源建设集团云南省电力设计院有限公司'（成立于1958年），隶属中国电力工程顾问集团有限公司，最终归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国能源建设集团十五工程局有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国能源建设集团有限公司",
+      "legal_full_name_cn": "中国能源建设集团十五工程局有限公司",
+      "parent_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.gaoxiaojob.com/announcement/detail/249261.html",
+        "https://www.ceec.net.cn/col/col52771/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国能建旗下直属施工子企业（工程局），原为中国水电建设集团十五工程局，并入中国能建后更名，归属中国能源建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国电建国际公司",
+      "freq": 8,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团国际工程有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.powerchina-intl.com/gsjj/index.html",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20575112"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "'中国电建国际公司'为中国电建集团国际工程有限公司（电建国际）的简称，该公司是中国电力建设集团有限公司国际业务总部和核心企业。"
+    },
+    {
+      "raw_name": "中国电建国际工程有限公司",
+      "freq": 8,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团国际工程有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.powerchina-intl.com/gsjj/index.html",
+        "https://www.qichamao.com/orgcompany/searchitemdtl/560e7d67c19eab4f502211fd3380190a.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "同上，为中国电建集团国际工程有限公司的非正式简名（去掉'集团'两字），实为同一法律实体，2016年在北京成立，注册资本747.7亿元。"
+    },
+    {
+      "raw_name": "中国电建集团湖北工程有限公司",
+      "freq": 6,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团湖北工程有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E6%B9%96%E5%8C%97%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20042152",
+        "http://www.powerhubei.com/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2014年由湖北省电力建设一、二公司合并改制成立，中国电力建设集团有限公司全资子公司。"
+    },
+    {
+      "raw_name": "中国电建集团尼日利亚代表处",
+      "freq": 6,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "中国电建集团国际工程有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.powerchina-intl.com/show/9/2607.html",
+        "https://www.powerchina.cn/col14250/art/2022/art_14250_1543552.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国电建在尼日利亚的驻外代表处，隶属中国电建集团国际工程有限公司（电建国际），最终归属中国电力建设集团有限公司；代表处不是独立法人，无注册全称。"
+    },
+    {
+      "raw_name": "中国水利水电建设集团公司",
+      "freq": 10,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国水利水电建设集团公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6018035",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/16591559"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2011年中国电力建设集团有限公司重组时，中国水利水电建设集团公司成为其全资子公司（不再直属国资委），是中国电力建设集团的主要前身企业之一。"
+    },
+    {
+      "raw_name": "水电十局",
+      "freq": 6,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国水利水电第十工程局有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://10j.powerchina.cn/",
+        "http://stock.stockstar.com/RB2025110600005701.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "全称'中国水利水电第十工程局有限公司'，中国电建（601669）全资控股子公司，归属中国电力建设集团有限公司。"
+    },
+    {
+      "raw_name": "中国电建集团福建省电力勘测设计院有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团福建省电力勘测设计院有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://fedi.powerchina.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E7%A6%8F%E5%BB%BA%E7%9C%81%E7%94%B5%E5%8A%9B%E5%8B%98%E6%B5%8B%E8%AE%BE%E8%AE%A1%E9%99%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/51153550"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国电力建设集团有限公司全资子公司，成立于1993年，总部位于福州，有官网 fedi.powerchina.cn。"
+    },
+    {
+      "raw_name": "中国电建集团贵州工程有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团贵州工程有限公司",
+      "parent_cn": "中国电力建设股份有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E8%B4%B5%E5%B7%9E%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/23312717",
+        "http://gepcc.powerchina.cn/col/col508/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国电力建设股份有限公司全资控股子公司，最终归属中国电力建设集团有限公司。"
+    },
+    {
+      "raw_name": "湖北工程公司",
+      "freq": 7,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团湖北工程有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.powerhubei.com/",
+        "https://www.cs.com.cn/xgjj/dlczq/zgdj2014/07/02/201410/t20141031_4550956.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "'湖北工程公司'为中国电建集团湖北工程有限公司的口语简称，该公司2014年成立，官网 powerhubei.com，中国电建旗下全资子公司。"
+    }
+  ]
+}

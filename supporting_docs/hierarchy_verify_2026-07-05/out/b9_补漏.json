@@ -1,0 +1,119 @@
+{
+  "batch": "b9_补漏",
+  "results": [
+    {
+      "raw_name": "中国能源海外投资有限公司",
+      "freq": 121,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": null,
+      "source_urls": [
+        "https://www.h2o-china.com/news/350716.html",
+        "https://www.iguopin.com/company?id=10685368727947448",
+        "https://www.h2o-china.com/news/353653.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "网络核实结果：中国能建旗下确有「中能建海外投资有限公司」（原葛洲坝海投，2024年5月更名），中国电建旗下另有「中国电建集团海外投资有限公司」，两者均是央企海投子公司；但「中国能源海外投资有限公司」这一精确名称在工商登记、百科、权威新闻中均未查到独立法人登记记录，疑为「中能建海外投资有限公司」的旧称/讹写，也存在与国家能源集团海外投资业务混淆的可能性；freq=121频次极高，建议核查原始数据库中该名称出现的上下文（项目国家、合作方描述），通过企业信用信息公示系统或天眼查精确比对后再归类"
+    },
+    {
+      "raw_name": "特变电工国际工程有限公司",
+      "freq": 35,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "特变电工股份有限公司",
+      "legal_full_name_cn": "特变电工国际工程有限公司",
+      "parent_cn": "特变电工股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://jdjyw.jlu.edu.cn/portal/company/details?id=df06bbd498054b47aac886248e4c53ec",
+        "https://cn.linkedin.com/company/%E7%89%B9%E5%8F%98%E7%94%B5%E5%B7%A5%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8",
+        "https://baike.baidu.com/item/%E7%89%B9%E5%8F%98%E7%94%B5%E5%B7%A5%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/397107"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "特变电工国际工程有限公司是特变电工股份有限公司（A股600089，实控人张新，新疆昌吉民营企业）的全资子公司，主营境内外电力及基础设施工程总承包；本条属「本批新建集团」特变电工股份有限公司旗下子公司"
+    },
+    {
+      "raw_name": "华为",
+      "freq": 19,
+      "classification": "new_group",
+      "canonical_group_cn": "华为技术有限公司",
+      "legal_full_name_cn": "华为技术有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E5%8D%8E%E4%B8%BA",
+        "https://www.jiemian.com/article/1634369.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「华为」是「华为技术有限公司」的通用简称（华为技术有限公司为华为投资控股有限公司全资子公司，但对外常以华为技术有限公司作为主体）；实控人任正非（持股约1.01%+工会代持员工股，对重大决策有否决权）；100%员工持有的民营企业，无政府股权；新建顶层集团"
+    },
+    {
+      "raw_name": "隆基",
+      "freq": 11,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "隆基绿能科技股份有限公司",
+      "legal_full_name_cn": "隆基绿能科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/601012/company.html",
+        "https://www.china5e.com/news/news-1189242-1.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「隆基」是「隆基绿能科技股份有限公司」（A股601012）的常用简称；该集团已在b6批次登记为new_group（canonical_group_cn=隆基绿能科技股份有限公司）"
+    },
+    {
+      "raw_name": "杭州锦江集团有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "杭州锦江集团有限公司",
+      "legal_full_name_cn": "杭州锦江集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%9D%AD%E5%B7%9E%E9%94%A6%E6%B1%9F%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19976725",
+        "https://www.qixin.com/company/d0736f9e-fdd7-4fa4-8417-44ae0856f145"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "1993年成立，总部杭州，实控人钭正刚（持股53.14%）；中国民营企业500强，主营垃圾焚烧发电、有色金属（氧化铝）、化工新材料三大板块；旗下「锦江环境」（港股00895）为垃圾焚烧上市平台，2019年浙能集团入股持29.79%但钭正刚家族仍为第二大股东（各25.81%）；杭州锦江集团有限公司本身为顶层母公司，无上级集团，new_group"
+    },
+    {
+      "raw_name": "特变电工",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "特变电工股份有限公司",
+      "legal_full_name_cn": "特变电工股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.tbea.com/tbea/corpInfo.html",
+        "https://baike.baidu.com/item/%E7%89%B9%E5%8F%98%E7%94%B5%E5%B7%A5%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/397107"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「特变电工」是「特变电工股份有限公司」（A股600089，TBEA）的常用简称；1993年成立，总部新疆昌吉，实控人张新（合计持股约26%）；中国变压器行业第一家上市公司，资产逾2200亿元；无上级母集团，顶层民营集团；「特变电工国际工程有限公司」（本批第2条）为其全资子公司"
+    },
+    {
+      "raw_name": "中国中工国际工程股份有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": "中工国际工程股份有限公司",
+      "parent_cn": "中国机械工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.sinomach.com.cn/gygj/ssgs/zggj/",
+        "https://basic.10jqka.com.cn/002051/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「中国中工国际工程股份有限公司」是「中工国际工程股份有限公司」（深交所002051）的带「中国」前缀变体/录入错误；法定全称为「中工国际工程股份有限公司」，控股股东为国机集团（中国机械工业集团有限公司），国机集团已在registry_groups在册；主营国际工程总承包，已整合入国机工程集团（中国机械工业工程集团有限公司）二级平台"
+    }
+  ]
+}

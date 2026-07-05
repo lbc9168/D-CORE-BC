@@ -1,0 +1,307 @@
+{
+  "batch": "b7_民企储能锂电",
+  "results": [
+    {
+      "raw_name": "宁德时代新能源科技股份有限公司",
+      "freq": 13,
+      "classification": "new_group",
+      "canonical_group_cn": "宁德时代新能源科技股份有限公司",
+      "legal_full_name_cn": "宁德时代新能源科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.eastmoney.com/item/%E5%AE%81%E5%BE%B7%E6%97%B6%E4%BB%A3%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8",
+        "https://m.plfrog.com/review/46194.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所创业板上市民企（300750），实际控制人曾毓群/李平，无上级母公司，是独立顶层集团。"
+    },
+    {
+      "raw_name": "亿纬锂能",
+      "freq": 15,
+      "classification": "new_group",
+      "canonical_group_cn": "惠州亿纬锂能股份有限公司",
+      "legal_full_name_cn": "惠州亿纬锂能股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%83%A0%E5%B7%9E%E4%BA%BF%E7%BA%AC%E9%94%82%E8%83%BD%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/1313374",
+        "https://www.evebattery.com/about"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所创业板上市民企（300014），「亿纬锂能」是其通用简称，全称为惠州亿纬锂能股份有限公司，无上级母公司。"
+    },
+    {
+      "raw_name": "亿纬锂能马来西亚有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "惠州亿纬锂能股份有限公司",
+      "legal_full_name_cn": "亿纬锂能马来西亚有限公司",
+      "parent_cn": "惠州亿纬锂能股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.evebattery.com/news-825",
+        "https://www.marklines.com/cn/news/272853"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "惠州亿纬锂能股份有限公司通过亿纬亚洲间接全资控股的马来西亚海外生产子公司，位于吉打州，专注圆柱电池及储能电池制造。"
+    },
+    {
+      "raw_name": "国轩高科股份有限公司",
+      "freq": 10,
+      "classification": "new_group",
+      "canonical_group_cn": "国轩高科股份有限公司",
+      "legal_full_name_cn": "国轩高科股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.jiemian.com/article/6907692.html",
+        "https://static.cninfo.com.cn/finalpage/2025-04-25/1223284108.PDF"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市民企（002074），实际控制人李缜，大众中国虽持股26.47%为第一大股东但已放弃部分表决权，李缜仍为实控人，属民营独立集团。"
+    },
+    {
+      "raw_name": "国轩高科",
+      "freq": 7,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "国轩高科股份有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.jiemian.com/article/6907692.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「国轩高科」是「国轩高科股份有限公司」的通用简称，同一主体归拢。"
+    },
+    {
+      "raw_name": "海辰储能",
+      "freq": 13,
+      "classification": "new_group",
+      "canonical_group_cn": "厦门海辰储能科技股份有限公司",
+      "legal_full_name_cn": "厦门海辰储能科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://finance.sina.com.cn/wm/2023-07-05/doc-imyzrvhi2928748.shtml",
+        "https://pitchhub.36kr.com/project/2011444581205249"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "民营储能独角兽，由吴祖钰和王鹏程创立，已申请A股科创板IPO，「海辰储能」为其通用简称。"
+    },
+    {
+      "raw_name": "南都电源",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "浙江南都电源动力股份有限公司",
+      "legal_full_name_cn": "浙江南都电源动力股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.naradapower.com/about/index.html",
+        "https://static.cninfo.com.cn/finalpage/2025-04-26/1223323712.PDF"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所创业板上市民企（300068），「南都电源」为其通用简称，全称浙江南都电源动力股份有限公司，储能电池龙头。"
+    },
+    {
+      "raw_name": "天鹏电源",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "江苏蔚蓝锂芯股份有限公司",
+      "legal_full_name_cn": "江苏天鹏电源有限公司",
+      "parent_cn": "江苏蔚蓝锂芯股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://libattery.ofweek.com/2020-11/ART-36001-8500-30470783.html",
+        "https://www.tenpowercell.com.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "江苏天鹏电源有限公司是深交所上市公司蔚蓝锂芯（原澳洋顺昌，002245）的全资子公司，专注圆柱锂电池；蔚蓝锂芯为其顶层集团，民营企业。"
+    },
+    {
+      "raw_name": "盛新锂能集团股份有限公司",
+      "freq": 8,
+      "classification": "new_group",
+      "canonical_group_cn": "盛新锂能集团股份有限公司",
+      "legal_full_name_cn": "盛新锂能集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E7%9B%9B%E6%96%B0%E9%94%82%E8%83%BD%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/61451406",
+        "https://basic.10jqka.com.cn/002240/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市民企（002240），实际控制人姚雄杰通过盛屯集团持股，锂矿采选及锂盐生产，无上级母公司。"
+    },
+    {
+      "raw_name": "中矿资源集团股份有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "中矿资源集团股份有限公司",
+      "legal_full_name_cn": "中矿资源集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://static.cninfo.com.cn/finalpage/2025-04-25/1223271313.PDF",
+        "https://q.stock.sohu.com/cn/002738/zygd.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "深交所上市公司（002738），控股股东为央企中色矿业集团有限公司（持股14.13%），但7名自然人一致行动人（刘新国等）为实际控制人，上市公司本身不属于国资委直管央企范畴，is_central_soe 标 false；如后续数据需要区分混合所有制请人工复核。"
+    },
+    {
+      "raw_name": "赣锋锂业",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "江西赣锋锂业集团股份有限公司",
+      "legal_full_name_cn": "江西赣锋锂业集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E8%B4%9B%E9%8B%92%E9%8B%B0%E6%A5%AD",
+        "https://m.gwy.com/wenda/224501.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市民企（002460），实际控制人李良彬家族，「赣锋锂业」为通用简称，全称江西赣锋锂业集团股份有限公司。"
+    },
+    {
+      "raw_name": "海博思创",
+      "freq": 28,
+      "classification": "new_group",
+      "canonical_group_cn": "北京海博思创科技股份有限公司",
+      "legal_full_name_cn": "北京海博思创科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.hyperstrong.com/about-us/profile",
+        "https://finance.sina.com.cn/stock/stockzmt/2025-01-26/doc-inehhksk9190400.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "科创板上市民企（688411），北京市民营企业百强，「海博思创」为通用简称，全称北京海博思创科技股份有限公司。"
+    },
+    {
+      "raw_name": "中信博",
+      "freq": 27,
+      "classification": "new_group",
+      "canonical_group_cn": "江苏中信博新能源科技股份有限公司",
+      "legal_full_name_cn": "江苏中信博新能源科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://arctechsolar.com/news/214",
+        "https://stockmc.xueqiu.com/202508/688408_20250828_3C7I.pdf"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "科创板上市民企（688408），光伏跟踪支架龙头，英文名ARCTECH，「中信博」为通用简称，全称江苏中信博新能源科技股份有限公司。"
+    },
+    {
+      "raw_name": "中腾微网（北京）科技有限公司",
+      "freq": 27,
+      "classification": "new_group",
+      "canonical_group_cn": "中腾微网（北京）科技有限公司",
+      "legal_full_name_cn": "中腾微网（北京）科技有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://pitchhub.36kr.com/project/1678251947193352",
+        "https://finance.sina.com.cn/jjxw/2024-05-06/doc-inauhwex9122495.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "民营新能源微电网企业，英文名Sino Soar Hybrid，成立2015年，国家专精特新小巨人企业，天津中腾基业科技有限公司为法人股东，无央国企背景。"
+    },
+    {
+      "raw_name": "中腾微网",
+      "freq": 6,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中腾微网（北京）科技有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://pitchhub.36kr.com/project/1678251947193352"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「中腾微网」是「中腾微网（北京）科技有限公司」的惯用简称，同一主体归拢。"
+    },
+    {
+      "raw_name": "阿特斯储能科技有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "阿特斯阳光电力集团股份有限公司",
+      "legal_full_name_cn": "阿特斯储能科技有限公司",
+      "parent_cn": "阿特斯阳光电力集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://pdf.dfcfw.com/pdf/H3_AP202308061593394336_1.pdf",
+        "https://cn.csisolar.com/aboutus/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "阿特斯阳光电力集团股份有限公司（科创板688472）的储能业务全资子公司，注册地江苏盐城，阿特斯集团为其顶层规范集团，民营企业。注：阿特斯阳光电力集团的境外母公司为纳斯达克上市的阿特斯太阳能（CSIQ），但阿特斯阳光电力集团股份有限公司（688472）为在册中国公司层级的顶层。"
+    },
+    {
+      "raw_name": "晶科储能",
+      "freq": 15,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "晶科能源股份有限公司",
+      "legal_full_name_cn": "晶科储能科技有限公司",
+      "parent_cn": "晶科能源股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.stcn.com/article/detail/750949.html",
+        "https://finance.sina.com.cn/stock/relnews/us/2025-01-21/doc-ineftmqx8561322.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "晶科能源股份有限公司（科创板688223）的储能业务全资子公司，2022年末成立，「晶科储能」为其品牌简称；晶科能源为民营企业，实际控制人李良彬/陈康平等。注：晶科能源为已在册集团（registry_groups 未含，需确认是否在 b6 批已建）。如未在册，晶科能源本身须作为 new_group 另建，此处按 subsidiary_of_existing 处理需配套建立晶科能源集团条目。"
+    },
+    {
+      "raw_name": "天合储能",
+      "freq": 24,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "天合光能股份有限公司",
+      "legal_full_name_cn": "江苏天合储能有限公司",
+      "parent_cn": "天合光能股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.jiemian.com/article/10400130.html",
+        "https://www.jiemian.com/article/12903813.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "江苏天合储能有限公司是天合光能股份有限公司（科创板688599）的控股子公司（2025年持股64.31%），「天合储能」为其品牌简称；天合光能为民营企业，实际控制人高纪凡。注：天合光能如未在 registry_groups 中在册，需配套建立天合光能集团条目。"
+    },
+    {
+      "raw_name": "比亚迪",
+      "freq": 16,
+      "classification": "new_group",
+      "canonical_group_cn": "比亚迪股份有限公司",
+      "legal_full_name_cn": "比亚迪股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://m.plfrog.com/review/46165.html",
+        "https://baike.eastmoney.com/item/%E6%AF%94%E4%BA%9A%E8%BF%AA%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "港股及深交所双重上市民企（002594），实际控制人王传福，虽有深圳国资参股约20%但属民营企业，「比亚迪」为通用简称，全称比亚迪股份有限公司。"
+    }
+  ]
+}

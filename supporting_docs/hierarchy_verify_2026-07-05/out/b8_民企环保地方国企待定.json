@@ -1,0 +1,645 @@
+{
+  "batch": "b8_民企环保地方国企待定",
+  "results": [
+    {
+      "raw_name": "紫金矿业集团股份有限公司",
+      "freq": 20,
+      "classification": "new_group",
+      "canonical_group_cn": "紫金矿业集团股份有限公司",
+      "legal_full_name_cn": "紫金矿业集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.zjky.cn/sustainable/esg-message-detail-119257.htm",
+        "https://www.solidwaste.com.cn/news/335340.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "福建省上杭县地方国资控股的A股上市矿业集团，实际控制人为上杭县财政局，is_central_soe=false；龙净环保为其旗下控股上市子公司（见龙净环保条目）。"
+    },
+    {
+      "raw_name": "协鑫集团",
+      "freq": 7,
+      "classification": "new_group",
+      "canonical_group_cn": "协鑫集团有限公司",
+      "legal_full_name_cn": "协鑫集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%8D%8F%E9%91%AB%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22603489",
+        "https://pro.huxiu.com/article/431248.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "朱共山创办的民营光伏硅料集团，总部江苏苏州，旗下有协鑫科技（港股3800）、协鑫新能源（港股00182已改名协合新能源，注意此处协鑫新能源另见条目）等，纯粹民营企业，非国企。"
+    },
+    {
+      "raw_name": "寰泰能源股份有限公司",
+      "freq": 20,
+      "classification": "new_group",
+      "canonical_group_cn": "寰泰能源股份有限公司",
+      "legal_full_name_cn": "寰泰能源股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.universalenergy.com/zh/about",
+        "https://baike.baidu.com/item/%E5%AF%B0%E6%B3%B0%E8%83%BD%E6%BA%90%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%80%E5%85%AC%E5%8F%B8/20071376"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2015年成立于上海，法定代表人南逸，专注一带一路风光电站投资运营的民营企业。「中国寰泰能源公司」为同一实体的另一称呼，规范名以工商登记全称为准。"
+    },
+    {
+      "raw_name": "中国寰泰能源公司",
+      "freq": 21,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "寰泰能源股份有限公司",
+      "legal_full_name_cn": "寰泰能源股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.universalenergy.com/zh/about",
+        "https://www.chinca.org/CICA/Member/Query/Show/290020240110"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「中国寰泰能源公司」是「寰泰能源股份有限公司」在对外项目或新闻报道中的常用简称/别称，法定注册全称为后者，归拢到同一集团。"
+    },
+    {
+      "raw_name": "中国天楹股份有限公司",
+      "freq": 18,
+      "classification": "new_group",
+      "canonical_group_cn": "中国天楹股份有限公司",
+      "legal_full_name_cn": "中国天楹股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.cnty.cn/about.html",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%A4%A9%E6%A5%B9%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19981716"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "南通民营环保上市公司（深交所000035），第一大股东南通乾创投资有限公司，入选胡润中国民营企业500强，从事垃圾焚烧发电、储能及新能源，独立顶层集团。"
+    },
+    {
+      "raw_name": "中国上海康恒环境股份有限公司",
+      "freq": 14,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "上海康恒环境股份有限公司",
+      "legal_full_name_cn": "上海康恒环境股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%BA%B7%E6%81%92%E7%8E%AF%E5%A2%83%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/16767582",
+        "https://www.cs.ecitic.com/newsite/tzgg/ipoqyfdgg/202211/t20221128_1172930.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "工商登记全称为「上海康恒环境股份有限公司」，「中国上海康恒环境股份有限公司」是项目文件中的前缀写法，与「康恒环境」同归一实体。"
+    },
+    {
+      "raw_name": "康恒环境",
+      "freq": 12,
+      "classification": "new_group",
+      "canonical_group_cn": "上海康恒环境股份有限公司",
+      "legal_full_name_cn": "上海康恒环境股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%BA%B7%E6%81%92%E7%8E%AF%E5%A2%83%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/16767582",
+        "https://www.shsus.com/info.php?class_id=103"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2008年成立，全球最大垃圾焚烧设备与技术提供者之一，民营企业，正在IPO辅导，规范名「上海康恒环境股份有限公司」，「康恒环境」为简称。"
+    },
+    {
+      "raw_name": "军信股份",
+      "freq": 11,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "湖南军信环保股份有限公司",
+      "legal_full_name_cn": "湖南军信环保股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.caiku.com/company/0086301109/info",
+        "http://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESZ_STOCK/2026/2026-6/2026-06-14/12392955.PDF"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "证券简称「军信股份」，证券代码301109（深交所），全称「湖南军信环保股份有限公司」，民营固废处理上市公司。"
+    },
+    {
+      "raw_name": "湖南军信环保股份有限公司",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "湖南军信环保股份有限公司",
+      "legal_full_name_cn": "湖南军信环保股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.junxinep.com/",
+        "http://gxt.hunan.gov.cn/gxt/xxgk_71033/gzdt/qyzx/202204/t20220414_22735958.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "湖南民营固废处理龙头，2022年深交所上市（301109），已在吉尔吉斯设立海外子公司，是顶层集团实体。"
+    },
+    {
+      "raw_name": "军信环保（吉尔吉斯）投资有限公司",
+      "freq": 7,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "湖南军信环保股份有限公司",
+      "legal_full_name_cn": "军信环保（吉尔吉斯）投资有限公司",
+      "parent_cn": "湖南军信环保股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://huanbao.in-en.com/html/huanbao-2387039.shtml",
+        "https://pdf.dfcfw.com/pdf/H2_AN202407251638285751_1.pdf"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "湖南军信环保股份有限公司在吉尔吉斯共和国注册的全资海外子公司（经军信环保股份香港国际有限公司中转），专门用于比什凯克垃圾焚烧发电特许经营项目。"
+    },
+    {
+      "raw_name": "旺能环境股份有限公司",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "旺能环境股份有限公司",
+      "legal_full_name_cn": "旺能环境股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://m.plfrog.com/review/47933.html",
+        "https://baike.baidu.com/item/%E6%B5%99%E6%B1%9F%E6%97%BA%E8%83%BD%E7%8E%AF%E4%BF%9D%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24534352"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市（002034），控股股东美欣达集团，实际控制人单建明夫妇合计持股超50%，为民营企业，主营垃圾焚烧发电，总部浙江。"
+    },
+    {
+      "raw_name": "开山控股集团",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "开山控股集团股份有限公司",
+      "legal_full_name_cn": "开山控股集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.kaishangroup.com/about.html",
+        "https://baike.baidu.com/item/%E5%BC%80%E5%B1%B1%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19999041"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "1994年成立于浙江衢州的大型民营工业制造集团，核心业务为高端装备制造与地热新能源，旗下上市公司开山股份（300257），是全球重要地热发电独立开发商。"
+    },
+    {
+      "raw_name": "中国光大环境(集团)有限公司",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "中国光大环境（集团）有限公司",
+      "legal_full_name_cn": "中国光大环境（集团）有限公司",
+      "parent_cn": "中国光大集团股份公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E5%85%89%E5%A4%A7%E7%92%B0%E5%A2%83",
+        "https://www.cebenvironment.com/sc/global/home.php"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "港股上市（00257.HK），是中国光大集团股份公司（财政部/中央汇金发起、国务院直接管理的央企）的实业旗舰。光大集团虽不在国资委央企名录，但属国务院直管金融类央企，is_central_soe=true。"
+    },
+    {
+      "raw_name": "龙净环保股份有限公司",
+      "freq": 6,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "紫金矿业集团股份有限公司",
+      "legal_full_name_cn": "福建龙净环保股份有限公司",
+      "parent_cn": "紫金矿业集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.solidwaste.com.cn/news/335340.html",
+        "https://www.chndaqi.com/news/335340.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "上交所上市（600388），2022年紫金矿业以约17亿元取得控制权，成为第一大股东并持股约25%，现为紫金矿业控股子公司。龙净环保自身仍保持上市独立性，但层级归属紫金矿业体系。"
+    },
+    {
+      "raw_name": "惠生清洁能源科技集团股份有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "惠生控股集团有限公司",
+      "legal_full_name_cn": "惠生清洁能源科技集团股份有限公司",
+      "parent_cn": "惠生控股集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.wison.com/about_us",
+        "https://baike.baidu.com/item/%E6%83%A0%E7%94%9F%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5965747"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "惠生集团旗下清洁能源核心业务板块，惠生集团1997年成立，民营企业，旗下另有惠生工程（港股2236）。惠生清洁能源在该数据库中直接以集团身份出现，母公司为惠生控股集团。"
+    },
+    {
+      "raw_name": "协合新能源集团有限公司",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "协合新能源集团有限公司",
+      "legal_full_name_cn": "协合新能源集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E5%8D%94%E5%90%88%E6%96%B0%E8%83%BD%E6%BA%90",
+        "https://stock.finance.sina.com.cn/hkstock/info/00182.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "港股上市（00182.HK），原名「中国风电集团」，2015年改现名，由高振顺家族控制的中资民营新能源集团，主营风电光伏电站投资运营，is_central_soe=false。注意：此「协合新能源」与「协鑫集团」旗下「协鑫新能源」为不同公司。"
+    },
+    {
+      "raw_name": "深圳能源集团股份有限公司",
+      "freq": 10,
+      "classification": "new_group",
+      "canonical_group_cn": "深圳能源集团股份有限公司",
+      "legal_full_name_cn": "深圳能源集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "http://gzw.sz.gov.cn/szgq/content/post_9395766.html",
+        "https://gzw.sz.gov.cn/ztzl/gzgqztzl/gyqyxxgk/qyjj/content/post_9395967.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深圳市国资委直属国有企业（深交所000027），控股股东为深圳市能源集团有限公司，属深圳市属地方国企，is_central_soe=false。"
+    },
+    {
+      "raw_name": "东方希望集团",
+      "freq": 10,
+      "classification": "new_group",
+      "canonical_group_cn": "东方希望集团有限公司",
+      "legal_full_name_cn": "东方希望集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%9C%E6%96%B9%E5%B8%8C%E6%9C%9B%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/4442945",
+        "https://www.easthope.cn/ehw/vm/cylc"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "刘永行创办的特大型跨国民营企业集团，涵盖铝业、硅业、化工、农业等，2024中国民营企业500强第42位，非国企。"
+    },
+    {
+      "raw_name": "云南能投集团",
+      "freq": 11,
+      "classification": "new_group",
+      "canonical_group_cn": "云南省能源投资集团有限公司",
+      "legal_full_name_cn": "云南省能源投资集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.cnyeig.com/jtgk/jtjj/",
+        "https://gzw.yn.gov.cn/jggk/ssqyml.htm"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "云南省国资委监管的省属国有骨干企业，全称「云南省能源投资集团有限公司」，「云南能投集团」为简称，is_central_soe=false。"
+    },
+    {
+      "raw_name": "山东高速集团有限公司",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "山东高速集团有限公司",
+      "legal_full_name_cn": "山东高速集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.sdhsg.com/page_aboutUs",
+        "https://baike.baidu.com/item/%E5%B1%B1%E4%B8%9C%E9%AB%98%E9%80%9F%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/8644985"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "山东省国资委唯一出资的国有独资大型企业集团，世界500强，注册资本922亿元，属山东省属地方国企，is_central_soe=false。"
+    },
+    {
+      "raw_name": "山西建投国际投资有限公司",
+      "freq": 13,
+      "classification": "new_group",
+      "canonical_group_cn": "山西建设投资集团有限公司",
+      "legal_full_name_cn": "山西建投国际投资有限公司",
+      "parent_cn": "山西建设投资集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://news.goalfore.cn/latest/detail/60717.html",
+        "https://www.sxcig.com/info/2121/105011.htm"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "山西建设投资集团有限公司（山西省属国企）的海外投资平台子公司，负责集团国际投资业务，与「山西建投国际投资公司」为同一实体，canonical_group归顶层集团。"
+    },
+    {
+      "raw_name": "山西建投国际投资公司",
+      "freq": 5,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "山西建设投资集团有限公司",
+      "legal_full_name_cn": "山西建投国际投资有限公司",
+      "parent_cn": "山西建设投资集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://news.goalfore.cn/latest/detail/60717.html",
+        "https://www.sxcig.com/gyjt/jtjj.htm"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「山西建投国际投资有限公司」的简写变体，去掉了「有限」二字，为同一实体，统一归拢到山西建设投资集团体系。"
+    },
+    {
+      "raw_name": "湖南建投水利",
+      "freq": 11,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "湖南建设投资集团有限责任公司",
+      "legal_full_name_cn": "湖南建投水利水电有限公司",
+      "parent_cn": "湖南建设投资集团有限责任公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.hncig.cn/content/646948/90/14853793.html",
+        "https://www.hunantoday.cn/news/xhn/202504/28261732.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "原名「湖南百舸水利建设股份有限公司」，2025年4月更名为「湖南建投水利水电有限公司」，是湖南建设投资集团有限责任公司（湖南省属国企）旗下水利水电业务子公司。"
+    },
+    {
+      "raw_name": "陕西建工集团",
+      "freq": 10,
+      "classification": "new_group",
+      "canonical_group_cn": "陕西建工控股集团有限公司",
+      "legal_full_name_cn": "陕西建工控股集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E9%99%95%E8%A5%BF%E5%BB%BA%E5%B7%A5%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2",
+        "https://www.sxjgkg.com/about_us/1.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "陕西省政府直属国有独资企业，注册资本51亿元，始建1950年，「陕西建工集团」为其通用简称，正式全称「陕西建工控股集团有限公司」，is_central_soe=false。"
+    },
+    {
+      "raw_name": "江西国际",
+      "freq": 8,
+      "classification": "new_group",
+      "canonical_group_cn": "中国江西国际经济技术合作有限公司",
+      "legal_full_name_cn": "中国江西国际经济技术合作有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.cjic.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B1%9F%E8%A5%BF%E5%9B%BD%E9%99%85%E7%BB%8F%E6%B5%8E%E6%8A%80%E6%9C%AF%E5%90%88%E4%BD%9C%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24550228"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "1983年国务院批准成立，江西省国资委出资监管的省属大型国有企业，全称「中国江西国际经济技术合作有限公司」，「江西国际」为常用简称，连续20年入选ENR全球250强，is_central_soe=false。"
+    },
+    {
+      "raw_name": "中国东方国际集团有限公司",
+      "freq": 16,
+      "classification": "new_group",
+      "canonical_group_cn": "东方国际（集团）有限公司",
+      "legal_full_name_cn": "东方国际（集团）有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%9C%E6%96%B9%E5%9B%BD%E9%99%85",
+        "https://www.oih.com.cn/pages/aboutus.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "上海市国资委归口管理的国有外贸企业集团，工商全称「东方国际（集团）有限公司」，「中国东方国际集团有限公司」是数据库录入变体，属上海市属地方国企，is_central_soe=false。"
+    },
+    {
+      "raw_name": "东方国际",
+      "freq": 8,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "东方国际（集团）有限公司",
+      "legal_full_name_cn": "东方国际（集团）有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.oih.com.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%9C%E6%96%B9%E5%9B%BD%E9%99%85"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「东方国际（集团）有限公司」的习惯简称，与「中国东方国际集团有限公司」同指一家上海市属国企，归拢到同一实体。"
+    },
+    {
+      "raw_name": "联合能源集团",
+      "freq": 13,
+      "classification": "new_group",
+      "canonical_group_cn": "联合能源集团有限公司",
+      "legal_full_name_cn": "联合能源集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://finance.sina.com.cn/jjxw/2025-05-15/doc-inewrqqc5425630.shtml",
+        "https://stock.finance.sina.com.cn/hkstock/info/00467.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "港股上市（00467.HK），实际控制人张宏伟（东方集团实控人），为中资私人控股油气勘探公司，运营管理总部在北京，主要资产在巴基斯坦/伊拉克/印尼，is_central_soe=false。"
+    },
+    {
+      "raw_name": "洲际油气有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "洲际油气股份有限公司",
+      "legal_full_name_cn": "洲际油气股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%B4%B2%E9%99%85%E6%B2%B9%E6%B0%94%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19984007",
+        "https://vip.stock.finance.sina.com.cn/corp/go.php/vCI_StockHolder/stockid/600759.phtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "上交所上市（600759），第一大股东广西正和实业集团，注册于海南，主营哈萨克斯坦油气，属私人资本控股的中资公司，is_central_soe=false；「洲际油气有限公司」与「洲际油气股份有限公司」为同一实体，工商全称含「股份」。"
+    },
+    {
+      "raw_name": "青山实业",
+      "freq": 8,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "青山控股集团有限公司",
+      "legal_full_name_cn": "青山控股集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.tssgroup.com.cn/",
+        "https://zh.wikipedia.org/wiki/%E9%9D%92%E5%B1%B1%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「青山实业」是青山控股集团有限公司（Tsingshan Holding Group）旗下实业板块的习惯称呼，常见于项目报道，归拢到顶层集团。浙江温州民营企业，非外国公司。"
+    },
+    {
+      "raw_name": "青山控股集团",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "青山控股集团有限公司",
+      "legal_full_name_cn": "青山控股集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.tssgroup.com.cn/about-us/group/",
+        "https://zh.wikipedia.org/wiki/%E9%9D%92%E5%B1%B1%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "项广达（Xiang Guangda）创办的浙江温州大型民营不锈钢/镍冶炼集团（Tsingshan Holding Group），1988年创立，旗下管理超过300家子公司，非外国企业，is_central_soe=false。"
+    },
+    {
+      "raw_name": "青山集团",
+      "freq": 5,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "青山控股集团有限公司",
+      "legal_full_name_cn": "青山控股集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.tssgroup.com.cn/",
+        "https://zh.wikipedia.org/wiki/%E9%9D%92%E5%B1%B1%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "「青山集团」是「青山控股集团有限公司」常见简称，与「青山实业」「青山控股集团」均指同一民营集团，归拢到顶层规范名。"
+    },
+    {
+      "raw_name": "伟能集团",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "伟能集团国际控股有限公司",
+      "legal_full_name_cn": "伟能集团国际控股有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://vpower.com/cn/about-us/corporate-profile/",
+        "https://stock.finance.sina.com.cn/hkstock/info/01608.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "港股上市（01608.HK），全称VPower Group International Holdings Limited（伟能集团国际控股有限公司），总部香港，从事分布式燃气发电系统集成与投资运营，中资民营背景，is_central_soe=false。「中技伟能」为其缅甸合资项目代称，非独立法人集团。"
+    },
+    {
+      "raw_name": "中技伟能集团控股有限公司",
+      "freq": 7,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "伟能集团国际控股有限公司",
+      "legal_full_name_cn": "伟能集团国际控股有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://vpower.com/cn/about-us/corporate-profile/",
+        "http://file.finance.sina.com.cn/hkdata98/hk/hk_realtime_announcement/news/20230915/10899136-0.PDF"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "「中技伟能」见于伟能集团缅甸项目合作实体，根据港交所公告「中技偉能」是VPower（01608.HK）在缅甸合资业务的本地称谓，并非独立于伟能集团之外的另一集团，归拢到伟能集团规范名下。"
+    },
+    {
+      "raw_name": "格瑞士",
+      "freq": 6,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "多轮 WebSearch 未找到名为「格瑞士」的中国能源公司记录。可能是：①小众项目公司的非规范录入；②外国公司音译（如瑞士某公司）；③数据录入错误。建议人工核查原始数据来源。"
+    },
+    {
+      "raw_name": "西部电力公司",
+      "freq": 12,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "「西部电力公司」在中亚国家（哈萨克斯坦/乌兹别克斯坦/吉尔吉斯等）存在同名当地国有电力企业，也存在中国企业同名变体。WebSearch 未能确认其为某一具体中国集团，存疑：可能是当地国家电力公司（→not_chinese）或中国某集团的海外项目公司。建议结合原始项目数据确认所在国。"
+    },
+    {
+      "raw_name": "辽宁立德投资控股集团",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "辽宁立德投资控股集团",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://m.sohu.com/media/120174115"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "搜狐媒体号有该名称的账号，但未找到权威工商或媒体对其集团性质的详细介绍。初步判断为辽宁省民营投资控股公司（非国企、非央企），但法定全称及股权结构待进一步核实。"
+    },
+    {
+      "raw_name": "中湘海外建设发展有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "湖南建设投资集团有限责任公司",
+      "legal_full_name_cn": "中湘海外建设发展有限公司",
+      "parent_cn": "湖南建设投资集团有限责任公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.hncig.cn/content/646842/62/14215585.html",
+        "http://www.shico.ltd/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "原湖南建工集团海外工程公司，2016年改制为「中湘海外建设发展有限公司」，是湖南建设投资集团有限责任公司负责国际工程承包与贸易的主体子企业，属湖南省属国企体系。"
+    },
+    {
+      "raw_name": "山东格润内泽姆公司",
+      "freq": 5,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "WebSearch 未找到该公司的可靠记录。名称结构推测为「山东」+「格润」（Green/Grün？）+「内泽姆」（哈萨克语音译？），疑为山东某企业在哈萨克斯坦注册的本地合资实体，但母公司身份不明。建议核查原始项目文档。"
+    },
+    {
+      "raw_name": "中盛能源",
+      "freq": 6,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "WebSearch 未找到与一带一路可再生能源相关的「中盛能源」企业记录。存在多家小型公司用此名称（如中盛新能源、化州市中盛新能源等）但规模较小，与数据库项目语境不符。建议核查原始数据的完整公司名和国家背景。"
+    },
+    {
+      "raw_name": "中国能源",
+      "freq": 9,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "「中国能源」极度泛化，可能指：①「国家能源投资集团有限责任公司」简称（已在册 registry_groups）；②某地方能源公司简称；③外国当地能源公司的中文译名。无法从名称本身确定归属，建议结合原始数据的国家、项目类型进行人工判断；若指国家能源集团则归 alias_of_existing。"
+    }
+  ]
+}

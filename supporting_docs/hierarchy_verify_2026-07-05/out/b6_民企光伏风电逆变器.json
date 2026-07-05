@@ -1,0 +1,577 @@
+{
+  "batch": "b6_民企光伏风电逆变器",
+  "results": [
+    {
+      "raw_name": "金风科技股份有限公司",
+      "freq": 80,
+      "classification": "new_group",
+      "canonical_group_cn": "金风科技股份有限公司",
+      "legal_full_name_cn": "金风科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E9%87%91%E9%A2%A8%E7%A7%91%E6%8A%80",
+        "https://m.plfrog.com/review/4653.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "A股(002202)+H股(2208)双上市风电整机商龙头；无实际控制人，股权分散；原国企私有化后民营性质，非央企"
+    },
+    {
+      "raw_name": "阿特斯阳光电力集团",
+      "freq": 70,
+      "classification": "new_group",
+      "canonical_group_cn": "阿特斯阳光电力集团股份有限公司",
+      "legal_full_name_cn": "阿特斯阳光电力集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "http://static.sse.com.cn/stock/disclosure/announcement/c/202201/000961_20220107_5OZM.pdf",
+        "https://basic.10jqka.com.cn/688472/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "实控人瞿晓铧（加拿大籍）及配偶张含冰；NASDAQ(CSIQ)及科创板(688472)双上市；'阿特斯阳光电力集团'是其常用集团名称，全称加'股份有限公司'"
+    },
+    {
+      "raw_name": "晶科能源股份有限公司",
+      "freq": 60,
+      "classification": "new_group",
+      "canonical_group_cn": "晶科能源股份有限公司",
+      "legal_full_name_cn": "晶科能源股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/688223/company.html",
+        "https://www.thepaper.cn/newsDetail_forward_16476493"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "实控人李仙德、李仙华；科创板(688223)上市；主营光伏组件、电池片、硅片等制造；与晶科科技/晶科电力同属一实控人但系两家独立上市公司，非子公司关系"
+    },
+    {
+      "raw_name": "晶科科技股份有限公司",
+      "freq": 29,
+      "classification": "new_group",
+      "canonical_group_cn": "晶科电力科技股份有限公司",
+      "legal_full_name_cn": "晶科电力科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://stock.stockstar.com/IG2025052900021221.shtml",
+        "https://basic.10jqka.com.cn/601778/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "法定全称'晶科电力科技股份有限公司'，A股简称'晶科科技'(601778)；主营光伏电站开发运营；实控人与晶科能源相同（李仙德、李仙华），但系两家独立上市公司，各自new_group；'晶科科技股份有限公司'是常用简化写法"
+    },
+    {
+      "raw_name": "晶科电力",
+      "freq": 8,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "晶科电力科技股份有限公司",
+      "legal_full_name_cn": "晶科电力科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "http://vip.stock.finance.sina.com.cn/corp/view/vISSUE_MarketBulletinDetail.php?stockid=601778&id=7277355",
+        "https://stock.stockstar.com/IG2025052900021221.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "'晶科电力'是晶科电力科技股份有限公司(601778，股票简称'晶科科技')的旧名/简称；2017年前曾用名含'晶科电力'，现全称已更新；本条归拢至该集团"
+    },
+    {
+      "raw_name": "天合光能股份有限公司",
+      "freq": 59,
+      "classification": "new_group",
+      "canonical_group_cn": "天合光能股份有限公司",
+      "legal_full_name_cn": "天合光能股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/688599/company.html",
+        "https://www.jiemian.com/article/9046018.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "实控人高纪凡；科创板(688599)上市；主营光伏组件、追踪支架、储能等一体化业务"
+    },
+    {
+      "raw_name": "天合光能",
+      "freq": 19,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "天合光能股份有限公司",
+      "legal_full_name_cn": "天合光能股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/688599/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "'天合光能'是天合光能股份有限公司的通用简称"
+    },
+    {
+      "raw_name": "天合跟踪",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "天合光能股份有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "天合光能股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.vzkoo.com/read/202501065f74a10313e21b494ba1003e.html",
+        "https://basic.10jqka.com.cn/688599/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "天合跟踪是天合光能旗下专营追踪支架业务的子品牌/子公司，全球市占前六；系天合光能主业板块之一"
+    },
+    {
+      "raw_name": "浙江正泰新能源开发有限公司",
+      "freq": 45,
+      "classification": "new_group",
+      "canonical_group_cn": "正泰集团股份有限公司",
+      "legal_full_name_cn": "浙江正泰新能源开发有限公司",
+      "parent_cn": "正泰集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%B5%99%E6%B1%9F%E6%AD%A3%E6%B3%B0%E6%96%B0%E8%83%BD%E6%BA%90%E5%BC%80%E5%8F%91%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19977350",
+        "https://m.qcc.com/firm/c147a8169043c23032577d1b9645ae25.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "正泰电器持股98.4%的子公司，从事光伏电站开发/建设/运营；正泰电器为正泰集团控股子公司，顶层为正泰集团股份有限公司（实控人南存辉）；本条归拢至正泰集团new_group下"
+    },
+    {
+      "raw_name": "正泰新能源",
+      "freq": 17,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "正泰集团股份有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "正泰集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://finance.sina.com.cn/stock/stockzmt/2024-05-15/doc-inavkuis9043382.shtml",
+        "https://www.cls.cn/detail/1415594"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "'正泰新能源'常指浙江正泰新能源开发有限公司或其品牌；2022年从正泰电器分拆出部分光伏组件业务成立独立主体；同属正泰集团体系"
+    },
+    {
+      "raw_name": "正泰集团",
+      "freq": 14,
+      "classification": "new_group",
+      "canonical_group_cn": "正泰集团股份有限公司",
+      "legal_full_name_cn": "正泰集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E6%AD%A3%E6%B3%B0%E9%9B%86%E5%9B%A2",
+        "https://baike.baidu.com/item/%E6%AD%A3%E6%B3%B0%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/1219246"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "顶层母公司，实控人南存辉；旗下含浙江正泰电器股份有限公司(601877)上市子公司，再下辖正泰新能源/正泰安能等"
+    },
+    {
+      "raw_name": "正泰电器",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "正泰集团股份有限公司",
+      "legal_full_name_cn": "浙江正泰电器股份有限公司",
+      "parent_cn": "正泰集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://finance.sina.com.cn/stock/aiassist/agqsjs/2026-04-30/doc-inhwewsu7535470.shtml",
+        "https://baike.baidu.com/item/%E6%B5%99%E6%B1%9F%E6%AD%A3%E6%B3%B0%E7%94%B5%E5%99%A8%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6681649"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "正泰集团控股的A股上市子公司(601877)，主营低压电器及光伏；正泰集团持股约49.6%；是正泰集团与其光伏子孙公司之间的中间层"
+    },
+    {
+      "raw_name": "正泰电源",
+      "freq": 7,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "正泰集团股份有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "正泰集团股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://finance.sina.com.cn/stock/stockzmt/2024-05-15/doc-inavkuis9043382.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "'正泰电源'为正泰集团旗下电源/逆变器相关业务板块；与正泰安能、正泰电器同属正泰集团体系；法定全称待查"
+    },
+    {
+      "raw_name": "阳光电源股份有限公司",
+      "freq": 43,
+      "classification": "new_group",
+      "canonical_group_cn": "阳光电源股份有限公司",
+      "legal_full_name_cn": "阳光电源股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/300274/company.html",
+        "https://cn.sungrowpower.com/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市(300274)，全球领先逆变器及储能制造商；创始人曹仁贤为实控人；下辖子公司阳光新能源开发股份有限公司"
+    },
+    {
+      "raw_name": "阳光新能源开发股份有限公司",
+      "freq": 12,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "阳光电源股份有限公司",
+      "legal_full_name_cn": "阳光新能源开发股份有限公司",
+      "parent_cn": "阳光电源股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.36kr.com/p/2657592897633411",
+        "https://www.sungrowplant.com/about.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "阳光电源持股81.5%的控股子公司，主营光伏/风电/储能电站投资开发；已启动分拆上市计划"
+    },
+    {
+      "raw_name": "东方日升新能源股份有限公司",
+      "freq": 41,
+      "classification": "new_group",
+      "canonical_group_cn": "东方日升新能源股份有限公司",
+      "legal_full_name_cn": "东方日升新能源股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/300118/company.html",
+        "https://baike.baidu.com/item/%E4%B8%9C%E6%96%B9%E6%97%A5%E5%8D%87%E6%96%B0%E8%83%BD%E6%BA%90%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/9677823"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所创业板上市(300118)，1986年创立；主营光伏电池片、组件、电站；创始人林海峰家族为实控人；无上级母集团"
+    },
+    {
+      "raw_name": "远景能源",
+      "freq": 34,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "远景科技集团有限公司",
+      "legal_full_name_cn": "远景能源有限公司",
+      "parent_cn": "远景科技集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E8%BF%9C%E6%99%AF%E8%83%BD%E6%BA%90",
+        "https://www.envision-group.com/cn/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "远景能源是远景科技集团旗下风电整机业务子公司，创始人张雷；远景科技集团为顶层母公司"
+    },
+    {
+      "raw_name": "远景科技集团",
+      "freq": 8,
+      "classification": "new_group",
+      "canonical_group_cn": "远景科技集团有限公司",
+      "legal_full_name_cn": "远景科技集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.envision-group.com/cn/index.html",
+        "https://pitchhub.36kr.com/project/2001523482107777"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "顶层母公司；创始人兼CEO张雷；旗下三大板块：远景能源（风电）、远景动力（电池）、远景智能（IoT）；非上市民营集团"
+    },
+    {
+      "raw_name": "明阳智慧能源集团",
+      "freq": 21,
+      "classification": "new_group",
+      "canonical_group_cn": "明阳智慧能源集团股份公司",
+      "legal_full_name_cn": "明阳智慧能源集团股份公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://file.finance.qq.com/finance/hs/pdf/2023/12/16/1218635094.PDF",
+        "https://www.myse.com.cn/team/index.aspx"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "上交所上市(601615)，A股简称'明阳智能'；实控人张传卫；'明阳智慧能源集团'与'明阳智慧能源集团有限公司'均为同一实体简称/写法变体；控股股东为明阳新能源投资控股集团有限公司，仍由张传卫控制"
+    },
+    {
+      "raw_name": "明阳智慧能源集团有限公司",
+      "freq": 7,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "明阳智慧能源集团股份公司",
+      "legal_full_name_cn": "明阳智慧能源集团股份公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://file.finance.qq.com/finance/hs/pdf/2023/12/16/1218635094.PDF"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "A股上市公司法定名称为'明阳智慧能源集团股份公司'（注意是'股份公司'非'有限公司'）；'明阳智慧能源集团有限公司'为写法变体，归拢到同一实体"
+    },
+    {
+      "raw_name": "隆基绿能科技股份有限公司",
+      "freq": 22,
+      "classification": "new_group",
+      "canonical_group_cn": "隆基绿能科技股份有限公司",
+      "legal_full_name_cn": "隆基绿能科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.china5e.com/news/news-1189242-1.html",
+        "https://basic.10jqka.com.cn/601012/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "上交所上市(601012)；实控人李振国（持股约19.6%，2025年5月辞任总经理保留CTO职务）及配偶李喜燕；全球最大单晶硅光伏组件制造商"
+    },
+    {
+      "raw_name": "晶澳科技",
+      "freq": 15,
+      "classification": "new_group",
+      "canonical_group_cn": "晶澳太阳能科技股份有限公司",
+      "legal_full_name_cn": "晶澳太阳能科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://file.finance.qq.com/finance/hs/pdf/2020/11/09/1208709896.PDF",
+        "https://solar.ofweek.com/2025-02/ART-260001-8420-30657529.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市(002459)，A股简称'晶澳科技'；实控人靳保芳（2025年被立案调查，二代接班）；法定全称'晶澳太阳能科技股份有限公司'；'晶澳科技'为股票简称"
+    },
+    {
+      "raw_name": "TCL中环新能源科技股份有限公司",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "TCL中环新能源科技股份有限公司",
+      "legal_full_name_cn": "TCL中环新能源科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/TCL%E4%B8%AD%E7%8E%AF%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/61587085",
+        "https://www.jiemian.com/article/4680769.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市(002129)；第一大股东TCL科技集团（天津）有限公司，TCL科技为其实控人；2020年混改引入TCL科技；由国企背景转为民营实控；全称已于2022年由'天津中环半导体股份有限公司'更名为现名"
+    },
+    {
+      "raw_name": "上能电气股份有限公司",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "上能电气股份有限公司",
+      "legal_full_name_cn": "上能电气股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://basic.10jqka.com.cn/300827/company.html",
+        "https://www.si-neng.com/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市(300827)；实控人吴强（持股约28%）及吴超；主营光伏/储能逆变器；协鑫集团曾为第一大股东但非实控人，吴强家族控制实际决策"
+    },
+    {
+      "raw_name": "钧达股份",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "海南钧达新能源科技股份有限公司",
+      "legal_full_name_cn": "海南钧达新能源科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://36kr.com/p/2997323219709576",
+        "https://solar.ofweek.com/2025-01/ART-260001-8420-30655586.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市(002865)；实控人杨氏家族（陆小红等9人）；2021年跨界收购捷泰科技转型光伏电池；全球TOPCon电池市占领先；'钧达股份'为A股简称，法定全称含'海南'"
+    },
+    {
+      "raw_name": "华西能源工业股份有限公司",
+      "freq": 8,
+      "classification": "new_group",
+      "canonical_group_cn": "华西能源工业股份有限公司",
+      "legal_full_name_cn": "华西能源工业股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.eastmoney.com/item/%E5%8D%8E%E8%A5%BF%E8%83%BD%E6%BA%90%E5%B7%A5%E4%B8%9A%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8",
+        "http://www.cwpc.com.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所中小板上市(002630)；1983年创立，四川自贡；主营新能源装备制造、EPC、光伏、储能；未找到上级母集团，独立上市民营企业"
+    },
+    {
+      "raw_name": "永福股份",
+      "freq": 8,
+      "classification": "new_group",
+      "canonical_group_cn": "福建永福电力设计股份有限公司",
+      "legal_full_name_cn": "福建永福电力设计股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.eastmoney.com/item/%E7%A6%8F%E5%BB%BA%E6%B8%B8%E7%A6%8F%E7%94%B5%E5%8A%9B%E8%AE%BE%E8%AE%A1%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8",
+        "https://www.yongfu.com.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "深交所上市(300712)；法定全称'福建永福电力设计股份有限公司'；主营光伏/风电EPC、电力设计；独立民营企业，未找到上级母集团"
+    },
+    {
+      "raw_name": "安泰新能源",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "福建安泰新能源科技有限公司",
+      "legal_full_name_cn": "福建安泰新能源科技有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://cn.antaisolar.com/company",
+        "https://www.feishu.cn/customers/antaisolar"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "实控人黄仕塔等黄氏家族四兄妹；总部厦门；主营光伏跟踪/固定支架；全球新能源企业500强；未上市民营企业"
+    },
+    {
+      "raw_name": "英辰新能源",
+      "freq": 7,
+      "classification": "new_group",
+      "canonical_group_cn": "英辰新能源科技有限公司",
+      "legal_full_name_cn": "英辰新能源科技有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.enf.com.cn/%E8%8B%B1%E8%BE%B0%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%80%E5%85%AC%E5%8F%B8",
+        "https://solar.in-en.com/html/solar-2442867.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "保定英利集团旗下光伏组件制造企业，但搜索结果显示其作为独立品牌运营、依托英利平台；英利集团本身未在本批候选名单中，暂归为new_group；若英利集团后续入库则调整为subsidiary_of"
+    },
+    {
+      "raw_name": "中盛能源",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "中盛新能源科技有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://pitchhub.36kr.com/project/2174220215352836"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "'中盛能源'可能指多家不同企业（中盛新能源、中盛国策等）；未能通过搜索锁定唯一确定实体；建议通过数据库原始记录上下文进一步确认"
+    },
+    {
+      "raw_name": "博达新能",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "无锡博达新能科技有限公司",
+      "legal_full_name_cn": "无锡博达新能科技有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.stcn.com/article/detail/2952362.html",
+        "https://solar.ofweek.com/2024-01/ART-260006-8420-30623312.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "实控人柳敬麒（80后无锡富豪）；英文品牌EliTe Solar；主营光伏组件，越南/印尼/埃及有海外产能；未上市民营企业"
+    },
+    {
+      "raw_name": "赢科数能",
+      "freq": 5,
+      "classification": "new_group",
+      "canonical_group_cn": "湖南赢科数字能源科技有限公司",
+      "legal_full_name_cn": "湖南赢科数字能源科技有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.wincle.cn/",
+        "https://cn.solarbe.com/news/20240221/86172.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "总部湖南，主营储能系统及数字能源管理；'赢科数能'是其品牌简称，法定全称含'湖南'及'数字能源科技'；未找到上级母集团"
+    },
+    {
+      "raw_name": "汉伏能源",
+      "freq": 7,
+      "classification": "new_group",
+      "canonical_group_cn": "汉伏能源（上海）有限公司",
+      "legal_full_name_cn": "汉伏能源（上海）有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.hanersun.cn/",
+        "https://baike.baidu.com/item/%E6%B1%89%E4%BC%8F%E8%83%BD%E6%BA%90%EF%BC%88%E4%B8%8A%E6%B5%B7%EF%BC%89%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20870267"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "注册主体'汉伏能源（上海）有限公司'，运营主体含'汉伏能源技术（南京）有限公司'；英文品牌CSUNPOWER；主营光伏组件+储能；截至2024年累计出货14GW；法定代表人刘云洲"
+    },
+    {
+      "raw_name": "上海风领新能源有限公司",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "上海风领新能源有限公司",
+      "legal_full_name_cn": "上海风领新能源有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://cn.chinadaily.com.cn/a/202505/23/WS68300c5fa310205377034a08.html",
+        "https://m.qixin.com/company/4f6d0959-b70c-4193-a1ca-beebff8f3f9e"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "注册资本1.05亿元，总部上海黄浦区；专注风电混凝土塔筒；2023年已于科创板上市；未找到控股母集团，为独立上市民营企业"
+    },
+    {
+      "raw_name": "珠海兴业节能科技有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "水发集团有限公司",
+      "legal_full_name_cn": "珠海兴业节能科技有限公司",
+      "parent_cn": "水发集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://finance.sina.com.cn/stock/hkstock/ggscyd/2019-10-28/doc-iicezzrr5422958.shtml",
+        "https://www.cabee.org/site/content/23729.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "medium",
+      "notes": "隶属中国水发兴业能源集团，兴业太阳能(00750.HK)2019年被山东省属国企水发集团收购66.92%股权后更名为'水发兴业能源'；珠海兴业节能科技为其下属子公司；水发集团为山东省属国企，但非央企(is_central_soe=false)"
+    },
+    {
+      "raw_name": "苏州钧灏电力有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "苏州钧灏电力有限公司",
+      "legal_full_name_cn": "苏州钧灏电力有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.aipowertec.com/",
+        "https://m.sohu.com/a/858823198_121319643/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "成立于2018年，苏州；英文品牌AI Power；主营风光储微电网/逆变器系统解决方案；已完成A轮融资（长江资本参与）；创始人曾任天合光能全球营销VP；未上市独立民营企业"
+    }
+  ]
+}

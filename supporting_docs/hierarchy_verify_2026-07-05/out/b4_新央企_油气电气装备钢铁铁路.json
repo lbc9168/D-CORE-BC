@@ -1,0 +1,245 @@
+{
+  "batch": "b4_新央企_油气电气装备钢铁铁路",
+  "results": [
+    {
+      "raw_name": "中国石油工程建设有限公司",
+      "freq": 48,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国石油天然气集团有限公司",
+      "legal_full_name_cn": "中国石油工程建设有限公司",
+      "parent_cn": "中国石油天然气集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://cpecc.cnpc.com.cn/cpecc/gsgk/gsgk_index.shtml",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%B7%A5%E7%A8%8B%E5%BB%BA%E8%AE%BE%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24548777"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "CPECC（中国石油工程建设有限公司）是中国石油天然气集团有限公司（CNPC）旗下专营石油工程设计与总承包的子公司，官网域名 cpecc.cnpc.com.cn 直接表明归属关系；中国石油天然气集团有限公司本批新建为 new_group"
+    },
+    {
+      "raw_name": "中国石油化工集团有限公司",
+      "freq": 17,
+      "classification": "new_group",
+      "canonical_group_cn": "中国石油化工集团有限公司",
+      "legal_full_name_cn": "中国石油化工集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22856005"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "Sinopec，国务院国资委直接监管的中央管理企业，2020年由全民所有制改制为国有独资有限公司，未在册须新建；注：2026年1月国资委宣布与中国航油实施重组，但中国石油化工集团仍为顶层集团身份"
+    },
+    {
+      "raw_name": "中国海洋石油集团有限公司",
+      "freq": 23,
+      "classification": "new_group",
+      "canonical_group_cn": "中国海洋石油集团有限公司",
+      "legal_full_name_cn": "中国海洋石油集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cnooc.com.cn/gyhy/hygl/gsjj/202409/t20240918_86756.html",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E7%9F%B3%E6%B2%B9"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "CNOOC，1982年经国务院批准成立，国务院国资委直接监管的中央企业；未在册须新建"
+    },
+    {
+      "raw_name": "中国电气装备集团",
+      "freq": 28,
+      "classification": "new_group",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "中国电气装备集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E6%B0%94%E8%A3%85%E5%A4%87%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/58645630",
+        "http://www.news.cn/energy/20210926/bc2d0da8c0cf4368bc4150b522c8e028/c.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2021年9月25日在上海揭牌成立，由中国西电集团与国家电网所属许继/平高/山东电工电气等重组整合，国务院国资委持股66.67%并直接监管；候选名为简称，规范全称为中国电气装备集团有限公司"
+    },
+    {
+      "raw_name": "中国西电集团有限公司",
+      "freq": 31,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "中国西电集团有限公司",
+      "parent_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%A5%BF%E7%94%B5%E9%9B%86%E5%9B%A2",
+        "https://finance.sina.com.cn/chanjing/gsnews/2022-10-31/doc-imqmmthc2790195.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国西电集团是中国电气装备集团的核心发起主体，2021年9月经国资委批准股权整体划转至中国电气装备集团，国资委不再直接监管中国西电；A股上市公司中国西电（601179）控股股东已于2022年底正式变更为中国电气装备集团"
+    },
+    {
+      "raw_name": "平高集团",
+      "freq": 14,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "平高集团有限公司",
+      "parent_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cee-group.cn/gywm/jtjj.htm",
+        "https://baike.baidu.com/item/%E5%B9%B3%E9%AB%98%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/10947300"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "平高集团有限公司原隶属国家电网公司，2021年随重组并入中国电气装备集团；中国电气装备集团官网明确列平高集团为旗下成员企业"
+    },
+    {
+      "raw_name": "许继集团有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "许继集团有限公司",
+      "parent_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.cee-group.cn/xwzx/jcdt/xjjt/3.htm",
+        "https://baike.baidu.com/item/%E8%AE%B8%E7%BB%A7%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5910548"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "许继集团原属国家电网公司，2021年随重组并入中国电气装备集团；中国电气装备集团官网专设许继集团频道，页面路径 cee-group.cn/xwzx/jcdt/xjjt/"
+    },
+    {
+      "raw_name": "山东电工电气",
+      "freq": 7,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "山东电工电气集团有限公司",
+      "parent_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cee-group.cn/xwzx/jcdt/sddgdq.htm",
+        "https://baike.baidu.com/item/%E5%B1%B1%E4%B8%9C%E7%94%B5%E5%B7%A5%E7%94%B5%E6%B0%94%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5108687"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "\"山东电工电气\"为简称，法定全称为山东电工电气集团有限公司；原属国家电网，2021年并入中国电气装备集团；中国电气装备集团官网专设该成员企业频道"
+    },
+    {
+      "raw_name": "山东电工电气集团有限公司",
+      "freq": 5,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "山东电工电气集团有限公司",
+      "parent_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cee-group.cn/xwzx/jcdt/sddgdq.htm",
+        "https://www.sddgdq.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与上条\"山东电工电气\"为同一实体的全称写法；2021年并入中国电气装备集团有限公司，官网 sddgdq.cn 与中国电气装备集团官网均可核实"
+    },
+    {
+      "raw_name": "中国化学工程集团有限公司",
+      "freq": 28,
+      "classification": "new_group",
+      "canonical_group_cn": "中国化学工程集团有限公司",
+      "legal_full_name_cn": "中国化学工程集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cncec.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%8C%96%E5%AD%A6%E5%B7%A5%E7%A8%8B%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22411454"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国务院国资委直接监管的国有独资央企，主营化工/石化工程建设，国资委官网发布招聘公告亦可佐证；未在册须新建"
+    },
+    {
+      "raw_name": "中国中钢国际工程股份有限公司",
+      "freq": 28,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国宝武钢铁集团有限公司",
+      "legal_full_name_cn": "中钢国际工程技术股份有限公司",
+      "parent_cn": "中国中钢集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://mecc.sinosteel.com/about.aspx",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%B8%AD%E9%92%A2%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22411260"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "候选名\"中国中钢国际工程股份有限公司\"与实际注册名\"中钢国际工程技术股份有限公司\"（代码000928.SZ）不完全一致，疑为数据录入变体；该公司原控股股东为中国中钢集团有限公司，2022年12月中国中钢集团整体划入中国宝武钢铁集团，故顶层集团为中国宝武；直接母公司仍为中国中钢集团有限公司；中国宝武钢铁集团有限公司本批新建为 new_group"
+    },
+    {
+      "raw_name": "中国中铁股份有限公司",
+      "freq": 20,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国铁路工程集团有限公司",
+      "legal_full_name_cn": "中国中铁股份有限公司",
+      "parent_cn": "中国铁路工程集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.crecg.com/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9C%8B%E4%B8%AD%E9%90%B5"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国中铁股份有限公司由中国铁路工程集团有限公司（简称中铁工，CREC）独家发起设立，两者采用\"一套班子两块牌子\"模式；中国铁路工程集团有限公司为国资委直接监管的央企，本批新建为 new_group"
+    },
+    {
+      "raw_name": "中国铁路工程集团有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "中国铁路工程集团有限公司",
+      "legal_full_name_cn": "中国铁路工程集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.crecg.com/web/gywm46/gsjs/gsjj35/index.html",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E9%93%81%E8%B7%AF%E5%B7%A5%E7%A8%8B%E9%9B%86%E5%9B%A2"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国中铁工程集团，2017年12月由全民所有制改制为国有独资有限公司；国资委直接监管的中央企业；中国中铁股份（上市平台）的控股股东；未在册须新建"
+    },
+    {
+      "raw_name": "中国铁建股份有限公司",
+      "freq": 12,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国铁道建筑集团有限公司",
+      "legal_full_name_cn": "中国铁建股份有限公司",
+      "parent_cn": "中国铁道建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.crcc.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E9%93%81%E9%81%93%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24161878"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国铁建股份有限公司（CRCC，A+H股上市）由中国铁道建筑集团有限公司（原中国铁道建筑总公司）独家发起设立；集团为国资委直接监管央企；中国铁道建筑集团有限公司本批新建为 new_group"
+    },
+    {
+      "raw_name": "中国土木工程集团有限公司",
+      "freq": 12,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国铁道建筑集团有限公司",
+      "legal_full_name_cn": "中国土木工程集团有限公司",
+      "parent_cn": "中国铁道建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://ccecc.crcc.cn/",
+        "http://www.ccecc.com.cn/col/col7591/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "CCECC，1979年经国务院批准成立，2003年经国资委批准整体并入中国铁道建筑总公司（即今中国铁道建筑集团有限公司），现为中国铁建（CRCC）旗下海外业务旗舰子公司；官网域名 ccecc.crcc.cn 直接表明归属关系"
+    }
+  ]
+}

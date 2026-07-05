@@ -11,7 +11,6 @@ import csv
 import json
 import logging
 import re
-import shutil
 import sqlite3
 import sys
 from datetime import datetime
@@ -21,6 +20,7 @@ from typing import Dict, List, Optional, Tuple
 if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp950"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+from s02b_entity_normalizer.db_backup import backup_db
 from s02b_entity_normalizer.developer_normalizer import DEV_SEP_RE, split_developer
 from s02b_entity_normalizer.entity_normalizer import DEFAULT_DB
 
@@ -107,9 +107,7 @@ def apply_db(db_path: str, plan_rows: List[dict]) -> int:
     updates = [p for p in plan_rows if p["action"] == "update"]
     if not updates:
         return 0
-    bak = db_path + datetime.now().strftime(".bak.%Y%m%d_%H%M%S")
-    shutil.copy2(db_path, bak)
-    logger.info("库已备份 %s", bak)
+    bak = backup_db(db_path)
     conn = sqlite3.connect(db_path)
     total = 0
     try:

@@ -1,0 +1,434 @@
+{
+  "batch": "b5_新央企_远洋电科船舶兵器五矿节能银行",
+  "results": [
+    {
+      "raw_name": "中国远洋海运集团有限公司",
+      "freq": 14,
+      "classification": "new_group",
+      "canonical_group_cn": "中国远洋海运集团有限公司",
+      "legal_full_name_cn": "中国远洋海运集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19102499"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2016年由中国远洋运输集团与中国海运集团重组成立，国资委直管特大型中央企业，注册于上海"
+    },
+    {
+      "raw_name": "中国电子科技集团有限公司",
+      "freq": 14,
+      "classification": "new_group",
+      "canonical_group_cn": "中国电子科技集团有限公司",
+      "legal_full_name_cn": "中国电子科技集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cetc.com.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22426026"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2002年经国务院批准成立，2017年完成公司制改制更名，国资委直管中央企业，英文简称CETC，主营军民用电子信息系统"
+    },
+    {
+      "raw_name": "中国船舶集团有限公司",
+      "freq": 11,
+      "classification": "new_group",
+      "canonical_group_cn": "中国船舶集团有限公司",
+      "legal_full_name_cn": "中国船舶集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.gov.cn/xinwen/2019-11/26/content_5455860.htm",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E8%88%B9%E8%88%B6%E9%9B%86%E5%9B%A2",
+        "http://www.cssc.net.cn/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2019年11月由原中国船舶工业集团（中船集团）与原中国船舶重工集团（中船重工）联合重组成立，国资委直管央企，英文简称CSSC"
+    },
+    {
+      "raw_name": "中国北方工业有限公司",
+      "freq": 10,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国兵器工业集团有限公司",
+      "legal_full_name_cn": "中国北方工业有限公司",
+      "parent_cn": "中国兵器工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://norinco.norincogroup.com.cn/",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%85%B5%E5%99%A8%E5%B7%A5%E4%B8%9A%E9%9B%86%E5%9B%A2",
+        "https://www.zhihu.com/p/9850848006"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中国北方工业有限公司（NORINCO）是中国兵器工业集团有限公司旗下核心军贸子公司，专业从事国际防务贸易；兵器工业集团（北方集团）属国资委直管央企，与兵器装备集团（南方集团）是两个独立集团"
+    },
+    {
+      "raw_name": "北方国际合作股份有限公司",
+      "freq": 23,
+      "classification": "subsidiary_of_new",
+      "canonical_group_cn": "中国兵器工业集团有限公司",
+      "legal_full_name_cn": "北方国际合作股份有限公司",
+      "parent_cn": "中国北方工业有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%8C%97%E6%96%B9%E5%9B%BD%E9%99%85%E5%90%88%E4%BD%9C%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6268545",
+        "http://www.norincogroup.com.cn/col/col36/index.html",
+        "https://basic.10jqka.com.cn/000065/company.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "A股上市公司（代码000065），直接母公司为中国北方工业有限公司，上级集团为中国兵器工业集团；属兵器工业集团（北方/NORINCO体系），非兵器装备集团"
+    },
+    {
+      "raw_name": "中国五矿集团有限公司",
+      "freq": 7,
+      "classification": "new_group",
+      "canonical_group_cn": "中国五矿集团有限公司",
+      "legal_full_name_cn": "中国五矿集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.minmetals.com/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E4%BA%94%E7%9F%BF",
+        "http://wap.sasac.gov.cn/n2588020/n2588072/n2591064/n26201039/c30802371/content.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "成立于1950年，以金属矿产为核心主业，国资委直管中央企业，国有资本投资公司试点，2016年与中冶集团合并重组，资产超1.3万亿元"
+    },
+    {
+      "raw_name": "中国节能环保集团有限公司",
+      "freq": 7,
+      "classification": "new_group",
+      "canonical_group_cn": "中国节能环保集团有限公司",
+      "legal_full_name_cn": "中国节能环保集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cecep.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%8A%82%E8%83%BD%E7%8E%AF%E4%BF%9D%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22444490",
+        "http://www.sasac.gov.cn/n4470048/n13461446/zgjn/index.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2010年由中国节能投资公司和中国新时代控股集团重组成立，国资委直管央企，简称“中国节能“或CECEP，以节能减排、环保为主业"
+    },
+    {
+      "raw_name": "中国电工有限公司",
+      "freq": 20,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": "中国电力工程有限公司",
+      "parent_cn": "中国机械工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.sinomach.com.cn/columns/827714.html",
+        "http://www.cneec.com.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9C%8B%E9%9B%BB%E5%8A%9B%E5%B7%A5%E7%A8%8B"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "“中国电工“是“中国电力工程有限公司“的常用简称，原名中国电工设备总公司（1984年成立），现为国机集团（中国机械工业集团有限公司）旗下全资子公司，从事国际电力工程总承包"
+    },
+    {
+      "raw_name": "中国水利电力对外有限公司",
+      "freq": 9,
+      "classification": "new_group",
+      "canonical_group_cn": "中国交通建设集团有限公司",
+      "legal_full_name_cn": "中国水利电力对外有限公司",
+      "parent_cn": "中国交通建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.chinanews.com.cn/cj/2023/01-14/9935357.shtml",
+        "https://www.stcn.com/article/detail/776208.html",
+        "https://m.bjx.com.cn/mnews/20231114/1343136.shtml"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中水电公司（CWE）有近70年历史，原属中国三峡集团；2023年1月经国资委批准整体划转中交集团，同年11月完成交接；中交集团（中国交通建设集团有限公司）是国资委直管央企。注：中交集团未在registry_groups中，此处canonical_group_cn填新组；如已在册请改为subsidiary_of_existing",
+      "new_group_needed": "中国交通建设集团有限公司"
+    },
+    {
+      "raw_name": "威海国际经济技术合作股份有限公司",
+      "freq": 7,
+      "classification": "uncertain",
+      "canonical_group_cn": null,
+      "legal_full_name_cn": "威海国际经济技术合作股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.wietc.com/",
+        "https://baike.baidu.com/item/%E5%A8%81%E6%B5%B7%E5%9B%BD%E9%99%85%E7%BB%8F%E6%B5%8E%E6%8A%80%E6%9C%AF%E5%90%88%E4%BD%9C%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7189901"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "low",
+      "notes": "1988年在威海成立，业务涵盖工程承包/劳务/船务/房地产，多次入选ENR全球225强承包商；从威海市政府网站中出现在国企监管页面推断为威海市属地方国企，非央企；但实际控制人/股权结构未能从公开搜索中确认，需通过企查查/天眼查核实"
+    },
+    {
+      "raw_name": "苏美达股份有限公司",
+      "freq": 7,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": "苏美达股份有限公司",
+      "parent_cn": "中国机械工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.sumec.com/h5/gywm/gsgk/",
+        "https://www.sinomach.com.cn/gygj/ssgs/clgf/",
+        "https://m.gwy.com/wenda/268128.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "成立于1978年，2016年上市（代码600710），国机集团重要成员企业，实际控制人为国务院国资委；主营机电产品进出口及能源工程"
+    },
+    {
+      "raw_name": "苏美达能源",
+      "freq": 5,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "苏美达股份有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.sumec.com/h5/gywm/gsgk/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "苏美达能源是苏美达股份有限公司旗下能源业务板块的简称/品牌名，属国机集团体系；法定全称暂未查到独立法人，视同苏美达旗下业务单元"
+    },
+    {
+      "raw_name": "中设集团",
+      "freq": 8,
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": "中国机械设备工程股份有限公司",
+      "parent_cn": "中国机械工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.cmec.com/gjgcjt/gjgcjtjj/",
+        "https://www.chuxiaoyun.com/ask/331416.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "“中设集团“是“中国机械设备工程股份有限公司“的简称，同时也是“国机工程集团“的核心成员/前身；归属国机集团（中国机械工业集团有限公司），国资委直管央企体系"
+    },
+    {
+      "raw_name": "国机工程集团总部（中设集团）",
+      "freq": 8,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": "中国机械工业工程集团有限公司",
+      "parent_cn": "中国机械工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.cmec.com/gjgcjt/gjgcjtjj/",
+        "https://www.seetao.com/details/131448.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "国机工程集团（中国机械工业工程集团有限公司）是国机集团整合中设集团、中工国际等多家工程类企业后成立的二级集团平台；数据库中出现此写法是指同一实体，属国机集团体系"
+    },
+    {
+      "raw_name": "国机工程集团",
+      "freq": 6,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国机械工业集团有限公司",
+      "legal_full_name_cn": "中国机械工业工程集团有限公司",
+      "parent_cn": "中国机械工业集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.cmec.com/gjgcjt/gjgcjtjj/",
+        "https://www.seetao.com/details/131448.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "与“国机工程集团总部（中设集团）“同义，均指国机集团旗下工程业务二级集团平台"
+    },
+    {
+      "raw_name": "中国机械进出口（集团）有限公司",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "中国通用技术（集团）控股有限责任公司",
+      "legal_full_name_cn": "中国机械进出口（集团）有限公司",
+      "parent_cn": "中国通用技术（集团）控股有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cmc.com.cn/",
+        "http://www.sasac.gov.cn/n2588035/n2588325/c15574046/content.html",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%9C%BA%E6%A2%B0%E8%BF%9B%E5%87%BA%E5%8F%A3"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "成立于1950年，1998年起为通用技术集团全资子公司，2022年整合进通用技术集团国际控股有限公司；顶层集团为中国通用技术（集团）控股有限责任公司（国资委直管央企），注意勿与国机集团混淆",
+      "new_group_needed": "中国通用技术（集团）控股有限责任公司"
+    },
+    {
+      "raw_name": "中国进出口银行",
+      "freq": 42,
+      "classification": "new_group",
+      "canonical_group_cn": "中国进出口银行",
+      "legal_full_name_cn": "中国进出口银行",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.eximbank.gov.cn/aboutExim/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%BF%9B%E5%87%BA%E5%8F%A3%E9%93%B6%E8%A1%8C"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "1994年成立，国家出资设立、国务院领导的国有政策性银行；属中央金融企业（财政部出资人职责），不由国资委监管，但广义上属于央企体系；is_central_soe=true（副部级中央金融企业）"
+    },
+    {
+      "raw_name": "中国出口信用保险公司",
+      "freq": 42,
+      "classification": "new_group",
+      "canonical_group_cn": "中国出口信用保险公司",
+      "legal_full_name_cn": "中国出口信用保险公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%87%BA%E5%8F%A3%E4%BF%A1%E7%94%A8%E4%BF%9D%E9%99%A9%E5%85%AC%E5%8F%B8",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%87%BA%E5%8F%A3%E4%BF%A1%E7%94%A8%E4%BF%9D%E9%99%A9%E5%85%AC%E5%8F%B8/8573881"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2001年成立，中国唯一承办出口信用保险的政策性保险公司；2012年升级为副部级央企，中央金融企业；is_central_soe=true"
+    },
+    {
+      "raw_name": "中国信保",
+      "freq": 13,
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国出口信用保险公司",
+      "legal_full_name_cn": "中国出口信用保险公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%87%BA%E5%8F%A3%E4%BF%A1%E7%94%A8%E4%BF%9D%E9%99%A9%E5%85%AC%E5%8F%B8/8573881"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "“中国信保“是“中国出口信用保险公司“的官方简称，同一主体"
+    },
+    {
+      "raw_name": "中国银行股份有限公司",
+      "freq": 30,
+      "classification": "new_group",
+      "canonical_group_cn": "中国银行股份有限公司",
+      "legal_full_name_cn": "中国银行股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7544477"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "四大国有商业银行之一，最大股东为中央汇金投资有限责任公司（隶属中投公司），财政部亦持股；属中央金融企业，is_central_soe=true；不由国资委直管"
+    },
+    {
+      "raw_name": "国家开发银行",
+      "freq": 27,
+      "classification": "new_group",
+      "canonical_group_cn": "国家开发银行",
+      "legal_full_name_cn": "国家开发银行股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cdb.com.cn/",
+        "https://zh.wikipedia.org/zh-hans/%E5%9B%BD%E5%AE%B6%E5%BC%80%E5%8F%91%E9%93%B6%E8%A1%8C"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "1994年成立，政策性开发金融机构，直属国务院领导；最大股东为财政部，中央汇金亦持股；属中央金融企业，is_central_soe=true；不由国资委直管"
+    },
+    {
+      "raw_name": "中国工商银行股份有限公司",
+      "freq": 24,
+      "classification": "new_group",
+      "canonical_group_cn": "中国工商银行股份有限公司",
+      "legal_full_name_cn": "中国工商银行股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%9B%9B%E5%A4%A7%E9%93%B6%E8%A1%8C/3905929",
+        "https://finance.sina.cn/2023-05-23/detail-imyuuiey7086705.d.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "四大国有商业银行之一，财政部与中央汇金共同持股，属中央金融企业，is_central_soe=true；不由国资委直管"
+    },
+    {
+      "raw_name": "中国建设银行",
+      "freq": 13,
+      "classification": "new_group",
+      "canonical_group_cn": "中国建设银行股份有限公司",
+      "legal_full_name_cn": "中国建设银行股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%9B%9B%E5%A4%A7%E9%93%B6%E8%A1%8C/3905929",
+        "https://finance.sina.cn/2023-05-23/detail-imyuuiey7086705.d.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "四大国有商业银行之一，最大股东为中央汇金（通过中投），属中央金融企业，is_central_soe=true；不由国资委直管"
+    },
+    {
+      "raw_name": "中国民生银行",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "中国民生银行股份有限公司",
+      "legal_full_name_cn": "中国民生银行股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%B0%91%E7%94%9F%E9%93%B6%E8%A1%8C",
+        "https://m.51credit.com/mip/wenda/917320.html"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "1996年成立，中国第一家主要由民营资本发起设立的全国性股份制商业银行；虽然近年安邦保险旗下资产被政府接管后部分国有色彩加重，但民生银行本质上仍为股权多元的股份制商行，不属于中央金融企业名录，is_central_soe=false"
+    },
+    {
+      "raw_name": "中信银行",
+      "freq": 6,
+      "classification": "new_group",
+      "canonical_group_cn": "中国中信集团有限公司",
+      "legal_full_name_cn": "中信银行股份有限公司",
+      "parent_cn": "中国中信集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E4%BF%A1%E9%93%B6%E8%A1%8C",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E4%B8%AD%E4%BF%A1%E9%9B%86%E5%9B%A2",
+        "https://www.group.citic/"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "中信银行母公司为中国中信集团有限公司（100%国务院控股的部级央企，国资委直管）；中信银行本身是中信集团旗下的独立上市子公司；is_central_soe=true（通过中信集团）",
+      "new_group_needed": "中国中信集团有限公司"
+    },
+    {
+      "raw_name": "丝路基金",
+      "freq": 10,
+      "classification": "new_group",
+      "canonical_group_cn": "丝路基金有限责任公司",
+      "legal_full_name_cn": "丝路基金有限责任公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.silkroadfund.com.cn/",
+        "https://baike.baidu.com/item/%E4%B8%9D%E8%B7%AF%E5%9F%BA%E9%87%91/16020722",
+        "https://zh.wikipedia.org/zh-hans/%E7%B5%B2%E8%B7%AF%E5%9F%BA%E9%87%91"
+      ],
+      "as_of": "2026-07-05",
+      "confidence": "high",
+      "notes": "2014年12月成立，出资方为外汇储备（梧桐树投资65%）、中投（赛里斯15%）、国开行（5%）、进出口银行（15%）；按公司法设立的中长期股权投资基金；不属于国资委直管央企名录，亦非财政部直管金融企业；is_central_soe=false（国资委口径不含此类主权投资基金）"
+    }
+  ]
+}

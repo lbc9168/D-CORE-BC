@@ -15,7 +15,6 @@ import csv
 import logging
 import os
 import re
-import shutil
 import sqlite3
 import sys
 import time
@@ -29,6 +28,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp95
 
 from dotenv import load_dotenv
 
+from s02b_entity_normalizer.db_backup import backup_db
 from s02b_entity_normalizer.entity_normalizer import (
     BATCH_SIZE, DEFAULT_DB, _build_mapping, _find_candidates,
 )
@@ -156,9 +156,7 @@ def apply_value_changes(db_path: str, pairs: List[Tuple[str, str]]) -> int:
     """先备份 .bak，再事务 executemany 改写 project_developer；返回受影响行数。"""
     if not pairs:
         return 0
-    bak = db_path + datetime.now().strftime(".bak.%Y%m%d_%H%M%S")
-    shutil.copy2(db_path, bak)
-    logger.info("主库已备份 %s", bak)
+    bak = backup_db(db_path)
     conn = sqlite3.connect(db_path)
     try:
         cur = conn.executemany(
