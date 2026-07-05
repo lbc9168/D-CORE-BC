@@ -111,6 +111,4 @@
 
 ## 提交前校验
 
-写完后自行 `json.load` 校验可解析，并对照上表检查每条 verdict 的字段完整性（归属类必有 `canonical_group_cn` 且 `source_urls` 非空）。
-
-`as_of` 请填分拣当天日期（`YYYY-MM-DD`）。
+写完后自行 `json.load` 校验可解析，并对照上表检查每条 verdict 的字段完整性（归属类必有 `canonical_group_cn` 且 `source_urls` 非空）。**不要添加上表之外的任何字段**（如 `as_of`、`freq`）——校验按严格模式执行，多余字段会整条拒收；判定日期由回收方在台账里记录。
