@@ -36,20 +36,20 @@ def _strip_suffix(name: str) -> str:
     return name
 
 
-@lru_cache(maxsize=1)
-def _hierarchy_index_v2() -> dict[str, tuple[str, str]]:
-    """构建 v2 查表索引：「任意名称 → (集团 canonical_name_cn, sub_name_or_empty)」。
+def _build_index_v2(
+    groups: list[dict],
+) -> tuple[dict[str, tuple[str, str]], dict[str, tuple[str, str]]]:
+    """纯函数：由 groups 列表构建 (精确索引, 去尾缀索引)，供 _hierarchy_index_v2 缓存复用。
 
-    索引构建规则（显式优先级：canonical > sub_name_cn/sub_legal > alias；同级冲突首见胜）：
+    索引构建规则（显式优先级：canonical > sub_name_cn/sub_legal > alias）：
       - 集团 canonical_name_cn      → (canonical, "")
       - 子公司 name_cn              → (canonical, name_cn)   ── 路径1
       - 子公司 legal_full_name_cn   → (canonical, legal_full_name_cn)  ── 注册为子公司别名
       - 集团 aliases[]              → (canonical, "")  ── 路径2b：调用方在命中时设 sub=verbatim
-    歧义检测：同一键被多组声明时 → WARNING（列出键+两组名）；同级冲突首见胜并 WARNING。
+    同优先级并列时按 (canonical, sub 键) 字典序决胜（任意但确定，不依赖文件行序）。
+    歧义检测：同一键被多组声明时 → WARNING（列出键+两组名）。输出与 groups 排列顺序无关。
     同时构建去尾缀预索引（_stripped_index），避免 normalize_entity 线性扫描（25k 行回填性能需求）。
     """
-    data = _load_hierarchy_v2()
-    groups = data.get("groups", [])
     index: dict[str, tuple[str, str]] = {}
 
     # 第一遍：按优先级收集所有候选（key → list of (priority, canon, sub_key, role_desc)）
@@ -78,8 +78,10 @@ def _hierarchy_index_v2() -> dict[str, tuple[str, str]]:
 
     # 第二遍：按优先级选胜者；同键多组声明 → WARNING
     for key, entries in candidates.items():
-        # 按 priority 升序，同 priority 按首见（list 顺序已按数据顺序）
-        entries_sorted = sorted(entries, key=lambda x: x[0])
+        # 按 priority 升序；同优先级并列时按 (canonical, sub 键) 字典序取最小——
+        # 该决胜规则本身是任意的，但保证确定（索引不依赖登记册文件行序）；
+        # 数据侧应显式消歧（build_hierarchy_v2.py），此处仅为未来新数据保底。
+        entries_sorted = sorted(entries, key=lambda x: (x[0], x[1], x[2]))
         winner_priority, winner_canon, winner_sub, winner_role = entries_sorted[0]
 
         # 歧义检测：同一键被不同集团声明（winner_canon 不唯一）
@@ -96,35 +98,46 @@ def _hierarchy_index_v2() -> dict[str, tuple[str, str]]:
 
         index[key] = (winner_canon, winner_sub)
 
-    # ── 构建去尾缀预索引（stripped_key → 首个命中的 index entry）──────────────
+    # ── 构建去尾缀预索引（stripped_key → 胜者 index entry）────────────────────
     # 同一 stripped_key 被多个原始键占用 → WARNING（跨集团时）
     stripped: dict[str, tuple[str, str]] = {}
     stripped_owners: dict[str, list[str]] = {}  # stripped_key → list of original keys（for warning）
 
-    for key, (canon, sub_key) in index.items():
+    for key in index:
         sk = _strip_suffix(key)
         if sk == key:
             continue  # 无尾缀，不进去尾缀索引
         stripped_owners.setdefault(sk, []).append(key)
-        if sk not in stripped:
-            stripped[sk] = (canon, sub_key)
 
-    # 检测去尾缀碰撞：同一 stripped_key 的原始键属于不同 canon
+    # 检测去尾缀碰撞并选胜者：多个原始键竞争时按 (canon, sub 键, 原始键) 字典序取最小——
+    # 规则任意但确定，保证去尾缀索引同样不依赖登记册文件行序
     for sk, orig_keys in stripped_owners.items():
+        winner_key = min(orig_keys, key=lambda k: (index[k][0], index[k][1], k))
+        stripped[sk] = index[winner_key]
         canons_for_sk = {index[k][0] for k in orig_keys}
         if len(canons_for_sk) > 1:
             logger.warning(
-                "entity_normalize 去尾缀碰撞: 剥缀后 %r 被多组声明 → 首见胜；原始键: %s",
+                "entity_normalize 去尾缀碰撞: 剥缀后 %r 被多组声明 → 按字典序决胜；原始键: %s",
                 sk, orig_keys
             )
         elif len(orig_keys) > 1:
             # 同集团内去尾缀碰撞（如 canonical vs sub_name_cn 尾缀不同），也 warning
             logger.warning(
-                "entity_normalize 去尾缀碰撞（同集团）: 剥缀后 %r 被同集团不同键声明 → 首见胜；原始键: %s",
+                "entity_normalize 去尾缀碰撞（同集团）: 剥缀后 %r 被同集团不同键声明 → 按字典序决胜；原始键: %s",
                 sk, orig_keys
             )
 
-    # 将去尾缀索引存为模块级变量，供 normalize_entity O(1) 查询
+    return index, stripped
+
+
+@lru_cache(maxsize=1)
+def _hierarchy_index_v2() -> dict[str, tuple[str, str]]:
+    """构建 v2 查表索引（进程级缓存）：「任意名称 → (集团 canonical, sub_name_or_empty)」；
+    同时把去尾缀索引写入模块级 _stripped_index_cache 供 normalize_entity O(1) 查询。"""
+    data = _load_hierarchy_v2()
+    groups = data.get("groups", [])
+    index, stripped = _build_index_v2(groups)
+
     global _stripped_index_cache
     _stripped_index_cache = stripped
 

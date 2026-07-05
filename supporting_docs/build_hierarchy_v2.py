@@ -24,7 +24,7 @@ DRAFT_FILE = SCRIPT_DIR / "company_hierarchy_draft_2026-07-05.json"
 OUTPUT_FILE = SCRIPT_DIR / "company_hierarchy_v2.json"
 
 # 固定生成日期，保证跨日重跑时输出确定性；数据实质变更时手动更新
-GENERATED_ON = "2026-07-05"
+GENERATED_ON = "2026-07-06"
 
 # ────────────────────────────────────────────────────
 # 二级集团归属决定（legacy v1 中 parent_company_cn 非 null 的条目）
@@ -58,6 +58,16 @@ SECONDARY_GROUP_SUBS_TO_REMOVE: dict[str, set[str]] = {
         "中国机械工业建设集团有限公司",
         "中国联合工程有限公司",
         "中国海洋航空集团有限公司",
+    },
+    # 与国机案例同规则（子公司只归属一个组，归属上级）：以下 3 家同时被
+    # 中电工程组（legacy 直属子公司）与上级能建组（draft 短名条目的 legal_full_name_cn，
+    # 如"中国能建山西院"）登记，导致 entity_normalize 索引构建期同优先级歧义键。
+    # 归属上级中国能源建设集团有限公司、从中电工程组移除——与主库 1800 条
+    # 能建国际事件归位能建的先例一致。
+    "中国电力工程顾问集团有限公司": {
+        "中国电力工程顾问集团国际工程有限公司",
+        "中国能源建设集团山西省电力勘测设计院有限公司",
+        "中国能源建设集团云南省电力设计院有限公司",
     },
 }
 
@@ -317,6 +327,10 @@ def main() -> None:
             "冲突处理：二级集团的 canonical 名已从其母公司 subsidiaries 中移除；"
             "国机设备与国机集团的共享子公司（中工国际等 4 家）保留在国机集团，"
             "从国机设备的 subsidiaries 中移除。",
+            "同规则：中电工程与能建共享的 3 家（中国电力工程顾问集团国际工程有限公司、"
+            "中国能源建设集团山西省电力勘测设计院有限公司、中国能源建设集团云南省电力设计院有限公司）"
+            "归属上级能建组（经短名条目 legal_full_name_cn 登记），从中电工程组 subsidiaries 移除"
+            "（子公司只归属一个组，归属上级）。",
             "legacy_v1 条目：aliases=[], sources=[]；provenance='legacy_v1'；as_of='2026-03-19'。",
         ],
         "groups": groups_list,
