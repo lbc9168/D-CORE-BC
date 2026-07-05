@@ -25,8 +25,8 @@
 | 插入B | 金标准重建（复核包→gold→基线） | ✅ |
 | 插入C | company_hierarchy 扩充核实 | ✅（数据资产就绪，未接线） |
 | 阶段 2 | Codex 季度分拣管线 + 试点 | ⬜ |
-| 阶段 3 | TX/MF 展示前专项 | ⬜ |
-| 阶段 4 | s01b prompt 迭代（基线回归驱动） | ⬜（基线已就绪） |
+| 阶段 3 | TX/MF 展示前专项 | ⬜（计划已细化，见下） |
+| 阶段 4 | s01b prompt 迭代（基线回归驱动） | ✅（2026-07-06：weighted 0.698→0.811） |
 
 ## 已完成明细
 
@@ -68,42 +68,63 @@
 - ✅ 覆盖率实测 **66.0%**；未命中高频几乎全是外国实体（正确透传），长尾 1.3 次/名——"透传+频次补录"策略验证成立。
 - ⚠️ **刻意未接线**：现行 S4/entity_normalize 仍读旧表，草稿待阶段 4 ⑨ 启用。复核 CSV 220 行中 7 行 ★补漏 待用户扫一眼。
 
+### 阶段 4：s01b prompt 迭代（✅ 2026-07-06 完成，详见 docs/changes/2026-W27k.md）
+- ✅ ①收录边界 / ②换算移出 LLM（新 `capacity_parser.py`）/ ③Phase I/II 规则 / ⑤S5 扩 involvement_type / ⑥S3 留原文 / ⑦needs_review 标记 / ⑨实体解析分两步（`company_hierarchy_v2.json` 116 组接线 + `entity_reparse_maindb` 主库回填，能建国际 1697 行归位、soe 终值 3801）
+- ❌ ④few-shot：试后回归变差，**回滚**（压缩规则已够）；💤 ⑧semantic_checks：有据跳过（病灶已消）
+- **成绩**：weighted 0.698→**0.811**、capacity 0.744→0.878、name_f1 0.523→**0.88**、status/role 达线
+- **遗留输入**：实体解析未命中长尾 `supporting_docs/entity_reparse_misses_20260706_023835.csv`（Top50 待补录）→ 移交阶段 2 T3
+
 ## 未完成明细
 
-### 阶段 4：s01b prompt 迭代（⬜，下一 session 主战场——用户已指示执行 ②→⑨）
+### 阶段 2：Codex 季度分拣管线（⬜，计划细化 2026-07-06，估 1-2 sessions）
 
-**执行纪律**：一次改一个变量 → 跑基线回归 → 记分数 → 保留或回滚。prompt 原则"有加有减"（②⑨是大减法，④是唯一明显加法）。
-**目标线（够用就停）**：capacity≥0.90、status≥0.85、name_f1≥0.75、weighted≥0.80（压力集口径）；⑥⑦⑧看边际收益。
-**回归命令**（worktree 根）：`PYTHONPATH=<worktree根> uv --project s01b_project_extractor run python -m eval.run_eval --gold eval/gold_set.jsonl --raw-news-db E:/Projects/BRI_RE_Database_v2/s01a_news_crawler/data/raw_news.db`——prompt 源码变更自动使缓存失效，报告自动与上一份对比。基线=`eval/reports/20260705_195301.json`（weighted 0.698/status 0.764/capacity 0.744/name_f1 0.523/role 0.609/set.f1 0.652）。改动后同时跑 s01b 测试套件。
+**目的**：建立"系统导出复核队列 → Codex(GPT-5.5) 分拣 → 校验落库"的季度闭环，消化人工顾不过来的长尾复核。共识约束：分级信任+抽检（不改数据的 verdict 自动收；改数据的头 2-3 季度抽 10-20% 人工复核）；数据契约不绑供应商（队列 JSON 同样可喂 Claude/人工）。
 
-执行顺序与每项规格：
-- ⬜ **② capacity 换算移出 LLM**（第一刀，治 0.744）：S2 prompt 删整段换算规则，capacity 输出改"逐字抄录原文数字短语"；新增确定性 Python 解析器（万千瓦×10/千瓦÷1000/GW×1000/兆瓦=MW；产能类 GWh、GW/年、万吨/年与输送容量→null+留 details；解析失败→null+日志）。TX/MF 一律 null（与主库口径一致）。
-- ⬜ **③ s02a 合并 prompt 补 Phase I/II 规则**（一期/二期≠同一项目）。注意：**s02a 不在 eval 覆盖内**，验证靠 s02a 测试套件+dry-run 抽查，非基线回归。
-- ⬜ **④ S2 补 few-shot 硬例 3-5 个**（治 status/set.f1）：候选案例=缅甸批量招标→不拆条、一期二期→分条、"700万千瓦"→逐字抄、蓝氨/无中企→负例、**能建vs电建实体名照原文抄（勿混）**。素材直接取自 review_pack 难例。唯一加长项，回归看是否值回票价。
-- ⬜ **⑤ S5 纠偏扩到 involvement_type**（治 role 0.609）：`apply_s5` 的 valid/field_map 加第三字段即可。
-- ⬜ **⑥ S3 保留投资额原文字符串**（真原文进 raw 列，审计线索）。
-- ⬜ **⑦ format_checks 失败打 needs_review 标记**（extracted_projects 若无该列则 ALTER TABLE 加，已知无害边界）。
-- ⬜ **⑧ semantic_checks 双模型接入**（可选，做完②-⑦看剩余病灶再定）。
-- ⬜ **⑨ 实体解析分两步**（压轴重构，治 name_f1 0.523）：(a) S4 prompt 删 17 家层级表注入，实体名逐字抄进 implementing_entity、subsidiary 留空；(b) 生成正式 `company_hierarchy_v2.json`=旧 19 组（转 v2 schema）+草稿 97+14；(c) `entity_normalize.py` 重写为纯查表解析器（精确名→别名→去尾缀归一化三层；**未命中透传+未命中日志，删除包含匹配**）；(d) `is_central_soe` 改由登记册推导；(e) **全库重解析回填 CLI**（不变量：subsidiary 非空⇒它是原文名；空⇒implementing 即原文名。dry-run→.bak→apply，主库 chinese_entities 存量归属含 1800 能建国际+121 电建海投一并修正）；(f) 回归看 name_f1 + s01b/s02b 测试。
-- ❓ **① 收录边界规则**（治 status 0.764，grill-me 共识项）：用户口头范围"②到⑨"未点名①——**新 session 开工时先确认是否纳入**（推荐纳入，与④配合治 status）。
+**2.1 目录与数据契约**：新建根目录 `codex_review/`（非流水线独立工具，状态记 external-tools.md）。每季度一个工作目录 `codex_review/runs/<YYYYQn>/`，内含 `queue_<task>.json`（待分拣项，**自带全部判断上下文**——事件字段/摘要/信源，Codex 不需要访问数据库）、`guide_<task>.md`（固定指南：判定规则+verdict schema+证据引句必填）、`verdicts_<task>.json`（Codex 写回）、`ingest_report_<task>.md`。判定台账 `codex_review/ledger.json`（内容哈希 pair_key，幂等：判过的不重复入队，同 dedup_cache 思路）。
 
-### 阶段 2：Codex 季度分拣管线（⬜）
-- ⬜ 导出器（review 队列 JSON + 固定操作指南）
-- ⬜ ingest CLI（schema 校验 + 证据引句必填 + dry-run/--apply + .bak + 抽检输出）
-- ⬜ 试点任务一：179 对高相似 canonical 分拣（46 对双边可见优先）+ 一次性 merge 脚本
-- ⬜ 试点任务二：范围复核队列（特拉维夫轻轨、Svevind/AREH 等无中企保留行、项目群记录 ~10 条）
-- ⬜ 季度 runbook 固化
+**2.2 三类任务（首期）**：
+- **T1 merge_pairs 漏合并分拣**：导出器**现算**同国同类名称相似>0.85 的未排除 canonical 对（勿用 2026-07-04 静态 179 对——数据已变），双边可见的优先。verdict：`{pair_id, same_project, confidence, evidence_quote, survivor_id, reason}`。
+- **T2 scope_review 范围复核**：固定清单起步——numeric_audit 保留行的 ~10 条范围复核标记（特拉维夫轻轨 ISR-HB-0001、Svevind、沙特阿美目标、菲拍卖、越南省规划群等）+ 无中企扫描（canonical 未排除但实体空/摘要明示无中企，含 MF 边界案：锂矿/电解铝/蓝氨）。verdict：`{project_id, action: keep|exclude|downgrade_non_project, reason, evidence_quote}`。**阶段 3 的"边界清理"由本任务承接，不另建轮子。**
+- **T3 entity_misses 实体归属补录**：输入现成=阶段 4 遗留 `supporting_docs/entity_reparse_misses_20260706_023835.csv` Top50。verdict schema 复用 hierarchy verify_guide 六分类（new_group/alias/subsidiary/…/not_chinese/uncertain）+来源链接。
 
-### 阶段 3：TX/MF 展示前专项（⬜，展示形式等用户决定）
-- ⬜ project_events 加 5 稀疏列（TX：voltage_kv/line_length_km/transmission_capacity_mw；MF：production_capacity_value/unit）
-- ⬜ 无中企 sweep（蓝氨类漏检）+ record_type 双轨归一（57 条 non_project MF vs canonical 178 条）
-- ⬜ 从 capacity_details/summary 确定性回填专用列（阶段1置空时换算值已留备注）
-- ⬜ s03 输出 tx_flat/mf_flat 独立 JSON；前端 tab 待用户定展示形式
+**2.3 导出器** `codex_review/export_queue.py --task T --quarter Q`：按任务类型生成 queue+guide；查台账去重；Pydantic 校验出口。
+
+**2.4 ingest CLI** `codex_review/ingest_verdicts.py --task T --quarter Q [--apply]`：
+- 校验：Pydantic schema、枚举合法、evidence_quote 非空、id 存在于队列；非法整条拒收进报告。
+- 分级信任：不改数据的 verdict（not_same/keep）自动接受入台账；**改数据的**（merge/exclude/registry 补录）出 apply 清单 + 按 15% 随机抽样生成人工复核子清单（头 2-3 季度），用户确认后 `--apply`。
+- apply 动作：**merge**=附属脚本（事件迁挂 survivor 并重编 `{canonical_id}-{NN}` 事件 id、chinese_entities.event_id 外键同步、loser 行保留但 `excluded=1, excluded_reason='merged_into:<survivor>'`）；**exclude**=置排除+reason；**registry 补录**=条目进 `build_hierarchy_v2.py` 输入 → 重生成 v2 JSON → 跑 `entity_reparse_maindb`（阶段 4 现成 CLI）。全部 dry-run→.bak（WAL 安全）→apply→幂等自检。
+- ⚠️ 主库在**主工作区**，绝对路径访问；merge 脚本先在拷贝库上跑测试再碰真库。
+
+**2.5 runbook** `docs/rules_and_plans/codex_quarterly_runbook.md`：季度五步=增量流水线跑完 → export 三任务 → 用户侧跑 Codex（`codex exec`，指南模板固化在 repo）→ ingest 校验+抽检 → apply+记 changes。
+
+**验收**：三类任务各完成一轮真实试点；ingest 拒收非法输入有测试；merge 脚本在测试库验证外键一致性；台账幂等（重跑 export 不重复入队）。
+**开工时用户拍板**：① 首季编号（建议 2026Q3）；② merge 后 loser 处理（推荐保留行+merged_into 标记，可追溯）；③ 抽检比例（推荐 15%）。
+
+### 阶段 3：TX/MF 展示前专项（⬜，计划细化 2026-07-06，估 1-2 sessions；前端展示形式另议）
+
+**目的**：让输变电（TX，463 项目/532 事件）与新能源制造业（MF，178/192）具备按正确单位展示的数据基础。共识：不分库不分表——主库加稀疏列 + s03 导出层分流；本阶段**只做数据端与导出端**，s04 前端 tab 等用户出展示设计后单独排期。
+
+**3.1 稀疏专用列（schema，先行）**：`ALTER TABLE project_events` 加 5 列——TX：`voltage_kv REAL`、`line_length_km REAL`、`transmission_capacity_mw REAL`；MF：`production_capacity_value REAL`、`production_capacity_unit TEXT`（受控枚举进 enums_mapping.json 新 section：GW/年、GWh/年、万吨/年、Unknown…）。沿用 storage_power_mw 稀疏列先例；列已存在时静默跳过（已知无害边界，加注释）。
+**s01b 不改**：增量数据的专用列由回填器（3.2）作为流水线常设小步骤补——S2 prompt 刚过阶段 4 回归，不再动；原文信息本就落在 capacity_mw_raw/details。
+
+**3.2 存量+增量回填器** `txmf_spec_parser.py` + 回填 CLI：
+- 从 `capacity_mw_raw + capacity_details`（必要时 summary）确定性解析：TX 的 `±?N千伏/kV→voltage_kv`、`N公里/km→line_length_km`、`输送/输电容量 N万千瓦|MW→transmission_capacity_mw`；MF 的 `N GW|GWh|万吨(/年)→value+unit`。**数字短语解析复用阶段 4 的 `capacity_parser.py`**（含 兆瓦时/吉瓦时 拦截），只加 TX/MF 语境层。
+- 解析不了→null+misses CSV（喂阶段 2 T3 或人工）。CLI 老规矩：dry-run→.bak→apply→幂等自检。
+- **现成测试用例**：阶段 1 审计 CSV 备注里的人工换算值（SAU-TX=7000MW、BRA-TX=5000MW、PAK-TX-0014=4000MW、TLS=3x40MVA 等）作为断言对拍。
+- 接入增量流水线：`pipeline/flow.py` 在 s02b 之后加一步（阶段入口验证上一步输出，规则 #8）。
+
+**3.3 边界与双轨（报告先行，不自动迁移）**：
+- 无中企/非能源边界案（蓝氨 ARE-MF-0004、锂矿、电解铝等）→ **并入阶段 2 T2 队列**处理，本阶段不重复做；若阶段 3 先行，则用独立 sweep 报告替代（复用现有 sweep CLI 模式）。
+- record_type 双轨归一：出对照报告——57 条 non_project_records(record_type=新能源制造业) vs canonical MF 178 条 vs 37 条同名重叠——给用户拍板迁移口径后再动（首期只报告）。
+**3.4 s03 导出层分流**：flat_builder 增建 `tx_flat`、`mf_flat` 两表（基本信息+专用列+阶段/年份/实体，无 capacity_mw）；json_exporter 增出 `tx_flat.json`/`mf_flat.json`（双写 s03 output + s04 public/data）；**projects_flat 与现网行为零变化**（TX/MF 仍 hidden）。events_exporter 下载口径待前端定型再议。验收：s03 测试 + 行数对账（tx_flat=TX 未排除数等）。
+- ⚠️ 部署硬顺序不变：en_backfill → run_export → 部署。
+
+**开工时用户拍板**：① MF 产能单位枚举清单；② record_type 双轨迁移口径（看完 3.3 报告再定）；③ 与阶段 2 的先后（推荐阶段 2 先行：T3 直接消化阶段 4 遗留 misses，T2 顺带清掉 3.3 的边界案）。
 
 ### 日常收尾（🔶）
-- ⬜ dcore_v2.2 未提交改动（备份修复代码、hierarchy 草稿、docs、审计 CSV 等——目前只有 gold 那笔 `7a9a028` 已提交）
-- ⬜ 下次 run_export + 部署（带上阶段1修正；用户 gated）
-- ⬜ campaign 循环调用产生备份的调用方（一次运行备份一次）已由内容去重兜底，无需再改
+- ⬜ **dcore_v2.2 共 34 commits 待用户定合并方式**（合并回 main 的时机与方式——本次发布后）
+- ⬜ 下次 run_export + 部署（带上阶段 1 修正与阶段 4 主库回填；⚠️ 硬顺序 en_backfill → run_export → 部署；用户 gated）
+- ⬜ entity_reparse misses Top50 长尾补录 → 阶段 2 T3 承接
 
 ## 💤 搁置/明确不做
 - 物理分库/分表（TX/MF）——已否决，走导出层分流
@@ -112,9 +133,8 @@
 - 旧 backlog P4——不做
 - hierarchy 表外企业的自动"找妈妈"步骤——由 hierarchy 扩充 + 阶段4 解析器替代，季度增量补
 
-## 推荐的下一步顺序
-1. 阶段 4 轻改动第一刀：**capacity 换算移出 LLM** → 跑基线回归
-2. 视分数再排：收录边界 / few-shot / S5 扩展（每项一回归）
-3. 攒足轻改动收益后，啃 **实体解析分两步** 重构（含 hierarchy 接线 + 全库重解析）
-4. 阶段 2 Codex 管线（可与阶段 4 并行，互不依赖）
-5. 阶段 3 等你定 TX/MF 展示形式后排期
+## 推荐的下一步顺序（2026-07-06 更新）
+1. **阶段 2 先行**（理由：T3 直接消化阶段 4 遗留的 misses Top50；T2 顺带清掉阶段 3 需要的边界案；建好的季度闭环长期复用）
+2. **阶段 3 随后**（3.1 schema → 3.2 回填器 → 3.3 报告 → 3.4 导出分流；3.3 的范围判定引用阶段 2 T2 的 verdict）
+3. 两阶段都完成后：run_export + 部署（硬顺序），dcore_v2.2 合并方式拍板
+4. 前端 TX/MF 展示 tab：等用户出展示设计后单独排期
