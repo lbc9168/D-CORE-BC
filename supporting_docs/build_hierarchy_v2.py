@@ -9,7 +9,6 @@
 import json
 import logging
 import sys
-from datetime import date
 from pathlib import Path
 
 logging.basicConfig(
@@ -23,6 +22,9 @@ SCRIPT_DIR = Path(__file__).parent
 LEGACY_FILE = SCRIPT_DIR / "company_hierarchy.json"
 DRAFT_FILE = SCRIPT_DIR / "company_hierarchy_draft_2026-07-05.json"
 OUTPUT_FILE = SCRIPT_DIR / "company_hierarchy_v2.json"
+
+# 固定生成日期，保证跨日重跑时输出确定性；数据实质变更时手动更新
+GENERATED_ON = "2026-07-05"
 
 # ────────────────────────────────────────────────────
 # 二级集团归属决定（legacy v1 中 parent_company_cn 非 null 的条目）
@@ -306,7 +308,7 @@ def main() -> None:
     # ── Step 8: 输出 ─────────────────────────────────────────
     output = {
         "schema_version": 2,
-        "generated_on": str(date.today()),
+        "generated_on": GENERATED_ON,
         "notes": [
             "由 build_hierarchy_v2.py 自动生成，合并旧 company_hierarchy.json (19 组) + "
             "company_hierarchy_draft_2026-07-05.json (97 新组 + 14 追加)。",
