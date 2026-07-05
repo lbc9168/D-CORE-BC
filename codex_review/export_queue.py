@@ -15,6 +15,7 @@ import re
 import shutil
 import sqlite3
 import sys
+from collections import defaultdict
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -333,7 +334,6 @@ def export_t1(
         logger.info("跳过名称为空的行：%d 条", skipped_no_name)
 
     # 按 (country_iso, category) 分组
-    from collections import defaultdict
     groups: dict[tuple, list[dict]] = defaultdict(list)
     for p in valid_projects:
         key = (p.get("country_iso") or "", p.get("category") or "")
