@@ -7,6 +7,7 @@
   - dry-run 不写库
   - apply 先备份再批量 UPDATE，事后行数不变
   - 两行皆空（implementing+subsidiary 均空）跳过计数
+  - 备份断言：文件非空 + 可只读打开 + 行数一致
 """
 import sqlite3
 from pathlib import Path
@@ -269,6 +270,43 @@ def test_idempotent_after_apply(tmp_path, monkeypatch):
     # 第二次 dry-run：应 0 变更
     result2 = reparse_maindb(db, apply=False)
     assert result2["changed"] == 0, "幂等：apply 后再 dry-run 应 0 变更"
+
+
+def test_backup_file_nonempty_readable_and_rowcount_matches(tmp_path):
+    """备份函数：产出文件非空 + 可只读打开 + 行数与源库一致。"""
+    from s01b_project_extractor.tools.entity_reparse_maindb import _backup_db
+
+    db = _make_db(tmp_path, [
+        (1, "EVT-001", "中国能建国际集团", None, "", None, "ai_translated", 0),
+        (2, "EVT-002", "某公司", None, "子公司", None, "ai_translated", 0),
+    ])
+
+    bak_path = _backup_db(db)
+
+    # 文件非空
+    assert Path(bak_path).exists(), "备份文件应存在"
+    assert Path(bak_path).stat().st_size > 0, "备份文件不应为 0 字节"
+
+    # 可只读打开
+    import sqlite3 as _sqlite3
+    verify_conn = _sqlite3.connect(f"file:{bak_path}?mode=ro", uri=True)
+    try:
+        bak_count = verify_conn.execute(
+            "SELECT COUNT(*) FROM chinese_entities"
+        ).fetchone()[0]
+    finally:
+        verify_conn.close()
+
+    # 行数与源库一致
+    src_conn = _sqlite3.connect(db)
+    try:
+        src_count = src_conn.execute(
+            "SELECT COUNT(*) FROM chinese_entities"
+        ).fetchone()[0]
+    finally:
+        src_conn.close()
+
+    assert bak_count == src_count == 2, f"备份行数({bak_count})应与源库({src_count})一致"
 
 
 def test_en_null_on_subsidiary_change(tmp_path, monkeypatch):

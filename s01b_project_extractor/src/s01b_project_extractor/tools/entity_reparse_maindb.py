@@ -19,7 +19,6 @@ import os
 import sqlite3
 from collections import Counter
 from datetime import datetime
-from glob import glob
 from pathlib import Path
 from typing import Any
 
@@ -185,7 +184,12 @@ def _sha1_file(path: str) -> str:
 
 
 def _backup_db(db_path: str) -> str:
-    """WAL 安全快照到 <db>.bak.<时间戳>；内容与最新备份一致时去重复用。返回备份路径。"""
+    """WAL 安全快照到 <db>.bak.<时间戳>；备份后断言文件非空且可只读打开。返回备份路径。
+
+    注意：移除了"内容相同则复用"的去重逻辑——该逻辑在先创建空 bak 文件后、
+    backup() 返回前若发生任何情况，会导致 0 字节备份文件残留，并引发误导性报告。
+    每次 apply 强制创建独立时间戳备份，确保可审计性。
+    """
     bak = db_path + datetime.now().strftime(".bak.%Y%m%d_%H%M%S")
     src = sqlite3.connect(db_path)
     try:
@@ -197,16 +201,41 @@ def _backup_db(db_path: str) -> str:
     finally:
         src.close()
 
-    # 去重：与最新备份内容一致则复用
-    prior = sorted(p for p in glob(db_path + ".bak.*") if p != bak)
-    if prior:
-        latest = prior[-1]
-        if os.path.getsize(latest) == os.path.getsize(bak) and _sha1_file(latest) == _sha1_file(bak):
-            os.remove(bak)
-            logger.info("库内容与最新备份一致，复用 %s", latest)
-            return latest
+    # 断言备份有效：文件必须非空且能只读打开
+    bak_size = os.path.getsize(bak)
+    if bak_size == 0:
+        os.remove(bak)
+        raise RuntimeError(f"备份失败：{bak} 为 0 字节，已删除，主库未改动")
 
-    logger.info("库已备份 %s", bak)
+    # 验证备份文件可只读打开并查询行数
+    try:
+        verify_conn = sqlite3.connect(f"file:{bak}?mode=ro", uri=True)
+        try:
+            bak_count = verify_conn.execute(
+                "SELECT COUNT(*) FROM chinese_entities"
+            ).fetchone()[0]
+        finally:
+            verify_conn.close()
+    except sqlite3.Error as e:
+        os.remove(bak)
+        raise RuntimeError(f"备份文件无法只读打开（{e}），已删除，主库未改动") from e
+
+    # 验证备份行数与源库一致
+    src_conn = sqlite3.connect(db_path)
+    try:
+        src_count = src_conn.execute(
+            "SELECT COUNT(*) FROM chinese_entities"
+        ).fetchone()[0]
+    finally:
+        src_conn.close()
+
+    if bak_count != src_count:
+        os.remove(bak)
+        raise RuntimeError(
+            f"备份行数不一致（备份={bak_count}，源库={src_count}），已删除，主库未改动"
+        )
+
+    logger.info("库已备份 %s（%d 字节，%d 行）", bak, bak_size, bak_count)
     return bak
 
 
@@ -356,20 +385,6 @@ def _cohort_check(db_path: str) -> dict:
 
 # ── 未命中 Top 清单（供季度补录）─────────────────────────────────────────────
 
-def _collect_misses(plan: list[dict]) -> list[dict]:
-    """从变更计划中收集"透传"行（new_impl == old source_name → 未命中）Top50。
-
-    判据：new_sub 为空 且 new_impl == source_name（透传原文）。
-    由于 plan 里不直接存 source_name，透传特征是 new_impl 与 old_impl 相同（未变）
-    且未被归入任何子公司（new_sub 空）。实际上透传行因 old_impl==new_impl 不会进入 plan，
-    所以这里统计 plan 以外的透传——直接扫 DB 收集 normalize 未命中行。
-    注：此函数在 main() 中调用，扫描所有行（不只 plan 里的）。
-    """
-    # 透传行：normalize 后 new_impl 就是 source_name（保持原文），new_sub 为空
-    # 这些行因 impl/sub/soe 可能都没变而不在 plan 中，需单独收集
-    miss_counter: Counter = Counter()
-    return []  # 实现在 _collect_all_misses_from_db 中
-
 
 def _is_in_hierarchy(name: str) -> bool:
     """检查 name 是否在 v2 索引中（精确或去尾缀）；在 = 命中，不在 = 透传未命中。"""
@@ -415,16 +430,120 @@ def _collect_all_misses_from_db(db_path: str) -> list[dict]:
     return top50
 
 
+# ── subsidiary_name_en 外科恢复（一次性，从有效备份恢复被过度置 NULL 的 en 值）────
+
+def restore_sub_en_from_backup(db_path: str, bak_path: str, apply: bool = False) -> dict:
+    """从有效备份恢复被过度置 NULL 的 subsidiary_name_en 字段。
+
+    恢复条件（全部满足才恢复该行）：
+      1. 现库该 id 的 subsidiary_name 非空且与 bak 中 subsidiary_name 完全相同；
+      2. 现库 subsidiary_name_en IS NULL；
+      3. bak 中 subsidiary_name_en 非空。
+
+    apply=False 时只统计，不写库。apply=True 时先 .bak 备份再事务批量恢复。
+    返回：{candidates, restored, bak_path}
+    """
+    # 读备份中有 sub_en 的行
+    bak_conn = sqlite3.connect(f"file:{bak_path}?mode=ro", uri=True)
+    bak_conn.row_factory = sqlite3.Row
+    try:
+        bak_rows = bak_conn.execute("""
+            SELECT id, subsidiary_name, subsidiary_name_en
+            FROM chinese_entities
+            WHERE subsidiary_name IS NOT NULL AND subsidiary_name != ''
+              AND subsidiary_name_en IS NOT NULL AND subsidiary_name_en != ''
+        """).fetchall()
+    finally:
+        bak_conn.close()
+
+    bak_index: dict[int, dict] = {int(r["id"]): dict(r) for r in bak_rows}
+    logger.info("备份中 sub_en 非空行：%d 条", len(bak_index))
+
+    # 读现库中 sub_en 为 NULL 但 sub_cn 非空的行
+    cur_conn = sqlite3.connect(db_path)
+    cur_conn.row_factory = sqlite3.Row
+    try:
+        cur_rows = cur_conn.execute("""
+            SELECT id, subsidiary_name, subsidiary_name_en
+            FROM chinese_entities
+            WHERE subsidiary_name IS NOT NULL AND subsidiary_name != ''
+              AND (subsidiary_name_en IS NULL OR subsidiary_name_en = '')
+        """).fetchall()
+    finally:
+        cur_conn.close()
+
+    # 筛选满足条件的恢复行
+    restore_pairs: list[tuple[str, int]] = []  # (sub_en, id)
+    for r in cur_rows:
+        row_id = int(r["id"])
+        if row_id not in bak_index:
+            continue
+        bak_row = bak_index[row_id]
+        # 条件1：sub_cn 完全相同
+        if r["subsidiary_name"] != bak_row["subsidiary_name"]:
+            continue
+        # 条件3 已由 bak_index 过滤（bak sub_en 非空），条件2 已由现库查询保证
+        restore_pairs.append((bak_row["subsidiary_name_en"], row_id))
+
+    logger.info(
+        "外科恢复候选行：%d 条（现库 sub_cn 非空 sub_en NULL: %d 条）",
+        len(restore_pairs), len(cur_rows),
+    )
+
+    result: dict[str, Any] = {
+        "candidates": len(restore_pairs),
+        "restored": 0,
+        "bak_path": None,
+    }
+
+    if not apply:
+        logger.info("dry-run：未写库，候选=%d", len(restore_pairs))
+        return result
+
+    if not restore_pairs:
+        logger.info("无需恢复（0 候选行）")
+        return result
+
+    # 先备份
+    new_bak = _backup_db(db_path)
+    result["bak_path"] = new_bak
+
+    # 事务批量恢复（项目规则3：批量写库必须用事务 + executemany）
+    conn = sqlite3.connect(db_path)
+    try:
+        conn.executemany(
+            "UPDATE chinese_entities SET subsidiary_name_en=? WHERE id=?",
+            restore_pairs,
+        )
+        conn.commit()
+        result["restored"] = len(restore_pairs)
+        logger.info("外科恢复完成：%d 行 subsidiary_name_en 已恢复（备份 %s）", len(restore_pairs), new_bak)
+    except sqlite3.Error as e:
+        logger.error("外科恢复失败（备份在 %s）: %s", new_bak, e)
+        raise
+    finally:
+        conn.close()
+
+    return result
+
+
 # ── CLI 入口 ──────────────────────────────────────────────────────────────────
 
 def main() -> None:
-    """CLI 入口：重解析主库 chinese_entities（默认 dry-run；--apply 先备份再落库）。"""
+    """CLI 入口：重解析主库 chinese_entities（默认 dry-run；--apply 先备份再落库）。
+
+    附加子命令 --restore-sub-en <bak_path>：从有效备份恢复被过度置 NULL 的 subsidiary_name_en。
+    """
     parser = argparse.ArgumentParser(
         description="主库 chinese_entities 实体重解析回填（v2 解析器）"
     )
     parser.add_argument("--db", default=_DEFAULT_DB, help="主库路径")
     parser.add_argument("--apply", action="store_true", help="落库（默认 dry-run）")
     parser.add_argument("--out", default=None, help="变更计划 CSV 输出路径")
+    parser.add_argument(
+        "--restore-sub-en", metavar="BAK_PATH", default=None,
+        help="外科恢复模式：从指定备份文件恢复被过度置 NULL 的 subsidiary_name_en（搭配 --apply 落库）",
+    )
     args = parser.parse_args()
 
     # 路径存在性校验（项目规则4）
@@ -447,6 +566,25 @@ def main() -> None:
             logging.StreamHandler(),
         ],
     )
+
+    # ── 外科恢复模式（--restore-sub-en）──────────────────────────────────────
+    if args.restore_sub_en:
+        bak_path = args.restore_sub_en
+        if not Path(bak_path).exists():
+            parser.error(f"备份文件不存在: {bak_path}")
+        restore_result = restore_sub_en_from_backup(
+            validated.db, bak_path, apply=validated.apply
+        )
+        mode = "已恢复落库" if validated.apply else "dry-run"
+        print(
+            f">>> restore_sub_en {mode}：candidates={restore_result['candidates']}，"
+            f"restored={restore_result['restored']}"
+        )
+        if validated.apply and restore_result.get("bak_path"):
+            print(f">>> 备份: {restore_result['bak_path']}")
+        return
+
+    # ── 常规重解析回填模式 ────────────────────────────────────────────────────
 
     # 健诊
     health = _health_check(validated.db)
