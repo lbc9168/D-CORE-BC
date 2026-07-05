@@ -24,32 +24,55 @@ def clear_cache_fixture():
     _clear_cache()
 
 
-# ── 实际数据驱动：构建期应 warning 歧义键 ──────────────────────────────────────
+# ── 歧义检测逻辑（合成数据固化——真实登记册跨集团键已在数据侧清零，见下一测试）──
+
+
+def _synthetic_ambiguous_groups() -> list[dict]:
+    """构造跨集团歧义：'乙股份有限公司' 既是自己的 canonical，又被甲集团登记为 sub_legal。"""
+    return [
+        {"canonical_name_cn": "甲集团测试公司", "aliases": [], "subsidiaries": [
+            {"name_cn": "乙股份简称", "legal_full_name_cn": "乙股份有限公司"},
+        ]},
+        {"canonical_name_cn": "乙股份有限公司", "aliases": [], "subsidiaries": []},
+    ]
 
 
 def test_build_warns_on_cross_group_ambiguous_key(caplog):
-    """构建 v2 索引时，跨集团歧义键（中国机械设备工程股份有限公司同时是
-    中国机械工业集团的 sub_legal 和自己的 canonical）应触发 WARNING 日志。"""
-    from s01b_project_extractor.stages.entity_normalize import _hierarchy_index_v2
+    """构建索引时，同一键被两个集团声明（canonical vs 他组 sub_legal）应触发 WARNING。
+    （2026-07-06 终审 C2 起真实登记册已无此类键——build_hierarchy_v2.ADDITION_SUBS_TO_DROP
+    数据侧消歧；此处用合成数据固化检测逻辑本身。）"""
+    from s01b_project_extractor.stages.entity_normalize import _build_index_v2
     with caplog.at_level(logging.WARNING, logger="s01b_project_extractor.stages.entity_normalize"):
-        _hierarchy_index_v2()
-    # 应有 warning，提及歧义键和涉及的组
+        index, _stripped = _build_index_v2(_synthetic_ambiguous_groups())
     warnings = [r.message for r in caplog.records if r.levelno == logging.WARNING]
-    # 4 个跨集团歧义键至少触发 1 条 warning
-    assert len(warnings) >= 1, f"期望至少 1 条歧义 WARNING，实际 caplog: {[r.message for r in caplog.records]}"
+    assert any("乙股份有限公司" in w for w in warnings), (
+        f"期望跨集团歧义键触发 WARNING，实际: {warnings}"
+    )
+    # 优先级规则：canonical(0) 胜 sub_legal(1)
+    assert index["乙股份有限公司"] == ("乙股份有限公司", "")
 
 
 def test_build_warns_contains_key_and_group_name(caplog):
-    """歧义 warning 消息必须包含键名和至少一个集团名，供人工排查。"""
+    """歧义 warning 消息必须包含键名和冲突集团名，供人工排查。"""
+    from s01b_project_extractor.stages.entity_normalize import _build_index_v2
+    with caplog.at_level(logging.WARNING, logger="s01b_project_extractor.stages.entity_normalize"):
+        _build_index_v2(_synthetic_ambiguous_groups())
+    warnings = [r.message for r in caplog.records if r.levelno == logging.WARNING]
+    assert any("乙股份有限公司" in w and "甲集团测试公司" in w for w in warnings), (
+        f"期望 warning 同时含键名与冲突组名，实际 warnings: {warnings}"
+    )
+
+
+def test_real_registry_has_no_cross_group_ambiguity(caplog):
+    """真实登记册构建索引不得再有跨集团歧义键 WARNING（2026-07-06 终审 C2 数据侧已清零）。"""
     from s01b_project_extractor.stages.entity_normalize import _hierarchy_index_v2
     with caplog.at_level(logging.WARNING, logger="s01b_project_extractor.stages.entity_normalize"):
         _hierarchy_index_v2()
-    warnings = [r.message for r in caplog.records if r.levelno == logging.WARNING]
-    # 检查其中一条 warning 含已知歧义键（中国机械设备工程股份有限公司）
-    ambig_key = "中国机械设备工程股份有限公司"
-    assert any(ambig_key in w for w in warnings), (
-        f"期望 warning 中含 '{ambig_key}'，实际 warnings: {warnings}"
-    )
+    cross_group = [
+        r.message for r in caplog.records
+        if r.levelno == logging.WARNING and "歧义键（跨集团）" in r.message
+    ]
+    assert cross_group == [], f"真实登记册仍有跨集团歧义键: {cross_group}"
 
 
 # ── 去尾缀预构索引（性能+碰撞检测）──────────────────────────────────────────────

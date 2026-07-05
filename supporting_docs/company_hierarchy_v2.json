@@ -6,7 +6,8 @@
   "旧版二级集团（中国电力工程顾问集团有限公司、中国机械设备工程股份有限公司）均保留为独立组（见脚本注释说明）。",
   "冲突处理：二级集团的 canonical 名已从其母公司 subsidiaries 中移除；国机设备与国机集团的共享子公司（中工国际等 4 家）保留在国机集团，从国机设备的 subsidiaries 中移除。",
   "同规则：中电工程与能建共享的 3 家（中国电力工程顾问集团国际工程有限公司、中国能源建设集团山西省电力勘测设计院有限公司、中国能源建设集团云南省电力设计院有限公司）归属上级能建组（经短名条目 legal_full_name_cn 登记），从中电工程组 subsidiaries 移除（子公司只归属一个组，归属上级）。",
-  "legacy_v1 条目：aliases=[], sources=[]；provenance='legacy_v1'；as_of='2026-03-19'。"
+  "legacy_v1 条目：aliases=[], sources=[]；provenance='legacy_v1'；as_of='2026-03-19'。",
+  "2026-07-06 终审 C2：中国电力工程顾问集团有限公司 与 中国机械设备工程股份有限公司 两组 is_central_soe 覆盖为 true（恢复主库先前口径——两家均为 SASAC 央企子集团，legacy v1 标 false 系旧数据错误；用户可复议）；国机集团组 draft 追加条目「中设集团」（legal=中国机械设备工程股份有限公司，与 CMEC 独立组 canonical 重复登记）已删除，简称「中设集团」改登记为 CMEC 组 alias。"
  ],
  "groups": [
   {
@@ -246,7 +247,7 @@
   },
   {
    "canonical_name_cn": "中国电力工程顾问集团有限公司",
-   "is_central_soe": false,
+   "is_central_soe": true,
    "provenance": "legacy_v1",
    "as_of": "2026-03-19",
    "aliases": [],
@@ -1437,10 +1438,6 @@
      "legal_full_name_cn": "中国电力工程有限公司"
     },
     {
-     "name_cn": "中设集团",
-     "legal_full_name_cn": "中国机械设备工程股份有限公司"
-    },
-    {
      "name_cn": "苏美达股份有限公司",
      "legal_full_name_cn": "苏美达股份有限公司"
     },
@@ -1462,10 +1459,12 @@
   },
   {
    "canonical_name_cn": "中国机械设备工程股份有限公司",
-   "is_central_soe": false,
+   "is_central_soe": true,
    "provenance": "legacy_v1",
    "as_of": "2026-03-19",
-   "aliases": [],
+   "aliases": [
+    "中设集团"
+   ],
    "subsidiaries": [
     {
      "name_cn": "机械工业第六设计研究院有限公司",

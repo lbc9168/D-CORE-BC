@@ -71,6 +71,36 @@ SECONDARY_GROUP_SUBS_TO_REMOVE: dict[str, set[str]] = {
     },
 }
 
+# ────────────────────────────────────────────────────
+# is_central_soe 覆盖（恢复主库先前口径，2026-07-06 终审 C2，用户可复议）：
+# 两组均为 SASAC 央企的二级子集团（中电工程 ← 中国能建；CMEC ← 国机集团），
+# legacy v1 文件标 is_central_soe=false 系旧数据错误；主库在本轮回填前
+# 即将两组事件标 soe=1（中电工程 519 行 + CMEC 172 行）。
+# 本覆盖 = 恢复主库先前口径，非新判定。
+# ────────────────────────────────────────────────────
+LEGACY_SOE_OVERRIDES: dict[str, bool] = {
+    "中国电力工程顾问集团有限公司": True,
+    "中国机械设备工程股份有限公司": True,
+}
+
+# ────────────────────────────────────────────────────
+# draft additions 中按 (目标组, 子公司 name_cn) 删除的重复登记条目
+# （2026-07-06 终审 C2 顺带）：
+# 国机集团组的 draft 追加条目「中设集团」其 legal_full_name_cn=
+# 中国机械设备工程股份有限公司，与 CMEC 独立组 canonical 重复登记
+# （sub_legal 跨集团歧义键，entity_normalize 构建期最后一条跨集团 WARNING）。
+# CMEC 已是独立组 → 删除该条目；同时把简称「中设集团」补为 CMEC 组 alias
+# （LEGACY_ALIAS_ADDITIONS），保留该简称的解析映射（主库现有 3 行 sub=中设集团）。
+# ────────────────────────────────────────────────────
+ADDITION_SUBS_TO_DROP: dict[str, set[str]] = {
+    "中国机械工业集团有限公司": {"中设集团"},
+}
+
+# legacy 组补 alias（同上：中设集团 = CMEC 常用简称，随重复登记清理迁入其本组）
+LEGACY_ALIAS_ADDITIONS: dict[str, list[str]] = {
+    "中国机械设备工程股份有限公司": ["中设集团"],
+}
+
 
 def load_json(path: Path) -> dict:
     """加载 JSON 文件，返回解析后的 dict。"""
@@ -278,6 +308,16 @@ def main() -> None:
 
         g = convert_legacy_to_v2(c, exclude_sub_names=exclude_names)
 
+        # is_central_soe 覆盖（恢复主库先前口径，终审 C2，见 LEGACY_SOE_OVERRIDES 注释）
+        if canonical in LEGACY_SOE_OVERRIDES:
+            g["is_central_soe"] = LEGACY_SOE_OVERRIDES[canonical]
+            logger.info(f"  [soe覆盖] {canonical!r} is_central_soe → {g['is_central_soe']}（恢复主库先前口径）")
+
+        # legacy 组补 alias（终审 C2 顺带，见 LEGACY_ALIAS_ADDITIONS 注释）
+        if canonical in LEGACY_ALIAS_ADDITIONS:
+            g["aliases"] = sorted(set(g.get("aliases", [])) | set(LEGACY_ALIAS_ADDITIONS[canonical]))
+            logger.info(f"  [补alias] {canonical!r} += {LEGACY_ALIAS_ADDITIONS[canonical]}")
+
         if canonical in v2_groups_map:
             raise AssertionError(f"旧文件内部 canonical 重复: {canonical!r}")
         v2_groups_map[canonical] = g
@@ -309,6 +349,19 @@ def main() -> None:
             )
         before_subs = len(v2_groups_map[canonical].get("subsidiaries", []))
         add_clean = clean_group(add)
+
+        # 删除重复登记条目（终审 C2 顺带，见 ADDITION_SUBS_TO_DROP 注释）
+        drop_names = ADDITION_SUBS_TO_DROP.get(canonical, set())
+        if drop_names:
+            n_before = len(add_clean.get("subsidiaries", []))
+            add_clean["subsidiaries"] = [
+                s for s in add_clean["subsidiaries"] if s["name_cn"] not in drop_names
+            ]
+            logger.info(
+                f"  [去重] 从 addition {canonical!r} 移除 {sorted(drop_names)}"
+                f"（{n_before}→{len(add_clean['subsidiaries'])}，其 legal 名已是独立组 canonical）"
+            )
+
         v2_groups_map[canonical] = merge_group(v2_groups_map[canonical], add_clean)
         after_subs = len(v2_groups_map[canonical].get("subsidiaries", []))
         logger.info(
@@ -357,6 +410,11 @@ def main() -> None:
             "归属上级能建组（经短名条目 legal_full_name_cn 登记），从中电工程组 subsidiaries 移除"
             "（子公司只归属一个组，归属上级）。",
             "legacy_v1 条目：aliases=[], sources=[]；provenance='legacy_v1'；as_of='2026-03-19'。",
+            "2026-07-06 终审 C2：中国电力工程顾问集团有限公司 与 中国机械设备工程股份有限公司 "
+            "两组 is_central_soe 覆盖为 true（恢复主库先前口径——两家均为 SASAC 央企子集团，"
+            "legacy v1 标 false 系旧数据错误；用户可复议）；国机集团组 draft 追加条目「中设集团」"
+            "（legal=中国机械设备工程股份有限公司，与 CMEC 独立组 canonical 重复登记）已删除，"
+            "简称「中设集团」改登记为 CMEC 组 alias。",
         ],
         "groups": groups_list,
     }

@@ -139,7 +139,13 @@ def test_all_draft_new_groups_present():
 
 
 def test_all_additions_merged():
-    """草稿中 14 条 additions 的子公司/别名均已并入对应组。"""
+    """草稿中 14 条 additions 的子公司/别名均已并入对应组。
+
+    例外（终审 C2，与 build 脚本 ADDITION_SUBS_TO_DROP 同步）：国机集团组的
+    「中设集团」条目其 legal 名=CMEC 独立组 canonical，属重复登记，build 时已删除
+    （简称改登记为 CMEC 组 alias），此处跳过断言。"""
+    dropped = {("中国机械工业集团有限公司", "中设集团")}
+
     with DRAFT_FILE.open(encoding="utf-8") as f:
         draft = json.load(f)
     data = load_v2()
@@ -153,6 +159,8 @@ def test_all_additions_merged():
         target_aliases = set(target.get("aliases", []))
 
         for sub in add.get("subsidiaries", []):
+            if (canonical, sub["name_cn"]) in dropped:
+                continue
             assert sub["name_cn"] in target_sub_names, (
                 f"addition 子公司 {sub['name_cn']!r} 未并入 {canonical!r}"
             )
@@ -160,6 +168,40 @@ def test_all_additions_merged():
             assert alias in target_aliases, (
                 f"addition 别名 {alias!r} 未并入 {canonical!r}"
             )
+
+
+def test_c2_soe_overrides_applied():
+    """终审 C2：中电工程与 CMEC 两组 is_central_soe 应为 true（恢复主库先前口径，
+    两家均为 SASAC 央企子集团；用户可复议——若复议推翻，改 build 脚本 LEGACY_SOE_OVERRIDES）。"""
+    data = load_v2()
+    m = {g["canonical_name_cn"]: g for g in data["groups"]}
+    assert m["中国电力工程顾问集团有限公司"]["is_central_soe"] is True
+    assert m["中国机械设备工程股份有限公司"]["is_central_soe"] is True
+
+
+def test_c2_zhongshe_alias_moved_to_cmec():
+    """终审 C2：「中设集团」不再是国机集团组的 subsidiary，改为 CMEC 组 alias。"""
+    data = load_v2()
+    m = {g["canonical_name_cn"]: g for g in data["groups"]}
+    sinomach_subs = {s["name_cn"] for s in m["中国机械工业集团有限公司"]["subsidiaries"]}
+    assert "中设集团" not in sinomach_subs, "中设集团 不应仍在国机集团组 subsidiaries"
+    assert "中设集团" in m["中国机械设备工程股份有限公司"].get("aliases", []), (
+        "中设集团 应为 CMEC 组 alias（保留简称解析映射）"
+    )
+
+
+def test_no_sub_legal_duplicates_other_group_canonical():
+    """任何组 subsidiaries[].legal_full_name_cn 不得与其他组 canonical 重复
+    （此类重复登记会触发 entity_normalize 构建期跨集团歧义 WARNING）。"""
+    data = load_v2()
+    canonicals = {g["canonical_name_cn"] for g in data["groups"]}
+    violations = []
+    for g in data["groups"]:
+        for s in g.get("subsidiaries", []):
+            legal = s.get("legal_full_name_cn")
+            if legal and legal in canonicals and legal != g["canonical_name_cn"]:
+                violations.append(f"{g['canonical_name_cn']!r} 的 sub_legal {legal!r} 是其他组 canonical")
+    assert not violations, "发现 sub_legal 重复登记:\n" + "\n".join(violations)
 
 
 def test_legacy_provenance_marked():
