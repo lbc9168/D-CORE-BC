@@ -14,3 +14,8 @@ dependencies = [
 [tool.pytest.ini_options]
 # 根目录加入 pythonpath，使 bri_enums/bri_parse 等根模块可被测试直接导入
 pythonpath = ["."]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+]
