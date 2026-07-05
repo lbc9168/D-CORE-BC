@@ -302,10 +302,8 @@ def test_en_null_on_subsidiary_change(tmp_path, monkeypatch):
     conn.close()
 
     assert r[0] == "新母公司"
-    assert r[1] == "旧子公司名"  # source_name 不变，但 sub 从"空"→非空时不算"subsidiary_name_en 变"
+    assert r[1] == "旧子公司名"
     assert r[2] is None, "implementing 变 → implementing_entity_en 置 NULL"
-    # subsidiary_name 本身未变（仍是 "旧子公司名"），但旧 subsidiary_name_en 可以保留——
-    # 规则：cn 未变则 en 不动（subsidiary_name 旧="旧子公司名"，新="旧子公司名"，一致）
-    # 注：旧 subsidiary_name="" 变 "旧子公司名" → sub_changed=True → sub_en 置 NULL
-    # 修正：旧 sub="" → 有变化 → sub_en 也要置 NULL
-    assert r[3] is None, "sub 从空变非空 → subsidiary_name_en 置 NULL"
+    # subsidiary_name 本身未变（旧="旧子公司名"，新="旧子公司名"，一致）→ en 不动
+    # 规则（brief §en列一致性）：CN 未变则 en 不动
+    assert r[3] == "OLD_SUB_EN", "subsidiary 未变 → subsidiary_name_en 保持原值"

@@ -247,55 +247,47 @@ def reparse_maindb(db_path: str, apply: bool = False, out_csv: str | None = None
     # 事务批量 UPDATE（项目规则3：批量写库须用事务 + executemany）
     conn = sqlite3.connect(db_path)
     try:
-        params = []
-        for row in plan:
-            new_impl_en = None if row["impl_en_null"] else "__KEEP__"
-            new_sub_en = None if row["sub_en_null"] else "__KEEP__"
-            params.append((
-                row["new_impl"],
-                row["new_sub"],
-                row["new_soe"],
-                row["impl_en_null"],
-                row["sub_en_null"],
-                row["id"],
-            ))
+        # 四路分批 UPDATE（项目规则3：事务 + executemany；
+        # 按 impl_en_null/sub_en_null 四组分别拼 SQL，确保只 NULL 实际变化的 en 列）
+        batch_both_null = [(r["new_impl"], r["new_sub"], r["new_soe"], r["id"])
+                          for r in plan if r["impl_en_null"] and r["sub_en_null"]]
+        batch_impl_null = [(r["new_impl"], r["new_sub"], r["new_soe"], r["id"])
+                          for r in plan if r["impl_en_null"] and not r["sub_en_null"]]
+        batch_sub_null  = [(r["new_impl"], r["new_sub"], r["new_soe"], r["id"])
+                          for r in plan if not r["impl_en_null"] and r["sub_en_null"]]
+        batch_no_null   = [(r["new_impl"], r["new_sub"], r["new_soe"], r["id"])
+                          for r in plan if not r["impl_en_null"] and not r["sub_en_null"]]
 
-        # 分两批：impl_en 置 NULL 和 不置 NULL 的行分别处理
-        impl_null_params = [
-            (p[0], p[1], p[2], p[5])
-            for p in params if p[3]  # impl_en_null
-        ]
-        impl_keep_sub_null_params = [
-            (p[0], p[1], p[2], p[5])
-            for p in params if not p[3] and p[4]  # not impl_en_null but sub_en_null
-        ]
-        impl_keep_sub_keep_params = [
-            (p[0], p[1], p[2], p[5])
-            for p in params if not p[3] and not p[4]  # neither null
-        ]
-
-        if impl_null_params:
+        if batch_both_null:
             conn.executemany(
                 """UPDATE chinese_entities
                    SET implementing_entity=?, subsidiary_name=?, is_central_soe=?,
                        implementing_entity_en=NULL, subsidiary_name_en=NULL
                    WHERE id=?""",
-                impl_null_params,
+                batch_both_null,
             )
-        if impl_keep_sub_null_params:
+        if batch_impl_null:
+            conn.executemany(
+                """UPDATE chinese_entities
+                   SET implementing_entity=?, subsidiary_name=?, is_central_soe=?,
+                       implementing_entity_en=NULL
+                   WHERE id=?""",
+                batch_impl_null,
+            )
+        if batch_sub_null:
             conn.executemany(
                 """UPDATE chinese_entities
                    SET implementing_entity=?, subsidiary_name=?, is_central_soe=?,
                        subsidiary_name_en=NULL
                    WHERE id=?""",
-                impl_keep_sub_null_params,
+                batch_sub_null,
             )
-        if impl_keep_sub_keep_params:
+        if batch_no_null:
             conn.executemany(
                 """UPDATE chinese_entities
                    SET implementing_entity=?, subsidiary_name=?, is_central_soe=?
                    WHERE id=?""",
-                impl_keep_sub_keep_params,
+                batch_no_null,
             )
 
         conn.commit()
