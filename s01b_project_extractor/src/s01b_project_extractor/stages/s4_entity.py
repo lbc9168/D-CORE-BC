@@ -1,4 +1,8 @@
-"""S4 阶段：抽取某项目的中方实体并归一母子公司，校验 involvement_type 合法。"""
+"""S4 阶段：抽取某项目的中方实体并归一母子公司，校验 involvement_type 合法。
+
+注意：prompt 中已移除层级表注入（S4 减法）；
+实体名由 LLM 逐字照原文抄写，由 normalize_entity 纯查表归一。
+"""
 import bri_enums as enums
 from s01b_project_extractor.stages.entity_normalize import normalize_entity
 
@@ -6,10 +10,8 @@ from s01b_project_extractor.stages.entity_normalize import normalize_entity
 def run_s4(title: str, content: str, project_name: str, category: str, *, llm) -> list[dict]:
     """跑 S4 抽取并对每个实体做母子公司归一；返回 chinese_entities 列表。"""
     from s01b_project_extractor.prompts.s4_entity import build_s4_prompt
-    from s01b_project_extractor.tools.project_extractor_tool import _get_entity_lookup_text
     from s01b_project_extractor.knowledge import main_equipment
-    prompt = build_s4_prompt(title, content, project_name, category,
-                             _get_entity_lookup_text(), main_equipment(category))
+    prompt = build_s4_prompt(title, content, project_name, category, main_equipment(category))
     out = llm.complete(prompt, stage="s4", json_mode=True)
     ents = out.get("chinese_entities", []) if isinstance(out, dict) else []
     for e in ents:

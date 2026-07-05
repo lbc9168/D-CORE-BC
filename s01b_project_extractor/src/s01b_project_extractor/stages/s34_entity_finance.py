@@ -19,10 +19,8 @@ _FINANCE_KEYS = (
 def run_s34(title: str, content: str, project_name: str, category: str, *, llm) -> dict:
     """跑合并 S3+S4（一次调用）：实体做母子公司归一、投资额经 bri_parse；返回 {chinese_entities, finance}。"""
     from s01b_project_extractor.prompts.s34_entity_finance import build_s34_prompt
-    from s01b_project_extractor.tools.project_extractor_tool import _get_entity_lookup_text
     from s01b_project_extractor.knowledge import main_equipment
-    prompt = build_s34_prompt(title, content, project_name, category,
-                              _get_entity_lookup_text(), main_equipment(category))
+    prompt = build_s34_prompt(title, content, project_name, category, main_equipment(category))
     out = llm.complete(prompt, stage="s34", json_mode=True)
     if not isinstance(out, dict):
         logger.error("S34 返回非 dict（按空处理）: %s", type(out))
