@@ -16,9 +16,10 @@ import pytest
 
 
 def _clear_cache():
-    """清空解析器进程级缓存，确保测试隔离。"""
+    """清空解析器进程级缓存（lru_cache + 去尾缀预构索引），确保测试隔离。"""
     from s01b_project_extractor.stages import entity_normalize
     entity_normalize._hierarchy_index_v2.cache_clear()
+    entity_normalize._stripped_index_cache = {}
 
 
 @pytest.fixture(autouse=True)
@@ -79,65 +80,72 @@ def test_path2a_invariant_implementing_equals_verbatim_when_sub_empty():
 # ── 路径2b：别名/legal_full_name_cn 命中（verbatim ≠ canonical）──────────────
 
 def test_path2b_group_alias_returns_canonical_and_verbatim():
-    """集团别名命中 → implementing=canonical，subsidiary=verbatim（原文保来源）。"""
+    """集团别名命中 → implementing=canonical，subsidiary=verbatim（路径2b 硬断言）。
+
+    实际别名例：国家电投 → 国家电力投资集团有限公司（company_hierarchy_v2.json 真实数据）。
+    """
     from s01b_project_extractor.stages.entity_normalize import normalize_entity
-    # 找一个有 aliases 的集团做测试
-    # 中国电力建设集团有限公司 有别名 "中国电建" 等
-    # 如果 aliases 实际为空，改用 legal_full_name_cn 不同的子公司做测试
-    # 这里用一个已知有别名的子公司 legal_full_name_cn 别名：
-    # 子公司 name_cn="能建海投" → legal_full_name_cn="中能建海外投资有限公司"，
-    # 所以 "能建海投" 是 name_cn（精确匹配路径1），不适合。
-    # 用 aliases 字段：需要找一个实际有 aliases 的组——先用 name_cn 不等于 legal_full_name_cn 的情形
-    # 中国能建国际集团 → legal_full_name_cn="中能建国际建设集团有限公司"，name_cn 是 sub 的 name_cn
-    # 这是 path1（子公司 name_cn 精确匹配）不是 path2b。
-    # Path2b 测试：subsidiaries legal_full_name_cn 作为别名
-    # "中能建国际建设集团有限公司" 是 name_cn="中国能建国际建设集团有限公司" 的 legal_full_name_cn
-    # legal_full_name_cn 应被识别为别名 → path2b
-    parent, sub = normalize_entity("中能建国际建设集团有限公司")
-    # 不管走哪条路，只要命中了就测不变量
-    assert parent != ""
-    # 如果是 path2b（verbatim ≠ canonical），sub 应该等于 verbatim
-    if sub:
-        assert sub == "中能建国际建设集团有限公司"
+    # "国家电投" 是 "国家电力投资集团有限公司" 的别名（aliases 字段）
+    verbatim = "国家电投"
+    parent, sub = normalize_entity(verbatim)
+    # 路径2b：别名命中 → implementing=canonical，subsidiary=verbatim（无条件）
+    assert parent == "国家电力投资集团有限公司", (
+        f"别名 {verbatim!r} 应归一到 '国家电力投资集团有限公司'，得到: {parent!r}"
+    )
+    assert sub == verbatim, (
+        f"路径2b 的 subsidiary 应无条件等于 verbatim {verbatim!r}，得到: {sub!r}"
+    )
 
 
 def test_path2b_subsidiary_legal_fullname_hitspath1():
-    """legal_full_name_cn 与 name_cn 不同的子公司：verbatim=legal_full_name_cn → path1（子公司命中），sub=verbatim。"""
+    """legal_full_name_cn 与 name_cn 不同的子公司：verbatim=legal_full_name_cn → path1，sub=verbatim（硬断言）。"""
     from s01b_project_extractor.stages.entity_normalize import normalize_entity
     # "中能建国际建设集团有限公司" 是 name_cn="中国能建国际建设集团有限公司" 的 legal_full_name_cn
-    # 查表时 legal_full_name_cn 被注册为子公司别名
-    parent, sub = normalize_entity("中能建国际建设集团有限公司")
-    # 应命中为子公司（路径1 或 2b）→ implementing = 顶级集团
-    assert parent == "中国能源建设集团有限公司"
-    # 不变量：命中后 sub 非空时必须等于 verbatim
-    if sub:
-        assert sub == "中能建国际建设集团有限公司"
+    verbatim = "中能建国际建设集团有限公司"
+    parent, sub = normalize_entity(verbatim)
+    # 路径1 子公司命中 → implementing = 顶级集团（中国能源建设集团有限公司）
+    assert parent == "中国能源建设集团有限公司", (
+        f"子公司 legal_full_name_cn {verbatim!r} 应归一到顶级集团，得到: {parent!r}"
+    )
+    # 路径1 不变量：sub 无条件等于 verbatim
+    assert sub == verbatim, (
+        f"路径1 的 subsidiary 应无条件等于 verbatim {verbatim!r}，得到: {sub!r}"
+    )
 
 
 # ── 路径2c：去尾缀归一化命中集团 ───────────────────────────────────────────────
 
 def test_path2c_suffix_stripped_group_match():
-    """输入的尾缀变体能匹配集团 canonical（去尾缀后精确比对）。"""
+    """输入的尾缀变体能匹配集团 canonical（去尾缀后精确比对，路径2c 硬断言）。"""
     from s01b_project_extractor.stages.entity_normalize import normalize_entity
-    # "中国能源建设集团" 去尾缀后 = "中国能源建设集团"，canonical 去尾缀 "中国能源建设集团有限公司" → "中国能源建设集团"
-    parent, sub = normalize_entity("中国能源建设集团")
-    # 应命中 → implementing=canonical，sub=verbatim（路径2c）
-    assert parent == "中国能源建设集团有限公司"
-    # 不变量：sub 非空时等于 verbatim（原文）
-    if sub:
-        assert sub == "中国能源建设集团"
+    # "中国能源建设集团" 去尾缀后 = "中国能源建设集团"，
+    # canonical "中国能源建设集团有限公司" 去尾缀 = "中国能源建设集团" → 命中
+    verbatim = "中国能源建设集团"
+    parent, sub = normalize_entity(verbatim)
+    # 路径2c：去尾缀后命中集团 → implementing=canonical，sub=verbatim（无条件）
+    assert parent == "中国能源建设集团有限公司", (
+        f"去尾缀变体 {verbatim!r} 应归一到 '中国能源建设集团有限公司'，得到: {parent!r}"
+    )
+    assert sub == verbatim, (
+        f"路径2c 的 subsidiary 应无条件等于 verbatim {verbatim!r}，得到: {sub!r}"
+    )
 
 
 def test_path2c_suffix_stripped_sub_match():
-    """子公司尾缀变体也能触发去尾缀命中。"""
+    """子公司尾缀变体触发去尾缀命中（路径2d 硬断言）。"""
     from s01b_project_extractor.stages.entity_normalize import normalize_entity
-    # "中国葛洲坝集团" 去尾缀后应能匹配 "中国葛洲坝集团有限公司"（子公司）
-    parent, sub = normalize_entity("中国葛洲坝集团")
-    # 命中后：implementing=顶级集团
-    assert parent == "中国能源建设集团有限公司"
-    # 不变量：sub 非空⇔verbatim（路径2c 子公司命中时，sub=verbatim）
-    if sub:
-        assert sub == "中国葛洲坝集团"
+    # "中国葛洲坝集团" 去尾缀后 = "中国葛洲坝集团"，
+    # 子公司 "中国葛洲坝集团有限公司" 去尾缀 = "中国葛洲坝集团" → 命中
+    verbatim = "中国葛洲坝集团"
+    parent, sub = normalize_entity(verbatim)
+    # 路径2d：去尾缀后命中子公司 → implementing=顶级集团
+    assert parent == "中国能源建设集团有限公司", (
+        f"去尾缀变体 {verbatim!r} 应归一到顶级集团，得到: {parent!r}"
+    )
+    # 路径2d 不变量：sub=verbatim（无条件）
+    assert sub == verbatim, (
+        f"路径2d 的 subsidiary 应无条件等于 verbatim {verbatim!r}，得到: {sub!r}"
+    )
 
 
 # ── 路径3：未命中透传 + 日志 ──────────────────────────────────────────────────

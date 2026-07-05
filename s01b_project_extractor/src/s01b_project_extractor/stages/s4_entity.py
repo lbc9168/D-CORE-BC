@@ -18,8 +18,9 @@ def run_s4(title: str, content: str, project_name: str, category: str, *, llm) -
         raw = e.get("Implementing Chinese Entity", "")
         parent, sub = normalize_entity(raw)
         e["Implementing Chinese Entity"] = parent
-        if not (e.get("Subsidiary Name") or "").strip() and sub:
-            e["Subsidiary Name"] = sub
+        # 无条件用 parser 输出覆盖 LLM 的 Subsidiary Name：
+        # LLM 不可信（易幻觉），不变量"subsidiary 非空⇔原文名"只能由 parser 保证。
+        e["Subsidiary Name"] = sub
     return ents
 
 

@@ -31,8 +31,9 @@ def run_s34(title: str, content: str, project_name: str, category: str, *, llm) 
         raw = e.get("Implementing Chinese Entity", "")
         parent, sub = normalize_entity(raw)
         e["Implementing Chinese Entity"] = parent
-        if not (e.get("Subsidiary Name") or "").strip() and sub:
-            e["Subsidiary Name"] = sub
+        # 无条件用 parser 输出覆盖 LLM 的 Subsidiary Name：
+        # LLM 不可信（易幻觉），不变量"subsidiary 非空⇔原文名"只能由 parser 保证。
+        e["Subsidiary Name"] = sub
     # ── 金融部分：切出 + 原文短语保留 + 投资额经 bri_parse（与 run_s3 一致）──
     finance = {k: out[k] for k in _FINANCE_KEYS if k in out}
     # 原文短语：优先取 LLM 新字段 "Total Project Investment Raw"。

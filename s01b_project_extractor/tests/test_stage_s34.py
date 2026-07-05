@@ -68,3 +68,44 @@ def test_validate_s34_flags_bad_involvement_and_empty_entity():
 def test_validate_s34_accepts_clean():
     assert validate_s34({"chinese_entities": [
         {"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}) == []
+
+
+# ── #1 LLM subsidiary 不变量守护（stage 层无条件丢弃 LLM Subsidiary Name）──────
+
+
+def test_s34_llm_subsidiary_discarded_when_parser_sub_nonempty():
+    """S34：LLM 乱填 Subsidiary Name，stage 层无条件丢弃，subsidiary 只取 parser 输出（路径1）。"""
+    llm = _StubLLM({
+        "chinese_entities": [{
+            "Implementing Chinese Entity": "中国葛洲坝集团有限公司",
+            "Type of involvement of Chinese Entities": "EPC总承包",
+            "Subsidiary Name": "LLM乱填的子公司",  # LLM 乱填
+        }],
+        "Financing Model": "Unknown",
+    })
+    out = run_s34("t", "c", "项目", "水电", llm=llm)
+    e = out["chinese_entities"][0]
+    assert e["Implementing Chinese Entity"] == "中国能源建设集团有限公司"
+    # subsidiary 应来自 parser（verbatim），LLM 乱填被无条件丢弃
+    assert e["Subsidiary Name"] == "中国葛洲坝集团有限公司", (
+        f"subsidiary 应来自 parser '中国葛洲坝集团有限公司'，非 LLM 乱填，得到: {e.get('Subsidiary Name')!r}"
+    )
+
+
+def test_s34_llm_subsidiary_discarded_when_parser_sub_empty():
+    """S34：parser sub 为空（路径2a）时，LLM 乱填 Subsidiary Name 应被丢弃，最终记录为空。"""
+    llm = _StubLLM({
+        "chinese_entities": [{
+            "Implementing Chinese Entity": "中国能源建设集团有限公司",
+            "Type of involvement of Chinese Entities": "EPC总承包",
+            "Subsidiary Name": "乱填子公司X",  # LLM 乱填
+        }],
+        "Financing Model": "Unknown",
+    })
+    out = run_s34("t", "c", "项目", "光伏", llm=llm)
+    e = out["chinese_entities"][0]
+    assert e["Implementing Chinese Entity"] == "中国能源建设集团有限公司"
+    # parser 路径2a sub="" → stage 层必须写空，不能残留 LLM 乱填
+    assert e.get("Subsidiary Name", "") == "", (
+        f"parser sub 为空时 LLM 乱填应被丢弃，得到: {e.get('Subsidiary Name')!r}"
+    )

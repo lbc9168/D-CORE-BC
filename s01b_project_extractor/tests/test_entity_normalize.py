@@ -32,9 +32,10 @@ from s01b_project_extractor.stages.entity_normalize import normalize_entity
 
 
 def _clear_cache():
-    """清 v2 索引 lru_cache，隔离测试。"""
+    """清 v2 索引 lru_cache + 去尾缀预构索引，隔离测试。"""
     from s01b_project_extractor.stages import entity_normalize
     entity_normalize._hierarchy_index_v2.cache_clear()
+    entity_normalize._stripped_index_cache = {}
 
 
 @pytest.fixture(autouse=True)
