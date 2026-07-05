@@ -106,3 +106,11 @@ cd s01b_project_extractor && uv run run_bulk_extract # 并发调用 Gemini 批�
 2. 根目录 `.env` 需包含 `GEMINI_API_KEY`。
 3. 路径二（`run_from_s01b`）需要 `s01a/data/raw_news.db` 已存在。
 4. s02a 段直调 tool 用**绝对路径**（不走 `s02a.run()`，因其写死相对路径会按 pipeline 的 CWD 写错文件）。
+5. **主库原地回填后的部署顺序（硬约束）**：凡对主库 `chinese_entities` 做过实体回填
+   （如 `entity_reparse_maindb --apply`，其规则为「CN 变 → 对应 `*_en` 置 NULL」）后，
+   部署必须按 **en_backfill → run_export(s03) → 部署（gh-pages）** 顺序执行，
+   不得跳过 en_backfill 直接导出——回填后主库英文名大面积为空
+   （2026-07-06 实测 `implementing_entity_en` 空 3660/6519 ≈ 56%、
+   `subsidiary_name_en` 缺 666），先导出/部署会把空英文名发布到前端。
+   en_backfill 单独跑：`cd s02b_entity_normalizer && uv run backfill_entity_en`
+   （或走 pipeline `run_en_backfill=True` 段）。
