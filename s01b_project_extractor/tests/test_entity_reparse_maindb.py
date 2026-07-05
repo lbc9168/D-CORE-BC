@@ -8,8 +8,10 @@
   - apply 先备份再批量 UPDATE，事后行数不变
   - 两行皆空（implementing+subsidiary 均空）跳过计数
   - 备份断言：文件非空 + 可只读打开 + 行数一致
+  - 模块可在任意深度导入（项目根健壮上溯，不假设 worktree 嵌套深度）
 """
 import sqlite3
+import sys
 from pathlib import Path
 
 import pytest
@@ -49,6 +51,43 @@ def _make_db(tmp_path, rows: list[tuple]) -> str:
     conn.commit()
     conn.close()
     return db
+
+
+# ── C1：模块可在任意深度导入（项目根健壮上溯）────────────────────────────────
+
+def test_module_reimport_does_not_crash_at_any_depth():
+    """模块级代码不得假设固定嵌套深度（旧 parents[7] 在主工作区 IndexError）：
+    reload 重新执行模块级求值，不抛异常即通过。"""
+    import importlib
+    import s01b_project_extractor.tools.entity_reparse_maindb as mod
+    importlib.reload(mod)
+    assert mod._DEFAULT_DB is None or isinstance(mod._DEFAULT_DB, str)
+
+
+def test_find_project_root_from_module_location():
+    """从模块自身位置上溯应能找到含 s02a_duplicate_merger 的项目根（repo 内必存在）。"""
+    from s01b_project_extractor.tools.entity_reparse_maindb import _find_project_root
+    root = _find_project_root()
+    assert root is not None
+    assert (root / "s02a_duplicate_merger").exists()
+
+
+def test_find_project_root_none_outside_repo(tmp_path):
+    """起点祖先均无 s02a_duplicate_merger 时返回 None（模拟浅路径/包被装到任意位置）。"""
+    from s01b_project_extractor.tools.entity_reparse_maindb import _find_project_root
+    fake_file = tmp_path / "a" / "b" / "tool.py"
+    fake_file.parent.mkdir(parents=True)
+    fake_file.write_text("# fake", encoding="utf-8")
+    assert _find_project_root(fake_file) is None
+
+
+def test_main_requires_db_when_default_none(monkeypatch):
+    """_DEFAULT_DB=None（项目根定位失败）时，不带 --db 调 main 应 parser.error 退出。"""
+    import s01b_project_extractor.tools.entity_reparse_maindb as mod
+    monkeypatch.setattr(mod, "_DEFAULT_DB", None)
+    monkeypatch.setattr(sys, "argv", ["entity_reparse_maindb"])
+    with pytest.raises(SystemExit):
+        mod.main()
 
 
 # ── Unit tests: 纯函数（不依赖 normalize_entity，用 mock）────────────────────

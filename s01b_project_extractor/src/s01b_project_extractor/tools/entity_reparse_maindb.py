@@ -26,13 +26,29 @@ from pydantic import BaseModel, field_validator
 
 logger = logging.getLogger(__name__)
 
-# 主工作区主库默认路径：worktree 根上溯到项目根（main project root = parents[7]）
-# 文件路径：.../dcore_v2.2/s01b_project_extractor/src/s01b_project_extractor/tools/
-# parents[4]=worktree根 → parents[7]=E:/Projects/BRI_RE_Database_v2/
-# CLI 调用时建议显式 --db，默认路径仅作文档用途
-_DEFAULT_DB = str(
-    Path(__file__).resolve().parents[7]
-    / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
+# 主库默认路径：向上找含 s02a_duplicate_merger 的第一个父目录作为项目根
+# （不假设 worktree/主工作区嵌套深度——旧 parents[7] 在主工作区导入即 IndexError）。
+# 找不到时 _DEFAULT_DB=None，CLI 必须显式 --db。建议 CLI 调用时始终显式 --db。
+
+
+def _find_project_root(start: Path | None = None) -> Path | None:
+    """从 start（默认本文件）向上找第一个含 s02a_duplicate_merger 的父目录；找不到返回 None。"""
+    base = (start or Path(__file__)).resolve()
+    try:
+        return next(p for p in base.parents if (p / "s02a_duplicate_merger").exists())
+    except StopIteration:
+        return None
+    except OSError as e:
+        # 文件系统异常（权限/挂载等）兜底：模块导入不因此失败，退化为要求显式 --db
+        logging.error("_find_project_root 文件系统异常，回退 None: %s", e)
+        return None
+
+
+_PROJECT_ROOT = _find_project_root()
+_DEFAULT_DB = (
+    str(_PROJECT_ROOT / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db")
+    if _PROJECT_ROOT is not None
+    else None
 )
 
 
@@ -546,6 +562,10 @@ def main() -> None:
     )
     args = parser.parse_args()
 
+    # 项目根定位失败（_DEFAULT_DB=None）且未显式传 --db → 立即报错
+    if not args.db:
+        parser.error("--db 必填：未能自动定位项目根（向上未找到 s02a_duplicate_merger 目录）")
+
     # 路径存在性校验（项目规则4）
     try:
         validated = ReparseArgs(db=args.db, apply=args.apply, out=args.out)
@@ -595,8 +615,10 @@ def main() -> None:
 
     result = reparse_maindb(validated.db, apply=validated.apply, out_csv=out_csv)
 
-    # 未命中 Top50（supporting_docs 在 worktree 根，即 parents[4]）
-    miss_csv_path = Path(__file__).resolve().parents[4] / "supporting_docs" / "entity_reparse_misses_2026-07-06.csv"
+    # 未命中 Top50：写 supporting_docs（项目根健壮上溯；找不到根则落在 out_csv 同目录）；
+    # 文件名带时间戳，避免重跑覆盖历史报告
+    miss_dir = (_PROJECT_ROOT / "supporting_docs") if _PROJECT_ROOT else Path(out_csv).parent
+    miss_csv_path = miss_dir / f"entity_reparse_misses_{ts}.csv"
     misses = _collect_all_misses_from_db(validated.db)
     if misses:
         with open(str(miss_csv_path), "w", newline="", encoding="utf-8-sig") as f:
