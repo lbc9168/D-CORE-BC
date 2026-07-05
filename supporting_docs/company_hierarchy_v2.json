@@ -1,0 +1,3042 @@
+{
+ "schema_version": 2,
+ "generated_on": "2026-07-05",
+ "notes": [
+  "由 build_hierarchy_v2.py 自动生成，合并旧 company_hierarchy.json (19 组) + company_hierarchy_draft_2026-07-05.json (97 新组 + 14 追加)。",
+  "旧版二级集团（中国电力工程顾问集团有限公司、中国机械设备工程股份有限公司）均保留为独立组（见脚本注释说明）。",
+  "冲突处理：二级集团的 canonical 名已从其母公司 subsidiaries 中移除；国机设备与国机集团的共享子公司（中工国际等 4 家）保留在国机集团，从国机设备的 subsidiaries 中移除。",
+  "legacy_v1 条目：aliases=[], sources=[]；provenance='legacy_v1'；as_of='2026-03-19'。"
+ ],
+ "groups": [
+  {
+   "canonical_name_cn": "中国能源建设集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国葛洲坝集团有限公司",
+     "legal_full_name_cn": "中国葛洲坝集团有限公司"
+    },
+    {
+     "name_cn": "中国葛洲坝集团（甘肃）工程有限公司",
+     "legal_full_name_cn": "中国葛洲坝集团（甘肃）工程有限公司"
+    },
+    {
+     "name_cn": "中国能建集团装备有限公司",
+     "legal_full_name_cn": "中国能建集团装备有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团电子商务有限公司",
+     "legal_full_name_cn": "中国能源建设集团电子商务有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团华东建设投资有限公司",
+     "legal_full_name_cn": "中国能源建设集团华东建设投资有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团南方建设投资有限公司",
+     "legal_full_name_cn": "中国能源建设集团南方建设投资有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团西北建设投资有限公司",
+     "legal_full_name_cn": "中国能源建设集团西北建设投资有限公司"
+    },
+    {
+     "name_cn": "中能建城市投资发展有限公司",
+     "legal_full_name_cn": "中能建城市投资发展有限公司"
+    },
+    {
+     "name_cn": "中国能建国际建设集团有限公司",
+     "legal_full_name_cn": "中国能建国际建设集团有限公司"
+    },
+    {
+     "name_cn": "中国能源建设（香港）有限公司",
+     "legal_full_name_cn": "中国能源建设（香港）有限公司"
+    },
+    {
+     "name_cn": "中能建（海南）有限公司",
+     "legal_full_name_cn": "中能建（海南）有限公司"
+    },
+    {
+     "name_cn": "中国能建南方投资开发有限公司",
+     "legal_full_name_cn": "中国能建南方投资开发有限公司"
+    },
+    {
+     "name_cn": "中能建数字化科技有限公司",
+     "legal_full_name_cn": "中能建数字化科技有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团财务有限公司",
+     "legal_full_name_cn": "中国能源建设集团财务有限公司"
+    },
+    {
+     "name_cn": "中国能建绿色建材有限公司",
+     "legal_full_name_cn": "中国能建绿色建材有限公司"
+    },
+    {
+     "name_cn": "中国能建氢能源有限公司",
+     "legal_full_name_cn": "中国能建氢能源有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团产业发展有限公司",
+     "legal_full_name_cn": "中国能源建设集团产业发展有限公司"
+    },
+    {
+     "name_cn": "易普力股份有限公司",
+     "legal_full_name_cn": "易普力股份有限公司"
+    },
+    {
+     "name_cn": "中国能建集团第三工程局有限公司",
+     "legal_full_name_cn": "中国能建集团第三工程局有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团黑龙江省能源建设有限公司",
+     "legal_full_name_cn": "中国能源建设集团黑龙江省能源建设有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团东北电力第一工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团东北电力第一工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团东北电力第二工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团东北电力第二工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团东北电力第三工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团东北电力第三工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团天津电力建设有限公司",
+     "legal_full_name_cn": "中国能源建设集团天津电力建设有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团山西电力建设有限公司",
+     "legal_full_name_cn": "中国能源建设集团山西电力建设有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团江苏省电力建设第一工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团江苏省电力建设第一工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团江苏省电力建设第三工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团江苏省电力建设第三工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团浙江火电建设有限公司",
+     "legal_full_name_cn": "中国能源建设集团浙江火电建设有限公司"
+    },
+    {
+     "name_cn": "中能建建筑集团有限公司",
+     "legal_full_name_cn": "中能建建筑集团有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团安徽电力建设第二工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团安徽电力建设第二工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团湖南火电建设有限公司",
+     "legal_full_name_cn": "中国能源建设集团湖南火电建设有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团广东火电工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团广东火电工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团西北电力建设工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团西北电力建设工程有限公司"
+    },
+    {
+     "name_cn": "中能建西北城市建设有限公司",
+     "legal_full_name_cn": "中能建西北城市建设有限公司"
+    },
+    {
+     "name_cn": "中国能建国际集团",
+     "legal_full_name_cn": "中能建国际建设集团有限公司"
+    },
+    {
+     "name_cn": "中国能建国际建设集团",
+     "legal_full_name_cn": "中能建国际建设集团有限公司"
+    },
+    {
+     "name_cn": "中国能建集团国际建设集团有限公司",
+     "legal_full_name_cn": "中能建国际建设集团有限公司"
+    },
+    {
+     "name_cn": "能建海投",
+     "legal_full_name_cn": "中能建海外投资有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团第三工程局有限公司",
+     "legal_full_name_cn": "中国能源建设集团第三工程局有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团装备有限公司",
+     "legal_full_name_cn": "中国能源建设集团装备有限公司"
+    },
+    {
+     "name_cn": "中国葛洲坝集团股份有限公司",
+     "legal_full_name_cn": "中国葛洲坝集团股份有限公司"
+    },
+    {
+     "name_cn": "中国能建葛洲坝集团",
+     "legal_full_name_cn": "中国葛洲坝集团有限公司"
+    },
+    {
+     "name_cn": "中国能建海投公司",
+     "legal_full_name_cn": "中能建海外投资有限公司"
+    },
+    {
+     "name_cn": "中国能建中电工程国际公司",
+     "legal_full_name_cn": "中国电力工程顾问集团国际工程有限公司"
+    },
+    {
+     "name_cn": "中国能建葛洲坝国际公司",
+     "legal_full_name_cn": "中国葛洲坝集团国际工程有限公司"
+    },
+    {
+     "name_cn": "中国能建广西工程局",
+     "legal_full_name_cn": "中国能源建设集团广西水电工程局有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团国际建设集团有限公司",
+     "legal_full_name_cn": "中能建国际建设集团有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团福建公司",
+     "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "中能建葛洲坝工程科技有限公司",
+     "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "中国能建山西院",
+     "legal_full_name_cn": "中国能源建设集团山西省电力勘测设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团国际工程有限公司",
+     "legal_full_name_cn": "中国能源建设集团国际工程有限公司"
+    },
+    {
+     "name_cn": "中国能建葛洲坝电力公司",
+     "legal_full_name_cn": "中国葛洲坝集团电力有限责任公司"
+    },
+    {
+     "name_cn": "葛洲坝海投公司",
+     "legal_full_name_cn": "中能建海外投资有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团云南院",
+     "legal_full_name_cn": "中国能源建设集团云南省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团十五工程局有限公司",
+     "legal_full_name_cn": "中国能源建设集团十五工程局有限公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E4%BA%91%E5%8D%97%E7%9C%81%E7%94%B5%E5%8A%9B%E8%AE%BE%E8%AE%A1%E9%99%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20010135",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22605027",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%83%BD%E6%BA%90%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%B1%B1%E8%A5%BF%E7%9C%81%E7%94%B5%E5%8A%9B%E5%8B%98%E6%B5%8B%E8%AE%BE%E8%AE%A1%E9%99%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20002965",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5433072"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国电力工程顾问集团有限公司",
+   "is_central_soe": false,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国电力工程顾问集团东北电力设计院有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团东北电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团华东电力设计院有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团华东电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团中南电力设计院有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团中南电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团西北电力设计院有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团西北电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团西南电力设计院有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团西南电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团华北电力设计院有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团华北电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团广东省电力设计研究院有限公司",
+     "legal_full_name_cn": "中国能源建设集团广东省电力设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团国际工程有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团国际工程有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团山西省电力勘测设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团山西省电力勘测设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团江苏省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团江苏省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团浙江省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团浙江省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团安徽省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团安徽省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团湖南省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团湖南省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力建设工程咨询有限公司",
+     "legal_full_name_cn": "中国电力建设工程咨询有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团云南省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团云南省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团广西电力设计研究院有限公司",
+     "legal_full_name_cn": "中国能源建设集团广西电力设计研究院有限公司"
+    },
+    {
+     "name_cn": "能建时代新能源科技有限公司",
+     "legal_full_name_cn": "能建时代新能源科技有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团黑龙江省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团黑龙江省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团辽宁电力勘测设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团辽宁电力勘测设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团天津电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团天津电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团陕西省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团陕西省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团甘肃省电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团甘肃省电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国能源建设集团新疆电力设计院有限公司",
+     "legal_full_name_cn": "中国能源建设集团新疆电力设计院有限公司"
+    },
+    {
+     "name_cn": "中国电力工程顾问集团新能源有限公司",
+     "legal_full_name_cn": "中国电力工程顾问集团新能源有限公司"
+    },
+    {
+     "name_cn": "紫荆国际能源（香港）有限公司",
+     "legal_full_name_cn": "紫荆国际能源（香港）有限公司"
+    },
+    {
+     "name_cn": "西班牙易安国际股份公司",
+     "legal_full_name_cn": "西班牙易安国际股份公司"
+    },
+    {
+     "name_cn": "西班牙盖飒工程技术股份公司",
+     "legal_full_name_cn": "西班牙盖飒工程技术股份公司"
+    }
+   ],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "中国电力建设集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中电建新能源集团股份有限公司",
+     "legal_full_name_cn": "中电建新能源集团股份有限公司"
+    },
+    {
+     "name_cn": "水电水利规划设计总院有限公司",
+     "legal_full_name_cn": "水电水利规划设计总院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团海外投资有限公司",
+     "legal_full_name_cn": "中国电建集团海外投资有限公司"
+    },
+    {
+     "name_cn": "中国电建集团国际工程有限公司",
+     "legal_full_name_cn": "中国电建集团国际工程有限公司"
+    },
+    {
+     "name_cn": "中电建建筑集团有限公司",
+     "legal_full_name_cn": "中电建建筑集团有限公司"
+    },
+    {
+     "name_cn": "中国水电基础局有限公司",
+     "legal_full_name_cn": "中国水电基础局有限公司"
+    },
+    {
+     "name_cn": "中电建路桥集团有限公司",
+     "legal_full_name_cn": "中电建路桥集团有限公司"
+    },
+    {
+     "name_cn": "中国电建地产集团有限公司",
+     "legal_full_name_cn": "中国电建地产集团有限公司"
+    },
+    {
+     "name_cn": "中电建铁路建设投资集团有限公司",
+     "legal_full_name_cn": "中电建铁路建设投资集团有限公司"
+    },
+    {
+     "name_cn": "中国电建集团港航建设有限公司",
+     "legal_full_name_cn": "中国电建集团港航建设有限公司"
+    },
+    {
+     "name_cn": "中电建电力投资集团有限公司",
+     "legal_full_name_cn": "中电建电力投资集团有限公司"
+    },
+    {
+     "name_cn": "中电建水电开发集团有限公司",
+     "legal_full_name_cn": "中电建水电开发集团有限公司"
+    },
+    {
+     "name_cn": "中电建装备集团有限公司",
+     "legal_full_name_cn": "中电建装备集团有限公司"
+    },
+    {
+     "name_cn": "中国电建市政建设集团有限公司",
+     "legal_full_name_cn": "中国电建市政建设集团有限公司"
+    },
+    {
+     "name_cn": "中国电建集团核电工程有限公司",
+     "legal_full_name_cn": "中国电建集团核电工程有限公司"
+    },
+    {
+     "name_cn": "山东电力建设第三工程有限公司",
+     "legal_full_name_cn": "山东电力建设第三工程有限公司"
+    },
+    {
+     "name_cn": "上海电力建设有限责任公司",
+     "legal_full_name_cn": "上海电力建设有限责任公司"
+    },
+    {
+     "name_cn": "中国电建集团华东勘测设计研究院有限公司",
+     "legal_full_name_cn": "中国电建集团华东勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团西北勘测设计研究院有限公司",
+     "legal_full_name_cn": "中国电建集团西北勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团中南勘测设计研究院有限公司",
+     "legal_full_name_cn": "中国电建集团中南勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团成都勘测设计研究院有限公司",
+     "legal_full_name_cn": "中国电建集团成都勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团贵阳勘测设计研究院有限公司",
+     "legal_full_name_cn": "中国电建集团贵阳勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团昆明勘测设计研究院有限公司",
+     "legal_full_name_cn": "中国电建集团昆明勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第一工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第一工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第三工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第三工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第四工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第四工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第五工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第五工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第六工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第六工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第七工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第七工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第八工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第八工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第九工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第九工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第十工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第十工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第十一工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第十一工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第十二工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第十二工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第十四工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第十四工程局有限公司"
+    },
+    {
+     "name_cn": "中国水电建设集团十五工程局有限公司",
+     "legal_full_name_cn": "中国水电建设集团十五工程局有限公司"
+    },
+    {
+     "name_cn": "中国水利水电第十六工程局有限公司",
+     "legal_full_name_cn": "中国水利水电第十六工程局有限公司"
+    },
+    {
+     "name_cn": "中国能源海外投资有限公司",
+     "legal_full_name_cn": "中国电建集团海外投资有限公司"
+    },
+    {
+     "name_cn": "中国水利水电建设集团公司",
+     "legal_full_name_cn": "中国水利水电建设集团公司"
+    },
+    {
+     "name_cn": "中国电建国际公司",
+     "legal_full_name_cn": "中国电建集团国际工程有限公司"
+    },
+    {
+     "name_cn": "中国电建国际工程有限公司",
+     "legal_full_name_cn": "中国电建集团国际工程有限公司"
+    },
+    {
+     "name_cn": "湖北工程公司",
+     "legal_full_name_cn": "中国电建集团湖北工程有限公司"
+    },
+    {
+     "name_cn": "中国电建集团湖北工程有限公司",
+     "legal_full_name_cn": "中国电建集团湖北工程有限公司"
+    },
+    {
+     "name_cn": "中国电建集团尼日利亚代表处",
+     "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "水电十局",
+     "legal_full_name_cn": "中国水利水电第十工程局有限公司"
+    },
+    {
+     "name_cn": "中国电建集团福建省电力勘测设计院有限公司",
+     "legal_full_name_cn": "中国电建集团福建省电力勘测设计院有限公司"
+    },
+    {
+     "name_cn": "中国电建集团贵州工程有限公司",
+     "legal_full_name_cn": "中国电建集团贵州工程有限公司"
+    }
+   ],
+   "sources": [
+    "http://www.powerhubei.com/",
+    "https://10j.powerchina.cn/",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6018035",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E6%B9%96%E5%8C%97%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20042152"
+   ]
+  },
+  {
+   "canonical_name_cn": "国家电力投资集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "中国国家电力投资集团",
+    "国家电投"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "国家核电技术有限公司",
+     "legal_full_name_cn": "国家核电技术有限公司"
+    },
+    {
+     "name_cn": "中国电力国际发展有限公司",
+     "legal_full_name_cn": "中国电力国际发展有限公司"
+    },
+    {
+     "name_cn": "上海电力股份有限公司",
+     "legal_full_name_cn": "上海电力股份有限公司"
+    },
+    {
+     "name_cn": "黄河上游水电开发有限责任公司",
+     "legal_full_name_cn": "黄河上游水电开发有限责任公司"
+    },
+    {
+     "name_cn": "五凌电力有限公司",
+     "legal_full_name_cn": "五凌电力有限公司"
+    },
+    {
+     "name_cn": "国家电投集团远达环保股份有限公司",
+     "legal_full_name_cn": "国家电投集团远达环保股份有限公司"
+    },
+    {
+     "name_cn": "国核设备有限公司",
+     "legal_full_name_cn": "国核设备有限公司"
+    },
+    {
+     "name_cn": "国核锆业股份公司",
+     "legal_full_name_cn": "国核锆业股份公司"
+    },
+    {
+     "name_cn": "国氢科技有限公司",
+     "legal_full_name_cn": "国氢科技有限公司"
+    },
+    {
+     "name_cn": "国家电投集团电力工程有限公司（山东院）",
+     "legal_full_name_cn": "国家电投集团电力工程有限公司（山东院）"
+    },
+    {
+     "name_cn": "国家电投集团财务有限公司",
+     "legal_full_name_cn": "国家电投集团财务有限公司"
+    },
+    {
+     "name_cn": "国家电投集团资本控股有限公司",
+     "legal_full_name_cn": "国家电投集团资本控股有限公司"
+    },
+    {
+     "name_cn": "国家电投中电国际控股",
+     "legal_full_name_cn": "中国电力国际有限公司"
+    },
+    {
+     "name_cn": "中国电力国际有限公司",
+     "legal_full_name_cn": "中国电力国际有限公司"
+    },
+    {
+     "name_cn": "黄河水电公司",
+     "legal_full_name_cn": "国家电投集团黄河上游水电开发有限责任公司"
+    }
+   ],
+   "sources": [
+    "https://finance.sina.com.cn/roll/2025-02-17/doc-inekvaiz4636178.shtml",
+    "https://www.cpihl.com.cn/Mobile/List/index/cid/6.html",
+    "https://www.cspplaza.com/article-16592-1.html",
+    "https://zh.wikipedia.org/zh-hans/%E5%9B%BD%E5%AE%B6%E7%94%B5%E5%8A%9B%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "国家能源投资集团有限责任公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国神华能源股份有限公司",
+     "legal_full_name_cn": "中国神华能源股份有限公司"
+    },
+    {
+     "name_cn": "国电电力发展股份有限公司",
+     "legal_full_name_cn": "国电电力发展股份有限公司"
+    },
+    {
+     "name_cn": "龙源电力集团股份有限公司",
+     "legal_full_name_cn": "龙源电力集团股份有限公司"
+    },
+    {
+     "name_cn": "中国神华煤制油化工有限公司",
+     "legal_full_name_cn": "中国神华煤制油化工有限公司"
+    },
+    {
+     "name_cn": "国电科技环保集团股份有限公司",
+     "legal_full_name_cn": "国电科技环保集团股份有限公司"
+    },
+    {
+     "name_cn": "国电资本控股有限公司",
+     "legal_full_name_cn": "国电资本控股有限公司"
+    },
+    {
+     "name_cn": "神华神东煤炭集团有限责任公司",
+     "legal_full_name_cn": "神华神东煤炭集团有限责任公司"
+    },
+    {
+     "name_cn": "国家能源集团宁夏煤业有限责任公司",
+     "legal_full_name_cn": "国家能源集团宁夏煤业有限责任公司"
+    },
+    {
+     "name_cn": "北京国华电力有限责任公司",
+     "legal_full_name_cn": "北京国华电力有限责任公司"
+    },
+    {
+     "name_cn": "国电华北电力有限公司",
+     "legal_full_name_cn": "国电华北电力有限公司"
+    },
+    {
+     "name_cn": "神华国能集团有限公司",
+     "legal_full_name_cn": "神华国能集团有限公司"
+    },
+    {
+     "name_cn": "国电东北电力有限公司",
+     "legal_full_name_cn": "国电东北电力有限公司"
+    },
+    {
+     "name_cn": "国电大渡河流域水电开发有限公司",
+     "legal_full_name_cn": "国电大渡河流域水电开发有限公司"
+    },
+    {
+     "name_cn": "神华准能集团有限责任公司",
+     "legal_full_name_cn": "神华准能集团有限责任公司"
+    },
+    {
+     "name_cn": "国家能源集团乌海能源有限责任公司",
+     "legal_full_name_cn": "国家能源集团乌海能源有限责任公司"
+    },
+    {
+     "name_cn": "神华新疆能源有限责任公司",
+     "legal_full_name_cn": "神华新疆能源有限责任公司"
+    },
+    {
+     "name_cn": "国家能源集团江苏电力有限公司",
+     "legal_full_name_cn": "国家能源集团江苏电力有限公司"
+    },
+    {
+     "name_cn": "国华能源投资有限公司",
+     "legal_full_name_cn": "国华能源投资有限公司"
+    },
+    {
+     "name_cn": "国家能源集团山东电力有限公司",
+     "legal_full_name_cn": "国家能源集团山东电力有限公司"
+    },
+    {
+     "name_cn": "国电长源电力股份有限公司",
+     "legal_full_name_cn": "国电长源电力股份有限公司"
+    },
+    {
+     "name_cn": "国电湖北电力有限公司",
+     "legal_full_name_cn": "国电湖北电力有限公司"
+    },
+    {
+     "name_cn": "国电安徽电力有限公司",
+     "legal_full_name_cn": "国电安徽电力有限公司"
+    },
+    {
+     "name_cn": "国电江西电力有限公司",
+     "legal_full_name_cn": "国电江西电力有限公司"
+    },
+    {
+     "name_cn": "神华销售集团有限公司",
+     "legal_full_name_cn": "神华销售集团有限公司"
+    },
+    {
+     "name_cn": "国电科学技术研究院有限公司",
+     "legal_full_name_cn": "国电科学技术研究院有限公司"
+    },
+    {
+     "name_cn": "北京低碳清洁能源研究院",
+     "legal_full_name_cn": "北京低碳清洁能源研究院"
+    },
+    {
+     "name_cn": "神华科学技术研究院有限责任公司",
+     "legal_full_name_cn": "神华科学技术研究院有限责任公司"
+    },
+    {
+     "name_cn": "神华财务有限公司",
+     "legal_full_name_cn": "神华财务有限公司"
+    },
+    {
+     "name_cn": "国电物资集团有限公司",
+     "legal_full_name_cn": "国电物资集团有限公司"
+    },
+    {
+     "name_cn": "中国神华海外开发投资有限公司",
+     "legal_full_name_cn": "中国神华海外开发投资有限公司"
+    },
+    {
+     "name_cn": "神华国际（香港）有限公司",
+     "legal_full_name_cn": "神华国际（香港）有限公司"
+    },
+    {
+     "name_cn": "中国神华国际工程有限公司",
+     "legal_full_name_cn": "中国神华国际工程有限公司"
+    }
+   ],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "中国华能集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "华能国际电力股份有限公司",
+     "legal_full_name_cn": "华能国际电力股份有限公司"
+    },
+    {
+     "name_cn": "华能新能源股份有限公司",
+     "legal_full_name_cn": "华能新能源股份有限公司"
+    },
+    {
+     "name_cn": "华能核电开发有限公司",
+     "legal_full_name_cn": "华能核电开发有限公司"
+    },
+    {
+     "name_cn": "华能煤业有限公司",
+     "legal_full_name_cn": "华能煤业有限公司"
+    },
+    {
+     "name_cn": "中国华能集团香港有限公司",
+     "legal_full_name_cn": "中国华能集团香港有限公司"
+    },
+    {
+     "name_cn": "华能资本服务有限公司",
+     "legal_full_name_cn": "华能资本服务有限公司"
+    },
+    {
+     "name_cn": "华能能源交通产业控股有限公司",
+     "legal_full_name_cn": "华能能源交通产业控股有限公司"
+    },
+    {
+     "name_cn": "中国华能集团燃料有限公司",
+     "legal_full_name_cn": "中国华能集团燃料有限公司"
+    },
+    {
+     "name_cn": "中国华能财务有限责任公司",
+     "legal_full_name_cn": "中国华能财务有限责任公司"
+    },
+    {
+     "name_cn": "中国华能集团清洁能源技术研究院有限公司",
+     "legal_full_name_cn": "中国华能集团清洁能源技术研究院有限公司"
+    },
+    {
+     "name_cn": "西安热工研究院有限公司",
+     "legal_full_name_cn": "西安热工研究院有限公司"
+    },
+    {
+     "name_cn": "华能澜沧江水电股份有限公司",
+     "legal_full_name_cn": "华能澜沧江水电股份有限公司"
+    },
+    {
+     "name_cn": "华能内蒙古东部能源有限公司",
+     "legal_full_name_cn": "华能内蒙古东部能源有限公司"
+    },
+    {
+     "name_cn": "华能四川能源开发有限公司",
+     "legal_full_name_cn": "华能四川能源开发有限公司"
+    }
+   ],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "中国大唐集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "大唐集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "大唐国际发电股份有限公司",
+     "legal_full_name_cn": "大唐国际发电股份有限公司"
+    },
+    {
+     "name_cn": "大唐华银电力股份有限公司",
+     "legal_full_name_cn": "大唐华银电力股份有限公司"
+    },
+    {
+     "name_cn": "广西桂冠电力股份有限公司",
+     "legal_full_name_cn": "广西桂冠电力股份有限公司"
+    },
+    {
+     "name_cn": "中国大唐集团新能源股份有限公司",
+     "legal_full_name_cn": "中国大唐集团新能源股份有限公司"
+    },
+    {
+     "name_cn": "大唐环境产业集团股份有限公司",
+     "legal_full_name_cn": "大唐环境产业集团股份有限公司"
+    },
+    {
+     "name_cn": "中国大唐集团核电有限公司",
+     "legal_full_name_cn": "中国大唐集团核电有限公司"
+    },
+    {
+     "name_cn": "中国大唐集团海外投资有限公司",
+     "legal_full_name_cn": "中国大唐集团海外投资有限公司"
+    },
+    {
+     "name_cn": "中国大唐集团能源投资有限责任公司",
+     "legal_full_name_cn": "中国大唐集团能源投资有限责任公司"
+    },
+    {
+     "name_cn": "中新能化科技有限公司",
+     "legal_full_name_cn": "中新能化科技有限公司"
+    },
+    {
+     "name_cn": "中国水利电力物资集团有限公司",
+     "legal_full_name_cn": "中国水利电力物资集团有限公司"
+    },
+    {
+     "name_cn": "中国大唐集团科学技术研究总院有限公司",
+     "legal_full_name_cn": "中国大唐集团科学技术研究总院有限公司"
+    },
+    {
+     "name_cn": "大唐海投",
+     "legal_full_name_cn": "中国大唐集团海外投资有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.china-cdt.com/",
+    "https://www.china-cdto.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国华电集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "华电国际电力股份有限公司",
+     "legal_full_name_cn": "华电国际电力股份有限公司"
+    },
+    {
+     "name_cn": "华电能源股份有限公司",
+     "legal_full_name_cn": "华电能源股份有限公司"
+    },
+    {
+     "name_cn": "国电南京自动化股份有限公司",
+     "legal_full_name_cn": "国电南京自动化股份有限公司"
+    },
+    {
+     "name_cn": "贵州黔源电力股份有限公司",
+     "legal_full_name_cn": "贵州黔源电力股份有限公司"
+    },
+    {
+     "name_cn": "华电新能源集团股份有限公司",
+     "legal_full_name_cn": "华电新能源集团股份有限公司"
+    },
+    {
+     "name_cn": "华电科工股份有限公司",
+     "legal_full_name_cn": "华电科工股份有限公司"
+    },
+    {
+     "name_cn": "华电辽宁能源发展股份有限公司",
+     "legal_full_name_cn": "华电辽宁能源发展股份有限公司"
+    },
+    {
+     "name_cn": "华电海外投资有限公司",
+     "legal_full_name_cn": "华电海外投资有限公司"
+    },
+    {
+     "name_cn": "中国华电香港公司",
+     "legal_full_name_cn": "中国华电香港有限公司"
+    },
+    {
+     "name_cn": "华电海投",
+     "legal_full_name_cn": "华电海外投资有限公司"
+    }
+   ],
+   "sources": [
+    "https://m.bjx.com.cn/mnews/20220415/1217806.shtml",
+    "https://power.in-en.com/html/power-21003.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国长江三峡集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "中国长江三峡集团公司"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "中国长江电力股份有限公司",
+     "legal_full_name_cn": "中国长江电力股份有限公司"
+    },
+    {
+     "name_cn": "中国三峡国际股份有限公司",
+     "legal_full_name_cn": "中国三峡国际股份有限公司"
+    },
+    {
+     "name_cn": "中国三峡建工（集团）有限公司",
+     "legal_full_name_cn": "中国三峡建工（集团）有限公司"
+    },
+    {
+     "name_cn": "中国三峡新能源（集团）股份有限公司",
+     "legal_full_name_cn": "中国三峡新能源（集团）股份有限公司"
+    },
+    {
+     "name_cn": "湖北能源集团股份有限公司",
+     "legal_full_name_cn": "湖北能源集团股份有限公司"
+    },
+    {
+     "name_cn": "长江生态环保集团有限公司",
+     "legal_full_name_cn": "长江生态环保集团有限公司"
+    },
+    {
+     "name_cn": "三峡资本控股有限责任公司",
+     "legal_full_name_cn": "三峡资本控股有限责任公司"
+    },
+    {
+     "name_cn": "上海勘测设计研究院有限公司",
+     "legal_full_name_cn": "上海勘测设计研究院有限公司"
+    },
+    {
+     "name_cn": "三峡科技有限责任公司",
+     "legal_full_name_cn": "三峡科技有限责任公司"
+    },
+    {
+     "name_cn": "三峡可再生能源研究院有限公司",
+     "legal_full_name_cn": "三峡可再生能源研究院有限公司"
+    },
+    {
+     "name_cn": "三峡国际",
+     "legal_full_name_cn": "三峡国际能源投资集团有限公司"
+    },
+    {
+     "name_cn": "三峡巴西公司",
+     "legal_full_name_cn": "中国三峡（巴西）股份有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.ctg.com.cn/sxjt/xwzx55/zhxw23/2024081106361659407/index.html",
+    "https://www.ctgi.cn/ctgichina/1047919/1047902/index.html",
+    "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E9%95%BF%E6%B1%9F%E4%B8%89%E5%B3%A1%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国广核集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "中广核"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "中广核核电运营有限公司",
+     "legal_full_name_cn": "中广核核电运营有限公司"
+    },
+    {
+     "name_cn": "中广核研究院有限公司",
+     "legal_full_name_cn": "中广核研究院有限公司"
+    },
+    {
+     "name_cn": "中广核核技术发展股份有限公司",
+     "legal_full_name_cn": "中广核核技术发展股份有限公司"
+    },
+    {
+     "name_cn": "中国广核新能源控股有限公司",
+     "legal_full_name_cn": "中国广核新能源控股有限公司"
+    },
+    {
+     "name_cn": "中国广核能源国际控股有限公司",
+     "legal_full_name_cn": "中国广核能源国际控股有限公司"
+    },
+    {
+     "name_cn": "广东核电投资有限公司",
+     "legal_full_name_cn": "广东核电投资有限公司"
+    },
+    {
+     "name_cn": "广东核电合营有限公司",
+     "legal_full_name_cn": "广东核电合营有限公司"
+    },
+    {
+     "name_cn": "岭澳核电有限公司",
+     "legal_full_name_cn": "岭澳核电有限公司"
+    },
+    {
+     "name_cn": "中广核巴西公司",
+     "legal_full_name_cn": "中广核巴西能源控股有限公司"
+    },
+    {
+     "name_cn": "中广核老挝公司",
+     "legal_full_name_cn": "中广核能源科技（老挝）有限公司"
+    },
+    {
+     "name_cn": "中广核能源国际",
+     "legal_full_name_cn": "中国广核能源国际控股有限公司"
+    }
+   ],
+   "sources": [
+    "http://www.cgnei.com/",
+    "https://www.cnnpn.cn/article/36999.html",
+    "https://www.yidaiyilu.gov.cn/p/0H27466B.html",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%B9%BF%E6%A0%B8%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国核工业集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "中核集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "中国核电股份有限公司",
+     "legal_full_name_cn": "中国核电股份有限公司"
+    },
+    {
+     "name_cn": "中国原子能工业有限公司",
+     "legal_full_name_cn": "中国原子能工业有限公司"
+    },
+    {
+     "name_cn": "中核铀业有限责任公司",
+     "legal_full_name_cn": "中核铀业有限责任公司"
+    },
+    {
+     "name_cn": "中国核工业建设股份有限公司",
+     "legal_full_name_cn": "中国核工业建设股份有限公司"
+    },
+    {
+     "name_cn": "中国核工业环保有限公司",
+     "legal_full_name_cn": "中国核工业环保有限公司"
+    },
+    {
+     "name_cn": "中国中原对外工程有限公司",
+     "legal_full_name_cn": "中国中原对外工程有限公司"
+    },
+    {
+     "name_cn": "中国核电工程有限公司",
+     "legal_full_name_cn": "中国核电工程有限公司"
+    },
+    {
+     "name_cn": "中核财务有限责任公司",
+     "legal_full_name_cn": "中核财务有限责任公司"
+    }
+   ],
+   "sources": [
+    "https://www.cnnc.com.cn/cnnc/jtgk/jtjs/index.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "国家电网有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "国家电网有限公司华北分部",
+     "legal_full_name_cn": "国家电网有限公司华北分部"
+    },
+    {
+     "name_cn": "国家电网有限公司华东分部",
+     "legal_full_name_cn": "国家电网有限公司华东分部"
+    },
+    {
+     "name_cn": "国家电网有限公司华中分部",
+     "legal_full_name_cn": "国家电网有限公司华中分部"
+    },
+    {
+     "name_cn": "国家电网有限公司东北分部",
+     "legal_full_name_cn": "国家电网有限公司东北分部"
+    },
+    {
+     "name_cn": "国家电网有限公司西北分部",
+     "legal_full_name_cn": "国家电网有限公司西北分部"
+    },
+    {
+     "name_cn": "国家电网有限公司西南分部",
+     "legal_full_name_cn": "国家电网有限公司西南分部"
+    },
+    {
+     "name_cn": "中国电力技术装备有限公司",
+     "legal_full_name_cn": "中国电力技术装备有限公司"
+    },
+    {
+     "name_cn": "国网新源集团有限公司",
+     "legal_full_name_cn": "国网新源集团有限公司"
+    },
+    {
+     "name_cn": "国网国际发展有限公司",
+     "legal_full_name_cn": "国网国际发展有限公司"
+    },
+    {
+     "name_cn": "国网巴西控股公司",
+     "legal_full_name_cn": "国家电网巴西控股公司"
+    }
+   ],
+   "sources": [
+    "https://news.goalfore.cn/a/2356.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国南方电网有限责任公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国南方电力调度控制中心",
+     "legal_full_name_cn": "中国南方电力调度控制中心"
+    },
+    {
+     "name_cn": "中国南方电网有限责任公司超高压输电公司",
+     "legal_full_name_cn": "中国南方电网有限责任公司超高压输电公司"
+    },
+    {
+     "name_cn": "广东电网有限责任公司",
+     "legal_full_name_cn": "广东电网有限责任公司"
+    },
+    {
+     "name_cn": "广西电网有限责任公司",
+     "legal_full_name_cn": "广西电网有限责任公司"
+    },
+    {
+     "name_cn": "云南电网有限责任公司",
+     "legal_full_name_cn": "云南电网有限责任公司"
+    },
+    {
+     "name_cn": "贵州电网有限责任公司",
+     "legal_full_name_cn": "贵州电网有限责任公司"
+    },
+    {
+     "name_cn": "海南电网有限责任公司",
+     "legal_full_name_cn": "海南电网有限责任公司"
+    },
+    {
+     "name_cn": "深圳供电局有限公司",
+     "legal_full_name_cn": "深圳供电局有限公司"
+    },
+    {
+     "name_cn": "南方电网储能股份有限公司",
+     "legal_full_name_cn": "南方电网储能股份有限公司"
+    },
+    {
+     "name_cn": "南方电网产业发展集团有限公司",
+     "legal_full_name_cn": "南方电网产业发展集团有限公司"
+    },
+    {
+     "name_cn": "南方电网综合能源股份有限公司",
+     "legal_full_name_cn": "南方电网综合能源股份有限公司"
+    },
+    {
+     "name_cn": "南方电网碳中和服务有限责任公司",
+     "legal_full_name_cn": "南方电网碳中和服务有限责任公司"
+    },
+    {
+     "name_cn": "南方电网国际有限责任公司",
+     "legal_full_name_cn": "南方电网国际有限责任公司"
+    },
+    {
+     "name_cn": "南方电网澜湄国际能源有限责任公司",
+     "legal_full_name_cn": "南方电网澜湄国际能源有限责任公司"
+    },
+    {
+     "name_cn": "南方电网产融控股集团有限公司",
+     "legal_full_name_cn": "南方电网产融控股集团有限公司"
+    },
+    {
+     "name_cn": "南方电网财务有限公司",
+     "legal_full_name_cn": "南方电网财务有限公司"
+    },
+    {
+     "name_cn": "南方电网云南国际公司",
+     "legal_full_name_cn": "南方电网云南国际有限责任公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%8D%97%E6%96%B9%E7%94%B5%E7%BD%91%E4%BA%91%E5%8D%97%E5%9B%BD%E9%99%85%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/19996683"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国东方电气集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "东方电气集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "东方电气集团东方电机有限公司",
+     "legal_full_name_cn": "东方电气集团东方电机有限公司"
+    },
+    {
+     "name_cn": "东方电气集团东方汽轮机有限公司",
+     "legal_full_name_cn": "东方电气集团东方汽轮机有限公司"
+    },
+    {
+     "name_cn": "东方电气集团东方锅炉股份有限公司",
+     "legal_full_name_cn": "东方电气集团东方锅炉股份有限公司"
+    },
+    {
+     "name_cn": "东方电气风电股份有限公司",
+     "legal_full_name_cn": "东方电气风电股份有限公司"
+    },
+    {
+     "name_cn": "东方电气（广州）重型机器有限公司",
+     "legal_full_name_cn": "东方电气（广州）重型机器有限公司"
+    },
+    {
+     "name_cn": "东方电气（武汉）核设备有限公司",
+     "legal_full_name_cn": "东方电气（武汉）核设备有限公司"
+    },
+    {
+     "name_cn": "东方电气集团国际合作有限公司",
+     "legal_full_name_cn": "东方电气集团国际合作有限公司"
+    },
+    {
+     "name_cn": "东方电气集团电力工程设计有限公司",
+     "legal_full_name_cn": "东方电气集团电力工程设计有限公司"
+    },
+    {
+     "name_cn": "东方电气自动控制工程有限公司",
+     "legal_full_name_cn": "东方电气自动控制工程有限公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%B8%9C%E6%96%B9%E7%94%B5%E6%B0%94%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/5799929"
+   ]
+  },
+  {
+   "canonical_name_cn": "哈尔滨电气集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "哈尔滨电气股份有限公司",
+     "legal_full_name_cn": "哈尔滨电气股份有限公司"
+    },
+    {
+     "name_cn": "哈尔滨锅炉厂有限责任公司",
+     "legal_full_name_cn": "哈尔滨锅炉厂有限责任公司"
+    },
+    {
+     "name_cn": "哈尔滨汽轮机厂有限责任公司",
+     "legal_full_name_cn": "哈尔滨汽轮机厂有限责任公司"
+    },
+    {
+     "name_cn": "哈尔滨电机厂有限责任公司",
+     "legal_full_name_cn": "哈尔滨电机厂有限责任公司"
+    },
+    {
+     "name_cn": "哈尔滨电气国际工程有限责任公司",
+     "legal_full_name_cn": "哈尔滨电气国际工程有限责任公司"
+    },
+    {
+     "name_cn": "哈尔滨电气集团财务有限责任公司",
+     "legal_full_name_cn": "哈尔滨电气集团财务有限责任公司"
+    },
+    {
+     "name_cn": "哈尔滨电气集团佳木斯电机股份有限公司",
+     "legal_full_name_cn": "哈尔滨电气集团佳木斯电机股份有限公司"
+    },
+    {
+     "name_cn": "佳木斯电机股份有限公司",
+     "legal_full_name_cn": "佳木斯电机股份有限公司"
+    },
+    {
+     "name_cn": "成都佳电电机有限公司",
+     "legal_full_name_cn": "成都佳电电机有限公司"
+    },
+    {
+     "name_cn": "苏州佳电永磁电机科技有限公司",
+     "legal_full_name_cn": "苏州佳电永磁电机科技有限公司"
+    },
+    {
+     "name_cn": "哈尔滨电气集团先进电机技术有限公司",
+     "legal_full_name_cn": "哈尔滨电气集团先进电机技术有限公司"
+    },
+    {
+     "name_cn": "佳木斯电机厂有限责任公司",
+     "legal_full_name_cn": "佳木斯电机厂有限责任公司"
+    },
+    {
+     "name_cn": "哈尔滨电气集团海洋智能装备有限公司",
+     "legal_full_name_cn": "哈尔滨电气集团海洋智能装备有限公司"
+    }
+   ],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "中国机械工业集团有限公司",
+   "is_central_soe": true,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "国机工程集团",
+    "国机工程集团总部（中设集团）"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "国机财务有限责任公司",
+     "legal_full_name_cn": "国机财务有限责任公司"
+    },
+    {
+     "name_cn": "中工国际工程股份有限公司",
+     "legal_full_name_cn": "中工国际工程股份有限公司"
+    },
+    {
+     "name_cn": "中国福马机械集团有限公司",
+     "legal_full_name_cn": "中国福马机械集团有限公司"
+    },
+    {
+     "name_cn": "中国恒天集团有限公司",
+     "legal_full_name_cn": "中国恒天集团有限公司"
+    },
+    {
+     "name_cn": "中国第一拖拉机集团有限公司",
+     "legal_full_name_cn": "中国第一拖拉机集团有限公司"
+    },
+    {
+     "name_cn": "中国海洋航空集团有限公司",
+     "legal_full_name_cn": "中国海洋航空集团有限公司"
+    },
+    {
+     "name_cn": "中国地质装备集团有限公司",
+     "legal_full_name_cn": "中国地质装备集团有限公司"
+    },
+    {
+     "name_cn": "国机资本控股有限公司",
+     "legal_full_name_cn": "国机资本控股有限公司"
+    },
+    {
+     "name_cn": "国机重型装备集团股份有限公司",
+     "legal_full_name_cn": "国机重型装备集团股份有限公司"
+    },
+    {
+     "name_cn": "中国机械工业建设集团有限公司",
+     "legal_full_name_cn": "中国机械工业建设集团有限公司"
+    },
+    {
+     "name_cn": "中国汽车工业工程有限公司",
+     "legal_full_name_cn": "中国汽车工业工程有限公司"
+    },
+    {
+     "name_cn": "中国联合工程有限公司",
+     "legal_full_name_cn": "中国联合工程有限公司"
+    },
+    {
+     "name_cn": "中国电工有限公司",
+     "legal_full_name_cn": "中国电力工程有限公司"
+    },
+    {
+     "name_cn": "中设集团",
+     "legal_full_name_cn": "中国机械设备工程股份有限公司"
+    },
+    {
+     "name_cn": "苏美达股份有限公司",
+     "legal_full_name_cn": "苏美达股份有限公司"
+    },
+    {
+     "name_cn": "苏美达能源",
+     "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "中国中工国际工程股份有限公司",
+     "legal_full_name_cn": "中工国际工程股份有限公司"
+    }
+   ],
+   "sources": [
+    "http://www.cmec.com/gjgcjt/gjgcjtjj/",
+    "https://www.sinomach.com.cn/columns/827714.html",
+    "https://www.sinomach.com.cn/gygj/ssgs/zggj/",
+    "https://www.sumec.com/h5/gywm/gsgk/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国机械设备工程股份有限公司",
+   "is_central_soe": false,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "机械工业第六设计研究院有限公司",
+     "legal_full_name_cn": "机械工业第六设计研究院有限公司"
+    }
+   ],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "上海电气集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [
+    "上海电气"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "电站集团",
+     "legal_full_name_cn": "电站集团"
+    },
+    {
+     "name_cn": "核电集团",
+     "legal_full_name_cn": "核电集团"
+    },
+    {
+     "name_cn": "电气风电",
+     "legal_full_name_cn": "电气风电"
+    },
+    {
+     "name_cn": "输配电集团",
+     "legal_full_name_cn": "输配电集团"
+    },
+    {
+     "name_cn": "自动化集团",
+     "legal_full_name_cn": "自动化集团"
+    },
+    {
+     "name_cn": "轨道交通集团",
+     "legal_full_name_cn": "轨道交通集团"
+    },
+    {
+     "name_cn": "环保集团",
+     "legal_full_name_cn": "环保集团"
+    },
+    {
+     "name_cn": "上海三菱",
+     "legal_full_name_cn": "上海三菱"
+    },
+    {
+     "name_cn": "上海集优",
+     "legal_full_name_cn": "上海集优"
+    },
+    {
+     "name_cn": "上海机电",
+     "legal_full_name_cn": "上海机电"
+    },
+    {
+     "name_cn": "金融集团",
+     "legal_full_name_cn": "金融集团"
+    },
+    {
+     "name_cn": "中央研究院",
+     "legal_full_name_cn": "中央研究院"
+    },
+    {
+     "name_cn": "电气新能源",
+     "legal_full_name_cn": "电气新能源"
+    },
+    {
+     "name_cn": "上海电气电站工程公司",
+     "legal_full_name_cn": "上海电气电站工程公司"
+    }
+   ],
+   "sources": [
+    "https://www.shanghai-electric.com/group/dqdzgcgsjs/",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%8A%E6%B5%B7%E9%9B%BB%E6%B0%A3"
+   ]
+  },
+  {
+   "canonical_name_cn": "三一集团有限公司",
+   "is_central_soe": false,
+   "provenance": "legacy_v1",
+   "as_of": "2026-03-19",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "三一重工股份有限公司",
+     "legal_full_name_cn": "三一重工股份有限公司"
+    },
+    {
+     "name_cn": "三一重装国际控股有限公司",
+     "legal_full_name_cn": "三一重装国际控股有限公司"
+    },
+    {
+     "name_cn": "三一重能股份有限公司",
+     "legal_full_name_cn": "三一重能股份有限公司"
+    },
+    {
+     "name_cn": "三一筑工科技股份有限公司",
+     "legal_full_name_cn": "三一筑工科技股份有限公司"
+    },
+    {
+     "name_cn": "湖南行必达网联科技有限公司",
+     "legal_full_name_cn": "湖南行必达网联科技有限公司"
+    },
+    {
+     "name_cn": "上海竹胜园地产有限公司",
+     "legal_full_name_cn": "上海竹胜园地产有限公司"
+    },
+    {
+     "name_cn": "三一石油智能装备有限公司",
+     "legal_full_name_cn": "三一石油智能装备有限公司"
+    },
+    {
+     "name_cn": "昆山三一环保科技有限公司",
+     "legal_full_name_cn": "昆山三一环保科技有限公司"
+    },
+    {
+     "name_cn": "三一锂能有限公司",
+     "legal_full_name_cn": "三一锂能有限公司"
+    },
+    {
+     "name_cn": "三一技术装备有限公司",
+     "legal_full_name_cn": "三一技术装备有限公司"
+    },
+    {
+     "name_cn": "三一硅能",
+     "legal_full_name_cn": "三一硅能（株洲）有限公司"
+    }
+   ],
+   "sources": [
+    "https://siliconenergy.sany.com.cn/about/introduction.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国建材集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国建材集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "中国中材节能股份有限公司",
+     "legal_full_name_cn": "中材节能股份有限公司"
+    },
+    {
+     "name_cn": "中材海外",
+     "legal_full_name_cn": "中国中材海外科技发展有限公司"
+    },
+    {
+     "name_cn": "中国中材国际工程股份有限公司",
+     "legal_full_name_cn": "中国中材国际工程股份有限公司"
+    },
+    {
+     "name_cn": "中材海外工程有限公司",
+     "legal_full_name_cn": "中材海外工程有限公司"
+    },
+    {
+     "name_cn": "中材建设有限公司",
+     "legal_full_name_cn": "中材建设有限公司"
+    },
+    {
+     "name_cn": "苏州中材科技股份有限公司",
+     "legal_full_name_cn": "中材科技（苏州）有限公司"
+    },
+    {
+     "name_cn": "中材建设",
+     "legal_full_name_cn": "中材建设有限公司"
+    }
+   ],
+   "sources": [
+    "http://suzhou.sinomatech.com/",
+    "http://www.sinoma-ec.cn/",
+    "http://www.sinoma.com.cn/",
+    "https://www.cbmi.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国建筑集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国建筑第四工程局有限公司",
+     "legal_full_name_cn": "中国建筑第四工程局有限公司"
+    },
+    {
+     "name_cn": "中国建筑第五工程局有限公司",
+     "legal_full_name_cn": "中国建筑第五工程局有限公司"
+    },
+    {
+     "name_cn": "中建三局",
+     "legal_full_name_cn": "中国建筑第三工程局有限公司"
+    },
+    {
+     "name_cn": "中国建筑第三工程局有限公司",
+     "legal_full_name_cn": "中国建筑第三工程局有限公司"
+    },
+    {
+     "name_cn": "中国建筑股份有限公司",
+     "legal_full_name_cn": "中国建筑股份有限公司"
+    },
+    {
+     "name_cn": "中建五局",
+     "legal_full_name_cn": "中国建筑第五工程局有限公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E7%AC%AC%E4%B8%89%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6807719",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7356460",
+    "https://www.cscec.com.cn/",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国电气装备集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国电气装备集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "中国西电集团有限公司",
+     "legal_full_name_cn": "中国西电集团有限公司"
+    },
+    {
+     "name_cn": "平高集团",
+     "legal_full_name_cn": "平高集团有限公司"
+    },
+    {
+     "name_cn": "山东电工电气",
+     "legal_full_name_cn": "山东电工电气集团有限公司"
+    },
+    {
+     "name_cn": "许继集团有限公司",
+     "legal_full_name_cn": "许继集团有限公司"
+    },
+    {
+     "name_cn": "山东电工电气集团有限公司",
+     "legal_full_name_cn": "山东电工电气集团有限公司"
+    }
+   ],
+   "sources": [
+    "http://www.cee-group.cn/xwzx/jcdt/xjjt/3.htm",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E6%B0%94%E8%A3%85%E5%A4%87%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/58645630",
+    "https://www.cee-group.cn/gywm/jtjj.htm",
+    "https://www.cee-group.cn/xwzx/jcdt/sddgdq.htm"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国石油天然气集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国石油工程建设有限公司",
+     "legal_full_name_cn": "中国石油工程建设有限公司"
+    }
+   ],
+   "sources": [
+    "http://cpecc.cnpc.com.cn/cpecc/gsgk/gsgk_index.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国通用技术（集团）控股有限责任公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国机械进出口（集团）有限公司",
+    "通用技术"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "通用技术国际公司",
+     "legal_full_name_cn": "通用技术集团国际控股有限公司"
+    },
+    {
+     "name_cn": "中国技术进出口集团有限公司",
+     "legal_full_name_cn": "中国技术进出口集团有限公司"
+    },
+    {
+     "name_cn": "通用技术中技公司",
+     "legal_full_name_cn": "中国技术进出口集团有限公司"
+    },
+    {
+     "name_cn": "中国中技国际招标有限公司",
+     "legal_full_name_cn": "中技国际招标有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.chinaitc.com.cn/",
+    "https://www.cmc.com.cn/",
+    "https://www.cntic.com.cn/",
+    "https://www.gt.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "特变电工股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "特变电工"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "特变电工国际工程有限公司",
+     "legal_full_name_cn": "特变电工国际工程有限公司"
+    }
+   ],
+   "sources": [
+    "https://jdjyw.jlu.edu.cn/portal/company/details?id=df06bbd498054b47aac886248e4c53ec",
+    "https://www.tbea.com/tbea/corpInfo.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "远景科技集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "远景科技集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "远景能源",
+     "legal_full_name_cn": "远景能源有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.envision-group.com/cn/index.html",
+    "https://zh.wikipedia.org/zh-hans/%E8%BF%9C%E6%99%AF%E8%83%BD%E6%BA%90"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国交通建设集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国交通建设集团",
+    "中国水利电力对外有限公司"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "中国港湾工程有限责任公司",
+     "legal_full_name_cn": "中国港湾工程有限责任公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%BA%A4%E9%80%9A%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7142811",
+    "https://www.chec.bj.cn/",
+    "https://www.chinanews.com.cn/cj/2023/01-14/9935357.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国兵器工业集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "北方国际合作股份有限公司",
+     "legal_full_name_cn": "北方国际合作股份有限公司"
+    },
+    {
+     "name_cn": "中国北方工业有限公司",
+     "legal_full_name_cn": "中国北方工业有限公司"
+    }
+   ],
+   "sources": [
+    "http://norinco.norincogroup.com.cn/",
+    "https://baike.baidu.com/item/%E5%8C%97%E6%96%B9%E5%9B%BD%E9%99%85%E5%90%88%E4%BD%9C%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6268545"
+   ]
+  },
+  {
+   "canonical_name_cn": "正泰集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "正泰集团",
+    "浙江正泰新能源开发有限公司"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "正泰新能源",
+     "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "正泰电源",
+     "legal_full_name_cn": "上海正泰电源系统有限公司"
+    },
+    {
+     "name_cn": "正泰电器",
+     "legal_full_name_cn": "浙江正泰电器股份有限公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%B5%99%E6%B1%9F%E6%AD%A3%E6%B3%B0%E6%96%B0%E8%83%BD%E6%BA%90%E5%BC%80%E5%8F%91%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19977350",
+    "https://finance.sina.com.cn/stock/aiassist/agqsjs/2026-04-30/doc-inhwewsu7535470.shtml",
+    "https://finance.sina.com.cn/stock/stockzmt/2024-05-15/doc-inavkuis9043382.shtml",
+    "https://zh.wikipedia.org/zh-hans/%E6%AD%A3%E6%B3%B0%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "天合光能股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "天合光能"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "天合储能",
+     "legal_full_name_cn": "江苏天合储能有限公司"
+    },
+    {
+     "name_cn": "天合跟踪",
+     "legal_full_name_cn": null
+    }
+   ],
+   "sources": [
+    "https://basic.10jqka.com.cn/688599/company.html",
+    "https://www.jiemian.com/article/10400130.html",
+    "https://www.vzkoo.com/read/202501065f74a10313e21b494ba1003e.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国宝武钢铁集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国中钢国际工程股份有限公司",
+     "legal_full_name_cn": "中钢国际工程技术股份有限公司"
+    }
+   ],
+   "sources": [
+    "http://mecc.sinosteel.com/about.aspx"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国铁道建筑集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国铁建股份有限公司",
+     "legal_full_name_cn": "中国铁建股份有限公司"
+    },
+    {
+     "name_cn": "中国土木工程集团有限公司",
+     "legal_full_name_cn": "中国土木工程集团有限公司"
+    }
+   ],
+   "sources": [
+    "http://ccecc.crcc.cn/",
+    "https://www.crcc.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国铁路工程集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "中国中铁股份有限公司",
+     "legal_full_name_cn": "中国中铁股份有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.crecg.com/",
+    "https://www.crecg.com/web/gywm46/gsjs/gsjj35/index.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "湖南建设投资集团有限责任公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "湖南建投水利",
+     "legal_full_name_cn": "湖南建投水利水电有限公司"
+    },
+    {
+     "name_cn": "中湘海外建设发展有限公司",
+     "legal_full_name_cn": "中湘海外建设发展有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.hncig.cn/content/646842/62/14215585.html",
+    "https://www.hncig.cn/content/646948/90/14853793.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "晶科能源股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "晶科储能",
+     "legal_full_name_cn": "晶科储能科技有限公司"
+    }
+   ],
+   "sources": [
+    "https://basic.10jqka.com.cn/688223/company.html",
+    "https://www.stcn.com/article/detail/750949.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "阳光电源股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "阳光新能源开发股份有限公司",
+     "legal_full_name_cn": "阳光新能源开发股份有限公司"
+    }
+   ],
+   "sources": [
+    "https://basic.10jqka.com.cn/300274/company.html",
+    "https://www.36kr.com/p/2657592897633411"
+   ]
+  },
+  {
+   "canonical_name_cn": "湖南军信环保股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "军信股份"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "军信环保（吉尔吉斯）投资有限公司",
+     "legal_full_name_cn": "军信环保（吉尔吉斯）投资有限公司"
+    }
+   ],
+   "sources": [
+    "https://huanbao.in-en.com/html/huanbao-2387039.shtml",
+    "https://www.caiku.com/company/0086301109/info",
+    "https://www.junxinep.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "阿特斯阳光电力集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "阿特斯阳光电力集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "阿特斯储能科技有限公司",
+     "legal_full_name_cn": "阿特斯储能科技有限公司"
+    }
+   ],
+   "sources": [
+    "http://static.sse.com.cn/stock/disclosure/announcement/c/202201/000961_20220107_5OZM.pdf",
+    "https://pdf.dfcfw.com/pdf/H3_AP202308061593394336_1.pdf"
+   ]
+  },
+  {
+   "canonical_name_cn": "紫金矿业集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "龙净环保股份有限公司",
+     "legal_full_name_cn": "福建龙净环保股份有限公司"
+    }
+   ],
+   "sources": [
+    "https://www.solidwaste.com.cn/news/335340.html",
+    "https://www.zjky.cn/sustainable/esg-message-detail-119257.htm"
+   ]
+  },
+  {
+   "canonical_name_cn": "惠州亿纬锂能股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "亿纬锂能"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "亿纬锂能马来西亚有限公司",
+     "legal_full_name_cn": "亿纬锂能马来西亚有限公司"
+    }
+   ],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%83%A0%E5%B7%9E%E4%BA%BF%E7%BA%AC%E9%94%82%E8%83%BD%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/1313374",
+    "https://www.evebattery.com/news-825"
+   ]
+  },
+  {
+   "canonical_name_cn": "水发集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "珠海兴业节能科技有限公司",
+     "legal_full_name_cn": "珠海兴业节能科技有限公司"
+    }
+   ],
+   "sources": [
+    "https://finance.sina.com.cn/stock/hkstock/ggscyd/2019-10-28/doc-iicezzrr5422958.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "江苏蔚蓝锂芯股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [
+    {
+     "name_cn": "天鹏电源",
+     "legal_full_name_cn": "江苏天鹏电源有限公司"
+    }
+   ],
+   "sources": [
+    "https://libattery.ofweek.com/2020-11/ART-36001-8500-30470783.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "青山控股集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "青山实业",
+    "青山控股集团",
+    "青山集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.tssgroup.com.cn/",
+    "https://www.tssgroup.com.cn/about-us/group/"
+   ]
+  },
+  {
+   "canonical_name_cn": "晶科电力科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "晶科电力",
+    "晶科科技股份有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "http://vip.stock.finance.sina.com.cn/corp/view/vISSUE_MarketBulletinDetail.php?stockid=601778&id=7277355",
+    "https://stock.stockstar.com/IG2025052900021221.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "明阳智慧能源集团股份公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "明阳智慧能源集团",
+    "明阳智慧能源集团有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://file.finance.qq.com/finance/hs/pdf/2023/12/16/1218635094.PDF"
+   ]
+  },
+  {
+   "canonical_name_cn": "东方国际（集团）有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "东方国际",
+    "中国东方国际集团有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.oih.com.cn/",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%9C%E6%96%B9%E5%9B%BD%E9%99%85"
+   ]
+  },
+  {
+   "canonical_name_cn": "上海康恒环境股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国上海康恒环境股份有限公司",
+    "康恒环境"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E5%BA%B7%E6%81%92%E7%8E%AF%E5%A2%83%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/16767582"
+   ]
+  },
+  {
+   "canonical_name_cn": "山西建设投资集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "山西建投国际投资公司",
+    "山西建投国际投资有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://news.goalfore.cn/latest/detail/60717.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "伟能集团国际控股有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中技伟能集团控股有限公司",
+    "伟能集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://vpower.com/cn/about-us/corporate-profile/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国出口信用保险公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国信保"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%87%BA%E5%8F%A3%E4%BF%A1%E7%94%A8%E4%BF%9D%E9%99%A9%E5%85%AC%E5%8F%B8/8573881",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%87%BA%E5%8F%A3%E4%BF%A1%E7%94%A8%E4%BF%9D%E9%99%A9%E5%85%AC%E5%8F%B8"
+   ]
+  },
+  {
+   "canonical_name_cn": "北京海博思创科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "海博思创"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.hyperstrong.com/about-us/profile"
+   ]
+  },
+  {
+   "canonical_name_cn": "江苏中信博新能源科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中信博"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://arctechsolar.com/news/214"
+   ]
+  },
+  {
+   "canonical_name_cn": "中腾微网（北京）科技有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中腾微网"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://pitchhub.36kr.com/project/1678251947193352"
+   ]
+  },
+  {
+   "canonical_name_cn": "隆基绿能科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "隆基"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://basic.10jqka.com.cn/601012/company.html",
+    "https://www.china5e.com/news/news-1189242-1.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "寰泰能源股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国寰泰能源公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.universalenergy.com/zh/about"
+   ]
+  },
+  {
+   "canonical_name_cn": "比亚迪股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "比亚迪"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://m.plfrog.com/review/46165.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "晶澳太阳能科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "晶澳科技"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://file.finance.qq.com/finance/hs/pdf/2020/11/09/1208709896.PDF"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国建设银行股份有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国建设银行"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%9B%9B%E5%A4%A7%E9%93%B6%E8%A1%8C/3905929"
+   ]
+  },
+  {
+   "canonical_name_cn": "厦门海辰储能科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "海辰储能"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://finance.sina.com.cn/wm/2023-07-05/doc-imyzrvhi2928748.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "联合能源集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "联合能源集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://finance.sina.com.cn/jjxw/2025-05-15/doc-inewrqqc5425630.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "云南省能源投资集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "云南能投集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cnyeig.com/jtgk/jtjj/"
+   ]
+  },
+  {
+   "canonical_name_cn": "丝路基金有限责任公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "丝路基金"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.silkroadfund.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "国轩高科股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "国轩高科"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.jiemian.com/article/6907692.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "东方希望集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "东方希望集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%9C%E6%96%B9%E5%B8%8C%E6%9C%9B%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/4442945"
+   ]
+  },
+  {
+   "canonical_name_cn": "陕西建工控股集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "陕西建工集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E9%99%95%E8%A5%BF%E5%BB%BA%E5%B7%A5%E6%8E%A7%E8%82%A1%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "开山控股集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "开山控股集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.kaishangroup.com/about.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国光大环境（集团）有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国光大环境(集团)有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E5%85%89%E5%A4%A7%E7%92%B0%E5%A2%83"
+   ]
+  },
+  {
+   "canonical_name_cn": "福建永福电力设计股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "永福股份"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.eastmoney.com/item/%E7%A6%8F%E5%BB%BA%E6%B8%B8%E7%A6%8F%E7%94%B5%E5%8A%9B%E8%AE%BE%E8%AE%A1%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国江西国际经济技术合作有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "江西国际"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cjic.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "英利集团",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "英辰新能源"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.enf.com.cn/%E8%8B%B1%E8%BE%B0%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%80%E5%85%AC%E5%8F%B8"
+   ]
+  },
+  {
+   "canonical_name_cn": "汉伏能源（上海）有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "汉伏能源"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.hanersun.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "协鑫集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "协鑫集团"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%8D%8F%E9%91%AB%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22603489"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国民生银行股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中国民生银行"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%B0%91%E7%94%9F%E9%93%B6%E8%A1%8C"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国中信集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中信银行"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E4%BF%A1%E9%93%B6%E8%A1%8C"
+   ]
+  },
+  {
+   "canonical_name_cn": "海南钧达新能源科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "钧达股份"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://36kr.com/p/2997323219709576"
+   ]
+  },
+  {
+   "canonical_name_cn": "福建安泰新能源科技有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "安泰新能源"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://cn.antaisolar.com/company"
+   ]
+  },
+  {
+   "canonical_name_cn": "中盛新能源科技有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中盛能源"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://pitchhub.36kr.com/project/2174220215352836"
+   ]
+  },
+  {
+   "canonical_name_cn": "浙江南都电源动力股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "南都电源"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.naradapower.com/about/index.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中色矿业集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "中矿资源集团股份有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://static.cninfo.com.cn/finalpage/2025-04-25/1223271313.PDF"
+   ]
+  },
+  {
+   "canonical_name_cn": "江西赣锋锂业集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "赣锋锂业"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E8%B4%9B%E9%8B%92%E9%8B%B0%E6%A5%AD"
+   ]
+  },
+  {
+   "canonical_name_cn": "惠生控股集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "惠生清洁能源科技集团股份有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.wison.com/about_us"
+   ]
+  },
+  {
+   "canonical_name_cn": "洲际油气股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "洲际油气有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%B4%B2%E9%99%85%E6%B2%B9%E6%B0%94%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19984007"
+   ]
+  },
+  {
+   "canonical_name_cn": "厦门国瑞能新能源技术有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "格瑞士"
+   ],
+   "subsidiaries": [],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "无锡博达新能科技有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "博达新能"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.stcn.com/article/detail/2952362.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "湖南赢科数字能源科技有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "赢科数能"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.wincle.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "山东格润内泽姆环保科技有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "山东格润内泽姆公司"
+   ],
+   "subsidiaries": [],
+   "sources": []
+  },
+  {
+   "canonical_name_cn": "华为技术有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [
+    "华为"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E5%8D%8E%E4%B8%BA"
+   ]
+  },
+  {
+   "canonical_name_cn": "金风科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E9%87%91%E9%A2%A8%E7%A7%91%E6%8A%80"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国进出口银行",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "http://www.eximbank.gov.cn/aboutExim/"
+   ]
+  },
+  {
+   "canonical_name_cn": "东方日升新能源股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://basic.10jqka.com.cn/300118/company.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国银行股份有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E9%93%B6%E8%A1%8C"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国化学工程集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cncec.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "国家开发银行",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cdb.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国工商银行股份有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%9B%9B%E5%A4%A7%E9%93%B6%E8%A1%8C/3905929"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国海洋石油集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cnooc.com.cn/gyhy/hygl/gsjj/202409/t20240918_86756.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国天楹股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cnty.cn/about.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国石油化工集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国远洋海运集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国电子科技集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cetc.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "宁德时代新能源科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.eastmoney.com/item/%E5%AE%81%E5%BE%B7%E6%97%B6%E4%BB%A3%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国船舶集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.gov.cn/xinwen/2019-11/26/content_5455860.htm"
+   ]
+  },
+  {
+   "canonical_name_cn": "深圳能源集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "http://gzw.sz.gov.cn/szgq/content/post_9395766.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "上能电气股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://basic.10jqka.com.cn/300827/company.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "上海风领新能源有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://cn.chinadaily.com.cn/a/202505/23/WS68300c5fa310205377034a08.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "旺能环境股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://m.plfrog.com/review/47933.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "华西能源工业股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.eastmoney.com/item/%E5%8D%8E%E8%A5%BF%E8%83%BD%E6%BA%90%E5%B7%A5%E4%B8%9A%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8"
+   ]
+  },
+  {
+   "canonical_name_cn": "盛新锂能集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E7%9B%9B%E6%96%B0%E9%94%82%E8%83%BD%E9%9B%86%E5%9B%A2%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/61451406"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国五矿集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.minmetals.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中国节能环保集团有限公司",
+   "is_central_soe": true,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.cecep.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "威海国际经济技术合作股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.wietc.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "苏州钧灏电力有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.aipowertec.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "TCL中环新能源科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/TCL%E4%B8%AD%E7%8E%AF%E6%96%B0%E8%83%BD%E6%BA%90%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/61587085"
+   ]
+  },
+  {
+   "canonical_name_cn": "协合新能源集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://zh.wikipedia.org/zh-hans/%E5%8D%94%E5%90%88%E6%96%B0%E8%83%BD%E6%BA%90"
+   ]
+  },
+  {
+   "canonical_name_cn": "山东高速集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.sdhsg.com/page_aboutUs"
+   ]
+  },
+  {
+   "canonical_name_cn": "辽宁立德投资控股集团",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://m.sohu.com/media/120174115"
+   ]
+  },
+  {
+   "canonical_name_cn": "杭州锦江集团有限公司",
+   "is_central_soe": false,
+   "provenance": "reviewed_2026-07-05",
+   "as_of": "2026-07-05",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%9D%AD%E5%B7%9E%E9%94%A6%E6%B1%9F%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19976725"
+   ]
+  }
+ ]
+}
