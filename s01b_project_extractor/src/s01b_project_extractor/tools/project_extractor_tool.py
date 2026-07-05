@@ -39,6 +39,15 @@ def _normalize_record_type(rt) -> str:
     return s if s in VALID_RECORD_TYPES else "具体项目"
 
 
+def _merge_capacity_details(llm_details: str, parser_note: str | None) -> str:
+    """合并 LLM 原值与解析器说明到 capacity_details 列；两者均非空时用分号分隔，否则取非空一方。"""
+    a = str(llm_details or "").strip()
+    b = str(parser_note or "").strip()
+    if a and b:
+        return f"{a}；{b}"
+    return a or b
+
+
 # 仓库根已在文件顶部 import guardrails 前插入 sys.path，这里直接导入枚举/解析单一可信源。
 import bri_enums as enums
 import bri_parse
@@ -879,6 +888,12 @@ class ProjectExtractorTool:
                         "Category": common.get("Category", ""),
                         "Capacity (MW)": common.get("Capacity (MW)", ""),
                         "Capacity Details": common.get("Capacity Details", ""),
+                        # 容量解析结果（来自 s2_basic._apply_capacity_post_process，stage 层单一解析点）
+                        # _capacity_parsed_by_stage=True 仅在 common_info 含 capacity_mw_parsed 键时（已由 stage 解析）
+                        "_capacity_parsed_by_stage": "capacity_mw_parsed" in common,
+                        "_capacity_mw_parsed": common.get("capacity_mw_parsed"),
+                        "_capacity_mw_raw_phrase": common.get("capacity_mw_raw_phrase", ""),
+                        "_capacity_details_note": common.get("capacity_details_note"),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": dev_cn,
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
@@ -985,6 +1000,11 @@ class ProjectExtractorTool:
                         "Category": common.get("Category", ""),
                         "Capacity (MW)": common.get("Capacity (MW)", ""),
                         "Capacity Details": common.get("Capacity Details", ""),
+                        # 容量解析结果（来自 s2_basic._apply_capacity_post_process，stage 层单一解析点）
+                        "_capacity_parsed_by_stage": "capacity_mw_parsed" in common,
+                        "_capacity_mw_parsed": common.get("capacity_mw_parsed"),
+                        "_capacity_mw_raw_phrase": common.get("capacity_mw_raw_phrase", ""),
+                        "_capacity_details_note": common.get("capacity_details_note"),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
@@ -1126,12 +1146,20 @@ class ProjectExtractorTool:
                     row_data.get("Implementing Chinese Entity (EN)", "")
                 ).strip() or ("Unknown" if impl_entity == "Unknown" else "")
                 # 数值字段：原文短语写入 capacity_mw_raw，确定性解析结果写入 capacity_mw（REAL）
-                cap_raw = row_data.get("Capacity (MW)", "")
-                # ── 容量换算由确定性解析器完成（TX/MF→null、产能类→null、单位换算→MW float）
-                cap_mw_val, _cap_details_note = parse_capacity_mw(
-                    str(cap_raw) if cap_raw else None,
-                    category=row_data.get("Category"),
-                )
+                # 解析结果来自 stage 层（s2_basic._apply_capacity_post_process）的单一解析点；
+                # _capacity_parsed_by_stage=True 表示 common_info 已含 capacity_mw_parsed（新路径）；
+                # False 表示旧路径/legacy 数据，回退到就地解析，确保任何路径恰好过一次解析器。
+                if row_data.get("_capacity_parsed_by_stage"):
+                    cap_raw = row_data.get("_capacity_mw_raw_phrase") or row_data.get("Capacity (MW)", "")
+                    cap_mw_val = row_data.get("_capacity_mw_parsed")
+                    _cap_details_note = row_data.get("_capacity_details_note")
+                else:
+                    # 旧路径兜底：就地解析（保证任何路径的 capacity 恰好过一次解析器）
+                    cap_raw = row_data.get("Capacity (MW)", "")
+                    cap_mw_val, _cap_details_note = parse_capacity_mw(
+                        str(cap_raw) if cap_raw else None,
+                        category=row_data.get("Category"),
+                    )
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
                 inv_raw = row_data.get("Total Project Investment (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
@@ -1165,7 +1193,10 @@ class ProjectExtractorTool:
                         row_data.get("Category", ""),
                         cap_raw,
                         cap_mw_val,
-                        row_data.get("Capacity Details", ""),
+                        # #1：capacity_details 合并 LLM 原值与解析器说明（产能/输送类说明落库）
+                        _merge_capacity_details(
+                            row_data.get("Capacity Details", ""), _cap_details_note
+                        ),
                         None,  # storage_power_mw：提取属 v2.1，本次留空
                         None,  # storage_energy_mwh
                         "original",  # capacity_source：新提取数值来自原文

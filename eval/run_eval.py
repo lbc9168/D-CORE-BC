@@ -28,7 +28,7 @@ _DEFAULT_MODEL = "gemini-2.5-flash-lite"
 
 
 def _default_extractor_version() -> str:
-    """由 orchestrator + 各阶段 prompt 源码 + provider/model 算 sha1[:12]，任一变更即让缓存失效（供应商间缓存隔离）。"""
+    """由 orchestrator + 各阶段 prompt + 确定性解析层源码 + provider/model 算 sha1[:12]，任一变更即让缓存失效（供应商间缓存隔离）。"""
     from s01b_project_extractor.stages import orchestrator  # 延迟导入
 
     # provider/model + 分阶段路由 纳入哈希：各供应商/混合配置各自独立缓存、报告可比
@@ -40,6 +40,14 @@ def _default_extractor_version() -> str:
     for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary", "s34_entity_finance"):
         try:
             mod = __import__(f"s01b_project_extractor.prompts.{modname}", fromlist=["*"])
+            src += inspect.getsource(mod)
+        except (ImportError, OSError):
+            pass
+    # 确定性解析层（capacity_parser + s2_basic stage 后处理）纳入哈希：
+    # 解析器修复应使旧 eval 缓存失效（否则 parser-only 改动不能触发重跑）
+    for modname in ("capacity_parser", "stages.s2_basic"):
+        try:
+            mod = __import__(f"s01b_project_extractor.{modname}", fromlist=["*"])
             src += inspect.getsource(mod)
         except (ImportError, OSError):
             pass

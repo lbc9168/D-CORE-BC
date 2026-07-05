@@ -223,3 +223,26 @@ def test_comma_separated_number():
     """1,200MW → 1200.0（去千位分隔符）。"""
     mw, details = parse_capacity_mw("1,200MW")
     assert mw == 1200.0
+
+
+# ── Important #2：kWh 必须被拦截为 null（电量非装机）─────────────────────────
+
+def test_kwh_is_null():
+    """500kWh（储能电量）→ null + details（不得误解析为 0.5 MW）。"""
+    mw, details = parse_capacity_mw("500kWh")
+    assert mw is None
+    assert details is not None
+
+
+def test_kwh_upper_is_null():
+    """500KWh（大写K/大写h）→ null + details。"""
+    mw, details = parse_capacity_mw("500KWh")
+    assert mw is None
+    assert details is not None
+
+
+def test_kwh_storage_phrase_is_null():
+    """'200kWh 储能系统'中 kWh → null + details（不误读为装机）。"""
+    mw, details = parse_capacity_mw("200kWh 储能系统")
+    assert mw is None
+    assert details is not None

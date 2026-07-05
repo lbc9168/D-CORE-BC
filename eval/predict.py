@@ -4,17 +4,20 @@ _STATUS_MAP = {"valid_project": "valid", "no_chinese_participation": "no_chinese
                "irrelevant": "irrelevant", "chinese_unnamed_participation": "chinese_unnamed"}
 
 def _flat_project(proj: dict) -> dict:
-    """单个项目 → 扁平 dict（字段 + entities 名字/角色对）。"""
+    """单个项目 → 扁平 dict（字段 + entities 名字/角色对）；capacity_mw 取 stage 层已解析的数值。"""
     common = proj.get("common_info", {}) or {}
     entities = []
     for e in proj.get("chinese_entities", []) or []:
         name = e.get("Implementing Chinese Entity", "")
         if name:
             entities.append({"name": name, "involvement_type": e.get("Type of involvement of Chinese Entities", "")})
+    # capacity_mw_parsed 由 s2_basic._apply_capacity_post_process() 在 stage 层注入（确定性解析结果）；
+    # 若键不存在（旧路径/测试桩）则回退到原文短语，metrics.cmp_numeric 内部会再解析一次。
+    cap = common.get("capacity_mw_parsed", common.get("Capacity (MW)", ""))
     return {
         "project_name": common.get("Project Name", ""),
         "category": common.get("Category", ""),
-        "capacity_mw": common.get("Capacity (MW)", ""),
+        "capacity_mw": cap,
         "project_stage": common.get("Project Stage", ""),
         "location": common.get("Location(State)", ""),
         "total_investment_usd": common.get("Total Project Investment (Million USD)", ""),
