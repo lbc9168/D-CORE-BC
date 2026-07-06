@@ -1,7 +1,8 @@
 """测试 codex_review.apply_actions：T1 merge / T2 exclude / T3 registry 补录产物。
 
 覆盖：merge 正常/幂等/冲突、NN 连续、T2 幂等/downgrade、T3 形状、
-     dry-run 零写入、备份三重断言、外键自检、台账记录。
+     dry-run 零写入、备份三重断言、外键自检、台账记录、
+     边界：NN>99溢出、survivor已被合并、孤立project_events、事件id前缀错。
 """
 from __future__ import annotations
 
@@ -14,6 +15,7 @@ import pytest
 from codex_review.apply_actions import (
     _backup_db,
     _integrity_check,
+    _replay_check,
     apply_t1,
     apply_t2,
     apply_t3,
@@ -704,3 +706,124 @@ def test_t3_alias_shape(tmp_path: Path) -> None:
     data = json.loads(additions_path.read_text(encoding="utf-8"))
     assert len(data["additions_to_existing_groups"]) == 1
     assert data["additions_to_existing_groups"][0]["canonical_name_cn"] == "现有集团"
+
+
+# ──────────────────────────────────────────────
+# 边界测试3a：NN>99 溢出→抛 RuntimeError，库无半合并残留
+# ──────────────────────────────────────────────
+
+
+def test_t1_nn_overflow(tmp_path: Path) -> None:
+    """survivor 已有事件 id 末尾=99，再合并1个 loser 事件 → RuntimeError，loser 未标记（事务回滚）。"""
+    db = tmp_path / "test.db"
+    _make_db(db)
+    S, L = "IND-PV-0001", "IND-PV-0002"
+    ledger_path = tmp_path / "ledger.json"
+
+    with sqlite3.connect(db) as conn:
+        _insert_project(conn, S)
+        _insert_project(conn, L)
+        # 直接造一条 id 末尾为 99 的事件（不实际造 99 条）
+        _insert_event(conn, f"{S}-99", S)
+        _insert_event(conn, f"{L}-01", L)
+        conn.commit()
+
+    plan = _make_t1_plan("pair-overflow", S, L, S, L)
+    plan_path = tmp_path / "apply_plan_T1.json"
+    plan_path.write_text(json.dumps(plan), encoding="utf-8")
+
+    with pytest.raises(RuntimeError, match="NN 超 99"):
+        apply_t1(plan_path=plan_path, db_path=db, ledger_path=ledger_path, quarter="2026Q3", apply=True)
+
+    # 事务未提交：loser 未被标记 excluded，事件未迁
+    with sqlite3.connect(db) as conn:
+        (excl,) = conn.execute(
+            "SELECT excluded FROM canonical_projects WHERE id=?", (L,)
+        ).fetchone()
+        assert excl == 0  # loser 未被 excluded（事务回滚）
+        assert _count(conn, "project_events", f"canonical_id='{L}'") == 1  # 事件仍挂在 loser
+
+
+# ──────────────────────────────────────────────
+# 边界测试3b：survivor 已被合并（excluded=1, reason=merged_into:*）→ conflict_skipped
+# ──────────────────────────────────────────────
+
+
+def test_t1_survivor_already_merged(tmp_path: Path) -> None:
+    """survivor 已是 excluded=1 且 reason=merged_into:* → conflict_skipped，库零变更。"""
+    db = tmp_path / "test.db"
+    _make_db(db)
+    S, L = "IND-PV-0001", "IND-PV-0002"
+    ledger_path = tmp_path / "ledger.json"
+
+    with sqlite3.connect(db) as conn:
+        _insert_project(conn, S)
+        _insert_project(conn, L)
+        _insert_event(conn, f"{S}-01", S)
+        _insert_event(conn, f"{L}-01", L)
+        # 标记 survivor 已被合并进别人
+        conn.execute(
+            "UPDATE canonical_projects SET excluded=1, excluded_reason='merged_into:IND-PV-0099' WHERE id=?",
+            (S,),
+        )
+        conn.commit()
+
+    plan = _make_t1_plan("pair-surv-merged", S, L, S, L)
+    plan_path = tmp_path / "apply_plan_T1.json"
+    plan_path.write_text(json.dumps(plan), encoding="utf-8")
+
+    report = apply_t1(plan_path=plan_path, db_path=db, ledger_path=ledger_path, quarter="2026Q3", apply=True)
+
+    assert report["conflict_skipped"] >= 1
+    assert report["done"] == 0
+
+    # loser 未被标记 excluded，事件未迁
+    with sqlite3.connect(db) as conn:
+        (excl,) = conn.execute(
+            "SELECT excluded FROM canonical_projects WHERE id=?", (L,)
+        ).fetchone()
+        assert excl == 0
+        assert _count(conn, "project_events", f"canonical_id='{L}'") == 1
+
+
+# ──────────────────────────────────────────────
+# 边界测试3c：完整性自检的另两个失败分支
+# ──────────────────────────────────────────────
+
+
+def test_integrity_check_fails_on_orphan_event(tmp_path: Path) -> None:
+    """自检：project_events.canonical_id 指向不存在的 canonical → 自检失败（RuntimeError）。"""
+    db = tmp_path / "test.db"
+    _make_db(db)
+    S = "IND-PV-0001"
+
+    with sqlite3.connect(db) as conn:
+        _insert_project(conn, S)
+        # 插入一条 canonical_id 不存在于 canonical_projects 的事件（孤立）
+        conn.execute(
+            "INSERT INTO project_events (id, canonical_id) VALUES (?, ?)",
+            ("NOT-EXIST-01", "NOT-EXIST"),
+        )
+        conn.commit()
+
+    with pytest.raises(RuntimeError, match="canonical_id 不在 canonical_projects"):
+        _integrity_check(db)
+
+
+def test_integrity_check_fails_on_bad_event_prefix(tmp_path: Path) -> None:
+    """自检：project_events.id 前缀≠canonical_id → 自检失败（RuntimeError）。"""
+    db = tmp_path / "test.db"
+    _make_db(db)
+    S = "IND-PV-0001"
+
+    with sqlite3.connect(db) as conn:
+        _insert_project(conn, S)
+        # 插入一条 id 前缀与 canonical_id 不一致的事件（脏数据）
+        conn.execute(
+            "INSERT INTO project_events (id, canonical_id) VALUES (?, ?)",
+            ("IND-WD-9999-01", S),  # 前缀 IND-WD-9999 ≠ canonical_id IND-PV-0001
+        )
+        conn.commit()
+
+    with pytest.raises(RuntimeError, match="前缀不一致"):
+        _integrity_check(db)

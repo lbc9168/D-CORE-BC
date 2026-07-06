@@ -17,7 +17,7 @@ from typing import Any
 from pydantic import BaseModel, ValidationError, field_validator
 
 from codex_review.export_queue import _DEFAULT_DB
-from codex_review.ledger import is_settled, load_ledger, record, save_ledger, t2_key
+from codex_review.ledger import load_ledger, record, save_ledger, t2_key
 
 # ──────────────────────────────────────────────
 # 常量与默认路径
@@ -186,6 +186,50 @@ def _integrity_check(db_path: Path) -> None:
 
 
 # ──────────────────────────────────────────────
+# 重放检查（幂等验证第三项）
+# ──────────────────────────────────────────────
+
+
+def _replay_check(
+    task: str,
+    plan_path: Path,
+    db_path: Path,
+    ledger_path: Path,
+    quarter: str,
+) -> None:
+    """重放检查：对同一 plan 再算一遍待执行集，断言 done==0（全部命中幂等/冲突跳过）；失败抛 RuntimeError。"""
+    # 复用与执行前相同的计算路径（apply=False），不写库
+    if task == "T1":
+        replay_report = apply_t1(
+            plan_path=plan_path,
+            db_path=db_path,
+            ledger_path=ledger_path,
+            quarter=quarter,
+            apply=False,
+        )
+    elif task == "T2":
+        replay_report = apply_t2(
+            plan_path=plan_path,
+            db_path=db_path,
+            ledger_path=ledger_path,
+            quarter=quarter,
+            apply=False,
+        )
+    else:
+        # T3 不动库，重放无意义，视为通过
+        logger.info("重放检查：T3 不动库，跳过重放")
+        return
+
+    pending = replay_report.get("done", 0)
+    if pending != 0:
+        raise RuntimeError(
+            f"重放检查失败：apply 完成后仍有 {pending} 条待执行动作（应为 0），"
+            f"说明本次 apply 可能不完整或存在一致性问题，请人工复查"
+        )
+    logger.info("重放检查通过：apply 后 pending=0")
+
+
+# ──────────────────────────────────────────────
 # T1 merge
 # ──────────────────────────────────────────────
 
@@ -236,8 +280,12 @@ def apply_t1(
 
     ledger = load_ledger(ledger_path)
 
-    # apply 时才连写库；dry-run 只读
-    db_uri = f"file:{db_path}?mode=ro" if not apply else str(db_path)
+    # apply 时才连写库；dry-run 只读（mode=ro 防止意外写入）
+    def _connect_check() -> sqlite3.Connection:
+        """干运行用只读连接，apply 用普通读写连接。"""
+        if not apply:
+            return sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+        return sqlite3.connect(str(db_path))
 
     # 收集所有 SQL 变更，统一在单事务内执行（规则 3）
     sql_batch: list[tuple[str, tuple]] = []  # [(sql, params), ...]
@@ -272,7 +320,7 @@ def apply_t1(
         loser_id = b_id if survivor_id == a_id else a_id
 
         # 幂等检查：loser 已是 merged_into:<S>
-        with sqlite3.connect(str(db_path)) as check_conn:
+        with _connect_check() as check_conn:
             row = check_conn.execute(
                 "SELECT excluded, excluded_reason FROM canonical_projects WHERE id=?",
                 (loser_id,),
@@ -291,7 +339,7 @@ def apply_t1(
             continue
 
         # survivor 是否已被 merge 进别人
-        with sqlite3.connect(str(db_path)) as check_conn:
+        with _connect_check() as check_conn:
             s_row = check_conn.execute(
                 "SELECT excluded, excluded_reason FROM canonical_projects WHERE id=?",
                 (survivor_id,),
@@ -435,7 +483,7 @@ def apply_t2(
         verdict = entry["verdict"]
         project_id: str = verdict["project_id"]
         action: str = verdict["action"]
-        trigger: str = entry.get("context", {}).get("trigger", "fixed_list")
+        trigger: str = (entry.get("context", {}).get("trigger") or "fixed_list")
 
         lkey = t2_key(project_id, trigger)
 
@@ -632,6 +680,8 @@ def _write_apply_report(
     runs_dir: Path,
     integrity_ok: bool = True,
     integrity_error: str = "",
+    replay_ok: bool = True,
+    replay_error: str = "",
 ) -> Path:
     """生成 apply_report_<task>.md（覆盖式），返回报告路径。"""
     quarter_dir = runs_dir / quarter
@@ -664,10 +714,9 @@ def _write_apply_report(
     lines.append("\n## 幂等自检")
     if not apply:
         lines.append("dry-run 模式，未执行自检。")
-    elif integrity_ok:
-        lines.append("通过 ✓")
     else:
-        lines.append(f"**失败** ✗：{integrity_error}")
+        lines.append(f"外键+前缀一致性：{'通过 ✓' if integrity_ok else f'**失败** ✗：{integrity_error}'}")
+        lines.append(f"重放检查（pending=0）：{'通过 ✓' if replay_ok else f'**失败** ✗：{replay_error}'}")
 
     if task == "T3":
         lines.append("\n## T3 人工三步提示")
@@ -746,7 +795,7 @@ def run_apply(
             runs_dir=runs_dir,
         )
 
-    # 幂等自检（--apply 后）
+    # 幂等自检（--apply 后）：外键+前缀一致性
     integrity_ok = True
     integrity_error = ""
     if apply and task in ("T1", "T2"):
@@ -757,6 +806,23 @@ def run_apply(
             integrity_error = str(e)
             logger.error("幂等自检失败：%s", e)
 
+    # 重放检查（--apply 后）：对同一 plan 重算待执行集应为空
+    replay_ok = True
+    replay_error = ""
+    if apply:
+        try:
+            _replay_check(
+                task=task,
+                plan_path=plan_path,
+                db_path=db_path,
+                ledger_path=ledger_path,
+                quarter=quarter,
+            )
+        except RuntimeError as e:
+            replay_ok = False
+            replay_error = str(e)
+            logger.error("重放检查失败：%s", e)
+
     _write_apply_report(
         task=task,
         quarter=quarter,
@@ -766,9 +832,11 @@ def run_apply(
         runs_dir=runs_dir,
         integrity_ok=integrity_ok,
         integrity_error=integrity_error,
+        replay_ok=replay_ok,
+        replay_error=replay_error,
     )
 
-    if apply and not integrity_ok:
+    if apply and (not integrity_ok or not replay_ok):
         sys.exit(1)
 
     return report
