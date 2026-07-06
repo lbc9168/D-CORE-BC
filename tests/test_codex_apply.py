@@ -708,6 +708,68 @@ def test_t3_alias_shape(tmp_path: Path) -> None:
 
 
 # ──────────────────────────────────────────────
+# T3 new_group / subsidiary_of_new 保留 raw_name
+# ──────────────────────────────────────────────
+
+
+def test_t3_new_group_raw_name_alias(tmp_path: Path) -> None:
+    """new_group 的 raw_name ≠ 规范名 → raw_name 写进该组 aliases；相同则不写。"""
+    db = tmp_path / "test.db"
+    _make_db(db)
+    ledger_path = tmp_path / "ledger.json"
+    runs_dir = tmp_path / "runs"
+
+    plan = _make_t3_plan("通威", "new_group", "通威集团有限公司") + _make_t3_plan(
+        "测试集团", "new_group", "测试集团"
+    )
+    plan_path = tmp_path / "apply_plan_T3.json"
+    plan_path.write_text(json.dumps(plan), encoding="utf-8")
+
+    apply_t3(
+        plan_path=plan_path,
+        db_path=db,
+        ledger_path=ledger_path,
+        quarter="2026Q3",
+        apply=True,
+        runs_dir=runs_dir,
+    )
+
+    additions_path = runs_dir / "2026Q3" / "registry_additions_2026Q3.json"
+    data = json.loads(additions_path.read_text(encoding="utf-8"))
+    groups = {g["canonical_name_cn"]: g for g in data["new_groups"]}
+    assert groups["通威集团有限公司"]["aliases"] == ["通威"]
+    assert groups["测试集团"]["aliases"] == []
+
+
+def test_t3_subsidiary_of_new_raw_name_in_subsidiaries(tmp_path: Path) -> None:
+    """subsidiary_of_new 的 raw_name ≠ 规范名 → raw_name 写进该组 subsidiaries。"""
+    db = tmp_path / "test.db"
+    _make_db(db)
+    ledger_path = tmp_path / "ledger.json"
+    runs_dir = tmp_path / "runs"
+
+    plan = _make_t3_plan("通威新能源", "subsidiary_of_new", "通威集团有限公司")
+    plan[0]["verdict"]["parent_cn"] = "通威集团有限公司"
+    plan_path = tmp_path / "apply_plan_T3.json"
+    plan_path.write_text(json.dumps(plan), encoding="utf-8")
+
+    apply_t3(
+        plan_path=plan_path,
+        db_path=db,
+        ledger_path=ledger_path,
+        quarter="2026Q3",
+        apply=True,
+        runs_dir=runs_dir,
+    )
+
+    additions_path = runs_dir / "2026Q3" / "registry_additions_2026Q3.json"
+    data = json.loads(additions_path.read_text(encoding="utf-8"))
+    assert len(data["new_groups"]) == 1
+    entry = data["new_groups"][0]
+    assert {"name_cn": "通威新能源"} in entry["subsidiaries"]
+
+
+# ──────────────────────────────────────────────
 # 边界测试3a：NN>99 溢出→抛 RuntimeError，库无半合并残留
 # ──────────────────────────────────────────────
 

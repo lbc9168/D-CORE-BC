@@ -611,6 +611,12 @@ def apply_t3(
                 new_entry["parent_cn"] = parent_cn
             if legal_full_name_cn:
                 new_entry["legal_full_name_cn"] = legal_full_name_cn
+            # raw_name ≠ 规范名/工商全称时必须保留，否则 entity_normalize 命不中库里的实际写法
+            if raw_name not in (new_entry["canonical_name_cn"], legal_full_name_cn):
+                if classification == "subsidiary_of_new":
+                    new_entry["subsidiaries"].append({"name_cn": raw_name})
+                else:
+                    new_entry["aliases"].append(raw_name)
             new_groups.append(new_entry)
 
         elif classification in _T3_EXISTING_GROUP_CLASSIFICATIONS:
