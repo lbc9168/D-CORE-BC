@@ -1,6 +1,6 @@
 # external-tools 状态
 
-> 最后更新：2026-04-14
+> 最后更新：2026-07-07（新增 codex_review 章节）
 
 ---
 
@@ -144,3 +144,39 @@ uv run --with pandas --with openpyxl --with google-genai --with python-dotenv --
 | 项目 | 状态 |
 |------|------|
 | fill_links.py | ✅ 已完成（待运行验证） |
+
+---
+
+## codex_review — Codex 季度分拣管线
+
+### 功能
+
+季度分拣闭环：从主库/审计清单/实体解析未命中记录导出待复核队列 → 交给外部 LLM（或人工）分拣判定 → 校验回收判定结果（分级信任 + 抽检）→ 抽检确认后落库/生成补录产物。三条任务线：
+
+- **T1**：漏合并候选对——同国别同类别下名称相似度高的项目对，判断是否应合并。
+- **T2**：范围复核——疑似不应收录（无具名中企实体 / 命中 MF 边界关键词 / 审计清单点名）的项目，判断保留/排除/降级。
+- **T3**：实体归属补录——高频出现但未收录进集团层级库的原始实体名，判断其归属（新集团/已有集团别名或子公司/非中国实体/非公司/存疑）。
+
+### 文件
+
+| 文件 | 说明 |
+|------|------|
+| `codex_review/schemas.py` | Pydantic v2 数据契约：队列条目（`T{1,2,3}QueueItem/File`）与判定结果（`T{1,2,3}Verdict`、`VerdictsFile`） |
+| `codex_review/ledger.py` | 判定台账：内容哈希幂等 key（`t1_key`/`t2_key`/`t3_key`）+ 原子写（`load_ledger`/`save_ledger`/`record`/`is_settled`） |
+| `codex_review/export_queue.py` | 导出 CLI：从主库（T1/T2）或 misses CSV（T3）生成 `queue_T*.json` + 复制 `guide_T*.md` |
+| `codex_review/ingest_verdicts.py` | 回收 CLI：校验 verdicts 信封+schema，按规则分级（自动收/gated/uncertain 跳过），`--apply` 时写台账 + 生成 `apply_plan_T*.json` + 15% 抽检 `manual_check_T*.csv` |
+| `codex_review/apply_actions.py` | 落库 CLI：T1 事件迁挂合并、T2 置排除标记（均含备份+单事务+幂等自检+重放检查）；T3 只生成 `registry_additions_<quarter>.json`，不动库 |
+| `codex_review/guides/guide_T{1,2,3}.md` | 分拣规则+输出格式说明模板（导出时复制到对应季度目录，供分拣者/Codex 阅读） |
+| `codex_review/runs/<quarter>/` | 每季度产物目录：`queue_T*.json`、`guide_T*.md`、`verdicts_T*.json`（分拣者产出）、`ingest_report_T*.md`、`apply_plan_T*.json`、`manual_check_T*.csv`、`apply_report_T*.md`、（T3）`registry_additions_<quarter>.json` |
+| `codex_review/ledger.json` | 全局判定台账（跨季度累积，不存在时视为空台账） |
+
+### 运行方式
+
+完整五步命令与常见问题见 `docs/rules_and_plans/codex_quarterly_runbook.md`：① 导出三队列 ② 分拣（Codex/人工，数据契约不绑供应商）③ ingest_verdicts 回收校验（dry-run → --apply）④ apply_actions 落库（人工复核抽检后再 --apply）⑤ 收尾（docs/changes 记录 + 视情况走 en_backfill → run_export → 部署）。
+
+### 关键约束
+
+- 主库（`s02a_duplicate_merger/data/db/bri_re_database.db`）在 export/ingest 阶段全程只读；只有 `apply_actions --apply` 才写库，且写前自动备份、写后自动跑外键+前缀一致性自检与重放检查，任一失败非零退出。
+- 台账（`ledger.json`）幂等：已定案的 pair/project/raw_name 不会重复入队，也不会被 ingest 重复处理。
+- gated（要改数据）类判定强制抽检：`ingest_verdicts --apply` 默认按 15% 比例（`--sample-rate`）确定性抽样进 `manual_check_T*.csv`，人工复核后才可执行 apply_actions。
+- T3 不直接写 registry/主库，产出物需人工三步（合并进 draft → 重跑 `build_hierarchy_v2.py` → s01b 跑 `entity_reparse_maindb --apply`）才生效。
