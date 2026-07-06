@@ -24,7 +24,7 @@
 | 插入A | 工作区迁移到 worktree dcore_v2.2 | ✅ |
 | 插入B | 金标准重建（复核包→gold→基线） | ✅ |
 | 插入C | company_hierarchy 扩充核实 | ✅（数据资产就绪，未接线） |
-| 阶段 2 | Codex 季度分拣管线 + 试点 | ⬜ |
+| 阶段 2 | Codex 季度分拣管线 + 试点 | ✅（2026-07-07，见 docs/changes/2026-W28a.md） |
 | 阶段 3 | TX/MF 展示前专项 | ⬜（计划已细化，见下） |
 | 阶段 4 | s01b prompt 迭代（基线回归驱动） | ✅（2026-07-06：weighted 0.698→0.811） |
 
@@ -76,7 +76,7 @@
 
 ## 未完成明细
 
-### 阶段 2：Codex 季度分拣管线（⬜，计划细化 2026-07-06，估 1-2 sessions）
+### 阶段 2：Codex 季度分拣管线（✅ 2026-07-07 完成；工具在 codex_review/，运行手册见 docs/rules_and_plans/codex_quarterly_runbook.md，交付明细见 docs/changes/2026-W28a.md。拍板落定：首季 2026Q3 / loser 保留+merged_into / 抽检 15%。验收全过：三任务真实试点闭环（Claude 分拣代跑验证链路，真库真台账零触碰）、ingest 拒收有测试、merge 拷贝库外键一致、台账幂等。遗留 gated：manual_check 复核→真库 apply 或改喂 Codex；registry_additions 人工三步）
 
 **目的**：建立"系统导出复核队列 → Codex(GPT-5.5) 分拣 → 校验落库"的季度闭环，消化人工顾不过来的长尾复核。共识约束：分级信任+抽检（不改数据的 verdict 自动收；改数据的头 2-3 季度抽 10-20% 人工复核）；数据契约不绑供应商（队列 JSON 同样可喂 Claude/人工）。
 
