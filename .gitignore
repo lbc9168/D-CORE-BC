@@ -19,6 +19,8 @@ env/
 *.xlsx
 *.csv
 !example_data.xlsx  # 感叹号表示：除了这个文件例外，我要上传它作为示例
+# 季度分拣的抽检子清单是流程正式产物，入库留痕
+!codex_review/runs/**/*.csv
 
 # 6. 运行时生成的数据目录（体积大，不上传）
 s01_data_collector_filter/data/

@@ -1,0 +1,312 @@
+{
+  "task": "T2",
+  "quarter": "2026Q3",
+  "verdicts": [
+    {
+      "project_id": "AUS-HB-0015",
+      "action": "exclude",
+      "reason": "bp收购澳大利亚AREH项目40.5%股份的报道，entity_names为空，全文未提及任何具名中企参与，属无中企参与应排除。",
+      "evidence_quote": "bp宣布收购澳大利亚360亿美元的亚洲可再生能源中心（AREH）项目40.5%的股份，成为最大股东。; entity_names=[]"
+    },
+    {
+      "project_id": "COG-HY-0005",
+      "action": "exclude",
+      "reason": "2019年旧闻，中企参与仅为模糊猜测性表述（'可能参与'/三期'美国计划联合中国共同建设'），全文无任何具名中企，entity_names仅为占位符Unknown，不构成中企实质参与。",
+      "evidence_quote": "中国可能参与建设位于非洲刚果河上的英加水电站项目。; 三期工程美国计划联合中国共同建设。; entity_names=['Unknown']"
+    },
+    {
+      "project_id": "ISR-HB-0001",
+      "action": "keep",
+      "reason": "以色列特拉维夫轻轨红线项目为可识别单体项目，中国中铁（中铁四局市政公司）承建，具名中企实质参与，属库收录范围。",
+      "evidence_quote": "中国中铁承建的以色列特拉维夫轻轨红线项目全部采用中国技术、装备和标准; entity_names=['中铁四局市政公司']"
+    },
+    {
+      "project_id": "KAZ-HB-0016",
+      "action": "exclude",
+      "reason": "哈萨克斯坦Hyrasia One绿氢项目由欧洲企业Svevind开发，原文明确未提及中企参与，entity_names为空，无中企参与应排除。",
+      "evidence_quote": "哈萨克斯坦政府与欧洲可再生能源集团Svevind签署协议...目前新闻中未提及中国企业参与。; entity_names=[]"
+    },
+    {
+      "project_id": "MAR-HB-0006",
+      "action": "exclude",
+      "reason": "摩洛哥White Dunes绿氢项目由Falcon Capital与HDF Energy合作开发，entity_names为空，全文无任何具名中企参与，应排除。",
+      "evidence_quote": "摩洛哥头部投资集团猎鹰资本(Falcon Capital)与绿氢行业领导者HDF Energy合作，在摩洛哥达赫拉地区开发GW级绿氢项目White Dunes。; entity_names=[]"
+    },
+    {
+      "project_id": "MRT-HB-0003",
+      "action": "exclude",
+      "reason": "毛里塔尼亚AMAN绿氢项目由CWP Global规划开发，entity_names为空，全文无任何具名中企参与，应排除。",
+      "evidence_quote": "可再生能源开发商CWP Global在毛里塔尼亚北部沙漠地区规划了一个名为AMAN的30GW太阳能和风电项目; entity_names=[]"
+    },
+    {
+      "project_id": "PHL-HB-0002",
+      "action": "downgrade_non_project",
+      "reason": "菲律宾第四轮绿色能源拍卖（GEA-4）属批量招标计划的一批，非单体项目，且entity_names为空无具名中企，符合降级为非单体项目条件。",
+      "evidence_quote": "菲律宾能源部启动第四轮绿色能源拍卖（GEA-4），计划新增9.4GW可再生能源装机容量; entity_names=[]"
+    },
+    {
+      "project_id": "SAU-HB-0003",
+      "action": "downgrade_non_project",
+      "reason": "沙特七个大型可再生能源项目为ACWA Power/Badeel/SAPCO打包开发的一批项目（五个光伏电站+两个风电场），属批量项目群非单体项目，且entity_names为空无具名中企。",
+      "evidence_quote": "ACWA Power, Badeel, and SAPCO are jointly developing seven large-scale renewable energy projects in Saudi Arabia, comprising five solar PV plants and two wind farms; entity_names=[]"
+    },
+    {
+      "project_id": "SAU-HB-0021",
+      "action": "exclude",
+      "reason": "沙特阿美计划为企业远期装机目标声明（2035年12GW、2030年1100万吨蓝氨），蓝氨为天然气制氨非可再生能源，且entity_names为空无具名中企，双重排除理由。",
+      "evidence_quote": "沙特阿美计划到2035年实现12GW的可再生能源装机容量，并计划到2030年生产1100万吨蓝氨。该计划涉及大规模的天然气使用和碳捕获与储存技术; entity_names=[]"
+    },
+    {
+      "project_id": "SAU-PV-0059",
+      "action": "downgrade_non_project",
+      "reason": "沙特40GW太阳能光伏装机规划为国家级规划群，非单体项目，且原文明确未详细说明具体项目及中方参与情况，entity_names为空。",
+      "evidence_quote": "沙特阿拉伯计划在2030年前增加40GW太阳能光伏发电装机容量，具体项目信息和中方参与情况未在新闻中详细说明。; entity_names=[]"
+    },
+    {
+      "project_id": "USA-NC-0001",
+      "action": "exclude",
+      "reason": "美国怀俄明州Natrium示范电厂由美国泰拉能源公司建设，配套服务商均为美国/加拿大企业，entity_names为空，全文无任何具名中企参与，应排除。",
+      "evidence_quote": "美国泰拉能源公司（TerraPower）正在怀俄明州建设Natrium示范电厂...多家美国企业（西部服务公司、James Fisher技术公司、BWXT加拿大有限公司、Curtiss-Wright流量控制公司）将为该项目提供服务和设备。; entity_names=[]"
+    },
+    {
+      "project_id": "VNM-TH-0006",
+      "action": "downgrade_non_project",
+      "reason": "越南金瓯省燃气发电项目群为省级规划的4个项目打包（Ca Mau 3号、Tan Thuan、Song Doc、LNG+FSRU），非单体项目，且entity_names为空无具名中企。",
+      "evidence_quote": "越南金瓯省规划了4个燃气发电项目，总容量为10700MW，包括Ca Mau 3号燃气发电项目（1500MW）、Tan Thuan燃气发电项目（3200MW）、Song Doc燃气发电项目（3000MW）以及液化天然气燃气发电项目和FSRU系统（3000MW）。; entity_names=[]"
+    },
+    {
+      "project_id": "VNM-WD-0030",
+      "action": "downgrade_non_project",
+      "reason": "越南金瓯省风力发电项目群为省级规划的24个风电项目打包（海上+近岸），非单体项目，且entity_names为空无具名中企。",
+      "evidence_quote": "越南金瓯省拟增加24个风力发电项目，总容量为12018MW，其中包括6个海上风力发电项目（8500MW）和18个近岸风力发电项目（3518MW）。; entity_names=[]"
+    },
+    {
+      "project_id": "AGO-MF-0001",
+      "action": "exclude",
+      "reason": "该项目实质为电解铝冶炼项目本身（安哥拉首个电解铝项目），虽有具名中企（中国铝业国际工程股份有限公司）承建设计，但按硬收录边界电解铝冶炼属非能源资产，应排除。",
+      "evidence_quote": "中铝国际贵阳院在中国企业投资的安哥拉铝产业园设计并建设了年产12万吨的绿色铝电项目。该项目是中资企业在非洲的首个电解铝项目; entity_names=['中国铝业国际工程股份有限公司']"
+    },
+    {
+      "project_id": "ARE-MF-0004",
+      "action": "exclude",
+      "reason": "阿联酋鲁韦斯蓝色氨工厂项目为天然气制氨（蓝氨），非可再生能源资产，虽entity_names列出中国葛洲坝、中国能建，但项目主体是韩国GS Energy与日本三井物产合作开发的蓝氨工厂，属硬性排除的蓝氨类别。",
+      "evidence_quote": "韩国GS Energy与日本三井物产合作，在阿联酋鲁韦斯开发一座年产100万吨蓝色氨工厂; entity_names=['中国葛洲坝集团有限公司', '中国能源建设集团有限公司']"
+    },
+    {
+      "project_id": "IDN-MF-0028",
+      "action": "exclude",
+      "reason": "印尼宾坦氧化铝项目实质为氧化铝/电解铝冶炼项目本身，虽有具名中企（中冶海外印尼公司）承建，但按硬收录边界冶炼资产属非能源资产，应排除。",
+      "evidence_quote": "中冶海外印尼公司联合中国三冶承建印尼宾坦氧化铝建设项目，总投资55亿美元，包含年产200万吨氧化铝、年产100万吨电解铝及配套电厂等。; entity_names=['中冶海外印尼公司']"
+    },
+    {
+      "project_id": "IDN-TH-0016",
+      "action": "keep",
+      "reason": "该项目是电解铝厂的配套电厂工程监理，项目本身归类火电（发电机组建设），资产性质是电力设施而非冶炼资产本身，且有具名中企（中国机械工业集团/中国电工/兴电国际）实质参与，属库收录范围。",
+      "evidence_quote": "中国电工所属兴电国际中标印度尼西亚北加里曼丹东部一个电解铝项目的配套电厂工程监理项目。该电厂将配备2台150MW和2台380MW的发电机组; entity_names=['中国机械工业集团有限公司', '中国电工有限公司']"
+    },
+    {
+      "project_id": "IDN-TH-0038",
+      "action": "keep",
+      "reason": "该项目为青山工业园1140MW火力发电项目，资产性质是火电厂本身（虽为工业园镍铁/铬铁/电解铝生产线供电），并非冶炼资产本身，有具名中企（上海电气电站集团）承建，属库收录范围。",
+      "evidence_quote": "上海电气电站集团在印度尼西亚中苏拉威西省莫罗瓦利县签订了青山钢铁3X380MW火力发电建设项目的合同。该项目将为青山工业园内的镍铁、铬铁及电解铝生产线供电，装机容量为1140MW。; entity_names=['电站集团', '上海电气集团股份有限公司']"
+    },
+    {
+      "project_id": "KAZ-MF-0005",
+      "action": "exclude",
+      "reason": "哈萨克斯坦东方希望项目实质是采矿、氧化铝、电解铝垂直一体化工业园区本身（有色金属生产），配套可再生能源发电仅为辅助环节，资产性质属矿山/冶炼，应排除，虽有具名中企（东方希望集团）。",
+      "evidence_quote": "东方希望集团拟在哈萨克斯坦投资120亿美元建设一个包含采矿、氧化铝和电解铝生产的垂直一体化工业园区。该项目将配套建设3GW可再生能源发电能力，采用绿电直连模式为电解铝环节供电; entity_names=['东方希望集团', '东方希望集团有限公司']"
+    },
+    {
+      "project_id": "SAU-MF-0001",
+      "action": "exclude",
+      "reason": "沙特延布项目实质为下游铝产业综合体，核心资产是年产50万吨电解铝厂本身，属冶炼资产，应排除，虽有具名中企（山东创新集团/中国五矿/五矿二十三冶）参与建设。",
+      "evidence_quote": "中国铝业龙头山东创新集团牵头，与沙特PIF在沙特延布共同开发一体化下游铝产业综合体。项目包括年产50万吨电解铝厂，由五矿二十三冶承建; entity_names=['创新新材', '中国五矿集团有限公司', '五矿二十三冶']"
+    },
+    {
+      "project_id": "ZWE-TH-0003",
+      "action": "keep",
+      "reason": "该项目为锂矿采选工程的配套热电厂土建施工，资产性质是电厂本身（火电类别），并非锂矿采选资产本身，有具名中企（中国中铁十局集团）实质参与，属库收录范围。",
+      "evidence_quote": "中铁十局在津巴布韦承建萨比星锂矿采选工程热电厂土建施工项目，合同金额2000万美元，项目内容包括热电厂、选矿厂地基与基础等工程。; entity_names=['中国中铁十局集团有限公司', '盛新锂能集团股份有限公司']"
+    },
+    {
+      "project_id": "AFG-HY-0001",
+      "action": "keep",
+      "reason": "实体表虽为空，但联网核实原文（外交部官网）确认签约仪式有承建方“中冶集团铜锌有限公司”（中国五矿旗下MCC子公司）出席，属具名中企实质参与的水电项目，应保留。",
+      "evidence_quote": "project_summary='中国驻阿富汗大使赵星出席了艾娜克铜矿巴格达拉水电项目合作协议签约仪式。该项目是中阿合作的旗舰项目，旨在为艾娜克铜矿项目提供电力支持并促进阿富汗的恢复重建。'；外交部原文：'承建方中冶集团铜锌有限公司及有关各方代表出席'（来源：mfa.gov.cn/zwbd_673032/wshd_673034/202412/t20241202_11536476.shtml）"
+    },
+    {
+      "project_id": "AFG-PV-0002",
+      "action": "exclude",
+      "reason": "阿富汗水利和能源部与Aufie Bahram采矿和加工公司签署协议，全文无任何中企出现，仅为阿富汗本地采矿加工公司承建的太阳能项目，无中企参与迹象。",
+      "evidence_quote": "project_summary='阿富汗水利和能源部与Aufie Bahram采矿和加工公司签署了三个太阳能发电项目的协议，总计投资约2500万美元，总装机容量为8兆瓦。'"
+    },
+    {
+      "project_id": "AFG-PV-0001",
+      "action": "exclude",
+      "reason": "仅为阿富汗政府批准的投资项目并鼓励中国企业家参与的泛泛表述，未披露任何具名中企或确认的中企投资/建设行为，不构成中企实质参与。",
+      "evidence_quote": "project_summary='阿富汗部际间投资委员会批准了一批价值120亿阿富汗尼的投资项目，其中包括建设太阳能电站。新闻鼓励中国企业家参与，预示着潜在的中国企业投资或建设机会，但目前未披露具体中企名称或项目细节。'"
+    },
+    {
+      "project_id": "AFG-PV-0003",
+      "action": "exclude",
+      "reason": "由阿富汗伊斯兰酋长国自主推动的开工仪式，全文未提及任何中企。",
+      "evidence_quote": "project_summary='阿富汗经济副总理参加了位于喀布尔司罗比县Naghlu大坝附近一个10兆瓦太阳能发电项目的开工仪式。该项目由阿富汗伊斯兰酋长国推动，旨在实现电力自给自足，目前处于开工阶段。'"
+    },
+    {
+      "project_id": "AFG-TX-0001",
+      "action": "exclude",
+      "reason": "输电线路项目由阿富汗投资公司中标，全文无中企出现，且细节尚待考证，无法确认中企参与。",
+      "evidence_quote": "project_summary='阿富汗透露了一个以矿山为交换的500kV输电线路项目，该项目将从土库曼斯坦向阿富汗输送数百兆瓦电力，预计每年节省2亿美元。该项目由阿富汗投资公司中标，目前细节尚需考证。'"
+    },
+    {
+      "project_id": "AFG-TX-0002",
+      "action": "exclude",
+      "reason": "项目由亚洲开发银行提供资金，服务乌兹别克斯坦-阿富汗电力互联，全文未提及任何中企参与。",
+      "evidence_quote": "project_summary='亚洲开发银行批准1.1亿美元资金，用于在乌兹别克斯坦和阿富汗之间建设一条500千伏输电线路。该项目旨在增加乌兹别克斯坦向阿富汗的电力供应，预计将使50万阿富汗居民用上电。目前该项目处于建设阶段。'"
+    },
+    {
+      "project_id": "AGO-HB-0001",
+      "action": "exclude",
+      "reason": "绿氢/绿氨项目本身属可再生能源范畴，但开发方为CWP Global、Sonangol、Gauff、Conjuncta，均非中企，全文未见中企参与迹象。",
+      "evidence_quote": "project_summary='CWP Global、Sonangol、Gauff和Conjuncta将在安哥拉合作开发一个绿氢项目，计划利用水电剩余容量生产绿氢衍生物（绿氨），电解容量达600MW...'"
+    },
+    {
+      "project_id": "AGO-HB-0002",
+      "action": "exclude",
+      "reason": "摘要明确写明总承包商为葡萄牙MCA集团，且新闻中未提及中国企业参与。",
+      "evidence_quote": "project_summary='...该项目由安哥拉能源和水资源部主持，葡萄牙MCA集团担任总承包商。新闻中未提及中国企业参与。'"
+    },
+    {
+      "project_id": "AGO-PV-0001",
+      "action": "exclude",
+      "reason": "摘要明确将该项目定性为“中国企业未参与”，由美国公司Sun Africa开发，美国进出口银行融资，无任何中企实体。",
+      "evidence_quote": "project_summary='该项目是中国企业未参与的安哥拉南部太阳能项目，由美国公司Sun Africa开发，计划安装220兆瓦太阳能发电容量，并获得美国进出口银行16亿美元的融资支持，目前处于项目开发阶段。'"
+    },
+    {
+      "project_id": "AGO-PV-0002",
+      "action": "exclude",
+      "reason": "项目由OMATAPALO公司获得，ING Bank牵头银行财团融资，全文未见中企出现。",
+      "evidence_quote": "project_summary='...项目总金额高达19.55亿美元，由OMATAPALO公司获得。ING Bank牵头的银行财团将负责融资。'"
+    },
+    {
+      "project_id": "AGO-PV-0003",
+      "action": "exclude",
+      "reason": "项目由非洲开发银行旗下SEFA基金支持安哥拉政府实施，全文未提及任何中企。",
+      "evidence_quote": "project_summary='非洲开发银行通过其非洲可持续能源基金(SEFA)支持安哥拉政府在农村地区安装约3万个太阳能光伏系统，目标是提供600MW可再生能源装机容量...'"
+    },
+    {
+      "project_id": "ALB-PV-0003",
+      "action": "exclude",
+      "reason": "项目由欧洲复兴开发银行（EBRD）和瑞士SECO支持，全文未见中企参与。",
+      "evidence_quote": "project_summary='阿尔巴尼亚计划建设总容量300兆瓦的光伏电站项目，其中首期招标100兆瓦。该项目获得欧洲复兴开发银行（EBRD）和瑞士联邦政府经济事务司（SECO）的支持，旨在帮助阿尔巴尼亚实现碳中和目标。'"
+    },
+    {
+      "project_id": "ARE-HB-0003",
+      "action": "exclude",
+      "reason": "项目由阿联酋马斯达尔（Masdar）主导开发，全文未见任何中企实体参与。",
+      "evidence_quote": "project_summary='阿联酋将投资60亿美元建设全球首个大规模全天候供电的可再生能源设施项目，由马斯达尔主导，整合5GW太阳能发电和19GWh电池储能...'"
+    },
+    {
+      "project_id": "ARE-HB-0012",
+      "action": "exclude",
+      "reason": "项目由西门子能源与迪拜电力和水务局（DEWA）合作实施，全文未见中企参与。",
+      "evidence_quote": "project_summary='西门子能源与迪拜电力和水务局（DEWA）合作，在阿联酋迪拜启动了中东和北非地区首个工业级太阳能驱动的绿色氢能生产项目...'"
+    },
+    {
+      "project_id": "ARE-PV-0012",
+      "action": "exclude",
+      "reason": "项目中标方为Emerge公司（Masdar和EDF合营公司），全文未见任何中企。",
+      "evidence_quote": "project_summary='Emerge公司（Masdar和EDF的合营公司）中标阿联酋阿布扎比Yas岛SeaWorld主题公园的8.2MW屋顶光伏项目。该项目由Emerge提供全套解决方案，旨在通过Miral公司增加可持续能源投资。'"
+    },
+    {
+      "project_id": "ARE-TH-0004",
+      "action": "exclude",
+      "reason": "摘要明确写明尚未提及中国企业参与，项目由美国通用电气和日本住友商事主导；且该项目为独立发电项目（火电类别），非可再生能源资产，双重排除理由。",
+      "evidence_quote": "project_summary='该项目为阿联酋沙迦酋长国的1.8 GW哈姆瑞亚独立电厂项目，由美国通用电气和日本住友商事主导开发，获得了10亿美元融资。目前项目处于融资阶段，尚未提及中国企业参与。'"
+    },
+    {
+      "project_id": "ARE-WD-0005",
+      "action": "exclude",
+      "reason": "项目为阿布扎比政府启动的风电招标，全文未见任何中企参与迹象。",
+      "evidence_quote": "project_summary='阿联酋阿布扎比政府启动了希拉风电项目（Al Sila Wind Power Independent Power Project）的招标，该项目装机容量为140MW，计划以IPP模式进行，开发商将与EWEC签订长期电力购买协议。'"
+    },
+    {
+      "project_id": "ARG-PV-0003",
+      "action": "exclude",
+      "reason": "项目由智利可再生能源开发商Verano Energy全权负责开发，全文未见中企参与。",
+      "evidence_quote": "project_summary='智利可再生能源开发商Verano Energy在阿根廷西部门多萨省启动建设一个200 MW的太阳能项目。该项目预计在2025年底前完工，Verano Energy负责项目的全部开发工作，并与一家领先的可再生能源公司合作确保电网连接。'"
+    },
+    {
+      "project_id": "ARM-PV-0001",
+      "action": "exclude",
+      "reason": "项目由阿联酋公司马斯达尔（Masdar）投资建设，国营亚美尼亚国家利益基金持股，全文未见中企参与。",
+      "evidence_quote": "project_summary='阿联酋公司马斯达尔（Masdar）将在亚美尼亚阿拉加措特恩省投资建设200兆瓦的Ayg-1太阳能发电厂，该项目是亚美尼亚最大的太阳能发电厂，预计投资1.74亿美元，国营的亚美尼亚国家利益基金（ANIF）将持有15%股份。'"
+    },
+    {
+      "project_id": "ARM-PV-0002",
+      "action": "exclude",
+      "reason": "项目由西班牙Fotowatio可再生投资公司（沙特Abdul Latif Jameel子公司）实施，全文未见中企参与。",
+      "evidence_quote": "project_summary='西班牙Fotowatio可再生投资公司（一家沙特持股公司Abdul Latif Jameel的子公司）正在亚美尼亚Gegharkunik省实施55兆瓦的Masrik-1太阳能发电厂项目，该项目是亚美尼亚第二大发电厂。'"
+    },
+    {
+      "project_id": "AUS-ES-0001",
+      "action": "keep",
+      "reason": "摘要明确表述“多家中国企业在融资支持、合作伙伴及核心设备供应等方面深度参与”，虽未点名具体企业中标，但已构成实质性中企参与的确认表述；联网核实同期澳大利亚储能招标背景也显示宁德时代、欣旺达、海博思创、阿特斯等中企普遍以设备/融资角色深度介入，与摘要描述吻合，保守起见保留。",
+      "evidence_quote": "project_summary='澳大利亚新南威尔士州第六轮长时储能项目招标结果已出，共6个大型锂电储能项目入选，总装机容量约1.17 GW / 11.98 GWh。虽然没有中国投资企业直接中标，但多家中国企业在融资支持、合作伙伴及核心设备供应等方面深度参与。'"
+    },
+    {
+      "project_id": "AUS-ES-0006",
+      "action": "exclude",
+      "reason": "项目由Enervest公司中标建设，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Enervest公司在澳大利亚中标建设125MW/1GWh的Stoney Creek电池储能系统。该项目是澳大利亚新南威尔士州长时储能系统招标的一部分，旨在增强电网可靠性。'"
+    },
+    {
+      "project_id": "AUS-ES-0007",
+      "action": "exclude",
+      "reason": "项目由Eku Energy公司中标建设，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Eku Energy公司在澳大利亚中标建设100MW/800MWh的Griffith电池储能系统。该项目是澳大利亚新南威尔士州长时储能系统招标的一部分，预计2028年投入运营，以平衡电力供需和稳定电网。'"
+    },
+    {
+      "project_id": "AUS-ES-0008",
+      "action": "exclude",
+      "reason": "项目由Acen Australia公司中标建设，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Acen Australia公司在澳大利亚中标建设800MW/11990MWh的Acen Phoenix抽水蓄能发电设施。该项目是澳大利亚新南威尔士州长时储能系统招标的一部分，将建设在布伦东大坝上。'"
+    },
+    {
+      "project_id": "AUS-ES-0013",
+      "action": "exclude",
+      "reason": "项目由Energy Vault公司与ACEN Australia公司合作部署，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Energy Vault公司与ACEN Australia公司合作，在澳大利亚部署两个总计400MWh的电池储能系统，分别位于New England太阳能发电场，预计2025年和2026年投入商业运营。'"
+    },
+    {
+      "project_id": "AUS-ES-0015",
+      "action": "exclude",
+      "reason": "项目由Equis公司投资建设，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Equis公司在澳大利亚维多利亚州墨尔本投资建设墨尔本可再生能源枢纽（MREH）项目，该项目为一座大型电池储能设施，容量为1.6吉瓦时（GWh），旨在支持当地可再生能源发展和稳定电网。项目已于2023年第四季度开工，预计2025年竣工。'"
+    },
+    {
+      "project_id": "AUS-ES-0017",
+      "action": "exclude",
+      "reason": "两条事件分别涉及Limondale和Wallgrove电池储能项目，由TransGrid公司拥有建造维护，其中一条事件明确写明新闻中未提及中国企业参与，全部事件均无中企。",
+      "evidence_quote": "events[1].project_summary='澳大利亚Infigen公司与TransGrid公司达成协议，将在澳大利亚新南威尔士州建设50MW/75MWh的Wallgrove电池储能试点项目。该项目由TransGrid公司拥有、建造和维护，预计于2021年下半年开始商业运营，并获得了澳大利亚可再生能源署（ARENA）的资助。新闻中未提及中国企业参与。'"
+    },
+    {
+      "project_id": "AUS-ES-0020",
+      "action": "exclude",
+      "reason": "项目由Hydrostor公司部署，南澳州政府和ARENA提供资金支持，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Hydrostor公司在澳大利亚南澳州部署一个5MW/10MWh压缩空气储能项目，耗资3000万澳元，南澳大利亚州政府和澳大利亚国家可再生能源机构提供资金支持。该项目利用废弃锌矿储存压缩空气发电，以支持当地电网。目前该项目已获批，处于建设准备阶段。'"
+    },
+    {
+      "project_id": "AUS-HB-0004",
+      "action": "exclude",
+      "reason": "项目由菲律宾能源公司Acen Corp.开发，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='菲律宾能源公司Acen Corp.在澳大利亚新南威尔士州开发Birriwa太阳能和电池项目，该项目装机容量为600MW光伏和600MW储能，目前处于规划获批阶段，预计2029年发电。'"
+    },
+    {
+      "project_id": "AUS-HB-0010",
+      "action": "exclude",
+      "reason": "项目由Ark Energy启动，全文未见任何中企参与。",
+      "evidence_quote": "project_summary='Ark Energy在澳大利亚昆士兰启动SunHQ绿氢项目，该项目利用124MW太阳能生产绿氢，年产能力达155吨，其中约90吨用于为5辆燃料电池电动卡车供氢。项目第一阶段已开工，预计2024年第一季度末开始生产绿氢。'"
+    }
+  ]
+}

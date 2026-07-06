@@ -1,0 +1,722 @@
+[
+  {
+    "verdict": {
+      "raw_name": "通威",
+      "classification": "new_group",
+      "canonical_group_cn": "通威集团有限公司",
+      "legal_full_name_cn": "通威集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.tongwei.com/about.html",
+        "https://zhuanlan.zhihu.com/p/614792861"
+      ],
+      "confidence": "high",
+      "notes": "通威集团为四川民营企业（刘汉元家族），旗下通威股份为光伏硅料/电池全球龙头，未在registry_groups中出现，应新建为独立顶层中国民营集团。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "惠生工程",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "惠生控股集团有限公司",
+      "legal_full_name_cn": "惠生工程科技集团股份有限公司",
+      "parent_cn": "惠生控股集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.wison.com/read_page/312",
+        "https://www.wison.com/engineering_about"
+      ],
+      "confidence": "high",
+      "notes": "惠生工程（港股2236.HK）是惠生控股集团旗下能源化工EPC业务上市公司，官网确认隶属集团旗下，registry_groups中已有\"惠生控股集团有限公司\"，应归入该集团旗下子公司/简称。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国水电建设集团",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%B0%B4%E5%88%A9%E6%B0%B4%E7%94%B5%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%85%AC%E5%8F%B8",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6018035"
+      ],
+      "confidence": "high",
+      "notes": "\"中国水电建设集团\"是2011年前\"中国水利水电建设集团公司\"旧称/俗称，2011年经国务院批准与中国水电工程顾问集团等合并重组为\"中国电力建设集团有限公司\"（registry_groups中\"中国电力建设集团有限公司\"），应归为该集团别名。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "特变电工新疆新能源股份有限公司",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "特变电工股份有限公司",
+      "legal_full_name_cn": "特变电工新疆新能源股份有限公司",
+      "parent_cn": "特变电工股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E7%89%B9%E5%8F%98%E7%94%B5%E5%B7%A5%E6%96%B0%E7%96%86%E6%96%B0%E8%83%BD%E6%BA%90%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7152411",
+        "https://finance.sina.com.cn/roll/2022-07-26/doc-imizirav5409078.shtml"
+      ],
+      "confidence": "high",
+      "notes": "特变电工新疆新能源股份有限公司为特变电工股份有限公司控股子公司，从事光伏风电系统集成，registry_groups中已有\"特变电工股份有限公司\"，归为其子公司。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "川投国际",
+      "classification": "new_group",
+      "canonical_group_cn": "四川省投资集团有限责任公司",
+      "legal_full_name_cn": "川投国际（香港）有限公司",
+      "parent_cn": "四川省投资集团有限责任公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%9B%9B%E5%B7%9D%E7%9C%81%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/6947159",
+        "https://www.invest.com.cn/"
+      ],
+      "confidence": "medium",
+      "notes": "川投国际是川投集团（四川省投资集团有限责任公司，四川省属地方国企）在香港设立的境外能源投资平台子公司；其顶层母公司\"四川省投资集团有限责任公司\"未出现在registry_groups中（registry中\"四川省能源投资集团有限公司\"是另一家2024年新组建的能投集团，非同一实体），故按规则新建顶层集团\"四川省投资集团有限责任公司\"，canonical_group_cn填母集团名，川投国际本身作为子公司信息记录在legal_full_name_cn/parent_cn。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "河南二建集团公司",
+      "classification": "new_group",
+      "canonical_group_cn": "河南省第二建设集团有限公司",
+      "legal_full_name_cn": "河南省第二建设集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%B2%B3%E5%8D%97%E7%9C%81%E7%AC%AC%E4%BA%8C%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/17576996",
+        "https://m.gwy.com/gqzp/359613.html"
+      ],
+      "confidence": "medium",
+      "notes": "河南省第二建设集团有限公司经改制后为国家控股与职工参股的混合所有制有限责任公司（非国资委直管央企，也非典型地方国企全资），未在registry_groups中出现，作为独立建筑施工集团新建，非中央企业。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "华晟新能源",
+      "classification": "new_group",
+      "canonical_group_cn": "安徽华晟新能源科技股份有限公司",
+      "legal_full_name_cn": "安徽华晟新能源科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.tianyancha.com/company/3457997084",
+        "https://solar.ofweek.com/2024-11/ART-260003-8460-30652116.html"
+      ],
+      "confidence": "medium",
+      "notes": "华晟新能源2020年由创始人徐晓华联合宣城地方国资发起成立，为异质结光伏领军民营高新企业，股权由创始团队、合肥产投/宣城国资等地方国资基金及中国绿发（央企）等多方投资人分散持股，无单一控股股东，未在registry_groups中出现，按独立新公司新建；is_central_soe=false（非央企控股）。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中交第一航务工程局有限公司",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国交通建设集团有限公司",
+      "legal_full_name_cn": "中交第一航务工程局有限公司",
+      "parent_cn": "中国交通建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E4%BA%A4%E7%AC%AC%E4%B8%80%E8%88%AA%E5%8A%A1%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7058624",
+        "https://www.ccccyhj.com/"
+      ],
+      "confidence": "high",
+      "notes": "中交第一航务工程局是中国交通建设股份有限公司（中国交建，registry_groups中\"中国交通建设集团有限公司\"）控股子公司，2006年中港集团与路桥集团合并组建中交集团后正式更名并入其旗下。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中水对外",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国长江三峡集团有限公司",
+      "legal_full_name_cn": "中国水利电力对外有限公司",
+      "parent_cn": "中国长江三峡集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.cwe.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B0%B4%E5%88%A9%E7%94%B5%E5%8A%9B%E5%AF%B9%E5%A4%96%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/51152726"
+      ],
+      "confidence": "medium",
+      "notes": "\"中水对外\"应为\"中国水利电力对外有限公司\"（简称中水电/CWE）的简写，官网及百科确认其为中国长江三峡集团公司全资子公司（registry_groups中\"中国长江三峡集团有限公司\"）；置信度medium因搜索中出现个别信息称其曾变为中国交建子公司，存在归属变更的不完全一致描述。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "远景储能",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "远景科技集团有限公司",
+      "legal_full_name_cn": "远景储能科技（湛江）有限公司",
+      "parent_cn": "远景能源有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.vbdata.cn/companyDetail/70fb7f0eb242c6cfe1138ec716573f34",
+        "https://www.wuxi.gov.cn/doc/2024/07/18/4353357.shtml"
+      ],
+      "confidence": "high",
+      "notes": "远景储能是远景能源（远景科技集团核心子公司）100%控股设立的储能业务主体，registry_groups中已有\"远景科技集团有限公司\"，归为其旗下业务/子公司。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中钢设备有限公司",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国宝武钢铁集团有限公司",
+      "legal_full_name_cn": "中钢设备有限公司",
+      "parent_cn": "中钢国际工程技术股份有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E9%92%A2%E8%AE%BE%E5%A4%87%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7116937",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%AE%9D%E6%AD%A6%E9%92%A2%E9%93%81%E9%9B%86%E5%9B%A2"
+      ],
+      "confidence": "high",
+      "notes": "中钢设备是中钢国际工程技术股份有限公司全资子公司，中钢集团2022年经国务院批准整体划入中国宝武钢铁集团（registry_groups中\"中国宝武钢铁集团有限公司\"），不再由国资委直接监管，故归为宝武旗下子公司。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "双良集团有限公司",
+      "classification": "new_group",
+      "canonical_group_cn": "双良集团有限公司",
+      "legal_full_name_cn": "双良集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%8F%8C%E8%89%AF%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20057164",
+        "https://www.shuangliang.com.cn/"
+      ],
+      "confidence": "high",
+      "notes": "双良集团为江苏江阴民营企业（缪氏家族实控），旗下双良节能（600481）为上市公司，未在registry_groups中出现，应新建为独立顶层中国民营集团。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国大唐集团海外投资公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国大唐集团有限公司",
+      "legal_full_name_cn": "中国大唐集团海外投资有限公司",
+      "parent_cn": "中国大唐集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.china-cdto.com/dthwtz/gywm/jj/A067002010Gone1.html",
+        "https://www.qcc.com/firm/d97567f46dc3204ea8de4626d91d7553.html"
+      ],
+      "confidence": "high",
+      "notes": "中国大唐集团海外投资有限公司是中国大唐集团有限公司全资子公司，专责海外能源项目投资，registry_groups中已有\"中国大唐集团有限公司\"，归为其子公司/简称。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "Universal Energy Co. Ltd.",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "寰泰能源股份有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "寰泰能源股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.universalenergy.com/zh/about",
+        "http://www.universalenergy.com/"
+      ],
+      "confidence": "high",
+      "notes": "Universal Energy Co., Ltd. 是寰泰能源（Universal Energy）官方英文名，2015年成立、专注\"一带一路\"清洁能源投资，registry_groups中已有\"寰泰能源股份有限公司\"，判定为同一实体的英文写法。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "许继电气",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "许继电气股份有限公司",
+      "parent_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://finance.sina.com.cn/chanjing/gsnews/2022-10-31/doc-imqmmthc2790195.shtml",
+        "https://www.cee-group.cn/gywm/jtjj.htm"
+      ],
+      "confidence": "high",
+      "notes": "许继电气2022年10月股权无偿划转至中国电气装备集团后，该集团成为其直接控股股东，registry_groups中已有\"中国电气装备集团有限公司\"，归为其子公司。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国水电（马来西亚）有限公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://pr.powerchina.cn/ywbk/fzgs/index.html",
+        "https://www.powerchina.cn/col/col7410/index.html"
+      ],
+      "confidence": "medium",
+      "notes": "\"中国水电\"是中国电建集团历史沿用简称（前身中国水电建设集团），其海外分支冠以\"中国水电（国家/地区）\"命名模式，属中国电建集团海外业务分支。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "西电国际",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电气装备集团有限公司",
+      "legal_full_name_cn": "西安西电国际工程有限责任公司",
+      "parent_cn": "中国西电集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://www.xianelectric.com.cn/gsjs/gsjj.htm",
+        "http://www.cee-group.cn/xwzx/jcdt/xdjt.htm"
+      ],
+      "confidence": "high",
+      "notes": "西电国际（西安西电国际工程有限责任公司）系中国西电集团全资子公司；2021年中国西电集团整体划入中国电气装备集团，故最终归属中国电气装备集团。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中远海运工程物流有限公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国远洋海运集团有限公司",
+      "legal_full_name_cn": "中远海运工程物流有限公司",
+      "parent_cn": "中远海运物流供应链有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.coscoshipping.com/",
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2"
+      ],
+      "confidence": "medium",
+      "notes": "工程物流是中远海运物流（中国远洋海运集团旗下综合物流平台）五大业务板块之一，中远海运工程物流有限公司为其工程物流板块下属公司。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国电建阿根廷分公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": null,
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.powerchina-intl.com/show/9/2781.html",
+        "https://www.powerchina-intl.com/show/9/3302.html"
+      ],
+      "confidence": "high",
+      "notes": "中国电建2011年进入阿根廷市场并设立阿根廷分公司（布宜诺斯艾利斯），官网资讯多次确认为中国电力建设集团在阿根廷的分支机构。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "Recurrent Energy, LLC",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "阿特斯阳光电力集团股份有限公司",
+      "legal_full_name_cn": "Recurrent Energy, LLC",
+      "parent_cn": "Canadian Solar Inc.",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://investors.canadiansolar.com/news-releases/news-release-details/canadian-solar-completes-acquisition-recurrent-energy-sharp",
+        "https://zh.wikipedia.org/wiki/%E9%98%BF%E7%89%B9%E6%96%AF"
+      ],
+      "confidence": "high",
+      "notes": "Recurrent Energy自2015年起为Canadian Solar Inc.全资子公司（北美光伏开发业务平台）；Canadian Solar Inc.即阿特斯创始人瞿晓铧创办的美股主体，与A股上市的阿特斯阳光电力集团股份有限公司同源，registry中\"阿特斯阳光电力集团股份有限公司\"为对应中国集团条目，故归入其下。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "紫金龙净清洁能源有限公司",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "紫金矿业集团股份有限公司",
+      "legal_full_name_cn": "紫金龙净清洁能源有限公司",
+      "parent_cn": "无锡华光环保能源集团股份有限公司（龙净环保）",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.chndaqi.com/news/339172.html",
+        "https://www.chndaqi.com/news/335340.html"
+      ],
+      "confidence": "high",
+      "notes": "紫金龙净清洁能源由龙净环保（2022年紫金矿业成为其控股股东）设立的全资控股子公司，用于矿区风光储一体化布局，实际受紫金矿业控制。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "惠生（南通）重工有限公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "惠生控股集团有限公司",
+      "legal_full_name_cn": "惠生（南通）重工有限公司",
+      "parent_cn": "惠生控股集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%83%A0%E7%94%9F%EF%BC%88%E5%8D%97%E9%80%9A%EF%BC%89%E9%87%8D%E5%B7%A5%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20005793",
+        "https://www.wison.com/read_page/870"
+      ],
+      "confidence": "high",
+      "notes": "惠生（南通）重工有限公司系惠生控股集团旗下惠生海洋工程的首个造船厂，隶属惠生集团体系。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "国网宁波供电公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "国家电网有限公司",
+      "legal_full_name_cn": "国网浙江省电力有限公司宁波供电公司",
+      "parent_cn": "国网浙江省电力有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%9B%BD%E7%BD%91%E6%B5%99%E6%B1%9F%E7%9C%81%E7%94%B5%E5%8A%9B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%AE%81%E6%B3%A2%E4%BE%9B%E7%94%B5%E5%85%AC%E5%8F%B8/51372191"
+      ],
+      "confidence": "high",
+      "notes": "国网宁波供电公司为国网浙江电力下属地市级供电公司，属国家电网有限公司体系。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国交建尼日利亚公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国交通建设集团有限公司",
+      "legal_full_name_cn": "中国港湾工程有限责任公司（尼日利亚）",
+      "parent_cn": "中国港湾工程有限责任公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://www.bree.org.cn/info.aspx?n=353&ptype=10031&dh=10032",
+        "http://www.21jingji.com/article/20230114/d4947a0eb9d5514e92c3646e3edf965f.html"
+      ],
+      "confidence": "medium",
+      "notes": "中交集团在尼日利亚的核心业务实体是其子公司中国港湾工程有限责任公司（承建莱基深水港等项目）；\"中国交建尼日利亚公司\"应为对该分支的泛指，非中国铁建旗下中国土木工程集团尼日利亚公司（两者常被混淆），故归入中国交通建设集团。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中天科技",
+      "classification": "new_group",
+      "canonical_group_cn": "中天科技集团有限公司",
+      "legal_full_name_cn": "江苏中天科技股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7683879",
+        "https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3715481"
+      ],
+      "confidence": "high",
+      "notes": "中天科技集团系江苏南通民营企业，中国民营企业500强常客，不在registry_groups中，应作为独立顶层集团新建。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国石化石油工程建设公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国石油化工集团有限公司",
+      "legal_full_name_cn": "中石化石油工程建设有限公司",
+      "parent_cn": "中国石油化工集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://specc.sinopec.com/specc/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22856005"
+      ],
+      "confidence": "high",
+      "notes": "中石化石油工程建设有限公司系中国石油化工集团有限公司全资子公司，2012年石油工程专业化整合重组组建。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "凯盛科技",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国建材集团有限公司",
+      "legal_full_name_cn": "凯盛科技集团有限公司",
+      "parent_cn": "中国建材集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%87%AF%E7%9B%9B%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24531449",
+        "https://www.cnbm.com.cn/CNBM/xyesd/ffsn/63313.html"
+      ],
+      "confidence": "high",
+      "notes": "凯盛科技集团有限公司系中国建材集团有限公司全资二级子公司，国务院国资委通过中国建材集团直接管理，玻璃新材料与新型显示业务平台。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "Europe TianYing BVBA",
+      "classification": "subsidiary_of_existing",
+      "canonical_group_cn": "中国天楹股份有限公司",
+      "legal_full_name_cn": "Europe TianYing BVBA",
+      "parent_cn": "中国天楹股份有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://www.linkedin.com/showcase/china-tianying-inc.",
+        "https://www.staatsbladmonitor.be/bedrijfsfiche.html?ondernemingsnummer=0656494416"
+      ],
+      "confidence": "high",
+      "notes": "Europe TianYing BVBA为中国天楹股份有限公司（CNTY）设于比利时的全资子公司，代表中国天楹在欧洲开展垃圾焚烧发电业务。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "贵州工程公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团贵州工程有限公司",
+      "parent_cn": "中国电力建设股份有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "http://gepcc.powerchina.cn/",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E8%B4%B5%E5%B7%9E%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/23312717"
+      ],
+      "confidence": "high",
+      "notes": "\"贵州工程公司\"为中国电建集团贵州工程有限公司简称，由中国电力建设股份有限公司全资控股，属中国电建集团体系。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "双登集团股份有限公司",
+      "classification": "new_group",
+      "canonical_group_cn": "双登集团股份有限公司",
+      "legal_full_name_cn": "双登集团股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E5%8F%8C%E7%99%BB%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3628166",
+        "https://www.shuangdeng.com.cn/"
+      ],
+      "confidence": "high",
+      "notes": "双登集团系江苏泰州民营蓄电池/储能企业，独立经营，不在registry_groups中，应作为独立顶层集团新建。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "湖北工程公司工程建设公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电建集团湖北工程有限公司",
+      "parent_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E6%B9%96%E5%8C%97%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20042152",
+        "http://www.powerhubei.com/"
+      ],
+      "confidence": "high",
+      "notes": "\"湖北工程公司/工程建设公司\"重复措辞对应中国电建集团湖北工程有限公司，隶属世界500强中国电建集团。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国建筑国际集团有限公司",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中国建筑国际集团有限公司",
+      "parent_cn": "中国海外集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E5%9B%BD%E9%99%85%E9%9B%86%E5%9B%A2",
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E5%9B%BD%E9%99%85%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/9070791"
+      ],
+      "confidence": "high",
+      "notes": "中国建筑国际集团有限公司（港交所3311）系中国海外集团子公司，最终归属央企中国建筑集团有限公司在香港的上市平台。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中建安装",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国建筑集团有限公司",
+      "legal_full_name_cn": "中建安装集团有限公司",
+      "parent_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%BB%BA%E5%AE%89%E8%A3%85%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/23527991"
+      ],
+      "confidence": "high",
+      "notes": "中建安装为中建安装集团有限公司简称，系中国建筑集团旗下专业公司。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "中国电建",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国电力建设集团有限公司",
+      "legal_full_name_cn": "中国电力建设集团有限公司",
+      "parent_cn": null,
+      "is_central_soe": true,
+      "source_urls": [
+        "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA",
+        "https://www.powerchina.cn/"
+      ],
+      "confidence": "high",
+      "notes": "\"中国电建\"是中国电力建设集团有限公司的通用简称，即registry中同名集团本体。"
+    },
+    "context": {
+      "freq": 3
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "深圳远信储能技术股份有限公司",
+      "classification": "new_group",
+      "canonical_group_cn": "深圳远信储能技术股份有限公司",
+      "legal_full_name_cn": "深圳市远信储能技术股份有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "https://m.qcc.com/firm/44fa42d1dca269011eb625f1f03805c2.html",
+        "https://finance.sina.com.cn/roll/2026-01-21/doc-inhhzppz5561395.shtml"
+      ],
+      "confidence": "high",
+      "notes": "远信储能由王堉、张佳婧2019年创立并控股（合计约72.88%），为独立民营储能企业，正申请港交所上市，不在registry_groups中，应作为独立顶层集团新建。"
+    },
+    "context": {
+      "freq": 2
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "山东泰开电力建设工程有限公司",
+      "classification": "new_group",
+      "canonical_group_cn": "泰开集团有限公司",
+      "legal_full_name_cn": "山东泰开电力建设工程有限公司",
+      "parent_cn": "泰开集团有限公司",
+      "is_central_soe": false,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E5%B1%B1%E4%B8%9C%E6%B3%B0%E5%BC%80%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3465131",
+        "https://m.gwy.com/wenda/230997.html"
+      ],
+      "confidence": "high",
+      "notes": "山东泰开电力建设工程有限公司系泰开集团有限公司全资子公司；泰开集团为山东泰安民营输变电装备制造企业，不在registry_groups中，应以泰开集团为顶层新建。"
+    },
+    "context": {
+      "freq": 2
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "北京中科清风科技有限公司",
+      "classification": "new_group",
+      "canonical_group_cn": "北京中科清风科技有限公司",
+      "legal_full_name_cn": "北京中科清风科技有限公司",
+      "parent_cn": null,
+      "is_central_soe": false,
+      "source_urls": [
+        "http://www.bric.org.cn/info.aspx?n=1138&ptype=10035&dh=10067",
+        "https://www.tianyancha.com/company/6457005325"
+      ],
+      "confidence": "medium",
+      "notes": "北京中科清风科技有限公司为环保装备制造与垃圾焚烧烟气治理企业，依托中科院技术但为独立企业实体，未查到隶属其他registry集团，暂作独立顶层新建。"
+    },
+    "context": {
+      "freq": 2
+    }
+  },
+  {
+    "verdict": {
+      "raw_name": "海油工程",
+      "classification": "alias_of_existing",
+      "canonical_group_cn": "中国海洋石油集团有限公司",
+      "legal_full_name_cn": "海洋石油工程股份有限公司",
+      "parent_cn": "中国海洋石油集团有限公司",
+      "is_central_soe": true,
+      "source_urls": [
+        "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E7%9F%B3%E6%B2%B9%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22230538",
+        "https://www.cnoocengineering.com/gywm/gsjj/"
+      ],
+      "confidence": "high",
+      "notes": "海油工程（海洋石油工程股份有限公司，600583）是中国海洋石油集团有限公司控股上市公司，\"海油工程\"为其证券简称。"
+    },
+    "context": {
+      "freq": 2
+    }
+  }
+]
