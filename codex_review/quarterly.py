@@ -321,6 +321,13 @@ def run_ingest_all(
             logger.error("%s ingest 致命错误退出，code=%s", task, e.code)
             print(f"[{task}] FAILED：信封校验或其他致命错误，详见日志")
             continue
+        except Exception as e:
+            # 隔离边界：单任务的非预期异常（如队列 JSON 损坏抛 ValueError）不得
+            # 连累其余任务——记录后继续下一任务，最终由 any_failed 触发非零退出。
+            any_failed = True
+            logger.error("%s ingest 未捕获异常：%s: %s", task, type(e).__name__, e)
+            print(f"[{task}] FAILED：{type(e).__name__}: {e}")
+            continue
 
         summary[task] = {
             "有效": result.valid,
@@ -392,10 +399,18 @@ def run_apply_all(
                 apply=apply,
                 runs_dir=runs_dir,
             )
-        except (ValueError, SystemExit) as e:
+        except SystemExit as e:
             any_failed = True
-            logger.error("%s apply 失败：%s", task, e)
-            print(f"[{task}] FAILED：{e}")
+            logger.error("%s apply 致命错误退出，code=%s", task, e.code)
+            print(f"[{task}] FAILED：致命错误，详见日志")
+            continue
+        except Exception as e:
+            # 隔离边界：单任务的非预期异常（如 _backup_db 三重断言在磁盘满/锁场景
+            # 抛 RuntimeError）不得连累其余任务——记录后继续下一任务，最终由
+            # any_failed 触发非零退出。
+            any_failed = True
+            logger.error("%s apply 未捕获异常：%s: %s", task, type(e).__name__, e)
+            print(f"[{task}] FAILED：{type(e).__name__}: {e}")
             continue
 
         summary[task] = report

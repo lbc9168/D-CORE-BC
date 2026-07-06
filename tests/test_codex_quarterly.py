@@ -379,6 +379,61 @@ def test_ingest_envelope_mismatch_nonzero_exit(tmp_path):
     assert exit_code != 0
 
 
+def _t3_queue_item(raw_name: str) -> dict:
+    """构造一条 T3QueueItem dict。"""
+    return {
+        "item_id": "t3-1",
+        "raw_name": raw_name,
+        "freq": 5,
+        "registry_groups": [],
+    }
+
+
+def _t3_verdict(raw_name: str) -> dict:
+    """构造一条 T3Verdict dict（classification=uncertain，免填 canonical_group_cn）。"""
+    return {
+        "raw_name": raw_name,
+        "classification": "uncertain",
+        "source_urls": [],
+        "confidence": "low",
+        "notes": "样本不足，标记待查",
+    }
+
+
+def test_ingest_bad_json_queue_isolated_other_task_still_processed(tmp_path):
+    """ingest：T2 的 queue_T2.json 是坏 JSON（_load_queue_ids 抛 ValueError），
+    同时存在合法的 T3 一套 → T3 正常处理、T2 记 FAILED 且不连累 T3、整体非零退出。
+    """
+    runs_dir = tmp_path / "runs"
+    quarter_dir = runs_dir / QUARTER
+    quarter_dir.mkdir(parents=True)
+
+    # T2：verdicts 合法，但 queue 是损坏的 JSON → run_ingest 内部 _load_queue_ids 抛 ValueError
+    (quarter_dir / "queue_T2.json").write_text("{not valid json", encoding="utf-8")
+    _write_verdicts(quarter_dir / "verdicts_T2.json", "T2", [_t2_verdict("IND-PV-0001")])
+
+    # T3：完整合法一套
+    _write_queue(quarter_dir / "queue_T3.json", "T3", [_t3_queue_item("华为技术有限公司")])
+    _write_verdicts(quarter_dir / "verdicts_T3.json", "T3", [_t3_verdict("华为技术有限公司")])
+
+    ledger_path = tmp_path / "ledger.json"
+
+    exit_code = q.run_ingest_all(
+        quarter=QUARTER,
+        runs_dir=runs_dir,
+        ledger_path=ledger_path,
+        apply=False,
+        sample_rate=0.15,
+    )
+
+    # 整体非零退出（T2 失败）
+    assert exit_code != 0
+    # T3 未被 T2 崩栈连累，正常跑完并产出报告
+    assert (quarter_dir / "ingest_report_T3.md").exists()
+    # T2 没有产出报告（在校验阶段就失败了）
+    assert not (quarter_dir / "ingest_report_T2.md").exists()
+
+
 def test_ingest_summary_printed(tmp_path, capsys):
     """ingest：汇总打印含各任务关键计数。"""
     runs_dir = tmp_path / "runs"
@@ -450,6 +505,49 @@ def test_apply_only_t2_present_others_skipped(tmp_path):
     ).fetchone()
     conn.close()
     assert excluded == 1
+
+
+def test_apply_backup_assertion_failure_isolated_other_task_still_processed(tmp_path):
+    """apply：db 是 0 字节假文件 → _backup_db 断言/建表失败抛 RuntimeError（非
+    ValueError/SystemExit），T2 记 FAILED 不崩栈、其余任务（T3）正常处理、整体非零退出。
+    """
+    # 0 字节假 db：sqlite3.connect().backup() 本身不报错，但后续
+    # `SELECT COUNT(*) FROM canonical_projects` 因表不存在抛 sqlite3.OperationalError，
+    # 即“断言失败”这一类真实场景（磁盘满/锁场景同理，不是 ValueError/SystemExit）。
+    db_path = tmp_path / "empty.db"
+    db_path.write_bytes(b"")
+
+    runs_dir = tmp_path / "runs"
+    quarter_dir = runs_dir / QUARTER
+    quarter_dir.mkdir(parents=True)
+
+    plan = [
+        {
+            "verdict": _t2_verdict("IND-PV-0001", action="exclude"),
+            "context": {"project_name": "测试项目", "trigger": "fixed_list"},
+        }
+    ]
+    (quarter_dir / "apply_plan_T2.json").write_text(json.dumps(plan), encoding="utf-8")
+
+    # T3 本身没有独立 apply_plan 消费 db 备份逻辑；用 T1 走一条不依赖 canonical_projects
+    # 存在的空计划，验证它不受 T2 崩栈牵连（在 T2 之后按 _TASKS 顺序执行）。
+    (quarter_dir / "apply_plan_T3.json").write_text(json.dumps([]), encoding="utf-8")
+
+    ledger_path = tmp_path / "ledger.json"
+
+    exit_code = q.run_apply_all(
+        quarter=QUARTER,
+        runs_dir=runs_dir,
+        db=db_path,
+        ledger_path=ledger_path,
+        apply=True,
+    )
+
+    assert exit_code != 0
+    # T2 崩在 _backup_db，没有产出 report
+    assert not (quarter_dir / "apply_report_T2.md").exists()
+    # T3 未被 T2 崩栈连累，正常跑完并产出报告（空计划也应正常收尾）
+    assert (quarter_dir / "apply_report_T3.md").exists()
 
 
 def test_apply_summary_printed(tmp_path, capsys):
