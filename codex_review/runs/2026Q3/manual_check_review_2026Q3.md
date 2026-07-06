@@ -16,6 +16,7 @@ AI 认为下面这对记录是**同一个物理项目**，落库后 loser 的事
 - **AI 判定**：merge→survivor=EGY-PV-0009
 - **理由**：两者均为埃及康翁波（Kom Ombo）由ACWA Power开发、中国能建体系（浙江火电/中电工程国际）承建的光伏项目，容量230MW与200MW相近（属常见的直流侧/交流侧容量差异表述），签约时点相近（2023年4-5月），判定为同一物理项目的不同信源报道。选事件更多（3个vs1个）的 EGY-PV-0009 为 survivor。
 - **证据**：a.project_summary='中国能源建设集团浙江火电建设有限公司和隆基绿能参与了埃及康翁波230MW光伏项目...该项目由ACWA power开发'; b.events[1].project_summary='中国能建中电工程国际公司联合体与ACWA Power签约埃及康翁波200兆瓦光伏电站项目总承包合同'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/40990.html；https://news.goalfore.cn/topstories/detail/39924.html；https://news.goalfore.cn/topstories/detail/39072.html；https://news.goalfore.cn/topstories/detail/22921.html；https://news.goalfore.cn/topstories/detail/15949.html；https://news.goalfore.cn/topstories/detail/14698.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ## T2：范围复核（判定=把项目移出数据库口径）（7 条）
@@ -26,42 +27,49 @@ AI 认为下面这些项目**不该留在库里**（exclude=无中企/非能源�
 - **AI 判定**：exclude
 - **理由**：项目由Enervest公司中标建设，全文未见任何中企参与。
 - **证据**：project_summary='Enervest公司在澳大利亚中标建设125MW/1GWh的Stoney Creek电池储能系统。该项目是澳大利亚新南威尔士州长时储能系统招标的一部分，旨在增强电网可靠性。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/80139.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ### T2-2　ALB-PV-0003 阿尔巴尼亚300MW光伏项目
 - **AI 判定**：exclude
 - **理由**：项目由欧洲复兴开发银行（EBRD）和瑞士SECO支持，全文未见中企参与。
 - **证据**：project_summary='阿尔巴尼亚计划建设总容量300兆瓦的光伏电站项目，其中首期招标100兆瓦。该项目获得欧洲复兴开发银行（EBRD）和瑞士联邦政府经济事务司（SECO）的支持，旨在帮助阿尔巴尼亚实现碳中和目标。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/39706.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ### T2-3　ARM-PV-0001 亚美尼亚Ayg-1 200MW光伏项目
 - **AI 判定**：exclude
 - **理由**：项目由阿联酋公司马斯达尔（Masdar）投资建设，国营亚美尼亚国家利益基金持股，全文未见中企参与。
 - **证据**：project_summary='阿联酋公司马斯达尔（Masdar）将在亚美尼亚阿拉加措特恩省投资建设200兆瓦的Ayg-1太阳能发电厂，该项目是亚美尼亚最大的太阳能发电厂，预计投资1.74亿美元，国营的亚美尼亚国家利益基金（ANIF）将持有15%股份。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/22014.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ### T2-4　USA-NC-0001 美国怀俄明州Natrium示范电厂
 - **AI 判定**：exclude
 - **理由**：美国怀俄明州Natrium示范电厂由美国泰拉能源公司建设，配套服务商均为美国/加拿大企业，entity_names为空，全文无任何具名中企参与，应排除。
 - **证据**：美国泰拉能源公司（TerraPower）正在怀俄明州建设Natrium示范电厂...多家美国企业（西部服务公司、James Fisher技术公司、BWXT加拿大有限公司、Curtiss-Wright流量控制公司）将为该项目提供服务和设备。; entity_names=[]
+- **原文链接**：https://news.goalfore.cn/topstories/detail/44191.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ### T2-5　IDN-MF-0028 印尼宾坦氧化铝项目
 - **AI 判定**：exclude
 - **理由**：印尼宾坦氧化铝项目实质为氧化铝/电解铝冶炼项目本身，虽有具名中企（中冶海外印尼公司）承建，但按硬收录边界冶炼资产属非能源资产，应排除。
 - **证据**：中冶海外印尼公司联合中国三冶承建印尼宾坦氧化铝建设项目，总投资55亿美元，包含年产200万吨氧化铝、年产100万吨电解铝及配套电厂等。; entity_names=['中冶海外印尼公司']
+- **原文链接**：https://news.goalfore.cn/topstories/detail/4179.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ### T2-6　AUS-HB-0010 澳大利亚昆士兰SunHQ绿氢项目
 - **AI 判定**：exclude
 - **理由**：项目由Ark Energy启动，全文未见任何中企参与。
 - **证据**：project_summary='Ark Energy在澳大利亚昆士兰启动SunHQ绿氢项目，该项目利用124MW太阳能生产绿氢，年产能力达155吨，其中约90吨用于为5辆燃料电池电动卡车供氢。项目第一阶段已开工，预计2024年第一季度末开始生产绿氢。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/52132.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ### T2-7　AGO-PV-0001 安哥拉南部220MW太阳能项目
 - **AI 判定**：exclude
 - **理由**：摘要明确将该项目定性为“中国企业未参与”，由美国公司Sun Africa开发，美国进出口银行融资，无任何中企实体。
 - **证据**：project_summary='该项目是中国企业未参与的安哥拉南部太阳能项目，由美国公司Sun Africa开发，计划安装220兆瓦太阳能发电容量，并获得美国进出口银行16亿美元的融资支持，目前处于项目开发阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/72259.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
 ## T3：实体归属补录（判定=往企业登记册加条目）（6 条）
