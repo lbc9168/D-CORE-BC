@@ -109,6 +109,12 @@ def _t3_verdict(raw_name: str, classification: str = "not_chinese",
     return v
 
 
+@pytest.fixture(autouse=True)
+def _isolate_runs_dir(tmp_path, monkeypatch):
+    """把模块默认 runs 目录重定向到 tmp——防止漏传 runs_dir 的测试写坏真实 codex_review/runs/ 生产产物。"""
+    monkeypatch.setattr(iv, "_DEFAULT_RUNS_DIR", tmp_path / "runs_default")
+
+
 def _run(
     task: str,
     verdicts_path: Path,
