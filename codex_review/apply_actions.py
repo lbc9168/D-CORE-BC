@@ -720,9 +720,9 @@ def _write_apply_report(
 
     if task == "T3":
         lines.append("\n## T3 人工三步提示")
-        lines.append("1. 把 `registry_additions_{quarter}.json` 合并进 `company_hierarchy_draft_*.json`（用户在编辑，不代劳）")
-        lines.append(f"2. 重跑 `uv run supporting_docs/build_hierarchy_v2.py`")
-        lines.append(f"3. 在 s01b 跑 `entity_reparse_maindb --apply`（主库 gated）")
+        lines.append(f"1. 把 `registry_additions_{quarter}.json` 合并进 `company_hierarchy_draft_*.json`（用户在编辑，不代劳）")
+        lines.append("2. 重跑 `uv run supporting_docs/build_hierarchy_v2.py`")
+        lines.append("3. 在 s01b 跑 `entity_reparse_maindb --apply`（主库 gated）")
 
     report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     logger.info("报告已写出：%s", report_path)
