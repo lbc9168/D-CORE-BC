@@ -365,7 +365,14 @@
    "is_central_soe": true,
    "provenance": "legacy_v1",
    "as_of": "2026-03-19",
-   "aliases": [],
+   "aliases": [
+    "中国水电建设集团",
+    "中国水电（马来西亚）有限公司",
+    "中国电建",
+    "中国电建阿根廷分公司",
+    "湖北工程公司工程建设公司",
+    "贵州工程公司"
+   ],
    "subsidiaries": [
     {
      "name_cn": "中电建新能源集团股份有限公司",
@@ -606,13 +613,22 @@
    ],
    "sources": [
     "http://11j.powerchina.cn/",
+    "http://gepcc.powerchina.cn/",
     "http://www.powerhubei.com/",
     "https://10j.powerchina.cn/",
     "https://15j.powerchina.cn/",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B0%B4%E5%88%A9%E6%B0%B4%E7%94%B5%E7%AC%AC%E5%8D%81%E4%B8%80%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7490631",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6018035",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E6%B9%96%E5%8C%97%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20042152",
-    "https://news.bjx.com.cn/html/20231008/1335512.shtml"
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA%E9%9B%86%E5%9B%A2%E8%B4%B5%E5%B7%9E%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/23312717",
+    "https://news.bjx.com.cn/html/20231008/1335512.shtml",
+    "https://pr.powerchina.cn/ywbk/fzgs/index.html",
+    "https://www.powerchina-intl.com/show/9/2781.html",
+    "https://www.powerchina-intl.com/show/9/3302.html",
+    "https://www.powerchina.cn/",
+    "https://www.powerchina.cn/col/col7410/index.html",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E6%B0%B4%E5%88%A9%E6%B0%B4%E7%94%B5%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E5%85%AC%E5%8F%B8",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA"
    ]
   },
   {
@@ -909,6 +925,7 @@
    "provenance": "legacy_v1",
    "as_of": "2026-03-19",
    "aliases": [
+    "中国大唐集团海外投资公司",
     "大唐集团"
    ],
    "subsidiaries": [
@@ -963,7 +980,9 @@
    ],
    "sources": [
     "https://www.china-cdt.com/",
-    "https://www.china-cdto.com/"
+    "https://www.china-cdto.com/",
+    "https://www.china-cdto.com/dthwtz/gywm/jj/A067002010Gone1.html",
+    "https://www.qcc.com/firm/d97567f46dc3204ea8de4626d91d7553.html"
    ]
   },
   {
@@ -1025,7 +1044,8 @@
    "provenance": "legacy_v1",
    "as_of": "2026-03-19",
    "aliases": [
-    "中国长江三峡集团公司"
+    "中国长江三峡集团公司",
+    "中水对外"
    ],
    "subsidiaries": [
     {
@@ -1078,8 +1098,10 @@
     }
    ],
    "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B0%B4%E5%88%A9%E7%94%B5%E5%8A%9B%E5%AF%B9%E5%A4%96%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/51152726",
     "https://www.ctg.com.cn/sxjt/xwzx55/zhxw23/2024081106361659407/index.html",
     "https://www.ctgi.cn/ctgichina/1047919/1047902/index.html",
+    "https://www.cwe.cn/",
     "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E9%95%BF%E6%B1%9F%E4%B8%89%E5%B3%A1%E9%9B%86%E5%9B%A2"
    ]
   },
@@ -1195,7 +1217,9 @@
    "is_central_soe": true,
    "provenance": "legacy_v1",
    "as_of": "2026-03-19",
-   "aliases": [],
+   "aliases": [
+    "国网宁波供电公司"
+   ],
    "subsidiaries": [
     {
      "name_cn": "国家电网有限公司华北分部",
@@ -1239,6 +1263,7 @@
     }
    ],
    "sources": [
+    "https://baike.baidu.com/item/%E5%9B%BD%E7%BD%91%E6%B5%99%E6%B1%9F%E7%9C%81%E7%94%B5%E5%8A%9B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%AE%81%E6%B3%A2%E4%BE%9B%E7%94%B5%E5%85%AC%E5%8F%B8/51372191",
     "https://news.goalfore.cn/a/2356.html"
    ]
   },
@@ -1730,6 +1755,10 @@
     {
      "name_cn": "中材国际工程股份有限公司",
      "legal_full_name_cn": "中国中材国际工程股份有限公司"
+    },
+    {
+     "name_cn": "凯盛科技",
+     "legal_full_name_cn": "凯盛科技集团有限公司"
     }
    ],
    "sources": [
@@ -1737,7 +1766,9 @@
     "http://www.sinoma-ec.cn/",
     "http://www.sinoma.com.cn/",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%B8%AD%E6%9D%90%E5%9B%BD%E9%99%85%E5%B7%A5%E7%A8%8B%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/2007467",
-    "https://www.cbmi.com.cn/"
+    "https://baike.baidu.com/item/%E5%87%AF%E7%9B%9B%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/24531449",
+    "https://www.cbmi.com.cn/",
+    "https://www.cnbm.com.cn/CNBM/xyesd/ffsn/63313.html"
    ]
   },
   {
@@ -1745,7 +1776,10 @@
    "is_central_soe": true,
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
-   "aliases": [],
+   "aliases": [
+    "中国建筑国际集团有限公司",
+    "中建安装"
+   ],
    "subsidiaries": [
     {
      "name_cn": "中国建筑第四工程局有限公司",
@@ -1781,10 +1815,13 @@
     }
    ],
    "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E5%9B%BD%E9%99%85%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/9070791",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E7%AC%AC%E4%B8%89%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/6807719",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7356460",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%BB%BA%E5%AE%89%E8%A3%85%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/23527991",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%BB%BA%E8%A5%BF%E9%83%A8%E5%BB%BA%E8%AE%BE%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19981924",
     "https://www.cscec.com.cn/",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E5%9B%BD%E9%99%85%E9%9B%86%E5%9B%A2",
     "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2"
    ]
   },
@@ -1794,7 +1831,8 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [
-    "中国电气装备集团"
+    "中国电气装备集团",
+    "西电国际"
    ],
    "subsidiaries": [
     {
@@ -1816,11 +1854,18 @@
     {
      "name_cn": "山东电工电气集团有限公司",
      "legal_full_name_cn": "山东电工电气集团有限公司"
+    },
+    {
+     "name_cn": "许继电气",
+     "legal_full_name_cn": "许继电气股份有限公司"
     }
    ],
    "sources": [
+    "http://www.cee-group.cn/xwzx/jcdt/xdjt.htm",
     "http://www.cee-group.cn/xwzx/jcdt/xjjt/3.htm",
+    "http://www.xianelectric.com.cn/gsjs/gsjj.htm",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%94%B5%E6%B0%94%E8%A3%85%E5%A4%87%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/58645630",
+    "https://finance.sina.com.cn/chanjing/gsnews/2022-10-31/doc-imqmmthc2790195.shtml",
     "https://www.cee-group.cn/gywm/jtjj.htm",
     "https://www.cee-group.cn/xwzx/jcdt/sddgdq.htm"
    ]
@@ -1887,9 +1932,15 @@
     {
      "name_cn": "特变电工国际工程有限公司",
      "legal_full_name_cn": "特变电工国际工程有限公司"
+    },
+    {
+     "name_cn": "特变电工新疆新能源股份有限公司",
+     "legal_full_name_cn": "特变电工新疆新能源股份有限公司"
     }
    ],
    "sources": [
+    "https://baike.baidu.com/item/%E7%89%B9%E5%8F%98%E7%94%B5%E5%B7%A5%E6%96%B0%E7%96%86%E6%96%B0%E8%83%BD%E6%BA%90%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7152411",
+    "https://finance.sina.com.cn/roll/2022-07-26/doc-imizirav5409078.shtml",
     "https://jdjyw.jlu.edu.cn/portal/company/details?id=df06bbd498054b47aac886248e4c53ec",
     "https://www.tbea.com/tbea/corpInfo.html"
    ]
@@ -1900,6 +1951,7 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [
+    "远景储能",
     "远景科技集团"
    ],
    "subsidiaries": [
@@ -1910,6 +1962,8 @@
    ],
    "sources": [
     "https://www.envision-group.com/cn/index.html",
+    "https://www.vbdata.cn/companyDetail/70fb7f0eb242c6cfe1138ec716573f34",
+    "https://www.wuxi.gov.cn/doc/2024/07/18/4353357.shtml",
     "https://zh.wikipedia.org/zh-hans/%E8%BF%9C%E6%99%AF%E8%83%BD%E6%BA%90"
    ]
   },
@@ -1919,6 +1973,7 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [
+    "中国交建尼日利亚公司",
     "中国交通建设集团",
     "中国水利电力对外有限公司"
    ],
@@ -1926,10 +1981,18 @@
     {
      "name_cn": "中国港湾工程有限责任公司",
      "legal_full_name_cn": "中国港湾工程有限责任公司"
+    },
+    {
+     "name_cn": "中交第一航务工程局有限公司",
+     "legal_full_name_cn": "中交第一航务工程局有限公司"
     }
    ],
    "sources": [
+    "http://www.21jingji.com/article/20230114/d4947a0eb9d5514e92c3646e3edf965f.html",
+    "https://baike.baidu.com/item/%E4%B8%AD%E4%BA%A4%E7%AC%AC%E4%B8%80%E8%88%AA%E5%8A%A1%E5%B7%A5%E7%A8%8B%E5%B1%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7058624",
     "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E4%BA%A4%E9%80%9A%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7142811",
+    "https://www.bree.org.cn/info.aspx?n=353&ptype=10031&dh=10032",
+    "https://www.ccccyhj.com/",
     "https://www.chec.bj.cn/",
     "https://www.chinanews.com.cn/cj/2023/01-14/9935357.shtml"
    ]
@@ -2019,10 +2082,16 @@
     {
      "name_cn": "中国中钢国际工程股份有限公司",
      "legal_full_name_cn": "中钢国际工程技术股份有限公司"
+    },
+    {
+     "name_cn": "中钢设备有限公司",
+     "legal_full_name_cn": "中钢设备有限公司"
     }
    ],
    "sources": [
-    "http://mecc.sinosteel.com/about.aspx"
+    "http://mecc.sinosteel.com/about.aspx",
+    "https://baike.baidu.com/item/%E4%B8%AD%E9%92%A2%E8%AE%BE%E5%A4%87%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7116937",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E5%AE%9D%E6%AD%A6%E9%92%A2%E9%93%81%E9%9B%86%E5%9B%A2"
    ]
   },
   {
@@ -2174,11 +2243,17 @@
     {
      "name_cn": "阿特斯储能",
      "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "Recurrent Energy, LLC",
+     "legal_full_name_cn": "Recurrent Energy, LLC"
     }
    ],
    "sources": [
     "http://static.sse.com.cn/stock/disclosure/announcement/c/202201/000961_20220107_5OZM.pdf",
-    "https://pdf.dfcfw.com/pdf/H3_AP202308061593394336_1.pdf"
+    "https://investors.canadiansolar.com/news-releases/news-release-details/canadian-solar-completes-acquisition-recurrent-energy-sharp",
+    "https://pdf.dfcfw.com/pdf/H3_AP202308061593394336_1.pdf",
+    "https://zh.wikipedia.org/wiki/%E9%98%BF%E7%89%B9%E6%96%AF"
    ]
   },
   {
@@ -2191,9 +2266,15 @@
     {
      "name_cn": "龙净环保股份有限公司",
      "legal_full_name_cn": "福建龙净环保股份有限公司"
+    },
+    {
+     "name_cn": "紫金龙净清洁能源有限公司",
+     "legal_full_name_cn": "紫金龙净清洁能源有限公司"
     }
    ],
    "sources": [
+    "https://www.chndaqi.com/news/335340.html",
+    "https://www.chndaqi.com/news/339172.html",
     "https://www.solidwaste.com.cn/news/335340.html",
     "https://www.zjky.cn/sustainable/esg-message-detail-119257.htm"
    ]
@@ -2429,10 +2510,12 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [
+    "Universal Energy Co. Ltd.",
     "中国寰泰能源公司"
    ],
    "subsidiaries": [],
    "sources": [
+    "http://www.universalenergy.com/",
     "https://www.universalenergy.com/zh/about"
    ]
   },
@@ -2767,11 +2850,17 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [
-    "惠生清洁能源科技集团股份有限公司"
+    "惠生工程",
+    "惠生清洁能源科技集团股份有限公司",
+    "惠生（南通）重工有限公司"
    ],
    "subsidiaries": [],
    "sources": [
-    "https://www.wison.com/about_us"
+    "https://baike.baidu.com/item/%E6%83%A0%E7%94%9F%EF%BC%88%E5%8D%97%E9%80%9A%EF%BC%89%E9%87%8D%E5%B7%A5%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20005793",
+    "https://www.wison.com/about_us",
+    "https://www.wison.com/engineering_about",
+    "https://www.wison.com/read_page/312",
+    "https://www.wison.com/read_page/870"
    ]
   },
   {
@@ -2950,10 +3039,14 @@
    "is_central_soe": true,
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
-   "aliases": [],
+   "aliases": [
+    "海油工程"
+   ],
    "subsidiaries": [],
    "sources": [
-    "https://www.cnooc.com.cn/gyhy/hygl/gsjj/202409/t20240918_86756.html"
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E7%9F%B3%E6%B2%B9%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22230538",
+    "https://www.cnooc.com.cn/gyhy/hygl/gsjj/202409/t20240918_86756.html",
+    "https://www.cnoocengineering.com/gywm/gsjj/"
    ]
   },
   {
@@ -2962,9 +3055,16 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [],
-   "subsidiaries": [],
+   "subsidiaries": [
+    {
+     "name_cn": "Europe TianYing BVBA",
+     "legal_full_name_cn": "Europe TianYing BVBA"
+    }
+   ],
    "sources": [
-    "https://www.cnty.cn/about.html"
+    "https://www.cnty.cn/about.html",
+    "https://www.linkedin.com/showcase/china-tianying-inc.",
+    "https://www.staatsbladmonitor.be/bedrijfsfiche.html?ondernemingsnummer=0656494416"
    ]
   },
   {
@@ -2972,9 +3072,13 @@
    "is_central_soe": true,
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
-   "aliases": [],
+   "aliases": [
+    "中国石化石油工程建设公司"
+   ],
    "subsidiaries": [],
    "sources": [
+    "http://specc.sinopec.com/specc/",
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22856005",
     "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2"
    ]
   },
@@ -2983,7 +3087,9 @@
    "is_central_soe": true,
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
-   "aliases": [],
+   "aliases": [
+    "中远海运工程物流有限公司"
+   ],
    "subsidiaries": [
     {
      "name_cn": "中远海运物流供应链工程物流事业部",
@@ -2992,8 +3098,10 @@
    ],
    "sources": [
     "https://logistics.coscoshipping.com/",
+    "https://www.coscoshipping.com/",
     "https://www.xindemarinenews.com/m/view.php?aid=57738",
-    "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2"
+    "https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2",
+    "https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2"
    ]
   },
   {
@@ -3421,6 +3529,142 @@
    "sources": [
     "https://www.qcc.com/firm/d2f4d6dbb1cc0ac17e07f68376f4b8c6.html",
     "http://basic.10jqka.com.cn/300490/company.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "通威集团有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "通威"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.tongwei.com/about.html",
+    "https://zhuanlan.zhihu.com/p/614792861"
+   ]
+  },
+  {
+   "canonical_name_cn": "四川省投资集团有限责任公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "川投国际",
+    "川投国际（香港）有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%9B%9B%E5%B7%9D%E7%9C%81%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8/6947159",
+    "https://www.invest.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "河南省第二建设集团有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "河南二建集团公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%B2%B3%E5%8D%97%E7%9C%81%E7%AC%AC%E4%BA%8C%E5%BB%BA%E8%AE%BE%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/17576996",
+    "https://m.gwy.com/gqzp/359613.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "安徽华晟新能源科技股份有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "华晟新能源"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://www.tianyancha.com/company/3457997084",
+    "https://solar.ofweek.com/2024-11/ART-260003-8460-30652116.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "双良集团有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%8F%8C%E8%89%AF%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20057164",
+    "https://www.shuangliang.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "中天科技集团有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "中天科技",
+    "江苏中天科技股份有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7683879",
+    "https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3715481"
+   ]
+  },
+  {
+   "canonical_name_cn": "双登集团股份有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E5%8F%8C%E7%99%BB%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3628166",
+    "https://www.shuangdeng.com.cn/"
+   ]
+  },
+  {
+   "canonical_name_cn": "深圳远信储能技术股份有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "深圳市远信储能技术股份有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://m.qcc.com/firm/44fa42d1dca269011eb625f1f03805c2.html",
+    "https://finance.sina.com.cn/roll/2026-01-21/doc-inhhzppz5561395.shtml"
+   ]
+  },
+  {
+   "canonical_name_cn": "泰开集团有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [
+    "山东泰开电力建设工程有限公司"
+   ],
+   "subsidiaries": [],
+   "sources": [
+    "https://baike.baidu.com/item/%E5%B1%B1%E4%B8%9C%E6%B3%B0%E5%BC%80%E7%94%B5%E5%8A%9B%E5%BB%BA%E8%AE%BE%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3465131",
+    "https://m.gwy.com/wenda/230997.html"
+   ]
+  },
+  {
+   "canonical_name_cn": "北京中科清风科技有限公司",
+   "is_central_soe": false,
+   "provenance": "codex_T3_2026Q3",
+   "as_of": "2026-07-06",
+   "aliases": [],
+   "subsidiaries": [],
+   "sources": [
+    "http://www.bric.org.cn/info.aspx?n=1138&ptype=10035&dh=10067",
+    "https://www.tianyancha.com/company/6457005325"
    ]
   }
  ]
