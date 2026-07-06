@@ -15,7 +15,6 @@ import pytest
 from codex_review.apply_actions import (
     _backup_db,
     _integrity_check,
-    _replay_check,
     apply_t1,
     apply_t2,
     apply_t3,

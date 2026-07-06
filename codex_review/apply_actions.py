@@ -109,6 +109,13 @@ def _setup_logging(task: str, logs_dir: Path) -> None:
     logger.info("日志文件：%s", log_file)
 
 
+def _connect_check(db_path: Path, apply: bool) -> sqlite3.Connection:
+    """干运行/重放检查用只读连接（mode=ro 防意外写入），apply 用普通读写连接。"""
+    if not apply:
+        return sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
+    return sqlite3.connect(str(db_path))
+
+
 # ──────────────────────────────────────────────
 # 备份（复刻 s02b/db_backup.py 的 WAL 安全口径；该包不在根 venv 故内联）
 # ──────────────────────────────────────────────
@@ -280,13 +287,6 @@ def apply_t1(
 
     ledger = load_ledger(ledger_path)
 
-    # apply 时才连写库；dry-run 只读（mode=ro 防止意外写入）
-    def _connect_check() -> sqlite3.Connection:
-        """干运行用只读连接，apply 用普通读写连接。"""
-        if not apply:
-            return sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
-        return sqlite3.connect(str(db_path))
-
     # 收集所有 SQL 变更，统一在单事务内执行（规则 3）
     sql_batch: list[tuple[str, tuple]] = []  # [(sql, params), ...]
     ledger_records: list[dict] = []
@@ -320,7 +320,7 @@ def apply_t1(
         loser_id = b_id if survivor_id == a_id else a_id
 
         # 幂等检查：loser 已是 merged_into:<S>
-        with _connect_check() as check_conn:
+        with _connect_check(db_path, apply) as check_conn:
             row = check_conn.execute(
                 "SELECT excluded, excluded_reason FROM canonical_projects WHERE id=?",
                 (loser_id,),
@@ -339,7 +339,7 @@ def apply_t1(
             continue
 
         # survivor 是否已被 merge 进别人
-        with _connect_check() as check_conn:
+        with _connect_check(db_path, apply) as check_conn:
             s_row = check_conn.execute(
                 "SELECT excluded, excluded_reason FROM canonical_projects WHERE id=?",
                 (survivor_id,),
@@ -488,7 +488,7 @@ def apply_t2(
         lkey = t2_key(project_id, trigger)
 
         # 幂等检查
-        with sqlite3.connect(str(db_path)) as check_conn:
+        with _connect_check(db_path, apply) as check_conn:
             row = check_conn.execute(
                 "SELECT excluded FROM canonical_projects WHERE id=?", (project_id,)
             ).fetchone()
