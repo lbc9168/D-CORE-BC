@@ -1,2 +1,2 @@
-id,action
-c65c76c1c04ae038292092d1c3a438395a157863,merge→survivor=EGY-PV-0009
+﻿id,对象,动作,判定理由,证据引句,人工结论(同意/不同意),备注
+c65c76c1c04ae038292092d1c3a438395a157863,EGY-PV-0008 埃及康翁波230MW光伏项目 <-> EGY-PV-0009 埃及Kom Ombo 200MW光伏项目（survivor=EGY-PV-0009）,merge→survivor=EGY-PV-0009,两者均为埃及康翁波（Kom Ombo）由ACWA Power开发、中国能建体系（浙江火电/中电工程国际）承建的光伏项目，容量230MW与200MW相近（属常见的直流侧/交流侧容量差异表述），签约时点相近（2023年4-5月），判定为同一物理项目的不同信源报道。选事件更多（3个vs1个）的 EGY-PV-0009 为 survivor。,a.project_summary='中国能源建设集团浙江火电建设有限公司和隆基绿能参与了埃及康翁波230MW光伏项目...该项目由ACWA power开发'; b.events[1].project_summary='中国能建中电工程国际公司联合体与ACWA Power签约埃及康翁波200兆瓦光伏电站项目总承包合同',,

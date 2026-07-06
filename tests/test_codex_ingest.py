@@ -603,7 +603,7 @@ def test_sampling_deterministic(tmp_path):
         csv_path = out_dir / QUARTER / "manual_check_T2.csv"
         if not csv_path.exists():
             return set()
-        with open(csv_path, newline="", encoding="utf-8") as f:
+        with open(csv_path, newline="", encoding="utf-8-sig") as f:
             return {row["id"] for row in csv.DictReader(f)}
 
     ids_1 = _sampled_ids(tmp_path / "ledger1.json")
@@ -629,6 +629,11 @@ def test_sampling_ceil_at_least_one(tmp_path):
 
     csv_path = out_dir / QUARTER / "manual_check_T2.csv"
     assert csv_path.exists()
-    with open(csv_path, newline="", encoding="utf-8") as f:
+    # 文件须带 BOM（utf-8-sig）供 Windows Excel 直接打开不乱码
+    assert csv_path.read_bytes()[:3] == b"\xef\xbb\xbf"
+    with open(csv_path, newline="", encoding="utf-8-sig") as f:
         rows = list(csv.DictReader(f))
     assert len(rows) == 1
+    assert rows[0]["动作"] == "exclude"
+    assert rows[0]["对象"]  # 带上下文说明，非空
+    assert rows[0]["人工结论(同意/不同意)"] == ""

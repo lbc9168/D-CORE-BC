@@ -1,7 +1,7 @@
-id,action
-中国石化石油工程建设公司,alias_of_existing
-深圳远信储能技术股份有限公司,new_group
-国网宁波供电公司,alias_of_existing
-中远海运工程物流有限公司,alias_of_existing
-海油工程,alias_of_existing
-中天科技,new_group
+﻿id,对象,动作,判定理由,证据引句,人工结论(同意/不同意),备注
+中国石化石油工程建设公司,中国石化石油工程建设公司（登记归属：中国石油化工集团有限公司）,alias_of_existing,中石化石油工程建设有限公司系中国石油化工集团有限公司全资子公司，2012年石油工程专业化整合重组组建。,http://specc.sinopec.com/specc/；https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22856005,,
+深圳远信储能技术股份有限公司,深圳远信储能技术股份有限公司（登记归属：深圳远信储能技术股份有限公司）,new_group,远信储能由王堉、张佳婧2019年创立并控股（合计约72.88%），为独立民营储能企业，正申请港交所上市，不在registry_groups中，应作为独立顶层集团新建。,https://m.qcc.com/firm/44fa42d1dca269011eb625f1f03805c2.html；https://finance.sina.com.cn/roll/2026-01-21/doc-inhhzppz5561395.shtml,,
+国网宁波供电公司,国网宁波供电公司（登记归属：国家电网有限公司）,alias_of_existing,国网宁波供电公司为国网浙江电力下属地市级供电公司，属国家电网有限公司体系。,https://baike.baidu.com/item/%E5%9B%BD%E7%BD%91%E6%B5%99%E6%B1%9F%E7%9C%81%E7%94%B5%E5%8A%9B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%AE%81%E6%B3%A2%E4%BE%9B%E7%94%B5%E5%85%AC%E5%8F%B8/51372191,,
+中远海运工程物流有限公司,中远海运工程物流有限公司（登记归属：中国远洋海运集团有限公司）,alias_of_existing,工程物流是中远海运物流（中国远洋海运集团旗下综合物流平台）五大业务板块之一，中远海运工程物流有限公司为其工程物流板块下属公司。,https://www.coscoshipping.com/；https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2,,
+海油工程,海油工程（登记归属：中国海洋石油集团有限公司）,alias_of_existing,"海油工程（海洋石油工程股份有限公司，600583）是中国海洋石油集团有限公司控股上市公司，""海油工程""为其证券简称。",https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E7%9F%B3%E6%B2%B9%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22230538；https://www.cnoocengineering.com/gywm/gsjj/,,
+中天科技,中天科技（登记归属：中天科技集团有限公司）,new_group,中天科技集团系江苏南通民营企业，中国民营企业500强常客，不在registry_groups中，应作为独立顶层集团新建。,https://baike.baidu.com/item/%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7683879；https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3715481,,

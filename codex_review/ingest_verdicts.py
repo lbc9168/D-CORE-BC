@@ -354,6 +354,37 @@ def _build_plan_entry(parsed: Any, task: str, queue_item: dict) -> dict:
     return entry
 
 
+def _manual_check_row(sid: str, task: str, info: dict | None) -> dict:
+    """把一条抽中的 gated verdict 组装成人工复核 CSV 行（带对象说明/理由/证据，人工列留空）。"""
+    row = {
+        "id": sid,
+        "对象": "",
+        "动作": "",
+        "判定理由": "",
+        "证据引句": "",
+        "人工结论(同意/不同意)": "",
+        "备注": "",
+    }
+    if info is None:
+        return row
+    verdict = info["entry"].get("verdict", {})
+    ctx = info["entry"].get("context", {})
+    row["动作"] = info["action"]
+    if task == "T1":
+        row["对象"] = (
+            f"{ctx.get('a_canonical_id')} {ctx.get('a_project_name')} <-> "
+            f"{ctx.get('b_canonical_id')} {ctx.get('b_project_name')}"
+            f"（survivor={verdict.get('survivor_id')}）"
+        )
+    elif task == "T2":
+        row["对象"] = f"{sid} {ctx.get('project_name')}"
+    else:  # T3
+        row["对象"] = f"{sid}（登记归属：{verdict.get('canonical_group_cn') or '—'}）"
+    row["判定理由"] = verdict.get("reason") or verdict.get("notes") or ""
+    row["证据引句"] = verdict.get("evidence_quote") or "；".join(verdict.get("source_urls", []))
+    return row
+
+
 # ──────────────────────────────────────────────
 # 确定性抽样
 # ──────────────────────────────────────────────
@@ -507,6 +538,7 @@ def run_ingest(
     seen_ids: set[str] = set()
     gated_plan_entries: list[dict] = []
     gated_ids_ordered: list[str] = []  # 保留插入顺序用于 plan；抽样前再 sort
+    gated_entry_by_id: dict[str, dict] = {}  # 抽检 CSV 需要 verdict+上下文
 
     for raw in verdicts_raw:
         verdict_id = _get_verdict_id(raw, task)
@@ -555,6 +587,7 @@ def run_ingest(
                 entry = _build_plan_entry(parsed, task, queue_map[verdict_id])
                 gated_plan_entries.append(entry)
                 gated_ids_ordered.append(verdict_id)
+                gated_entry_by_id[verdict_id] = {"entry": entry, "action": action}
                 logger.info("gated（apply_plan）：id=%r，action=%s", verdict_id, action)
 
     # apply 模式：写台账 + apply_plan + manual_check
@@ -576,17 +609,15 @@ def run_ingest(
             sampled_ids = _sample_gated(gated_ids_ordered, task, quarter, sample_rate)
             if sampled_ids:
                 manual_check_path = quarter_dir / f"manual_check_{task}.csv"
-                with open(manual_check_path, "w", newline="", encoding="utf-8") as f:
-                    writer = csv.DictWriter(f, fieldnames=["id", "action"])
+                # utf-8-sig：Windows Excel 直接双击打开不乱码（复核者主要用 Excel）
+                with open(manual_check_path, "w", newline="", encoding="utf-8-sig") as f:
+                    writer = csv.DictWriter(
+                        f,
+                        fieldnames=["id", "对象", "动作", "判定理由", "证据引句", "人工结论(同意/不同意)", "备注"],
+                    )
                     writer.writeheader()
                     for sid in sampled_ids:
-                        gated_entry = next(
-                            (g for g in result.gated if g["id"] == sid), None
-                        )
-                        writer.writerow({
-                            "id": sid,
-                            "action": gated_entry["action"] if gated_entry else "",
-                        })
+                        writer.writerow(_manual_check_row(sid, task, gated_entry_by_id.get(sid)))
                 logger.info("manual_check 已写出：%s（%d 条）", manual_check_path, len(sampled_ids))
 
     print(
