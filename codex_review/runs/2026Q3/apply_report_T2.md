@@ -2,7 +2,7 @@
 
 运行模式：--apply（已执行）
 
-备份路径：`C:\Users\bingc\AppData\Local\Temp\claude\E--Projects-BRI-RE-Database-v2\52507f23-f28f-4e53-9cfb-b599955c867d\scratchpad\pilot\bri_copy.db.bak.20260706_175421`
+备份路径：`E:\Projects\BRI_RE_Database_v2\s02a_duplicate_merger\data\db\bri_re_database.db.bak.20260706_184315`
 
 
 ## 统计
