@@ -76,7 +76,7 @@
 
 ## 未完成明细
 
-### 阶段 2：Codex 季度分拣管线（✅ 2026-07-07 完成；工具在 codex_review/，运行手册见 docs/rules_and_plans/codex_quarterly_runbook.md，交付明细见 docs/changes/2026-W28a.md。拍板落定：首季 2026Q3 / loser 保留+merged_into / 抽检 15%。验收全过：三任务真实试点闭环（Claude 分拣代跑验证链路，真库真台账零触碰）、ingest 拒收有测试、merge 拷贝库外键一致、台账幂等。遗留 gated：manual_check 复核→真库 apply 或改喂 Codex；registry_additions 人工三步）
+### 阶段 2：Codex 季度分拣管线（✅ 2026-07-07 完成并跑完 2026Q3 整个正式季度闭环；工具在 codex_review/，运行手册见 docs/rules_and_plans/codex_quarterly_runbook.md（quarterly 一步一命令），交付与终局明细见 docs/changes/2026-W28a.md。拍板落定：首季 2026Q3 / loser 保留+merged_into / 抽检 15%。验收全过且超额：Codex 正式交卷 1,732 verdict 0 拒收；T2 系统性错率 ~7% 经三轮对抗复核 668 全覆盖处置（救回 51/移出 617）；主库终态 excluded 988/未排除 3,541，registry 151 组，台账 1,785 条。季度循环遗留（非本阶段）：T3 uncertain 22 下轮重入队、T1 链式冲突 2 组人工、guide_T2 下季写入三条新判定知识、51 条救回项目实体回填专项）
 
 **目的**：建立"系统导出复核队列 → Codex(GPT-5.5) 分拣 → 校验落库"的季度闭环，消化人工顾不过来的长尾复核。共识约束：分级信任+抽检（不改数据的 verdict 自动收；改数据的头 2-3 季度抽 10-20% 人工复核）；数据契约不绑供应商（队列 JSON 同样可喂 Claude/人工）。
 
