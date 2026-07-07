@@ -169,6 +169,16 @@ def test_tx_120mva_still_120():
     assert r["transmission_capacity_mw"] == 120.0
 
 
+def test_tx_nxm_mvar_english_excludes_transmission_capacity():
+    """审查 F1b：「3x50MVAr reactor」（英文无功乘积）不入 transmission_capacity_mw → tcap=NULL。"""
+    r = parse_tx_event(
+        capacity_details="3x50MVAr reactor",
+        project_summary="",
+        capacity_mw_raw="",
+    )
+    assert r["transmission_capacity_mw"] is None
+
+
 # ══════════════════════════════════════════════════════════════════
 # MF 对拍用例（简报 R1 表格，真库实取）
 # ══════════════════════════════════════════════════════════════════
