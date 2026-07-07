@@ -69,6 +69,7 @@ class PipelineConfig:
     run_location_normalize: bool = True    # False=跳过地点归一化（s02b 第二步，写 location_norm）
     run_developer_normalize: bool = True   # False=跳过业主归一化（s02b 第三步，写 project_developer）
     run_en_backfill:        bool = True    # False=跳过英文名回填（归一后按缓存口径重算 *_en 列）
+    run_txmf_backfill:      bool = True    # False=跳过 TX/MF 专用指标回填（voltage_kv 等 5 列，fill-if-null）
     run_cross_verification: bool = False   # True=跑 s02c（预留段）
     run_export:             bool = False   # True=跑 s03 导出（预留段）
 
@@ -133,6 +134,17 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> None:
         print(f"[Pipeline] 英文名回填 {_n_backfilled} 行")
     else:
         print("\n[Pipeline] ⏭  阶段二B-4：跳过英文名回填")
+
+    # 阶段二B-5：TX/MF 专用指标回填（voltage_kv/line_length_km/transmission_capacity_mw/
+    # production_capacity_value/production_capacity_unit，fill-if-null，除非关闭）
+    if cfg.run_txmf_backfill:
+        from s01b_project_extractor.tools.txmf_backfill import run as _run_txmf_backfill
+        _print_stage_header("2B-5", "TX/MF 专用指标回填")
+        _txmf_report = _run_txmf_backfill(cfg.db_path, apply=True)
+        print(f"[Pipeline] TX/MF 回填 would_change={_txmf_report['would_change']}，"
+              f"misses={_txmf_report['misses']}")
+    else:
+        print("\n[Pipeline] ⏭  阶段二B-5：跳过 TX/MF 专用指标回填")
 
     # 阶段二C：交叉验证（预留段，默认关）
     if cfg.run_cross_verification:
