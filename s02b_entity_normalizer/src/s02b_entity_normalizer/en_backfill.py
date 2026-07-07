@@ -151,14 +151,17 @@ def apply_db(db_path: str, plan_rows: List[dict]) -> int:
         conn.close()
 
 
-def run_backfill(db_path: str, cache_path: str | None = None) -> int:
-    """编排入口（pipeline 增量流程用）：对单个主库按缓存口径回填英文名列，返回更新行数。"""
+def run_backfill(db_path: str, cache_path: str | None = None, use_registry: bool = True) -> int:
+    """编排入口（pipeline 增量流程用）：对单个主库按 registry>缓存口径回填英文名列，返回更新行数。
+    use_registry=False 为灰度回退位（旧纯缓存口径，与 2B-3 的 use_registry 同语义）。
+    """
     cache_path = cache_path or DEFAULT_CACHE
     raw = json.loads(Path(cache_path).read_text(encoding="utf-8"))
     cache = {k: v for k, v in raw.items() if not k.startswith("_")}
+    index = build_index() if use_registry else None
     conn = sqlite3.connect(db_path)
     try:
-        plan = plan_db(conn, TARGETS_MAIN, cache)
+        plan = plan_db(conn, TARGETS_MAIN, cache, index=index)
     finally:
         conn.close()
     n = apply_db(db_path, plan)
