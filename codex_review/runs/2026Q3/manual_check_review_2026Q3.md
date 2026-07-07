@@ -8,106 +8,766 @@
 每条看「AI 判定 + 理由 + 证据」，在复核结论行画勾（或直接在对应 CSV 的「人工结论」列填 同意/不同意）。
 拿不准就标「不同意」并写一句备注——宁可保守。全部看完后把结果告诉我（比如「全同意」或「第3条不同意，其余同意」）。
 
-## T1：漏合并对（判定=合并两条项目记录）（1 条）
+## T1：漏合并对（判定=合并两条项目记录）（3 条）
 
 AI 认为下面这对记录是**同一个物理项目**，落库后 loser 的事件会挂到 survivor 名下、loser 标记排除。你只需判断：这两条确实是同一个电站/资产吗？
 
-### T1-1　EGY-PV-0008 埃及康翁波230MW光伏项目 <-> EGY-PV-0009 埃及Kom Ombo 200MW光伏项目（survivor=EGY-PV-0009）
-- **AI 判定**：merge→survivor=EGY-PV-0009
-- **理由**：两者均为埃及康翁波（Kom Ombo）由ACWA Power开发、中国能建体系（浙江火电/中电工程国际）承建的光伏项目，容量230MW与200MW相近（属常见的直流侧/交流侧容量差异表述），签约时点相近（2023年4-5月），判定为同一物理项目的不同信源报道。选事件更多（3个vs1个）的 EGY-PV-0009 为 survivor。
-- **证据**：a.project_summary='中国能源建设集团浙江火电建设有限公司和隆基绿能参与了埃及康翁波230MW光伏项目...该项目由ACWA power开发'; b.events[1].project_summary='中国能建中电工程国际公司联合体与ACWA Power签约埃及康翁波200兆瓦光伏电站项目总承包合同'
-- **原文链接**：https://news.goalfore.cn/topstories/detail/40990.html；https://news.goalfore.cn/topstories/detail/39924.html；https://news.goalfore.cn/topstories/detail/39072.html；https://news.goalfore.cn/topstories/detail/22921.html；https://news.goalfore.cn/topstories/detail/15949.html；https://news.goalfore.cn/topstories/detail/14698.html
+### T1-1　JPN-PV-0011 日本福岛县28MW光伏项目 <-> JPN-PV-0014 日本28MW光伏项目（survivor=JPN-PV-0014）
+- **AI 判定**：merge→survivor=JPN-PV-0014
+- **理由**：两侧均为上海电气在日本的首个28MW级光伏项目，容量和项目地描述高度接近，判定为同一项目的开工与投运报道。 选 JPN-PV-0014 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。
+- **证据**：a.project_name='日本福岛县28MW光伏项目'; b.project_name='日本28MW光伏项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='开工'; a.events[0].capacity_mw=28.0; b.events[0].capacity_mw=28.0; a.events[0].project_summary='Shanghai Electric has completed its first large-scale photovoltaic project in Japan, located in Fukushima Prefecture, Yabuki Town. The project has a total installed capacity of 28 MW and has passed local government acceptance, with an estimated annual power generation of 31,293 MWh.'; b.events[0].project_summary='上海电气集团股份有限公司承建的日本雅凯28MW光伏项目已于当地时间7月15日开工。这是上海电气集团在日本市场承揽的首个20MW以上的大型光伏项目，标志着其在日本新能源业务的拓展。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/31356.html；https://news.goalfore.cn/topstories/detail/15038.html；https://news.goalfore.cn/topstories/detail/14560.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-## T2：范围复核（判定=把项目移出数据库口径）（7 条）
+### T1-2　OMN-PV-0004 阿曼Manah II 588.2MW光伏发电项目 <-> OMN-PV-0010 阿曼Manah II 588.2MW光伏发电EPC总承包项目（survivor=OMN-PV-0004）
+- **AI 判定**：merge→survivor=OMN-PV-0004
+- **理由**：两侧均为阿曼Manah II 588.2MW光伏发电项目，容量、名称和中国能建山西院参与一致，属于同一项目不同阶段报道。 选 OMN-PV-0004 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。
+- **证据**：a.project_name='阿曼Manah II 588.2MW光伏发电项目'; b.project_name='阿曼Manah II 588.2MW光伏发电EPC总承包项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='中标'; a.events[0].capacity_mw=588.2; b.events[0].capacity_mw=588.2; a.events[0].project_summary='中国能建山西院在阿曼承建了Manah II光伏发电项目，总装机容量588.2兆瓦，该项目已实现初步商业运行。'; b.events[0].project_summary='中国能建山西院中标阿曼Manah II 光伏发电EPC总承包项目。该项目位于阿曼Manah地区，总装机容量为588.2兆瓦，是山西院在中东市场开辟的首个项目，也是其承建的海外单体最大光伏发电总承包项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/77192.html；https://news.goalfore.cn/topstories/detail/76954.html；https://news.goalfore.cn/topstories/detail/72789.html；https://news.goalfore.cn/topstories/detail/72672.html；https://news.goalfore.cn/topstories/detail/72561.html；https://news.goalfore.cn/topstories/detail/53604.html；https://news.goalfore.cn/topstories/detail/47764.html；https://news.goalfore.cn/topstories/detail/43648.html；https://news.goalfore.cn/topstories/detail/95451.html；https://news.goalfore.cn/topstories/detail/40088.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T1-3　COL-PV-0003 哥伦比亚瓜亚博III光伏项目 <-> COL-PV-0007 哥伦比亚瓜亚博III 80兆瓦光伏发电项目（survivor=COL-PV-0003）
+- **AI 判定**：merge→survivor=COL-PV-0003
+- **理由**：两侧均为哥伦比亚瓜亚博III光伏项目，项目名完全一致，容量差异可能来自交流/直流或阶段口径，判定为同一项目。 选 COL-PV-0003 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。
+- **证据**：a.project_name='哥伦比亚瓜亚博III光伏项目'; b.project_name='哥伦比亚瓜亚博III 80兆瓦光伏发电项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=150.0; b.events[0].capacity_mw=80.0; a.events[0].project_summary='中国电建在哥伦比亚承建的瓜亚博III光伏项目已成功实现全容量并网发电。该项目装机容量为150MW，为当地提供清洁电能，助力能源转型。'; b.events[0].project_summary='中国电建在哥伦比亚亚特兰大省巴兰基亚市签约了瓜亚博III 80兆瓦光伏发电项目。该项目是中国电建在哥伦比亚新能源领域的又一突破，将有助于当地电力供应和能源结构优化。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/88466.html；https://news.goalfore.cn/topstories/detail/64907.html；https://news.goalfore.cn/topstories/detail/56397.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+## T2：范围复核（判定=把项目移出数据库口径）（101 条）
 
 AI 认为下面这些项目**不该留在库里**（exclude=无中企/非能源；downgrade_non_project=真实但不是单体项目，如省级规划、批量拍卖）。你只需判断：赞成把它移出吗？
 
-### T2-1　AUS-ES-0006 澳大利亚Stoney Creek电池储能项目
+### T2-1　MOZ-HB-0001 莫桑比克Cuamba 19MW光伏+2MW/7MWH储能项目
 - **AI 判定**：exclude
-- **理由**：项目由Enervest公司中标建设，全文未见任何中企参与。
-- **证据**：project_summary='Enervest公司在澳大利亚中标建设125MW/1GWh的Stoney Creek电池储能系统。该项目是澳大利亚新南威尔士州长时储能系统招标的一部分，旨在增强电网可靠性。'
-- **原文链接**：https://news.goalfore.cn/topstories/detail/80139.html
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='莫桑比克Cuamba 19MW光伏+2MW/7MWH储能项目'; entity_names=[]; events[0].project_summary='英国Globeleq公司在莫桑比克投资建设了19MW光伏+2MW/7MWH储能电站项目，已于2023年10月底投入商业运营。该项目是莫桑比克首个同类型项目，由EDM作为电力承购方，项目造价3600万美元，获得了多方国际机构和政府的债务及赠款支持。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/52340.html；https://news.goalfore.cn/topstories/detail/52172.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T2-2　ALB-PV-0003 阿尔巴尼亚300MW光伏项目
+### T2-2　HRV-WD-0002 克罗地亚扎达尔地区111MW风电项目
 - **AI 判定**：exclude
-- **理由**：项目由欧洲复兴开发银行（EBRD）和瑞士SECO支持，全文未见中企参与。
-- **证据**：project_summary='阿尔巴尼亚计划建设总容量300兆瓦的光伏电站项目，其中首期招标100兆瓦。该项目获得欧洲复兴开发银行（EBRD）和瑞士联邦政府经济事务司（SECO）的支持，旨在帮助阿尔巴尼亚实现碳中和目标。'
-- **原文链接**：https://news.goalfore.cn/topstories/detail/39706.html
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='克罗地亚扎达尔地区111MW风电项目'; entity_names=[]; events[0].project_summary='该项目为位于克罗地亚扎达尔地区的111MW陆上风电场项目。芬兰Taaleri Energia与克罗地亚本地开发商Encro合资的Kunovac公司是项目法人，瑞士Axpo签署了为期10年的虚拟PPA。项目由欧洲复兴开发银行、Zagrebačka银行和克罗地亚复兴和开发银行组成的银团出资，目前处于建设阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/40204.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T2-3　ARM-PV-0001 亚美尼亚Ayg-1 200MW光伏项目
-- **AI 判定**：exclude
-- **理由**：项目由阿联酋公司马斯达尔（Masdar）投资建设，国营亚美尼亚国家利益基金持股，全文未见中企参与。
-- **证据**：project_summary='阿联酋公司马斯达尔（Masdar）将在亚美尼亚阿拉加措特恩省投资建设200兆瓦的Ayg-1太阳能发电厂，该项目是亚美尼亚最大的太阳能发电厂，预计投资1.74亿美元，国营的亚美尼亚国家利益基金（ANIF）将持有15%股份。'
-- **原文链接**：https://news.goalfore.cn/topstories/detail/22014.html
+### T2-3　MMR-WD-0002 缅甸马圭省260MW风电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='缅甸马圭省260MW风电项目'; entity_names=[]; events[0].project_summary='新加坡Infa Capital Myanmar-Re Ex公司与缅甸马圭省政府签署谅解备忘录，计划在缅甸马圭省开发三个风能项目，总计260兆瓦，预计2020年开建，2021年开始发电。目前项目处于可行性研究完成，即将开建阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/12689.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T2-4　USA-NC-0001 美国怀俄明州Natrium示范电厂
-- **AI 判定**：exclude
-- **理由**：美国怀俄明州Natrium示范电厂由美国泰拉能源公司建设，配套服务商均为美国/加拿大企业，entity_names为空，全文无任何具名中企参与，应排除。
-- **证据**：美国泰拉能源公司（TerraPower）正在怀俄明州建设Natrium示范电厂...多家美国企业（西部服务公司、James Fisher技术公司、BWXT加拿大有限公司、Curtiss-Wright流量控制公司）将为该项目提供服务和设备。; entity_names=[]
-- **原文链接**：https://news.goalfore.cn/topstories/detail/44191.html
+### T2-4　MMR-PV-0037 缅甸30个太阳能发电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='缅甸30个太阳能发电项目'; entity_names=[]; events[0].project_summary='缅甸电力能源部启动30个太阳能发电项目招标工作，项目将采取BOO模式合作，政府购电20年。新闻中未提及中国企业参与，因此该项目不包含中国企业信息。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/14293.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T2-5　IDN-MF-0028 印尼宾坦氧化铝项目
+### T2-5　SWE-WD-0002 瑞典254.2MW Stavro风电项目
 - **AI 判定**：exclude
-- **理由**：印尼宾坦氧化铝项目实质为氧化铝/电解铝冶炼项目本身，虽有具名中企（中冶海外印尼公司）承建，但按硬收录边界冶炼资产属非能源资产，应排除。
-- **证据**：中冶海外印尼公司联合中国三冶承建印尼宾坦氧化铝建设项目，总投资55亿美元，包含年产200万吨氧化铝、年产100万吨电解铝及配套电厂等。; entity_names=['中冶海外印尼公司']
-- **原文链接**：https://news.goalfore.cn/topstories/detail/4179.html
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='瑞典254.2MW Stavro风电项目'; entity_names=[]; events[0].project_summary='韩国KOMIPO电力公司在瑞典建设了装机容量为254.2MW的风电项目Stavro。该项目是北欧最大的风电项目，已于2021年底投入商业运营。中国企业未参与该项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28309.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T2-6　AUS-HB-0010 澳大利亚昆士兰SunHQ绿氢项目
+### T2-6　ZMB-PV-0021 赞比亚54MW光伏项目
 - **AI 判定**：exclude
-- **理由**：项目由Ark Energy启动，全文未见任何中企参与。
-- **证据**：project_summary='Ark Energy在澳大利亚昆士兰启动SunHQ绿氢项目，该项目利用124MW太阳能生产绿氢，年产能力达155吨，其中约90吨用于为5辆燃料电池电动卡车供氢。项目第一阶段已开工，预计2024年第一季度末开始生产绿氢。'
-- **原文链接**：https://news.goalfore.cn/topstories/detail/52132.html
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='赞比亚54MW光伏项目'; entity_names=[]; events[0].project_summary='赞比亚首个光伏项目Bangweulu电站已建成，装机容量54MW。该项目由Neoen和First Solar开发，资金来自世界银行和美国发展金融机构，是赞比亚能源结构多元化的一部分。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/7484.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T2-7　AGO-PV-0001 安哥拉南部220MW太阳能项目
+### T2-7　PHL-WD-0008 菲律宾北吕宋2GW漂浮式风电项目
 - **AI 判定**：exclude
-- **理由**：摘要明确将该项目定性为“中国企业未参与”，由美国公司Sun Africa开发，美国进出口银行融资，无任何中企实体。
-- **证据**：project_summary='该项目是中国企业未参与的安哥拉南部太阳能项目，由美国公司Sun Africa开发，计划安装220兆瓦太阳能发电容量，并获得美国进出口银行16亿美元的融资支持，目前处于项目开发阶段。'
-- **原文链接**：https://news.goalfore.cn/topstories/detail/72259.html
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾北吕宋2GW漂浮式风电项目'; entity_names=[]; events[0].project_summary='丹麦哥本哈根能源公司（CE）与Petro Green Energy Corporation (PGEC)合作，在菲律宾北吕宋开发一个2GW的漂浮式海上风电项目。该项目已获得菲律宾国家电网公司（NGCP）的并网许可，是菲律宾进入漂浮式海风时代的重要里程碑，预计2030年全面投入运营。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/75970.html
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-## T3：实体归属补录（判定=往企业登记册加条目）（6 条）
+### T2-8　GBR-TX-0003 英国Triton Knoll海上风电场输电系统项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='英国Triton Knoll海上风电场输电系统项目'; entity_names=[]; events[0].project_summary='新闻中提到了英国Triton Knoll海上风电场，该项目装机857兆瓦，计划于2021年第一季度投入使用。但未提及中国企业参与其中。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/16915.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-9　ZAF-HB-0008 南非5000MW可再生能源项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='南非5000MW可再生能源项目'; entity_names=[]; events[0].project_summary='南非启动了5,000MW可再生能源项目招标，包括1,800MW光伏和3,200MW陆上风电。同时还启动了615MW储能电池采购计划。该项目目前处于招标阶段，具体的中方参与企业和中标信息尚未披露。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/56125.html；https://news.goalfore.cn/topstories/detail/30745.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-10　BGD-WD-0002 孟加拉国500MW海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='孟加拉国500MW海上风电项目'; entity_names=[]; events[0].project_summary='瑞典H&M集团与丹麦Bestseller公司共同出资1亿美元支持哥本哈根基础设施合作伙伴（CIP）在孟加拉国开发的500MW海上风电项目。该项目是孟加拉国首个公用事业规模的海上风电项目，计划于2028年投入运营。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/57599.html；https://news.goalfore.cn/topstories/detail/52109.html；https://news.goalfore.cn/topstories/detail/43135.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-11　PAK-PV-0001 巴基斯坦莱亚、章和木尔坦地区太阳能发电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='巴基斯坦莱亚、章和木尔坦地区太阳能发电项目'; entity_names=[]; events[0].project_summary='巴基斯坦计划开发两个总装机容量为2800兆瓦的光伏项目，拟由沙特ACWA电力公司开发。项目已纳入巴基斯坦《2025-2035年指示性发电容量扩张计划》，目前正处于规划和土地征用阶段，尚需监管机构批准。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/86073.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-12　ESP-PV-0011 西班牙埃斯特雷马杜拉54MW光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='西班牙埃斯特雷马杜拉54MW光伏项目'; entity_names=[]; events[0].project_summary='OHLA has secured two new renewable energy contracts in Spain, totaling over 60 million euros. These projects include a 54 MW photovoltaic plant in Extremadura and a nearly 90 MW photovoltaic plant in Murcia, contributing to OHLA's growing renewable energy portfolio in Europe.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/67369.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-13　PAK-TX-0010 巴基斯坦NTDC系统500KV和220KV变压器扩建项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='巴基斯坦NTDC系统500KV和220KV变压器扩建项目'; entity_names=[]; events[0].project_summary='巴基斯坦CDWP批准了在现有电网站增加和扩大500KV和220KV变压器的项目，总成本为119.75720亿卢比，资金由亚洲开发银行提供。该项目旨在消除国家输配电公司（NTDC）系统的限制，增加系统容量并减少变压器过载。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/29157.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-14　FRA-WD-0001 法国250MW Pennavel漂浮式海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='法国250MW Pennavel漂浮式海上风电项目'; entity_names=[]; events[0].project_summary='丹麦Aegir Insights咨询机构在分析法国250MW Pennavel漂浮式海上风电项目时指出，该项目低电价中标“不太可能实现”，除非使用价格低廉的中国风电机组。该项目由Elicio与BayWa r.e.联合体中标，是全球首个商业化漂浮式海上风电项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/66466.html；https://news.goalfore.cn/topstories/detail/65653.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-15　MKD-PV-0001 北马其顿REK Bitola能源综合体太阳能光伏项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='北马其顿REK Bitola能源综合体太阳能光伏项目'; entity_names=[]; events[0].project_summary='北马其顿国有公用事业公司ESM计划在REK Bitola能源综合体建造四个太阳能光伏电站，总容量为280兆瓦。其中一个60兆瓦的光伏设施将建在Suvodol矿，一个100兆瓦的太阳能园区也位于Suvodol矿区，第四个100兆瓦的太阳能园区位于Brod-Gneotino矿区。项目处于规划和招标阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/27612.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-16　FRA-HB-0004 法国近期1.7GW光伏风能项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='法国近期1.7GW光伏风能项目'; entity_names=[]; events[0].project_summary='法国近期招标共分配了288个光伏和风能项目，总容量为1.7GW。其中253个为太阳能项目，约有88个大型光伏项目，总装机量为649MWp。这些项目处于获批阶段，但未提及中国企业参与。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/13898.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-17　IND-MF-0003 印度Solex Energy太阳能电池及组件产能扩张项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='印度Solex Energy太阳能电池及组件产能扩张项目'; entity_names=[]; events[0].project_summary='Solex Energy, an Indian solar module manufacturer, announced plans to expand its solar cell and module production capacity with an investment of approximately $1 billion, aiming for 5GW of solar cell production and 15GW of module production.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/72695.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-18　CUB-PV-0001 古巴12兆瓦光伏项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='古巴12兆瓦光伏项目'; entity_names=[]; events[0].project_summary='中国企业在古巴承建了三个总计12兆瓦的太阳能光伏电站项目，分别位于谢戈德阿维拉省、奥尔金省和比亚克拉拉省，目前已全部并网发电，为当地家庭提供电力。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/66929.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-19　PHL-ES-0006 菲律宾1000MW电池储能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾1000MW电池储能项目'; entity_names=[]; events[0].project_summary='菲律宾生力集团（SMC）正在菲律宾投资超过10亿美元建设31个电池储能设施，总容量为100万千瓦。这些设施将作为电力调节储备，以稳定菲律宾的电网。目前项目建设正在进行中，部分进度超预期。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/19587.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-20　UKR-WD-0004 乌克兰Tylihulska风电二期项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌克兰Tylihulska风电二期项目'; entity_names=[]; events[0].project_summary='乌克兰DTEK能源公司与丹麦Vestas公司合作，在乌克兰建设Tylihulska风电二期项目，总容量384兆瓦。该项目投资4.5亿欧元，预计2025年底前完工，旨在提高乌克兰能源安全和支持欧洲电力供应。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/54999.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-21　FRA-WD-0002 法国迪耶普勒特雷波尔海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='法国迪耶普勒特雷波尔海上风电项目'; entity_names=[]; events[0].project_summary='DEME Offshore has secured contracts for the Dieppe Le Tréport offshore wind farm in France. This project involves the transportation and installation of turbine foundations and array cables, with construction scheduled to begin in 2024. The wind farm will have 62 turbines and provide sustainable electricity to approximately 850,000 people.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/39966.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-22　MNG-TX-0002 蒙古原油管道配套站场项目及电力供应项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='蒙古原油管道配套站场项目及电力供应项目'; entity_names=[]; events[0].project_summary='该项目为蒙古原油管道配套站场项目及电力供应项目，位于蒙古国达东戈壁省，包含输油管道配套站场建设和110kV/35kV/10kV变电站及输电线路建设。目前尚无明确中国企业参与的信息。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/68435.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-23　SRB-WD-0009 塞尔维亚科斯托拉茨风电场
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='塞尔维亚科斯托拉茨风电场'; entity_names=[]; events[0].project_summary='塞尔维亚国家电力公司EPS正在塞尔维亚建设科斯托拉茨风电场项目，该项目装机容量为73兆瓦，目前已开始建设。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28709.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-24　VNM-PV-0026 越南175MW水上光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南175MW水上光伏项目'; entity_names=[]; events[0].project_summary='亚洲开发银行（ADB）为越南河内提供3700万美元贷款，用于援建越南首个水上漂浮式光伏电站。该电站位于多米水电站水库，装机容量达175MW，是越南乃至东南亚最大的水上太阳能电池板项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/11551.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-25　PHL-ES-0005 菲律宾8200MW储能系统项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾8200MW储能系统项目'; entity_names=[]; events[0].project_summary='菲律宾能源部计划进行第四轮绿色能源拍卖，涉及8,200兆瓦的容量，包括储能系统（ESS）。目前尚无中国企业参与的明确信息。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/68674.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-26　QAT-PV-0001 卡塔尔2吉瓦太阳能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='卡塔尔2吉瓦太阳能项目'; entity_names=[]; events[0].project_summary='卡塔尔能源公司（QatarEnergy）将在卡塔尔Dukhan地区新建一个2吉瓦的太阳能发电项目。该项目建成后将使卡塔尔的太阳能发电能力翻倍，达到约4吉瓦，是卡塔尔能源转型的重要举措。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/70921.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-27　GIN-PV-0005 几内亚81MW太阳能发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='几内亚81MW太阳能发电项目'; entity_names=[]; events[0].project_summary='德国清洁能源公司和西门子能源公司将在几内亚投资6200万美元建设一座装机容量为81兆瓦的太阳能发电站。该项目目前处于签约阶段，由德国公司主导投资和建设。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/11914.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-28　PHL-WD-0001 菲律宾吕宋岛卡马里内斯省风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾吕宋岛卡马里内斯省风电项目'; entity_names=[]; events[0].project_summary='越南PC1集团与日本DENZAI集团合作，将在菲律宾吕宋岛卡马里内斯省安装9台远景能源风力发电机组，项目预计于2026年3月下旬启动。此次合作聚焦于风电EPC市场，旨在拓展东南亚清洁能源业务。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/91962.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-29　USA-PV-0004 美国德克萨斯州Brazoria太阳能项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='美国德克萨斯州Brazoria太阳能项目'; entity_names=[]; events[0].project_summary='TotalEnergies将在美国德克萨斯州通过两个太阳能项目向LyondellBasell供应绿色电力。其中Brazoria太阳能项目装机325兆瓦，预计2025年底投产；Cottonwood Bayou太阳能项目装机455兆瓦，预计2024年底投产。新闻中未提及中国企业参与。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/56196.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-30　IND-HY-0001 印度查谟和克什米尔624MW基鲁水电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='印度查谟和克什米尔624MW基鲁水电项目'; entity_names=[]; events[0].project_summary='REC Limited is providing a loan of approximately $224.3 million for the development, construction, and operation of the 624 MW Kiru Hydropower Project on the Chenab River in Jammu and Kashmir, India. The project is being developed by Chenab Valley Power Projects Private Limited (CVPPPL), a joint venture between NHPC and JKSPDC.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/66142.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-31　ZAF-PV-0022 南非450MW太阳能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='南非450MW太阳能项目'; entity_names=[]; events[0].project_summary='Ikamva consortium, led by Globeleq and Mainstream Renewable Power, signed a 20-year power purchase agreement for six solar projects totaling 450 MW in South Africa. The projects are planned to be financed by 2023 and enter commercial operation in 2025.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/34798.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-32　MYS-PV-0026 马来西亚1000MW混合太阳能光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚1000MW混合太阳能光伏项目'; entity_names=[]; events[0].project_summary='I Squared Capital's portfolio company HEXA Renewables, in partnership with Malaysia's UEM Group Berhad and ITRAMAS, is developing a 1,000 MW hybrid solar photovoltaic project in Malaysia. This project is a significant step towards Malaysia's renewable energy goals.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/44276.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-33　KOR-WD-0021 韩国蔚山“灰鲸”3号海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='韩国蔚山“灰鲸”3号海上风电项目'; entity_names=[]; events[0].project_summary='Corio Generation, TotalEnergies, and SK Eco Plant are developing the Ulsan "Gray Whale" offshore wind project in South Korea. KEPCO E&C has signed a FEED design contract for the onshore power supply system. The project is part of a larger 1.5GW floating offshore wind development, aiming to be the world's largest.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/41900.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-34　MYS-PV-0013 马来西亚吉兰丹8.5MWp光伏发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚吉兰丹8.5MWp光伏发电项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚中标了吉兰丹8.5MWp光伏发电项目。该项目由威顿马来公司与本地合作伙伴共同完成，旨在为当地提供清洁能源。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/78593.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-35　MYS-PV-0014 马来西亚沙巴州21MWp漂浮光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚沙巴州21MWp漂浮光伏项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚沙巴州获得了21MWp漂浮光伏项目的投资许可。这是沙巴州首个漂浮光伏发电项目，由威顿马来公司与沙巴当地合作伙伴紧密协作完成。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/78593.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-36　UZB-PV-0033 乌兹别克斯坦Jizzakh、Samarkand、Sherabad 900MW光伏项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌兹别克斯坦Jizzakh、Samarkand、Sherabad 900MW光伏项目'; entity_names=[]; events[0].project_summary='Masdar公司完成了位于乌兹别克斯坦Jizzakh、Samarkand和Sherabad三个光伏项目的融资关闭，总装机容量为900兆瓦，是中亚最大的开发阶段光伏项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/40747.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-37　GRC-WD-0001 希腊卡里斯托斯360MW风电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='希腊卡里斯托斯360MW风电项目'; entity_names=[]; events[0].project_summary='国内可再生能源生产商Terna Energy将在埃维亚岛卡里斯托斯建设18个风电场，总装机容量为360兆瓦，投资约5.85亿欧元。该项目是希腊2.8吉瓦可再生能源项目的一部分。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/17699.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-38　EGY-PV-0016 埃及Benban 400MW光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='埃及Benban 400MW光伏项目'; entity_names=[]; events[0].project_summary='挪威公司Scatec Solar在埃及Benban太阳能园区建设并网了400兆瓦的太阳能项目，该项目采用了跟踪和双面光伏技术。同时，该公司在马里也获得了33兆瓦Segou太阳能项目的额外资金支持，该项目将由Scatec建设、拥有和运营。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/9515.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-39　VNM-HB-0012 越南后江省太阳能及风力发电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南后江省太阳能及风力发电项目'; entity_names=[]; events[0].project_summary='越南后江省拟推动8个太阳能项目和4个风电项目进入国家规划，总装机容量未明确，但提到了后江2号太阳能发电厂（50MW）、Sao Mai 1号太阳能发电厂（350MW）、Sao Mai 2号太阳能发电厂（200MW）、Vi Tan 1号太阳能发电厂（50MW）、Vi Tan 2太阳能发电厂（50MW）、Ho Nuoc Ngot太阳能发电厂（50MW）、Hoa An太阳能发电厂（50MW）、Hoa An太阳能发电厂（100MW），以及Long My 1号风力发电厂（100MW）、Sao Mai 1号风力发电厂（100MW）、Sao Mai 2号风力发电厂（50MW）、Hoa Tien风力发电厂（100MW）。这些项目处于规划阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28311.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-40　TWN-WD-0001 台湾大彰化1号和2a号海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='台湾大彰化1号和2a号海上风电项目'; entity_names=[]; events[0].project_summary='沃旭在台湾落成了亚太地区最大的海上风力发电场——大彰化1号和2a号项目，总装机容量为900兆瓦，已投入运营。该项目是沃旭在欧洲以外地区建成的首个千兆瓦级海上风电场。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/64558.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-41　THA-PV-0012 泰国东部经济走廊500MW光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='泰国东部经济走廊500MW光伏项目'; entity_names=[]; events[0].project_summary='泰国SPCG公司在泰国东部经济走廊（EEC）地区启动建设一个总装机容量为500MW的光伏项目。该项目分为两期建设，第一期装机300MW，第二期装机200MW。目前项目处于建设启动阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/47911.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-42　TCD-HB-0003 乍得100MW光伏发电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乍得100MW光伏发电项目'; entity_names=[]; events[0].project_summary='乍得政府在Goui奠基建设两个容量为100MWP的太阳能光伏发电厂，项目价值1.5亿美元，将包括50MW光伏电站、10MW电池储能系统等。Merl Solar Technologies将根据购电协议建设和运营该设施。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/17147.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-43　PAK-TX-0020 巴基斯坦220千伏黑德法奇里变电站及输电线路项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='巴基斯坦220千伏黑德法奇里变电站及输电线路项目'; entity_names=[]; events[0].project_summary='中国企业未明确参与该项目。该项目为巴基斯坦电力供应计划，涉及修建220千伏的黑德法奇里变电站及输电线路，总投资约519万美元，目前处于获批阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/6454.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-44　SRB-HY-0004 塞尔维亚Bistrica抽水蓄能水电站项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='塞尔维亚Bistrica抽水蓄能水电站项目'; entity_names=[]; events[0].project_summary='塞尔维亚计划在现有Bistrica水电站下游建设一座名为Bistrica的抽水蓄能水电站，装机容量为628兆瓦。该项目预计耗资约12亿欧元，塞尔维亚正与日本国际协力事业团（JICA）进行融资谈判。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/44402.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-45　ESP-PV-0013 西班牙韦尔瓦市263兆瓦光伏项目（Huelva La Luz）
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='西班牙韦尔瓦市263兆瓦光伏项目（Huelva La Luz）'; entity_names=[]; events[0].project_summary='西班牙可再生能源公司Alter Enersun在西班牙韦尔瓦市开发的Huelva La Luz项目，由8个光伏发电厂组成，总装机容量263兆瓦，预计于2024年第一季度完工并于2024年7月投入运营。该项目投资1.6亿欧元。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/61384.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-46　ESP-HB-0005 西班牙韦尔瓦市1000兆瓦光伏风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='西班牙韦尔瓦市1000兆瓦光伏风电项目'; entity_names=[]; events[0].project_summary='西班牙可再生能源公司Alter Enersun在西班牙韦尔瓦市开发总计1000兆瓦的光伏和风能项目，预计投资约7亿欧元，计划于2023年至2028年间建成。该项目包括建设10座光伏发电厂和1座风力发电场。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/61384.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-47　ESP-PV-0015 西班牙维拉努瓦·德卡斯蒂列霍斯市450兆瓦光伏项目（V.de los Castillejos Solar I）
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='西班牙维拉努瓦·德卡斯蒂列霍斯市450兆瓦光伏项目（V.de los Castillejos Solar I）'; entity_names=[]; events[0].project_summary='西班牙可再生能源公司Alter Enersun在西班牙维拉努瓦·德卡斯蒂列霍斯市开发V.de los Castillejos Solar I项目，为韦尔瓦港的绿色氢气项目提供可再生能源，容量达450兆瓦，涉及投资约2.9亿欧元。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/61384.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-48　MWI-PV-0001 马拉维60MW光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马拉维60MW光伏项目'; entity_names=[]; events[0].project_summary='InfraCo Africa和JCM Power在马拉维共同开发了60MW的Salima光伏项目。该项目已于2018年12月10日左右开工建设，预计2019年开始供电，将安装超过230,000块太阳能电池板。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/3722.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-49　TUR-PV-0016 土耳其Niğde 100MW太阳能项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='土耳其Niğde 100MW太阳能项目'; entity_names=[]; events[0].project_summary='阿布扎比国际控股公司（IHC）通过其子公司国际能源控股（IEH）以4.9亿美元收购土耳其Kalyon Energy公司50%的股份，获得了包括100 MW Niğde太阳能项目在内的多个可再生能源项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/31437.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-50　EGY-MF-0003 埃及泰达合作区10吉瓦时储能电池制造项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='埃及泰达合作区10吉瓦时储能电池制造项目'; entity_names=[]; events[0].project_summary='中国企业与挪威Scatec公司在埃及泰达合作区合资建设中东非洲首个储能电池制造基地，总投资18亿美元，年产能达10吉瓦时，项目已投产。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/91965.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-51　IND-PV-0009 印度古吉拉特邦1200MW太阳能项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='印度古吉拉特邦1200MW太阳能项目'; entity_names=[]; events[0].project_summary='印度公用事业公司GUVNL正在为古吉拉特邦Khavda可再生能源园区招标两个600MW的太阳能项目。该项目是印度雄心勃勃的清洁能源计划的一部分，旨在到2030年将可再生能源在其能源结构中的贡献提高到50%。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/42873.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-52　VNM-WD-0009 越南庆和省102MW风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南庆和省102MW风电项目'; entity_names=[]; events[0].project_summary='Nexif Ratch Energy在越南庆和省投资1.55亿美元建设102兆瓦风电项目，该项目是庆和省的首个风电项目，目前处于签约阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/75539.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-53　ZAF-HB-0009 南非西开普省128MW风光储能混合项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='南非西开普省128MW风光储能混合项目'; entity_names=[]; events[0].project_summary='南非能源部（DoE）签署了Oya能源混合设施的项目协议，该项目位于西开普省，装机容量为128 MW，由GDF International SA、G7 Power、Meadows Oya Energy和Perpetua RMI4P Oya联合开发，目前处于项目协议授予阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/48513.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-54　MAR-HB-0002 摩洛哥绿色电力传输及海水淡化项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='摩洛哥绿色电力传输及海水淡化项目'; entity_names=[]; events[0].project_summary='摩洛哥与阿联酋签署了一项价值140亿美元的投资协议，用于在摩洛哥建设绿色电力传输线路和海水淡化厂。该项目旨在加强摩洛哥的可再生能源发展和水安全，并由摩洛哥国家电力和饮用水办公室、穆罕默德六世投资基金、摩洛哥TAQA和Nareva等共同参与。项目计划于2030年完成。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/83239.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-55　PHL-HY-0001 菲律宾帕基尔抽水蓄能水电站工程
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾帕基尔抽水蓄能水电站工程'; entity_names=[]; events[0].project_summary='重庆市地矿集团川东南勘察公司在菲律宾中标帕基尔抽水蓄能水电站工程，目前项目组已抵达菲律宾内湖省开展下库钻探等工作，预计9月底完工。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/86006.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-56　OMN-HB-0007 阿曼3GW+500MW绿色氢氨项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='阿曼3GW+500MW绿色氢氨项目'; entity_names=[]; events[0].project_summary='可再生能源开发商ACME计划在阿曼杜库姆经济特区投资35亿美元建设世界上最大的绿色氢氨项目，该项目将整合3GW太阳能和500MW风能，预计2022年底前投产第一阶段，用于出口欧洲和亚洲。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/22078.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-57　GBR-WD-0013 英国Hornsea 2海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='英国Hornsea 2海上风电项目'; entity_names=[]; events[0].project_summary='Ørsted has sold a 50% stake in the Hornsea 2 offshore wind farm, the world's largest, to an investment consortium of AXA IM Alts and Crédit Agricole Assurances. The project is located in the UK and has a total installed capacity of 1320MW. The transaction is valued at approximately 25.05 billion RMB and is expected to be completed in the second half of 2022.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/27232.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-58　KAZ-WD-0016 哈萨克斯坦塞梅伊89.999MW风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='哈萨克斯坦塞梅伊89.999MW风电项目'; entity_names=[]; events[0].project_summary='中国企业寰泰能源在哈萨克斯坦塞梅伊中标89.999MW风电项目。该项目是寰泰能源在哈萨克斯坦新能源项目组合的一部分，进一步降低了当地居民的用电成本。项目已进入中标阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/75022.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-59　MOZ-PV-0006 莫桑比克30MW Chimbunila太阳能发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='莫桑比克30MW Chimbunila太阳能发电项目'; entity_names=[]; events[0].project_summary='莫桑比克30MW Chimbunila太阳能发电项目，由独立电力生产商开发，装机容量30MW，计划于2024年底前开工建设。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/52172.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-60　GBR-ES-0002 英国苏格兰埃克尔斯500MW/1000MWh电池储能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='英国苏格兰埃克尔斯500MW/1000MWh电池储能项目'; entity_names=[]; events[0].project_summary='特斯拉能源部门与Matrix Renewables签署了英国苏格兰埃克尔斯地区一个500MW/1000MWh的电池储能系统EPC协议。该项目是英国最大的独立电池储能项目，旨在储存风力发电并提升电网灵活性，目前已获得所有必要审批，即将开工建设。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/91340.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-61　MEX-WD-0002 墨西哥306MW风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='墨西哥306MW风电项目'; entity_names=[]; events[0].project_summary='Vestas previously supplied wind turbines and maintenance services for the 306MW Mesa la Paz wind power project in Tamaulipas, Mexico, in 2018. No Chinese enterprises were involved in this project.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/62120.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-62　OMN-PV-0012 阿曼伊卜里太阳能光伏独立发电站项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='阿曼伊卜里太阳能光伏独立发电站项目'; entity_names=[]; events[0].project_summary='亚投行向阿曼伊卜里太阳能光伏独立发电站项目提供了6000万美元贷款。该项目位于阿曼，装机容量为149万片太阳能板（约100MW，根据上下文推断），已于2021年投入商业运营，是阿曼首个大型公用事业规模的可再生能源项目。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28075.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-63　FRA-PV-0001 法国15MW太阳能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='法国15MW太阳能项目'; entity_names=[]; events[0].project_summary='ENGIE与亚马逊在法国签订了15兆瓦的购电协议，涉及太阳能项目，是当地首个公用事业规模的可再生能源项目。该项目将为亚马逊的欧洲业务提供电力。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/17436.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-64　PAK-PV-0008 巴基斯坦信德省曼琴德50兆瓦太阳能电站项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='巴基斯坦信德省曼琴德50兆瓦太阳能电站项目'; entity_names=[]; events[0].project_summary='巴基斯坦信德省计划于2020年2-3月对曼琴德50兆瓦太阳能电站项目进行竞价招标。该项目是400兆瓦太阳能电站产业园的一部分，预计吸引投资2.5亿美元，并获得世界银行1亿美元援助中的3000万美元。该产业园项目预计于2023年实现并网发电。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/12314.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-65　PER-PV-0003 秘鲁阿雷基帕225MW光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='秘鲁阿雷基帕225MW光伏项目'; entity_names=[]; events[0].project_summary='西班牙ACCIONA公司将在秘鲁阿雷基帕地区为Kallpa Generación公司建设一座225MW的光伏电站。该项目是ACCIONA在秘鲁的又一重要新能源项目，旨在满足当地电力需求并减少碳排放。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/75487.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-66　VNM-BM-0003 越南平阳省12兆瓦垃圾发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南平阳省12兆瓦垃圾发电项目'; entity_names=[]; events[0].project_summary='越南平阳省正在建设一个12兆瓦的垃圾发电厂项目，由越南平阳水务环境总公司（Biwase）投资，总投资4500万美元。该项目采用德国西门子的动力涡轮机等国际先进技术，旨在处理当地垃圾并提供清洁能源，预计在2025-2026年完工。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/85790.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-67　PHL-WD-0009 菲律宾Tablas海峡海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾Tablas海峡海上风电项目'; entity_names=[]; events[0].project_summary='Alternergy, a Philippine renewable energy company, has fully acquired the Tablas Strait offshore wind project company from Shell. This project, located in the Philippines, is expected to have a total capacity of 1.0 GW to 1.2 GW and is currently in the development stage.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/74904.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-68　IRL-WD-0003 爱尔兰1.4吉瓦浮动式海上风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='爱尔兰1.4吉瓦浮动式海上风电项目'; entity_names=[]; events[0].project_summary='挪威Equinor能源公司与爱尔兰公用事业公司ESB合作，在爱尔兰西海岸开发一个1.4吉瓦的浮动式海上风电场。该项目计划在未来十年内投入使用，旨在支持爱尔兰的净零排放目标。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/19387.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-69　AUS-PV-0009 澳大利亚新南威尔士州新英格兰太阳能发电厂
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='澳大利亚新南威尔士州新英格兰太阳能发电厂'; entity_names=[]; events[0].project_summary='澳大利亚ACEN公司获得了新南威尔士州Stubbo太阳能发电场（400MW）和新英格兰太阳能发电厂（720MW）的合同。这两个项目共计1.12GW，是新南威尔士州电力基础设施路线图的一部分，预计将于2025/26年开始供电。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/40043.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-70　DEU-HB-0003 德国林根50MW海上风电制氢项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='德国林根50MW海上风电制氢项目'; entity_names=[]; events[0].project_summary='沃旭能源与英国石油公司（BP）在德国合作开发海上风电制氢项目。该项目计划在BP位于德国Lingen的炼油厂建设50MW电解槽设备，利用沃旭的海上风电生产绿色氢气，目标是每年生产9000吨氢气，满足炼油厂需求。项目第一阶段为50MW，长期目标为500MW电解槽，预计2024年前投运。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/16864.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-71　JPN-WD-0004 日本秋田市315MW海上风电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='日本秋田市315MW海上风电项目'; entity_names=[]; events[0].project_summary='JERA、J-Power、伊藤忠商事株式会社、东北电力等组成的联合体中标日本秋田市海域315MW海上风电项目。该项目是日本第二轮海上风电招标的一部分。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/55711.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-72　MNE-TH-0002 黑山三座燃气发电厂项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='黑山三座燃气发电厂项目'; entity_names=[]; events[0].project_summary='黑山国有电力公司EPCG计划在黑山建设三座燃气发电厂，总装机容量为400兆瓦。项目旨在满足能源转型需求，并可能与可再生能源结合。目前项目处于前期准备阶段，正在进行顾问招标。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/25208.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-73　NLD-PV-0003 荷兰79MW光伏项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='荷兰79MW光伏项目'; entity_names=[]; events[0].project_summary='德国Blue Elephant Energy AG（BEE）与Greencells集团在荷兰合作开发七个太阳能项目，总容量为79 MWp，预计最迟2025年前完成全部设施投产运营。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/18279.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-74　LKA-HB-0001 斯里兰卡亭可马里光伏+储能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='斯里兰卡亭可马里光伏+储能项目'; entity_names=[]; events[0].project_summary='斯里兰卡亭可马里电力有限公司（TPCL）发布了50 MWac光伏电站及配套储能系统的EPC招标。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/92922.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-75　PHL-WD-0020 菲律宾奎松Alabat风电项目和黎刹Tanay风电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾奎松Alabat风电项目和黎刹Tanay风电项目'; entity_names=[]; events[0].project_summary='丹麦公司K2 Management与菲律宾Alternergy Holdings Corporation合作，共同推进菲律宾奎松的Alabat风电项目和黎刹的Tanay风电项目。这两个项目是陆上风电项目，目前正在进行开发和建设阶段，具体装机容量未在新闻中明确提及。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/55475.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-76　MOZ-PV-0005 莫桑比克30MW Manje太阳能发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='莫桑比克30MW Manje太阳能发电项目'; entity_names=[]; events[0].project_summary='莫桑比克30MW Manje太阳能发电项目，由独立电力生产商开发，装机容量30MW，计划于2024年底前开工建设。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/52172.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-77　PHL-WD-0006 菲律宾奎松地区340兆瓦风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾奎松地区340兆瓦风电项目'; entity_names=[]; events[0].project_summary='NexGen Energy Corporation子公司Airstream Renewables Corporation在菲律宾奎松地区获得200兆瓦Real海上风力发电项目、100兆瓦Silang Maragondon风力发电场和40兆瓦Pandan Labayat风电项目批准，总计340兆瓦，目前已获菲律宾能源部批准，正进行电力系统影响研究审批。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/79309.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-78　ZAF-WD-0004 南非220MW风电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='南非220MW风电项目'; entity_names=[]; events[0].project_summary='Enel Green Power在南非开发的两座风电场将向液化空气公司和Sasol公司供应绿色能源，总装机容量为220MW，预计从2025年起供电。该项目为企业级PPA模式，旨在减少客户的碳排放。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/36294.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-79　BRA-WD-0006 巴西1.31GW风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='巴西1.31GW风电项目'; entity_names=[]; events[0].project_summary='Vestas secured a 1.31 GW wind turbine order from Casa dos Ventos in Brazil for two new wind power projects. The turbines will be installed at the Serra do Tigre project (756 MW) and the Babilônia Centro project (554 MW) in northeastern Brazil. No Chinese enterprises are mentioned as participants.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/62120.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-80　MYS-PV-0009 马来西亚槟城9028kW屋顶光伏发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚槟城9028kW屋顶光伏发电项目'; entity_names=[]; events[0].project_summary='名洋能源（马来西亚）中标马来西亚槟城一工厂的9028kWp屋顶光伏发电项目，将承担EPC总承包工程。该项目为分布式系统，采用“自发自用”模式。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/85452.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-81　MYS-PV-0012 马来西亚雪兰莪15MWp光伏发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚雪兰莪15MWp光伏发电项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚中标了雪兰莪15MWp光伏发电项目。该项目由威顿马来公司与本地合作伙伴共同完成，旨在为当地提供清洁能源。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/78593.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-82　GRC-HY-0001 希腊PPC抽水蓄能项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='希腊PPC抽水蓄能项目'; entity_names=[]; events[0].project_summary='希腊公共电力公司（PPC）计划建设5座抽水蓄能电站，总容量为1.41吉瓦。其中，卡迪亚抽水蓄能水电站预计容量为148兆瓦，另外两个最大的项目各460兆瓦，分别位于Vegoritida湖和Sfikia。PPC已运营两座抽水蓄能电站，总装机容量为696兆瓦。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/44936.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-83　SAU-WD-0014 沙特延布850MW风电项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='沙特延布850MW风电项目'; entity_names=[]; events[0].project_summary='沙特能源部计划在2022年第三季度对沙特阿拉伯的第二个风力发电项目——延布850MW风电项目进行资格预审。该项目是沙特国家可再生能源计划的一部分，法国企业Engie已表示将参与投标。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28301.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-84　GRC-PV-0008 希腊拉里萨等地区830MW太阳能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='希腊拉里萨等地区830MW太阳能项目'; entity_names=[]; events[0].project_summary='食品包装公司和酒店运营商Karatzis SA计划在拉里萨、马格尼西亚和基尔基斯建立37家太阳能发电厂，增加830兆瓦的清洁能源产能，预计投资总额为4.216亿欧元。该项目是希腊2.8吉瓦可再生能源项目的一部分。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/17699.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-85　MYS-HY-0008 马来西亚沙巴州万劳区29.1MW水电站项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚沙巴州万劳区29.1MW水电站项目'; entity_names=[]; events[0].project_summary='泰豪国际马来西亚子公司与Kpower集团签约沙巴州万劳区29.1MW水电站项目EPCC合同，计划2023年初并网发电。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28634.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-86　COD-TX-0003 刚果（金）220千伏输变电工程
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='刚果（金）220千伏输变电工程'; entity_names=[]; events[0].project_summary='中国国际公司在刚果（金）承建了220千伏输变电工程，该项目已通过验收，将缓解当地矿区用电紧张状况并为居民提供稳定电力。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/47099.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-87　KHM-WD-0002 柬埔寨蒙多基里省/贡布省波哥山地区100MW风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='柬埔寨蒙多基里省/贡布省波哥山地区100MW风电项目'; entity_names=[]; events[0].project_summary='新加坡The Blue Circle与柬埔寨本土企业Royal集团合作开发柬埔寨首个风电项目，一期装机容量100MW，项目位于蒙多基里省和贡布省的波哥山地区，目前处于研究和合作阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/65879.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-88　MNG-TH-0002 蒙古国乌兰巴托额么勒特生态产业园热电厂及污水处理厂项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='蒙古国乌兰巴托额么勒特生态产业园热电厂及污水处理厂项目'; entity_names=[]; events[0].project_summary='中国华资科技有限公司与华实能源实业有限公司组成的联合体中标蒙古国乌兰巴托的额么勒特生态产业园热电厂及污水处理厂项目。该项目包括一座24兆瓦的热电厂，目前处于中标阶段，预计2026年第一季度开工。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/86980.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-89　TUR-HB-0009 土耳其其他可再生能源项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='土耳其其他可再生能源项目'; entity_names=[]; events[0].project_summary='阿布扎比国际控股公司（IHC）通过其子公司国际能源控股（IEH）以4.9亿美元收购土耳其Kalyon Energy公司50%的股份，获得了包括其他可再生能源项目在内的多个项目组合。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/31437.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-90　FRA-PV-0002 法国上莱茵地区94.2MW光伏项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='法国上莱茵地区94.2MW光伏项目'; entity_names=[]; events[0].project_summary='在法国上莱茵地区的招标活动中，政府选择了12个太阳能项目，总容量为94.2MW，将设在已退役的费森海姆核电站。这些项目处于获批阶段，但未提及中国企业参与。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/13898.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-91　ECU-WD-0001 厄瓜多尔Villonaco 3期风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='厄瓜多尔Villonaco 3期风电项目'; entity_names=[]; events[0].project_summary='厄瓜多尔Villonaco 3期风电项目，总装机容量110.4MW，由厄瓜多尔政府与Villonaco能源公司签署特许权合同修改附录，项目资金来自西班牙Cobra Villonaco Energy，计划于2025年4月开工，2027年3月投运。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/77901.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-92　SAU-HB-0020 沙特阿拉伯舒艾巴3期独立供水项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='沙特阿拉伯舒艾巴3期独立供水项目'; entity_names=[]; events[0].project_summary='Doosan Enerbility (South Korea) is the EPC contractor for the Shuaibah 3 Independent Water Project in Saudi Arabia. This project involves building a desalination plant with a capacity of 600,000 cubic meters per day and a 60 MW solar power plant, with an estimated completion date of May 2025.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/31061.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-93　KHM-HY-0013 柬埔寨菩萨省80MW水电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='柬埔寨菩萨省80MW水电项目'; entity_names=[]; events[0].project_summary='柬埔寨计划在菩萨省兴建菩萨河水电站项目，装机容量为80兆瓦，由私人企业投资开发，预计将于2026年建成投产。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/22085.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-94　VNM-TH-0008 越南河静省永昂3 LNG燃机发电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南河静省永昂3 LNG燃机发电项目'; entity_names=[]; events[0].project_summary='西门子能源联合体向越南河静省提交了永昂3 LNG燃机项目的投资意向方案和预可研报告，该项目计划投资约45.9亿美元，装机容量3.2GW，并有1.6GW扩建潜力，预计2026-2027年完成LNG入港接收。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/21423.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-95　LAO-WD-0010 老挝向越南售电风电项目群
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='老挝向越南售电风电项目群'; entity_names=[]; events[0].project_summary='老挝境内有多个风电项目正在开发建设，旨在向越南出售电力，总容量已达4,149MW。其中Savan 1期(495MW)和Savan 2期(495MW)项目由Vinacom Invest and Trading Company投资，计划连接至越南广治省的Hướng Hoá升压站。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/56658.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-96　LAO-WD-0005 老挝沙湾拿吉省Nong风电项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='老挝沙湾拿吉省Nong风电项目'; entity_names=[]; events[0].project_summary='老挝政府与Chitchareune Construction公司联合在老挝沙湾拿吉省建设1200兆瓦的Nong风电项目，总投资19亿美元，项目建成后将向越南出口电力。该项目目前处于可行性研究阶段，预计分两期建设。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/78777.html；https://news.goalfore.cn/topstories/detail/42761.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-97　SEN-HB-0003 塞内加尔科尔达太阳能光伏和电池储能项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='塞内加尔科尔达太阳能光伏和电池储能项目'; entity_names=[]; events[0].project_summary='Axian Energy is developing a 60MW solar PV and 72MWh BESS project in Senegal, named the Kouroudi project. The project has secured €84 million in financing and is expected to be completed in 2026, providing clean energy to 235,000 residents.'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/74670.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-98　OMN-HB-0006 阿曼110亿美元绿色氢项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='阿曼110亿美元绿色氢项目'; entity_names=[]; events[0].project_summary='阿曼Hydrom公司与法国电力集团(EDF Group)合作，在阿曼开发两个绿色氢生产项目，总投资额达110亿美元。项目将利用风能和太阳能发电，为电解槽提供动力，目标是到2030年生产大量绿色氢气和绿氨。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/66041.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-99　VNM-HB-0011 越南槟椥省电力项目规划更新
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南槟椥省电力项目规划更新'; entity_names=[]; events[0].project_summary='越南槟椥省正在向总理和工贸部提交更新和增加电力规划八26个项目，总容量为6418.6MW。这些项目处于规划阶段。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/28311.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-100　EGY-PV-0011 埃及Kom Obom光伏项目
+- **AI 判定**：exclude
+- **理由**：audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='埃及Kom Obom光伏项目'; entity_names=[]; events[0].project_summary='ACWA Power在埃及开发的Kom Obom光伏项目（200MW）已于2023年4月实现融资关闭，总投资1.65亿美元，该项目创造了北非太阳能项目的最低合同电价纪录。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/50090.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T2-101　GRC-ES-0004 希腊首次电池储能项目
+- **AI 判定**：downgrade_non_project
+- **理由**：上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。
+- **证据**：audit_note='无中企扫描：全部事件无具名中企实体'; project_name='希腊首次电池储能项目'; entity_names=[]; events[0].project_summary='希腊能源、废物和水监管局（RAAEY）完成了首次储能拍卖，共12个电池储能项目入选。HELLENiQ Energy、PPC Renewables、Intrakat 的Intra – S. Energy 等公司中标，总计约300MW容量。项目容量（以兆瓦时表示）将是运营功率的两倍，意味着最多可充电或放电两个小时。'
+- **原文链接**：https://news.goalfore.cn/topstories/detail/44936.html
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+## T3：实体归属补录（判定=往企业登记册加条目）（4 条）
 
 AI 把下面这些公司名归到了某个集团（或新建集团）。落库后实体解析会按此归并。你只需判断：归属对不对？（证据列是 AI 联网查到的来源链接）
 
-### T3-1　中国石化石油工程建设公司（登记归属：中国石油化工集团有限公司）
-- **AI 判定**：alias_of_existing
-- **理由**：中石化石油工程建设有限公司系中国石油化工集团有限公司全资子公司，2012年石油工程专业化整合重组组建。
-- **证据**：http://specc.sinopec.com/specc/；https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E6%B2%B9%E5%8C%96%E5%B7%A5%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22856005
+### T3-1　中国葛洲坝电力公司（登记归属：中国能源建设集团有限公司）
+- **AI 判定**：subsidiary_of_existing
+- **理由**：葛洲坝集团隶属于中国能源建设集团，葛洲坝电力公司归入中国能建体系。
+- **证据**：https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2；https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9C%8B%E8%83%BD%E6%BA%90%E5%BB%BA%E8%A8%AD%E9%9B%86%E5%9C%98
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T3-2　深圳远信储能技术股份有限公司（登记归属：深圳远信储能技术股份有限公司）
+### T3-2　湖南建工集团有限公司（登记归属：湖南建设投资集团有限责任公司）
+- **AI 判定**：alias_of_existing
+- **理由**：湖南建工集团为湖南地方建工体系，registry已有湖南建设投资集团有限责任公司，按既有集团归属。
+- **证据**：https://zh.wikipedia.org/wiki/%E5%91%A8%E6%B5%B7%E5%85%B5
+- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
+
+### T3-3　尚德电力（登记归属：尚德电力控股有限公司）
 - **AI 判定**：new_group
-- **理由**：远信储能由王堉、张佳婧2019年创立并控股（合计约72.88%），为独立民营储能企业，正申请港交所上市，不在registry_groups中，应作为独立顶层集团新建。
-- **证据**：https://m.qcc.com/firm/44fa42d1dca269011eb625f1f03805c2.html；https://finance.sina.com.cn/roll/2026-01-21/doc-inhhzppz5561395.shtml
+- **理由**：尚德电力为无锡光伏企业，虽经历重整但未在registry中，按独立中国光伏集团记录。
+- **证据**：https://zh.wikipedia.org/wiki/%E5%B0%9A%E5%BE%B7%E7%94%B5%E5%8A%9B
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
 
-### T3-3　国网宁波供电公司（登记归属：国家电网有限公司）
-- **AI 判定**：alias_of_existing
-- **理由**：国网宁波供电公司为国网浙江电力下属地市级供电公司，属国家电网有限公司体系。
-- **证据**：https://baike.baidu.com/item/%E5%9B%BD%E7%BD%91%E6%B5%99%E6%B1%9F%E7%9C%81%E7%94%B5%E5%8A%9B%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%AE%81%E6%B3%A2%E4%BE%9B%E7%94%B5%E5%85%AC%E5%8F%B8/51372191
-- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
-
-### T3-4　中远海运工程物流有限公司（登记归属：中国远洋海运集团有限公司）
-- **AI 判定**：alias_of_existing
-- **理由**：工程物流是中远海运物流（中国远洋海运集团旗下综合物流平台）五大业务板块之一，中远海运工程物流有限公司为其工程物流板块下属公司。
-- **证据**：https://www.coscoshipping.com/；https://zh.wikipedia.org/zh-hans/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2
-- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
-
-### T3-5　海油工程（登记归属：中国海洋石油集团有限公司）
-- **AI 判定**：alias_of_existing
-- **理由**：海油工程（海洋石油工程股份有限公司，600583）是中国海洋石油集团有限公司控股上市公司，"海油工程"为其证券简称。
-- **证据**：https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E7%9F%B3%E6%B2%B9%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22230538；https://www.cnoocengineering.com/gywm/gsjj/
-- **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）
-
-### T3-6　中天科技（登记归属：中天科技集团有限公司）
-- **AI 判定**：new_group
-- **理由**：中天科技集团系江苏南通民营企业，中国民营企业500强常客，不在registry_groups中，应作为独立顶层集团新建。
-- **证据**：https://baike.baidu.com/item/%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/7683879；https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E4%B8%AD%E5%A4%A9%E7%A7%91%E6%8A%80%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/3715481
+### T3-4　国家电投上海电力（登记归属：国家电力投资集团有限公司）
+- **AI 判定**：subsidiary_of_existing
+- **理由**：上海电力股份有限公司为国家电投体系上市公司，归入国家电力投资集团有限公司。
+- **证据**：https://zh.wikipedia.org/wiki/%E5%9B%BD%E5%AE%B6%E7%94%B5%E5%8A%9B%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2
 - **复核结论**：[ ] 同意　[ ] 不同意（备注：＿＿＿）

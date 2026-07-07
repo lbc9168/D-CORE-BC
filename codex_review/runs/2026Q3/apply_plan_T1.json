@@ -1,34 +1,322 @@
 [
   {
     "verdict": {
-      "pair_id": "a3455edfe2af893c3e43fd295dcc78dbd1076a73",
+      "pair_id": "95e1a65d8aa62dbdfc8a27c4b0f082a4f7d456fb",
       "same_project": true,
       "confidence": "high",
-      "evidence_quote": "a.project_name='苏里南村庄微电网光伏项目（二期）'; b.project_name='苏里南村庄微电网光伏项目（二期）'; a.events[1].project_summary='中国电建在苏里南承建的村庄微电网光伏项目二期第一站点已顺利移交...惠及约1550户村民' (publish_date 2024-04-09); b.events[0].project_summary='中国电建在苏里南承建的村庄微电网光伏项目（二期）第一站点德里塔贝切微电网项目已成功移交...总计光伏装机4.16兆瓦' (publish_date 2024-04-10)",
-      "survivor_id": "SUR-HB-0005",
-      "reason": "两侧项目名称完全一致（同为二期），国家/类别相同，均描述'第一站点'移交这一同一事件，发布日期仅相差一天（4月9日/4月10日），显系不同信源对同一物理项目同一里程碑的重复报道。选事件更多（2个vs1个）的 SUR-HB-0005 为 survivor。"
+      "evidence_quote": "a.project_name='巴西玛瑞蒂425兆瓦光伏项目'; b.project_name='巴西玛瑞蒂344MW光伏项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='收购'; a.events[0].capacity_mw=425.0; b.events[0].capacity_mw=344.0; a.events[0].project_summary='中国电建在巴西东北部塞阿拉州玛瑞蒂市投资建设了总装机容量425兆瓦的玛瑞蒂光伏电站项目。该项目已获得商业运行证书并成功投产，是中国电建在海外新能源投资领域的重要突破。'; b.events[0].project_summary='中国电建国际公司在巴西东北部塞阿拉州玛瑞蒂市收购了装机规模约344兆瓦的光伏项目，该项目是公司在海外新能源投资领域的重要突破，目前已完成股权交割。'",
+      "survivor_id": "BRA-PV-0005",
+      "reason": "两侧均为巴西塞阿拉州玛瑞蒂光伏项目，344MW/425MW为不同口径容量，均由中国电建在同一地点投资/收购/投运，判定为同一项目。 选 BRA-PV-0005 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
     },
     "context": {
-      "a_canonical_id": "SUR-HB-0005",
-      "a_project_name": "苏里南村庄微电网光伏项目（二期）",
-      "b_canonical_id": "SUR-HB-0008",
-      "b_project_name": "苏里南村庄微电网光伏项目（二期）"
+      "a_canonical_id": "BRA-PV-0005",
+      "a_project_name": "巴西玛瑞蒂425兆瓦光伏项目",
+      "b_canonical_id": "BRA-PV-0023",
+      "b_project_name": "巴西玛瑞蒂344MW光伏项目"
     }
   },
   {
     "verdict": {
-      "pair_id": "c65c76c1c04ae038292092d1c3a438395a157863",
+      "pair_id": "53e773de8bb123ad9a57f55fa460fb0ab558f17d",
       "same_project": true,
       "confidence": "medium",
-      "evidence_quote": "a.project_summary='中国能源建设集团浙江火电建设有限公司和隆基绿能参与了埃及康翁波230MW光伏项目...该项目由ACWA power开发'; b.events[1].project_summary='中国能建中电工程国际公司联合体与ACWA Power签约埃及康翁波200兆瓦光伏电站项目总承包合同'",
-      "survivor_id": "EGY-PV-0009",
-      "reason": "两者均为埃及康翁波（Kom Ombo）由ACWA Power开发、中国能建体系（浙江火电/中电工程国际）承建的光伏项目，容量230MW与200MW相近（属常见的直流侧/交流侧容量差异表述），签约时点相近（2023年4-5月），判定为同一物理项目的不同信源报道。选事件更多（3个vs1个）的 EGY-PV-0009 为 survivor。"
+      "evidence_quote": "a.project_name='菲律宾瓦瓦600兆瓦抽水蓄能电站项目'; b.project_name='菲律宾瓦瓦500兆瓦抽水蓄能电站项目'; a.events[0].project_stage='签约'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=600.0; b.events[0].capacity_mw=500.0; a.events[0].project_summary='中国电建在菲律宾承建瓦瓦抽水蓄能电站项目，该项目位于菲律宾吕宋岛黎刹省，装机容量为600兆瓦。此次签订了变速机组补充协议，标志着项目进入新的阶段。'; b.events[0].project_summary='中国电建在中国企业中国电建的参与下，在菲律宾签署了瓦瓦抽水蓄能电站项目的EPC总承包合同。该项目装机容量为500兆瓦，目前处于签约阶段。'",
+      "survivor_id": "PHL-HY-0005",
+      "reason": "两侧均为菲律宾瓦瓦抽水蓄能电站项目，容量500MW/600MW存在口径调整但项目名和中国电建参与一致，判定为同一项目。 选 PHL-HY-0005 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
     },
     "context": {
-      "a_canonical_id": "EGY-PV-0008",
-      "a_project_name": "埃及康翁波230MW光伏项目",
-      "b_canonical_id": "EGY-PV-0009",
-      "b_project_name": "埃及Kom Ombo 200MW光伏项目"
+      "a_canonical_id": "PHL-HY-0005",
+      "a_project_name": "菲律宾瓦瓦600兆瓦抽水蓄能电站项目",
+      "b_canonical_id": "PHL-XX-0002",
+      "b_project_name": "菲律宾瓦瓦500兆瓦抽水蓄能电站项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "88b7530a253cbe1ac10fa1da71212e15fb611db4",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='乌兹别克斯坦纳沃伊风光储综合能源项目'; b.project_name='乌兹别克斯坦纳沃伊综合能源项目'; a.events[0].project_stage='开工'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=750.0; b.events[0].capacity_mw=600.0; a.events[0].project_summary='中国能建在乌兹别克斯坦投资建设了纳沃伊风光储综合能源项目，该项目已顺利开工，由300MW光伏、300MW风电和150MW/300MWh储能组成，是中国能建首个境外投资的“风光储一体化”综合能源项目。'; b.events[0].project_summary='中国能建在乌兹别克斯坦投资建设纳沃伊综合能源项目，该项目由300兆瓦光伏、300兆瓦风电和150兆瓦/300兆瓦时储能组成，总投资额预计超过7亿美元，项目已完成协议签约。'",
+      "survivor_id": "UZB-HB-0025",
+      "reason": "两侧均为中国能建乌兹别克斯坦纳沃伊风光储综合能源项目，均描述300MW光伏、300MW风电和150MW/300MWh储能，判定为同一项目。 选 UZB-HB-0025 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "UZB-HB-0025",
+      "a_project_name": "乌兹别克斯坦纳沃伊风光储综合能源项目",
+      "b_canonical_id": "UZB-HB-0034",
+      "b_project_name": "乌兹别克斯坦纳沃伊综合能源项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "4d19494c7d8f8939cc908ff234d2e52b419ef720",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='布隆迪胡济巴济水电站'; b.project_name='布隆迪胡济巴济水电站项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='竣工'; a.events[0].capacity_mw=15.0; b.events[0].capacity_mw=None; a.events[0].project_summary='中国企业援建布隆迪胡济巴济水电站项目，该项目已顺利完工投产，对布隆迪经济发展起到了重要促进作用。'; b.events[0].project_summary='中国企业水利水电规划设计总院参与了布隆迪胡济巴济水电站项目的竣工验收工作。该项目为水电项目，目前已顺利通过验收并获得优秀评价，即将转入运维保修阶段。'",
+      "survivor_id": "BDI-HY-0002",
+      "reason": "两侧均为布隆迪胡济巴济15MW水电站，分别描述投运与竣工验收，判定为同一物理项目。 选 BDI-HY-0002 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "BDI-HY-0001",
+      "a_project_name": "布隆迪胡济巴济水电站",
+      "b_canonical_id": "BDI-HY-0002",
+      "b_project_name": "布隆迪胡济巴济水电站项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "36866825572e0f7589762c1b2aa2b652411bd7eb",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='智利CEME1 480兆瓦光伏项目'; b.project_name='智利480MW光伏项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='中标'; a.events[0].capacity_mw=480.0; b.events[0].capacity_mw=480.0; a.events[0].project_summary='中国电建在智利承建了CEME1光伏项目，该项目装机容量为480兆瓦，已于当地时间7月8日举行商业运行典礼，是智利最大的单体光伏项目。'; b.events[0].project_summary='保威新能源联合国内知名总承包商中标智利480MW光伏项目，该项目是智利最大的单体光伏电站，预计于2023年底并网。'",
+      "survivor_id": "CHL-PV-0002",
+      "reason": "两侧均描述智利480MW最大单体光伏项目，一侧给出CEME1名称，另一侧为同容量中标报道，判定为同一项目的不同阶段报道。 选 CHL-PV-0002 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "CHL-PV-0002",
+      "a_project_name": "智利CEME1 480兆瓦光伏项目",
+      "b_canonical_id": "CHL-PV-0005",
+      "b_project_name": "智利480MW光伏项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "4136b1dc0a856536f3fe9bdb893983cb1800466b",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='沙特ARS 700MW光伏项目'; b.project_name='沙特阿拉伯700MW光伏项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=700.0; b.events[0].capacity_mw=700.0; a.events[0].project_summary='黄河公司参与开发建设的沙特ARS 700兆瓦光伏项目已全容量投产。该项目位于沙特Al Qassim地区，由黄河公司与ACWA Power合作开发，为当地提供清洁能源。'; b.events[0].project_summary='国家电投集团黄河上游水电开发有限责任公司在沙特阿拉伯投资建设700MW光伏电站项目。该项目是中国信保提供保函支持的重点项目，标志着项目正式启动并进入投资、融资、建设阶段。'",
+      "survivor_id": "SAU-PV-0031",
+      "reason": "两侧均指向沙特Al Rass/ARS 700MW光伏项目，国家电投黄河公司参与、容量一致，属于签约到投产的同一项目。 选 SAU-PV-0031 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "SAU-PV-0031",
+      "a_project_name": "沙特ARS 700MW光伏项目",
+      "b_canonical_id": "SAU-PV-0046",
+      "b_project_name": "沙特阿拉伯700MW光伏项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "edf74b1c405423fddfd1c40a158a560e343c037e",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='沙特阿拉伯2 GW/8 GWh电池储能系统项目'; b.project_name='沙特阿拉伯2000MW电池储能项目'; a.events[0].project_stage='拟开发'; b.events[0].project_stage='中标'; a.events[0].capacity_mw=2000.0; b.events[0].capacity_mw=2000.0; a.events[0].project_summary='中国企业中能建海外投资有限公司、中国电力工程顾问集团国际工程有限公司和南方电网国际有限责任公司参与了沙特阿拉伯2 GW/8 GWh电池储能系统（BESS）招标的资格预审。该项目采用建设-拥有-运营模式，具体项目名称、装机容量细节和项目阶段未在新闻中明确说明。'; b.events[0].project_summary='中国多家企业（包括能建海投、中电工程国际、南网国际、晶科香港、国电投黄河公司等）入围沙特阿拉伯全球最大电池储能项目资格预审。该项目总容量为2,000 MW/8,000 MWh，采用BOO模式，中标方将持有项目公司100%股权，并与SPPC签订15年运维协议。'",
+      "survivor_id": "SAU-ES-0004",
+      "reason": "两侧均描述沙特2GW/8GWh（2000MW/8000MWh）BESS资格预审/入围事项，容量、模式和参与主体高度一致，判定为同一储能项目不同报道。 选 SAU-ES-0004 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "SAU-ES-0004",
+      "a_project_name": "沙特阿拉伯2 GW/8 GWh电池储能系统项目",
+      "b_canonical_id": "SAU-ES-0010",
+      "b_project_name": "沙特阿拉伯2000MW电池储能项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "e2a2b39a9777f3db41ff6f02cbf2c876ce1e076d",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='沙特赛达维2000MW光伏项目'; b.project_name='沙特2000MW光伏项目'; a.events[0].project_stage='中标'; b.events[0].project_stage='中标'; a.events[0].capacity_mw=2000.0; b.events[0].capacity_mw=2000.0; a.events[0].project_summary='中国企业威泰迅/威能中标沙特赛达维2GW光伏项目，作为SCADA电力监控系统及电气保护设备的核心供应商。该项目由上海电气与阿布扎比未来能源有限公司联合承建，是沙特规模最大的光伏EPC工程之一，旨在推动沙特能源结构转型。'; b.events[0].project_summary='上海电气中标沙特Al Sadawi光伏独立发电项目（IPP）的EPC合同。该项目装机容量为2000MW，由阿联酋Masdar、中国国电电力发展股份有限公司（GD Power）及韩国电力公司（Kepco）组成的财团开发。'",
+      "survivor_id": "SAU-PV-0018",
+      "reason": "两侧均为沙特Al Sadawi/赛达维2000MW光伏项目，容量、EPC方上海电气和开发财团一致，属于同一项目。 选 SAU-PV-0018 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "SAU-PV-0018",
+      "a_project_name": "沙特赛达维2000MW光伏项目",
+      "b_canonical_id": "SAU-PV-0052",
+      "b_project_name": "沙特2000MW光伏项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "a56891295cb78308d3931616564c10077a0224c0",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='阿曼Manah II 588.2MW光伏发电项目'; b.project_name='阿曼Manah II 588.2MW光伏发电EPC总承包项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='中标'; a.events[0].capacity_mw=588.2; b.events[0].capacity_mw=588.2; a.events[0].project_summary='中国能建山西院在阿曼承建了Manah II光伏发电项目，总装机容量588.2兆瓦，该项目已实现初步商业运行。'; b.events[0].project_summary='中国能建山西院中标阿曼Manah II 光伏发电EPC总承包项目。该项目位于阿曼Manah地区，总装机容量为588.2兆瓦，是山西院在中东市场开辟的首个项目，也是其承建的海外单体最大光伏发电总承包项目。'",
+      "survivor_id": "OMN-PV-0004",
+      "reason": "两侧均为阿曼Manah II 588.2MW光伏发电项目，容量、名称和中国能建山西院参与一致，属于同一项目不同阶段报道。 选 OMN-PV-0004 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "OMN-PV-0004",
+      "a_project_name": "阿曼Manah II 588.2MW光伏发电项目",
+      "b_canonical_id": "OMN-PV-0010",
+      "b_project_name": "阿曼Manah II 588.2MW光伏发电EPC总承包项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "cc0047550b9cd86ca76b41ae84b8a6618bff69c4",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='哥伦比亚瓜亚博III光伏项目'; b.project_name='哥伦比亚瓜亚博III 80兆瓦光伏发电项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=150.0; b.events[0].capacity_mw=80.0; a.events[0].project_summary='中国电建在哥伦比亚承建的瓜亚博III光伏项目已成功实现全容量并网发电。该项目装机容量为150MW，为当地提供清洁电能，助力能源转型。'; b.events[0].project_summary='中国电建在哥伦比亚亚特兰大省巴兰基亚市签约了瓜亚博III 80兆瓦光伏发电项目。该项目是中国电建在哥伦比亚新能源领域的又一突破，将有助于当地电力供应和能源结构优化。'",
+      "survivor_id": "COL-PV-0003",
+      "reason": "两侧均为哥伦比亚瓜亚博III光伏项目，项目名完全一致，容量差异可能来自交流/直流或阶段口径，判定为同一项目。 选 COL-PV-0003 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "COL-PV-0003",
+      "a_project_name": "哥伦比亚瓜亚博III光伏项目",
+      "b_canonical_id": "COL-PV-0007",
+      "b_project_name": "哥伦比亚瓜亚博III 80兆瓦光伏发电项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "01e03bf79f33de194e86b38f97924cca92557dfd",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='南非自由州省620MW光伏项目'; b.project_name='南非自由州475MW光伏项目'; a.events[0].project_stage='签约'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=620.0; b.events[0].capacity_mw=475.0; a.events[0].project_summary='中国能建国际集团联合中国能建西北院与南非本土IPP开发商Anthem签署了南非诺希620MW光伏电站项目EPC合同。该项目是南非单体容量最大的光伏电站，位于南非自由州省迪尔斯维尔镇，将大幅提升当地清洁能源供应能力。'; b.events[0].project_summary='中国能建国际集团联合中国能建西北院与南非本土IPP开发商Anthem签署了南非Notsi光伏电站项目EPC合同。该项目位于南非自由州，装机容量为475MW，是南非已完成融资关闭的最大单期太阳能光伏项目。'",
+      "survivor_id": "ZAF-PV-0002",
+      "reason": "两侧均为南非自由州Notsi/诺希光伏电站项目，业主Anthem与中国能建西北院参与一致，容量差异为不同口径，判定为同一项目。 选 ZAF-PV-0002 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "ZAF-PV-0002",
+      "a_project_name": "南非自由州省620MW光伏项目",
+      "b_canonical_id": "ZAF-PV-0026",
+      "b_project_name": "南非自由州475MW光伏项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "15f953b94f39208615e9ef4686107c294252f94a",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='柬埔寨斯登眉登梯级水电站'; b.project_name='柬埔寨斯登眉登梯级水电站项目'; a.events[0].project_stage='拟开发'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=150.0; b.events[0].capacity_mw=148.0; a.events[0].project_summary='中国电建北京院在中国柬埔寨斯登眉登梯级水电站项目中承担了勘测设计工作，该项目总装机容量为150兆瓦，目前可行性研究报告已通过审查，为项目主体工程的开展奠定了基础。'; b.events[0].project_summary='中国企业北京院与柬埔寨斯登眉登水电公司签订了柬埔寨斯登眉登梯级水电站项目的勘察设计合同。该项目位于柬埔寨戈公省与菩萨省交界处，规划两个梯级，总装机容量为148兆瓦。项目处于勘察设计阶段。'",
+      "survivor_id": "KHM-HY-0009",
+      "reason": "两侧均为柬埔寨斯登眉登梯级水电站，容量150MW/148MW接近且均指向北京院勘测设计/可研阶段，判定为同一梯级项目。 选 KHM-HY-0009 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "KHM-HY-0009",
+      "a_project_name": "柬埔寨斯登眉登梯级水电站",
+      "b_canonical_id": "KHM-HY-0011",
+      "b_project_name": "柬埔寨斯登眉登梯级水电站项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "6c8dc941087b85756b24915baf4f3c91ce606794",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='乌兹别克斯坦锡尔河1500MW燃气联合循环电站'; b.project_name='乌兹别克斯坦锡尔河1500MW燃气联合循环独立电站项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='在建'; a.events[0].capacity_mw=1500.0; b.events[0].capacity_mw=1500.0; a.events[0].project_summary='中国能建总承包的乌兹别克斯坦锡尔河1500MW燃气联合循环电站项目2号燃机已正式进入商业运行。该项目是中亚最大的燃气联合循环电站，为乌兹别克斯坦提供重要的电力保障。'; b.events[0].project_summary='中波公司承运了乌兹别克斯坦锡尔河1500MW燃气联合循环独立电站项目的第一船核心设备。该项目是中资企业在乌兹别克斯坦签约的第一个燃气联合循环独立电站项目，也是中亚最大的燃气联合循环电站工程，目前处于设备运输阶段。'",
+      "survivor_id": "UZB-TH-0008",
+      "reason": "两侧均为乌兹别克斯坦锡尔河1500MW燃气联合循环独立电站，容量、地点和中国能建/葛洲坝体系参与一致，属于同一物理项目不同阶段报道。 选 UZB-TH-0008 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "UZB-TH-0006",
+      "a_project_name": "乌兹别克斯坦锡尔河1500MW燃气联合循环电站",
+      "b_canonical_id": "UZB-TH-0008",
+      "b_project_name": "乌兹别克斯坦锡尔河1500MW燃气联合循环独立电站项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "4d3f83766a5c48878a1d27dcd49fc7b167cb6c96",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='老挝孟松600MW风电项目'; b.project_name='老挝600MW风电项目'; a.events[0].project_stage='在建'; b.events[0].project_stage='拟开发'; a.events[0].capacity_mw=600.0; b.events[0].capacity_mw=600.0; a.events[0].project_summary='Impact Energy Asia公司在老挝开发600MW孟松风电场项目，该项目预计2025年投运发电，并已与越南电力公司签署购电协议。远景能源曾于2022年与Impact Energy Asia签署合作协议。'; b.events[0].project_summary='日本三菱公司和泰国BCPG Pcl公司参与开发的老挝600MW风电项目，由亚洲冲击能源开发公司（IEAD）负责，该项目已与越南国家电力公司（EVN）签署25年PPA协议，预计2025年开始商业运作。'",
+      "survivor_id": "LAO-WD-0014",
+      "reason": "两侧均指老挝600MW孟松/Monsoon风电项目，开发商IEA/Impact Energy Asia、PPA和预计投运时间一致，判定为同一项目。 选 LAO-WD-0014 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "LAO-WD-0014",
+      "a_project_name": "老挝孟松600MW风电项目",
+      "b_canonical_id": "LAO-WD-0016",
+      "b_project_name": "老挝600MW风电项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "eb1dc944200cdab353d849b363613af1ba97b392",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='哈萨克斯坦札纳塔斯二期100兆瓦风电项目'; b.project_name='哈萨克斯坦札纳塔斯二期100MW风电项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='中标'; a.events[0].capacity_mw=100.0; b.events[0].capacity_mw=100.0; a.events[0].project_summary='国家电投在哈萨克斯坦札纳塔斯市投资建设了札纳塔斯二期100兆瓦风电项目，该项目已于2023年12月25日并网投产，是国家电投在哈萨克斯坦可再生能源项目组合的一部分。'; b.events[0].project_summary='中国金风科技中标哈萨克斯坦札纳塔斯二期100MW风电项目，该项目位于哈萨克斯坦江布尔州，是金风科技在当地的第三个风电项目，目前处于中标阶段。'",
+      "survivor_id": "KAZ-WD-0023",
+      "reason": "两侧均为哈萨克斯坦札纳塔斯二期100MW风电项目，容量、期别和项目名称一致，属于同一项目不同阶段报道。 选 KAZ-WD-0023 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "KAZ-WD-0023",
+      "a_project_name": "哈萨克斯坦札纳塔斯二期100兆瓦风电项目",
+      "b_canonical_id": "KAZ-WD-0035",
+      "b_project_name": "哈萨克斯坦札纳塔斯二期100MW风电项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "9f575835c36a1c7ad56ac156f53781ded2908d73",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='哈萨克斯坦Gulshat 40MW光伏项目'; b.project_name='哈萨克斯坦40MW光伏项目'; a.events[0].project_stage='Unknown'; b.events[0].project_stage='在建'; a.events[0].capacity_mw=40.0; b.events[0].capacity_mw=40.0; a.events[0].project_summary='中电国际在哈萨克斯坦完成了Gulshat 40MW光伏项目的交割。该项目获得了欧洲复兴银行及国际绿色基金组织的项目融资。'; b.events[0].project_summary='中国企业东方日升与欧洲复兴银行（EBRD）签署了哈萨克斯坦40MW光伏电站项目的融资协议。该项目位于哈萨克斯坦，是东方日升在当地的又一成功布局，预计明年2月竣工投产。'",
+      "survivor_id": "KAZ-PV-0004",
+      "reason": "两侧均为哈萨克斯坦40MW光伏项目，容量一致且均涉及中资企业与EBRD融资/交割，名称一侧补充Gulshat，判定为同一项目的不同阶段报道。 选 KAZ-PV-0004 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "KAZ-PV-0004",
+      "a_project_name": "哈萨克斯坦Gulshat 40MW光伏项目",
+      "b_canonical_id": "KAZ-PV-0010",
+      "b_project_name": "哈萨克斯坦40MW光伏项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "691ff33aaaeeefc40a5ac4d45d1ae196bccd0c02",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='日本福岛县28MW光伏项目'; b.project_name='日本28MW光伏项目'; a.events[0].project_stage='投入运营'; b.events[0].project_stage='开工'; a.events[0].capacity_mw=28.0; b.events[0].capacity_mw=28.0; a.events[0].project_summary='Shanghai Electric has completed its first large-scale photovoltaic project in Japan, located in Fukushima Prefecture, Yabuki Town. The project has a total installed capacity of 28 MW and has passed local government acceptance, with an estimated annual power generation of 31,293 MWh.'; b.events[0].project_summary='上海电气集团股份有限公司承建的日本雅凯28MW光伏项目已于当地时间7月15日开工。这是上海电气集团在日本市场承揽的首个20MW以上的大型光伏项目，标志着其在日本新能源业务的拓展。'",
+      "survivor_id": "JPN-PV-0014",
+      "reason": "两侧均为上海电气在日本的首个28MW级光伏项目，容量和项目地描述高度接近，判定为同一项目的开工与投运报道。 选 JPN-PV-0014 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "JPN-PV-0011",
+      "a_project_name": "日本福岛县28MW光伏项目",
+      "b_canonical_id": "JPN-PV-0014",
+      "b_project_name": "日本28MW光伏项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "65c79473725ebe7cfd215edb72e23ad41c6a7ba5",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='孟加拉巴瑞萨307MW燃煤电站项目'; b.project_name='孟加拉巴瑞萨350兆瓦燃煤电站项目'; a.events[0].project_stage='在建'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=307.0; b.events[0].capacity_mw=350.0; a.events[0].project_summary='中国电建海投在孟加拉建设巴瑞萨307MW燃煤电站项目，已与孟政府相关部门签署执行协议及购电协议，项目融资关闭工作已取得关键进展，现场工程建设正在按计划推进。'; b.events[0].project_summary='中国电建集团在孟加拉承建巴瑞萨燃煤电站项目，装机容量350兆瓦，目前处于EPC合同签约阶段，计划于2021年底投入商业运营。'",
+      "survivor_id": "BGD-TH-0020",
+      "reason": "两侧均为孟加拉巴瑞萨燃煤电站项目，307MW/350MW为相近容量口径，均由中国电建体系参与，判定为同一项目不同阶段报道。 选 BGD-TH-0020 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "BGD-TH-0020",
+      "a_project_name": "孟加拉巴瑞萨307MW燃煤电站项目",
+      "b_canonical_id": "BGD-TH-0031",
+      "b_project_name": "孟加拉巴瑞萨350兆瓦燃煤电站项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "ad5174bbe779271df083fed84e7632118f03f6fe",
+      "same_project": true,
+      "confidence": "medium",
+      "evidence_quote": "a.project_name='柬埔寨斯登眉登水电站运维项目'; b.project_name='柬埔寨斯登眉登梯级水电站项目'; a.events[0].project_stage='签约'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=150.0; b.events[0].capacity_mw=148.0; a.events[0].project_summary='中国水电十局在柬埔寨戈公省签约了斯登眉登水电站的生产运行、维护和管理服务合同。该水电站总装机容量150兆瓦，年发电量4.88亿千瓦时，旨在缓解当地电力短缺问题。这是继一级水电站建设后，中国企业在当地获得的又一重要合同。'; b.events[0].project_summary='中国企业北京院与柬埔寨斯登眉登水电公司签订了柬埔寨斯登眉登梯级水电站项目的勘察设计合同。该项目位于柬埔寨戈公省与菩萨省交界处，规划两个梯级，总装机容量为148兆瓦。项目处于勘察设计阶段。'",
+      "survivor_id": "KHM-HY-0004",
+      "reason": "两侧均为柬埔寨斯登眉登水电站/梯级水电站，容量150MW/148MW接近，分别描述运维和勘察设计，判定为同一资产不同阶段或工作范围。 选 KHM-HY-0004 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "KHM-HY-0004",
+      "a_project_name": "柬埔寨斯登眉登水电站运维项目",
+      "b_canonical_id": "KHM-HY-0011",
+      "b_project_name": "柬埔寨斯登眉登梯级水电站项目"
+    }
+  },
+  {
+    "verdict": {
+      "pair_id": "ffd55827d98f8778e4c56b1c3db4953f00e1a9c0",
+      "same_project": true,
+      "confidence": "high",
+      "evidence_quote": "a.project_name='巴基斯坦4500MW水电项目'; b.project_name='巴基斯坦巴沙大坝发电项目'; a.events[0].project_stage='开工'; b.events[0].project_stage='签约'; a.events[0].capacity_mw=4500.0; b.events[0].capacity_mw=4500.0; a.events[0].project_summary='中国电力建设集团有限公司（中国电建）牵头承建巴基斯坦巴沙水电站主体工程已启动。该项目位于巴基斯坦，装机容量为4500兆瓦，建设工期为103个月，旨在缓解巴基斯坦电力需求和用水危机。'; b.events[0].project_summary='中水北方公司作为成员之一，参与了巴基斯坦巴沙大坝咨询项目。该项目位于巴基斯坦，主要功能为灌溉、防洪，兼备发电功能，总装机容量4500MW。目前项目已进入合同授予签字仪式阶段。'",
+      "survivor_id": "PAK-HY-0021",
+      "reason": "两侧均为巴基斯坦巴沙/巴沙大坝4500MW水电项目，容量和资产名称一致，属于同一水电资产不同工作内容报道。 选 PAK-HY-0021 为 survivor（按事件数量较多；若相当则按 canonical_id 字典序）。"
+    },
+    "context": {
+      "a_canonical_id": "PAK-HY-0021",
+      "a_project_name": "巴基斯坦4500MW水电项目",
+      "b_canonical_id": "PAK-HY-0023",
+      "b_project_name": "巴基斯坦巴沙大坝发电项目"
     }
   }
 ]
