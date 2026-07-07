@@ -25277,5 +25277,45 @@
     "en_abbr": "CECEP",
     "verified": true,
     "source": "campaign-20260704"
+  },
+  "中国能建国际建设集团": {
+    "en": "China Energy International Group Co., Ltd.",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "黄河水电公司": {
+    "en": "State Power Investment Group Upper Yellow River Hydropower Development Co., Ltd.",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "国家电投集团黄河上游水电开发有限责任公司": {
+    "en": "State Power Investment Group Upper Yellow River Hydropower Development Co., Ltd.",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "大唐海投": {
+    "en": "China Datang Overseas Investment Co., Ltd.",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "中国华电香港公司": {
+    "en": "China Huadian Hong Kong Company Limited",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "中国国家电力投资集团": {
+    "en": "State Power Investment Corporation Limited (SPIC)",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "中国能建山西院": {
+    "en": "China Energy Engineering Group Shanxi Electric Power Exploration & Design Institute Co., Ltd.",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
+  },
+  "中国中工国际工程股份有限公司": {
+    "en": "China CAMC Engineering Co., Ltd.",
+    "verified": true,
+    "source": "developer_registry_campaign_2026-07"
   }
 }
