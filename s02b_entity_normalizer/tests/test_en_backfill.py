@@ -96,7 +96,8 @@ def test_run_backfill_orchestration_entry(tmp_path):
     cache_path = str(tmp_path / "cache.json")
     with open(cache_path, "w", encoding="utf-8") as f:
         json.dump({"_comment": "meta", **CACHE}, f, ensure_ascii=False)
-    n = run_backfill(db, cache_path)
+    # use_registry=False: 测试旧编排路径（纯缓存口径），解耦真实 developer_registry.json 变化
+    n = run_backfill(db, cache_path, use_registry=False)
     assert n >= 3
     import sqlite3
     conn = sqlite3.connect(db)
