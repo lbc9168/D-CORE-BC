@@ -37,7 +37,7 @@ project_developer 原值
   改产「登记册补录建议 CSV」→ 人工/campaign 复核 → 入册 → 下轮查表生效
 ```
 
-- **共享查表引擎**：新建根级模块（与 `bri_enums.py`/`bri_parse.py` 同级先例），纯函数查表：exact→alias→透传+miss 日志。s02b(2B-3) 调用它；中企 2B 现行 `entity_normalize` 不改动（将来如想迁移到共享引擎属独立重构，非本设计范围）。
+- **共享查表引擎**：模块放 `s02b_entity_normalizer/company_lookup.py`（两个消费方 2B-3/2B-4 都在 s02b 包内，根级模块无法被其 console script 导入——计划期修正）；**数据文件在根目录** `developer_registry.json`（与 enums_mapping.json 同级，单一可信源），引擎经 `parents[3]` 定位（en_backfill `_ROOT` 同款先例）。纯函数查表：exact→alias→透传+miss 日志。中企 2B 现行 `entity_normalize` 不改动（将来如想迁移到共享引擎属独立重构，非本设计范围）。
 - **hierarchy 只读复用**：引擎直接读 `supporting_docs/company_hierarchy_v2.json` 数据文件（别名→规范子公司名映射），**不 import s01b 代码、不改该文件**（它是 eval 版本哈希资产）。
 - 2B-3 的 LLM 环节保留原 prompt 与保守口径，仅输出目的地从"写库"改为"补录建议 CSV"。
 
@@ -68,8 +68,7 @@ project_developer 原值
 ## 5. EN 写回优先级（防两工具乒乓，关键一致性规则）
 
 **registry `canonical_en` > 翻译缓存（company_name_cache）> 留空+miss 报告**。
-- 2B-3 重写 CN 后按同一映射拼回 `project_developer_en`（'; ' 分隔，沿 `_resolve_developer_en` 现行契约）。
-- **`en_backfill`（2B-4）的 developer 档必须同步加 registry 最高优先档**——否则 2B-4 会用缓存值覆盖 registry 值，两步互相改写永不收敛。这是接线时的必改点。
+- **EN 单一写入方原则（计划期修正，优于原两处写入设计）**：2B-3 只写 CN 列；`project_developer_en` 的唯一写入方=2B-4 `en_backfill`（其 developer 档加 registry 最高优先档，含纯 ASCII 值查册命中直填——现行 ascii_skip 是 61% 空值的一大来源）。流水线顺序 2B-3→2B-4 天然衔接；单独跑 2B-3 后须跟跑 en_backfill（与既有部署硬顺序一致）。乒乓问题从结构上消失。
 
 ## 6. 落地顺序（每步独立可停、可回退）
 
