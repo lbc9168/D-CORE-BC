@@ -32,7 +32,7 @@
    ↓
 阶段二B-4 英文名回填 ← cfg.run_en_backfill=False 时跳过（按缓存 en_abbr 优先口径重算 *_en 列，miss 只报告）
    ↓
-阶段二B-5 TX/MF 专用列回填 ← cfg.run_txmf_backfill=False 时跳过（txmf_spec_parser 确定性解析 details/summary，fill-if-null 回填 5 稀疏列，misses 出 CSV）
+阶段二B-5 TX/MF 专用列回填 ← cfg.run_txmf_backfill=False 时跳过（txmf_spec_parser 确定性解析 details/summary，fill-if-null 回填 5 稀疏列；流水线模式只打印 misses 计数，CSV 由手跑 CLI 带 --out 产出）
    ↓
 预留（默认关，置标志位启用，函数内延迟 import）：
    阶段二C 交叉验证  ← cfg.run_cross_verification=True

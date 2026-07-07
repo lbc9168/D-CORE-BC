@@ -9,8 +9,8 @@ TX：从事件文本中独立解析 voltage_kv / line_length_km / transmission_c
 MF：从事件文本中解析 production_capacity_value + production_capacity_unit 一对
     值（单位归一见 _find_standard_phrases），保守处理多短语/无信号/件数类三种歧义。
 
-复用同包 capacity_parser.py 的模块级私有正则（_PRODUCTION_RE/_TRANSMISSION_RE）
-做能量单位/输送单位的双保险拦截；capacity_parser.py 本身不做任何改动。
+复用同包 capacity_parser.py 的模块级私有正则（_PRODUCTION_RE）
+做能量单位拦截；capacity_parser.py 本身不做任何改动。
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ import logging
 import re
 from typing import Optional
 
-from s01b_project_extractor.capacity_parser import _PRODUCTION_RE, _TRANSMISSION_RE
+from s01b_project_extractor.capacity_parser import _PRODUCTION_RE
 
 logger = logging.getLogger(__name__)
 
