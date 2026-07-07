@@ -24,7 +24,7 @@ from pydantic import BaseModel, field_validator
 if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp950"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-from s02b_entity_normalizer.company_lookup import build_index, lookup
+from s02b_entity_normalizer.company_lookup import LookupIndex, build_index, lookup
 from s02b_entity_normalizer.developer_normalizer import DEV_JUNK_VALUES, split_developer, unify_junk
 from s02b_entity_normalizer.en_backfill import DEFAULT_CACHE, _cache_en
 from s02b_entity_normalizer.entity_normalizer import DEFAULT_DB
@@ -84,8 +84,12 @@ def _collect_part_stats(conn: sqlite3.Connection) -> Dict[str, dict]:
     return {"freq": freq, "samples": samples}
 
 
-def export_seed(db_path: str, min_freq: int = 5, out_csv: Optional[str] = None) -> List[dict]:
-    """统计高频 developer 部件、排除 registry/hierarchy 已可解者，写种子 CSV 并返回种子行列表。"""
+def export_seed(db_path: str, min_freq: int = 5, out_csv: Optional[str] = None,
+                index: Optional[LookupIndex] = None) -> List[dict]:
+    """统计高频 developer 部件、排除 registry/hierarchy 已可解者，写种子 CSV 并返回种子行列表。
+
+    index=None 时缺省 build_index() 读真实登记册（CLI 行为）；测试可注入夹具 index 解耦真实文件。
+    """
     args = _ExportSeedArgs(db_path=db_path, min_freq=min_freq)
 
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -103,7 +107,8 @@ def export_seed(db_path: str, min_freq: int = 5, out_csv: Optional[str] = None) 
     finally:
         conn.close()
 
-    index = build_index()
+    if index is None:
+        index = build_index()
     cache = _load_cache(DEFAULT_CACHE)
 
     seed_rows: List[dict] = []
