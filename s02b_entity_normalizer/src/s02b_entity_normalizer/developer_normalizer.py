@@ -28,6 +28,7 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp95
 
 from dotenv import load_dotenv
 
+from s02b_entity_normalizer.company_lookup import LookupIndex, build_index, collect_misses, lookup
 from s02b_entity_normalizer.db_backup import backup_db
 from s02b_entity_normalizer.entity_normalizer import (
     BATCH_SIZE, DEFAULT_DB, _build_mapping, _find_candidates,
@@ -35,6 +36,7 @@ from s02b_entity_normalizer.entity_normalizer import (
 
 logger = logging.getLogger(__name__)
 _S02B_ROOT = Path(__file__).resolve().parents[2]
+_SUPPORTING_DOCS = _S02B_ROOT.parent / "supporting_docs"
 load_dotenv(_S02B_ROOT / ".env")
 load_dotenv()
 
@@ -191,11 +193,52 @@ def _collect_parts(conn) -> List[Tuple[str, int]]:
     return counter.most_common()
 
 
-def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = False) -> None:
-    """主流程：候选筛查 →（apply=True 时）LLM 确认 → 映射 → would-change CSV →（apply=True 时）落库。
+def registry_part_mapping(parts: List[Tuple[str, int]], index: LookupIndex) -> Dict[str, str]:
+    """registry/hierarchy 确定性映射：命中且规范名≠原文的部件才进映射（已是规范名的不列入）。"""
+    mapping: Dict[str, str] = {}
+    for name, _count in parts:
+        r = lookup(name, index)
+        if r.matched and r.canonical_cn != name:
+            mapping[name] = r.canonical_cn
+    return mapping
+
+
+def _candidates_for_llm(parts: List[Tuple[str, int]], index: LookupIndex) -> List[Dict]:
+    """三信号候选对，仅在 registry/hierarchy 未命中的部件之间生成（命中部件不得再配对）。"""
+    unmatched = [(n, c) for n, c in parts if not lookup(n, index).matched]
+    candidates = _find_candidates(unmatched)
+    return filter_candidates_conservative(candidates)
+
+
+def write_suggestions_csv(confirmed_pairs: List[Dict], out_path: str) -> None:
+    """把 LLM 确认为同一法人的候选对写成登记册补录建议 CSV（供人工复核入册，不进映射不写库）。"""
+    with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.writer(f)
+        w.writerow(["part_a", "part_b", "freq_a", "freq_b", "verdict", "llm_reason"])
+        for p in confirmed_pairs:
+            if not p.get("is_same"):
+                continue
+            w.writerow([p["name_a"], p["name_b"], p["count_a"], p["count_b"],
+                        p.get("canonical_name", ""), p.get("signals", "")])
+
+
+def _write_misses_csv(misses: List[str], out_path: str) -> None:
+    """把 collect_misses 收集到的未命中部件写成 miss CSV（供后续种子 campaign 参考）。"""
+    with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
+        w = csv.writer(f)
+        w.writerow(["part"])
+        for m in misses:
+            w.writerow([m])
+
+
+def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = False,
+        use_registry: bool = True) -> None:
+    """主流程：registry 前置确定性映射 →（apply=True 时）LLM 对未命中部件确认 → would-change CSV →（apply=True 时）落库。
 
     CLI 裸跑（无 --apply）等同 preview=True：不调 LLM、不写库。
     程序调用：apply=True 才触发 LLM 与写库路径（preview=False 且 apply=False 时也只预览）。
+    use_registry=True（默认）：registry/hierarchy 命中直接映射，LLM 只处理未命中部件且确认结果
+    降级为补录建议 CSV（不进 part_mapping、不写库）。use_registry=False：现行为 100% 不变（对照组）。
     """
     if db_path is None:
         parser = argparse.ArgumentParser(description="业主(project_developer)归一化")
@@ -228,19 +271,26 @@ def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = Fals
                   logging.StreamHandler()],
     )
 
+    index: Optional[LookupIndex] = None
     conn = sqlite3.connect(db_path)
     try:
         parts = _collect_parts(conn)
         print(f">>> 业主部件（中文、去垃圾）：{len(parts)} 个")
-        candidates = _find_candidates(parts)
-        n_raw = len(candidates)
-        candidates = filter_candidates_conservative(candidates)
-        print(f">>> 三信号候选对：{n_raw}（保守预过滤剔除联合体/连字符串 {n_raw - len(candidates)} 对，余 {len(candidates)}）")
+
+        part_mapping: Dict[str, str] = {}
+        if use_registry:
+            index = build_index()
+            part_mapping.update(registry_part_mapping(parts, index))
+            print(f">>> registry/hierarchy 确定性映射 {len(part_mapping)} 条")
+            candidates = _candidates_for_llm(parts, index)
+        else:
+            candidates = filter_candidates_conservative(_find_candidates(parts))
+        print(f">>> 三信号候选对（保守预过滤后）：{len(candidates)}")
 
         if not apply:
-            pairs = plan_value_changes(conn, {})
-            _write_csv(out_csv, candidates, pairs)
-            print(f">>> [preview] 垃圾值统一 would-change {len(pairs)} 个值；候选对已写 {out_csv}（LLM 未调用）")
+            pairs = plan_value_changes(conn, part_mapping)
+            _write_csv(out_csv, candidates, pairs, part_mapping or None)
+            print(f">>> [preview] would-change {len(pairs)} 个值；候选对已写 {out_csv}（LLM 未调用）")
             return
 
         api_key = os.environ.get("GEMINI_API_KEY", "")
@@ -254,10 +304,20 @@ def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = Fals
             print(f">>> LLM 确认批次 {i // BATCH_SIZE + 1}/{(len(candidates) - 1) // BATCH_SIZE + 1}")
             confirmed.extend(_llm_confirm_batch_dev(client, batch))
             time.sleep(0.5)
-        mapping = _build_mapping(parts, confirmed)
-        print(f">>> 部件映射 {len(mapping)} 条")
-        pairs = plan_value_changes(conn, mapping)
-        _write_csv(out_csv, candidates, pairs, mapping)
+
+        if use_registry:
+            suggestions_path = str(_SUPPORTING_DOCS / f"developer_registry_suggestions_{ts}.csv")
+            write_suggestions_csv(confirmed, suggestions_path)
+            print(f">>> LLM 确认结果降级为登记册补录建议（未合并、未写库）：{suggestions_path}")
+            misses_path = str(_SUPPORTING_DOCS / f"developer_norm_misses_{ts}.csv")
+            _write_misses_csv(collect_misses(index), misses_path)
+            print(f">>> miss 明细：{misses_path}")
+        else:
+            part_mapping.update(_build_mapping(parts, confirmed))
+            print(f">>> 部件映射 {len(part_mapping)} 条")
+
+        pairs = plan_value_changes(conn, part_mapping)
+        _write_csv(out_csv, candidates, pairs, part_mapping or None)
         print(f">>> would-change {len(pairs)} 个不重复值，明细 {out_csv}")
     finally:
         conn.close()
