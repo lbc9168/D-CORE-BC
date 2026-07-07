@@ -1,0 +1,19 @@
+{
+  "_meta": {
+    "version": 1,
+    "generated": "2026-07-07",
+    "source": "bootstrap（种子 campaign 前的空壳，仅含金样例锚点）",
+    "notes": "developer 名称登记册。规则见 docs/superpowers/specs/2026-07-07-developer-registry-design.md。alias 全册唯一；canonical_cn/canonical_en 必填；中企原则上走 company_hierarchy_v2 不入本册。"
+  },
+  "companies": [
+    {
+      "canonical_cn": "阿布扎比未来能源公司",
+      "canonical_en": "Masdar",
+      "aliases": ["Masdar", "马斯达尔", "Abu Dhabi Future Energy Company", "马斯达尔公司"],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "金样例锚点：跨语言变体归一的验收案例",
+      "source": "bootstrap_2026-07-07"
+    }
+  ]
+}
