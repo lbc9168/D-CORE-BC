@@ -353,22 +353,6 @@
       "decided_at": "2026-07-07",
       "verdict_digest": "2afe4fa388f5126163ef18fe82e2b7dbb8954bb3"
     },
-    "f9bcd888e3f10f98e5fe49ea36ef8d803200e05d": {
-      "task": "T3",
-      "quarter": "2026Q3",
-      "item_id": "Recurrent Energy",
-      "status": "accepted_no_change",
-      "decided_at": "2026-07-07",
-      "verdict_digest": "22876b302700070b05f1f6cd33609a6302541991"
-    },
-    "087ff3da420c9da12c3496eb89390c4b31d88717": {
-      "task": "T3",
-      "quarter": "2026Q3",
-      "item_id": "e-STORAGE",
-      "status": "accepted_no_change",
-      "decided_at": "2026-07-07",
-      "verdict_digest": "f8ddff3505f0c06140e369e66d5a1b08825fa417"
-    },
     "f2a2bfe098376098a56f1ec2d078df204ef54dd2": {
       "task": "T3",
       "quarter": "2026Q3",
@@ -8949,6 +8933,5350 @@
       "task": "T1",
       "quarter": "2026Q3",
       "item_id": "ffd55827d98f8778e4c56b1c3db4953f00e1a9c0",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a9d432d695c02ce73ee801fd37a09b473bf2ff4b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-PV-0010",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "4c975ae2269107ce98dcb59f71d62929f1227b8b"
+    },
+    "3474bb0e3a772d9294fc53d5695a6a9b61006557": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0022",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "f0854e176b2f0999d8a65cd0699aa284520453af"
+    },
+    "6c811e761b1a55911282e4dd0d8ce11c27830ce3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-PV-0018",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "18e003555d4633ea816231b5915b6040c43a9587"
+    },
+    "da98611eaaa5dec717cde5e2afaa351bb8d1653d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CAF-PV-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "cc086c4bb26cc3e7b90b19b113e2340daea290a6"
+    },
+    "4aa941b12bc9edbd7dbe6c665e6d5219a068c52d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "COD-PV-0003",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "454a305fdbb58f83fe2ce7fb99452505ad44ad73"
+    },
+    "fa5a09b4c90fe3f4f053cf6b9d70deb8811627d9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "COD-TX-0003",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "8b1b3467a330ca22b7aa7b197cd81be91f37a037"
+    },
+    "eea5646297ad7af4ab8014fcd88ebb9442948f42": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DZA-PV-0004",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "2c78d1de8f164aaf31057495b2690ad6222e2d7e"
+    },
+    "220b478a5ab68f6b000d9537de29566eaa8fc089": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-TX-0007",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "7ad24ea762f245dc2cbc53a536fd713438103bf7"
+    },
+    "b098a54b18d69bb0fb4d11128ce0265e982117c8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0009",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "71038e6f92992cb6e6f1a826b4ad03cce4153200"
+    },
+    "e8532278a3e3c3c37fec4c28b4d774865015bf1b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GIN-HB-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "60d3c278e9b082f585826a04d867d9198005acf0"
+    },
+    "00a7aa0825f1289ddc28d5049fbc3efb45b324c2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GNQ-HY-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "c48b0c8cf97eb6db8910ac305d803688ab3ac381"
+    },
+    "abd20b10fa1af6fdf95ab12591911632fe4768a6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-PV-0006",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "8e5279da4ce04f31796d6837f514cf7a241f56ec"
+    },
+    "e754dc31072dd7720fea1f8a4d89613d66940b1b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-TH-0014",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "839785f59a9d6e388e9e9bfb11042da0b950d6f2"
+    },
+    "c5b19b34117d1ac4f2592071ecd8bf801bfd2871": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-TH-0043",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "0a0ea23d4f8895c52c0be3d393b53ac2e088d36c"
+    },
+    "495ecdff3cbe5922e9134727f1ca2ff1e5efbbb3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JPN-PV-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "6970d2c676259a152fb7f3ca280f18806752c47c"
+    },
+    "d91f4d7f593cb21f028d6bb4aa9fa6134fd132fc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-WD-0015",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "ef3c7ce3d5197a86e8fc7e46ce011f5ebde7423e"
+    },
+    "ff82cceaad6b46deca427c3ec03458a41b45d474": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-WD-0016",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "63b3b9b1f0391765352b4c68f7f26c9de01e0a44"
+    },
+    "4c7fa8eb8a213b6179b89bdb57e8606f098e5879": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-WD-0018",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "fe071a411a42e8db45ea1687120fc1ab741c28cf"
+    },
+    "5a44fcda4510aa74780dfb3d1dbc47a3745f443f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-WD-0019",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "f811ab90131098705da5150212f4f78714c82f62"
+    },
+    "25dfc9b5cb2f60a8517c9f2f0b399ef43f3085f2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MDV-HB-0005",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "07a7acba1fc15ca2d6122a467725181137baed27"
+    },
+    "46f8cbce04518ee464dbb168edce057914d3b68e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MDV-HB-0010",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "c0bb953054fb09b79feff24e022d249fec567707"
+    },
+    "29c179f6aa99dc7734a5bf02c0df3b12a9ffb4d1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-TH-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "7801f2c9235cbddea24fc282e1ffb24318bdc57d"
+    },
+    "8ea665ac906b50118e560acc89799b84e2109a50": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-TH-0003",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "1988fc5307566c72cd08a0169d4d30a8bc05c10a"
+    },
+    "f4844afb76c4e55be4d9092163b38d46b680ff30": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-TH-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "0635c5bbf9c7fa7a00d8793bc391380f5330adb0"
+    },
+    "9b7283b1e7e059a295a16e406dfb940f24d99c4b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-BM-0001",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "07c7f0419caa4c1330974f8612c042d2c703f7a4"
+    },
+    "3e5a06f587188c449230f881f24122d468613395": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-BM-0005",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "19135abf4bc43958074529e48d4159ad4959ec9b"
+    },
+    "c02680d16351d80d45c3f0f7a8c2b2392cae1e32": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-HY-0008",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "40e7fd42aca78fa2b12fdc3e21a1dd362a163d51"
+    },
+    "4d78d37bce1def3e1bfef5cb73ddb4cdfce03c44": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0011",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "b4fb732b70243ce9ed3466bb636f07c6b4dee857"
+    },
+    "673998d036ba2ed18766ee985589ccf4ff6fd7da": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0012",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "d69dac1c5a5bbde7901164368b3cde9d197181ec"
+    },
+    "322a734cfec796ee99bb344d24ef6d5fbbb3ab92": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0013",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "76ca6cf2c77dde8075aee358e3a24438afed90cb"
+    },
+    "97fb34ba3e0dbf66fbc9a19d7d76bd8a7bbbf29b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0014",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "b4a7cda3079bfdb2eaadd6a32f320f3fda33e4d1"
+    },
+    "e071bf6c8d12d41221a830d045bfeef48d0e1562": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-TH-0016",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "10541c6271d18c5b9d7f762d3238e65ed2afc5f8"
+    },
+    "84634a7aa618f63e0a1b40bd2e84d69ead6f84e0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-TH-0017",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "4b160a4baa37e6fffe4329417af1d85bc2086ad8"
+    },
+    "052b89c0173c2b9e6dab2d515e46661cb0da6d86": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NGA-HB-0005",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "8ccd4014936f7d3ed01108a9e1f92380ba77b833"
+    },
+    "a817cc9007733bb59939e317774ed3b4751afd30": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NLD-WD-0001",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "d168e059971c1edde2431fdc8e9b528639fac70d"
+    },
+    "c9d0c505d715359fde526e93559f970665132de6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0014",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "51bbfc18fbfce44c1a53d5837ca8482f46c0e629"
+    },
+    "5220baaa134541965fc4c33f010573c7d44d5348": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0001",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "6c4bd4bdf1a2eade8502635fbc9268e9db415b7c"
+    },
+    "4ab3ae1f98265c589d8b71ad1dafd2ea96b6449d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-WD-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "92073f7b148409ae7cadfe2dc679f64c0e75422f"
+    },
+    "804bb008db9ae338936e300bec57e1c72457a649": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-WD-0009",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "1b6d0f31a0613e34ddf05012865612b04ed85afd"
+    },
+    "bf6de4fea3bfc308e2fad65cb8ee3ef0386bc6aa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SEN-ES-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "4db2bc84595bde29efbdb90f732c89db538537f8"
+    },
+    "5b63686a99cf2832fb40dcaff90cc886e1d25a31": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SEN-HB-0002",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "39316eeae4d5034ba76ed1ea31d4b73c8350370b"
+    },
+    "71d457e28d0c7473b736db8159393dfeaabca808": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-PV-0006",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "b6eb0da10258e7798f3ad946b99615b1c435ec4e"
+    },
+    "c0e26ec1dbf9314d5cd9088584fb8b01dcd50188": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "THA-PV-0013",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "0ab9442328bbcac207b6564be1781bc3add52956"
+    },
+    "75f92a6526a0acd709f472f55f30dcae4db7ecf4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TWN-GT-0001",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "3ec2bffc7b89e308e3111321a834fc200acb1d28"
+    },
+    "a49193ce10cd777722d97924fc2525c87b29148a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-HB-0005",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "395ce87f84f61fdaeb3a8a764b1a54e2ab110985"
+    },
+    "53b74cd6faa7ab1b0a9a83a60ba0e8d1bebf1103": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-GT-0001",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "07b4016bd4ef1dd57896338b7866d6f4fcf7c72f"
+    },
+    "1d3cd50c4359465b3af13b2068219a6c0361d576": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0042",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "f8655dc1bf0a36935947d749cdf2b6509742fab8"
+    },
+    "1586b23d004e973523e3498f57c987feaa0f83bb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HY-0003",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "54b3d514f02139231b1d3f578eb23d39e7fb6d93"
+    },
+    "2a2ce2a016b3b4d1d65ddca8a53ea2e134fcede7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0016",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "b0743f678bfacc0b7131c14c2360f8c44a659bae"
+    },
+    "1aa0c3e00e0ac663c8d37d7d88d9dbbb1debfe24": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-HB-0004",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "35ce43855fea2b1167b2fdb06890b65653014eb1"
+    },
+    "8a9c19d708372efef05a577c8d2b269df29346ca": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZMB-PV-0001",
+      "status": "accepted_no_change",
+      "decided_at": "2026-07-07",
+      "verdict_digest": "c40ef5839e6dcdca906121fa63ae5025656ff4bb"
+    },
+    "b5d3a389f2c9bb45dcb1a62bd978a8efcfc3b5e7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-HB-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3f06eaa6ea1912e87e7d8dc161bafd1b71b7068a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-HB-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "095ade3c04e175d721ef61ee270dadf4e1108b59": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "dd381b2ab254c36a6837fe0a4fe7a46056f859cf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f4656382b870f2997d7d597cefeb23511afa2625": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-PV-0020",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2c373f1a0d48bb30539c5b0c3f0e43c96e438deb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-PV-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "39a193a030d826a3ffff57d5ffa4fc1dd27219dd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-PV-0023",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "11042172b06fcec9aaf7b553e8f4fd81776369ff": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "748e482509b67259731022937b72d162a61e58d1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4621b83b1b25066e62a674012ee623e02b7504de": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AUS-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "98848dc4799ea1008c46a1febd7725eee298e99b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "AZE-HB-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b63b56900d2da8a20f960b91ab2063d32a5c5f84": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BEN-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a2d6e7c9e8af7e28ef86b7e60646cd83a6b0e39f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BFA-HB-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cb9836f63cf1f51153a6d86af55abcf720498508": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BFA-TX-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "17995fd5cdef0692388ae8d78cd796136d7f43cf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9a6a8ec0bfb666efc0a2a90563e2a49d752858f8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c0396c58714919c5cf22bf6ced0b2591839fa71f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "41ff1fdf9166eb928fde634239ffe04b8663b6d9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "004487c6c5b82410ba35757eed745dd2092caf6c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f31ebdec41db391d0eef4fc3dcb018cbc6253cb4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c839270846677f1e759a4fd2f6c9023f583c2a87": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b4d1c32201a084d0e96f72fe2b63e1e23d38f62d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0024",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ca2b706d43df4d558f95517fb5c98bf88b066645": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-PV-0027",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9d5d40812885a94972b659032d68596c04cef970": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-TX-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "be86c9d825ae183eabbf0f264f55760bdd417e67": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BGD-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "70dce9265580a1b3afc8d0c1c74b699f565590fa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "72c635cafe418d98de95d791e844a349fe8e93aa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cf66d0190430ffd65b1b44604b357434d5aedc27": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a66a5ee6a3f5b7de7ff423b49e55b592b8b4eff4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "14a14cd9094a2d2d0f8ffc584fde6a4f1451cadd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e819699590cc185c8787a3f3992edd5e86542b40": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1c95079bc612d6b36ef291e9544a777418e06097": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b83b7d2292a214b4549656283db688f7a6f8f0b0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BIH-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f17e74c9ac60ebf466b7010ebba391c8122d266e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-HB-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2499e343e9b29e69199a973626830cec853c3c1c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-HB-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1745ecccab6c154caa2164cef03a9cb86fde5a55": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "443b341eed5421474887590c7e23255903b29bd2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "42d1b83c68ba738b98a9b210b78aad4585faae71": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-PV-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "49f70a448613244bf22d5d27a5312186b325b3a7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-PV-0022",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "667e30bb4218adfb8b958883d00d27cd45684687": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-PV-0034",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d130a2d40c2e5dd4756f87d9f6ef60e36ad48e82": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8fb6ef74f05264a711d91ec3e6442e1890683c4d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "65a158233210c7a4c52a81aa5285f13e21cc1902": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "893e5c342ea4304f1a201273db5f22f44f88cb94": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-WD-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "91e555e3208a690c4bd89087c01c6351c94ef216": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-WD-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c6bd29a3ddd16148fbc9d6d3f4a326d378bff4c6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRA-WD-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f03cfa3783bec5495560ba364e0d3a3487b39269": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BRN-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "77af570225a1dad9225bd489f0f0530da1d8021a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BTN-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f94e5ffe413288132d78596fef0434342b95bff2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BWA-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7ccbbf24fa7c3486eb67fec80572d471bea39917": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "BWA-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8dc16608097ee91cf63c55cc40b92b5a22873585": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CAF-HY-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "eafc8a23660d7b18752a42e7b4fc863de5ab1741": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CAN-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fb2f32af2a986cab19bf8ec6ffb3ec7e81f5d4e9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CAN-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "98aea8e126d7b51a4c88cc5ed94dc344f065f8f6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b67bcf1600609a83026f2943cfdcdb7f79af333d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fd22a2089bdf9e528ec757ffd3992b33f4604cba": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3544546dadbebee8e528aa14a31032762bf3ef9d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-HB-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "09f719004cfae3d4a8d37e7b27e3fb89da4d680c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "67e393f2bbda1bb5eb4069a1d53b86800abf8830": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a6132986e26b08a2aea338d8b8df08a68925b898": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CHL-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8f41336e67798554e9f0935f2ffc8976f9817927": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CIV-TH-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "69cbe910c416992e67a2633ed47e8236d5fc38f5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CMR-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "71fb55bcc3991098191229574149c3ffa19a755e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CMR-TX-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "40e35345d1483e67a49ae9315d62fa67c4d855a5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "COD-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b57f95ca060161539454810b187fee8e4e7c3aa1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "COD-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4d224e242fdb21fd5b8efb2c77f3474310233628": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CPV-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6a96e3f496411686ef15813212e9bb6e849bb96f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CPV-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7c94c663da665f53c110d3d9b078a5bd423d7ec9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "CUB-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d8e5b21bcb75a71274e28d43d11c74d0ce6cfb0b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DEU-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "661477924dd5287254bbf8313c7374371073cbba": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DEU-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9779b5b7d483b05890980d304e8f0d111546f324": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DEU-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "dacced1009cf5fba0b04b327e3ecc64f4532aec2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DJI-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2464fbef6d3c985fc57aa60388d1ba104d61fd92": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DOM-BM-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4db371b89b2a76361ce6fe08a6f714a931195109": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DOM-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cbd5933ad5583d229f07b0c48e27a49b34d8a2e8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DOM-TX-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "23a2475b34ad4e0a28dc150def572f51b62bd052": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "DZA-PV-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "157c506db67a7f9150cc18b42a97ea7061736c28": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ECU-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5bfc44eb2083783203b3853969581f244de6d0bc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ECU-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9838d272e2f3f8e1b5f3b6b76d8f6d6833447670": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-GT-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08fd3da8d5bd9b08eaf83638d7119ab6b2905529": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-GT-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "88d757610112331e9d81f4d11655fc31addfe0e2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9f2e22cf82a0d0535be1981b67a2924423a1e31f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c1e1bc94f3c01631b5c9b9ccdc96fe3a339b8266": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-HB-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3b172169a80818e8bad7ac722f20a61e9e903672": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-HB-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "764f53ae75df6d2528d4cae1b5a76b0e88a32de2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-MF-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ff7a008135c8590a64da4b8797f95f809116a3f6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d40dab05f0f9c88380e63a0660dc9aed5b41432f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-PV-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "81b4b2f82cf96069da716de2e7232ebbc466f2df": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4b77ff6e3dcd23cb60b1fde1996f55b62d03e85a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9bddd1f305048a943021bda096a53da367f87d61": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5e4584d23b736a8d71e9021fefebf51bc2ec2d9d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7a515a9cd9d1ef4d0cb8ad81c2d21dbd01c08ce8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "41c378a0f70c430f34e33ecda14ae47495a89516": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d66636a8433af03e7bf58b3cd3672e4fa57388cc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "EGY-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7e375b6f40f1b490f1378c73d452bd18e2e9c5e5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ERI-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "92591bc8ee922f39db9b1c287ff8b79b5989c200": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-HB-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2729b8ba4f47f3208717b3d234999f759430b13b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-MF-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "affc5220266fe19047b9d85f7c58798da5ebcc27": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-MF-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "30042dbfb251d5d480b0f5f1938f14d0e66d97d5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-MF-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5769309f3b31a47840c3029c05f915f431fabcdd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "60d0311dcc838592ec4fa64db08bd49396c62f2f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9d5769397145114a35cb977ac636adb1088fab98": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "810a12660f1e1230b362f5bdb8d0b0db3d047a55": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "598accef7f342a00c00e6ab257bb960d48653c83": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "585870d136537aa9549755430ef00cffee2c03bb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "88475449cf7e5337ceac1fac4b78bf72806b6803": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8ac22b1d49e79be5bb00e42c53b42e39c08b0c14": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0023",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "46098b8433aed8c452717305baa329e44994d26e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0028",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d6241f88e70326437b42cc0c32785471eb1e0694": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0029",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1b1deef963b05d419cfc5380326c864f13848d29": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-PV-0035",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08dea274e0cac56739da1a9d460452e5e4e40198": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2e31db5339d674deb7b711bf49a6178f6a0a0c4b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ESP-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "bc5a3de8b2836e2493458e69fe90be74ecdc0769": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ETH-MF-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "18b756ed6b63dc05b9f16eeb5994fac7dee5d1fa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ETH-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "78d462038722d23a8f20be369d8cb30f3d87cf04": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ETH-TX-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9ba1b952edb96903bd8b8aff240483f94dc407ef": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fcef79a80072f3e12b5f18a64f7157029e4d312a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "20a7891aecd05ac4134b5d81d5fbabb3c33ffdaf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "040600316a28c1db8b2fac73407b18f71e429e45": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1d0c9fca288119f52bcc4fe03ce168426c79ae4f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ccc43c2863ba2b77e4cc19063c06ad7c7cd3f317": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "107ac492fc56bc8c77787b1c2bed094667f3c6cf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "305cfb669f78b8756b6490af3baba48762ed2c24": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "489552221f145a19480a0ebdcc34bec8bdc2736d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e27e4f22143b86f846fa17d4ce36b9bab2c44234": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2c8888d74f8826d38b6ad5a3a953bc7e1d23104d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "FRA-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "860ed940b28ef0cffa951dba7bd40c998015aafc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-ES-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f99185d04a47c90641bb347bc2d1ce7829923e74": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-ES-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ee0e14b4fd70b8f4caedbf24abf368a7517cf6ae": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-ES-0024",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ce7eab789bb64ce72971ae7204771e3ba362ed5f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "276b438858e391069236bfb56b8bc95ff6632a3f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-HB-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7e47d41c7388a92041c65473b1be1ff996c04ffb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ddd5c7b51c68f579dbe0035c6db31ec6c016a24d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-TX-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1bd78afe4540620df34b426f004b5776b413933b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a48a8bebfba2eee8047e1a1c51eaff9ece489120": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7c5e84495de6157a282163d8dc8863a476696930": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0b24484154397661fdee9a14d04699cdbf467002": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e8032b67696433249963a2ff138f6db118325951": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "df130dfbcf8ab6d51bd2daa2eb867f2462da3382": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a91162abf5d6d722ae77fb20979abb058535bf2f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3bc3f4882f2cf4dd043ab2904fa72d85c36b8567": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4b2e9366838269c1110bbc8687bd7a4b3f8662f3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ceb843a3d9d7fc181437174fd6486220464144a7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GBR-WD-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "41aeab12409b9d1b3901b7e997442e7ef81327e7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GHA-MF-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7ee83b226f0546e051b314d0a4c64a1f6ddb6a8f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GIN-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "17e2385f1c119e4cd3f132cd694176647247c6b4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GIN-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "451f7eac139736a782271a687479b2c17873361a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GIN-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1b7f1a0fdb24815c1487818aed4e640c3b9e92c6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GIN-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "76e4b0748c7c59faa1c2bdb222dd35796a647327": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GIN-TX-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d95cea5557ccfb9d239223f149e3147065b8e65a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-ES-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "57029f008c084a491a1a75e3697935540edd07b8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1002b6c77e3c5541679171fc9f419aabf7581a6d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a47eaaa72818763a1c2f6b0f77eb2d4262a584d1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "97619391a66eb8590c2bc346ab7ddab7b28bbe50": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "68b09de67d749ffb33461cfb0668e34b41a0e41a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c7df539d9aa79921569a14ee9776e8c136b89a0d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d0b9fb4f5044354b11d1384625159121c89a8bda": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a9bdef04f0fd550b86fe6c6634301c64de5d1987": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-TX-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f51103fc5e498ee61249f3dbf629a4f1a3ffeb6b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f3829004941d57b354ac3a97cf676a516a0d2d5e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GRC-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "52c76625dc464ebfa8e3e06e10123cc3693ebb6f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "GUY-HB-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "920ef83ffc03d0b1aaf95323c1945269af532f00": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "HND-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2cecdac14fb9c70a2d8d167aef4275c6234d745b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "HRV-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fabbb6ce5032e00906cc74afb65f7feb0bb4ae31": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "HRV-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "740bb43ca77c35857cca3cb81ae407840209f02b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "HRV-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "48ff0478d925ab3f19281b9e1bcfab2b88b8a2ad": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "HRV-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9654aa09d99c5c4a922e9f6eeb2fbb69622ef1fd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-GT-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7e9e687b87046e52a3e87b4a44a651dba1e9aa1a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "78e2da1e44c6bb999af5f5e3f90a917c6e8c7094": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-HB-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "34f32fe5aa30ac7bd844513aee39e221a43b96ff": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-HB-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "622ae7df3e5e35fceb0300fb8318c54454d4a4e1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-HB-0036",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "70e22daea630c4746c5b26d74d359291b0530854": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-HB-0039",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fdf84c13dc13eeeb07764183b8ed78577367caff": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "763a659ff2d3abf67bcf65eadc7be3455ae8d7f1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-PV-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ddd5eefdf63c41a0590f9eab1d1e21d4e439161d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-PV-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "649aebcd5ed25be32fae9b8b272364801151d047": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-PV-0020",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "15401c5e26cd4d46e11da6da409384735db01dc5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-TH-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "28e26933a9c158f7c2f94ef204de1496a6ed3fda": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cfb59375b95bc0ab74fa9493797f0827303c1f8b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IDN-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8c168498cda4600940d7b879d04c7215a3e93fd2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-ES-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "bed308bf56e03ec9c3234e5467828574f1434495": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ea9e5aeeeeb91721d9699bd3b9a9f7faae52bade": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2b6e7d44400f8fd364b929800eac1a576193f26f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "68a586217a746e9def55f21fe7fec96c8bf2fbb2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "83d0aa9176d4b6b4df5b4051bad9616820bfeea3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "175612fe98d490c34e1e193ecabb04a224221249": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d63f5f8faae1c05710938a941566a641dafcae76": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7ff043acf1fe690be9789c50191af7620a5f456e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5e0196a15c07ef45d1d76689ee2e7e23b21f64a8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HB-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e8aa3fb8637abd6e3ef483dd4ba32d3c32a4281f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "be2eb6d69c37f9488ef3b02e3ee5c021490f91b8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-MF-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2096f72b3155724da79f8c8330a5558265a39f41": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-MF-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "bf42104fdf5b8b98cfa7725facfee32705cc10f6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "37d8d1cbc27ba130a27ce690e484fffb91737e58": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "dbff8152d3f4df7db959eae39a603630c83a1d1c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6909fbcce76c738c998f37a4873bc467e094b3ea": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "86c7e7335b1f376a722d0f886b9f6542c75aecc8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6d59fd71d04e7e987e726b5b106de9e1ef49cfc0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "796c7ddd215e1917adcb5349db1a96daab7b62c4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6237699b0ffbe2796fdae1d1042934af75b7c3bc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-PV-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "657dc93fa5b3fab2fbe4e50560186029ce149e6b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IND-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "965cc3dd15aa398deb774a3a17038872baa62bb2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IRL-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "179e69359f97d9696473fc91da1780e280b545e3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IRL-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b0c83450a82685aa4c02d980a1e5067c7e0e4463": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IRL-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "bda05d68877e6c950f1119498e4dc6b79cc68ef8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IRN-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "72d2c82fde6df551a29d9f1548828f330880521a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IRQ-HB-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3d100da4a660d2d4dca889d39ddae6dce2b40047": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "IRQ-PV-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9527bf2328640549da008b76410a875b22d3ffe0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ITA-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "813e8cdd742e9eb21f20fd726e9d2256d57fab02": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ITA-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "14e8b2c4270e563df75bb47ed67de195859d6edf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JAM-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5041b566e3739f3250c8bc569bbeea901f394404": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JOR-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "22264fdb7f01386b21ba67120b8d7433eb679cc4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JOR-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1f15e90ea7fcfd96a9bd80ca9d54952cd2833c91": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JOR-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f317f2b359357438a25b53b2f885cc408b9040ec": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JOR-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1ceef10987010565b615a9f57acf3952e58f2f5a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JPN-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "70303665fb7f974c5f9824ec03b338db1bcb266a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JPN-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ef570ad503fa5d8c9f5d61576c795f7e3e2f6a3c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JPN-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cb3e150173c746072c8eb5018ac6a929350fba93": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "JPN-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5cf6c1007351fafc6d88014083a6dbc5afd2a482": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6ab7fa1ce6814e011b6f655b02242cb86043ec9b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8d5946e2d650b78a63e16c67b6bd2104fbab6e71": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-TH-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cd5ab43eb47a4349cbeefeb0eb9eab1fd6ed1a2a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KAZ-WD-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d14601020fc69dddef41d9aa94fb1985520cec56": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KEN-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "67d05d08be65e5f41aabcc346aeced0726d4531c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KEN-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6e0bac06e8f323697743e2ab12a770e48cffe878": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KEN-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "98e8d78648262fdb78d555806ef469c4aeacb82f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KEN-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "44967f54893c2fba71789731f12c0c3470f68ba1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KEN-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f31f189d8c687f5c656ff09476dbfb642c4e94de": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KGZ-HY-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a7446ece61fcf8b5e8de9ada41e4a2630e2abfc5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KGZ-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "612e6518521205ca296c671aa6e6127495e3e4ca": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KGZ-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "bc5f35339493447121c1b102efa7ceddb5e9d24a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KGZ-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fbe8e6b3f1324a07655dbb388798ac5b307249ea": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KGZ-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f0d16d1ed5c1b0aa97cd75cdf1b1df10bb9a7b8f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-HB-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1e1928c9087ee7352c369780471c904223e01dba": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "81bed37451615ac68aa4dcb730f773be4b23b2b5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-HY-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08cd814c3684e3cfe69a665ac95b4bc6e9fd98a4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3fee36c7210712ccf0d63b10184efa1db3a91940": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-PV-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a40e3f5fdb302181473f4e6b3adedafa5d02c824": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "86b423ffb8f73702f21f912a00071472df58f77f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-TH-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ac80d48d008696454e2cd9265ca6dc3d4ccc1f25": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KHM-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3ca27e696545846703379567c297c702ed6ec2fb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ba24a70c23a094bfdeeca3099f1688fda77a2517": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ce95a0d2ab13b2a34c1bfa9bcce9ed3b34953b0d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8f5f9018788c9dd3caa0cc98fb8e5aeece06ff16": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b7c5272e238571a890aa6d557bb32c29ff8f5012": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "df469a9cbaba5e09ed24f109b5d16c9509c61287": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c3cf901cd511bfbb429fa62d8a17dc97eb4dac1a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "37ed36f3777f32a88cbf866e29697af7d6c256e8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0817cee3fa5aad1ff2f3740d0051e01055d6342d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0020",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5d52dea5ac3b7b672bbcbded6ca9566b32d5ba39": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b900ae7feb89917275a096624dc2b48ba57083ac": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KOR-WD-0023",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9a80ce64bc489f39cd1e1c28f77318352d2a5740": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KWT-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3273df3a7e18320b86a2e71a0852502ceb094ae1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KWT-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8e5a8fa3fe98f0f460a50c3a5aba12de4470fbaf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "KWT-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0195788edf6f1b923c557c7af69decb3361833d9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-HY-0028",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "297b51ee4c4274b74bc35fb09d13015eb2cd4638": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c0c949bc9e03e0f5d513cabf7ca9ae7b0d03da7a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "184b7f1d6762d51f86799be1900c72300a8840a3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "95616e90f9587cbf2cebcc4c6dc7d898f1a081e4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b4e432f2a03df076ab237aa318fdd8205694bd5c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "aa0771c4624bcb3e87cafd94cb9b5bfdbc67cbc0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7d3160d6946f242cae5692b315e76a1e8dc1e4ab": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6bfb2627deb841e733aff8e4c7b68deeb6808df9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0fa87430af2d9a859565bfe5d7c0f65237c6145f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LAO-WD-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "767eb341f2193180e012ab65efd0b26ed1f6ef58": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LBY-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b52913225a40bcc0506e3e69604610f44d23d365": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LBY-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0edc583ba00696da5cce99f20be2bad2be1d952c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LBY-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b06f759d460207bd2f40d13a293b5ea7996f6034": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-ES-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "565d4b5c68d317b1f30e86a180b90a2a3bf5c7ad": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1c18a9eca1c27003036aa945201cce1f21265c2a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ad7d3ab3e4a76ec71d6f65f22ddebc336d58009e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "631d49b41b1ca1f5edbaf730b34b1a74c720351f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-HB-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "98dc5cd6ca6c5506d63ab09c4f5ec4632c325030": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-HY-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4cd29561d515ba254265dd82fa2032d2b51dba33": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "98751bc1f2b1ea6e810f96e5ace973d2b0315cf1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "730b03262b91e64892ccc323584f36458d65ffa2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "dbd93c6a41a94aab45ae5ba64f639085d1a4e192": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LKA-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1f3c2d73d8b3a257bba2e692c5b5617eeb5453ab": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "LTU-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "209e566a3c3f8e8cb69da7daafc397f07c1b61d8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MAR-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "43e76cb2177cb438972eb5172825f787c695637c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MAR-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4485e1c2b3aaeb0bab8db921b610b8bb915535a1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MAR-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b3057aef79a71f807eefc9a5518cf97945b0192c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MAR-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f3cf1dfa6beedf1854950e576f993064f5217eb6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MDG-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9c5c62b2cd63512359f7ab8ac0a71a7e5a8ec93b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MEX-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cd435625cbbfd93cc1f4147e13bab021ff3e9c0b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MEX-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8aa39088b3697a25b2ad9881e0a11c8508430f68": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MKD-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "998eab4cbcefdcef8c9ac250b29e9a573ac6a606": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MLI-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9f074cea8e6022e859f13f35d9d11b36e57f9923": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-BM-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1b02e559262246d8ff6368601e040717a2c8bf79": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-HY-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ccd17f735abb894ef5dfa8763fbe40e8ad26b437": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-HY-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e497cc1e81442ee81e8a217ade3321a4c47d0197": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-PV-0029",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "682199c1876c45741b4f57c0d7c406ce02ec4274": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-PV-0031",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2daca6d246c6c4d5add427bcc9b88eb7f963203a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-PV-0037",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "96bd2c99808c45903924476a65e035861585fa96": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-PV-0038",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c191d7a23534fa415c3c4ab1b25de8a3abe78cdd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-TH-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7db4c9cf3f5aa76131385b0310cd2a88e692aae8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6177ebcb71514b006e93943b184c75da79f8150a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MMR-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "aff28292277c79d064dd54beebb583f721afcb30": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNE-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "73250cfb2b16ce702f924e752d31875513a92ebd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNE-TH-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b1048dbe60f0d29d79b9700da2036ffaed41b487": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNE-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "31608308d598a1004d7de923d060bda4bfefd18c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNE-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7cdbf686a778c37194d13d4ab76267c462d3a7be": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNE-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a97c30653e46c65ba81a514f1b61b82a852f8f9c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6e55c9dd378d58aef9b365c0eb0f673cd78d73c0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5375b7b013dab20589311864ed8f4afb658f7177": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6cc830028ed0adca34d74a6b9e72c159244a24bd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a8b264b65e10f9ecb1edcd9777cc875a9e460e10": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d69941ce091604813622cec90ea771b00a7b9049": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "dd858f45c68113355db4c344a87e92ee404c4acc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-TH-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f14d81e084db6fbc9ae2a84f02fa1c6a1b6d629e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-TX-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0783bb383e31c955e6e61639d0eaae031dcc4c74": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2d935c1c8b9340b86ff3a1ada7f818961ac45ea9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MNG-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3906404c762b3b01ba54961920540fb21a6751a6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a1a08297f98c79fbd4b2234b867889de6715ee46": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e885de71c94b5674089875b29cbdba273882c682": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7e18284a985d2d1d76dcd19cdf5b0a54cb7a47a4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6e5e9d027e2d78624568edb7f97a0a432027020b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ebe2183141658bdfa2efafae59e95ae76b3a37eb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "90b4b344e9900c5449babf5a45c6c65364acffcf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6cd9b0359c1d39359acb826d8ef82f6f7a7c714d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0da8193c23d9d69f81dc305b9db0873ccd9f60fe": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b63d5fb3aec0f8a84afeb651334fdae4bb468a28": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MOZ-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0f4038b7b3a302c0e60b8dfd3da98766158f63d5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MRT-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2347ce002321b11ba0cd1fd69f88d32b8306a64c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MRT-TH-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1d584f361656dd24bc9f2f1a023e11a98f18fa6b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MWI-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "60f4b497928357df189c4ea3bc4a491f7e9b0d6b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-HB-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0567049f79664cd86493b0429dd5f1cdb33aebe7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-HB-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6383fe8a43fd9a6531cfe06dd5bf8b7191bddd49": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2c9e533f8332f3131ce9a615e277082389cf5915": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7bb612e17b5dbad5f01fbd7ae8c5aadc1fffb793": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c0e4e64599255ce3a1387f48a176c85d0601a4d0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "236a7a7e5fc15bbe37d597db46a6a857bc2ed3bc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "906190b819e333795f902ac56cad919bd9e4d99f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0022",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cdfd7807861ae8e64aca0c8403ab7239e9990577": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0023",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3c97a448ca7f5ffa3d131204ca9f91a43c90beb5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0026",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "644d9a8c99c2952e3c41349c1de403109b0ac5da": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0027",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f322b7829a726fca492839738e0b7e6e2370b886": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0028",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "73c29c0e478f87d36b44940f01d0d4d16d4ba4e4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0032",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c0b0c0984060e2a2ac99c27de2201627ccc3767e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0034",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "19b83a9d4a9562bc2a3202378791516e821c80d3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-PV-0039",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4d34eab4575f57d5093845e1ca986c4666ee6980": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-TH-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a54d09bfca3252c9054f0d647bdb6df094813ab0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-TH-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3f57c1222048f79d3b7c658341692581943673d0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-TH-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a3eac632999ad741236875c6f65210dc983049b6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "MYS-TX-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7f0c4e450462d450ae449c48529e755aceea9816": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NAM-ES-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "aa5995ea38d5a91afdecb2bc350eb82d470cd8a4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NAM-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3bfdc777ce10023dc0ae9549b3a94eeaf87008d5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NAM-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2bb8d8079d55a56b26b41c3727ef787f170b17b8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NAM-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8e36e1806c8b8a628da0844a383a70b7ee5c688f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NAM-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e37350cd1cce21972a9a189866eb14575d8c8018": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NAM-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "20a51f2090aeedb1c00903d61c999776036f2bd7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NER-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cf2aba9b627477f767910fe156150581f0d7a28e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NGA-HB-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4815a1605dce71102f4899143af9a69077645f0d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NGA-MF-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6a50f781639384c28f7a3026493397f0385f33f3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NGA-PV-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "38c6c754f645436d1cb4af5cb7df8490b09941f6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NGA-TX-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "18f9f597c0dbdf7b5f9c10b6de86bb7f5f1117e1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NIC-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08a3c748f744172cd986007385ec5a47aa31c326": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NLD-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "700aede609e11adef4803b128e6e98d2ebd106be": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NLD-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a6796fcd9e9d712978e31a95e8fdfbac412e0bd2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NPL-HY-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8f066545b3766c506e0bf4238658f5a11288ca94": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NPL-HY-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8a962ef665b65c0818f77762fc458f7098860202": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NPL-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c75d97fd95a1bcb4d984a87dfd681bfeb77ec3aa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NPL-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "837f9f11a2370741b2ed40787670ea766021eb5a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NPL-TX-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a99efa7a23c445a8531ad420af2ec43df01b78ee": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "NZL-GT-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cc9d8a1cd4acc8d82ebeb51e05bdfbe094284f87": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-HB-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ad6c00a39ef23a608580904257a201ae3ba1b3f2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-HB-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4ac07def9e5349d027276e19dabc10f84c9eeb3c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-HB-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "798e54e7fd2ceb7980c0b8f19536f07ede3ad138": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4a114e65c8174a18ef1c2525b989d518cb64788c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1dd9bfa0c6b00fad2471350cc6f157e8731f3d48": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3e76bf39397e1516333afae4cf5238dbbddc7b02": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "32f1bdd6c532e6150572edce84e2fce9c12746fb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d78974f07d1a3f10b5ec725450b6cafecaadb5e9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f1bd7118425e0863429c0b38d49f5bc1504c0959": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "OMN-PV-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fd3dfe4ca353d6310c9e3fabd77070dfcf69123c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2b0644b315cc35eb3c2b21f5141be98556cc09ee": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-HY-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f090e1a3e29417798af9ef266b8ecba0f624b1f8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1b138b3efd499a9ab95fd4418d93121fbe13ca00": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "805688cc5c86984861a15a94a9adda70a60b1af1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1fbbbabaa5cee2f238207c19cf30dfb7e7901d45": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7ce18857c37542c1344f64f0fb4e9e83eca0aa8f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "22a1f6b045a41c949727da94e4f9ffa300e50ebe": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TH-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f228db26e3f78f3283b2e2b1b7f3770a058057a4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TH-0026",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7dceaae2cfae1ad5c96a5536cc101e45b17ab23c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TH-0027",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "633b4a52fcee82c79e09d9ba9bb45e3000aa0514": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TH-0028",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9ca459c4312cdcaa50d7592041c209265404e7ac": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TH-0032",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "14a6ee35f63bea12c39a826bf08e121dd9cb9a2c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TX-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "dcdfc36ec9f63ece51f544d5787cdfec460c6a50": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TX-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9ce473db5c546d08fd0296442cbc9f0abe9c5c78": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TX-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6f519f366ddd03e1e7e6d9923682692b47863c26": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PAK-TX-0020",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2e5c63e5ab301a919e9a2bf2e916fdbff58a6e5c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PER-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "16e16548a9be8e335a578223a0579f3f02785f28": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-ES-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2d9d86fe3ca816147e0058045a4407533486d8bf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-ES-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "35aee24d194c67f93361eb9a59170f7b6a0410be": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-ES-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6ef3c88bde1b6d7b422a2af8388b5e3b467136b9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "980f632968590aaae45f65fa53bd5402c3009145": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HB-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d6ee882e4fd998fede78043280746f2ddcea2662": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HB-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "010a7d38de2ea2b470b1b33bb8077dd280db2529": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HB-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "48d20476e7053a16696a9dde36792375101f1e24": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HB-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "416bca4ff8354d16f6f952fe41f2d9e71ebcc8b2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HB-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6d898a93202dc29f6c873c56835de426a72fe494": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HY-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0de82e96d9fab011a549e7bc4e960d9d65492eb4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HY-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "079ec8ae5dc3691003213c1f71fb8720d296326a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HY-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1992c23032f8121191053f931c2f8135e7afc3a8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-HY-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1fd8d3f739011579da04529d0e9e45742dad9cd3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8722156e74f0741db587e85f883804e68510e3d2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "66996b7e53317c79fae0e310d2212de8e34b445e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0033",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "54238dfb2d3841a91af4bd5beae740da0d9a2098": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0037",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08ed78702c2a8f5a2e64219f454aab4da18e6259": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0044",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e44332effa2a4bf38d4e24c00aa1dae8f28b5edf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0045",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6e526ff36302bc8dcda4e19bdc706ac196b4dfb0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0050",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "899a7746252ecbc40afd62af2cc2cbe8688d9ede": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0051",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "46c970e07c0a9f73ba5a3002722d24e0b7fb5c50": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0052",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1a5be8d70df18ba6aeab8cb0ed7e02326354ce81": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0053",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e4e66c6403c5a86cc660065b18ae0ab38f6493fb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0054",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d579ea4393a4feea2e7f27bf91e476433dcb716c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0055",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b8d3bafa9b653b8190ff00550971f047c5ba32d9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0056",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "744a73a84d24d01a44eedb16f117d888aa6edd89": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-PV-0058",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e8bb96280d57504849a4cf964454f5da170ca193": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-TH-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a7c11a833b9adae2861e05dc8f6302f7eb1df86b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-TH-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f53db5d889f2456585651897f78a29d2c538978b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-TH-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4550fdec65a78c19e5892383f25154c06bbff052": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-TH-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0902c3db8788f0b188a89fe345fa98965ddd2258": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-TX-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "77db738bce1ee1d81b355fd44088c729e66799f8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e6f8b7a27a93248753528af76d98a1b3331b4cde": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8472bc92a037bcbf4d522e1435f55f29737b1858": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3c17946bc33cd88a013f8374aa1a35c305a754a1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9b84ae6724aa2e9542bb7b61273543c7464355e3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "247bc8517ece12b376f694223c8cea927b2b2d7b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d1f725a7201ed77183cee6110ab8b9d23923f1b5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8260ebbe0261451e2f22d62a5d8818e7f4b3ed25": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0c24d03b6176d9f52f6c523d8a5c89fb2118de98": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6488957d10b3626430a8284418cf6cdea0fa2e3f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2dab252afc74189fd8175f0c5cd4eaedf1e556a0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0020",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ae1b390e931901e9f65401eddaa40ba9ec751624": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "40a4db0b183e756572a7e7a08256c09a4d920175": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0023",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1d89f178c7bba5482649c2668069fe4d3c15a2f0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0024",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "23abdf83337bbb11d955504180f06b79c18171d9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PHL-WD-0026",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "00a7fb1afd858859d4763d5257078b03ec62d97a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "POL-NC-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ab637a5577c1395bd10f40998e35213f507c499b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "POL-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8044f6b42a24e565f88ff8bf648e2498fa1fb445": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "POL-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "bc48499a0725f373c76b8ce03f7adc904c7ff58a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "POL-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "363b3dd7cb81271e630afe645846f7468514f4db": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "POL-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a326bf6527b0c7e8aaa4a1c1de76a6592f71d1a7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "POL-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "196c243129817e7a460e9ccd5c8ac853696d2f40": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PRT-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e066d2a5a1fd5122cb999e16de45155fef8594fb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PRT-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "413704c9b580a2986029943beb0e897f483e355c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "PRT-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9a0ce9f3d8b301d4be4322a84e3a5e6a8d90bacf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "QAT-PV-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9c75a7027f88863dfc07d718fafc46b98022a264": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "QAT-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "68514381f677cd01627a3596b475ed7802eaa0e1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ebfc68d69851cb9c56dd50632021752a647f7e7e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1881ce8bbdf471e5735dd3fb941d054c78d7b318": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "31ec7b796c8d5e954553ce6aa0bb7208b9aaa401": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1ebdbbaea1d3279748cad6a2ff794de4bcd0fa79": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-PV-0027",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "261686950ad23a15ec409eade154e4d60874cb03": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-TH-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "aec937af83afa7ad9578fcbaa6c5655d73c3f3e0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-TX-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "34195d385ae7d28b5b64748755549902b462416c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ROU-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4a5104a0e851baef7dd5e4f436458b0a00f4adc8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "RUS-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3729308fcd59bdf446e608171f9225fb58bc29fe": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-ES-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6475f69c0f386bb96d39d6fb1493efa8f7ff8acf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-ES-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6cc0e41e43c8f98169065ca55233cd79678e483e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-GT-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08a6e0670e13916fbed36270fe9afe8f7f064d6d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-HB-0020",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "051648ad8a288e1a9af11aeeaae280f7a430673e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-HB-0025",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1362302880376c974ac04b6dbdbc65bf09333124": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-PV-0062",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "515fd901c7a4560aca031756dbe842f839179082": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-TH-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "23d73d3a43a66ae1c244e30020d7786781bbbb40": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-WD-0014",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0600d78c0b1516c3ae2fb0e92a2c929411712860": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SAU-WD-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "54d46d99dbdf91274c44a8f4c9cbffa9a39683e7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SEN-ES-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4b892c16250d5a652312aad2ebce4bc969a7cebf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SEN-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e64a23b28cfd990611d1ade2143f49fd85195d3f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SEN-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e4350206feb781f852c4769d9463d3280b5692e1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SGP-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0fdc17d83b252053754709382c4ff58b6194ac24": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-HY-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d3029c97bce56faba9c0d70b2c46f919ad3b2c67": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-HY-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "358246b32158259965cd97e17c0c9a21b7b38067": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "24b045d2153c1ef34407c2effe2a4e7b95b92f18": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-PV-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fca3c5bf487dafe5cc2814f11de54ddcfddbade6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-TX-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e2becebd7585c71c4269c8a9d0adf3355a615fa0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7655493a94cec899e6c9bd438c73eb128306df66": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-WD-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d06789e6d2ae8283aadd67238bfbcfce1efcf548": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SRB-WD-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d4db928b5975c13c5dc04b19061677c146160fdc": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "STP-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "694e2a28268b1d52c028948be3ab4e21288444e4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SVN-PV-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "94f503706804c0fcc85044ed921777bb77678d27": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SWE-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "365b1a1b73517a0acfb80b0e80ae79094372f703": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "SWE-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "67c8f256b2a3a8357f91f3ae25f62bdcb44111c7": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TCD-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9148377d30ab648545711c3cffaa74ef81f12dca": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TCD-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "406df808c0ebb50867e75fe5baefb57d2dc9b940": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TCD-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "55d6d9c6c0339230a42bfe421cc716fcb40426f8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "THA-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f3b346771cc76cc2087b5dae8725d3c755b98ec3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "THA-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fdc03820074cef4a810e25cd2608f7a94a5c6477": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "THA-PV-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "07e3f4518490c011bb224b944a9585c20b8faa7e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TJK-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "155d47bcf9dd8af0c761697beca05495d3ae0d69": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TJK-HY-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d731bc825b2bc6e6d1441e60b1057825e0d222d2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TJK-MF-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c726b2144477d1d9dce6df85a2da758057fb425a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TJK-TX-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "604368eeb3a5b8074139678cafdbaaf09067ab20": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUN-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4583b7f338b44429bc979a775759c8e15c12b90c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUN-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "989add5856e82c217b3e4b4a4bb025f1038aa52c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-HB-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2e17316b42deaa45d7e952ab236b4ecdc59f9fe9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-NC-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fbb5cf0f259329d21feed58ef22da721d5ae0107": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-PV-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "de5a15a7da44ddfbf75b2a3172a4fe1693ecaff6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-PV-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7a6d7d4125be2d9a633a5688f6c2726bbff189b3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-PV-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "90d081139c89c8d81daab7629f986ead1fa355d8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "78dcdaa94c4bf955f8f2c61c385eca5d67e6b907": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b9ecb55a255312575561dcd1fda2da0bf38d466c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TUR-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "66301b42ffc596bbcd69b3bd09d30be993d2a27e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TWN-TH-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f81976eb1f61bab9ec8662b1ac01da1be7e91978": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TWN-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0f3e00556dc7f2c93e1ab76ee3729bc214fd0ad9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TWN-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "99de0ff4575ac7076cc5c8c3bb8223afb1833fee": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TWN-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6ca516527ce49d13d782b799ca16b9a8417909d0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "TZA-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "881f24f3536845761098a1efb432761a0847e337": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UGA-HB-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "73a5959d20b25b9a5ea6a0ee33270295291a80f9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UGA-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4bff0e5aa60b29fb0bf515ce00f708687f33a87b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UKR-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e117c6209493c4621b64e94afe38c5372a684a65": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UKR-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5f9f36c7982d92c5235e8c9d5fde5904c80744c5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UKR-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e9ac323c5929c9eea66663755df2b8b079c6d5e2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UKR-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2655b2341a378c6ae28ff8b949a12d992effff7b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UNK-NC-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f3fa9c1762db8b64e345e841ecfe2143a63a3610": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UNK-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "50c297d2dca11353f66f2b72bb8643a557d234b6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-ES-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cd8adbd19b8175f150676f5c965012fa17c2d940": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-ES-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "10db587730deff46ec704a5a7bf237fcb0e48c8f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-HB-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "eed40884f14b49c473d8d93bd19e5055cfbc87a1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c2aee6a153ab7d52b16d2af688e73a499a4387e9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-HB-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9993583cbcb326a1978b1500edde1a2c63c65e9a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-HB-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "adf308a13c7aa4866245eee7554ee9c7921fda57": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-PV-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e8fad41a09ecd8236cae9a223100c548fb6fd609": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-PV-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b4187cfe03ca3bbba25f49fee70e2936ea52a4c6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c2ae444c904d7e7f7a5f6398b85042c1f81ae5cd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-PV-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "56dbac94cf7b78cdb2713c4db8aba3c3666409fe": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "082384e200cf5fe9029b83e24f316969926f6c1d": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b8648692c053c856e8773b0736a976de545c58e3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a3175260a6b7b960d2f00644b95964d682026861": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e5a35ecaf0af2ed5dccb880122aae4bae00ec76f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0ef8ef03534bce7099b670453079118292f931d1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f5959cfc62d9a3c1d753ca40d913d2316fea7c9b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0006",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "261da0ea7b4baf7e5390907ad5fa267dc0f08862": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b3a6922275d5508964ddcd406f5a798290cf1318": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "50eea4fe2d61ff705c265792ecb1f4d2d546a317": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3c6cac356b323295a2798000c840c6eb076eb6ff": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "USA-WD-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "40fc1f3cdb8d92abf51bc2eb6ff2d11d4b92ddbb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-ES-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "820bfbe99580d480792888615f7959b6860cb62b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-ES-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f74de43af9eecae274295cacb9cd8731de972b31": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-ES-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2f7c69d74a4c736a371a3f5d9862e2dc008b513e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0885397c08f04ab4c4dc1471871f602e81faad6f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a84768cee2dc9122d5abeebff817da0b6b46e361": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7a7c10599b5339adcad33c3c15c7a36d9df760a9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0035",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "acedc5a3f7b618076123b493e994f9e5fd91d7ba": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0036",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d2344d9c5ae1b70686d367d043b5a7a46b40141c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0037",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cd726a67bb2d837704e3fe19680c881524efef47": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HB-0045",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "04e626d7db5fba8b389df5ea554ee18121a737a2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HY-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a7d11e8ddf919bd64911014a8a4a396d7f97a6aa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-HY-0016",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7fc916471bcf4323b92fb1d56662e7cece32e0e6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-NC-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "790725b0c42d9d23f8f310ef22d3235de795ddaa": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "2424c626fcdcf88991ac59c10bf577243f8b37b5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "53112d47d9e3f97f6d738a95adaf42ea1d0441df": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "01481f187feb08eb4e008bee40322e2bf2d7b923": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0024",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "df647d0c84d819c413c3317ea2fb6fd05a3437cf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0033",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7b93e8a68790dcdabf08b490ee7c4dc159ff474f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0039",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6959a9dd442830ac860fdc6daee0d055c1b812a6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-PV-0040",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "612fd3d795def507db6cbfa4cd5df056291b9889": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-TH-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "06e7cb99c0491333804567514d2426053e70d787": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0015",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7c41d84c0ec7d696450f77c1805dea987656762a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0017",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7b233ea00c077c30620b37e2f417b5f817ff7d8a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fa66d427a48b31d2f1dc150ad5f5cdb3829056fb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6e3424e47009d69268f1f5e911b53310d2e7211e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0023",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f8aaf2099e1f24a049e30887abe19a6a30d205da": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0024",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "302a94a01c5651950edcb8bc834e615b4b42ee61": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0028",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3bf737960f96cf973dfe32c8e14663cf4ff19735": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0029",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a53140eb3521a61229044322481c673bc89dca04": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0030",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b0d8fbcb1214c191e475c6daff72b04dd4668487": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0031",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "79162c91e822378f8e5a4ce219903da0e96941f8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "UZB-WD-0033",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b437c87d5db43598621e39b333c1c1f406839dc2": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-BM-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "75a4a2f78e68b8b60783ed64505652744204c815": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-HB-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0082a2a3843b88f31c2ee5309253799e5284c24b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-HB-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9e79e19e26cafc6701fc63ea80ae870c5f93126b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-HB-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "246b0e85e211951b74d741ca07d6645792dff15b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-HB-0012",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a4e5934f7a1a59a6dad5e688730a777e741d4088": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "8102a5ed7e602b06e455b6db23b43fe86ff483e0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d605962aa738708169bafb5e2bd0f745fac4764a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b688c7b1c69370ad1a5db347ed3c69a6693d4f37": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0022",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7bd1f2247d1452812ab2d31fd1199a9e9cdf7eb1": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0026",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "702e52bd74e8a68a1a590f374c0aa1c4266cd954": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0034",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "16caf5ede3fe7d41b9b1ec4a051970013e87ffbf": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0035",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "652b792b8cdb1e428552f7e568546af50c7c918a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0038",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "c12783e1231c8b58f46494eeb0474496bffc19ef": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0041",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "1dcc1fe846953318fd66f0551c8d5101290ad949": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-PV-0043",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0932e4fc438eb7e53ac55ff2e4d138a884b7ec26": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-TH-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4b51b99bd035e3dae6bdf1b9a5be3a4f65229e7a": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-TH-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6180d80c9aee32d02f36106130ca2304f6e4bdd3": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-TH-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fd59308127808c187336ac9b8af34e37ebcf03c6": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-TH-0011",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e4d7188be87814a1d23834833db561dbf23e59c5": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-TH-0018",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d7f05fab273adb5f54d2a262253d3c852b015eb9": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-TH-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "66810253609d0dfe864d0cb1c3f24cfe9b9f2a32": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "0c78dd507c31a553a98f8a80d8696b52496b4f4b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0007",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "3394d1658f02d6e8ff1a02352de60bd6ba05917c": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "96a8d8a0421a0b16c196a961f69b75e0eedc27fd": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "69d8880f9ab2597a9d854ac36820d863bc03874f": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0019",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "b9f8e3387ce860f5d0a987eea13d24f10484d182": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0029",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9db7ae5c367ea4c7f534ca7c393a68128b3b3d6e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0031",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "340e6bae8f7882e8946b63562cfeaa14a111a6c4": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "VNM-WD-0065",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "48371a1b8fdca554bbd4c1d94f9027aae9429783": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-ES-0003",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "5e370da28aab2456531046f72d43b9dfc3681c3b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-ES-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "26c013242498eacf9b722e6616b9349c2cffb66b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-HB-0005",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7fb8c967895dbceb9152d667ea809d4e22a6b488": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "72eab7be74aab6e8756dde2f819c469a9af80fd0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-HB-0009",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "945069960217ac2b3932b455e2d29541a2196adb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-HB-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7212dd8fb4834840f3a9884f118a118f65244ec8": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-HB-0013",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "30dd51e7895e5aab71d134d9c8a569884ef771ba": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-PV-0022",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7dcac957325a161ff49b089b91483abff4c9f526": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-PV-0024",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d20f7e2330ef1b95dd9ee9a25b90d29fa2bb7678": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-PV-0025",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "7dba9a791a7437d3febb9d2111a94cc60b7e10b0": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-WD-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "74ac2011193c2c9f6bc03a46911ab4289790047e": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZAF-WD-0004",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "fe191ffcfd84bcf8d098740da4dfd946485e9f48": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZMB-HB-0008",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "60f42c18b36eec36ee7db975c431635c997cba45": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZMB-PV-0021",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6aaa3622938606bf753b0e6cb5392ebfe9a9d929": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZMB-PV-0022",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ef0cb52c60fdf4649b17362bb3a528021377970b": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZMB-TH-0001",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "d916e24e1c85246cb77dade819a89a4200fcdb73": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZWE-MF-0002",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "f0206cef096442b755b18da6607a73fe105b0223": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZWE-PV-0010",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "08c7e03cd9813fcadc8a6c03a6f59426d2c719eb": {
+      "task": "T2",
+      "quarter": "2026Q3",
+      "item_id": "ZWE-WD-0002",
       "status": "applied",
       "decided_at": "2026-07-07",
       "verdict_digest": ""

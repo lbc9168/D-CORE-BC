@@ -24,6 +24,12 @@
 - **MYS-PV-0012 / MYS-PV-0013 / MYS-PV-0014 三条救回撤销**，恢复 Codex 原判 exclude（威顿=马来西亚企业，非中企）。更正时 T2 尚未落库，无数据回滚。
 - 救回清单由 8 条修正为 **5 条**：PHL-WD-0001、KAZ-WD-0016、MYS-HY-0008、COD-TX-0003、MNG-TH-0002。
 
+## 🔴🔴 二次更正（同日稍晚，用户终裁）：威顿是两家公司
+- 英文 Widad Group Bhd（马来西亚，Kapar 2100MW 的 JV 方）只对应 MYS-TH-0014（exclude 维持）；中文"威顿控股/威顿马来西亚能源"另有其人=**山西太原威顿控股集团**（iweidun.com 佐证）。上一条更正的依据用错了对象。
+- **用户终裁**：威顿系 5 条（MYS-BM-0001、MYS-PV-0011~0014）**全部 keep**；PV-0011 备注归属存疑（Melaka 140MWp 与 Shizen/Nusa Baiduri 归属冲突，证据仅 goalfore 通稿）。威顿控股集团已新建入登记册。
+- **阿特斯口径用户终裁：算中企**——ESP-PV-0009 keep；登记册阿特斯组补别名 Recurrent Energy/e-STORAGE；T3 试点两条 not_chinese 台账定案删除。
+- 判定知识第 3 条修正为：**同名/译名易撞车（Widad vs 威顿），实体国籍必须以股东结构核查为准**；"上了中国出海新闻站"仍不足以单独定国籍，但本库证据基准=goalfore 报道，goalfore 通稿明确点名中企集团时按库内一致性采信（存疑标注）。
+
 ## 其余
 - 动作标错 7 条（exclude↔downgrade，结论不变）：CUB-PV-0001、TCD-HB-0003、ESP-PV-0013、AUS-PV-0009、JPN-WD-0004、SAU-WD-0014（+1 见预筛输出）——落库时以复核后的动作为准。
 - 剩余 85 条维持 Codex 原判。

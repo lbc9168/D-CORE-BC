@@ -2281,6 +2281,8 @@
    "provenance": "reviewed_2026-07-05",
    "as_of": "2026-07-05",
    "aliases": [
+    "Recurrent Energy",
+    "e-STORAGE",
     "阿特斯阳光电力集团"
    ],
    "subsidiaries": [
@@ -2301,6 +2303,8 @@
     "http://static.sse.com.cn/stock/disclosure/announcement/c/202201/000961_20220107_5OZM.pdf",
     "https://investors.canadiansolar.com/news-releases/news-release-details/canadian-solar-completes-acquisition-recurrent-energy-sharp",
     "https://pdf.dfcfw.com/pdf/H3_AP202308061593394336_1.pdf",
+    "https://www.csisolar.com/",
+    "https://www.recurrentenergy.com/",
     "https://zh.wikipedia.org/wiki/%E9%98%BF%E7%89%B9%E6%96%AF"
    ]
   },
@@ -3865,6 +3869,30 @@
    "subsidiaries": [],
    "sources": [
     "https://www.kibing-glass.com/"
+   ]
+  },
+  {
+   "canonical_name_cn": "威顿控股集团有限公司",
+   "is_central_soe": false,
+   "provenance": "user_adjudication_2026-07-07",
+   "as_of": "2026-07-07",
+   "aliases": [
+    "威顿",
+    "威顿控股集团"
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "威顿控股马来西亚有限公司",
+     "legal_full_name_cn": null
+    },
+    {
+     "name_cn": "威顿马来西亚能源有限公司",
+     "legal_full_name_cn": null
+    }
+   ],
+   "sources": [
+    "http://www.iweidun.com/",
+    "https://news.goalfore.cn/latest/detail/95179.html"
    ]
   }
  ]

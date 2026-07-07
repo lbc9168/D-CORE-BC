@@ -38,24 +38,12 @@
   {
     "verdict": {
       "project_id": "AUS-PV-0009",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='澳大利亚新南威尔士州新英格兰太阳能发电厂'; entity_names=[]; events[0].project_summary='澳大利亚ACEN公司获得了新南威尔士州Stubbo太阳能发电场（400MW）和新英格兰太阳能发电厂（720MW）的合同。这两个项目共计1.12GW，是新南威尔士州电力基础设施路线图的一部分，预计将于2025/26年开始供电。'"
     },
     "context": {
       "project_name": "澳大利亚新南威尔士州新英格兰太阳能发电厂",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "AUS-PV-0010",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='澳大利亚奥古斯塔港挪森5.6MW光伏项目'; entity_names=[]; events[0].project_summary='中国企业在澳大利亚参与了挪森5.6兆瓦光伏项目。该项目已实现全容量并网并进入商业运行阶段。中方企业在项目中主要负责技术咨询、分包选择与管理、无功补偿设备供货、设计审核、现场协调等工作。'"
-    },
-    "context": {
-      "project_name": "澳大利亚奥古斯塔港挪森5.6MW光伏项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -218,8 +206,8 @@
   {
     "verdict": {
       "project_id": "BGD-PV-0010",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='孟加拉国迪纳杰普尔200MW太阳能发电项目'; entity_names=[]; events[0].project_summary='孟加拉国政府批准了三个太阳能发电站项目，总装机容量370MW。其中一个200MW的项目将建在迪纳杰普尔，耗资7168.80亿塔卡，并签署了20年购电协议。新闻中未提及中国企业参与。'"
     },
     "context": {
@@ -265,18 +253,6 @@
   },
   {
     "verdict": {
-      "project_id": "BGD-PV-0022",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='孟加拉200MW太阳能发电项目'; entity_names=[]; events[0].project_summary='中孟双方合资成立“孟加拉-中国电力有限公司”，计划共同开发一个200兆瓦的太阳能发电厂项目。该项目处于规划阶段，具体的中方参与企业和投资细节尚未披露。'"
-    },
-    "context": {
-      "project_name": "孟加拉200MW太阳能发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "BGD-PV-0024",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -302,8 +278,8 @@
   {
     "verdict": {
       "project_id": "BGD-TX-0019",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='孟加拉国Chattogram地区输电系统升级和扩建项目'; entity_names=[]; events[0].project_summary='亚投行批准一项1.2亿美元贷款用于孟加拉国Chattogram地区输电系统升级和扩建项目。该项目旨在建设和升级超过46公里的双回输电线路及相关变电站和线路托架，以提高电压稳定性并扩大电力接入。此项目是孟加拉国获得亚投行资助的四个能源项目之一。'"
     },
     "context": {
@@ -338,8 +314,8 @@
   {
     "verdict": {
       "project_id": "BIH-PV-0005",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='波黑塞族共和国Nevesinje 60MW太阳能发电项目'; entity_names=[]; events[0].project_summary='波黑塞族共和国能源和矿业部与M Solar和MDD Energy公司签署了在Nevesinje建设两座30兆瓦太阳能发电厂的特许权协议。项目总计60兆瓦，预计五年内建成，特许期50年。'"
     },
     "context": {
@@ -386,8 +362,8 @@
   {
     "verdict": {
       "project_id": "BIH-PV-0009",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='波黑布戈伊诺50MW太阳能项目'; entity_names=[]; events[0].project_summary='波黑电力公司EPBiH将在波黑建设两座总计50MW的太阳能发电厂，项目位于布戈伊诺市Gračanica煤矿的尾矿堆场，EPBiH计划投资3000万欧元，项目处于规划阶段。'"
     },
     "context": {
@@ -410,8 +386,8 @@
   {
     "verdict": {
       "project_id": "BIH-WD-0005",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='波黑Canton 10和Herzeg-Bosnia县264MW风电项目'; entity_names=[]; events[0].project_summary='德国公司wpd在波黑的Canton 10和Herzeg-Bosnia县获得了Čadilj和Marino Brdo两个风电场的特许权协议，总装机容量为264MW，项目处于获得特许权阶段。'"
     },
     "context": {
@@ -464,18 +440,6 @@
     },
     "context": {
       "project_name": "巴西Piauí州4GW太阳能光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "BRA-PV-0018",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='巴西塞拉多骄阳太阳能项目'; entity_names=[]; events[0].project_summary='中国企业晶科能源为巴西米纳斯吉拉斯州雅伊巴的Sol Do Cerrado（塞拉多骄阳）太阳能园区提供了光伏组件和备件。该园区是拉美最大的太阳能园区之一，已达到最大发电产能，是中巴在清洁能源领域的合作项目。'"
-    },
-    "context": {
-      "project_name": "巴西塞拉多骄阳太阳能项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -649,18 +613,6 @@
   },
   {
     "verdict": {
-      "project_id": "CAF-PV-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='中非光伏发电项目'; entity_names=[]; events[0].project_summary='晶科能源为建投国际提供了25兆瓦高效组件，助力中非光伏发电项目在中西非区域的顺利实施。该项目是晶科能源在中西非区域参与的首个世界银行贷款项目，为中非提供了可靠的清洁能源。'"
-    },
-    "context": {
-      "project_name": "中非光伏发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "CAN-HY-0001",
       "action": "downgrade_non_project",
       "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
@@ -805,18 +757,6 @@
   },
   {
     "verdict": {
-      "project_id": "COD-PV-0003",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='刚果（金）鲁耶波、卢卡拉巴、卡坦达2.4MW光伏项目'; entity_names=[]; events[0].project_summary='中海外中非公司中标刚果（金）鲁耶波、卢卡拉巴、卡坦达三个太阳能光伏电站项目。项目总装机容量为2.4MW，包括光伏发电和储能系统，旨在改善当地电力供应。目前项目处于中标阶段。'"
-    },
-    "context": {
-      "project_name": "刚果（金）鲁耶波、卢卡拉巴、卡坦达2.4MW光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "COD-PV-0004",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -836,18 +776,6 @@
     },
     "context": {
       "project_name": "刚果（金）35MW光伏项目（Karawa, Mbandaka, Lusambo）",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "COD-TX-0003",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='刚果（金）220千伏输变电工程'; entity_names=[]; events[0].project_summary='中国国际公司在刚果（金）承建了220千伏输变电工程，该项目已通过验收，将缓解当地矿区用电紧张状况并为居民提供稳定电力。'"
-    },
-    "context": {
-      "project_name": "刚果（金）220千伏输变电工程",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -878,8 +806,8 @@
   {
     "verdict": {
       "project_id": "CUB-PV-0001",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='古巴12兆瓦光伏项目'; entity_names=[]; events[0].project_summary='中国企业在古巴承建了三个总计12兆瓦的太阳能光伏电站项目，分别位于谢戈德阿维拉省、奥尔金省和比亚克拉拉省，目前已全部并网发电，为当地家庭提供电力。'"
     },
     "context": {
@@ -968,18 +896,6 @@
     },
     "context": {
       "project_name": "多米尼加共和国69kV输电线路项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "DZA-PV-0004",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='阿尔及利亚提亚雷特省80MW光伏项目'; entity_names=[]; events[0].project_summary='中国二十二冶海外事业部中标阿尔及利亚提亚雷特省Ksar Chellala镇的80MW光伏电站项目。该项目由阿尔及利亚政府资金开发，旨在推动当地新能源产业发展和缓解电力短缺问题。项目已进入中标阶段。'"
-    },
-    "context": {
-      "project_name": "阿尔及利亚提亚雷特省80MW光伏项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -1141,18 +1057,6 @@
   },
   {
     "verdict": {
-      "project_id": "EGY-TX-0007",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='埃及国家电网500千伏输变电升级改造项目'; entity_names=[]; events[0].project_summary='中国信保承保，中国企业承建的埃及国家电网500千伏输变电升级改造项目已顺利完工。该项目为埃及输变电基础设施的更新换代提供了支持。'"
-    },
-    "context": {
-      "project_name": "埃及国家电网500千伏输变电升级改造项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "EGY-WD-0003",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -1202,8 +1106,8 @@
   {
     "verdict": {
       "project_id": "EGY-WD-0007",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='埃及1100MW风电项目'; entity_names=[]; events[0].project_summary='ACWA Power与埃及政府签订了1.1GW陆上风电项目，投资额约15亿美元，项目位于埃及苏伊士湾和Gabal el Zeit地区，计划于2024年第三季度前达成融资关闭，并于2026年年底前投入商业运营。该项目是ACWA Power在埃及的第三个项目。'"
     },
     "context": {
@@ -1285,18 +1189,6 @@
   },
   {
     "verdict": {
-      "project_id": "ESP-PV-0009",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='西班牙安达卢西亚塞维利亚115兆瓦光伏项目'; entity_names=[]; events[0].project_summary='阿特斯集团子公司Recurrent Energy在西班牙安达卢西亚塞维利亚开发建设115兆瓦的“Rey I”光伏电站项目。该项目目前在建，预计2026年上半年投入商业运营，将为吉凯恩汽车提供绿色电力。'"
-    },
-    "context": {
-      "project_name": "西班牙安达卢西亚塞维利亚115兆瓦光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "ESP-PV-0010",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -1322,8 +1214,8 @@
   {
     "verdict": {
       "project_id": "ESP-PV-0013",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='西班牙韦尔瓦市263兆瓦光伏项目（Huelva La Luz）'; entity_names=[]; events[0].project_summary='西班牙可再生能源公司Alter Enersun在西班牙韦尔瓦市开发的Huelva La Luz项目，由8个光伏发电厂组成，总装机容量263兆瓦，预计于2024年第一季度完工并于2024年7月投入运营。该项目投资1.6亿欧元。'"
     },
     "context": {
@@ -1646,8 +1538,8 @@
   {
     "verdict": {
       "project_id": "GBR-ES-0024",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='英国250MW液态空气储能项目'; entity_names=[]; events[0].project_summary='Highview Power公司宣布在英国部署一个250MW液态空气储能项目，并计划在两年内在美部署四个大型液态空气储能项目，首个项目可能在美国德克萨斯州ERCOT市场。这些项目旨在提供基于市场的能源服务。'"
     },
     "context": {
@@ -1837,18 +1729,6 @@
   },
   {
     "verdict": {
-      "project_id": "GIN-HB-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='几内亚国家电视台及农村广播站光伏储能项目'; entity_names=[]; events[0].project_summary='中国企业四达时代在几内亚承建了国家电视台及农村广播站光伏储能项目，总装机容量为49.56kWp，项目已于2025年4月26日竣工并通过验收，为当地提供了可持续的清洁能源解决方案。'"
-    },
-    "context": {
-      "project_name": "几内亚国家电视台及农村广播站光伏储能项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "GIN-PV-0003",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -1904,18 +1784,6 @@
     },
     "context": {
       "project_name": "几内亚-马里跨境225KV输变电网项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "GNQ-HY-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='赤道几内亚毕科莫水电站技术改造项目'; entity_names=[]; events[0].project_summary='中国承建的援赤道几内亚毕科莫水电站技术改造第一期技援项目顺利通过验收。该项目是中赤几两国元首高度重视的“标杆”援外项目，为赤道几内亚大陆地区经济社会发展和民众生活质量提高做出了重要贡献。'"
-    },
-    "context": {
-      "project_name": "赤道几内亚毕科莫水电站技术改造项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -2197,18 +2065,6 @@
   },
   {
     "verdict": {
-      "project_id": "IDN-PV-0006",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='印度尼西亚莫洛瓦里0.55MW光伏发电项目（一期）'; entity_names=[]; events[0].project_summary='致新电力在印度尼西亚莫洛瓦里IMIP工业园区成功签约了其首个海外光伏发电项目（一期），该项目装机容量为0.55MW，采用“自发自用，余电不上网”模式。'"
-    },
-    "context": {
-      "project_name": "印度尼西亚莫洛瓦里0.55MW光伏发电项目（一期）",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "IDN-PV-0007",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -2257,18 +2113,6 @@
   },
   {
     "verdict": {
-      "project_id": "IDN-TH-0014",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='印度尼西亚莫罗瓦力工业园区拉波塔电厂2×380MW燃煤发电项目'; entity_names=[]; events[0].project_summary='电仪公司在印度尼西亚莫罗瓦力工业园区建设2×380MW燃煤发电机组项目已举行开工仪式。该项目是电仪公司在印尼的又一个电厂项目，标志着项目施工正式启动。'"
-    },
-    "context": {
-      "project_name": "印度尼西亚莫罗瓦力工业园区拉波塔电厂2×380MW燃煤发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "IDN-TH-0021",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -2276,18 +2120,6 @@
     },
     "context": {
       "project_name": "印尼柯林齐TG9项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "IDN-TH-0043",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='印度尼西亚青山工业园区MPM电厂250MW超临界9号机组发电项目'; entity_names=[]; events[0].project_summary='印尼青山工业园区MPM电厂250MW超临界9号机组于2020年5月26日并网发电成功。该项目为印尼青山工业园区第14台发电机组，建设周期为2019年4月至2020年5月。项目旨在为园区生产部门提供电力保障。'"
-    },
-    "context": {
-      "project_name": "印度尼西亚青山工业园区MPM电厂250MW超临界9号机组发电项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -2737,18 +2569,6 @@
   },
   {
     "verdict": {
-      "project_id": "JPN-PV-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='日本群马县与茨城县49.5kW*3光伏项目'; entity_names=[]; events[0].project_summary='珠海兴业节能科技有限公司在日本群马县与茨城县承建了总装机容量148.5kW的光伏项目。该项目已顺利启动建设，标志着公司在日本能源市场取得新突破，为当地提供清洁能源。'"
-    },
-    "context": {
-      "project_name": "日本群马县与茨城县49.5kW*3光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "JPN-PV-0018",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -2774,8 +2594,8 @@
   {
     "verdict": {
       "project_id": "JPN-WD-0004",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='日本秋田市315MW海上风电项目'; entity_names=[]; events[0].project_summary='JERA、J-Power、伊藤忠商事株式会社、东北电力等组成的联合体中标日本秋田市海域315MW海上风电项目。该项目是日本第二轮海上风电招标的一部分。'"
     },
     "context": {
@@ -2786,8 +2606,8 @@
   {
     "verdict": {
       "project_id": "JPN-WD-0005",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='日本长崎县420MW海上风电项目'; entity_names=[]; events[0].project_summary='住友商事、东京电力旗下的可再生能源子公司组成的联合体中标日本长崎县海域420MW海上风电项目。该项目是日本第二轮海上风电招标的一部分。'"
     },
     "context": {
@@ -2828,54 +2648,6 @@
     },
     "context": {
       "project_name": "哈萨克斯坦科克舍套市、塞梅市和乌斯卡曼市热电厂项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "KAZ-WD-0015",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='哈萨克斯坦库斯塔奈州100MW风电项目'; entity_names=[]; events[0].project_summary='中国企业寰泰能源在哈萨克斯坦库斯塔奈州中标100MW风电项目。该项目是寰泰能源在哈萨克斯坦新能源项目组合的一部分，至此其在哈新能源项目规模已近1GW。项目已进入中标阶段。'"
-    },
-    "context": {
-      "project_name": "哈萨克斯坦库斯塔奈州100MW风电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "KAZ-WD-0016",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='哈萨克斯坦塞梅伊89.999MW风电项目'; entity_names=[]; events[0].project_summary='中国企业寰泰能源在哈萨克斯坦塞梅伊中标89.999MW风电项目。该项目是寰泰能源在哈萨克斯坦新能源项目组合的一部分，进一步降低了当地居民的用电成本。项目已进入中标阶段。'"
-    },
-    "context": {
-      "project_name": "哈萨克斯坦塞梅伊89.999MW风电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "KAZ-WD-0018",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='哈萨克斯坦Mars Wind 50MW风电项目'; entity_names=[]; events[0].project_summary='中国企业寰泰能源在哈萨克斯坦的Mars Wind风电项目，装机容量为50MW，已进入工程建设阶段。该项目是寰泰能源在哈萨克斯坦新能源项目组合的一部分。'"
-    },
-    "context": {
-      "project_name": "哈萨克斯坦Mars Wind 50MW风电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "KAZ-WD-0019",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='哈萨克斯坦Jupiter Wind 50MW风电项目'; entity_names=[]; events[0].project_summary='中国企业寰泰能源在哈萨克斯坦的Jupiter Wind风电项目，装机容量为50MW，已进入工程建设阶段。该项目是寰泰能源在哈萨克斯坦新能源项目组合的一部分。'"
-    },
-    "context": {
-      "project_name": "哈萨克斯坦Jupiter Wind 50MW风电项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -3062,8 +2834,8 @@
   {
     "verdict": {
       "project_id": "KHM-PV-0017",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='柬埔寨120MW光伏项目'; entity_names=[]; events[0].project_summary='施耐德（Schneitec Sustainable）在柬埔寨投资建设两个60MW的光伏电站，总计120MW，总投资1.16亿美元。其中一座位于Pursat省，计划于明年4月开始运营；另一座位于Kampong Chhnang省，计划于2020年底并网。'"
     },
     "context": {
@@ -3625,30 +3397,6 @@
   },
   {
     "verdict": {
-      "project_id": "MDV-HB-0005",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马尔代夫20个岛屿智慧能源管理项目'; entity_names=[]; events[0].project_summary='中腾微网（北京）科技有限公司中标马尔代夫20个岛屿的智慧能源管理项目。该项目将整合柴油发电系统与新能源系统，配备自主研发的EMS能源管理系统，以实现多能互补和高效绿色运行。项目已于7月25日完成签约。'"
-    },
-    "context": {
-      "project_name": "马尔代夫20个岛屿智慧能源管理项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MDV-HB-0010",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马尔代夫12个岛光柴储微电网项目'; entity_names=[]; events[0].project_summary='中腾微网（北京）科技有限公司中标马尔代夫12个岛光柴储微电网总承包项目。该项目旨在将当地电网转变为混合可再生能源系统，减少对柴油的依赖。项目由亚洲开发银行和马尔代夫政府共同投建。'"
-    },
-    "context": {
-      "project_name": "马尔代夫12个岛光柴储微电网项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "MEX-WD-0001",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -3776,30 +3524,6 @@
     },
     "context": {
       "project_name": "缅甸570万千瓦太阳能发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MMR-TH-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='缅甸旦多淼2×30MW电厂生产运维服务项目'; entity_names=[]; events[0].project_summary='邯郸中材在缅甸签订了旦多淼2×30MW电厂的生产运维服务合同。该项目为一座装机容量为60MW的电厂，目前处于运维服务阶段。这是双方长期合作的一部分。'"
-    },
-    "context": {
-      "project_name": "缅甸旦多淼2×30MW电厂生产运维服务项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MMR-TH-0003",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='缅甸丰益电厂维修项目'; entity_names=[]; events[0].project_summary='中国华丰（缅甸）能源有限公司在缅甸仰光 Thilawa 工业开发区签订了缅甸丰益电厂的维修服务合同。该电厂为缅甸丰益稻米项目配套，具体装机容量未在新闻中提及。此项目是中国华丰在缅甸电力市场的又一新项目，旨在提升其品牌影响力。'"
-    },
-    "context": {
-      "project_name": "缅甸丰益电厂维修项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -3980,18 +3704,6 @@
     },
     "context": {
       "project_name": "蒙古国乌兰巴托市第五热电厂项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MNG-TH-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='蒙古国乌兰巴托额么勒特生态产业园热电厂及污水处理厂项目'; entity_names=[]; events[0].project_summary='中国华资科技有限公司与华实能源实业有限公司组成的联合体中标蒙古国乌兰巴托的额么勒特生态产业园热电厂及污水处理厂项目。该项目包括一座24兆瓦的热电厂，目前处于中标阶段，预计2026年第一季度开工。'"
-    },
-    "context": {
-      "project_name": "蒙古国乌兰巴托额么勒特生态产业园热电厂及污水处理厂项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -4189,30 +3901,6 @@
   },
   {
     "verdict": {
-      "project_id": "MYS-BM-0001",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚吉兰丹州18MW生物质发电项目'; entity_names=[]; events[0].project_summary='威顿控股马来西亚有限公司在马来西亚中标一个18MW的生物质发电站项目。该项目将利用当地农业废弃物作为燃料，是威顿控股在生物质发电领域的重要里程碑。'"
-    },
-    "context": {
-      "project_name": "马来西亚吉兰丹州18MW生物质发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MYS-BM-0005",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚吉打居林80MW生物质发电及发热项目'; entity_names=[]; events[0].project_summary='敬业（KAB）与中资企业XSD国际纸业合作，在马来西亚吉打居林建设一座最多可达80兆瓦的生物质发电及发热厂。XSD国际纸业将提供土地并采购蒸汽，项目旨在增强敬业在大马的永续能源方案业务。'"
-    },
-    "context": {
-      "project_name": "马来西亚吉打居林80MW生物质发电及发热项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "MYS-HB-0006",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -4237,18 +3925,6 @@
   },
   {
     "verdict": {
-      "project_id": "MYS-HY-0008",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚沙巴州万劳区29.1MW水电站项目'; entity_names=[]; events[0].project_summary='泰豪国际马来西亚子公司与Kpower集团签约沙巴州万劳区29.1MW水电站项目EPCC合同，计划2023年初并网发电。'"
-    },
-    "context": {
-      "project_name": "马来西亚沙巴州万劳区29.1MW水电站项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "MYS-PV-0009",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -4256,54 +3932,6 @@
     },
     "context": {
       "project_name": "马来西亚槟城9028kW屋顶光伏发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MYS-PV-0011",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚马六甲140MWp漂浮光伏发电项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚中标了马六甲140MWp漂浮光伏发电项目、雪兰莪15MWp光伏发电项目及吉兰丹8.5MWp光伏发电项目。这些项目由威顿马来公司与本地合作伙伴共同完成，旨在为当地提供清洁能源。'"
-    },
-    "context": {
-      "project_name": "马来西亚马六甲140MWp漂浮光伏发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MYS-PV-0012",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚雪兰莪15MWp光伏发电项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚中标了雪兰莪15MWp光伏发电项目。该项目由威顿马来公司与本地合作伙伴共同完成，旨在为当地提供清洁能源。'"
-    },
-    "context": {
-      "project_name": "马来西亚雪兰莪15MWp光伏发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MYS-PV-0013",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚吉兰丹8.5MWp光伏发电项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚中标了吉兰丹8.5MWp光伏发电项目。该项目由威顿马来公司与本地合作伙伴共同完成，旨在为当地提供清洁能源。'"
-    },
-    "context": {
-      "project_name": "马来西亚吉兰丹8.5MWp光伏发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MYS-PV-0014",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚沙巴州21MWp漂浮光伏项目'; entity_names=[]; events[0].project_summary='威顿马来西亚能源有限公司在马来西亚沙巴州获得了21MWp漂浮光伏项目的投资许可。这是沙巴州首个漂浮光伏发电项目，由威顿马来公司与沙巴当地合作伙伴紧密协作完成。'"
-    },
-    "context": {
-      "project_name": "马来西亚沙巴州21MWp漂浮光伏项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -4489,30 +4117,6 @@
   },
   {
     "verdict": {
-      "project_id": "MYS-TH-0016",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚KLPP燃气发电项目'; entity_names=[]; events[0].project_summary='能源国际在马来西亚的KLPP燃气项目，总装机67.5万千瓦，为联合循环燃气发电机组，机组带基本负荷运行。该项目是能源国际在马来西亚的业务组成部分。'"
-    },
-    "context": {
-      "project_name": "马来西亚KLPP燃气发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "MYS-TH-0017",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='马来西亚TG2燃气发电项目'; entity_names=[]; events[0].project_summary='能源国际在马来西亚的TG2燃气项目，总装机72万千瓦，为联合循环燃气发电机组，机组带基本负荷运行。该项目是能源国际在马来西亚的业务组成部分。'"
-    },
-    "context": {
-      "project_name": "马来西亚TG2燃气发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "MYS-TX-0006",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -4609,18 +4213,6 @@
   },
   {
     "verdict": {
-      "project_id": "NGA-HB-0005",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='尼日利亚DARES项目离网微电网项目'; entity_names=[]; events[0].project_summary='四达时代智慧能源公司在尼日利亚中标DARES项目下的离网微电网项目，该项目由世界银行资助，旨在通过太阳能混合微电网改善偏远地区电力供应。目前首批两个村落的微电网工程已开工，公司计划2025年内完成至少100个村落的建设。'"
-    },
-    "context": {
-      "project_name": "尼日利亚DARES项目离网微电网项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "NGA-HB-0012",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -4658,8 +4250,8 @@
   {
     "verdict": {
       "project_id": "NGA-TX-0002",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='尼日利亚卡杜纳州Zaria和Jaji变电站项目'; entity_names=[]; events[0].project_summary='中国企业未明确参与此项目。该项目为尼日利亚输电公司(TCN)与非洲开发银行(AfDB)联合视察的尼日利亚AfDB项目，涉及卡杜纳州Zaria和Jaji两座在建变电站的工程进度和质量管理。'"
     },
     "context": {
@@ -4700,18 +4292,6 @@
     },
     "context": {
       "project_name": "荷兰79MW光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "NLD-WD-0001",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='荷兰北海Hollandse Kust West海上风电场Beta升压站外送海缆项目'; entity_names=[]; events[0].project_summary='中国企业东方电缆作为联合体成员，在荷兰北海的Hollandse Kust West海上风电场项目中，负责Beta升压站的外送海缆和连接Alpha与Beta升压站的海缆的设计、供货、测试及技术服务。该项目是欧洲海上风电领域的重要输电工程。'"
-    },
-    "context": {
-      "project_name": "荷兰北海Hollandse Kust West海上风电场Beta升压站外送海缆项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -4778,8 +4358,8 @@
   {
     "verdict": {
       "project_id": "NZL-GT-0001",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='新西兰Te Mihi二期101兆瓦地热发电厂'; entity_names=[]; events[0].project_summary='奥玛特科技股份有限公司（Ormat Technologies）与新西兰康泰克能源公司（Contact Energy）签署了价值约2亿美元的EPC合同，将在新西兰开发Te Mihi二期101兆瓦地热发电厂。该项目预计于2027年年中完工并投入使用，是奥玛特在新西兰的第四个大型项目。'"
     },
     "context": {
@@ -5293,18 +4873,6 @@
   },
   {
     "verdict": {
-      "project_id": "PHL-PV-0014",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾薄荷岛45MWp光伏项目'; entity_names=[]; events[0].project_summary='永福股份在菲律宾薄荷岛签约承建一个45MWp的光伏电站项目。该项目是总承包合同，旨在推动当地能源结构转型。项目目前处于签约阶段。'"
-    },
-    "context": {
-      "project_name": "菲律宾薄荷岛45MWp光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "PHL-PV-0033",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -5378,8 +4946,8 @@
   {
     "verdict": {
       "project_id": "PHL-PV-0052",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾三宝莱省300MW光伏项目'; entity_names=[]; events[0].project_summary='ACEN公司在菲律宾三宝莱省Palauig地区开始建设一个300MW的光伏项目。该项目是菲律宾能源部绿色能源拍卖的一部分。目前新闻中未提及中国企业参与。'"
     },
     "context": {
@@ -5402,8 +4970,8 @@
   {
     "verdict": {
       "project_id": "PHL-PV-0054",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾554.58MW光伏项目'; entity_names=[]; events[0].project_summary='Citicore集团在菲律宾中标了554.58MW的光伏项目，该项目是菲律宾第二轮绿色能源拍卖计划（GEA-2）的一部分，计划在2024至2026年期间开发和安装可再生能源。'"
     },
     "context": {
@@ -5426,8 +4994,8 @@
   {
     "verdict": {
       "project_id": "PHL-PV-0056",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾9.39MW屋顶光伏项目'; entity_names=[]; events[0].project_summary='Phinma Solar Energy在菲律宾中标了全部9.39MW的屋顶光伏项目，该项目是菲律宾第二轮绿色能源拍卖计划（GEA-2）的一部分，计划在2024至2026年期间开发和安装可再生能源。'"
     },
     "context": {
@@ -5504,18 +5072,6 @@
     },
     "context": {
       "project_name": "菲律宾圣玛丽大桥勘察项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "PHL-WD-0001",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='菲律宾吕宋岛卡马里内斯省风电项目'; entity_names=[]; events[0].project_summary='越南PC1集团与日本DENZAI集团合作，将在菲律宾吕宋岛卡马里内斯省安装9台远景能源风力发电机组，项目预计于2026年3月下旬启动。此次合作聚焦于风电EPC市场，旨在拓展东南亚清洁能源业务。'"
-    },
-    "context": {
-      "project_name": "菲律宾吕宋岛卡马里内斯省风电项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -5917,18 +5473,6 @@
   },
   {
     "verdict": {
-      "project_id": "ROU-WD-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='罗马尼亚Urleasca风电项目'; entity_names=[]; events[0].project_summary='金风科技在罗马尼亚的Urleasca风电项目，装机容量102MW，由BIG MEGA可再生能源公司推动，欧洲复兴开发银行和OTP银行提供融资支持，项目已获批建设。'"
-    },
-    "context": {
-      "project_name": "罗马尼亚Urleasca风电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "ROU-WD-0003",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -6037,21 +5581,9 @@
   },
   {
     "verdict": {
-      "project_id": "SAU-WD-0009",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='沙特图莱夫风电基础项目'; entity_names=[]; events[0].project_summary='湖南物化所所属基础公司沙特分公司成功中标沙特阿拉伯图莱夫风电基础项目工程，合同价值约8300余万元人民币。该项目是沙特公司在沙特市场独立中标的首个大型工程，标志着物化所“走出去”战略在中东市场取得突破。'"
-    },
-    "context": {
-      "project_name": "沙特图莱夫风电基础项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "SAU-WD-0014",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='沙特延布850MW风电项目'; entity_names=[]; events[0].project_summary='沙特能源部计划在2022年第三季度对沙特阿拉伯的第二个风力发电项目——延布850MW风电项目进行资格预审。该项目是沙特国家可再生能源计划的一部分，法国企业Engie已表示将参与投标。'"
     },
     "context": {
@@ -6073,18 +5605,6 @@
   },
   {
     "verdict": {
-      "project_id": "SEN-ES-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='塞内加尔168KW户储暨工商储项目'; entity_names=[]; events[0].project_summary='中电国际新能源公司在塞内加尔签署了总计168KW的工商储及户储项目。该项目处于签约阶段，旨在满足当地的储能需求。'"
-    },
-    "context": {
-      "project_name": "塞内加尔168KW户储暨工商储项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "SEN-ES-0003",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -6092,18 +5612,6 @@
     },
     "context": {
       "project_name": "塞内加尔Taïba N'Diaye风电场储能系统项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "SEN-HB-0002",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='塞内加尔1.01MW光储灌溉暨现代农业发展项目'; entity_names=[]; events[0].project_summary='中电国际新能源公司在塞内加尔签署了1.01MW的光储灌溉暨现代农业发展项目，同时签署了168KW的工商储及户储项目。该项目处于签约阶段，旨在发展现代农业和新能源。'"
-    },
-    "context": {
-      "project_name": "塞内加尔1.01MW光储灌溉暨现代农业发展项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -6176,18 +5684,6 @@
     },
     "context": {
       "project_name": "塞尔维亚1GW太阳能发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "SRB-PV-0006",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='塞尔维亚中国文化中心51千瓦光伏项目'; entity_names=[]; events[0].project_summary='国际合作公司在塞尔维亚投资建设了中国文化中心光伏发电项目，装机容量为51千瓦，已于近日完工并投入使用。该项目采用了“光伏+”模式，是国际合作公司在境外建成的又一个绿色低碳项目。'"
-    },
-    "context": {
-      "project_name": "塞尔维亚中国文化中心51千瓦光伏项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -6314,8 +5810,8 @@
   {
     "verdict": {
       "project_id": "TCD-HB-0003",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乍得100MW光伏发电项目'; entity_names=[]; events[0].project_summary='乍得政府在Goui奠基建设两个容量为100MWP的太阳能光伏发电厂，项目价值1.5亿美元，将包括50MW光伏电站、10MW电池储能系统等。Merl Solar Technologies将根据购电协议建设和运营该设施。'"
     },
     "context": {
@@ -6368,18 +5864,6 @@
     },
     "context": {
       "project_name": "泰国东部经济走廊500MW光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "THA-PV-0013",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='泰国海亮铜业3.66MWp屋顶光伏发电项目'; entity_names=[]; events[0].project_summary='海亮铜业（泰国）3.66MWp屋顶光伏发电项目在泰国开工建设。该项目由和建国际承接，旨在满足海亮铜业（泰国）厂区部分产能的电力需求，采用用户自发自用余电不上网的模式。'"
-    },
-    "context": {
-      "project_name": "泰国海亮铜业3.66MWp屋顶光伏发电项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -6506,8 +5990,8 @@
   {
     "verdict": {
       "project_id": "TUR-PV-0017",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='土耳其Gaziantep 50MW光伏装置项目'; entity_names=[]; events[0].project_summary='阿布扎比国际控股公司（IHC）通过其子公司国际能源控股（IEH）以4.9亿美元收购土耳其Kalyon Energy公司50%的股份，获得了包括50 MW Gaziantep光伏装置在内的多个可再生能源项目。'"
     },
     "context": {
@@ -6530,8 +6014,8 @@
   {
     "verdict": {
       "project_id": "TUR-WD-0007",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='土耳其YEKA计划1GW风力发电项目'; entity_names=[]; events[0].project_summary='阿布扎比国际控股公司（IHC）通过其子公司国际能源控股（IEH）以4.9亿美元收购土耳其Kalyon Energy公司50%的股份，获得了包括1 GW风力发电项目在内的多个可再生能源项目。该风电项目是政府YEKA计划的一部分。'"
     },
     "context": {
@@ -6548,18 +6032,6 @@
     },
     "context": {
       "project_name": "土耳其850兆瓦风电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "TWN-GT-0001",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='台湾义芳HRSG项目'; entity_names=[]; events[0].project_summary='西子洁能为台湾义芳HRSG项目提供燃机余热锅炉设备供货、安装与调试技术指导服务。该项目于2024年12月签约，作为台湾桃园市的“脱煤示范性工程”，旨在实现化工制程蒸汽自给。'"
-    },
-    "context": {
-      "project_name": "台湾义芳HRSG项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -6746,24 +6218,12 @@
   {
     "verdict": {
       "project_id": "USA-HB-0004",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='美国德克萨斯州326MW光伏+储能项目'; entity_names=[]; events[0].project_summary='雀巢公司投资了位于美国德克萨斯州的Stampede光伏项目，该项目装机容量为326MW，并包含86MW的电池储能系统。该项目是雀巢在美国的第三个大型太阳能投资项目，旨在实现其2025年100%可再生电力采购的目标。'"
     },
     "context": {
       "project_name": "美国德克萨斯州326MW光伏+储能项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "USA-HB-0005",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='美国加利福尼亚州875MW光伏+3.3GWh储能项目'; entity_names=[]; events[0].project_summary='比亚迪作为储能系统电池供应商参与了美国最大的太阳能+储能项目Edwards & Sanborn Solar + Energy Storage项目。该项目位于美国加利福尼亚州，总装机容量为875 MWdc光伏和近3.3 GWh储能，已于近期投入运营。'"
-    },
-    "context": {
-      "project_name": "美国加利福尼亚州875MW光伏+3.3GWh储能项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -7021,18 +6481,6 @@
   },
   {
     "verdict": {
-      "project_id": "UZB-GT-0001",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌兹别克斯坦DCP 5000TPD熟料水泥生产线及配套9MW余热发电项目'; entity_names=[]; events[0].project_summary='成都建材院在乌兹别克斯坦承建了DCP 5000TPD熟料水泥生产线及配套9MW余热发电项目，该项目已顺利点火投产。此项目是乌兹别克斯坦本地企业投资的规模最大的水泥项目，也是成都建材院在乌兹别克斯坦的首个水泥项目。'"
-    },
-    "context": {
-      "project_name": "乌兹别克斯坦DCP 5000TPD熟料水泥生产线及配套9MW余热发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "UZB-HB-0003",
       "action": "exclude",
       "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
@@ -7105,18 +6553,6 @@
   },
   {
     "verdict": {
-      "project_id": "UZB-HB-0042",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌兹别克斯坦撒马尔罕和卡什卡达里亚地区垃圾发电项目'; entity_names=[]; events[0].project_summary='上海康恒环境公司将在乌兹别克斯坦撒马尔罕和卡什卡达里亚地区投资3.1亿美元建设两座垃圾焚烧厂，日处理能力3000吨，年发电量4.8亿千瓦时，项目计划于2025年至2027年实施。'"
-    },
-    "context": {
-      "project_name": "乌兹别克斯坦撒马尔罕和卡什卡达里亚地区垃圾发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "UZB-HB-0045",
       "action": "downgrade_non_project",
       "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
@@ -7129,21 +6565,9 @@
   },
   {
     "verdict": {
-      "project_id": "UZB-HY-0003",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌兹别克斯坦安集延地区卡拉达亚河九座小型水电站项目'; entity_names=[]; events[0].project_summary='新疆乾元坤宇建设工程有限公司将在乌兹别克斯坦安集延地区卡拉达亚河上建设九座小型水电站。该项目是该公司首次以“全流程开发商”身份在中亚市场开展能源基础设施项目，旨在支持乌兹别克斯坦的能源结构调整和“能源独立”战略。'"
-    },
-    "context": {
-      "project_name": "乌兹别克斯坦安集延地区卡拉达亚河九座小型水电站项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
       "project_id": "UZB-HY-0009",
-      "action": "downgrade_non_project",
-      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。",
+      "action": "exclude",
+      "reason": "上下文显示该条更像批量招标、项目组合、规划目标或多个子项目集合，且 entity_names=[] 无具名中企实体，按规则降级为非单体项目。；复核修正动作 downgrade_non_project→exclude",
       "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌兹别克斯坦乌伊钦斯基区纳伦河228兆瓦6座梯级水电站项目'; entity_names=[]; events[0].project_summary='UZBEKGIDROENERGO在乌兹别克斯坦乌伊钦斯基区投资建设纳伦河228兆瓦6座梯级水电站项目。该项目已于2024年3月25日正式启动。'"
     },
     "context": {
@@ -7208,18 +6632,6 @@
     },
     "context": {
       "project_name": "乌兹别克斯坦阿汉加兰地区太阳能发电项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "UZB-PV-0016",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='乌兹别克斯坦塔什干工业企业100MW屋顶光伏项目'; entity_names=[]; events[0].project_summary='中国北京煜邦电力技术股份有限公司（Yupont Group）计划在乌兹别克斯坦塔什干的大型工业企业中安装太阳能电池板，总装机容量达100兆瓦。此举是为实现乌兹别克斯坦“2030战略”目标的一部分。'"
-    },
-    "context": {
-      "project_name": "乌兹别克斯坦塔什干工业企业100MW屋顶光伏项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -7436,18 +6848,6 @@
     },
     "context": {
       "project_name": "越南永隆省52个风电项目+5个光伏项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "VNM-HB-0004",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='越南正隆焚化炉项目'; entity_names=[]; events[0].project_summary='西子洁能为越南正隆焚化炉项目提供汽电厂配套的BOP系统设备EPC总包工程服务。项目通过废弃物循环利用实现热电联产，预计2026年2月28日前完成安装调试。'"
-    },
-    "context": {
-      "project_name": "越南正隆焚化炉项目",
       "trigger": "no_chinese_entity_scan"
     }
   },
@@ -7928,18 +7328,6 @@
     },
     "context": {
       "project_name": "赞比亚5亿美元太阳能发电及输电扩建项目",
-      "trigger": "no_chinese_entity_scan"
-    }
-  },
-  {
-    "verdict": {
-      "project_id": "ZMB-PV-0001",
-      "action": "exclude",
-      "reason": "audit_note 指明全部事件无具名中企实体，entity_names=[]，未满足“具名中企参与”的收录边界，判定排除出库。",
-      "evidence_quote": "audit_note='无中企扫描：全部事件无具名中企实体'; project_name='赞比亚1000MW太阳能项目'; entity_names=[]; events[0].project_summary='中国企业隆基太阳能科技（Longi Solar）与Sino Green Technology在赞比亚计划开发总计1000兆瓦的太阳能项目。其中试点项目为在伊特日—特济区建设一座100兆瓦太阳能电站，计划于4月启动建设。'"
-    },
-    "context": {
-      "project_name": "赞比亚1000MW太阳能项目",
       "trigger": "no_chinese_entity_scan"
     }
   },

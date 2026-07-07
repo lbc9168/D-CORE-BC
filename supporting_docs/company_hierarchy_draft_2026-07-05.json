@@ -1920,6 +1920,30 @@
       "sources": [
         "https://www.kibing-glass.com/"
       ]
+    },
+    {
+      "canonical_name_cn": "威顿控股集团有限公司",
+      "is_central_soe": false,
+      "provenance": "user_adjudication_2026-07-07",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "威顿",
+        "威顿控股集团"
+      ],
+      "subsidiaries": [
+        {
+          "name_cn": "威顿控股马来西亚有限公司",
+          "legal_full_name_cn": null
+        },
+        {
+          "name_cn": "威顿马来西亚能源有限公司",
+          "legal_full_name_cn": null
+        }
+      ],
+      "sources": [
+        "http://www.iweidun.com/",
+        "https://news.goalfore.cn/latest/detail/95179.html"
+      ]
     }
   ],
   "additions_to_existing_groups": [
@@ -3272,6 +3296,21 @@
       "sources": [
         "https://en.wikipedia.org/wiki/Shandong_Gaosu_Group",
         "https://zh.wikipedia.org/wiki/%E5%B1%B1%E4%B8%9C%E9%AB%98%E9%80%9F%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "阿特斯阳光电力集团股份有限公司",
+      "is_central_soe": false,
+      "provenance": "user_adjudication_2026-07-07",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "Recurrent Energy",
+        "e-STORAGE"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://www.csisolar.com/",
+        "https://www.recurrentenergy.com/"
       ]
     }
   ]
