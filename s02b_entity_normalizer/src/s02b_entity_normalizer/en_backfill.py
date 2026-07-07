@@ -20,6 +20,7 @@ from typing import Dict, List, Optional, Tuple
 if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp950"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
+from s02b_entity_normalizer.company_lookup import LookupIndex, build_index, lookup
 from s02b_entity_normalizer.db_backup import backup_db
 from s02b_entity_normalizer.developer_normalizer import DEV_SEP_RE, split_developer
 from s02b_entity_normalizer.entity_normalizer import DEFAULT_DB
@@ -51,29 +52,47 @@ def _cache_en(cache: Dict[str, dict], cn: str) -> str:
     return "" if (not en or _CJK_RE.search(en)) else en
 
 
-def resolve_en(cache: Dict[str, dict], cn) -> Tuple[Optional[str], str]:
-    """中文名 → (新英文名, status)。多公司串须逐段全命中才拼替换（'; ' 口径与 s01b 拆串一致）。"""
+def resolve_en(cache: Dict[str, dict], cn, index: Optional[LookupIndex] = None) -> Tuple[Optional[str], str]:
+    """中文名 → (新英文名, status)。优先级：registry canonical_en > 缓存 en_abbr/en > miss（spec §5）。
+    多公司串须逐段全命中才拼替换（'; ' 口径与 s01b 拆串一致）；index=None 时行为与旧版 100% 一致。
+    """
     s = str(cn or "").strip()
     if not s or s.lower() == "unknown":
         return None, "skip"
     if not _CJK_RE.search(s):
+        if index is not None:
+            r = lookup(s, index)
+            if r.matched and r.canonical_en:
+                return r.canonical_en, "hit_registry"
         return None, "ascii_skip"
+    if index is not None:
+        r = lookup(s, index)
+        if r.matched and r.canonical_en:
+            return r.canonical_en, "hit_registry"
     parts = split_developer(s)
     if len(parts) <= 1:
         en = _cache_en(cache, s)
         return (en, "hit") if en else (None, "miss")
-    # 逐段解析：纯 ASCII 段直通（镜像 s01b _resolve_entity_en 行为）；含 CJK 段须缓存命中
+    # 逐段解析：registry 优先，未中且纯 ASCII 段直通（镜像 s01b _resolve_entity_en 行为），否则查缓存
+    used_registry = False
     def _resolve_part(p: str) -> str:
+        nonlocal used_registry
+        if index is not None:
+            r = lookup(p, index)
+            if r.matched and r.canonical_en:
+                used_registry = True
+                return r.canonical_en
         if not _CJK_RE.search(p):
             return p  # ASCII 直通
         return _cache_en(cache, p)
     ens = [_resolve_part(p) for p in parts]
     if all(ens):
-        return "; ".join(ens), "hit_multi"
+        return "; ".join(ens), ("hit_multi_registry" if used_registry else "hit_multi")
     return None, "partial_miss"
 
 
-def plan_db(conn, targets: List[Tuple[str, str, str]], cache: Dict[str, dict]) -> List[dict]:
+def plan_db(conn, targets: List[Tuple[str, str, str]], cache: Dict[str, dict],
+            index: Optional[LookupIndex] = None) -> List[dict]:
     """逐 (表, 中文列, 英文列) 扫描 distinct 中文值 → update / report_only 计划行。"""
     plan: List[dict] = []
     for table, cn_col, en_col in targets:
@@ -83,8 +102,8 @@ def plan_db(conn, targets: List[Tuple[str, str, str]], cache: Dict[str, dict]) -
             f"GROUP BY {cn_col}"
         ).fetchall()
         for cn, n, sample_en in rows:
-            new_en, status = resolve_en(cache, cn)
-            if status in ("hit", "hit_multi"):
+            new_en, status = resolve_en(cache, cn, index=index)
+            if status in ("hit", "hit_multi", "hit_registry", "hit_multi_registry"):
                 # 该 cn 名下任一行英文与 new_en 不同才需要 update
                 diff = conn.execute(
                     f"SELECT COUNT(*) FROM {table} WHERE {cn_col} = ? "
@@ -156,6 +175,7 @@ def main() -> None:
     parser.add_argument("--cache", default=DEFAULT_CACHE)
     parser.add_argument("--apply", action="store_true")
     parser.add_argument("--out", default=None)
+    parser.add_argument("--no-registry", action="store_true", help="回退旧行为，不查 developer_registry.json")
     args = parser.parse_args()
 
     for path, label in [(args.db, "主库"), (args.cache, "缓存")]:
@@ -175,6 +195,7 @@ def main() -> None:
 
     raw = json.loads(Path(args.cache).read_text(encoding="utf-8"))
     cache = {k: v for k, v in raw.items() if not k.startswith("_")}
+    index = None if args.no_registry else build_index()
 
     jobs = [("main", args.db, TARGETS_MAIN)]
     if args.projects_db:
@@ -187,7 +208,7 @@ def main() -> None:
         for label, db_path, targets in jobs:
             conn = sqlite3.connect(db_path)
             try:
-                plan = plan_db(conn, targets, cache)
+                plan = plan_db(conn, targets, cache, index=index)
             finally:
                 conn.close()
             all_plans.append((label, db_path, plan))
