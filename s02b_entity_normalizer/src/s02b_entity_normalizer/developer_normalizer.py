@@ -193,6 +193,24 @@ def _collect_parts(conn) -> List[Tuple[str, int]]:
     return counter.most_common()
 
 
+def _collect_ascii_parts(conn) -> List[Tuple[str, int]]:
+    """拆串统计非中文（ASCII）部件频次——_collect_parts 的互补集合，只供 registry 查表（不进 LLM 候选）。"""
+    rows = conn.execute(
+        "SELECT project_developer, COUNT(*) FROM project_events "
+        "WHERE project_developer IS NOT NULL AND TRIM(project_developer) <> '' "
+        "GROUP BY project_developer"
+    ).fetchall()
+    counter: Counter = Counter()
+    for v, n in rows:
+        if unify_junk(v):
+            continue
+        for p in split_developer(v):
+            if p.lower() in DEV_JUNK_VALUES or re.search(r"[一-鿿]", p):
+                continue
+            counter[p] += n
+    return counter.most_common()
+
+
 def registry_part_mapping(parts: List[Tuple[str, int]], index: LookupIndex) -> Dict[str, str]:
     """registry/hierarchy 确定性映射：命中且规范名≠原文的部件才进映射（已是规范名的不列入）。"""
     mapping: Dict[str, str] = {}
@@ -281,6 +299,8 @@ def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = Fals
         if use_registry:
             index = build_index()
             part_mapping.update(registry_part_mapping(parts, index))
+            # ASCII 部件只进 registry 查表（跨语言归一如 Masdar→阿布扎比未来能源公司），绝不进 LLM 候选
+            part_mapping.update(registry_part_mapping(_collect_ascii_parts(conn), index))
             print(f">>> registry/hierarchy 确定性映射 {len(part_mapping)} 条")
             candidates = _candidates_for_llm(parts, index)
         else:

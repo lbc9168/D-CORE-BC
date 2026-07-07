@@ -89,3 +89,91 @@ def test_end_to_end_registry_apply(tmp_path, monkeypatch):
                         "developer_norm_misses_*.csv", "developer_norm_misses_*.log"):
             for f in supporting_docs.glob(pattern):
                 f.unlink()
+
+
+# ── ASCII 部件跨语言归一（Masdar→阿布扎比未来能源公司 是 spec 头号验收锚点）────────
+
+
+def _mk_ascii_db(path):
+    """一行含纯 ASCII registry 可解部件(Masdar)的最小库。"""
+    conn = sqlite3.connect(path)
+    conn.execute("CREATE TABLE project_events (id INTEGER PRIMARY KEY, project_developer TEXT)")
+    conn.execute("INSERT INTO project_events(project_developer) VALUES (?)", ("Masdar; 无关公司",))
+    conn.commit()
+    return conn
+
+
+def _patch_llm_off(monkeypatch, dn, rp):
+    """打桩 build_index(迷你册)/GEMINI_API_KEY/genai.Client/LLM 批确认，端到端不真调 Gemini。"""
+    monkeypatch.setattr(dn, "build_index", lambda: build_index(str(rp), None))
+    monkeypatch.setenv("GEMINI_API_KEY", "dummy")
+    monkeypatch.setattr("google.genai.Client", lambda api_key: object())
+    monkeypatch.setattr(dn, "_llm_confirm_batch_dev", lambda client, batch: [])
+
+
+def test_ascii_part_cross_language_apply(tmp_path, monkeypatch):
+    """use_registry=True：纯 ASCII 部件(Masdar)经 registry 跨语言归一落库。"""
+    import s02b_entity_normalizer.developer_normalizer as dn
+    db = str(tmp_path / "t.db")
+    _mk_ascii_db(db).close()
+    rp = tmp_path / "reg.json"
+    rp.write_text(json.dumps(FIXTURE_REGISTRY, ensure_ascii=False), encoding="utf-8")
+    _patch_llm_off(monkeypatch, dn, rp)
+
+    supporting_docs = Path(dn.__file__).resolve().parents[3] / "supporting_docs"
+    try:
+        dn.run(db_path=db, apply=True, use_registry=True)
+    finally:
+        for pattern in ("developer_registry_suggestions_*.csv", "developer_registry_suggestions_*.log",
+                        "developer_norm_misses_*.csv", "developer_norm_misses_*.log"):
+            for f in supporting_docs.glob(pattern):
+                f.unlink()
+
+    conn = sqlite3.connect(db)
+    vals = {r[0] for r in conn.execute("SELECT project_developer FROM project_events").fetchall()}
+    conn.close()
+    assert vals == {"阿布扎比未来能源公司; 无关公司"}
+
+
+def test_ascii_part_untouched_when_registry_off(tmp_path, monkeypatch):
+    """use_registry=False（对照组）：同库同值一字不变（旧行为 100% 等价）。"""
+    import s02b_entity_normalizer.developer_normalizer as dn
+    db = str(tmp_path / "t.db")
+    _mk_ascii_db(db).close()
+    rp = tmp_path / "reg.json"
+    rp.write_text(json.dumps(FIXTURE_REGISTRY, ensure_ascii=False), encoding="utf-8")
+    _patch_llm_off(monkeypatch, dn, rp)
+
+    dn.run(db_path=db, apply=True, use_registry=False)
+
+    conn = sqlite3.connect(db)
+    vals = {r[0] for r in conn.execute("SELECT project_developer FROM project_events").fetchall()}
+    conn.close()
+    assert vals == {"Masdar; 无关公司"}, "对照组不得触发 registry 归一"
+
+
+def test_ascii_canonical_equal_not_in_mapping(tmp_path):
+    """registry 命中但 canonical==原文的 ASCII 部件（canonical_cn 即英文名的外企）不进映射。"""
+    from s02b_entity_normalizer.developer_normalizer import _collect_ascii_parts
+    reg = json.loads(json.dumps(FIXTURE_REGISTRY, ensure_ascii=False))
+    reg["companies"].append({"canonical_cn": "Recurrent Energy", "canonical_en": "Recurrent Energy",
+                             "aliases": [], "is_chinese": True, "parent_cn": None, "source": "t"})
+    rp = tmp_path / "reg.json"
+    rp.write_text(json.dumps(reg, ensure_ascii=False), encoding="utf-8")
+    idx = build_index(str(rp), None)
+
+    db = str(tmp_path / "t.db")
+    conn = sqlite3.connect(db)
+    conn.execute("CREATE TABLE project_events (id INTEGER PRIMARY KEY, project_developer TEXT)")
+    conn.executemany("INSERT INTO project_events(project_developer) VALUES (?)", [
+        ("Masdar; Recurrent Energy",),
+        ("无关公司",),
+    ])
+    conn.commit()
+
+    ascii_parts = _collect_ascii_parts(conn)
+    conn.close()
+    names = {n for n, _ in ascii_parts}
+    assert names == {"Masdar", "Recurrent Energy"}, "ASCII 集合应为 _collect_parts 的互补（不含中文部件）"
+    m = registry_part_mapping(ascii_parts, idx)
+    assert m == {"Masdar": "阿布扎比未来能源公司"}, "canonical==原文的 ASCII 命中不进映射"
