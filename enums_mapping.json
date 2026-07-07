@@ -61,5 +61,10 @@
     "source_verified": { "zh": "信源确认", "en": "Source Verified",   "display_tag": "" },
     "manual_verified": { "zh": "人工确认", "en": "Manually Verified", "display_tag": "" },
     "official":        { "zh": "官方名称", "en": "Official Name",     "display_tag": "" }
+  },
+
+  "mf_production_unit": {
+    "_comment": "MF（新能源制造业）production_capacity_unit 受控枚举，阶段3 任务3.1 用户拍板，仅 4 值。",
+    "values": ["GW/年", "GWh/年", "万吨/年", "Unknown"]
   }
 }

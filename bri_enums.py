@@ -96,3 +96,9 @@ def involvement_en(zh: str) -> str | None:
 def prompt_value_list(enum: str) -> str:
     """给 s01b prompt 用：返回某枚举所有中文键的逗号串。"""
     return ", ".join(_data()[enum].keys())
+
+
+# ── MF 产能单位（阶段3 任务3.1） ──
+def mf_production_units() -> list[str]:
+    """MF（新能源制造业）production_capacity_unit 受控枚举取值列表。"""
+    return list(_data()["mf_production_unit"]["values"])

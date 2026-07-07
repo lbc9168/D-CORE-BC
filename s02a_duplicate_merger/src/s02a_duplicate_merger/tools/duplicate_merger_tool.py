@@ -219,6 +219,12 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE canonical_projects ADD COLUMN excluded_reason TEXT",
         "ALTER TABLE canonical_projects ADD COLUMN location_norm TEXT",
         "ALTER TABLE project_events ADD COLUMN project_developer_en TEXT",
+        # TX/MF 稀疏专用列（阶段3 任务3.1）
+        "ALTER TABLE project_events ADD COLUMN voltage_kv REAL",
+        "ALTER TABLE project_events ADD COLUMN line_length_km REAL",
+        "ALTER TABLE project_events ADD COLUMN transmission_capacity_mw REAL",
+        "ALTER TABLE project_events ADD COLUMN production_capacity_value REAL",
+        "ALTER TABLE project_events ADD COLUMN production_capacity_unit TEXT",
     ]:
         try:
             conn.execute(col_def)

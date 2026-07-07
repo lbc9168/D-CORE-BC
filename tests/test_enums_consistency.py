@@ -46,3 +46,9 @@ def test_no_category_excluded_after_p21():
     import bri_enums
     excluded = [c for c in bri_enums.valid_categories() if bri_enums.is_excluded_category(c)]
     assert excluded == [], f"不应有 excluded category，实际={excluded}"
+
+
+def test_mf_production_unit_values():
+    """mf_production_unit 恰好 4 值，且 bri_enums 访问器与 JSON 一致（阶段3 任务3.1）。"""
+    assert RAW["mf_production_unit"]["values"] == ["GW/年", "GWh/年", "万吨/年", "Unknown"]
+    assert e.mf_production_units() == RAW["mf_production_unit"]["values"]
