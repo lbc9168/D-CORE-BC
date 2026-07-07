@@ -1788,6 +1788,138 @@
         "http://www.bric.org.cn/info.aspx?n=1138&ptype=10035&dh=10067",
         "https://www.tianyancha.com/company/6457005325"
       ]
+    },
+    {
+      "canonical_name_cn": "中国国际海运集装箱（集团）股份有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "中集安瑞科控股有限公司"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%9B%86%E5%AE%89%E7%91%9E%E7%A7%91",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E9%9B%86%E9%9B%86%E5%9C%98"
+      ]
+    },
+    {
+      "canonical_name_cn": "江西江联重工股份有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "江联重工公司"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9C%8B%E8%81%AF%E5%90%88%E5%B7%A5%E7%A8%8B",
+        "https://zh.wikipedia.org/wiki/%E7%8E%8B%E9%94%A1%E9%AB%98"
+      ]
+    },
+    {
+      "canonical_name_cn": "赛维太阳能科技集团有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "赛维集团"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E8%B3%BD%E7%B6%AD%E5%A4%AA%E9%99%BD%E8%83%BD"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国兵器装备集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "湖南云箭集团",
+        "湖南云箭集团有限公司"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E6%B9%96%E5%8D%97%E4%BA%91%E7%AE%AD%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国电信集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "中国通信服务集团沙特分公司"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E7%94%B5%E4%BF%A1"
+      ]
+    },
+    {
+      "canonical_name_cn": "广州天赐高新材料股份有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "天赐材料"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E5%A4%A9%E8%B5%90%E6%9D%90%E6%96%99"
+      ]
+    },
+    {
+      "canonical_name_cn": "天津泰达投资控股有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "天津泰达环保有限公司"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E5%A4%A9%E6%B4%A5%E6%B3%B0%E9%81%94%E8%82%A1%E4%BB%BD",
+        "https://zh.wikipedia.org/wiki/%E6%B3%B0%E8%BE%BE%E6%8E%A7%E8%82%A1"
+      ]
+    },
+    {
+      "canonical_name_cn": "重庆三峰环境集团股份有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E9%87%8D%E5%BA%86%E6%B0%B4%E5%8A%A1"
+      ]
+    },
+    {
+      "canonical_name_cn": "尚德电力控股有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "尚德电力"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E5%B0%9A%E5%BE%B7%E7%94%B5%E5%8A%9B"
+      ]
+    },
+    {
+      "canonical_name_cn": "株洲旗滨集团股份有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "旗滨集团"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://www.kibing-glass.com/"
+      ]
     }
   ],
   "additions_to_existing_groups": [
@@ -2931,6 +3063,215 @@
       "sources": [
         "https://baike.baidu.com/item/%E4%B8%AD%E5%9B%BD%E6%B5%B7%E6%B4%8B%E7%9F%B3%E6%B2%B9%E9%9B%86%E5%9B%A2%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/22230538",
         "https://www.cnoocengineering.com/gywm/gsjj/"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国石油化工集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "石油工程建设公司",
+          "legal_full_name_cn": "中石化石油工程建设有限公司"
+        }
+      ],
+      "sources": [
+        "http://specc.sinopec.com/specc/",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E7%9F%B3%E5%8C%96"
+      ]
+    },
+    {
+      "canonical_name_cn": "国家电力投资集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "国家电投上海电力",
+          "legal_full_name_cn": "上海电力股份有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E5%9B%BD%E5%AE%B6%E7%94%B5%E5%8A%9B%E6%8A%95%E8%B5%84%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "上海电气集团股份有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "上海电气输配电工程成套有限公司",
+          "legal_full_name_cn": "上海电气输配电工程成套有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%8A%E6%B5%B7%E9%9B%BB%E6%B0%A3"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国建筑集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "中国建筑一局（集团）有限公司",
+          "legal_full_name_cn": "中国建筑一局（集团）有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E4%B8%80%E5%B1%80",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E5%BB%BA%E7%AD%91%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国电力建设集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "江西电建公司",
+          "legal_full_name_cn": "中国电建集团江西省电力建设有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%BB%BA"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国交通建设集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "中国路桥",
+          "legal_full_name_cn": "中国路桥工程有限责任公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E8%B7%AF%E6%A1%A5%E5%B7%A5%E7%A8%8B%E6%9C%89%E9%99%90%E8%B4%A3%E4%BB%BB%E5%85%AC%E5%8F%B8",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9C%8B%E4%BA%A4%E9%80%9A%E5%BB%BA%E8%A8%AD%E9%9B%86%E5%9C%98"
+      ]
+    },
+    {
+      "canonical_name_cn": "湖南建设投资集团有限责任公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "湖南建工集团有限公司"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E5%91%A8%E6%B5%B7%E5%85%B5"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国远洋海运集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "中远海运特运",
+          "legal_full_name_cn": "中远海运特种运输股份有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E8%BF%9C%E6%B4%8B%E6%B5%B7%E8%BF%90%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国电子科技集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "中电国际技术股份有限公司",
+          "legal_full_name_cn": "中电国际技术股份有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E7%94%B5%E5%AD%90%E7%A7%91%E6%8A%80%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国电气装备集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "平高电气集团",
+          "legal_full_name_cn": "平高集团有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E7%94%B5%E6%B0%94%E8%A3%85%E5%A4%87%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国能源建设集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [],
+      "subsidiaries": [
+        {
+          "name_cn": "中国葛洲坝电力公司",
+          "legal_full_name_cn": "中国葛洲坝集团电力有限责任公司"
+        },
+        {
+          "name_cn": "中国能源建设集团山西电力勘测设计院有限公司",
+          "legal_full_name_cn": "中国能源建设集团山西省电力勘测设计院有限公司"
+        }
+      ],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E8%91%9B%E6%B4%B2%E5%9D%9D%E9%9B%86%E5%9B%A2",
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9C%8B%E8%83%BD%E6%BA%90%E5%BB%BA%E8%A8%AD%E9%9B%86%E5%9C%98",
+        "https://zh.wikipedia.org/wiki/%E5%B1%B1%E8%A5%BF%E7%9C%81%E7%94%B5%E5%8A%9B%E5%8B%98%E6%B5%8B%E8%AE%BE%E8%AE%A1%E9%99%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "中国长江三峡集团有限公司",
+      "is_central_soe": true,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "中国三峡集团"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E9%95%BF%E6%B1%9F%E4%B8%89%E5%B3%A1%E9%9B%86%E5%9B%A2"
+      ]
+    },
+    {
+      "canonical_name_cn": "山东高速集团有限公司",
+      "is_central_soe": false,
+      "provenance": "codex_T3_2026Q3",
+      "as_of": "2026-07-07",
+      "aliases": [
+        "Shandong Hi-Speed Group"
+      ],
+      "subsidiaries": [],
+      "sources": [
+        "https://en.wikipedia.org/wiki/Shandong_Gaosu_Group",
+        "https://zh.wikipedia.org/wiki/%E5%B1%B1%E4%B8%9C%E9%AB%98%E9%80%9F%E9%9B%86%E5%9B%A2"
       ]
     }
   ]

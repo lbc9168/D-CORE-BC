@@ -8808,6 +8808,150 @@
       "status": "accepted_no_change",
       "decided_at": "2026-07-07",
       "verdict_digest": "ea753491ba69e40d7665082a874885a1e5d16368"
+    },
+    "95e1a65d8aa62dbdfc8a27c4b0f082a4f7d456fb": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "95e1a65d8aa62dbdfc8a27c4b0f082a4f7d456fb",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "53e773de8bb123ad9a57f55fa460fb0ab558f17d": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "53e773de8bb123ad9a57f55fa460fb0ab558f17d",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "88b7530a253cbe1ac10fa1da71212e15fb611db4": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "88b7530a253cbe1ac10fa1da71212e15fb611db4",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4d19494c7d8f8939cc908ff234d2e52b419ef720": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "4d19494c7d8f8939cc908ff234d2e52b419ef720",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "36866825572e0f7589762c1b2aa2b652411bd7eb": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "36866825572e0f7589762c1b2aa2b652411bd7eb",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4136b1dc0a856536f3fe9bdb893983cb1800466b": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "4136b1dc0a856536f3fe9bdb893983cb1800466b",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "edf74b1c405423fddfd1c40a158a560e343c037e": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "edf74b1c405423fddfd1c40a158a560e343c037e",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "e2a2b39a9777f3db41ff6f02cbf2c876ce1e076d": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "e2a2b39a9777f3db41ff6f02cbf2c876ce1e076d",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "a56891295cb78308d3931616564c10077a0224c0": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "a56891295cb78308d3931616564c10077a0224c0",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "cc0047550b9cd86ca76b41ae84b8a6618bff69c4": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "cc0047550b9cd86ca76b41ae84b8a6618bff69c4",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "01e03bf79f33de194e86b38f97924cca92557dfd": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "01e03bf79f33de194e86b38f97924cca92557dfd",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "6c8dc941087b85756b24915baf4f3c91ce606794": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "6c8dc941087b85756b24915baf4f3c91ce606794",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "4d3f83766a5c48878a1d27dcd49fc7b167cb6c96": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "4d3f83766a5c48878a1d27dcd49fc7b167cb6c96",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "eb1dc944200cdab353d849b363613af1ba97b392": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "eb1dc944200cdab353d849b363613af1ba97b392",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "9f575835c36a1c7ad56ac156f53781ded2908d73": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "9f575835c36a1c7ad56ac156f53781ded2908d73",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "691ff33aaaeeefc40a5ac4d45d1ae196bccd0c02": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "691ff33aaaeeefc40a5ac4d45d1ae196bccd0c02",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "65c79473725ebe7cfd215edb72e23ad41c6a7ba5": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "65c79473725ebe7cfd215edb72e23ad41c6a7ba5",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
+    },
+    "ffd55827d98f8778e4c56b1c3db4953f00e1a9c0": {
+      "task": "T1",
+      "quarter": "2026Q3",
+      "item_id": "ffd55827d98f8778e4c56b1c3db4953f00e1a9c0",
+      "status": "applied",
+      "decided_at": "2026-07-07",
+      "verdict_digest": ""
     }
   }
 }
