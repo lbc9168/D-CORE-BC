@@ -57,8 +57,8 @@ _TCAP_CONTEXT_RE = re.compile(
 _TCAP_WAN_QIANWEIAN_RE = re.compile(r"(\d+(?:\.\d+)?)\s*万千伏安")
 # 变电容量：NxM MVA（乘积）
 _TCAP_NXM_MVA_RE = re.compile(r"(\d+(?:\.\d+)?)\s*[xX×]\s*(\d+(?:\.\d+)?)\s*MVA", re.IGNORECASE)
-# 变电容量：N MVA 直读
-_TCAP_MVA_RE = re.compile(r"(\d+(?:\.\d+)?)\s*MVA", re.IGNORECASE)
+# 变电容量：N MVA 直读（负向排除 MVAr/兆乏；需配合 IGNORECASE 确保 mvar/MVAR/Mvar 全排除）
+_TCAP_MVA_RE = re.compile(r"(\d+(?:\.\d+)?)\s*MVA(?![rR])", re.IGNORECASE)
 
 
 def _tcap_context_to_mw(value: float, unit: str) -> float:

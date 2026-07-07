@@ -139,6 +139,36 @@ def test_tx_kv_direct_transmission_conversion():
     assert r["transmission_capacity_mw"] == 500.0
 
 
+def test_tx_mvar_english_excludes_transmission_capacity():
+    """审查 F1：「300 MVAr」（英文无功功率）不入 transmission_capacity_mw → tcap=NULL。"""
+    r = parse_tx_event(
+        capacity_details="300 MVAr无功补偿",
+        project_summary="",
+        capacity_mw_raw="",
+    )
+    assert r["transmission_capacity_mw"] is None
+
+
+def test_tx_2x300mva_still_600():
+    """审查 F1：「2x300MVA」仍命中乘积规则 → tcap=600。"""
+    r = parse_tx_event(
+        capacity_details="2x300MVA变电站",
+        project_summary="",
+        capacity_mw_raw="",
+    )
+    assert r["transmission_capacity_mw"] == 600.0
+
+
+def test_tx_120mva_still_120():
+    """审查 F1：「120MVA」仍命中直读规则 → tcap=120。"""
+    r = parse_tx_event(
+        capacity_details="120MVA",
+        project_summary="",
+        capacity_mw_raw="",
+    )
+    assert r["transmission_capacity_mw"] == 120.0
+
+
 # ══════════════════════════════════════════════════════════════════
 # MF 对拍用例（简报 R1 表格，真库实取）
 # ══════════════════════════════════════════════════════════════════
