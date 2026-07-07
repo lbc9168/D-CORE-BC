@@ -13,6 +13,7 @@ from __future__ import annotations
 import argparse
 import csv
 import logging
+import re
 import sqlite3
 import sys
 from datetime import datetime, timezone
@@ -41,6 +42,15 @@ _MF_CATEGORY = "新能源制造业"
 # 阶段2 T2 硬收录边界关键词（逐字取自 codex_review/runs/2026Q3/guide_T2.md 「不应收录」节，
 # 不重新裁决——只用于标出"若迁移将触发排除"的样例）
 _T2_BOUNDARY_KEYWORDS = ["锂矿", "铁矿", "电解铝", "蓝氨", "蓝氢"]
+
+# 名称归一化（审查修复 2026-07-07）：剥离数字+单位修饰（"2.8GW"/"20吉瓦"/"年产260套"…）
+# 与通用尾词（项目/工程/工厂/厂/基地），使"核心名相同、仅容量修饰语或单位记法不同"的
+# 中文项目名能在编辑距离口径下对齐——单纯 fuzz.ratio 对这类差异不敏感（审查实证漏配 3 对）。
+_NUM_UNIT_RE = re.compile(
+    r"(年产)?[0-9][0-9.,]*\s*(GWh|GW|MWh|MW|吉瓦时|吉瓦|兆瓦时|兆瓦|万吨|万台|套|条)?",
+    re.IGNORECASE,
+)
+_TAIL_WORDS = ("项目", "工程", "工厂", "厂", "基地")
 
 logger = logging.getLogger(__name__)
 
@@ -123,8 +133,35 @@ def _field_completeness(rows: list[dict[str, Any]], fields: list[str]) -> dict[s
 
 
 # ──────────────────────────────────────────────
-# 分析：同名重叠（精确 + rapidfuzz 相似度，同国优先）
+# 分析：同名重叠（精确 + 多指标 rapidfuzz 相似度，同国优先）
 # ──────────────────────────────────────────────
+
+
+def _normalize_name(name: str) -> str:
+    """剥离数字+单位修饰与通用尾词，产出用于对齐核心名的归一化形态。"""
+    s = _NUM_UNIT_RE.sub("", name)
+    changed = True
+    while changed:
+        changed = False
+        for w in _TAIL_WORDS:
+            if s.endswith(w):
+                s = s[: -len(w)]
+                changed = True
+    return s
+
+
+def _score_pair(npr_name: str, cp_name: str) -> tuple[float, str]:
+    """多指标评分：原文 ratio / 原文 partial_ratio / 归一化 ratio 取最优，返回 (分数, 指标名)。
+
+    单一 fuzz.ratio 对"核心名相同+容量修饰语插入/单位记法差异"不鲁棒（审查实证漏配 3 对）；
+    partial_ratio 补子串包含型，归一化 ratio 补修饰语/单位差异型。
+    """
+    candidates = [
+        (fuzz.ratio(npr_name, cp_name), "ratio_raw"),
+        (fuzz.partial_ratio(npr_name, cp_name), "partial_ratio_raw"),
+        (fuzz.ratio(_normalize_name(npr_name), _normalize_name(cp_name)), "ratio_norm"),
+    ]
+    return max(candidates, key=lambda x: x[0])
 
 
 def _find_overlaps(
@@ -132,7 +169,7 @@ def _find_overlaps(
     canonical_rows: list[dict[str, Any]],
     threshold: int,
 ) -> list[dict[str, Any]]:
-    """对每条 npr 记录，在 canonical MF 中找精确名匹配或 rapidfuzz 相似度>=threshold 的候选（同国优先）。"""
+    """对每条 npr 记录，在 canonical MF 中找精确名匹配或多指标相似度>=threshold 的候选（同国优先）。"""
     matches: list[dict[str, Any]] = []
     for npr in npr_rows:
         npr_name = (npr.get("project_name") or "").strip()
@@ -146,10 +183,10 @@ def _find_overlaps(
                 continue
             same_country = cp.get("country_iso") == npr_iso
             if cp_name == npr_name:
-                score = 100.0
+                score, match_via = 100.0, "exact"
                 match_type = "exact"
             else:
-                score = fuzz.ratio(npr_name, cp_name)
+                score, match_via = _score_pair(npr_name, cp_name)
                 match_type = "fuzzy"
                 if score < threshold:
                     continue
@@ -163,6 +200,7 @@ def _find_overlaps(
                 "canonical_excluded": cp.get("excluded"),
                 "canonical_excluded_reason": cp.get("excluded_reason"),
                 "match_type": match_type,
+                "match_via": match_via,
                 "score": round(score, 1),
                 "same_country": same_country,
             }
@@ -203,7 +241,7 @@ def _write_overlap_csv(matches: list[dict[str, Any]], out_path: Path) -> None:
         "npr_id", "npr_name", "npr_country_iso",
         "canonical_id", "canonical_name", "canonical_country_iso",
         "canonical_excluded", "canonical_excluded_reason",
-        "match_type", "score", "same_country",
+        "match_type", "match_via", "score", "same_country",
     ]
     with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -267,7 +305,7 @@ def _render_report(
         f"non_project_records 新能源制造业记录 **{n_npr}** 条"
     )
     lines.append(
-        f"- 同名重叠（精确+rapidfuzz≥{threshold}，同国优先）：**{n_matches}** 对"
+        f"- 同名重叠（精确+多指标 rapidfuzz≥{threshold}，同国优先）：**{n_matches}** 对"
         f"（精确 {n_exact} / 模糊 {n_fuzzy}），未匹配 {n_unmatched} 条"
     )
     lines.append(
@@ -320,8 +358,12 @@ def _render_report(
     lines.append("## 2. 同名重叠")
     lines.append("")
     lines.append(
-        f"匹配方法：精确名匹配（score=100）+ rapidfuzz `fuzz.ratio` 相似度 ≥ {threshold}"
-        f"（同国 country_iso 优先于分数排序，每条 npr 记录最多取 1 个最佳候选）。"
+        f"匹配方法：精确名匹配（score=100）+ 多指标 rapidfuzz 相似度 ≥ {threshold}——"
+        f"每对取 `max(ratio原文, partial_ratio原文, ratio归一化)`，归一化=剥离数字+单位修饰"
+        f"（如 \"2.8GW\"/\"20吉瓦\"/\"年产260套\"）与通用尾词（项目/工程/工厂/厂/基地）。"
+        f"单一 `fuzz.ratio` 对\"核心名相同、仅容量修饰语或单位记法不同\"的中文项目名不敏感"
+        f"（2026-07-07 审查实证漏配 3 对），故采用多指标（同国 country_iso 优先于分数排序，"
+        f"每条 npr 记录最多取 1 个最佳候选）。"
     )
     lines.append("")
     lines.append(f"- 重叠对数：**{n_matches}**（精确 {n_exact} / 模糊 {n_fuzzy}）")
@@ -335,11 +377,11 @@ def _render_report(
     )
     lines.append("")
 
-    lines.append("### 抽样对照（前 5 对，按分数降序）")
+    lines.append("### 全部配对逐对对照（供人工目验，按分数降序）")
     lines.append("")
-    sample = sorted(matches, key=lambda m: -m["score"])[:5]
-    for i, m in enumerate(sample, 1):
-        lines.append(f"**样例 {i}**（{m['match_type']}，score={m['score']}，"
+    listing = sorted(matches, key=lambda m: (-m["score"], m["npr_id"]))
+    for i, m in enumerate(listing, 1):
+        lines.append(f"**配对 {i}**（{m['match_type']}，score={m['score']}，via={m['match_via']}，"
                       f"同国={'是' if m['same_country'] else '否'}）")
         lines.append(f"- npr[{m['npr_id']}] `{m['npr_name']}`（{m['npr_country_iso']}）")
         lines.append(
@@ -349,6 +391,14 @@ def _render_report(
             + "）"
         )
         lines.append("")
+    lines.append(
+        "> **脚注·弱证据候选未计入**：npr[161] `埃及10吉瓦储能电池工厂项目` ↔ `EGY-MF-0003` "
+        "`埃及泰达合作区10吉瓦时储能电池制造项目`——多指标最高分仅 74.1（ratio=70.6），低于阈值；"
+        "且名称差异不止修饰语（\"10吉瓦\"功率 vs \"10吉瓦时\"能量、有无\"泰达合作区\"），证据强度"
+        "不足以确认同一项目；该 canonical 已被阶段2 T2 排除（`codex_T2_exclude:2026Q3`），不在"
+        "\"未排除\"分母内。故不计入重叠对，仅在此披露。（此脚注为 2026-07 审查时人工核实的静态说明）"
+    )
+    lines.append("")
 
     # ── 3. 边界案落点 ──
     lines.append("## 3. 边界案落点（引用阶段2 T2 规则，不重新裁决）")
@@ -464,7 +514,7 @@ def _render_report(
     lines.append("")
     lines.append(
         "同名重叠对数为脚本计算结果（精确名匹配 SQL 可直接对拍，模糊匹配需跑本脚本"
-        "`scripts/oneoff/report_mf_dualtrack.py` 复现 rapidfuzz 计算）：\n"
+        "`scripts/oneoff/report_mf_dualtrack.py` 复现多指标 rapidfuzz 计算）：\n"
         "```sql\n"
         "-- 精确名匹配（不含模糊）\n"
         "SELECT n.id AS npr_id, n.project_name, c.id AS canonical_id\n"
