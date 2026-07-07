@@ -7,10 +7,11 @@
 执行步骤：
     1. 从 s02a 数据库提取项目列表，AI 提取省份（带本地缓存）
     2. 构建 projects_flat 扁平表，写入 bri_re_export.db
-    3. 构建三张聚合统计表（stats_country / stats_entity / stats_timeline）
-    4. 导出 projects_flat.xlsx 和 projects_flat.csv
-    5. 导出静态 JSON 文件（供 s04 前端）
-    6. 导出 events_export.csv（按事件拆条明细，供前端下载）
+    3. 构建 tx_flat / mf_flat 专用扁平表（输变电建设 / 新能源制造业）
+    4. 构建三张聚合统计表（stats_country / stats_entity / stats_timeline）
+    5. 导出 projects_flat.xlsx 和 projects_flat.csv
+    6. 导出静态 JSON 文件（供 s04 前端）
+    7. 导出 events_export.csv（按事件拆条明细，供前端下载）
 """
 
 import os
@@ -32,6 +33,7 @@ load_dotenv()  # fallback：搜索父目录
 
 from s03_data_exporter.province_extractor import extract_provinces  # noqa: E402
 from s03_data_exporter.flat_builder import build_flat               # noqa: E402
+from s03_data_exporter.flat_builder import build_tx_flat, build_mf_flat  # noqa: E402
 from s03_data_exporter.stats_builder import build_stats             # noqa: E402
 from s03_data_exporter.json_exporter import export_json             # noqa: E402
 from s03_data_exporter import flat_builder                          # noqa: E402
@@ -95,16 +97,22 @@ def run() -> None:
     print(f"  提取完成：{non_null}/{len(province_map)} 个项目有省级信息")
 
     # ── Step 2: 构建 projects_flat ────────────────────────────────────────────
-    print("\n[2/6] 构建 projects_flat...")
+    print("\n[2/7] 构建 projects_flat...")
     n_rows = build_flat(SRC_DB, DST_DB, province_map)
     print(f"  ✓ projects_flat: {n_rows} 个项目")
 
-    # ── Step 3: 构建聚合统计表 ────────────────────────────────────────────────
-    print("\n[3/6] 构建聚合统计表...")
+    # ── Step 3: 构建 tx_flat / mf_flat（任务 3.4：TX/MF 专用扁平表）───────────
+    print("\n[3/7] 构建 tx_flat / mf_flat...")
+    n_tx = build_tx_flat(SRC_DB, DST_DB, province_map)
+    n_mf = build_mf_flat(SRC_DB, DST_DB, province_map)
+    print(f"  ✓ tx_flat: {n_tx} 个项目, mf_flat: {n_mf} 个项目")
+
+    # ── Step 4: 构建聚合统计表 ────────────────────────────────────────────────
+    print("\n[4/7] 构建聚合统计表...")
     build_stats(DST_DB)
 
-    # ── Step 4: 导出 Excel / CSV ──────────────────────────────────────────────
-    print("\n[4/6] 导出 Excel / CSV...")
+    # ── Step 5: 导出 Excel / CSV ──────────────────────────────────────────────
+    print("\n[5/7] 导出 Excel / CSV...")
 
     conn = sqlite3.connect(DST_DB)
     df = pd.read_sql("SELECT * FROM projects_flat", conn)
@@ -122,8 +130,8 @@ def run() -> None:
     df.to_csv(csv_path, index=False, encoding="utf-8-sig")
     print(f"  ✓ CSV   : {csv_path.name}")
 
-    # ── Step 5: 导出静态 JSON（供 s04 前端使用）──────────────────────────────
-    print("\n[5/6] 导出静态 JSON 文件（供前端可视化）...")
+    # ── Step 6: 导出静态 JSON（供 s04 前端使用）──────────────────────────────
+    print("\n[6/7] 导出静态 JSON 文件（供前端可视化）...")
     export_json(DST_DB, DST_DIR, src_db=SRC_DB)
 
     # 同时写入 s04 public/data/（自动同步，无需手动复制）
@@ -134,8 +142,8 @@ def run() -> None:
     else:
         print("  ℹ s04_web_visualization 目录不存在，跳过同步")
 
-    # ── Step 6: 导出按事件拆条明细 CSV（供前端下载，结构锁定）──────────────────
-    print("\n[6/6] 导出 events_export.csv（按事件拆条）...")
+    # ── Step 7: 导出按事件拆条明细 CSV（供前端下载，结构锁定）──────────────────
+    print("\n[7/7] 导出 events_export.csv（按事件拆条）...")
     n_ev = events_exporter.export_events_csv(
         SRC_DB,
         [DST_DIR / "events_export.csv", S04_DATA_DIR / "events_export.csv"],

@@ -403,3 +403,189 @@ def build_flat(
     dst_conn.close()
 
     return len(rows)
+
+
+# ── tx_flat / mf_flat（任务 3.4：TX/MF 专用扁平表，不含 capacity_mw/storage_*）───
+
+_TXMF_BASE_CREATE = """
+    project_id       TEXT PRIMARY KEY,
+    project_name     TEXT,
+    project_name_en  TEXT,
+    country          TEXT,
+    country_en       TEXT,
+    country_iso      TEXT,
+    province         TEXT,
+    latest_stage     TEXT,
+    latest_stage_en  TEXT,
+    event_year       INTEGER,
+    all_entities     TEXT
+"""
+
+_TX_CREATE_SQL = f"""
+CREATE TABLE IF NOT EXISTS tx_flat (
+{_TXMF_BASE_CREATE},
+    voltage_kv                  REAL,
+    line_length_km               REAL,
+    transmission_capacity_mw    REAL
+)
+"""
+
+_MF_CREATE_SQL = f"""
+CREATE TABLE IF NOT EXISTS mf_flat (
+{_TXMF_BASE_CREATE},
+    production_capacity_value   REAL,
+    production_capacity_unit    TEXT
+)
+"""
+
+
+def _load_source_tables(src_db: Path) -> tuple[list[dict], dict[str, list[dict]], dict[str, list[dict]]]:
+    """读 s02a 三表，返回 (projects, events_by_project, entities_by_event)。"""
+    src_conn = sqlite3.connect(src_db)
+    src_conn.row_factory = sqlite3.Row
+    projects = [dict(r) for r in src_conn.execute("SELECT * FROM canonical_projects").fetchall()]
+    events   = [dict(r) for r in src_conn.execute("SELECT * FROM project_events").fetchall()]
+    entities = [dict(r) for r in src_conn.execute("SELECT * FROM chinese_entities").fetchall()]
+    src_conn.close()
+
+    events_by_project: dict[str, list[dict]] = {}
+    for ev in events:
+        events_by_project.setdefault(ev["canonical_id"], []).append(ev)
+
+    entities_by_event: dict[str, list[dict]] = {}
+    for ent in entities:
+        entities_by_event.setdefault(ent["event_id"], []).append(ent)
+
+    return projects, events_by_project, entities_by_event
+
+
+def _build_entities_list(sorted_events: list[dict], entities_by_event: dict[str, list[dict]]) -> list[dict]:
+    """按 sorted_events 顺序合并去重实体，形式与 projects_flat.all_entities 一致。"""
+    all_entities_list: list[dict] = []
+    seen_entities: set[str] = set()
+    for ev in sorted_events:
+        for ent in entities_by_event.get(ev["id"], []):
+            name = (ent.get("implementing_entity") or "").strip()
+            if name and name not in seen_entities:
+                seen_entities.add(name)
+                inv_type = ent.get("involvement_type") or ""
+                all_entities_list.append(
+                    {
+                        "name":               name,
+                        "name_en":            ent.get("implementing_entity_en") or "",
+                        "subsidiary":         ent.get("subsidiary_name") or "",
+                        "subsidiary_en":      ent.get("subsidiary_name_en") or "",
+                        "involvement_type":   inv_type,
+                        "involvement_type_en": enums.involvement_en(inv_type) or inv_type,
+                        "is_central_soe":     ent.get("is_central_soe"),
+                    }
+                )
+    return all_entities_list
+
+
+def _first_non_null(sorted_events: list[dict], *cols: str) -> tuple:
+    """按 sorted_events（终态优先）顺序，取第一个 cols[0] 非空的事件，返回该事件对应各 cols 的值
+    （保证多列取自同一事件，禁止跨事件配对）。全部事件该列均空则返回全 None 元组。"""
+    for ev in sorted_events:
+        if ev.get(cols[0]) is not None:
+            return tuple(ev.get(c) for c in cols)
+    return tuple(None for _ in cols)
+
+
+def _build_txmf_rows(
+    src_db: Path,
+    province_map: dict[str, Optional[str]],
+    category_zh: str,
+    extra_cols_fn,
+) -> list[dict]:
+    """构建 tx_flat/mf_flat 共用行数据：基础列 + extra_cols_fn(sorted_events) 给出的专用列。"""
+    projects, events_by_project, entities_by_event = _load_source_tables(src_db)
+
+    rows: list[dict] = []
+    for proj in projects:
+        if proj.get("excluded", 0):
+            continue
+        if (proj.get("category") or "") != category_zh:
+            continue
+
+        pid = proj["id"]
+        proj_events = events_by_project.get(pid, [])
+        if not proj_events:
+            continue
+
+        sorted_events = sorted(
+            proj_events,
+            key=lambda e: (
+                _stage_rank(e.get("project_stage")),
+                e.get("publish_date") or e.get("investment_date") or "",
+            ),
+            reverse=True,
+        )
+        latest = sorted_events[0]
+
+        latest_stage = latest.get("project_stage") or ""
+        event_year = _parse_year(latest.get("publish_date") or latest.get("investment_date"))
+
+        row = {
+            "project_id":      pid,
+            "project_name":    proj.get("project_name") or "",
+            "project_name_en": proj.get("project_name_en") or "",
+            "country":         proj.get("country") or "",
+            "country_en":      ISO3_TO_EN_NAME.get(proj.get("country_iso") or "", ""),
+            "country_iso":     proj.get("country_iso") or "",
+            "province":        province_map.get(pid),
+            "latest_stage":    latest_stage,
+            "latest_stage_en": enums.stage_en(latest_stage) or latest_stage,
+            "event_year":      event_year,
+            "all_entities":    json.dumps(_build_entities_list(sorted_events, entities_by_event), ensure_ascii=False),
+        }
+        row.update(extra_cols_fn(sorted_events))
+        rows.append(row)
+
+    return rows
+
+
+def _write_txmf_table(dst_db: Path, table: str, create_sql: str, rows: list[dict]) -> int:
+    """DROP+CREATE 目标表并写入 rows（幂等，与 build_flat 写法一致）。"""
+    dst_conn = sqlite3.connect(dst_db)
+    dst_conn.execute(f"DROP TABLE IF EXISTS {table}")
+    dst_conn.execute(create_sql)
+    if rows:
+        df = pd.DataFrame(rows)
+        df.to_sql(table, dst_conn, if_exists="append", index=False)
+    dst_conn.commit()
+    dst_conn.close()
+    return len(rows)
+
+
+def build_tx_flat(src_db: Path, dst_db: Path, province_map: dict[str, Optional[str]]) -> int:
+    """构建并写入 tx_flat 表（输变电建设专用扁平表：voltage_kv/line_length_km/transmission_capacity_mw，
+    各列按终态事件优先取第一个非空值，互不要求同源）。"""
+
+    def _extra(sorted_events: list[dict]) -> dict:
+        (voltage_kv,) = _first_non_null(sorted_events, "voltage_kv")
+        (line_length_km,) = _first_non_null(sorted_events, "line_length_km")
+        (transmission_capacity_mw,) = _first_non_null(sorted_events, "transmission_capacity_mw")
+        return {
+            "voltage_kv":               voltage_kv,
+            "line_length_km":           line_length_km,
+            "transmission_capacity_mw": transmission_capacity_mw,
+        }
+
+    rows = _build_txmf_rows(src_db, province_map, "输变电建设", _extra)
+    return _write_txmf_table(dst_db, "tx_flat", _TX_CREATE_SQL, rows)
+
+
+def build_mf_flat(src_db: Path, dst_db: Path, province_map: dict[str, Optional[str]]) -> int:
+    """构建并写入 mf_flat 表（新能源制造业专用扁平表：production_capacity_value/_unit，
+    两列必须取自同一事件——按终态事件优先找第一个 value 非空的事件，同事件同时取 value 与 unit）。"""
+
+    def _extra(sorted_events: list[dict]) -> dict:
+        value, unit = _first_non_null(sorted_events, "production_capacity_value", "production_capacity_unit")
+        return {
+            "production_capacity_value": value,
+            "production_capacity_unit":  unit,
+        }
+
+    rows = _build_txmf_rows(src_db, province_map, "新能源制造业", _extra)
+    return _write_txmf_table(dst_db, "mf_flat", _MF_CREATE_SQL, rows)

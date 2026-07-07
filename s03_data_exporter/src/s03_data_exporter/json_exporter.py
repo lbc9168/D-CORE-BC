@@ -3,6 +3,8 @@
 
 输出（均在 output_dir/）：
   projects_flat.json  — 所有项目完整字段（all_entities / stage_events 已解析为列表）
+  tx_flat.json        — 输变电建设专用扁平表（all_entities 已解析为列表）
+  mf_flat.json        — 新能源制造业专用扁平表（all_entities 已解析为列表）
   stats_country.json  — 国家维度聚合（地图热力图）
   stats_entity.json   — 企业维度聚合（排名图表）
   stats_timeline.json — 时间维度聚合（终态分布）
@@ -49,6 +51,23 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
     with open(projects_path, "w", encoding="utf-8") as f:
         json.dump(rows, f, ensure_ascii=False, indent=2)
     print(f"  ✓ projects_flat.json : {len(rows)} 条  ({projects_path.stat().st_size // 1024} KB)")
+
+    # ── tx_flat / mf_flat（任务 3.4：TX/MF 专用扁平表，同 projects_flat 风格）───
+    for table in ["tx_flat", "mf_flat"]:
+        txmf_rows = [dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()]
+        for row in txmf_rows:
+            raw = row.get("all_entities")
+            if raw:
+                try:
+                    row["all_entities"] = json.loads(raw)
+                except (json.JSONDecodeError, TypeError):
+                    row["all_entities"] = []
+            else:
+                row["all_entities"] = []
+        out_path = output_dir / f"{table}.json"
+        with open(out_path, "w", encoding="utf-8") as f:
+            json.dump(txmf_rows, f, ensure_ascii=False, indent=2)
+        print(f"  ✓ {table}.json : {len(txmf_rows)} 条")
 
     # ── 聚合统计表 ────────────────────────────────────────────────────────────
     for table in ["stats_country", "stats_entity", "stats_timeline"]:
