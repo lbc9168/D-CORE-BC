@@ -25,7 +25,7 @@
 | 插入B | 金标准重建（复核包→gold→基线） | ✅ |
 | 插入C | company_hierarchy 扩充核实 | ✅（数据资产就绪，未接线） |
 | 阶段 2 | Codex 季度分拣管线 + 试点 | ✅（2026-07-07，见 docs/changes/2026-W28a.md） |
-| 阶段 3 | TX/MF 展示前专项 | ⬜（计划已细化，见下） |
+| 阶段 3 | TX/MF 展示前专项 | ✅（2026-07-07 数据端+导出端完成；拍板②迁移口径待用户读双轨报告后定，见 docs/changes/2026-W28b.md） |
 | 阶段 4 | s01b prompt 迭代（基线回归驱动） | ✅（2026-07-06：weighted 0.698→0.811） |
 
 ## 已完成明细
@@ -100,7 +100,7 @@
 **验收**：三类任务各完成一轮真实试点；ingest 拒收非法输入有测试；merge 脚本在测试库验证外键一致性；台账幂等（重跑 export 不重复入队）。
 **开工时用户拍板**：① 首季编号（建议 2026Q3）；② merge 后 loser 处理（推荐保留行+merged_into 标记，可追溯）；③ 抽检比例（推荐 15%）。
 
-### 阶段 3：TX/MF 展示前专项（⬜，计划细化 2026-07-06，估 1-2 sessions；前端展示形式另议）
+### 阶段 3：TX/MF 展示前专项（✅ 2026-07-07 数据端+导出端完成，subagent-driven 3.1→3.4 全过审。拍板落定：① MF 产能单位四档 GW/年、GWh/年、万吨/年、Unknown；③ 阶段 2 先行已兑现。交付：主库 project_events 5 稀疏列迁移+回填（未排除 TX 441 项目——电压 309/里程 99/输送容量 12；MF 162——产能值 66/单位 69 含 Unknown 3；misses 274 CSV 喂 T3/人工）、s01b txmf_spec_parser + txmf_backfill CLI、流水线常设 2B-5、s03 tx_flat/mf_flat 两表两 JSON（projects_flat 字节级零变化独立复证）、双轨对照报告 docs/analysis/mf_dualtrack_report_2026-07.md（重叠 8 对/未匹配 49/边界案 0 命中/推荐口径 B）。**遗留拍板②：record_type 迁移口径等用户读报告后定**；前端展示 tab 另行排期；真实 run_export+部署仍 gated（硬顺序 en_backfill→run_export→部署）。明细见 docs/changes/2026-W28b.md）
 
 **目的**：让输变电（TX，463 项目/532 事件）与新能源制造业（MF，178/192）具备按正确单位展示的数据基础。共识：不分库不分表——主库加稀疏列 + s03 导出层分流；本阶段**只做数据端与导出端**，s04 前端 tab 等用户出展示设计后单独排期。
 
@@ -119,7 +119,7 @@
 **3.4 s03 导出层分流**：flat_builder 增建 `tx_flat`、`mf_flat` 两表（基本信息+专用列+阶段/年份/实体，无 capacity_mw）；json_exporter 增出 `tx_flat.json`/`mf_flat.json`（双写 s03 output + s04 public/data）；**projects_flat 与现网行为零变化**（TX/MF 仍 hidden）。events_exporter 下载口径待前端定型再议。验收：s03 测试 + 行数对账（tx_flat=TX 未排除数等）。
 - ⚠️ 部署硬顺序不变：en_backfill → run_export → 部署。
 
-**开工时用户拍板**：① MF 产能单位枚举清单；② record_type 双轨迁移口径（看完 3.3 报告再定）；③ 与阶段 2 的先后（推荐阶段 2 先行：T3 直接消化阶段 4 遗留 misses，T2 顺带清掉 3.3 的边界案）。
+**开工时用户拍板**：① MF 产能单位枚举清单 ✅（2026-07-07 拍定四档：GW/年、GWh/年、万吨/年、Unknown）；② record_type 双轨迁移口径 ⬜（报告已出：docs/analysis/mf_dualtrack_report_2026-07.md，推荐口径 B，等用户拍板）；③ 与阶段 2 的先后 ✅（阶段 2 先行已兑现，T2 清掉了边界案）。
 
 ### 日常收尾（🔶）
 - ⬜ **dcore_v2.2 共 34 commits 待用户定合并方式**（合并回 main 的时机与方式——本次发布后）

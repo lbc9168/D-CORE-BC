@@ -1,6 +1,6 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-07-06（实体处理链路更新：S4 改逐字抄 → 确定性查表解析）
+> 最后更新：2026-07-07（新增阶段二B-5：TX/MF 专用列回填）
 
 ---
 
@@ -32,6 +32,8 @@
    ↓
 阶段二B-4 英文名回填 ← cfg.run_en_backfill=False 时跳过（按缓存 en_abbr 优先口径重算 *_en 列，miss 只报告）
    ↓
+阶段二B-5 TX/MF 专用列回填 ← cfg.run_txmf_backfill=False 时跳过（txmf_spec_parser 确定性解析 details/summary，fill-if-null 回填 5 稀疏列，misses 出 CSV）
+   ↓
 预留（默认关，置标志位启用，函数内延迟 import）：
    阶段二C 交叉验证  ← cfg.run_cross_verification=True
    阶段三   导出     ← cfg.run_export=True
@@ -55,6 +57,7 @@
 | `run_location_normalize` | bool | True | 是否执行地点归一化（写 location_norm） |
 | `run_developer_normalize` | bool | True | 是否执行业主归一化（project_developer 部件级） |
 | `run_en_backfill` | bool | True | 是否执行英文名回填（缓存口径同步 *_en 列） |
+| `run_txmf_backfill` | bool | True | 是否执行 TX/MF 专用列回填（s01b txmf_backfill，fill-if-null） |
 | `run_cross_verification` | bool | False | 是否执行 s02c 交叉验证（预留） |
 | `run_export` | bool | False | 是否执行 s03 导出（预留） |
 | `start_date` / `end_date` | str | 见代码 | s01a 爬取日期范围 |
