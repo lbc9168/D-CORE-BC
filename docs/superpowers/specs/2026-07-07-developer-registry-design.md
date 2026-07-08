@@ -1,7 +1,7 @@
 # Developer 名称登记册与归一化统一设计（spec）
 
-日期：2026-07-07 · 状态：用户已批准设计，待排 implementation plan
-决策人：用户 · 起草：Claude（本 spec 是唯一权威口径，实施计划从这里出）
+日期：2026-07-07 · 状态：**已实施上线（2026-07-08，Task1-8 全过审，存量回填落库；实施明细见 docs/changes/2026-W28b.md）**
+决策人：用户 · 起草：Claude（本 spec 是唯一权威口径，实施计划=docs/superpowers/plans/2026-07-07-developer-registry.md）
 
 ## 1. 背景与动机（真库实测 2026-07-07）
 

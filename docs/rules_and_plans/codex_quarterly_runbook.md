@@ -175,3 +175,10 @@ uv run --no-sync python -m codex_review.apply_actions --task T1 --quarter 2026Q3
 ```
 
 把 `--task T1` 换成 `--task T2` / `--task T3` 即可单独跑某个任务（T3 见步骤 4"T3 特殊"一节）。
+
+## 附：developer 登记册季度维护（2026-07-08 起常设）
+
+增量流水线跑完后，收集两类 CSV 喂人工/campaign 复核入册（`developer_registry.json`，入册后跑 `uv run --no-sync pytest tests/test_developer_registry.py -q` 契约自检）：
+- `supporting_docs/developer_registry_suggestions_*.csv` —— 2B-3 的 LLM 降级合并建议（未写库）
+- `supporting_docs/developer_norm_misses_*.csv` —— 查表未命中长尾（含 ASCII 外企；EN 缺口同源）
+入册后下一轮增量 2B-3/2B-4 自动生效；如需存量立即生效，手动重跑 `normalize_developers --apply` + `backfill_entity_en --apply`（均幂等）。

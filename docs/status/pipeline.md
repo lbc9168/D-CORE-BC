@@ -1,6 +1,6 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-07-07（新增阶段二B-5：TX/MF 专用列回填）
+> 最后更新：2026-07-08（2B-3/2B-4 接入 developer 登记册：查表前置+registry EN 优先档）
 
 ---
 
@@ -28,9 +28,9 @@
    ↓
 阶段二B-2 地点归一化 ← cfg.run_location_normalize=False 时跳过（写 location_norm）
    ↓
-阶段二B-3 业主归一化 ← cfg.run_developer_normalize=False 时跳过（归一 project_developer）
+阶段二B-3 业主归一化 ← cfg.run_developer_normalize=False 时跳过（登记册查表前置归一 project_developer；LLM 降级为补录建议 CSV）
    ↓
-阶段二B-4 英文名回填 ← cfg.run_en_backfill=False 时跳过（按缓存 en_abbr 优先口径重算 *_en 列，miss 只报告）
+阶段二B-4 英文名回填 ← cfg.run_en_backfill=False 时跳过（registry canonical_en > 缓存 en_abbr > en 三档口径重算 *_en 列，miss 只报告）
    ↓
 阶段二B-5 TX/MF 专用列回填 ← cfg.run_txmf_backfill=False 时跳过（txmf_spec_parser 确定性解析 details/summary，fill-if-null 回填 5 稀疏列；流水线模式只打印 misses 计数，CSV 由手跑 CLI 带 --out 产出）
    ↓
