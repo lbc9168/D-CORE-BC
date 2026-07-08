@@ -13,11 +13,17 @@
         "Masdar",
         "马斯达尔",
         "Abu Dhabi Future Energy Company",
-        "马斯达尔公司"
+        "马斯达尔公司",
+        "MASDAR",
+        "Masdar清洁能源集团",
+        "阿联酋可再生能源公司Masdar",
+        "Abu Dhabi Future Energy Company PJSC (Masdar)",
+        "阿布扎比未来能源有限公司 (MASDAR)",
+        "阿联酋马斯达尔（Masdar）能源公司"
       ],
       "is_chinese": false,
       "parent_cn": null,
-      "note": "金样例锚点：跨语言变体归一的验收案例",
+      "note": "金样例锚点：跨语言变体归一的验收案例 | 2026-07-08 存量回填后补6个库内实测变体",
       "source": "bootstrap_2026-07-07"
     },
     {
