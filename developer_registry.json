@@ -37,8 +37,7 @@
         "Acwa",
         "沙特电力和水务公司",
         "ACWA",
-        "ACWA Power Company",
-        "Acwa (2026年起新交易名)"
+        "ACWA Power Company"
       ],
       "is_chinese": false,
       "parent_cn": null,
@@ -66,8 +65,7 @@
         "道达尔",
         "TotalEnergies",
         "Total",
-        "TotalEnergies SE",
-        "Total (旧称)"
+        "TotalEnergies SE"
       ],
       "is_chinese": false,
       "parent_cn": null,
@@ -423,8 +421,7 @@
       "canonical_en": "National Electric Grid of Uzbekistan JSC",
       "aliases": [
         "National Electric Grid of Uzbekistan",
-        "NEGU",
-        "O'zbekenergo (拆分前旧称，不通用)"
+        "NEGU"
       ],
       "is_chinese": false,
       "parent_cn": null,
@@ -435,8 +432,7 @@
       "canonical_cn": "Equinor",
       "canonical_en": "Equinor ASA",
       "aliases": [
-        "Equinor ASA",
-        "Statoil (旧称)"
+        "Equinor ASA"
       ],
       "is_chinese": false,
       "parent_cn": null,
@@ -447,8 +443,7 @@
       "canonical_cn": "紫金矿业集团股份有限公司",
       "canonical_en": "Zijin Mining Group Co., Ltd.",
       "aliases": [
-        "Zijin Mining",
-        "Zijin Mining Group Co., Ltd."
+        "Zijin Mining"
       ],
       "is_chinese": true,
       "parent_cn": null,
@@ -522,8 +517,7 @@
       "canonical_en": "ENGIE SA",
       "aliases": [
         "ENGIE",
-        "ENGIE SA",
-        "GDF Suez (旧称)"
+        "ENGIE SA"
       ],
       "is_chinese": false,
       "parent_cn": null,
@@ -599,9 +593,7 @@
       "canonical_en": "Ørsted A/S",
       "aliases": [
         "Ørsted",
-        "Orsted",
-        "Ørsted A/S",
-        "DONG Energy (旧称)"
+        "Orsted"
       ],
       "is_chinese": false,
       "parent_cn": null,
@@ -736,7 +728,6 @@
       "canonical_cn": "上海风领新能源有限公司",
       "canonical_en": "Shanghai Fengling Renewables Co., Ltd.",
       "aliases": [
-        "Shanghai Fengling New Energy Co., Ltd.",
         "Shanghai Fengling Renewables"
       ],
       "is_chinese": true,
@@ -884,8 +875,7 @@
         "Kalyon Enerji",
         "Kalyon Holding (energy unit)",
         "Kalyon能源公司",
-        "Kalyon公司",
-        "Kalyon Group (母集团，不同实体)"
+        "Kalyon公司"
       ],
       "is_chinese": false,
       "parent_cn": "Kalyon Holding",

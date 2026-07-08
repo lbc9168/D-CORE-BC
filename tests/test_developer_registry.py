@@ -1,9 +1,12 @@
 """developer_registry.json 数据契约测试：结构、必填、别名全册唯一。"""
 import json
+import re
 from pathlib import Path
 
 _ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = _ROOT / "developer_registry.json"
+# 与 s02b_entity_normalizer.developer_normalizer.DEV_SEP_RE 同字面：业主拆串分隔符
+_DEV_SEP_RE = re.compile(r"[;；、，,/]")
 
 
 def _load():
@@ -33,3 +36,12 @@ def test_aliases_unique_across_registry():
             key = name.strip()
             assert key not in seen, f"别名冲突: {key!r} 同时属于 {seen.get(key)} 与 {c['canonical_cn']}"
             seen[key] = c["canonical_cn"]
+
+
+def test_aliases_no_separator_chars():
+    """别名不得含拆串分隔符（含分隔符的括注/旧称类别名在 2B-3 永不可达，纯死数据）。"""
+    for c in _load()["companies"]:
+        for alias in c["aliases"]:
+            assert not _DEV_SEP_RE.search(alias), (
+                f"别名含分隔符不可达: {alias!r}（属于 {c['canonical_cn']}）"
+            )

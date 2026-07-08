@@ -1,7 +1,6 @@
 """2B-3 registry 前置：确定性映射、LLM 降级为建议、旧行为可回退。"""
 import json
 import sqlite3
-from pathlib import Path
 
 from s02b_entity_normalizer.company_lookup import build_index
 from s02b_entity_normalizer.developer_normalizer import registry_part_mapping
@@ -58,6 +57,9 @@ def test_end_to_end_registry_apply(tmp_path, monkeypatch):
 
     import s02b_entity_normalizer.developer_normalizer as dn
 
+    supporting_docs = tmp_path / "supporting_docs"
+    supporting_docs.mkdir()
+    monkeypatch.setattr(dn, "_SUPPORTING_DOCS", supporting_docs)
     monkeypatch.setattr(dn, "build_index", lambda: build_index(str(rp), None))
     monkeypatch.setenv("GEMINI_API_KEY", "dummy")
     monkeypatch.setattr("google.genai.Client", lambda api_key: object())
@@ -70,25 +72,17 @@ def test_end_to_end_registry_apply(tmp_path, monkeypatch):
     conn.close()
     assert vals == {"阿布扎比未来能源公司; 无关公司", "阿布扎比未来能源公司"}
 
-
-    supporting_docs = Path(dn.__file__).resolve().parents[3] / "supporting_docs"
     suggestions = list(supporting_docs.glob("developer_registry_suggestions_*.csv"))
     misses = list(supporting_docs.glob("developer_norm_misses_*.csv"))
     assert suggestions, "应生成 registry 补录建议 CSV"
     assert misses, "应生成 miss CSV"
 
-    try:
-        # 重跑 0 变更（幂等：值已是规范名）
-        dn.run(db_path=db, apply=True, use_registry=True)
-        conn = sqlite3.connect(db)
-        vals2 = {r[0] for r in conn.execute("SELECT project_developer FROM project_events").fetchall()}
-        conn.close()
-        assert vals2 == vals, "重跑应 0 变更"
-    finally:
-        for pattern in ("developer_registry_suggestions_*.csv", "developer_registry_suggestions_*.log",
-                        "developer_norm_misses_*.csv", "developer_norm_misses_*.log"):
-            for f in supporting_docs.glob(pattern):
-                f.unlink()
+    # 重跑 0 变更（幂等：值已是规范名）
+    dn.run(db_path=db, apply=True, use_registry=True)
+    conn = sqlite3.connect(db)
+    vals2 = {r[0] for r in conn.execute("SELECT project_developer FROM project_events").fetchall()}
+    conn.close()
+    assert vals2 == vals, "重跑应 0 变更"
 
 
 # ── ASCII 部件跨语言归一（Masdar→阿布扎比未来能源公司 是 spec 头号验收锚点）────────
@@ -120,14 +114,10 @@ def test_ascii_part_cross_language_apply(tmp_path, monkeypatch):
     rp.write_text(json.dumps(FIXTURE_REGISTRY, ensure_ascii=False), encoding="utf-8")
     _patch_llm_off(monkeypatch, dn, rp)
 
-    supporting_docs = Path(dn.__file__).resolve().parents[3] / "supporting_docs"
-    try:
-        dn.run(db_path=db, apply=True, use_registry=True)
-    finally:
-        for pattern in ("developer_registry_suggestions_*.csv", "developer_registry_suggestions_*.log",
-                        "developer_norm_misses_*.csv", "developer_norm_misses_*.log"):
-            for f in supporting_docs.glob(pattern):
-                f.unlink()
+    supporting_docs = tmp_path / "supporting_docs"
+    supporting_docs.mkdir()
+    monkeypatch.setattr(dn, "_SUPPORTING_DOCS", supporting_docs)
+    dn.run(db_path=db, apply=True, use_registry=True)
 
     conn = sqlite3.connect(db)
     vals = {r[0] for r in conn.execute("SELECT project_developer FROM project_events").fetchall()}

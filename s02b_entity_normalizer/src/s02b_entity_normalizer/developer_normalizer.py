@@ -232,7 +232,7 @@ def write_suggestions_csv(confirmed_pairs: List[Dict], out_path: str) -> None:
     """把 LLM 确认为同一法人的候选对写成登记册补录建议 CSV（供人工复核入册，不进映射不写库）。"""
     with open(out_path, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["part_a", "part_b", "freq_a", "freq_b", "verdict", "llm_reason"])
+        w.writerow(["part_a", "part_b", "freq_a", "freq_b", "llm_canonical", "match_signals"])
         for p in confirmed_pairs:
             if not p.get("is_same"):
                 continue
