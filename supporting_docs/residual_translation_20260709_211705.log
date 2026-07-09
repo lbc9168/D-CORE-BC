@@ -1,0 +1,6 @@
+2026-07-09 21:17:05,835 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:17:07,628 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:17:07,632 [__main__] INFO 新增翻译 2 条已写缓存与 E:\Projects\BRI_RE_Database_v2\supporting_docs\residual_translation_new_20260709_211707.csv
+2026-07-09 21:17:07,660 [s02b_entity_normalizer.db_backup] INFO 库已备份 E:\Projects\BRI_RE_Database_v2\s02a_duplicate_merger\data\db\bri_re_database.db.bak.20260709_211707
+2026-07-09 21:17:08,372 [__main__] INFO 剩余名称回填落库 458 行（400 个值）
+2026-07-09 21:17:08,372 [__main__] INFO 剩余翻译回填：扫描 403 值，翻译 2 部件（失败 3），回填 458 行

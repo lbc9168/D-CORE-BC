@@ -1,0 +1,186 @@
+2026-07-09 21:06:47,135 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:06:50,337 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:06:50,338 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:06:57,370 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:06:57,370 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:04,617 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:04,618 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:11,447 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:11,449 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:13,494 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:13,495 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:15,701 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:15,703 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:17,665 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:17,666 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:20,129 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:20,361 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:22,563 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:22,564 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:24,927 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:24,927 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:27,781 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:27,783 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:30,073 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:30,073 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:37,517 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:37,518 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:39,837 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:39,837 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:41,789 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:41,789 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:43,679 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:43,679 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:45,590 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:45,590 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:51,990 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:51,991 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:07:58,765 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:07:58,766 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:05,376 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:05,377 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:07,469 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:07,470 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:09,515 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:09,516 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:11,197 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:11,197 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:13,356 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:13,357 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:19,943 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:19,944 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:21,871 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:21,872 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:28,786 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:28,787 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:36,130 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:36,131 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:38,768 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:38,769 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:41,491 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:41,491 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:43,930 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:43,930 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:46,178 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:46,179 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:49,031 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:49,032 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:51,065 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:51,067 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:08:57,809 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:08:57,810 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:04,442 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:04,443 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:06,518 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:06,519 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:08,645 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:08,646 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:15,312 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:15,313 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:17,538 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:17,539 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:22,150 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:09:22,150 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=1/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:09:23,151 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:25,359 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:25,360 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:27,305 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:27,306 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:29,643 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:29,643 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:31,783 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:31,783 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:33,761 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:33,761 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:35,713 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:35,714 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:42,840 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:42,841 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:49,458 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:49,458 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:51,580 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:51,581 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:09:53,582 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:09:53,583 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:00,322 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:00,323 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:02,588 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:02,588 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:04,633 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:04,633 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:11,746 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:11,747 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:18,603 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:18,825 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:25,852 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:26,114 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:32,429 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:10:32,430 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=1/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:10:33,430 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:39,816 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:40,050 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:42,319 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:42,320 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:44,390 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:44,390 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:46,507 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:46,508 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:53,221 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:53,483 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:55,748 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:55,748 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:10:58,383 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:10:58,383 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:00,406 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:00,407 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:02,397 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:02,397 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:04,289 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:04,292 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:06,385 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:06,622 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:07,493 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:11:07,494 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=1/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:11:08,495 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:10,461 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:10,692 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:12,621 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:12,622 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:13,501 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:11:13,501 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=1/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:11:14,501 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:14,847 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:11:14,847 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=2/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:11:16,847 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:23,825 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:23,827 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:25,623 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:25,624 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:27,414 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:27,415 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:27,723 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:11:27,724 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=1/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:11:28,724 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:29,638 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:11:29,638 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=2/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:11:31,639 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:42,805 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:42,807 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:49,798 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:49,799 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:56,891 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:56,891 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:11:59,193 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:11:59,195 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:12:06,646 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:12:06,647 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:12:13,676 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:12:13,677 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:12:13,992 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 503 Service Unavailable"
+2026-07-09 21:12:13,993 [__main__] ERROR 残余翻译 LLM 调用失败 attempt=1/3: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}
+2026-07-09 21:12:14,993 [google_genai.models] INFO AFC is enabled with max remote calls: 10.
+2026-07-09 21:12:16,276 [httpx] INFO HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent "HTTP/1.1 200 OK"
+2026-07-09 21:12:16,285 [__main__] INFO 新增翻译 1567 条已写缓存与 E:\Projects\BRI_RE_Database_v2\supporting_docs\residual_translation_new_20260709_211216.csv
+2026-07-09 21:12:16,326 [s02b_entity_normalizer.db_backup] INFO 库已备份 E:\Projects\BRI_RE_Database_v2\s02a_duplicate_merger\data\db\bri_re_database.db.bak.20260709_211216
+2026-07-09 21:12:18,135 [__main__] INFO 剩余名称回填落库 1758 行（1459 个值）
+2026-07-09 21:12:18,135 [__main__] INFO 剩余翻译回填：扫描 1464 值，翻译 1567 部件（失败 5），回填 1758 行

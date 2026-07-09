@@ -7,6 +7,13 @@
       "runtimeArgs": ["run", "dev"],
       "port": 5173,
       "cwd": "s04_web_visualization"
+    },
+    {
+      "name": "s04-worktree-test",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--", "--port", "5174"],
+      "port": 5174,
+      "cwd": ".claude/worktrees/dcore_v2.2/s04_web_visualization"
     }
   ]
 }
