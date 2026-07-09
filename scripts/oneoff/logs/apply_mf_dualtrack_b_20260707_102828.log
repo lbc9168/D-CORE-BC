@@ -1,0 +1,15 @@
+2026-07-07 18:28:28,296 [__main__] INFO 日志文件：E:\Projects\BRI_RE_Database_v2\.claude\worktrees\dcore_v2.2\scripts\oneoff\logs\apply_mf_dualtrack_b_20260707_102828.log
+2026-07-07 18:28:28,356 [__main__] INFO 现算配对与期望8对清单一致：8 对
+2026-07-07 18:28:28,402 [__main__] INFO 备份完成：E:\Projects\BRI_RE_Database_v2\s02a_duplicate_merger\data\db\bri_re_database.db.bak.20260707_102828（canonical_projects=4529 行）
+2026-07-07 18:28:28,405 [__main__] INFO 已新增列 non_project_records.merged_into_canonical
+2026-07-07 18:28:28,423 [__main__] INFO 单事务提交，共 16 条 SQL
+2026-07-07 18:28:28,483 [__main__] INFO 现算配对与期望8对清单一致：8 对
+2026-07-07 18:28:28,486 [__main__] INFO 幂等跳过：npr[6] 已标记 merged_into_canonical='EGY-MF-0001'
+2026-07-07 18:28:28,488 [__main__] INFO 幂等跳过：npr[31] 已标记 merged_into_canonical='EGY-MF-0001'
+2026-07-07 18:28:28,489 [__main__] INFO 幂等跳过：npr[126] 已标记 merged_into_canonical='GBR-MF-0001'
+2026-07-07 18:28:28,491 [__main__] INFO 幂等跳过：npr[566] 已标记 merged_into_canonical='SAU-MF-0006'
+2026-07-07 18:28:28,492 [__main__] INFO 幂等跳过：npr[694] 已标记 merged_into_canonical='MYS-MF-0016'
+2026-07-07 18:28:28,494 [__main__] INFO 幂等跳过：npr[756] 已标记 merged_into_canonical='BRA-MF-0003'
+2026-07-07 18:28:28,496 [__main__] INFO 幂等跳过：npr[800] 已标记 merged_into_canonical='MYS-MF-0011'
+2026-07-07 18:28:28,497 [__main__] INFO 幂等跳过：npr[1009] 已标记 merged_into_canonical='MYS-MF-0010'
+2026-07-07 18:28:28,498 [__main__] INFO 报告已写入：E:\Projects\BRI_RE_Database_v2\.claude\worktrees\dcore_v2.2\supporting_docs\mf_dualtrack_b_apply_report_20260707_102828.md

@@ -1,0 +1,18 @@
+2026-07-07 18:27:33,486 [__main__] INFO 日志文件：E:\Projects\BRI_RE_Database_v2\.claude\worktrees\dcore_v2.2\scripts\oneoff\logs\apply_mf_dualtrack_b_20260707_102733.log
+2026-07-07 18:27:33,547 [__main__] INFO 现算配对与期望8对清单一致：8 对
+2026-07-07 18:27:33,565 [__main__] INFO 报告已写入：C:\Users\bingc\AppData\Local\Temp\claude\E--Projects-BRI-RE-Database-v2\42b11e4b-2033-4a29-9fbb-67ed670408ea\scratchpad\drill2_dryrun1.md
+2026-07-07 18:27:33,802 [__main__] INFO 日志文件：E:\Projects\BRI_RE_Database_v2\.claude\worktrees\dcore_v2.2\scripts\oneoff\logs\apply_mf_dualtrack_b_20260707_102733.log
+2026-07-07 18:27:33,862 [__main__] INFO 现算配对与期望8对清单一致：8 对
+2026-07-07 18:27:33,909 [__main__] INFO 备份完成：C:\Users\bingc\AppData\Local\Temp\claude\E--Projects-BRI-RE-Database-v2\42b11e4b-2033-4a29-9fbb-67ed670408ea\scratchpad\test_bri_re_database.db.bak.20260707_102733（canonical_projects=4529 行）
+2026-07-07 18:27:33,911 [__main__] INFO 已新增列 non_project_records.merged_into_canonical
+2026-07-07 18:27:33,930 [__main__] INFO 单事务提交，共 16 条 SQL
+2026-07-07 18:27:33,991 [__main__] INFO 现算配对与期望8对清单一致：8 对
+2026-07-07 18:27:33,994 [__main__] INFO 幂等跳过：npr[6] 已标记 merged_into_canonical='EGY-MF-0001'
+2026-07-07 18:27:33,996 [__main__] INFO 幂等跳过：npr[31] 已标记 merged_into_canonical='EGY-MF-0001'
+2026-07-07 18:27:33,998 [__main__] INFO 幂等跳过：npr[126] 已标记 merged_into_canonical='GBR-MF-0001'
+2026-07-07 18:27:34,000 [__main__] INFO 幂等跳过：npr[566] 已标记 merged_into_canonical='SAU-MF-0006'
+2026-07-07 18:27:34,001 [__main__] INFO 幂等跳过：npr[694] 已标记 merged_into_canonical='MYS-MF-0016'
+2026-07-07 18:27:34,003 [__main__] INFO 幂等跳过：npr[756] 已标记 merged_into_canonical='BRA-MF-0003'
+2026-07-07 18:27:34,005 [__main__] INFO 幂等跳过：npr[800] 已标记 merged_into_canonical='MYS-MF-0011'
+2026-07-07 18:27:34,007 [__main__] INFO 幂等跳过：npr[1009] 已标记 merged_into_canonical='MYS-MF-0010'
+2026-07-07 18:27:34,008 [__main__] INFO 报告已写入：C:\Users\bingc\AppData\Local\Temp\claude\E--Projects-BRI-RE-Database-v2\42b11e4b-2033-4a29-9fbb-67ed670408ea\scratchpad\drill2_apply1.md

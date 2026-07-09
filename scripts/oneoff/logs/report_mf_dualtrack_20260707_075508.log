@@ -1,0 +1,5 @@
+2026-07-07 15:55:08,799 [__main__] INFO 日志文件：E:\Projects\BRI_RE_Database_v2\.claude\worktrees\dcore_v2.2\scripts\oneoff\logs\report_mf_dualtrack_20260707_075508.log
+2026-07-07 15:55:08,804 [__main__] INFO canonical MF 总数=205，non_project_records MF=57
+2026-07-07 15:55:08,809 [__main__] INFO 重叠对数=5（精确=2/模糊=3），边界案命中=0
+2026-07-07 15:55:08,810 [__main__] INFO 重叠明细 CSV 已写入：C:\Users\bingc\AppData\Local\Temp\claude\E--Projects-BRI-RE-Database-v2\42b11e4b-2033-4a29-9fbb-67ed670408ea\scratchpad\sd2\mf_dualtrack_overlap_20260707_075508.csv（5 行）
+2026-07-07 15:55:08,811 [__main__] INFO MD 报告已写入：C:\Users\bingc\AppData\Local\Temp\claude\E--Projects-BRI-RE-Database-v2\42b11e4b-2033-4a29-9fbb-67ed670408ea\scratchpad\rerun2.md
