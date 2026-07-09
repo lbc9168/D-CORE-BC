@@ -1,0 +1,888 @@
+{
+  "_meta": {
+    "version": 1,
+    "generated": "2026-07-08",
+    "source": "campaign_2026-07 种子核实（3×sonnet 联网）",
+    "note": "draft——待用户复核后合入 developer_registry.json"
+  },
+  "companies": [
+    {
+      "canonical_cn": "ACWA Power",
+      "canonical_en": "ACWA Power",
+      "aliases": [
+        "沙特国际电力和水务集团",
+        "沙特ACWA电力公司",
+        "International Company for Water and Power Projects",
+        "ACWA POWER",
+        "Acwa",
+        "沙特电力和水务公司",
+        "ACWA",
+        "ACWA Power Company",
+        "Acwa (2026年起新交易名)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "沙特上市能源与海水淡化公司，官方法定名为 International Company for Water and Power Projects，通行简称 ACWA Power；current_en_cache 一致，予以保留。 | PIF 官网标题明确将 'International Company For Water and Power Projects' 标注为 ACWA Power 全称，二者为同一法人，归为 ACWA Power 别名（与 seed row1 合并）。 | 样本项目（阿塞拜疆里海淡化、乌兹别克斯坦光伏储能、巴基斯坦光伏）均为公开报道中的 ACWA Power 项目，判定",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "法国电力集团",
+      "canonical_en": "EDF Group",
+      "aliases": [
+        "EDF",
+        "EDF Group",
+        "Électricité de France",
+        "法国电力公司"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "法国国有电力集团，通行英文名 EDF Group / Électricité de France；current_en_cache 一致。 | 控制器折叠同实体条目: 法国电力公司",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "道达尔能源",
+      "canonical_en": "TotalEnergies",
+      "aliases": [
+        "道达尔",
+        "TotalEnergies",
+        "Total",
+        "TotalEnergies SE",
+        "Total (旧称)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "法国跨国能源集团，2021年由 Total 更名为 TotalEnergies；current_en_cache 一致。 | 法国跨国能源集团（原 Total），阿曼/伊拉克/阿根廷多项目开发方；current_en_cache 为空，补齐 | ⚠️EN不一致: TotalEnergies vs TotalEnergies SE",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Recurrent Energy",
+      "canonical_en": "Recurrent Energy",
+      "aliases": [],
+      "is_chinese": false,
+      "parent_cn": "Canadian Solar",
+      "note": "美国可再生能源开发商，为加拿大太阳能（Canadian Solar）子公司；子公司独立登记，母公司仅标注不合并；current_en_cache 一致。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "老挝国家电力公司",
+      "canonical_en": "Électricité du Laos (EDL)",
+      "aliases": [
+        "老挝国家电力公司 (EDL)",
+        "EDL",
+        "Electricité du Laos"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "老挝国有电力公司；current_en_cache 中的 Electricit�� 为编码乱码，应为 Électricité，已修正法文重音字符。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "金风科技股份有限公司",
+      "canonical_en": "Goldwind",
+      "aliases": [
+        "金风科技",
+        "Goldwind",
+        "Xinjiang Goldwind Science & Technology"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国风电整机制造商，通行英文名 Goldwind；current_en_cache 一致。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "印尼国家电力公司",
+      "canonical_en": "PT Perusahaan Listrik Negara (Persero)",
+      "aliases": [
+        "印尼国电公司（PLN）",
+        "PLN",
+        "PT Perusahaan Listrik Negara (Persero)",
+        "Perusahaan Listrik Negara"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "印尼国有电力公司；current_en_cache 一致。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "赞比亚国家电力公司",
+      "canonical_en": "Zambia National Power Corporation",
+      "aliases": [
+        "Zambia National Power Corporation"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache 一致；但需注意赞比亚国有电力公司通行名为 ZESCO (Zambia Electricity Supply Corporation)，'Zambia National Power Corporation' 未查到独立官方网站，可能为数据源对 ZESCO 的意译，建议后续与 ZESCO 条目比对合并。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "加纳电网公司",
+      "canonical_en": "Ghana Grid Company (GRIDCo)",
+      "aliases": [
+        "GRIDCo",
+        "Ghana Grid Company"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "加纳国有输电公司，负责国家互联输电系统(NITS)；current_en_cache 为空，按官方通行名补全。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "沙特电力公司",
+      "canonical_en": "Saudi Electricity Company",
+      "aliases": [
+        "Saudi Electricity Company",
+        "SEC"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "沙特国有电力公司，负责输配电；current_en_cache 一致。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "沙特阿美电力公司",
+      "canonical_en": "Aramco Power Company",
+      "aliases": [
+        "阿美电力公司",
+        "Aramco Power Company",
+        "Aramco Power"
+      ],
+      "is_chinese": false,
+      "parent_cn": "Saudi Aramco",
+      "note": "沙特阿美旗下电力投资子公司，与 ACWA Power、Badeel 共同持有沙特多个光伏项目公司股权（如 Haden/Al-Muwaih/Al-Khushaybi）；子公司独立登记，母公司 Saudi Aramco 仅标注不合并；current_en_cache 为空，按公开报道补全英文名。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "泰国电力管理局",
+      "canonical_en": "Electricity Generating Authority of Thailand (EGAT)",
+      "aliases": [
+        "Electricity Generating Authority of Thailand",
+        "EGAT"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "泰国国有发电公司；current_en_cache 一致。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "东方日升新能源股份有限公司",
+      "canonical_en": "Risen Energy",
+      "aliases": [
+        "东方日升",
+        "Risen Energy"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国光伏组件制造商；current_en_cache 一致。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "韩国电力公司",
+      "canonical_en": "Korea Electric Power Corporation (KEPCO)",
+      "aliases": [
+        "韩国电力公司（KEPCO）",
+        "KEPCO",
+        "Korea Electric Power Corporation"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "韩国国有电力公司，为沙特 Dawadmi 1.5GW 风电项目牵头财团成员之一（与 Nesma、Etihad Water and Electricity 组成联合体）；current_en_cache 为空，按官方通行名补全。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "巴基斯坦水利电力发展署",
+      "canonical_en": "Water and Power Development Authority (WAPDA)",
+      "aliases": [
+        "巴基斯坦水利电力发展署(WAPDA)",
+        "WAPDA",
+        "Water and Power Development Authority"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "巴基斯坦国有水电开发管理机构，1958年立法成立；current_en_cache 为空，按官方通行名补全。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "晶科能源股份有限公司",
+      "canonical_en": "JinkoSolar",
+      "aliases": [
+        "晶科能源",
+        "JinkoSolar"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国光伏组件制造商；current_en_cache 一致。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "西部电力公司",
+      "canonical_en": "Western Power Company",
+      "aliases": [
+        "Western Power Company"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "赞比亚独立电力生产商，开发 Ngonye Falls 180MW 水电项目（西部省），与样本项目吻合；current_en_cache 一致。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "阳光电源股份有限公司",
+      "canonical_en": "Sungrow",
+      "aliases": [
+        "阳光电源",
+        "Sungrow"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国光伏逆变器/储能制造商；current_en_cache 一致。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "中国华电集团有限公司",
+      "canonical_en": "China Huadian Corporation",
+      "aliases": [
+        "中国华电",
+        "China Huadian",
+        "China Huadian Corporation"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国五大发电集团之一；current_en_cache 一致（补全为标准公司全称 Corporation）。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "埃塞俄比亚电力公司",
+      "canonical_en": "Ethiopian Electric Power (EEP)",
+      "aliases": [
+        "Ethiopian Electric Power",
+        "EEP",
+        "Ethiopian Electric Utility"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "埃塞俄比亚国有发输电公司；current_en_cache 给出 Ethiopian Electric Utility(EEU，负责配售电的姊妹机构)，但样本项目均为水电/风电发电项目，更贴近发电侧机构 Ethiopian Electric Power(EEP)；采用 EEP 并在 note 说明与 EEU 的口径差异，供人工复核。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "尼泊尔电力局",
+      "canonical_en": "Nepal Electricity Authority (NEA)",
+      "aliases": [
+        "Nepal Electricity Authority",
+        "NEA"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "尼泊尔国有发输配电公司，1985年由多机构合并成立；current_en_cache 为空，按官方通行名补全。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "迪拜电力和水务局",
+      "canonical_en": "Dubai Electricity and Water Authority (DEWA)",
+      "aliases": [
+        "Dubai Electricity and Water Authority",
+        "DEWA"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "迪拜政府电力水务机构，1992年由电力公司与水务部合并成立，运营 Mohammed bin Rashid Al Maktoum 太阳能园区；current_en_cache 为空，按官方通行名补全。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "柬埔寨国家电力公司",
+      "canonical_en": "Electricité du Cambodge (EDC)",
+      "aliases": [
+        "Electricité du Cambodge",
+        "EDC",
+        "Cambodia Power Corporation"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache 给出 Cambodia Power Corporation，但柬埔寨国有电力公司通行官方名为 Electricité du Cambodge (EDC)；未查到名为 'Cambodia Power Corporation' 的独立官方实体，判断 cache 值可能为意译误名，改用 EDC 官方名，供人工核实取舍。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "沙特电力采购公司",
+      "canonical_en": "Saudi Power Procurement Company (SPPC)",
+      "aliases": [
+        "沙特国家电力采购公司",
+        "SPPC",
+        "Saudi Power Procurement Company"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "沙特政府电力采购机构，2017年成立，负责与IPP签署购电协议（含样本中的沙穆塔/拉比格等光伏项目）；current_en_cache 为空，按官方通行名补全。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "乌兹别克斯坦能源部",
+      "canonical_en": "Ministry of Energy of Uzbekistan",
+      "aliases": [
+        "Ministry of Energy of Uzbekistan",
+        "Ministry of Energy of the Republic of Uzbekistan"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "乌兹别克斯坦政府能源主管部门；current_en_cache 一致。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "AMEA Power",
+      "canonical_en": "AMEA Power",
+      "aliases": [
+        "AMEA Power LLC"
+      ],
+      "is_chinese": false,
+      "parent_cn": "Al Nowais Investments",
+      "note": "迪拜可再生能源开发商，Al Nowais Investments 子公司；无常用中文名，用官方英文名充当规范名；current_en_cache 一致，无需改动",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "萨姆鲁克能源公司",
+      "canonical_en": "Samruk-Energy JSC",
+      "aliases": [
+        "哈萨克斯坦萨姆鲁克能源公司",
+        "Samruk-Energy",
+        "Samruk-Energo"
+      ],
+      "is_chinese": false,
+      "parent_cn": "萨姆鲁克-卡泽纳国家福利基金 (Samruk-Kazyna)",
+      "note": "哈萨克斯坦国有能源控股公司，Samruk-Kazyna 主权基金全资子公司，负责煤炭/发电/输配电及新能源业务",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "孟加拉国电力发展局",
+      "canonical_en": "Bangladesh Power Development Board",
+      "aliases": [
+        "孟加拉电力发展署(BPDB)",
+        "Bangladesh Power Development Board",
+        "BPDB"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "孟加拉国负责发电与输配电的国有电力管理机构；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "俄罗斯国家原子能集团公司",
+      "canonical_en": "Rosatom State Atomic Energy Corporation",
+      "aliases": [
+        "Rosatom",
+        "ROSATOM"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "俄罗斯国有核能集团，为哈萨克斯坦/乌兹别克斯坦核电站及吉尔吉斯斯坦风电项目提供方；current_en_cache 为空，补齐",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "菲律宾国家电网公司",
+      "canonical_en": "National Grid Corporation of the Philippines",
+      "aliases": [
+        "菲律宾国家电网公司（NGCP）",
+        "National Grid Corporation of the Philippines",
+        "NGCP"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "菲律宾输电网特许经营公司；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "丸红株式会社",
+      "canonical_en": "Marubeni Corporation",
+      "aliases": [
+        "Marubeni Corporation",
+        "丸红"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "日本综合商社，沙特风光项目投资方；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "乌兹别克斯坦国家电网股份公司",
+      "canonical_en": "National Electric Grid of Uzbekistan JSC",
+      "aliases": [
+        "National Electric Grid of Uzbekistan",
+        "NEGU",
+        "O'zbekenergo (拆分前旧称，不通用)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "2019年 Uzbekenergo 拆分后成立的系统运营商/输电网公司；current_en_cache 为空，补齐；不与旧 Uzbekenergo 或配电子公司混同",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Equinor",
+      "canonical_en": "Equinor ASA",
+      "aliases": [
+        "Equinor ASA",
+        "Statoil (旧称)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "挪威国家石油能源公司，参与英国/波兰海上风电项目；无中文常用名，英文名充当规范中文名",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "紫金矿业集团股份有限公司",
+      "canonical_en": "Zijin Mining Group Co., Ltd.",
+      "aliases": [
+        "Zijin Mining",
+        "Zijin Mining Group Co., Ltd."
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国矿业集团，加纳/秘鲁金铜矿项目业主；current_en_cache 'Zijin Mining' 是常见简称，官方全称改为 Zijin Mining Group Co., Ltd. | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Voltalia",
+      "canonical_en": "Voltalia SA",
+      "aliases": [
+        "Voltalia SA"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "法国可再生能源独立发电商，乌兹别克斯坦多个混合能源/储能项目开发者；无中文常用名，英文名充当规范中文名",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "坦桑尼亚电力供应公司",
+      "canonical_en": "Tanzania Electric Supply Company Limited",
+      "aliases": [
+        "坦桑尼亚电力公司TANESCO",
+        "TANESCO",
+        "Tanzania Electric Supply Company Limited"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "坦桑尼亚国有电力公司，负责发输配电；current_en_cache 为空，补齐",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "莫桑比克电力公司",
+      "canonical_en": "Electricidade de Moçambique, E.P.",
+      "aliases": [
+        "莫桑比克国家电力公司",
+        "Electricidade de Moçambique",
+        "EDM"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "莫桑比克国有电力公司，负责发输配电；current_en_cache 为空，补齐",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "蒙古国能源部",
+      "canonical_en": "Ministry of Energy of Mongolia",
+      "aliases": [
+        "Ministry of Energy of Mongolia",
+        "Ministry of Energy (Mongolia)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "蒙古国政府能源主管部门；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "中国天楹股份有限公司",
+      "canonical_en": "China Tianying Inc.",
+      "aliases": [
+        "China Tianying",
+        "China Tianying Inc.",
+        "CNTY"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国环保能源企业，海外垃圾焚烧发电项目开发商（泰国/越南）；current_en_cache 'China Tianying' 为简称，补全为官方全称 China Tianying Inc. | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "法国燃气苏伊士集团",
+      "canonical_en": "ENGIE SA",
+      "aliases": [
+        "ENGIE",
+        "ENGIE SA",
+        "GDF Suez (旧称)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "法国跨国能源集团，意大利/智利/英国多个光伏储能项目开发方；current_en_cache 为空，补齐",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "刚果（金）国家电力公司",
+      "canonical_en": "Société Nationale d'Électricité (SNEL)",
+      "aliases": [
+        "Société Nationale d'Électricité",
+        "SNEL"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "刚果民主共和国国有电力公司，运营因加水电站；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "WahajPeak Holdings",
+      "canonical_en": "WahajPeak Holdings",
+      "aliases": [
+        "WahajPeak",
+        "Wahaj Peak"
+      ],
+      "is_chinese": false,
+      "parent_cn": "Stonepeak",
+      "note": "美国 Stonepeak 投资公司发起的中东可再生能源平台（光伏/风电/储能），2026年成立不久；无中文常用名，英文名充当规范名",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "英国石油公司",
+      "canonical_en": "BP p.l.c.",
+      "aliases": [
+        "英国石油公司(BP)",
+        "BP",
+        "British Petroleum",
+        "BP p.l.c."
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "英国跨国油气及能源公司，伊拉克油田/澳大利亚绿氢/巴西天然气项目相关方；current_en_cache 为空，补齐",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "伊拉克电力部",
+      "canonical_en": "Ministry of Electricity of Iraq",
+      "aliases": [
+        "Ministry of Electricity of Iraq",
+        "Ministry of Electricity (Iraq)",
+        "MoE"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "伊拉克联邦政府电力主管部门；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "老挝国家输电网有限责任公司",
+      "canonical_en": "Électricité du Laos Transmission Company Limited (EDL-T)",
+      "aliases": [
+        "Electricite du Laos Transmission Company Limited",
+        "EDL-T",
+        "EDLT"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "老挝国家电力公司(EDL)与中国南方电网合资的输电网运营公司(2024年正式运营)；current_en_cache 'Laos National Power Transmission Network Company Limited' 为字面直译，改用其官方通用简称 EDL-T 对应全称",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "沃旭能源",
+      "canonical_en": "Ørsted A/S",
+      "aliases": [
+        "Ørsted",
+        "Orsted",
+        "Ørsted A/S",
+        "DONG Energy (旧称)"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "丹麦海上风电开发商，韩国/美国/英国多个海上风电项目开发方；无中文常用名录入，'沃旭能源'为业内通用中文译名",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "纳米比亚电力公司",
+      "canonical_en": "Namibia Power Corporation (NamPower)",
+      "aliases": [
+        "纳米比亚国家电力公司",
+        "Namibia Power Corporation",
+        "NamPower"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "纳米比亚国有电力公司；current_en_cache 已正确，沿用",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "中国海洋石油集团有限公司",
+      "canonical_en": "China National Offshore Oil Corporation (CNOOC)",
+      "aliases": [
+        "CNOOC",
+        "China National Offshore Oil Corporation"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "中国国有石油公司，东非原油管道/圭亚那天然气项目相关方；current_en_cache 'CNOOC' 为常见简称，补全为官方全称 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "苏里南自然资源部",
+      "canonical_en": "Ministry of Natural Resources (Suriname)",
+      "aliases": [],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "苏里南政府部门，负责矿业、水利与能源；符合政府部门类业主可登记条目的规则。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "孟加拉国政府",
+      "canonical_en": "Government of Bangladesh",
+      "aliases": [],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "样本项目为达卡垃圾焚烧、米尔萨莱电站、迪纳杰普尔光伏，均系孟加拉国政府主导/背书项目而非某一具体机构；作为国家层面业主条目登记，具体执行机构（如电力发展局）未在此合并。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "埃及国家输电公司",
+      "canonical_en": "Egyptian Electricity Transmission Company",
+      "aliases": [
+        "埃及国家输电公司（EETC）",
+        "EETC"
+      ],
+      "is_chinese": false,
+      "parent_cn": "埃及电力控股公司（Egyptian Electricity Holding Company, EEHC）",
+      "note": "current_en_cache与核实结果一致，沿用。母公司EEHC仅标注不合并。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "孟加拉国家电网公司",
+      "canonical_en": "Power Grid Company of Bangladesh Ltd. (PGCB)",
+      "aliases": [
+        "PGCB"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "官方现用名已改为Power Grid Bangladesh PLC（原Power Grid Company of Bangladesh Ltd），沿用样本项目年代对应的PGCB通行译名。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "BUA集团",
+      "canonical_en": "BUA Group",
+      "aliases": [
+        "BUA Group"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache与核实结果一致，沿用。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "南非国家电力公司",
+      "canonical_en": "Eskom Holdings SOC Ltd",
+      "aliases": [
+        "Eskom"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache 'Eskom'为通行简称，正式全称为Eskom Holdings SOC Ltd，两者均记入alias。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "隆基绿能科技股份有限公司",
+      "canonical_en": "LONGi Green Energy Technology Co., Ltd.",
+      "aliases": [
+        "LONGi",
+        "隆基"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "current_en_cache 'LONGi'为通行简称，官方全称为LONGi Green Energy Technology Co., Ltd.，两者均记入alias。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Grupo Empresarial Enhol",
+      "canonical_en": "Grupo Empresarial Enhol S.L.",
+      "aliases": [
+        "Grupo Enhol"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "西班牙家族企业，无常用中文名，以官方名称充当canonical_cn。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "阿联酋水电公司",
+      "canonical_en": "Emirates Water and Electricity Company (EWEC)",
+      "aliases": [
+        "阿联酋水电公司（Ewec）",
+        "EWEC",
+        "Emirates Water and Electricity Company"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache一致，沿用。同批第75行'EWEC'裸缩写为同一实体的另一变体，两条各自登记但alias互相关联，供人工合并映射参考。 | 与第68行'阿联酋水电公司（Ewec）'为同一法人的裸缩写变体；样本项目(Al Dhafra PV2等)进一步确认EWEC为procurer身份。两条各自输出但归一到同一canonical，供后续合并时参考。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "上海风领新能源有限公司",
+      "canonical_en": "Shanghai Fengling Renewables Co., Ltd.",
+      "aliases": [
+        "Shanghai Fengling New Energy Co., Ltd.",
+        "Shanghai Fengling Renewables"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "current_en_cache为'Shanghai Fengling New Energy Co., Ltd.'，但公司官方/媒体通行英文名为'Shanghai Fengling Renewables Co., Ltd.'（含官网域名flwindtower.com及中国日报报道均用Renewables），故取后者为canonical_en，原缓存值列入alias。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "阿布扎比国家能源公司",
+      "canonical_en": "Abu Dhabi National Energy Company PJSC (TAQA)",
+      "aliases": [
+        "TAQA"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "TAQA法人身份及英文名核实为high confidence，但其在样本项目(科威特Az-Zour North/Al-Khairan IWPP)中的角色仅确认为'入围投标方之一'（2&3期最终由ACWA Power财团中标），未能确认TAQA是否为该批项目最终业主/出资方，故整体confidence降为medium。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "MASS集团",
+      "canonical_en": "Mass Group Holding (MGH)",
+      "aliases": [
+        "Mass Group Holding",
+        "MGH"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "伊拉克能源企业，2006年成立；通过SPV Mass Renewable Energy开发约1GW/1300MW光伏项目，与样本项目(伊拉克1300MW/300MW光伏)匹配。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "ESB",
+      "canonical_en": "Electricity Supply Board (ESB)",
+      "aliases": [],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "爱尔兰国有电力企业(Electricity Supply Board)，96.9%由爱尔兰政府持股，无常用中文名故以英文缩写充当canonical_cn；与Inch Cape/苏格兰海上风电样本项目匹配。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "埃及新能源和可再生能源管理局",
+      "canonical_en": "New and Renewable Energy Authority (NREA)",
+      "aliases": [
+        "埃及新能源和可再生能源管理局(NREA)",
+        "NREA"
+      ],
+      "is_chinese": false,
+      "parent_cn": "埃及电力和可再生能源部",
+      "note": "埃及电力部下属政府机构，1986年成立；与Zafarana、苏伊士湾风电等样本项目匹配。母部仅标注不合并。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "孟加拉西北电力公司",
+      "canonical_en": "North-West Power Generation Company Limited (NWPGCL)",
+      "aliases": [
+        "孟加拉西北电力公司 (NWPGCL)",
+        "NWPGCL"
+      ],
+      "is_chinese": false,
+      "parent_cn": "孟加拉国电力发展局（Bangladesh Power Development Board, BPDB）",
+      "note": "2007年成立，为孟加拉国电力发展局(BPDB)下属企业；母公司仅标注不合并。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Alter Enersun",
+      "canonical_en": "Alter Enersun",
+      "aliases": [],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "西班牙光伏开发商(2009年成立)，无常用中文名，以英文名充当canonical_cn；与韦尔瓦市多个光伏项目样本匹配。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "马尔代夫政府",
+      "canonical_en": "Government of Maldives",
+      "aliases": [],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache与核实一致；马尔代夫多岛屿电网/微网项目通行由政府整体背书，未见单一执行机构名称，沿用政府层面登记。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "巴基斯坦国家输配电公司",
+      "canonical_en": "National Transmission and Despatch Company Limited (NTDC)",
+      "aliases": [
+        "巴基斯坦输变电公司(NTDC)",
+        "NTDC"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "2024年11月NTDC已被拆分为ISMO/NGCP/EIDMC三个实体，但样本项目(曼塞拉765kV变电站等)年代早于拆分，故以NTDC为canonical登记，note供后续留意实体沿革。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "国家电网有限公司",
+      "canonical_en": "State Grid Corporation of China (SGCC)",
+      "aliases": [
+        "State Grid",
+        "国家电网公司"
+      ],
+      "is_chinese": true,
+      "parent_cn": null,
+      "note": "current_en_cache 'State Grid'为通行简称，官方全称为State Grid Corporation of China，两者均记入alias。 | 与hierarchy同名同实体(registry优先提供EN/短名归一)",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "几内亚能源部",
+      "canonical_en": "Ministry of Energy, Hydropower and Hydrocarbons (Guinea)",
+      "aliases": [
+        "Ministry of Energy of Guinea"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache为'Ministry of Energy of Guinea'（较早/简化译法），核实到该部门现行/更完整官方名为'Ministry of Energy, Hydropower and Hydrocarbons'；因部门名称在不同年代文献中表述不一，confidence降为medium，两名均记入alias。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "越南建设贸易股份公司",
+      "canonical_en": "Trading Construction Works Organization (WTO)",
+      "aliases": [
+        "Vietnam Construction and Trading Joint Stock Company",
+        "WTO"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache 'Vietnam Construction and Trading Joint Stock Company'为字面回译，核实其官网(wto.com.vn/en)官方英文名为'Trading Construction Works Organization'，越南语全称Tổng Công ty Cổ phần Thương mại Xây dựng（简称WTO），为越南金瓯1号/朔庄4号海上风电项目的投资方，与样本项目匹配；取官方英文名为canonical_en，原缓存值列入alias并在此说明取舍。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "TASYAPI集团",
+      "canonical_en": "Taşyapı Construction",
+      "aliases": [
+        "TASYAPI Group",
+        "Taşyapı"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "土耳其建筑企业(1979年成立)，官网英文名'Taşyapı Construction'/'TASYAPI Group'均在使用，current_en_cache 'TASYAPI Group'为官网可见变体之一，沿用并补充官网全称。",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Kalyon Energy",
+      "canonical_en": "Kalyon Enerji",
+      "aliases": [
+        "Kalyon Enerji",
+        "Kalyon Holding (energy unit)",
+        "Kalyon能源公司",
+        "Kalyon公司",
+        "Kalyon Group (母集团，不同实体)"
+      ],
+      "is_chinese": false,
+      "parent_cn": "Kalyon Holding",
+      "note": "土耳其Kalyon Holding旗下能源子公司，官网域名kalyonenerji.com显示官方名为'Kalyon Enerji'（英文页面亦自称Kalyon Energy）；与Konya Karapınar 1GW光伏、YEKA风电样本匹配。母公司Kalyon Holding仅标注不合并。 | 控制器折叠同实体条目: Kalyon能源公司",
+      "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "西门子能源股份公司",
+      "canonical_en": "Siemens Energy AG",
+      "aliases": [
+        "西门子能源",
+        "Siemens Energy"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "current_en_cache为空；核实为德国西门子能源股份公司(Siemens Energy AG)，2020年从西门子集团分拆独立上市，非中国企业。",
+      "source": "campaign_2026-07"
+    }
+  ]
+}
