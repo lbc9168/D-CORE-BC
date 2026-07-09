@@ -70,6 +70,7 @@ class PipelineConfig:
     run_developer_normalize: bool = True   # False=跳过业主归一化（s02b 第三步，写 project_developer）
     run_en_backfill:        bool = True    # False=跳过英文名回填（归一后按缓存口径重算 *_en 列）
     run_txmf_backfill:      bool = True    # False=跳过 TX/MF 专用指标回填（voltage_kv 等 5 列，fill-if-null）
+    run_residual_translate: bool = True    # False=跳过剩余名称翻译回填（2B-4 miss 的长尾名 LLM 翻译+残余缓存）
     run_cross_verification: bool = False   # True=跑 s02c（预留段）
     run_export:             bool = False   # True=跑 s03 导出（预留段）
 
@@ -145,6 +146,16 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> None:
               f"misses={_txmf_report['misses']}")
     else:
         print("\n[Pipeline] ⏭  阶段二B-5：跳过 TX/MF 专用指标回填")
+
+    # 阶段二B-6：剩余名称翻译回填（2B-4 未命中的长尾中文名 → LLM 翻译进残余缓存，fill-if-null 回填 *_en）
+    if cfg.run_residual_translate:
+        from s02b_entity_normalizer.en_translate_residual import run_residual_translate as _run_residual
+        _print_stage_header("2B-6", "剩余名称翻译回填（LLM+残余缓存）")
+        _res_report = _run_residual(cfg.db_path, apply=True)
+        print(f"[Pipeline] 剩余翻译：新翻 {_res_report['parts_translated']} 部件"
+              f"（失败 {_res_report['parts_failed']}），回填 {_res_report['rows_updated']} 行")
+    else:
+        print("\n[Pipeline] ⏭  阶段二B-6：跳过剩余名称翻译回填")
 
     # 阶段二C：交叉验证（预留段，默认关）
     if cfg.run_cross_verification:

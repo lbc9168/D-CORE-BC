@@ -168,7 +168,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
 
         {/* 项目开发商（逻辑同 Financing：有值才显示；unknown 不显示）*/}
         {(() => {
-          const developerRaw = (p.project_developer_en || p.project_developer || "").trim();
+          const developerRaw = (p.project_developer_en || "").trim();
           const isUnknown =
             !developerRaw ||
             ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(developerRaw.toLowerCase());

@@ -1,6 +1,6 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-07-08（2B-3/2B-4 接入 developer 登记册：查表前置+registry EN 优先档）
+> 最后更新：2026-07-09（新增阶段 2B-6 剩余名称翻译回填：LLM 批翻长尾名 + 残余缓存，fill-if-null）
 
 ---
 
@@ -34,6 +34,8 @@
    ↓
 阶段二B-5 TX/MF 专用列回填 ← cfg.run_txmf_backfill=False 时跳过（txmf_spec_parser 确定性解析 details/summary，fill-if-null 回填 5 稀疏列；流水线模式只打印 misses 计数，CSV 由手跑 CLI 带 --out 产出）
    ↓
+阶段二B-6 剩余名称翻译回填 ← cfg.run_residual_translate=False 时跳过（2B-4 miss 的长尾中文名：registry>主缓存>残余缓存>LLM 批翻，写 residual_translation_cache.json，fill-if-null 只填 *_en 空/含中文行）
+   ↓
 预留（默认关，置标志位启用，函数内延迟 import）：
    阶段二C 交叉验证  ← cfg.run_cross_verification=True
    阶段三   导出     ← cfg.run_export=True
@@ -58,6 +60,7 @@
 | `run_developer_normalize` | bool | True | 是否执行业主归一化（project_developer 部件级） |
 | `run_en_backfill` | bool | True | 是否执行英文名回填（缓存口径同步 *_en 列） |
 | `run_txmf_backfill` | bool | True | 是否执行 TX/MF 专用列回填（s01b txmf_backfill，fill-if-null） |
+| `run_residual_translate` | bool | True | 是否执行剩余名称翻译回填（长尾名 LLM 翻译+残余缓存，fill-if-null） |
 | `run_cross_verification` | bool | False | 是否执行 s02c 交叉验证（预留） |
 | `run_export` | bool | False | 是否执行 s03 导出（预留） |
 | `start_date` / `end_date` | str | 见代码 | s01a 爬取日期范围 |

@@ -21,6 +21,7 @@ normalize_entities     = "s02b_entity_normalizer.entity_normalizer:run"
 normalize_locations    = "s02b_entity_normalizer.location_normalizer:run"
 normalize_developers   = "s02b_entity_normalizer.developer_normalizer:run"
 backfill_entity_en     = "s02b_entity_normalizer.en_backfill:main"
+translate_residual_en  = "s02b_entity_normalizer.en_translate_residual:main"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

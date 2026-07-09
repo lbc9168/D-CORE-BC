@@ -88,7 +88,7 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
 
               {/* 业主/开发商（无值或 unknown 显示 —）*/}
               {(() => {
-                const dev = (p.project_developer_en || p.project_developer || "").trim();
+                const dev = (p.project_developer_en || "").trim();
                 const isUnknown =
                   !dev || ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(dev.toLowerCase());
                 return (

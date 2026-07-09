@@ -219,7 +219,7 @@ export default function TablePage() {
                   const cat = CATEGORIES[p.category];
                   const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
                   const name = p.project_name_en || p.project_name;
-                  const devRaw = (p.project_developer_en || p.project_developer || "").trim();
+                  const devRaw = (p.project_developer_en || "").trim();
                   const developer =
                     !devRaw || ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(devRaw.toLowerCase())
                       ? "—"

@@ -24,8 +24,8 @@ const IDS_TEXT =
   "The Institute of Development Studies (IDS) is a leading global institution for research, teaching, and learning focused on equitable and sustainable development. Established in 1966 as the UK's first national institute for development studies, IDS is consistently ranked first in the world for development studies in the QS World University Rankings (in partnership with the University of Sussex). The Institute employs a multi-disciplinary approach—incorporating expertise in economics, anthropology, and political science—to address global challenges such as climate change, social justice, and health systems.";
 const IDS_URL = "https://www.ids.ac.uk";
 const CITE_TEXT =
-  "International Institution of Green Finance. (2026). Methodology Note: Database of Chinese Overseas Renewable Energy Investment. Available at: https://iigf.cufe.edu.cn/info/1014/11031.htm";
-const CITE_URL = "https://iigf.cufe.edu.cn/info/1014/11031.htm";
+  "Liu, B., Zhou, Z., Shen, W., & Yu, Z. (2026). Chinese Overseas Renewable Energy Project activities (Version V1) [dataset]. Harvard Dataverse. https://doi.org/10.7910/DVN/ALB67B";
+const CITE_URL = "https://doi.org/10.7910/DVN/ALB67B";
 
 /** About 页面：项目介绍、合作机构、团队、版权、免责声明与引用信息 */
 export default function AboutPage() {
