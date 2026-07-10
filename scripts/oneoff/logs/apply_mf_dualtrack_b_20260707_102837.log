@@ -1,0 +1,11 @@
+2026-07-07 18:28:37,350 [__main__] INFO 日志文件：E:\Projects\BRI_RE_Database_v2\.claude\worktrees\dcore_v2.2\scripts\oneoff\logs\apply_mf_dualtrack_b_20260707_102837.log
+2026-07-07 18:28:37,411 [__main__] INFO 现算配对与期望8对清单一致：8 对
+2026-07-07 18:28:37,415 [__main__] INFO 幂等跳过：npr[6] 已标记 merged_into_canonical='EGY-MF-0001'
+2026-07-07 18:28:37,416 [__main__] INFO 幂等跳过：npr[31] 已标记 merged_into_canonical='EGY-MF-0001'
+2026-07-07 18:28:37,418 [__main__] INFO 幂等跳过：npr[126] 已标记 merged_into_canonical='GBR-MF-0001'
+2026-07-07 18:28:37,420 [__main__] INFO 幂等跳过：npr[566] 已标记 merged_into_canonical='SAU-MF-0006'
+2026-07-07 18:28:37,432 [__main__] INFO 幂等跳过：npr[694] 已标记 merged_into_canonical='MYS-MF-0016'
+2026-07-07 18:28:37,433 [__main__] INFO 幂等跳过：npr[756] 已标记 merged_into_canonical='BRA-MF-0003'
+2026-07-07 18:28:37,435 [__main__] INFO 幂等跳过：npr[800] 已标记 merged_into_canonical='MYS-MF-0011'
+2026-07-07 18:28:37,437 [__main__] INFO 幂等跳过：npr[1009] 已标记 merged_into_canonical='MYS-MF-0010'
+2026-07-07 18:28:37,438 [__main__] INFO 报告已写入：supporting_docs\mf_dualtrack_b_replay_check.md
