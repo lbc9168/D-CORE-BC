@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-06-24
+> 最后更新：2026-07-09（数据流补 s02b 全部子步骤；单一可信源更新为 hierarchy_v2 + developer_registry；结构补 codex_review/）
 
 **"一带一路"可再生能源项目数据库** —— 追踪中国企业参与的海外可再生能源项目。
 纯本地流水线（Python）+ 静态前端（React），无后端服务；主存储为 SQLite，前端消费静态 JSON/CSV。
@@ -48,9 +48,10 @@ s01a + s01b    s02a            s02b              s03            s04        （�
 s01a: raw_news.db
   → s01b: projects.db（extracted_projects）
     → s02a: bri_re_database.db（主库，三表 + non_project_records）
-      → s02b: 原地归一化 implementing_entity / location_norm
+      → s02b: 原地更新主库——实体/地点/业主归一化（implementing_entity / location_norm / project_developer）
+              + 英文名回填(*_en 三列) + TX/MF 指标回填(5 稀疏列) + 剩余名称翻译（流水线 2B~2B-6）
         →（可选 s02c: 写回验证字段）
-          → s03: projects_flat + 3 张 stats 表 → JSON/CSV
+          → s03: projects_flat + tx/mf_flat + 3 张 stats 表 → JSON/CSV
             → s04: 前端直接 fetch 静态 JSON/CSV
 ```
 
@@ -83,7 +84,9 @@ s01a: raw_news.db
 | `bri_enums.py` | 枚举加载器（Python）；s04 构建期经 `scripts/copy-enums.mjs` 拷入前端 |
 | `bri_parse.py` | 数值字段（容量/投资额等）的统一解析 |
 | `bri_location.py` | 地点名归一化的匹配规则（s02b 地点归一用） |
-| `supporting_docs/company_hierarchy.json` | 母子公司层级 + 央企标记（s01b 提取注入） |
+| `supporting_docs/company_hierarchy_v2.json` | 母子公司层级 + 央企标记（151 组；s01b 写库前查表解析 + s02b 查表引擎复用；旧 company_hierarchy.json 已废弃） |
+| `developer_registry.json` | developer 名称登记册（73 家：canonical_cn/en + 跨语言别名；s02b 业主归一与英文名回填的最高优先档） |
+| `supporting_docs/company_name_cache.json` | 公司英文名主缓存（人工核实口径，en_abbr 优先）；`residual_translation_cache.json` 为 2B-6 的 LLM 长尾翻译缓存（llm_auto 口径，与主缓存隔离） |
 | `supporting_docs/soe.md` | 官方央企名录（央企判断兜底） |
 
 ---
@@ -104,6 +107,7 @@ BRI_RE_Database_v2/
 ├── s04_web_visualization/     # 阶段四：React 前端（静态数据）
 ├── eval/                      # s01b 提取评测框架（金标准 + 字段级准确率）
 ├── review/                    # s01b 提取复核机制（critic + 复核队列）
+├── codex_review/              # Codex 季度分拣管线（T1漏合并/T2范围/T3实体补录，独立于流水线，见 external-tools.md）
 ├── external-tools/            # 不属于主流水线的独立小工具
 ├── supporting_docs/           # AI 提取知识库（公司层级 / 央企名录 / 名称缓存）
 ├── scripts/                   # 流水线/迁移脚本（oneoff/ = 一次性脚本留档）

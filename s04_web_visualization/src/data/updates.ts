@@ -12,7 +12,7 @@ export interface Update {
 export const updates: Update[] = [
   {
     id: "2026-q2",
-    date: "2026-07-03",
+    date: "2026-07-10",
     title_en: "2026 Q2 Update",
     body_en:
       "We've been busy this quarter — here's the big stuff:\n\n" +
