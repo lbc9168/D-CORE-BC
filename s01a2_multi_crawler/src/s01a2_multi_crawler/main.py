@@ -12,7 +12,7 @@ from .config import load_site_configs
 from .discover import DISCOVERERS
 from .fetcher import Fetcher, SiteBlockedError
 from .health import generate_report
-from .state import DATA_DIR, connect, log_run, save_articles, save_baseline, seen_urls
+from .state import DATA_DIR, baseline_urls, connect, log_run, save_articles, save_baseline, seen_urls
 
 MAX_ARTICLES_PER_SITE = 300  # 熔断：单站单轮最多抓的文章页数
 
@@ -32,23 +32,32 @@ def _setup_logging() -> None:
     logging.basicConfig(level=logging.INFO, handlers=[file_h, console_h])
 
 
-def crawl_site(cfg, conn, run_id: str, baseline: bool, dry_run: bool, max_articles: int) -> dict:
-    """抓取单个站点：发现 URL → 与 seen 求差 → （baseline 只记录 / 否则抓文章页入库）"""
+def crawl_site(cfg, conn, run_id: str, baseline: bool, dry_run: bool, max_articles: int,
+               fetch_baseline: bool = False, days_back: int | None = None) -> dict:
+    """抓取单个站点：发现 URL → 与 seen 求差 →（baseline 只记录 / 否则抓文章页入库）；
+    fetch_baseline 模式跳过发现，直接补抓库里 baseline 状态的文章页"""
     logger = logging.getLogger(f"crawl.{cfg.name}")
     t0 = time.monotonic()
     fetcher = Fetcher(cfg.name, cfg.rate_limit_seconds)
     stats = {"errors": 0, "note": ""}
-    try:
-        urls, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher)
-    except SiteBlockedError:
-        stats.update({"errors": 1, "note": "403 blocked", "duration_s": time.monotonic() - t0})
-        return stats
-    stats.update({"listing_pages": pages, "empty_pages": empty, "urls_discovered": len(urls)})
-
-    known = seen_urls(conn, cfg.name)
-    new = [u for u in urls if u not in known]
+    if fetch_baseline:
+        new = baseline_urls(conn, cfg.name)
+        stats.update({"listing_pages": 0, "empty_pages": 0, "urls_discovered": len(new), "note": "fetch-baseline"})
+        logger.info("补抓 baseline 文章 %d 篇", len(new))
+    else:
+        try:
+            if cfg.parser == "sitemap_daily" and days_back:
+                urls, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher, days_back=days_back)
+            else:
+                urls, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher)
+        except SiteBlockedError:
+            stats.update({"errors": 1, "note": "403 blocked", "duration_s": time.monotonic() - t0})
+            return stats
+        stats.update({"listing_pages": pages, "empty_pages": empty, "urls_discovered": len(urls)})
+        known = seen_urls(conn, cfg.name)
+        new = [u for u in urls if u not in known]
+        logger.info("发现 %d 个 URL，其中新 %d 个", len(urls), len(new))
     stats["new_urls"] = len(new)
-    logger.info("发现 %d 个 URL，其中新 %d 个", len(urls), len(new))
 
     if dry_run:
         stats["note"] = "dry-run"
@@ -86,9 +95,13 @@ def main_crawl() -> None:
     parser = argparse.ArgumentParser(description="s01a2 多源爬虫")
     parser.add_argument("--site", help="只跑指定站点（config/sites 里的 name）")
     parser.add_argument("--baseline", action="store_true", help="首跑：登记发现的 URL 为水位线，不抓文章页")
+    parser.add_argument("--fetch-baseline", action="store_true", help="补抓库中 baseline 状态的文章页（不做发现）")
+    parser.add_argument("--days-back", type=int, default=None, help="sitemap_daily 站点回看天数（默认 8）")
     parser.add_argument("--dry-run", action="store_true", help="只发现与报告，不写库不抓文章")
     parser.add_argument("--max-articles", type=int, default=MAX_ARTICLES_PER_SITE, help="单站单轮文章页熔断上限")
     args = parser.parse_args()
+    if args.baseline and args.fetch_baseline:
+        parser.error("--baseline 与 --fetch-baseline 互斥")
 
     _setup_logging()
     logger = logging.getLogger("crawl")
@@ -100,7 +113,8 @@ def main_crawl() -> None:
     failures = 0
     for cfg in configs:  # 站间隔离：单站崩溃不影响其他站
         try:
-            stats = crawl_site(cfg, conn, run_id, args.baseline, args.dry_run, args.max_articles)
+            stats = crawl_site(cfg, conn, run_id, args.baseline, args.dry_run, args.max_articles,
+                               fetch_baseline=args.fetch_baseline, days_back=args.days_back)
             print(f"[{cfg.name}] 发现 {stats.get('urls_discovered', 0)} / 新 {stats.get('new_urls', 0)}"
                   f" / 入库 {stats.get('articles_fetched', 0)} / 错误 {stats.get('errors', 0)} ({stats.get('note', '')})")
         except Exception as e:  # 站间隔离兜底：具体异常已在下层记录，这里防单站中断全局

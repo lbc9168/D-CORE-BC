@@ -52,6 +52,11 @@ def seen_urls(conn: sqlite3.Connection, site: str) -> set[str]:
     return {r[0] for r in conn.execute("SELECT url FROM articles WHERE site = ?", (site,))}
 
 
+def baseline_urls(conn: sqlite3.Connection, site: str) -> list[str]:
+    """返回该站尚未抓正文的 baseline 状态 URL（--fetch-baseline 用）"""
+    return [r[0] for r in conn.execute("SELECT url FROM articles WHERE site = ? AND status = 'baseline'", (site,))]
+
+
 def save_baseline(conn: sqlite3.Connection, site: str, urls: list[str]) -> int:
     """首跑水位线：把发现的 URL 标记为 baseline（不抓文章页），返回实际新增数"""
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
