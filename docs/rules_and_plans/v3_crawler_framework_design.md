@@ -19,13 +19,13 @@
 
 ## 二、模块形态
 
-- 新建独立子项目 **`s01c_multi_crawler`**（沿用 sNN 命名；与 s01a/s01b 平级，纯 Python + uv，不用 crewai——定时批任务不需要 agent 框架）。
+- 新建独立子项目 **`s01a2_multi_crawler`**（沿用 sNN 命名；与 s01a/s01b 平级，纯 Python + uv，不用 crewai——定时批任务不需要 agent 框架）。
 - 运行形态：**无状态定时批任务**。`uv run crawl`（全部站）/ `uv run crawl --site seetao`（单站）/ `uv run health-report`。Windows 任务计划每周触发；未来迁服务器 cron 零改动。
 
 ## 三、架构：通用框架 + 每站适配器配置
 
 ```
-s01c_multi_crawler/
+s01a2_multi_crawler/
 ├── config/sites/          # 每站一个 YAML（声明式适配器配置）
 │   ├── yidaiyilu.yaml
 │   ├── powerchina.yaml    # 大汉CMS 类型
@@ -33,7 +33,7 @@ s01c_multi_crawler/
 │   ├── imsilkroad.yaml
 │   ├── seetao.yaml
 │   └── solarbe.yaml
-├── src/s01c_multi_crawler/
+├── src/s01a2_multi_crawler/
 │   ├── fetcher.py         # 统一 HTTP 层：UA/限速/重试/状态码策略
 │   ├── parsers/
 │   │   ├── html_list.py   # 通用：服务端渲染列表页（CSS 选择器）
@@ -80,5 +80,5 @@ s01c_multi_crawler/
 ## 八、开放问题（用户可改）
 
 1. 运行频率：默认**每周一次**（与月度增量节奏匹配；6 站列表页翻页足以覆盖一周增量）。想更密可改每日，成本差别不大。
-2. 模块名 `s01c_multi_crawler` 可改。
+2. 模块名：✅ 已定 `s01a2_multi_crawler`（2026-07-16 用户拍板，s01a 平级、s01b 之前；连字符不合法故用 a2）。
 3. 首跑水位线：默认抓每站列表前 5 页建立基线（不算回爬历史，只是让增量判定有起点）。
