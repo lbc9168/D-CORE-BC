@@ -1,0 +1,14 @@
+# 中国电建国际工程有限公司·资讯中心：标准服务端渲染列表，?page=N 分页
+name: powerchina_intl
+label: 电建国际·公司资讯
+parser: html_list
+listing_urls:
+  - https://www.powerchina-intl.com/list/9.html
+page_param: '?page={n}'
+max_pages: 3
+article_url_pattern: 'powerchina-intl\.com/show/\d+/\d+\.html'
+article:
+  content_selectors: ['.detail2']
+  title_source: title_tag   # 该站 h1 全是导航菜单，og:title 缺失，只有 <title> 可靠
+  title_strip: '\s+-\s+.*$'  # 去掉" - 公司资讯 - 资讯中心 - …"栏目链
+rate_limit_seconds: 3.0

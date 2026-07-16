@@ -1,0 +1,11 @@
+# 中国电建集团"国际项目"栏目：大汉 JPaaS CMS，壳页取参数后走 unit API（运行时自取参数，改版自愈）
+name: powerchina
+label: 中国电建·国际项目
+parser: jpaas
+listing_urls:
+  - https://www.powerchina.cn/col/col7449/index.html
+max_pages: 3
+article_url_pattern: '/col/col7449/art/\d{4}/art_[0-9a-f]+\.html'
+article:
+  content_selectors: ['#zoom', '.wzcon', '.article', '.bd']
+rate_limit_seconds: 3.0

@@ -1,0 +1,25 @@
+[project]
+name = "s01a2_multi_crawler"
+version = "0.1.0"
+description = "多源新闻爬虫与监控（v3 试点：6 个 Tier-1 站点增量爬取）"
+requires-python = ">=3.11"
+dependencies = [
+    "curl-cffi>=0.7",
+    "beautifulsoup4>=4.12",
+    "pyyaml>=6.0",
+    "pydantic>=2.0",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0"]
+
+[project.scripts]
+crawl = "s01a2_multi_crawler.main:main_crawl"
+health-report = "s01a2_multi_crawler.main:main_health"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/s01a2_multi_crawler"]

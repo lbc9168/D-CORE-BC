@@ -1,0 +1,14 @@
+# 索比光伏网·国际频道（news 子域 robots 无限制，服务端渲染，?page=N）
+name: solarbe
+label: 索比光伏·国际
+parser: html_list
+listing_urls:
+  - https://news.solarbe.com/guoji/
+page_param: '?page={n}'
+max_pages: 3
+article_url_pattern: 'news\.solarbe\.com/\d{6}/\d{2}/\d+\.html'
+article:
+  content_selectors: ['.detail-left-content-box']
+  url_date_pattern: '/(\d{4})(\d{2})/(\d{2})/'  # 日期在 URL：news.solarbe.com/202607/15/NNN.html
+  title_strip: '-索比光伏网$'
+rate_limit_seconds: 3.0

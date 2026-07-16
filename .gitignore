@@ -27,6 +27,7 @@ codex_review/logs/
 # 6. 运行时生成的数据目录（体积大，不上传）
 s01_data_collector_filter/data/
 s01a_news_crawler/data/
+s01a2_multi_crawler/data/
 s01b_project_extractor/data/
 s02a_duplicate_merger/data/
 s02b_entity_normalizer/data/

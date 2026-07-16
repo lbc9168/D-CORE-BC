@@ -1,0 +1,18 @@
+# 见道网：7 个能源频道页（服务端渲染，单页 50+ 链接足覆盖周增量，不翻页），频道间重叠靠 URL 去重
+name: seetao
+label: 见道网·能源频道群
+parser: html_list
+listing_urls:
+  - https://www.seetao.com/list/19.html   # 新能源
+  - https://www.seetao.com/list/174.html  # 光伏
+  - https://www.seetao.com/list/175.html  # 水电
+  - https://www.seetao.com/list/176.html  # 风电
+  - https://www.seetao.com/list/177.html  # 核电
+  - https://www.seetao.com/list/178.html  # 氢能
+  - https://www.seetao.com/list/224.html  # 储能
+max_pages: 1
+article_url_pattern: 'seetao\.com/details/\d+\.html'
+article:
+  content_selectors: ['.article-details-content-box']
+  title_strip: '--见道网$'
+rate_limit_seconds: 3.0
