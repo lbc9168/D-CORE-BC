@@ -1,0 +1,16 @@
+# 能源界·国际/非洲频道群（聚合媒体，海外能源覆盖较广）：?page=N 分页
+name: nengyuanjie
+label: 能源界·国际+非洲
+tier: 2
+parser: html_list
+listing_urls:
+  - http://www.nengyuanjie.net/channel/45.html   # 国际资讯
+  - http://www.nengyuanjie.net/channel/48.html   # 非洲能源
+  - http://www.nengyuanjie.net/channel/49.html   # 非洲资讯
+page_param: '?page={n}'
+max_pages: 2
+article_url_pattern: 'nengyuanjie\.net/article/\d+\.html'
+article:
+  content_selectors: ['.content', '.art-show']
+  title_strip: ' - 能源界$'
+rate_limit_seconds: 3.0

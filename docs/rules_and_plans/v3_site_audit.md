@@ -28,18 +28,24 @@
 | 5 | **seetao.com** 见道网（新能源/一带一路频道） | 258 | robots 完全开放；浏览器验证可达、小时级更新 | 定位即"一带一路工程资讯"，海外项目里程碑浓度高，与主题最对口的商业媒体 |
 | 6 | **solarbe.com** 索比光伏（`news.solarbe.com/guoji/`） | 94 | news 子域 robots 无限制；服务端渲染；`?page=N`；约日更 | 光伏垂直媒体的国际频道，转载标注规范可溯源；光伏是库里最大类别，值得一个垂直源 |
 
-## 四、Tier-2（观察/第二批扩展）
+## 四、Tier-2（2026-07-16 第二批处置：curl_cffi 复测后分为「已加入」与「技术受阻 defer」）
 
-| 站点 | 结论与降级原因 |
-|------|---------------|
-| sasac.gov.cn 央企联播 | 内容独特（聚合**全部**央企新闻稿，含不可能单独爬的公司，如兵器工业老挝水电）、日更多条、437 页；但 WAF 拦非浏览器抓取（需 headless/浏览器 UA）→ 按反爬降级规则放 Tier-2；海外浓度偏低但广度无可替代 |
-| ceec.net.cn 能建集团 | 与电建同款大汉 CMS，可解析；但"企业要闻"党建为主，需定向抓"国际业务"栏目（col52604，未及验证内容）再评估 |
-| cgnpc.com.cn 中广核 | 无 robots 限制、服务端渲染、合规干净；核电为主、海外新能源浓度中等 |
-| cpnn.com.cn 中国能源新闻网（国际 `/news/gj/`） | 官方媒体原创报道、可引用性好、`index_N.html` 分页；但连接不稳、栏目混油气宏观 |
-| bjx.com.cn 北极星（guangfu 等子站 + BJX国际站） | 行业最大门户、浏览器验证可渲染；但反爬强（WebFetch 级抓取被拦）→ 降级；国内内容为主，海外浓度低 |
-| in-en.com 国际能源网 | 门户+多子网结构，聚合转载为主，国内为主；浏览器可达；对自动抓取不友好 → 降级 |
-| nengyuanjie.net 能源界 | 有"国际资讯"+"非洲能源"频道；聚合为主；浏览器可达 |
-| pvmen.com 光伏們 | 原创质量高但频次被低估（22），本轮未巡检，下轮补 |
+**已加入爬虫（4 项，均 curl_cffi 可达、发现层实测通过）**：
+| 站点 | 处置 |
+|------|------|
+| sasac.gov.cn 央企联播 | ✅ 加入（`sasac.yaml`）——curl_cffi 200 可达（WebFetch 曾被 WAF 拦，非真不可达）；分页为 JS，首页列表已含最新批，max_pages=1；聚合全体央企广度无可替代 |
+| cpnn.com.cn 中国能源新闻网·国际 | ✅ 加入（`cpnn.yaml`）——官方媒体可引用；分页是 index_{n-1} 偏移当前模板不支持，单页够增量 |
+| nengyuanjie.net 能源界 | ✅ 加入（`nengyuanjie.yaml`）——国际45+非洲48/49 三频道，`?page=N` 确认 |
+| solarbe 企业/项目频道 | ✅ 加入（并入 `solarbe.yaml`，qiye+xiangmu）——直接补「民企出海」缺口 |
+
+**技术受阻，本轮 defer（下一轮再攻）**：
+| 站点 | defer 原因 |
+|------|-----------|
+| bjx.com.cn 北极星 | guangfu 子站返回固定 23682 字节壳页、0 文章链接（纯 JS 渲染或 WAF 壳）→ 需 headless；「民企出海」高价值目标，优先攻 |
+| pvmen.com 光伏們 | curl_cffi TLS 握手报错（OpenSSL internal）→ 待换 http/1.1 或普通 requests 重试 |
+| ceec.net.cn col52604 国际业务 | 与电建 col7449 不同，**非** JPaaS（壳页仅 6KB 无 unitbuild.js），结构未明 |
+| in-en.com 国际能源网 | newenergy 子站文章链接可见但分页机制未定；keylist.php 为搜索式 |
+| cgnpc.com.cn 中广核 | 文章在首页可见但分页为 JS(createPageHTML)；核电为主海外浓度中等，优先级低 |
 
 ## 五、排除/暂缓（含原因）
 

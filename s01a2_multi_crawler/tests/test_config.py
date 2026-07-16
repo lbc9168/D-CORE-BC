@@ -9,7 +9,9 @@ def test_load_all_site_configs():
     """config/sites 下 6 份 YAML 全部通过 Pydantic 校验"""
     configs = load_site_configs()
     names = {c.name for c in configs}
-    assert names == {"yidaiyilu", "powerchina", "powerchina_intl", "seetao", "imsilkroad", "solarbe"}
+    assert names == {"yidaiyilu", "powerchina", "powerchina_intl", "seetao", "imsilkroad", "solarbe",
+                     "cpnn", "nengyuanjie", "sasac"}
+    assert {c.name for c in configs if c.tier == 2} == {"cpnn", "nengyuanjie", "sasac"}
     for c in configs:
         assert c.rate_limit_seconds >= 1.0
         if c.parser == "sitemap_daily":

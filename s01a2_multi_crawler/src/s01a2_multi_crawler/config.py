@@ -32,6 +32,7 @@ class SiteConfig(BaseModel):
 
     name: str = Field(pattern=r"^[a-z0-9_]+$")
     label: str
+    tier: int = Field(default=1, ge=1, le=3)  # 试点批次：1=首批6站，2=第二批（民企出海/更广覆盖）
     parser: str  # html_list / jpaas / sitemap_daily
     listing_urls: list[HttpUrl] = Field(default_factory=list)
     page_param: str | None = None  # 分页 URL 后缀模板，如 "?page={n}"，null=只抓第1页
