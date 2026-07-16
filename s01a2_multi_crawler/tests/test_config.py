@@ -10,8 +10,9 @@ def test_load_all_site_configs():
     configs = load_site_configs()
     names = {c.name for c in configs}
     assert names == {"yidaiyilu", "powerchina", "powerchina_intl", "seetao", "imsilkroad", "solarbe",
-                     "cpnn", "nengyuanjie", "sasac"}
-    assert {c.name for c in configs if c.tier == 2} == {"cpnn", "nengyuanjie", "sasac"}
+                     "cpnn", "nengyuanjie", "sasac", "bjx"}
+    assert {c.name for c in configs if c.tier == 2} == {"cpnn", "nengyuanjie", "sasac", "bjx"}
+    assert {c.name for c in configs if c.render == "headless"} == {"bjx"}
     for c in configs:
         assert c.rate_limit_seconds >= 1.0
         if c.parser == "sitemap_daily":
@@ -24,6 +25,12 @@ def test_invalid_parser_rejected():
     """未知 parser 类型必须在入口抛错"""
     with pytest.raises(ValidationError):
         SiteConfig(name="x", label="x", parser="nope", article_url_pattern=".")
+
+
+def test_invalid_render_rejected():
+    """未知 render 类型必须在入口抛错"""
+    with pytest.raises(ValidationError):
+        SiteConfig(name="x", label="x", parser="html_list", render="chrome", article_url_pattern=".")
 
 
 def test_unknown_site_rejected():

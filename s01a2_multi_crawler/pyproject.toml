@@ -8,6 +8,7 @@ dependencies = [
     "beautifulsoup4>=4.12",
     "pyyaml>=6.0",
     "pydantic>=2.0",
+    "playwright>=1.40",  # headless 渲染（过瑞数类反爬墙）；浏览器本体需另跑 `playwright install chromium`
 ]
 
 [project.optional-dependencies]

@@ -34,6 +34,8 @@ class SiteConfig(BaseModel):
     label: str
     tier: int = Field(default=1, ge=1, le=3)  # 试点批次：1=首批6站，2=第二批（民企出海/更广覆盖）
     parser: str  # html_list / jpaas / sitemap_daily
+    render: str = "http"  # http=curl_cffi（默认）；headless=Playwright 隐身渲染（过瑞数类 JS 反爬墙）
+    discover_only: bool = False  # True=只登记列表发现的 URL，不抓文章页（详情页有滑块墙等无法逾越时用，如 bjx）
     listing_urls: list[HttpUrl] = Field(default_factory=list)
     page_param: str | None = None  # 分页 URL 后缀模板，如 "?page={n}"，null=只抓第1页
     max_pages: int = Field(default=1, ge=1, le=20)
@@ -47,6 +49,13 @@ class SiteConfig(BaseModel):
     def _known_parser(cls, v: str) -> str:
         if v not in {"html_list", "jpaas", "sitemap_daily"}:
             raise ValueError(f"未知 parser 类型: {v}")
+        return v
+
+    @field_validator("render")
+    @classmethod
+    def _known_render(cls, v: str) -> str:
+        if v not in {"http", "headless"}:
+            raise ValueError(f"未知 render 类型: {v}")
         return v
 
 

@@ -38,8 +38,25 @@ def crawl_site(cfg, conn, run_id: str, baseline: bool, dry_run: bool, max_articl
     fetch_baseline 模式跳过发现，直接补抓库里 baseline 状态的文章页"""
     logger = logging.getLogger(f"crawl.{cfg.name}")
     t0 = time.monotonic()
-    fetcher = Fetcher(cfg.name, cfg.rate_limit_seconds)
+    fetcher = _make_fetcher(cfg)
     stats = {"errors": 0, "note": ""}
+    try:
+        _run_site(cfg, conn, run_id, baseline, dry_run, max_articles, fetch_baseline, days_back, fetcher, stats, logger, t0)
+    finally:
+        fetcher.close()  # 确保 headless 浏览器一定被关闭
+    return stats
+
+
+def _make_fetcher(cfg):
+    """按 cfg.render 选择 HTTP 层：http→curl_cffi Fetcher，headless→Playwright HeadlessFetcher"""
+    if cfg.render == "headless":
+        from .headless import HeadlessFetcher  # 延迟导入：只有 headless 站才需要 playwright
+        return HeadlessFetcher(cfg.name, cfg.rate_limit_seconds)
+    return Fetcher(cfg.name, cfg.rate_limit_seconds)
+
+
+def _run_site(cfg, conn, run_id, baseline, dry_run, max_articles, fetch_baseline, days_back, fetcher, stats, logger, t0):
+    """站点抓取主流程（fetcher 生命周期由 crawl_site 的 try/finally 管理）"""
     if fetch_baseline:
         new = baseline_urls(conn, cfg.name)
         stats.update({"listing_pages": 0, "empty_pages": 0, "urls_discovered": len(new), "note": "fetch-baseline"})
@@ -52,7 +69,7 @@ def crawl_site(cfg, conn, run_id: str, baseline: bool, dry_run: bool, max_articl
                 urls, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher)
         except SiteBlockedError:
             stats.update({"errors": 1, "note": "403 blocked", "duration_s": time.monotonic() - t0})
-            return stats
+            return
         stats.update({"listing_pages": pages, "empty_pages": empty, "urls_discovered": len(urls)})
         known = seen_urls(conn, cfg.name)
         new = [u for u in urls if u not in known]
@@ -63,9 +80,9 @@ def crawl_site(cfg, conn, run_id: str, baseline: bool, dry_run: bool, max_articl
         stats["note"] = "dry-run"
         for u in new[:10]:
             logger.info("  [新] %s", u)
-    elif baseline:
+    elif baseline or cfg.discover_only:
         added = save_baseline(conn, cfg.name, new)
-        stats["note"] = f"baseline: {added} URLs 建立水位线"
+        stats["note"] = ("baseline: " if baseline else "discover-only: ") + f"{added} URLs 登记"
     else:
         if len(new) > max_articles:
             logger.error("新 URL 数 %d 超过熔断上限 %d，本轮只抓前 %d 个（请检查是否异常）", len(new), max_articles, max_articles)
@@ -87,7 +104,6 @@ def crawl_site(cfg, conn, run_id: str, baseline: bool, dry_run: bool, max_articl
     stats["duration_s"] = round(time.monotonic() - t0, 1)
     if not dry_run:
         log_run(conn, run_id, cfg.name, stats)
-    return stats
 
 
 def main_crawl() -> None:

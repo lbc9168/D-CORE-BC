@@ -67,3 +67,7 @@ class Fetcher:
                 continue
             logger.error("[%s] 未处理状态码 %d: %s", self.site_name, resp.status_code, url)
             return None
+
+    def close(self) -> None:
+        """接口占位，与 HeadlessFetcher 对齐（curl_cffi session 无需显式关闭）"""
+        pass
