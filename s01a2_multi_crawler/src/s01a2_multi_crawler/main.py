@@ -7,7 +7,9 @@ import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 
-from .article import extract_article
+import re
+
+from .article import _normalize_date, extract_article
 from .config import load_site_configs
 from .discover import DISCOVERERS
 from .fetcher import Fetcher, SiteBlockedError
@@ -58,29 +60,33 @@ def _make_fetcher(cfg):
 def _run_site(cfg, conn, run_id, baseline, dry_run, max_articles, fetch_baseline, days_back, fetcher, stats, logger, t0):
     """站点抓取主流程（fetcher 生命周期由 crawl_site 的 try/finally 管理）"""
     if fetch_baseline:
-        new = baseline_urls(conn, cfg.name)
+        new = [{"url": u} for u in baseline_urls(conn, cfg.name)]
         stats.update({"listing_pages": 0, "empty_pages": 0, "urls_discovered": len(new), "note": "fetch-baseline"})
         logger.info("补抓 baseline 文章 %d 篇", len(new))
     else:
         try:
             if cfg.parser == "sitemap_daily" and days_back:
-                urls, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher, days_back=days_back)
+                items, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher, days_back=days_back)
             else:
-                urls, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher)
+                items, pages, empty = DISCOVERERS[cfg.parser](cfg, fetcher)
         except SiteBlockedError:
             stats.update({"errors": 1, "note": "403 blocked", "duration_s": time.monotonic() - t0})
             return
-        stats.update({"listing_pages": pages, "empty_pages": empty, "urls_discovered": len(urls)})
+        stats.update({"listing_pages": pages, "empty_pages": empty, "urls_discovered": len(items)})
         known = seen_urls(conn, cfg.name)
-        new = [u for u in urls if u not in known]
-        logger.info("发现 %d 个 URL，其中新 %d 个", len(urls), len(new))
+        new = [it for it in items if it["url"] not in known]
+        logger.info("发现 %d 个 URL，其中新 %d 个", len(items), len(new))
     stats["new_urls"] = len(new)
 
     if dry_run:
         stats["note"] = "dry-run"
-        for u in new[:10]:
-            logger.info("  [新] %s", u)
+        for it in new[:10]:
+            logger.info("  [新] %s", it["url"])
     elif baseline or cfg.discover_only:
+        pat = cfg.article.url_date_pattern
+        for it in new:  # discover_only/baseline 免抓正文，日期从 URL 提取
+            m = re.search(pat, it["url"]) if pat else None
+            it["date"] = _normalize_date(m.groups()) if m else None
         added = save_baseline(conn, cfg.name, new)
         stats["note"] = ("baseline: " if baseline else "discover-only: ") + f"{added} URLs 登记"
     else:
@@ -89,7 +95,8 @@ def _run_site(cfg, conn, run_id, baseline, dry_run, max_articles, fetch_baseline
             stats["note"] = f"circuit-break: {len(new)} > {max_articles}"
             new = new[:max_articles]
         records = []
-        for u in new:
+        for it in new:
+            u = it["url"]
             resp = fetcher.get(u, headers={"Referer": str(cfg.listing_urls[0]) if cfg.listing_urls else u})
             if resp is None:
                 records.append({"url": u, "status": "error"})

@@ -3,7 +3,12 @@ import re
 from pathlib import Path
 
 from s01a2_multi_crawler.config import load_site_configs
-from s01a2_multi_crawler.discover import _JPAAS_SCRIPT_RE, _extract_article_urls
+from s01a2_multi_crawler.discover import _JPAAS_SCRIPT_RE, _extract_article_links
+
+
+def _extract_article_urls(html, base_url, pattern):
+    """测试辅助：从 _extract_article_links 结果取 URL 列表"""
+    return [it["url"] for it in _extract_article_links(html, base_url, pattern)]
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -53,6 +58,14 @@ def test_extract_yidaiyilu_sitemap():
     pat = _cfg("yidaiyilu").article_url_pattern
     matched = [u for u in locs if re.search(pat, u)]
     assert len(matched) >= 15
+
+
+def test_extract_links_carry_title():
+    """列表页提取应带出锚文本标题（discover_only 站免抓正文即得标题）"""
+    items = _extract_article_links(_read("seetao_list19.html"), "https://www.seetao.com/list/19.html",
+                                   _cfg("seetao").article_url_pattern)
+    assert items and all("url" in it and "title" in it for it in items)
+    assert any(it["title"] for it in items)  # 至少部分条目有非空标题
 
 
 def test_jpaas_querydata_extraction():

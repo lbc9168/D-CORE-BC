@@ -41,7 +41,7 @@
 **技术受阻，本轮 defer（下一轮再攻）**：
 | 站点 | defer 原因 |
 |------|-----------|
-| bjx.com.cn 北极星 | **2026-07-16 已接入（headless，discover_only）**：瑞数分层墙——隐身 headless 过列表页拿到 133 URL，但详情页触发滑块验证码隐身过不了；现停在 URL-发现级，正文 defer（详见 changes 2026-W29b + s01a2.md） |
+| bjx.com.cn 北极星 | **2026-07-16 已接入（headless，discover_only）**：瑞数分层墙——隐身 headless 过列表页拿到 133 URL+标题+日期，但详情页触发滑块验证码隐身过不了；正文有别站兜底故不强攻，只存列表页标题供重叠率比对（详见 changes 2026-W29b + s01a2.md） |
 | pvmen.com 光伏們 | curl_cffi TLS 握手报错（OpenSSL internal）→ 待换 http/1.1 或普通 requests 重试 |
 | ceec.net.cn col52604 国际业务 | 与电建 col7449 不同，**非** JPaaS（壳页仅 6KB 无 unitbuild.js），结构未明 |
 | in-en.com 国际能源网 | newenergy 子站文章链接可见但分页机制未定；keylist.php 为搜索式 |

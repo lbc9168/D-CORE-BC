@@ -57,13 +57,15 @@ def baseline_urls(conn: sqlite3.Connection, site: str) -> list[str]:
     return [r[0] for r in conn.execute("SELECT url FROM articles WHERE site = ? AND status = 'baseline'", (site,))]
 
 
-def save_baseline(conn: sqlite3.Connection, site: str, urls: list[str]) -> int:
-    """首跑水位线：把发现的 URL 标记为 baseline（不抓文章页），返回实际新增数"""
+def save_baseline(conn: sqlite3.Connection, site: str, items: list[dict]) -> int:
+    """登记发现条目为 baseline（不抓文章页）：存 url + 列表页标题/日期，返回实际新增数；items: [{url, title?, date?}]"""
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    rows = [(u, site, now) for u in urls]
+    rows = [(it["url"], site, it.get("title"), it.get("date"), now) for it in items]
     with conn:  # 单事务批量写
         cur = conn.executemany(
-            "INSERT OR IGNORE INTO articles(url, site, fetched_at, status) VALUES (?, ?, ?, 'baseline')", rows
+            "INSERT OR IGNORE INTO articles(url, site, title, publish_date, fetched_at, status)"
+            " VALUES (?, ?, ?, ?, ?, 'baseline')",
+            rows,
         )
     return cur.rowcount
 

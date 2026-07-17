@@ -1,9 +1,11 @@
-# discover.py：三种"列表 → 文章 URL 集合"的发现器（html_list / jpaas / sitemap_daily）
+# discover.py：三种"列表 → 文章条目(URL+标题)"的发现器（html_list / jpaas / sitemap_daily）
 import json
 import logging
 import re
 from datetime import date, timedelta
 from urllib.parse import urljoin
+
+from bs4 import BeautifulSoup
 
 from .config import SiteConfig
 from .fetcher import Fetcher
@@ -11,21 +13,23 @@ from .fetcher import Fetcher
 logger = logging.getLogger(__name__)
 
 
-def _extract_article_urls(html: str, base_url: str, pattern: str) -> list[str]:
-    """从 HTML 中提取所有 href，按正则筛出文章 URL（相对路径转绝对），保序去重"""
-    urls: list[str] = []
+def _extract_article_links(html: str, base_url: str, pattern: str) -> list[dict]:
+    """从 HTML 提取 {url, title} 条目：按正则筛文章链接，标题取锚文本（供 discover_only 站免抓正文即得标题），保序去重"""
+    soup = BeautifulSoup(html, "html.parser")
+    items: list[dict] = []
     seen: set[str] = set()
-    for href in re.findall(r'href="([^"]+)"', html):
-        absolute = urljoin(base_url, href.strip())
+    for a in soup.find_all("a", href=True):
+        absolute = urljoin(base_url, a["href"].strip())
         if re.search(pattern, absolute) and absolute not in seen:
             seen.add(absolute)
-            urls.append(absolute)
-    return urls
+            items.append({"url": absolute, "title": a.get_text(strip=True) or None})
+    return items
 
 
-def discover_html_list(cfg: SiteConfig, fetcher: Fetcher) -> tuple[list[str], int, int]:
-    """通用服务端渲染列表：逐列表 URL × 逐页抓取，返回 (文章URL列表, 抓取页数, 空页数)"""
-    all_urls: list[str] = []
+def discover_html_list(cfg: SiteConfig, fetcher: Fetcher) -> tuple[list[dict], int, int]:
+    """通用服务端渲染列表：逐列表 URL × 逐页抓取，返回 ({url,title} 条目列表, 抓取页数, 空页数)"""
+    all_items: list[dict] = []
+    seen: set[str] = set()
     pages_fetched = 0
     empty_pages = 0
     for listing in cfg.listing_urls:
@@ -39,12 +43,15 @@ def discover_html_list(cfg: SiteConfig, fetcher: Fetcher) -> tuple[list[str], in
             if resp is None:
                 empty_pages += 1
                 continue
-            found = _extract_article_urls(resp.text, url, cfg.article_url_pattern)
+            found = _extract_article_links(resp.text, url, cfg.article_url_pattern)
             if not found:
                 empty_pages += 1
                 logger.warning("[%s] 列表页 0 命中（改版信号?）: %s", cfg.name, url)
-            all_urls.extend(u for u in found if u not in set(all_urls))
-    return all_urls, pages_fetched, empty_pages
+            for it in found:
+                if it["url"] not in seen:
+                    seen.add(it["url"])
+                    all_items.append(it)
+    return all_items, pages_fetched, empty_pages
 
 
 # —— 大汉 JPaaS（powerchina 等政企站）：壳页取 queryData → unit API 翻页 ——
@@ -53,9 +60,10 @@ _JPAAS_SCRIPT_RE = re.compile(
 )
 
 
-def discover_jpaas(cfg: SiteConfig, fetcher: Fetcher) -> tuple[list[str], int, int]:
+def discover_jpaas(cfg: SiteConfig, fetcher: Fetcher) -> tuple[list[dict], int, int]:
     """大汉 JPaaS 列表：运行时从壳页提取 queryData（改版自愈），调 unit API 逐页取 HTML 片段"""
-    all_urls: list[str] = []
+    all_items: list[dict] = []
+    seen: set[str] = set()
     pages_fetched = 0
     empty_pages = 0
     for shell_url in cfg.listing_urls:
@@ -94,16 +102,20 @@ def discover_jpaas(cfg: SiteConfig, fetcher: Fetcher) -> tuple[list[str], int, i
                 logger.warning("[%s] unit API success=false（第%d页）", cfg.name, n)
                 empty_pages += 1
                 continue
-            found = _extract_article_urls(html, shell_url, cfg.article_url_pattern)
+            found = _extract_article_links(html, shell_url, cfg.article_url_pattern)
             if not found:
                 empty_pages += 1
-            all_urls.extend(u for u in found if u not in set(all_urls))
-    return all_urls, pages_fetched, empty_pages
+            for it in found:
+                if it["url"] not in seen:
+                    seen.add(it["url"])
+                    all_items.append(it)
+    return all_items, pages_fetched, empty_pages
 
 
-def discover_sitemap_daily(cfg: SiteConfig, fetcher: Fetcher, days_back: int = 8) -> tuple[list[str], int, int]:
-    """按日 sitemap（yidaiyilu）：拉最近 days_back 天的 /article/YYYY-MM-DD.xml，汇总文章 URL"""
-    all_urls: list[str] = []
+def discover_sitemap_daily(cfg: SiteConfig, fetcher: Fetcher, days_back: int = 8) -> tuple[list[dict], int, int]:
+    """按日 sitemap（yidaiyilu）：拉最近 days_back 天的 /article/YYYY-MM-DD.xml，汇总文章 URL（sitemap 无标题）"""
+    all_items: list[dict] = []
+    seen: set[str] = set()
     pages_fetched = 0
     empty_pages = 0
     index_url = str(cfg.sitemap_index)
@@ -121,8 +133,11 @@ def discover_sitemap_daily(cfg: SiteConfig, fetcher: Fetcher, days_back: int = 8
         found = [u.strip() for u in locs if re.search(cfg.article_url_pattern, u)]
         if not found:
             empty_pages += 1
-        all_urls.extend(u for u in found if u not in set(all_urls))
-    return all_urls, pages_fetched, empty_pages
+        for u in found:
+            if u not in seen:
+                seen.add(u)
+                all_items.append({"url": u, "title": None})
+    return all_items, pages_fetched, empty_pages
 
 
 DISCOVERERS = {
