@@ -120,6 +120,7 @@ def main_crawl() -> None:
     parser.add_argument("--baseline", action="store_true", help="首跑：登记发现的 URL 为水位线，不抓文章页")
     parser.add_argument("--fetch-baseline", action="store_true", help="补抓库中 baseline 状态的文章页（不做发现）")
     parser.add_argument("--days-back", type=int, default=None, help="sitemap_daily 站点回看天数（默认 8）")
+    parser.add_argument("--max-pages", type=int, default=None, help="一次性覆盖各站翻页上限（回填历史窗口用）")
     parser.add_argument("--dry-run", action="store_true", help="只发现与报告，不写库不抓文章")
     parser.add_argument("--max-articles", type=int, default=MAX_ARTICLES_PER_SITE, help="单站单轮文章页熔断上限")
     args = parser.parse_args()
@@ -135,6 +136,8 @@ def main_crawl() -> None:
 
     failures = 0
     for cfg in configs:  # 站间隔离：单站崩溃不影响其他站
+        if args.max_pages:  # 一次性回填：覆盖翻页上限（配置每次重新加载，不持久化）
+            cfg.max_pages = args.max_pages
         try:
             stats = crawl_site(cfg, conn, run_id, args.baseline, args.dry_run, args.max_articles,
                                fetch_baseline=args.fetch_baseline, days_back=args.days_back)

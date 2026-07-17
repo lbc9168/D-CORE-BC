@@ -21,7 +21,7 @@ def generate_report(conn: sqlite3.Connection, out_dir: Path) -> tuple[Path, int]
     lines.append("|---|---|---|---|---|---|---|")
     for site in sites:
         last = conn.execute(
-            "SELECT ts, new_urls, articles_fetched, errors, empty_pages FROM fetch_log"
+            "SELECT ts, new_urls, articles_fetched, errors, empty_pages, urls_discovered FROM fetch_log"
             " WHERE site = ? ORDER BY id DESC LIMIT 1",
             (site,),
         ).fetchone()
@@ -36,11 +36,12 @@ def generate_report(conn: sqlite3.Connection, out_dir: Path) -> tuple[Path, int]
                 alerts.append(f"{site}: 连续 {delta.days} 天无新增（改版或被封?）")
         else:
             alerts.append(f"{site}: 从未有过新增")
-        ts, new_urls, fetched, errors, empty = last
+        ts, new_urls, fetched, errors, empty, discovered = last
         if errors and errors > 0:
             alerts.append(f"{site}: 最近一次运行有 {errors} 个错误")
-        if empty and empty > 0 and (new_urls or 0) == 0:
-            alerts.append(f"{site}: 列表页 0 命中 {empty} 页（选择器失效/改版信号）")
+        # 真·改版/失效信号 = 整站发现 0 个 URL；"有空页但仍发现到 URL"（如 sitemap 站部分日未生成、或已追平）不算
+        if (discovered or 0) == 0:
+            alerts.append(f"{site}: 本轮发现 0 个 URL（选择器失效/改版/被封信号）")
         lines.append(f"| {site} | {ts} | {new_urls} | {fetched} | {errors} | {empty} | {days_since_new} |")
 
     lines.append("")
