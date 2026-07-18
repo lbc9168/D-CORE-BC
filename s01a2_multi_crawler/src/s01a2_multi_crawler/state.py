@@ -36,6 +36,19 @@ CREATE TABLE IF NOT EXISTS fetch_log (
     duration_s REAL,
     note TEXT
 );
+CREATE TABLE IF NOT EXISTS article_filter (
+    url TEXT PRIMARY KEY,
+    verdict TEXT NOT NULL CHECK (verdict IN ('relevant', 'rejected')),
+    stage TEXT NOT NULL CHECK (stage IN ('structural', 'keyword', 'llm')),
+    reason TEXT,
+    location TEXT,
+    chinese_entity TEXT,
+    is_project_event INTEGER,
+    energy_type TEXT,
+    country TEXT,
+    model TEXT,
+    filtered_at TEXT NOT NULL
+);
 """
 
 

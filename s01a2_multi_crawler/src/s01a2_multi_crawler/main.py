@@ -19,7 +19,7 @@ from .state import DATA_DIR, baseline_urls, connect, log_run, save_articles, sav
 MAX_ARTICLES_PER_SITE = 300  # 熔断：单站单轮最多抓的文章页数
 
 
-def _setup_logging() -> None:
+def _setup_logging(prefix: str = "crawl") -> None:
     """logging 双通道：UTF-8 文件 + 控制台；关键节点 print 有 logging 备份"""
     if hasattr(sys.stdout, "reconfigure"):  # 防非 UTF-8 控制台打印崩溃（s01a GBK 教训）
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -27,7 +27,7 @@ def _setup_logging() -> None:
     log_dir = DATA_DIR / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
     fmt = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)s")
-    file_h = logging.FileHandler(log_dir / f"crawl_{datetime.now(timezone.utc):%Y%m%d}.log", encoding="utf-8")
+    file_h = logging.FileHandler(log_dir / f"{prefix}_{datetime.now(timezone.utc):%Y%m%d}.log", encoding="utf-8")
     file_h.setFormatter(fmt)
     console_h = logging.StreamHandler()
     console_h.setFormatter(fmt)

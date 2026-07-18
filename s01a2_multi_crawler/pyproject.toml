@@ -9,6 +9,8 @@ dependencies = [
     "pyyaml>=6.0",
     "pydantic>=2.0",
     "playwright>=1.40",  # headless 渲染（过瑞数类反爬墙）；浏览器本体需另跑 `playwright install chromium`
+    "google-genai>=1.0",  # 初筛 LLM 判定（gemini-2.5-flash-lite）
+    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
@@ -17,6 +19,7 @@ dev = ["pytest>=8.0"]
 [project.scripts]
 crawl = "s01a2_multi_crawler.main:main_crawl"
 health-report = "s01a2_multi_crawler.main:main_health"
+filter = "s01a2_multi_crawler.filter:main_filter"
 
 [build-system]
 requires = ["hatchling"]
