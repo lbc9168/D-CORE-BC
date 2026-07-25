@@ -10,6 +10,20 @@ const zh = {
     updates: "更新",
     about: "关于",
   },
+  // 页顶数据域（视角条；储能是发电域的度量透镜，非独立域）
+  domain: {
+    renewable: "新能源发电",
+    txmf: "输变电 · 制造业",
+  },
+  // 着色度量
+  metric: {
+    storagePowerMw: "储能功率 (MW)",
+    storageEnergyMwh: "储能容量 (MWh)",
+    shortCount: "项目数",
+    shortCapacityMw: "装机 (MW)",
+    shortStoragePowerMw: "功率 (MW)",
+    shortStorageEnergyMwh: "容量 (MWh)",
+  },
   // 筛选栏
   filter: {
     title: "筛选",
@@ -37,6 +51,11 @@ const zh = {
     soeAll: "全部",
     soeYes: "含央企项目",
     soeNo: "不含央企项目",
+    subtype: "细分类型",
+    allSubtypes: "全部细分",
+    txmfAll: "全部",
+    txmfTx: "输变电",
+    txmfMf: "制造业",
   },
   // 地图
   map: {
@@ -56,6 +75,7 @@ const zh = {
   // 项目列表
   projectList: {
     title: "项目列表",
+    storageTitle: "储能相关项目",
     noProjects: "没有符合条件的项目",
     capacity: "装机容量",
     stage: "当前阶段",
@@ -89,9 +109,20 @@ const zh = {
     verified: "已核验",
     financingSection: "融资信息",
     investment: "总投资 (百万美元)",
+    contractAmount: "合同金额 (百万美元)",
+    financingAmount: "融资额度 (百万美元)",
     developer: "业主",
     developerSection: "项目业主",
     externalLinks: "外部链接",
+    subtype: "细分类型",
+    pvSubCapacity: "光伏子项装机",
+    storagePower: "储能功率",
+    storageEnergy: "储能容量",
+    keySpecs: "关键规格",
+    voltage: "电压等级 (kV)",
+    lineLength: "线路里程 (km)",
+    transmissionCapacity: "输送容量 (MW)",
+    productionCapacity: "产能",
   },
   // 总览仪表盘
   overview: {
@@ -99,10 +130,15 @@ const zh = {
     allYears: "全部年份",
     kpiActive: "活跃项目数",
     kpiCapacity: "装机容量合计 (GW)",
+    kpiStorage: "储能相关项目 · {{gwh}} GWh",
     kpiCountries: "覆盖国家数",
     kpiEntities: "参与中企数",
+    kpiTx: "输变电项目",
+    kpiMf: "制造业项目",
     banner:
       "口径说明：一个项目可经历多个里程碑（如签约、开工、完工、收购）。「活跃项目数」统计所选年份落在项目最早—最晚里程碑区间内的项目；下方趋势图按「当年有里程碑」的项目计数。装机容量为项目总装机（非当年新增），储能与输变电类项目不计入容量合计；2022 年前的里程碑不进入统计。可下载的 CSV（数据表格页）为更细的事件级数据：一行 = 一个事件 × 一家中方企业。",
+    bannerTxmf:
+      "口径说明：输变电与新能源制造业项目来自独立数据表（终态快照），无装机容量口径，全部统计按项目数；年份筛选为项目最新事件所在年。制造业产能单位互不相同（GW/年、GWh/年、万吨/年），不做跨项目产能加总。",
     statusMix: "项目状态构成",
     share: "占比",
     topByCount: "项目数 Top 国家",
@@ -136,6 +172,9 @@ const zh = {
       province: "省/州",
       category: "类型",
       capacity: "容量 (MW)",
+      storage: "储能 (MW · MWh)",
+      specs: "关键规格",
+      entity: "中方主体",
       stage: "阶段",
       year: "年份",
       developer: "业主",

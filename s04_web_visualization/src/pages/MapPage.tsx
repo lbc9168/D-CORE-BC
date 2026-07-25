@@ -1,41 +1,58 @@
-import { useState, useMemo } from "react";
-import { ArrowLeft, MapPin } from "lucide-react";
+import { useState, useMemo, useEffect } from "react";
+import { ArrowLeft, MapPin, Loader2 } from "lucide-react";
 import { useData, useCountryStats } from "@/contexts/DataContext";
+import { useDomain } from "@/contexts/DomainContext";
 import { useLang } from "@/contexts/LanguageContext";
+import DomainSwitcher from "@/components/filters/DomainSwitcher";
 import FilterBar from "@/components/filters/FilterBar";
 import WorldMap from "@/components/map/WorldMap";
 import ProvinceMap from "@/components/map/ProvinceMap";
 import ProvinceMapErrorBoundary from "@/components/map/ProvinceMapErrorBoundary";
 import ProjectList from "@/components/projects/ProjectList";
+import TxMfProjectList from "@/components/projects/TxMfProjectList";
 import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
-import type { ColorBy, MapLevel, Project } from "@/types";
+import { isStorageLens, isStorageMetric } from "@/utils/domains";
+import type { MapLevel, MetricKey, Project, TxMfProject } from "@/types";
 
+/** Map 页：视角条(域/度量) + 筛选栏 + 世界/省级地图 + 项目列表 + 详情抽屉 */
 export default function MapPage() {
-  const { filteredProjects, loading, error } = useData();
+  const { filteredProjects, filteredTxMf, txmfLoading, loading, error } = useData();
+  const { domain, metric } = useDomain();
   const { t } = useLang();
 
-  const [colorBy, setColorBy] = useState<ColorBy>("count");
   const [mapLevel, setMapLevel] = useState<MapLevel>("world");
   const [selectedCountry, setSelectedCountry] = useState<{ iso3: string; name: string } | null>(null);
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | TxMfProject | null>(null);
 
-  const countryValues = useCountryStats(filteredProjects, colorBy);
+  const isTxMfDomain = domain === "txmf";
+  // txmf 域度量固定 count（数据硬约束）；发电域用视角条选中的度量
+  const effectiveMetric: MetricKey = isTxMfDomain ? "count" : metric;
+  // 储能透镜：发电域选中储能度量时，地图/列表聚焦储能相关子集（地图值 ⊆ 列表，两者同源一致）
+  const storageLensOn = !isTxMfDomain && isStorageMetric(metric);
+
+  const rows = useMemo<Array<Project | TxMfProject>>(() => {
+    if (isTxMfDomain) return filteredTxMf;
+    if (storageLensOn) return filteredProjects.filter(isStorageLens);
+    return filteredProjects;
+  }, [isTxMfDomain, storageLensOn, filteredProjects, filteredTxMf]);
+
+  const countryValues = useCountryStats(rows, effectiveMetric);
 
   // 当前国家的项目
-  const countryProjects = useMemo(
+  const countryRows = useMemo(
     () =>
       selectedCountry
-        ? filteredProjects.filter((p) => p.country_iso === selectedCountry.iso3)
+        ? rows.filter((p) => p.country_iso === selectedCountry.iso3)
         : [],
-    [filteredProjects, selectedCountry],
+    [rows, selectedCountry],
   );
 
   // 当前省/无省级 的项目
-  const panelProjects = useMemo(() => {
-    if (!selectedCountry) return filteredProjects;
+  const panelRows = useMemo(() => {
+    if (!selectedCountry) return rows;
     if (selectedProvince === "__no_province__") {
-      return countryProjects.filter((p) => !p.province);
+      return countryRows.filter((p) => !p.province);
     }
     if (selectedProvince) {
       const normProv = (s: string) =>
@@ -43,12 +60,20 @@ export default function MapPage() {
           .replace(/\s+(province|state|region|prefecture|governorate|oblast|district)$/i, "")
           .trim();
       const norm = normProv(selectedProvince);
-      return countryProjects.filter(
+      return countryRows.filter(
         (p) => p.province && normProv(p.province) === norm,
       );
     }
-    return countryProjects;
-  }, [countryProjects, selectedCountry, selectedProvince, filteredProjects]);
+    return countryRows;
+  }, [countryRows, selectedCountry, selectedProvince, rows]);
+
+  // 切域时清空地图/列表/抽屉选择，避免跨域状态错位（如抽屉里还开着别域的项目）
+  useEffect(() => {
+    setMapLevel("world");
+    setSelectedCountry(null);
+    setSelectedProvince(null);
+    setSelectedProject(null);
+  }, [domain]);
 
   // 点击国家
   const handleCountryClick = (iso3: string, name: string) => {
@@ -92,11 +117,15 @@ export default function MapPage() {
   }
 
   const selectedProjectId = selectedProject?.project_id ?? null;
+  const showTxMfSpinner = isTxMfDomain && txmfLoading;
 
   return (
     <div className="flex flex-col flex-1 overflow-hidden">
+      {/* 视角条（域切换 + 域内度量选择器，V3 设计） */}
+      <DomainSwitcher />
+
       {/* 筛选栏 */}
-      <FilterBar colorBy={colorBy} onColorByChange={setColorBy} />
+      <FilterBar />
 
       {/* 主区域 */}
       <div className="flex flex-1 overflow-hidden">
@@ -123,7 +152,7 @@ export default function MapPage() {
             {mapLevel === "world" ? (
               <WorldMap
                 countryValues={countryValues}
-                colorBy={colorBy}
+                metric={effectiveMetric}
                 onCountryClick={handleCountryClick}
               />
             ) : selectedCountry ? (
@@ -134,8 +163,8 @@ export default function MapPage() {
                 <ProvinceMap
                   countryIso3={selectedCountry.iso3}
                   countryName={selectedCountry.name}
-                  projects={countryProjects}
-                  colorBy={colorBy}
+                  projects={countryRows}
+                  metric={effectiveMetric}
                   onProvinceClick={handleProvinceClick}
                   selectedProvince={selectedProvince}
                 />
@@ -152,9 +181,9 @@ export default function MapPage() {
             >
               <MapPin size={13} />
               {t("map.noProvince")}
-              {countryProjects.filter((p) => !p.province).length > 0 && (
+              {countryRows.filter((p) => !p.province).length > 0 && (
                 <span className="badge bg-slate-100 text-slate-600">
-                  {countryProjects.filter((p) => !p.province).length}
+                  {countryRows.filter((p) => !p.province).length}
                 </span>
               )}
             </button>
@@ -169,16 +198,31 @@ export default function MapPage() {
                 <span>
                   {selectedProvince === "__no_province__"
                     ? t("map.noProvince")
-                    : selectedProvince ?? selectedCountry?.name ?? t("projectList.title")}
+                    : selectedProvince ?? selectedCountry?.name ??
+                      (storageLensOn ? t("projectList.storageTitle") : t("projectList.title"))}
                 </span>
-                <span className="badge bg-slate-100 text-slate-500">{panelProjects.length}</span>
+                <span className="badge bg-slate-100 text-slate-500">{panelRows.length}</span>
               </div>
               <div className="flex-1 overflow-hidden">
-                <ProjectList
-                  projects={panelProjects}
-                  onSelect={setSelectedProject}
-                  selectedId={selectedProjectId}
-                />
+                {showTxMfSpinner ? (
+                  <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-2">
+                    <Loader2 size={20} className="animate-spin" />
+                    <span className="text-sm">{t("common.loading")}</span>
+                  </div>
+                ) : isTxMfDomain ? (
+                  <TxMfProjectList
+                    projects={panelRows as TxMfProject[]}
+                    onSelect={setSelectedProject}
+                    selectedId={selectedProjectId}
+                  />
+                ) : (
+                  <ProjectList
+                    projects={panelRows as Project[]}
+                    onSelect={setSelectedProject}
+                    selectedId={selectedProjectId}
+                    variant={storageLensOn ? "storage" : "default"}
+                  />
+                )}
               </div>
             </div>
           </div>

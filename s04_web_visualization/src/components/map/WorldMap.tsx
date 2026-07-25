@@ -5,8 +5,9 @@ import {
   Geography,
   ZoomableGroup,
 } from "react-simple-maps";
-import type { ColorBy } from "@/types";
+import type { MetricKey } from "@/types";
 import { valueToColor, buildColorBins, EMPTY_COLOR } from "@/utils/colorScale";
+import { METRIC_META } from "@/utils/metrics";
 import { getIso3FromNumericId } from "@/utils/isoMapping";
 import { useLang } from "@/contexts/LanguageContext";
 
@@ -22,11 +23,11 @@ interface TooltipState {
 
 interface WorldMapProps {
   countryValues: Map<string, number>;   // iso3 → value
-  colorBy: ColorBy;
+  metric: MetricKey;                    // 决定图例标题/单位文案（值已由调用方按 metric 聚合）
   onCountryClick: (iso3: string, countryName: string) => void;
 }
 
-export default function WorldMap({ countryValues, colorBy, onCountryClick }: WorldMapProps) {
+export default function WorldMap({ countryValues, metric, onCountryClick }: WorldMapProps) {
   const { t } = useLang();
   const [mapZoom, setMapZoom] = useState(1);
   const [hoveredIso3, setHoveredIso3] = useState<string>("");
@@ -34,8 +35,12 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
     visible: false, x: 0, y: 0, content: "",
   });
 
+  const metricMeta = METRIC_META[metric];
   const colorValues = useMemo(() => Array.from(countryValues.values()), [countryValues]);
-  const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
+  const bins = useMemo(
+    () => buildColorBins(colorValues, metricMeta.unit),
+    [colorValues, metricMeta.unit],
+  );
 
   const handleMouseLeave = useCallback(() => {
     setHoveredIso3("");
@@ -103,9 +108,9 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
                           setHoveredIso3(iso3);
                           const label =
                             value != null
-                              ? colorBy === "count"
-                                ? `${name}\n${value} ${t("map.projects")}`
-                                : `${name}\n${value.toFixed(0)} ${t("map.mw")}`
+                              ? metricMeta.unit
+                                ? `${name}\n${value.toFixed(0)} ${metricMeta.unit}`
+                                : `${name}\n${value} ${t("map.projects")}`
                               : `${name}\n${t("map.noData")}`;
                           setTooltip({ visible: true, x: e.clientX, y: e.clientY, content: label });
                         }}
@@ -174,7 +179,7 @@ export default function WorldMap({ countryValues, colorBy, onCountryClick }: Wor
         <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2.5
                         shadow-sm border border-slate-100 text-xs">
           <div className="text-slate-500 mb-1.5 font-medium">
-            {colorBy === "count" ? t("map.byCount") : t("map.byCapacity")}
+            {t(metricMeta.labelKey)}
           </div>
           <div className="flex flex-col gap-1.5">
             {bins.map((bin) => (

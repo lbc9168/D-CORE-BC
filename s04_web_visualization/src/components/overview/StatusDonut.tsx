@@ -1,25 +1,29 @@
-import { useMemo } from "react";
+import { useMemo, type ReactNode } from "react";
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import type { Project, VizGroup } from "@/types";
 import { VIZ_GROUPS, VIZ_GROUP_KEYS } from "@/types";
 import { statusMix } from "@/utils/overviewStats";
 import { useLang } from "@/contexts/LanguageContext";
 
-/** 4 大类状态构成：左 donut + 右占比表 */
+/** 4 大类状态构成：左 donut + 右占比表；mix 传入时直接用（产业链侧无 stage_events，外部按 latest_stage 预聚合） */
 export default function StatusDonut({
   projects,
   year,
   title,
   shareLabel,
+  mix: mixOverride,
+  headerExtra,
 }: {
   projects: Project[];
   year: number | null;
   title: string;
   shareLabel: string;
+  mix?: Map<VizGroup, number>;
+  headerExtra?: ReactNode;
 }) {
   const { lang } = useLang();
   const rows = useMemo(() => {
-    const mix = statusMix(projects, year);
+    const mix = mixOverride ?? statusMix(projects, year);
     const total = Array.from(mix.values()).reduce((a, b) => a + b, 0);
     return VIZ_GROUP_KEYS.filter((k) => (mix.get(k) ?? 0) > 0).map((k: VizGroup) => ({
       key: k,
@@ -28,11 +32,14 @@ export default function StatusDonut({
       count: mix.get(k) ?? 0,
       pct: total > 0 ? ((mix.get(k) ?? 0) / total) * 100 : 0,
     }));
-  }, [projects, year, lang]);
+  }, [projects, year, lang, mixOverride]);
 
   return (
     <div className="card p-4 flex flex-col min-w-0">
-      <h3 className="text-sm font-semibold text-slate-700 mb-2">{title}</h3>
+      <div className="flex items-center justify-between gap-2 mb-2 flex-wrap">
+        <h3 className="text-sm font-semibold text-slate-700">{title}</h3>
+        {headerExtra}
+      </div>
       <div className="flex items-center gap-4 flex-1 min-h-[13rem]">
         <div className="w-40 h-40 flex-shrink-0">
           <ResponsiveContainer width="100%" height="100%">

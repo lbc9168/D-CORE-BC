@@ -2,7 +2,10 @@
 
 供前端下载：同一项目每个 stage 拆条，每个事件下每家中国公司各一行；补全公司
 中英文名/子公司中英文名/参与角色中英文/各自央企标志。口径对齐网页可视化：
-项目集走 projects_flat + 基线政策（passes_baseline），事件只含 year>=2022。
+主表项目走 projects_flat + 基线政策（passes_baseline）；TX/MF 专表项目走专用
+基线（passes_txmf_baseline，同前端 txmf 域：仅排中港澳台 + 最后事件年 < 2022）；
+事件只含 year>=2022。行序：发电+储能（主表）→ 输变电 → 制造业，组内按
+canonical_id + event_id 升序——仅为人眼浏览优化，程序分析勿依赖行序。
 """
 import csv
 import sqlite3
@@ -28,6 +31,8 @@ _COLUMNS = [
     "stage_cn", "stage_en", "stage_group_cn", "stage_group_en",
     "year", "month",
     "capacity_mw", "pv_capacity_mw", "storage_power_mw", "storage_energy_mwh",
+    "voltage_kv", "line_length_km", "transmission_capacity_mw",
+    "production_capacity_value", "production_capacity_unit",
     "total_investment_usd", "contract_amount_usd", "financing_amount_usd",
     "financing_model_en",
     "developer_cn", "developer_en",
@@ -83,18 +88,53 @@ def passes_baseline(p: dict) -> bool:
     return True
 
 
+def _is_txmf(category: str) -> bool:
+    """类别是否为输变电(TX)/新能源制造业(MF)——按 enums code 判定，不硬编码中文。"""
+    return enums.category_code(category or "") in ("TX", "MF")
+
+
+def passes_txmf_baseline(row: dict) -> bool:
+    """TX/MF 专表行（tx_flat/mf_flat）的基线：仅排中港澳台 + 终态事件年 < 2022。
+
+    对齐前端 enrichTxMf；不套主表的 hidden/unknown-entity/capacity 检查（专表语义不适用）。
+    ⚠️ 判定源必须是 tx_flat/mf_flat 的 event_year（终态事件年，含全部 stage），
+    不能用 projects_flat 的 last_event_year——后者只统计可见 viz 阶段，会漏拟开发/Unknown 项目。
+    """
+    iso = (row.get("country_iso") or "").upper()
+    if iso in _EXCLUDED_ISO3:
+        return False
+    if row.get("event_year") is None or row["event_year"] < BASELINE_YEAR:
+        return False
+    return True
+
+
 def _eligible_ids(flat_db: "Optional[Path | str]") -> Optional[set]:
-    """读 projects_flat 取通过基线政策的 project_id 集合；flat_db 为 None 返回 None（不做基线）。"""
+    """取通过基线政策的 project_id 集合；flat_db 为 None 返回 None（不做基线）。
+
+    主表类别读 projects_flat 走 passes_baseline；TX/MF 读 tx_flat/mf_flat 走
+    passes_txmf_baseline（并入下载 CSV，W30b；口径与前端 txmf 域逐条一致）。
+    """
     if flat_db is None:
         return None
     con = sqlite3.connect(flat_db)
     try:
         con.row_factory = sqlite3.Row
-        return {
-            r["project_id"]
-            for r in con.execute("SELECT * FROM projects_flat")
-            if passes_baseline(dict(r))
-        }
+        out = set()
+        for r in con.execute("SELECT * FROM projects_flat"):
+            p = dict(r)
+            if _is_txmf(p.get("category") or ""):
+                continue  # TX/MF 走下方专表判定
+            if passes_baseline(p):
+                out.add(p["project_id"])
+        for tbl in ("tx_flat", "mf_flat"):
+            try:
+                for r in con.execute(f"SELECT project_id, country_iso, event_year FROM {tbl}"):
+                    if passes_txmf_baseline(dict(r)):
+                        out.add(r["project_id"])
+            except sqlite3.OperationalError as exc:
+                # 旧导出库无 tx_flat/mf_flat 表时跳过（TX/MF 不进 CSV），不视为致命
+                print(f"[events_exporter] 警告：读取 {tbl} 失败（{exc}），CSV 将不含该表项目")
+        return out
     finally:
         con.close()
 
@@ -174,6 +214,11 @@ def export_events_csv(
             "pv_capacity_mw": _num("pv_capacity_mw"),
             "storage_power_mw": _num("storage_power_mw"),
             "storage_energy_mwh": _num("storage_energy_mwh"),
+            "voltage_kv": _num("voltage_kv"),
+            "line_length_km": _num("line_length_km"),
+            "transmission_capacity_mw": _num("transmission_capacity_mw"),
+            "production_capacity_value": _num("production_capacity_value"),
+            "production_capacity_unit": ev.get("production_capacity_unit") or "",
             "total_investment_usd": _num("total_investment_usd"),
             "contract_amount_usd": _num("contract_amount_usd"),
             "financing_amount_usd": _num("financing_amount_usd"),
@@ -199,6 +244,15 @@ def export_events_csv(
                 "involvement_type_en": enums.involvement_en(inv_type) or inv_type,
                 "is_central_soe": soe if soe is not None else "",
             })
+
+    # 分组排：主表（发电+储能）→ 输变电 → 制造业，组内 canonical_id + event_id 升序（仅人眼优化）
+    _group_rank = {"TX": 1, "MF": 2}
+
+    def _sort_key(row: dict):
+        code = enums.category_code(row["category_cn"] or "") or ""
+        return (_group_rank.get(code, 0), row["canonical_id"], row["event_id"])
+
+    rows.sort(key=_sort_key)
 
     for out in out_paths:
         out = Path(out)

@@ -20,6 +20,18 @@ export const stageColor = (zh: string) => STAGES[zh]?.color ?? "#9CA3AF";
 
 export const VIZ_GROUPS = raw.viz_group as Record<string, VizGroupMeta>;
 
+// 子类枚举（仅光伏/综合能源有；_default 为 NULL 时的导出层默认渲染值）
+type SubcategoryDef = { _default: string; values: Record<string, SimpleMeta> };
+export const SUBCATEGORIES = Object.fromEntries(
+  Object.entries(raw.subcategory as Record<string, unknown>).filter(
+    ([k, v]) => !k.startsWith("_") && typeof v === "object" && v !== null,
+  ),
+) as Record<string, SubcategoryDef>;
+
+/** 某类别的子类枚举定义（无子类维度的类别返回 null） */
+export const subcategoriesFor = (categoryZh: string): SubcategoryDef | null =>
+  SUBCATEGORIES[categoryZh] ?? null;
+
 /** 细 stage 中文键 → 4 大类 key（无则 null）。 */
 export const stageToGroup = (stageZh: string): VizGroup | null =>
   (STAGES[stageZh]?.viz_group ?? null) as VizGroup | null;

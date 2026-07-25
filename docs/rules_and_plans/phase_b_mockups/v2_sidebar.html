@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>V2 · 侧栏独立页面 — D-CORE Phase B Mockup</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --brand-50:#F2F8F8;--brand-100:#E0EEEE;--brand-200:#C2DDDC;--brand-400:#639896;
+  --brand-500:#2F6562;--brand-600:#285957;--brand-700:#1F4544;
+  --s50:#F8FAFC;--s100:#F1F5F9;--s200:#E2E8F0;--s300:#CBD5E1;--s400:#94A3B8;
+  --s500:#64748B;--s600:#475569;--s700:#334155;--s800:#1E293B;
+  --bin1:#93C4C2;--bin2:#5A9896;--bin3:#2F6562;--empty:#CBD5E1;
+  --note:#F59E0B;
+}
+body{font-family:Inter,"Noto Sans SC",system-ui,sans-serif;background:#E8EDF2;color:var(--s800);padding:26px 3vw 70px}
+.head{max-width:1180px;margin:0 auto 18px}
+.head h1{font-size:19px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.vtag{background:var(--brand-600);color:#fff;font-size:12px;padding:3px 10px;border-radius:999px;font-weight:600}
+.head p{font-size:13px;color:var(--s600);margin-top:6px;line-height:1.7}
+.hint{max-width:1180px;margin:0 auto 10px;font-size:12px;color:var(--s500)}
+.hint b{color:var(--brand-600)}
+
+.frame{max-width:1180px;margin:0 auto;height:600px;display:flex;background:var(--s50);
+  border:1px solid var(--s200);border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(15,40,38,.10)}
+/* V2：侧栏展开态展示新导航项 */
+.rail{width:196px;background:var(--brand-700);display:flex;flex-direction:column;flex-shrink:0;padding:0 8px}
+.rlogo{display:flex;align-items:center;gap:10px;padding:14px 6px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:8px}
+.rlogo .tile{width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0}
+.rlogo .tt{color:#fff;font-size:12.5px;font-weight:600;line-height:1.3}
+.ritem{display:flex;align-items:center;gap:10px;border-radius:8px;padding:9px 10px;font-size:13px;font-weight:500;
+  color:rgba(255,255,255,.7);cursor:pointer;margin-bottom:2px;position:relative}
+.ritem:hover{background:rgba(255,255,255,.1);color:#fff}
+.ritem.active{background:rgba(255,255,255,.2);color:#fff}
+.ritem svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.rnew{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:var(--note);color:#fff;
+  font-size:9px;font-weight:700;padding:1px 6px;border-radius:999px}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+
+.fbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border-bottom:1px solid var(--s100);
+  box-shadow:0 1px 2px rgba(0,0,0,.03);flex-wrap:wrap;font-size:12px;flex-shrink:0}
+.fdiv{width:1px;height:16px;background:var(--s200);margin:0 2px}
+.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--s200);border-radius:8px;
+  padding:4px 9px;background:#fff;color:var(--s700);white-space:nowrap}
+.pill .car{color:var(--s400);font-size:9px}
+.pill.on{border-color:var(--brand-400);color:var(--brand-600);background:var(--brand-50)}
+.flab{color:var(--s500)}
+.slider{position:relative;width:110px;height:4px;background:var(--s200);border-radius:2px}
+.slider i{position:absolute;top:0;left:18%;right:0;height:4px;background:var(--brand-200);border-radius:2px}
+.slider b{position:absolute;top:-5px;width:14px;height:14px;border-radius:50%;background:var(--brand-500);border:2px solid #fff;box-shadow:0 0 0 1px var(--brand-500)}
+.reset{margin-left:auto;display:inline-flex;align-items:center;gap:5px;color:var(--s500);padding:4px 8px;border-radius:8px}
+.subtab{display:inline-flex;border:1px solid var(--s200);border-radius:8px;overflow:hidden}
+.subtab span{padding:4px 10px;color:var(--s500);border-right:1px solid var(--s200)}
+.subtab span:last-child{border-right:0}
+.subtab span.on{background:var(--brand-50);color:var(--brand-600);font-weight:600}
+
+.content{flex:1;display:flex;overflow:hidden;min-height:0}
+.maparea{flex:1;position:relative;background:#eeeeee;min-width:0}
+.maparea svg.world{width:100%;height:100%}
+.world path,.world ellipse{stroke:#fff;stroke-width:2}
+.legend{position:absolute;left:14px;bottom:14px;background:rgba(255,255,255,.94);border:1px solid var(--s200);
+  border-radius:10px;padding:9px 11px;font-size:11px;color:var(--s600);box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.legend .lt{font-weight:600;color:var(--s700);margin-bottom:5px}
+.lrow{display:flex;align-items:center;gap:6px;margin-top:3px}
+.lsw{width:13px;height:13px;border-radius:3px;flex-shrink:0}
+.pgtitle{position:absolute;top:12px;left:14px;background:rgba(255,255,255,.92);border:1px solid var(--s200);
+  border-radius:10px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--s700);box-shadow:0 2px 6px rgba(0,0,0,.05)}
+
+.side{width:315px;border-left:1px solid var(--s200);background:var(--s50);padding:8px;flex-shrink:0;display:flex}
+.card{background:#fff;border:1px solid var(--s100);border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.04);
+  display:flex;flex-direction:column;flex:1;overflow:hidden}
+.chead{padding:9px 12px;border-bottom:1px solid var(--s100);font-size:13px;font-weight:600;color:var(--s700);
+  display:flex;align-items:center;justify-content:space-between}
+.cnt{background:var(--s100);color:var(--s500);font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px}
+.plist{list-style:none;overflow-y:auto;flex:1}
+.pitem{padding:9px 12px;border-bottom:1px solid var(--s50);cursor:pointer}
+.pitem:hover{background:var(--s50)}
+.pname{font-size:12.5px;font-weight:500;line-height:1.35;margin-bottom:4px}
+.prow{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.cb{color:#fff;font-size:10px;font-weight:600;padding:1.5px 7px;border-radius:999px}
+.ob{font-size:10px;font-weight:600;padding:1px 6px;border-radius:999px;border:1px solid;background:#fff}
+.sb{font-size:10px;font-weight:600;padding:1.5px 7px;border-radius:999px}
+.pmeta{font-size:10px;color:var(--s400)}
+.pyear{font-size:10px;color:var(--s400);margin-left:auto}
+.pdev{font-size:11px;color:var(--s500);margin-top:2px}
+
+.dot{display:inline-flex;width:15px;height:15px;border-radius:50%;background:var(--note);color:#fff;
+  font-size:9.5px;font-weight:700;align-items:center;justify-content:center;vertical-align:2px;margin-left:4px;flex-shrink:0}
+.notes{max-width:1180px;margin:16px auto 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:10px}
+.note{background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.65;color:#78350F}
+.note b{color:#92400E}
+.verdict{max-width:1180px;margin:22px auto 0;background:#fff;border:1px solid var(--s200);border-radius:12px;padding:14px 18px;font-size:13px;line-height:1.8}
+.verdict h3{font-size:14px;margin-bottom:6px}
+.good{color:#15803D}.bad{color:#B91C1C}
+.stage{display:flex;flex-direction:column;flex:1;min-height:0}
+</style>
+</head>
+<body>
+
+<div class="head">
+  <h1><span class="vtag">V2</span>侧栏独立页面（对现有 Map 页零侵入）</h1>
+  <p>Map 页保持现状（只加子类筛选+详情增强），「储能」「电网与制造」做成侧栏两个<b>新导航页面</b>，各自有简化筛选栏+地图+列表。域切换=页面跳转，而非页内切换。</p>
+</div>
+<div class="hint">👇 <b>点击左侧侧栏的三个导航项切换</b>（Map / Energy Storage / Grid &amp; Mfg）。mockup 中侧栏画成展开态以便看清新导航项；实际默认收起、只显图标。</div>
+
+<div class="frame">
+  <div class="rail">
+    <div class="rlogo"><div class="tile">RE</div><div class="tt">Database of Chinese<br>Overseas RE Projects</div></div>
+    <div class="ritem" id="nav-d1" onclick="setD(1)">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>Map
+    </div>
+    <div class="ritem" id="nav-d2" onclick="setD(2)">
+      <svg viewBox="0 0 24 24"><rect x="6" y="7" width="12" height="14" rx="2"/><path d="M10 7V4h4v3M10 13h4M12 11v4"/></svg>Energy Storage<span class="rnew">NEW</span>
+    </div>
+    <div class="ritem" id="nav-d3" onclick="setD(3)">
+      <svg viewBox="0 0 24 24"><path d="M6 21V9l6-6 6 6v12M9 21v-6h6v6"/></svg>Grid &amp; Mfg<span class="rnew">NEW</span>
+    </div>
+    <div class="ritem"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>Overview</div>
+    <div class="ritem"><svg viewBox="0 0 24 24"><path d="M3 5h18M3 12h18M3 19h18"/></svg>Table</div>
+    <div class="ritem"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Reports</div>
+    <div class="ritem"><svg viewBox="0 0 24 24"><path d="M3 11l18-8-4 18-6-7z"/></svg>Updates</div>
+    <div class="ritem"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>About</div>
+  </div>
+
+  <div class="main">
+
+    <!-- ═══ 页面1：Map（现状 + 子类筛选，不动） ═══ -->
+    <div class="stage" id="stage-d1">
+      <div class="fbar">
+        <span class="flab">Year Range</span><span style="font-family:ui-monospace,monospace">2022</span>
+        <div class="slider"><i></i><b style="left:14%"></b><b style="right:-4px"></b></div>
+        <span style="font-family:ui-monospace,monospace">2026</span>
+        <div class="fdiv"></div>
+        <span class="pill">Region <span class="car">▾</span></span>
+        <span class="pill">BRI <span class="car">▾</span></span>
+        <span class="pill">Dev. Status <span class="car">▾</span></span>
+        <div class="fdiv"></div>
+        <span class="pill on">Project Type: Solar PV <span class="car">▾</span></span>
+        <span class="pill on">Subtype <span class="car">▾</span></span><span class="dot">1</span>
+        <span class="pill">Status <span class="car">▾</span></span>
+        <span class="pill">Central SOE: All <span class="car">▾</span></span>
+        <div class="fdiv"></div>
+        <span class="flab">Color By</span><span class="pill">Project Count <span class="car">▾</span></span>
+        <span class="reset">⟲ Reset Filters</span>
+      </div>
+      <div class="content">
+        <div class="maparea">
+          <div class="pgtitle">Map（现状页，唯一改动=子类二级筛选）<span class="dot">2</span></div>
+          <svg class="world" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+            <path d="M60,90 L180,55 L300,70 L320,130 L260,150 L280,200 L230,260 L170,235 L120,190 L70,150 Z" fill="var(--bin1)"/>
+            <path d="M240,280 L300,265 L330,320 L310,400 L275,465 L250,410 L230,340 Z" fill="var(--bin2)"/>
+            <path d="M470,75 L560,60 L590,95 L555,130 L505,140 L470,115 Z" fill="var(--bin1)"/>
+            <path d="M460,160 L560,150 L600,210 L580,300 L530,390 L490,330 L455,240 Z" fill="var(--bin2)"/>
+            <path d="M600,55 L780,45 L900,90 L920,160 L850,210 L780,260 L700,240 L640,190 L595,130 Z" fill="var(--bin3)"/>
+            <ellipse cx="790" cy="300" rx="28" ry="12" fill="var(--bin3)"/>
+            <ellipse cx="845" cy="322" rx="20" ry="9" fill="var(--bin2)"/>
+            <path d="M820,370 L910,360 L935,410 L890,455 L830,440 Z" fill="var(--bin2)"/>
+          </svg>
+          <div class="legend"><div class="lt">Project Count</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin1)"></span>1 – 37</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin2)"></span>38 – 74</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin3)"></span>&gt; 74</div>
+            <div class="lrow"><span class="lsw" style="background:var(--empty)"></span>No data</div>
+          </div>
+        </div>
+        <div class="side"><div class="card">
+          <div class="chead">Project List <span class="cnt">1512</span></div>
+          <ul class="plist">
+            <li class="pitem">
+              <div class="pname">Thailand 35MW Rooftop Solar PV Project</div>
+              <div class="prow"><span class="cb" style="background:#F59E0B">Solar PV</span><span class="ob" style="color:#D97706;border-color:#FCD34D">Distributed</span><span class="sb" style="background:#9333EA20;color:#9333EA">Pre-construction</span><span class="pmeta">30 MW</span><span class="pyear">2019</span></div>
+              <div class="pdev">China National Chemical Rubber (Thailand)</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">Ghana 1GW Solar PV and 500MWh Energy Storage Project</div>
+              <div class="prow"><span class="cb" style="background:#EC4899">Integrated Energy</span><span class="ob" style="color:#DB2777;border-color:#F9A8D4">Solar + Storage</span><span class="sb" style="background:#9333EA20;color:#9333EA">Pre-construction</span><span class="pmeta">1000 MW</span><span class="pyear">2022</span></div>
+              <div class="pdev">Meinergy Technology</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">Cattle Hill Wind Farm</div>
+              <div class="prow"><span class="cb" style="background:#3B82F6">Wind Power</span><span class="sb" style="background:#2563EB20;color:#2563EB">Construction Completed</span><span class="pmeta">148 MW</span><span class="pyear">2024</span></div>
+              <div class="pdev">Goldwind; Atmos Renewables</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">UK Burwell 50MW/56.2MWh Battery Energy Storage System</div>
+              <div class="prow"><span class="cb" style="background:#64748B">Energy Storage</span><span class="sb" style="background:#2563EB20;color:#2563EB">Construction Completed</span><span class="pmeta">50 MW · 56.2 MWh</span><span class="pyear">2022</span></div>
+              <div class="pdev">SMS Company</div>
+            </li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ 页面2：Energy Storage 专页 ═══ -->
+    <div class="stage" id="stage-d2" style="display:none">
+      <div class="fbar">
+        <span class="flab">Year Range</span><span style="font-family:ui-monospace,monospace">2022</span>
+        <div class="slider"><i></i><b style="left:14%"></b><b style="right:-4px"></b></div>
+        <span style="font-family:ui-monospace,monospace">2026</span>
+        <div class="fdiv"></div>
+        <span class="pill">Region <span class="car">▾</span></span>
+        <span class="pill">BRI <span class="car">▾</span></span>
+        <span class="pill">Central SOE: All <span class="car">▾</span></span>
+        <div class="fdiv"></div>
+        <span class="flab">Metric</span><span class="pill on">Storage Capacity (MWh) <span class="car">▾</span></span><span class="dot">3</span>
+        <span class="reset">⟲ Reset Filters</span>
+      </div>
+      <div class="content">
+        <div class="maparea">
+          <div class="pgtitle">Energy Storage（新页面：ES 178 + Solar+Storage 129）<span class="dot">4</span></div>
+          <svg class="world" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+            <path d="M60,90 L180,55 L300,70 L320,130 L260,150 L280,200 L230,260 L170,235 L120,190 L70,150 Z" fill="var(--empty)"/>
+            <path d="M240,280 L300,265 L330,320 L310,400 L275,465 L250,410 L230,340 Z" fill="var(--bin2)"/>
+            <path d="M470,75 L560,60 L590,95 L555,130 L505,140 L470,115 Z" fill="var(--bin1)"/>
+            <path d="M460,160 L560,150 L600,210 L580,300 L530,390 L490,330 L455,240 Z" fill="var(--bin1)"/>
+            <path d="M600,55 L780,45 L900,90 L920,160 L850,210 L780,260 L700,240 L640,190 L595,130 Z" fill="var(--bin3)"/>
+            <ellipse cx="790" cy="300" rx="28" ry="12" fill="var(--bin2)"/>
+            <ellipse cx="845" cy="322" rx="20" ry="9" fill="var(--empty)"/>
+            <path d="M820,370 L910,360 L935,410 L890,455 L830,440 Z" fill="var(--bin2)"/>
+          </svg>
+          <div class="legend"><div class="lt">Storage Capacity (MWh)</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin1)"></span>1 – 8,000</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin2)"></span>8,001 – 16,000</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin3)"></span>&gt; 16,000</div>
+            <div class="lrow"><span class="lsw" style="background:var(--empty)"></span>No data</div>
+          </div>
+        </div>
+        <div class="side"><div class="card">
+          <div class="chead">Project List <span class="cnt">307</span></div>
+          <ul class="plist">
+            <li class="pitem">
+              <div class="pname">UK Burwell 50MW/56.2MWh Battery Energy Storage System</div>
+              <div class="prow"><span class="cb" style="background:#64748B">Energy Storage</span><span class="sb" style="background:#2563EB20;color:#2563EB">Construction Completed</span><span class="pmeta">50 MW · 56.2 MWh</span><span class="pyear">2022</span></div>
+              <div class="pdev">SMS Company</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">Ghana 1GW Solar PV and 500MWh Energy Storage Project</div>
+              <div class="prow"><span class="cb" style="background:#EC4899">Integrated Energy</span><span class="ob" style="color:#DB2777;border-color:#F9A8D4">Solar + Storage</span><span class="sb" style="background:#9333EA20;color:#9333EA">Pre-construction</span><span class="pmeta">500 MWh · PV 1,000 MW</span><span class="pyear">2022</span></div>
+              <div class="pdev">Meinergy Technology</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">Enel Group Energy Storage Project</div>
+              <div class="prow"><span class="cb" style="background:#64748B">Energy Storage</span><span class="sb" style="background:#9333EA20;color:#9333EA">Pre-construction</span><span class="pmeta">597.9 MWh</span><span class="pyear">2022</span></div>
+              <div class="pdev">—</div>
+            </li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- ═══ 页面3：Grid & Mfg 专页 ═══ -->
+    <div class="stage" id="stage-d3" style="display:none">
+      <div class="fbar">
+        <span class="flab">Year</span><span style="font-family:ui-monospace,monospace">2022</span>
+        <div class="slider"><i></i><b style="left:14%"></b><b style="right:-4px"></b></div>
+        <span style="font-family:ui-monospace,monospace">2026</span>
+        <div class="fdiv"></div>
+        <span class="pill">Region <span class="car">▾</span></span>
+        <span class="pill">BRI <span class="car">▾</span></span>
+        <span class="pill">Central SOE: All <span class="car">▾</span></span>
+        <div class="fdiv"></div>
+        <div class="subtab"><span class="on">All</span><span>Transmission</span><span>Manufacturing</span></div>
+        <span class="reset">⟲ Reset Filters</span>
+      </div>
+      <div class="content">
+        <div class="maparea">
+          <div class="pgtitle">Grid &amp; Mfg（新页面：TX 437 + MF 161，仅项目数着色）</div>
+          <svg class="world" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet">
+            <path d="M60,90 L180,55 L300,70 L320,130 L260,150 L280,200 L230,260 L170,235 L120,190 L70,150 Z" fill="var(--empty)"/>
+            <path d="M240,280 L300,265 L330,320 L310,400 L275,465 L250,410 L230,340 Z" fill="var(--bin1)"/>
+            <path d="M470,75 L560,60 L590,95 L555,130 L505,140 L470,115 Z" fill="var(--bin1)"/>
+            <path d="M460,160 L560,150 L600,210 L580,300 L530,390 L490,330 L455,240 Z" fill="var(--bin2)"/>
+            <path d="M600,55 L780,45 L900,90 L920,160 L850,210 L780,260 L700,240 L640,190 L595,130 Z" fill="var(--bin2)"/>
+            <ellipse cx="790" cy="300" rx="28" ry="12" fill="var(--bin3)"/>
+            <ellipse cx="845" cy="322" rx="20" ry="9" fill="var(--bin3)"/>
+            <path d="M820,370 L910,360 L935,410 L890,455 L830,440 Z" fill="var(--empty)"/>
+          </svg>
+          <div class="legend"><div class="lt">Project Count</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin1)"></span>1 – 16</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin2)"></span>17 – 32</div>
+            <div class="lrow"><span class="lsw" style="background:var(--bin3)"></span>&gt; 32</div>
+            <div class="lrow"><span class="lsw" style="background:var(--empty)"></span>No data</div>
+          </div>
+        </div>
+        <div class="side"><div class="card">
+          <div class="chead">Project List <span class="cnt">598</span></div>
+          <ul class="plist">
+            <li class="pitem">
+              <div class="pname">Papua New Guinea National Grid Phase II Project</div>
+              <div class="prow"><span class="cb" style="background:#F97316">Transmission &amp; Distribution</span><span class="sb" style="background:#F59E0B20;color:#D97706">In Construction</span><span class="pmeta">132 kV · 270 km</span><span class="pyear">2023</span></div>
+              <div class="pdev">—</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">Egypt 5 GW Solar Cell and PV Module Industrial Park Project</div>
+              <div class="prow"><span class="cb" style="background:#A78BFA">New Energy Manufacturing</span><span class="sb" style="background:#9333EA20;color:#9333EA">Pre-construction</span><span class="pmeta">5.0 GW/年</span><span class="pyear">2024</span></div>
+              <div class="pdev">—</div>
+            </li>
+            <li class="pitem">
+              <div class="pname">Slovakia Surany 20GWh Battery Factory</div>
+              <div class="prow"><span class="cb" style="background:#A78BFA">New Energy Manufacturing</span><span class="sb" style="background:#F59E0B20;color:#D97706">In Construction</span><span class="pmeta">20.0 GWh/年</span><span class="pyear">2025</span></div>
+              <div class="pdev">—</div>
+            </li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="notes">
+  <div class="note"><b>① Map 页唯一改动</b>：子类二级筛选（选中光伏/综合能源后 Subtype 药丸出现）+ 详情抽屉增强。其余与现状逐像素相同——本版对存量代码侵入最小。</div>
+  <div class="note"><b>② 域切换 = 页面跳转</b>：三个"域"是三个路由（/、/storage、/txmf），各自独立页面组件；没有页内域状态，没有筛选联动清空问题（每页有自己的筛选状态）。</div>
+  <div class="note"><b>③ 储能页 Metric 选择器</b>：Storage Capacity (MWh，默认) / Storage Power (MW) / Project Count。简化筛选栏只保留对 tx/mf/储能都有意义的维度（Year/Region/BRI/SOE）。</div>
+  <div class="note"><b>④ 侧栏导航项 6 → 8</b>：新增 Energy Storage、Grid &amp; Mfg 两项（图标 lucide 风格）。收起态只显图标，展开态如图。注意：这两页定位是"Map 的变体视角"，与 Overview/Reports 等顶级模块并列可能显得不对等。</div>
+</div>
+
+<div class="verdict">
+  <h3>V2 评估</h3>
+  <span class="good">✓ 优点</span>：对现有 Map 页近乎零侵入（渐进性最强）；每页筛选状态独立，无跨域联动清空的复杂度；实现风险最低。<br>
+  <span class="bad">✗ 风险</span>：割裂"同一张地图切视角"的统一叙事——用户要在侧栏来回跳页而非就地切换；侧栏从 6 项涨到 8 项；储能/产业链页与 Map 页共享的组件（地图/列表）仍要做泛化，公共基建工作量并不省。<br>
+  <b>工作量</b>：M~L（两个新页面 = 两套页面骨架；若复用组件做得好则 M）。
+</div>
+
+<script>
+function setD(n){
+  for(let i=1;i<=3;i++){
+    document.getElementById('stage-d'+i).style.display=(i===n?'flex':'none');
+    document.getElementById('nav-d'+i).classList.toggle('active', i===n);
+  }
+}
+setD(1);
+</script>
+</body>
+</html>
