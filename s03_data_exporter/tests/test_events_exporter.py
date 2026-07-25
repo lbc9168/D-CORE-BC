@@ -196,3 +196,48 @@ def test_no_flat_db_skips_baseline_only_excluded(tmp_path):
     # A(3 行) + B(1 行) = 4；C 仍排除；E03(2021) 仍按 year 过滤
     assert n == 4
     assert ids == {"IND-PV-0001", "CHN-PV-0002"}
+
+
+# ── 指标扩展 2026-W30：CSV 新 8 列 ────────────────────────────────────────────
+
+def test_new_columns_in_csv(tmp_path):
+    """CSV 含子类/pv/储能/金额 8 新列：子类项目级同口径（默认渲染），数值列取事件自身值。"""
+    import bri_enums
+    src, flat, out = tmp_path / "s.db", tmp_path / "f.db", tmp_path / "events_export.csv"
+    _mk(str(src), str(flat))
+
+    # 给库补新列并造值（IND-PV-0001 子类留 NULL → CSV 应渲染父类默认）
+    c = sqlite3.connect(str(src))
+    c.execute("ALTER TABLE canonical_projects ADD COLUMN subcategory TEXT")
+    for col in ("pv_capacity_mw", "storage_power_mw", "storage_energy_mwh",
+                "contract_amount_usd", "financing_amount_usd"):
+        c.execute(f"ALTER TABLE project_events ADD COLUMN {col} REAL")
+    c.execute(
+        "UPDATE project_events SET storage_power_mw=20.0, storage_energy_mwh=80.0, "
+        "contract_amount_usd=167.0, financing_amount_usd=486.0 WHERE id='IND-PV-0001-01'"
+    )
+    c.commit()
+    c.close()
+
+    events_exporter.export_events_csv(src, [out], flat_db=flat, iso3_to_en={"IND": "India"})
+
+    with open(out, encoding="utf-8-sig", newline="") as fh:
+        rows = list(csv.DictReader(fh))
+        header = list(rows[0].keys())
+
+    for col in ("subcategory_cn", "subcategory_en", "pv_capacity_mw", "storage_power_mw",
+                "storage_energy_mwh", "contract_amount_usd", "financing_amount_usd"):
+        assert col in header, f"CSV 缺列 {col}"
+
+    e01 = next(r for r in rows if r["event_id"] == "IND-PV-0001-01")
+    _default = bri_enums.subcategory_default("光伏")
+    assert e01["subcategory_cn"] == _default, "子类 NULL 应渲染父类默认"
+    assert e01["subcategory_en"] == bri_enums.subcategory_en("光伏", _default)
+    assert e01["storage_power_mw"] == "20.0"
+    assert e01["contract_amount_usd"] == "167.0"
+    assert e01["financing_amount_usd"] == "486.0"
+    assert e01["pv_capacity_mw"] == "", "无值数值列为空串"
+
+    # E02 无金额/储能值 → 空串
+    e02 = next(r for r in rows if r["event_id"] == "IND-PV-0001-02")
+    assert e02["storage_power_mw"] == "" and e02["contract_amount_usd"] == ""

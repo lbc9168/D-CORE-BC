@@ -3,12 +3,15 @@ import logging
 import bri_enums as enums
 from bri_parse import parse_number
 from s01b_project_extractor.stages.entity_normalize import normalize_entity
+from s01b_project_extractor.stages.s3_finance import AMOUNT_FIELDS
 
 logger = logging.getLogger(__name__)
 
 # 金融字段键（与 common_info 对齐），用于从合并输出里切出 finance 部分。
 _FINANCE_KEYS = (
     "Total Project Investment (Million USD)",
+    "Contract Amount (Million USD)",
+    "Financing Amount (Million USD)",
     "Investment (or Financial Close) Date",
     "Financing Model",
     "Financing Model Details",
@@ -34,20 +37,14 @@ def run_s34(title: str, content: str, project_name: str, category: str, *, llm) 
         # 无条件用 parser 输出覆盖 LLM 的 Subsidiary Name：
         # LLM 不可信（易幻觉），不变量"subsidiary 非空⇔原文名"只能由 parser 保证。
         e["Subsidiary Name"] = sub
-    # ── 金融部分：切出 + 原文短语保留 + 投资额经 bri_parse（与 run_s3 一致）──
+    # ── 金融部分：切出 + 三类金额原文短语保留 + 数值经 bri_parse（与 run_s3 一致，见 AMOUNT_FIELDS 注释）──
     finance = {k: out[k] for k in _FINANCE_KEYS if k in out}
-    # 原文短语：优先取 LLM 新字段 "Total Project Investment Raw"。
-    # 降级：LLM 未返回该字段时写空——不变量：非空 ⇔ 逐字原文短语，空 = 未采集到原文。
-    # 不再把换算字段值填入 raw，避免审计人员无法区分"原文"与"降级数字字符串"。
-    inv_raw_field = out.pop("Total Project Investment Raw", None)
-    inv = finance.get("Total Project Investment (Million USD)", "")
-    if inv_raw_field is not None:
-        finance["total_investment_usd_raw_phrase"] = str(inv_raw_field).strip()
-    else:
-        finance["total_investment_usd_raw_phrase"] = ""  # 未采集到原文短语，写空
-    parsed = parse_number(inv)
-    if parsed is not None:
-        finance["Total Project Investment (Million USD)"] = parsed
+    for num_key, raw_key, phrase_key in AMOUNT_FIELDS:
+        raw_field = out.pop(raw_key, None)
+        finance[phrase_key] = str(raw_field).strip() if raw_field is not None else ""
+        parsed = parse_number(finance.get(num_key, ""))
+        if parsed is not None:
+            finance[num_key] = parsed
     return {"chinese_entities": ents, "finance": finance}
 
 

@@ -56,6 +56,11 @@ def is_hidden_category(zh: str) -> bool:
     return _data()["category"].get(zh, {}).get("hidden", False)
 
 
+def has_storage_metrics(zh: str) -> bool:
+    """该 category 是否以储能功率/能量为核心指标（导出时保留 storage_* 字段）。"""
+    return _data()["category"].get(zh, {}).get("storage_metrics", False)
+
+
 def is_excluded_category(zh: str) -> bool:
     """该 category 是否被基线策略剔除。"""
     return _data()["category"].get(zh, {}).get("excluded", False)
@@ -102,3 +107,35 @@ def prompt_value_list(enum: str) -> str:
 def mf_production_units() -> list[str]:
     """MF（新能源制造业）production_capacity_unit 受控枚举取值列表。"""
     return list(_data()["mf_production_unit"]["values"])
+
+
+# ── 子类（subcategory） ──
+def _subcat_section(cat_zh: str) -> dict:
+    """内部：某父类的 subcategory 定义（无定义返回空 dict）。"""
+    sec = _data().get("subcategory", {}).get(cat_zh)
+    return sec if isinstance(sec, dict) else {}
+
+
+def subcategory_parents() -> list[str]:
+    """有子类定义的父类中文键列表（如 光伏、综合能源）。"""
+    return [k for k in _data().get("subcategory", {}) if not k.startswith("_")]
+
+
+def subcategories(cat_zh: str) -> list[str]:
+    """某父类的合法子类中文键列表（无子类定义返回 []）。"""
+    return list(_subcat_section(cat_zh).get("values", {}).keys())
+
+
+def subcategory_en(cat_zh: str, sub_zh: str) -> str | None:
+    """子类中文键 → 英文标签。"""
+    return _subcat_section(cat_zh).get("values", {}).get(sub_zh, {}).get("en")
+
+
+def subcategory_default(cat_zh: str) -> str | None:
+    """某父类子类的默认值（DB 为 NULL 时导出层渲染用）。"""
+    return _subcat_section(cat_zh).get("_default")
+
+
+def effective_subcategory(cat_zh: str, sub_zh: str | None) -> str | None:
+    """DB 子类值 → 有效子类：非空原样返回，NULL/空按父类默认；无子类定义返回 None。"""
+    return sub_zh if sub_zh else subcategory_default(cat_zh)

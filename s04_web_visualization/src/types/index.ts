@@ -31,7 +31,10 @@ export interface Project {
   province: string | null;
   category: string;         // 光伏 / 风电 / 水电 / 核电 / 火电 / 地热及余热 / 生物质 / 储能 / 综合能源 / 新能源制造业 / 输变电建设
   category_en: string;      // Solar PV / Wind Power / Hydropower / ...
+  subcategory?: string;     // 子类中文键（光伏：集中式/分布式；综合能源：光储/其他；其余类别为空串）
+  subcategory_en?: string;  // 子类英文标签（Utility-scale / Distributed / Solar + Storage / Other）
   capacity_mw: number | null;
+  pv_capacity_mw?: number | null;      // 综合能源项目光伏子项装机（MW），其余类别无值
   storage_power_mw?: number | null;    // 储能功率（MW），多数项目无值
   storage_energy_mwh?: number | null;  // 储能容量（MWh），多数项目无值
   capacity_source?: string | null;     // 容量来源：original / derived / manual / legacy
@@ -46,6 +49,8 @@ export interface Project {
   last_event_year: number | null;
   event_count: number;
   total_investment_usd: number | null;
+  contract_amount_usd?: number | null;   // 合同金额（百万美元），仅新数据，历史留空
+  financing_amount_usd?: number | null;  // 融资额度（百万美元），仅新数据，历史留空
   financing_model: string;
   financing_model_en: string;
   official_website_links?: string[];

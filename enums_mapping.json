@@ -7,7 +7,7 @@
     "水电":         { "zh": "水电",         "en": "Hydropower",                   "code": "HY", "color": "#06B6D4", "no_capacity": false, "hidden": false, "excluded": false },
     "地热及余热":   { "zh": "地热及余热",   "en": "Geothermal & Waste Heat",      "code": "GT", "color": "#10B981", "no_capacity": false, "hidden": false, "excluded": false },
     "生物质":       { "zh": "生物质",       "en": "Biomass",                      "code": "BM", "color": "#84CC16", "no_capacity": false, "hidden": false, "excluded": false },
-    "储能":         { "zh": "储能",         "en": "Energy Storage",               "code": "ES", "color": "#64748B", "no_capacity": true,  "hidden": false, "excluded": false },
+    "储能":         { "zh": "储能",         "en": "Energy Storage",               "code": "ES", "color": "#64748B", "no_capacity": true,  "hidden": false, "excluded": false, "storage_metrics": true },
     "综合能源":     { "zh": "综合能源",     "en": "Integrated Energy",            "code": "HB", "color": "#EC4899", "no_capacity": false, "hidden": false, "excluded": false },
     "核电":         { "zh": "核电",         "en": "Nuclear Power",                "code": "NC", "color": "#8B5CF6", "no_capacity": false, "hidden": true,  "excluded": false },
     "火电":         { "zh": "火电",         "en": "Thermal Power",                "code": "TH", "color": "#78716C", "no_capacity": false, "hidden": true,  "excluded": false },
@@ -29,10 +29,28 @@
   },
 
   "viz_group": {
-    "pre_construction":   {"zh": "前期", "en": "Pre-construction",    "color": "#9333EA", "order": 1},
-    "under_construction": {"zh": "在建", "en": "Under construction",  "color": "#F59E0B", "order": 2},
-    "completed":          {"zh": "完工", "en": "Completed",           "color": "#2563EB", "order": 3},
-    "acquired":           {"zh": "收购", "en": "Acquired",            "color": "#6B7280", "order": 4}
+    "pre_construction":   {"zh": "前期", "en": "Pre-construction",       "color": "#9333EA", "order": 1},
+    "under_construction": {"zh": "在建", "en": "In Construction",        "color": "#F59E0B", "order": 2},
+    "completed":          {"zh": "完工", "en": "Construction Completed", "color": "#2563EB", "order": 3},
+    "acquired":           {"zh": "收购", "en": "Acquired",               "color": "#6B7280", "order": 4}
+  },
+
+  "subcategory": {
+    "_comment": "项目子类（canonical_projects.subcategory 列，存子类中文键）。NULL=规则无证据，导出层按 _default 渲染；manual campaign 可显式写任意合法值（回填器 fill-if-null，非空值永不覆盖）。",
+    "光伏": {
+      "_default": "集中式",
+      "values": {
+        "集中式": { "zh": "集中式", "en": "Utility-scale" },
+        "分布式": { "zh": "分布式", "en": "Distributed" }
+      }
+    },
+    "综合能源": {
+      "_default": "其他",
+      "values": {
+        "光储": { "zh": "光储", "en": "Solar + Storage" },
+        "其他": { "zh": "其他", "en": "Other" }
+      }
+    }
   },
 
   "financing_model": {

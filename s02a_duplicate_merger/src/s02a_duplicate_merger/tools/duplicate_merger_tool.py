@@ -129,6 +129,10 @@ CREATE TABLE IF NOT EXISTS project_events (
     planned_complete_date   TEXT,
     total_investment_usd_raw TEXT,
     total_investment_usd    REAL,
+    contract_amount_usd_raw TEXT,   -- 合同金额原文短语（EPC/承包合同额，与投资额/融资额不互斥）
+    contract_amount_usd     REAL,   -- 合同金额（百万美元）
+    financing_amount_usd_raw TEXT,  -- 融资额度原文短语（贷款/授信/银团）
+    financing_amount_usd    REAL,   -- 融资额度（百万美元）
     investment_date         TEXT,
     financing_model         TEXT,
     financing_model_details TEXT,
@@ -225,6 +229,13 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE project_events ADD COLUMN transmission_capacity_mw REAL",
         "ALTER TABLE project_events ADD COLUMN production_capacity_value REAL",
         "ALTER TABLE project_events ADD COLUMN production_capacity_unit TEXT",
+        # 子类/光伏子项/金额稀疏列（指标扩展 2026-W30）
+        "ALTER TABLE canonical_projects ADD COLUMN subcategory TEXT",
+        "ALTER TABLE project_events ADD COLUMN pv_capacity_mw REAL",
+        "ALTER TABLE project_events ADD COLUMN contract_amount_usd_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN contract_amount_usd REAL",
+        "ALTER TABLE project_events ADD COLUMN financing_amount_usd_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN financing_amount_usd REAL",
     ]:
         try:
             conn.execute(col_def)
@@ -307,6 +318,10 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
         "planned_start_date":      "(Planned) Start Date",
         "planned_complete_date":   "(Planned) Complete Date",
         "total_investment_usd":    "Total Project Investment (Million USD)",
+        "contract_amount_usd":     "Contract Amount (Million USD)",
+        "contract_amount_usd_raw": "Contract Amount Raw",
+        "financing_amount_usd":    "Financing Amount (Million USD)",
+        "financing_amount_usd_raw": "Financing Amount Raw",
         "investment_date":         "Investment (or Financial Close) Date",
         "financing_model":         "Financing Model",
         "financing_model_details": "Financing Model Details",
@@ -428,6 +443,10 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "planned_start_date":   _clean(first.get("(Planned) Start Date", "")),
             "planned_complete_date":_clean(first.get("(Planned) Complete Date", "")),
             "total_investment_usd": _clean(first.get("Total Project Investment (Million USD)", "")),
+            "contract_amount_usd":  _clean(first.get("Contract Amount (Million USD)", "")),
+            "contract_amount_usd_raw":  _clean(first.get("Contract Amount Raw", "")),
+            "financing_amount_usd": _clean(first.get("Financing Amount (Million USD)", "")),
+            "financing_amount_usd_raw": _clean(first.get("Financing Amount Raw", "")),
             "investment_date":      _clean(first.get("Investment (or Financial Close) Date", "")),
             "financing_model":      _clean(first.get("Financing Model", "")),
             "financing_details":    _clean(first.get("Financing Model Details", "")),
@@ -965,11 +984,12 @@ def _merge_group(
         if vals:
             base[en_field] = vals[0]
 
-    # 字段冲突处理
+    # 字段冲突处理（raw 原文短语列不仲裁，随 first；只仲裁数值/枚举语义字段）
     conflict_fields = [
         "capacity_mw", "project_developer",
         "planned_start_date", "planned_complete_date",
-        "total_investment_usd", "financing_model",
+        "total_investment_usd", "contract_amount_usd", "financing_amount_usd",
+        "financing_model",
     ]
     conflict_log: List[str] = []
     for field in conflict_fields:
@@ -1401,6 +1421,8 @@ def _write_to_db(
                            project_developer = ?, project_developer_en = ?,
                            planned_start_date = ?, planned_complete_date = ?,
                            total_investment_usd_raw = ?, total_investment_usd = ?,
+                           contract_amount_usd_raw = ?, contract_amount_usd = ?,
+                           financing_amount_usd_raw = ?, financing_amount_usd = ?,
                            investment_date = ?,
                            financing_model = ?, financing_model_details = ?,
                            source_links = ?,
@@ -1418,6 +1440,10 @@ def _write_to_db(
                         merged_rec["planned_complete_date"],
                         merged_rec["total_investment_usd"],
                         bri_parse.parse_number(merged_rec["total_investment_usd"]),
+                        merged_rec.get("contract_amount_usd_raw") or None,
+                        bri_parse.parse_number(merged_rec.get("contract_amount_usd")),
+                        merged_rec.get("financing_amount_usd_raw") or None,
+                        bri_parse.parse_number(merged_rec.get("financing_amount_usd")),
                         merged_rec["investment_date"],
                         merged_rec["financing_model"],
                         merged_rec.get("financing_details", ""),
@@ -1449,11 +1475,13 @@ def _write_to_db(
                     capacity_mw_raw, capacity_mw, capacity_details,
                     storage_power_mw, storage_energy_mwh, capacity_source,
                     project_developer, project_developer_en, planned_start_date, planned_complete_date,
-                    total_investment_usd_raw, total_investment_usd, investment_date,
+                    total_investment_usd_raw, total_investment_usd,
+                    contract_amount_usd_raw, contract_amount_usd,
+                    financing_amount_usd_raw, financing_amount_usd, investment_date,
                     financing_model, financing_model_details, source_links,
                     official_website_links, non_official_website_links,
                     publish_date, additional_remarks, project_summary, created_at)
-                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                 (
                     event_id, canonical_id,
                     project["project_stage"],
@@ -1463,6 +1491,10 @@ def _write_to_db(
                     project["project_developer"], project.get("project_developer_en", ""),
                     project["planned_start_date"], project["planned_complete_date"],
                     project["total_investment_usd"], bri_parse.parse_number(project["total_investment_usd"]),
+                    project.get("contract_amount_usd_raw") or None,
+                    bri_parse.parse_number(project.get("contract_amount_usd")),
+                    project.get("financing_amount_usd_raw") or None,
+                    bri_parse.parse_number(project.get("financing_amount_usd")),
                     project["investment_date"],
                     project["financing_model"],    project["financing_details"],
                     json.dumps(project["source_links"], ensure_ascii=False),
@@ -1520,7 +1552,10 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
         SELECT
             pe.project_stage, pe.capacity_mw_raw, pe.capacity_details,
             pe.project_developer, pe.project_developer_en, pe.planned_start_date, pe.planned_complete_date,
-            pe.total_investment_usd_raw, pe.investment_date,
+            pe.total_investment_usd_raw,
+            pe.contract_amount_usd_raw, pe.contract_amount_usd,
+            pe.financing_amount_usd_raw, pe.financing_amount_usd,
+            pe.investment_date,
             pe.financing_model, pe.financing_model_details,
             pe.source_links, pe.official_website_links, pe.non_official_website_links,
             pe.publish_date, pe.additional_remarks, pe.project_summary,
@@ -1557,7 +1592,10 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
 
     (project_stage, capacity_mw, capacity_details,
      project_developer, project_developer_en, planned_start_date, planned_complete_date,
-     total_investment_usd, investment_date,
+     total_investment_usd,
+     contract_amount_usd_raw, contract_amount_usd,
+     financing_amount_usd_raw, financing_amount_usd,
+     investment_date,
      financing_model, financing_model_details,
      source_links_raw, official_website_links_raw, non_official_website_links_raw,
      publish_date, additional_remarks, project_summary,
@@ -1583,6 +1621,10 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
         "planned_start_date":         planned_start_date or "",
         "planned_complete_date":      planned_complete_date or "",
         "total_investment_usd":       total_investment_usd or "",
+        "contract_amount_usd":        contract_amount_usd if contract_amount_usd is not None else "",
+        "contract_amount_usd_raw":    contract_amount_usd_raw or "",
+        "financing_amount_usd":       financing_amount_usd if financing_amount_usd is not None else "",
+        "financing_amount_usd_raw":   financing_amount_usd_raw or "",
         "investment_date":            investment_date or "",
         "financing_model":            financing_model or "",
         "financing_details":          financing_model_details or "",   # _merge_group 使用此 key

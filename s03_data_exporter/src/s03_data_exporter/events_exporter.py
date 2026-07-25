@@ -24,10 +24,12 @@ _COLUMNS = [
     "canonical_id", "event_id",
     "project_name_en", "project_name_cn",
     "country_en", "country_iso", "province",
-    "category_en", "category_cn",
+    "category_en", "category_cn", "subcategory_cn", "subcategory_en",
     "stage_cn", "stage_en", "stage_group_cn", "stage_group_en",
     "year", "month",
-    "capacity_mw", "total_investment_usd", "financing_model_en",
+    "capacity_mw", "pv_capacity_mw", "storage_power_mw", "storage_energy_mwh",
+    "total_investment_usd", "contract_amount_usd", "financing_amount_usd",
+    "financing_model_en",
     "developer_cn", "developer_en",
     "entity_cn", "entity_en", "subsidiary_cn", "subsidiary_en",
     "involvement_type_cn", "involvement_type_en", "is_central_soe",
@@ -140,7 +142,15 @@ def export_events_csv(
         grp = enums.viz_group(stage)
         grp_meta = enums.viz_groups().get(grp, {}) if grp else {}
         cap = ev.get("capacity_mw")
-        inv = ev.get("total_investment_usd")
+
+        # 子类：与 projects_flat 同口径（NULL 渲染父类默认），项目级值每行重复
+        _cat = proj.get("category") or ""
+        _sub = enums.effective_subcategory(_cat, proj.get("subcategory"))
+
+        def _num(col: str):
+            """事件级数值列：None → 空串（CSV 口径）。"""
+            v = ev.get(col)
+            return v if v is not None else ""
 
         base = {
             "canonical_id": ev["canonical_id"],
@@ -150,8 +160,10 @@ def export_events_csv(
             "country_en": iso3_to_en.get(proj.get("country_iso") or "", ""),
             "country_iso": proj.get("country_iso") or "",
             "province": province_map.get(ev["canonical_id"]) or "",
-            "category_en": enums.category_en(proj.get("category") or "") or (proj.get("category") or ""),
-            "category_cn": proj.get("category") or "",
+            "category_en": enums.category_en(_cat) or _cat,
+            "category_cn": _cat,
+            "subcategory_cn": _sub or "",
+            "subcategory_en": (enums.subcategory_en(_cat, _sub) or "") if _sub else "",
             "stage_cn": stage,
             "stage_en": enums.stage_en(stage) or stage,
             "stage_group_cn": grp_meta.get("zh", ""),
@@ -159,7 +171,12 @@ def export_events_csv(
             "year": yr,
             "month": _month(d),
             "capacity_mw": cap if cap is not None else "",
-            "total_investment_usd": inv if inv is not None else "",
+            "pv_capacity_mw": _num("pv_capacity_mw"),
+            "storage_power_mw": _num("storage_power_mw"),
+            "storage_energy_mwh": _num("storage_energy_mwh"),
+            "total_investment_usd": _num("total_investment_usd"),
+            "contract_amount_usd": _num("contract_amount_usd"),
+            "financing_amount_usd": _num("financing_amount_usd"),
             "financing_model_en": enums.financing_en(ev.get("financing_model") or "") or (ev.get("financing_model") or ""),
             "developer_cn": ev.get("project_developer") or "",
             "developer_en": ev.get("project_developer_en") or "",

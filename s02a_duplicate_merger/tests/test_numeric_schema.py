@@ -94,3 +94,28 @@ def test_capacity_guard_blocks_when_far(tmp_path):
     _seed_two_stage_canonical(conn)
     assert _capacity_guard(conn, "C", {"capacity_mw": "200"}) is True
     conn.close()
+
+
+def test_amount_and_subcat_columns_exist(tmp_path):
+    """指标扩展 2026-W30：金额 4 列 + pv_capacity_mw + canonical.subcategory 建库即有、类型正确。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, subcategory) VALUES ('C','c','分布式')"
+    )
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, contract_amount_usd_raw, contract_amount_usd, "
+        "financing_amount_usd_raw, financing_amount_usd, pv_capacity_mw) VALUES ('C-01','C',?,?,?,?,?)",
+        ("合同金额约12亿元人民币", 167.0, "银团贷款35亿元", 486.0, 100.0),
+    )
+    conn.commit()
+    row = conn.execute(
+        "SELECT contract_amount_usd, typeof(contract_amount_usd), contract_amount_usd_raw, "
+        "financing_amount_usd, typeof(financing_amount_usd), pv_capacity_mw FROM project_events"
+    ).fetchone()
+    sub = conn.execute("SELECT subcategory FROM canonical_projects").fetchone()[0]
+    conn.close()
+    assert row[0] == 167.0 and row[1] == "real"
+    assert row[2] == "合同金额约12亿元人民币"
+    assert row[3] == 486.0 and row[4] == "real"
+    assert row[5] == 100.0
+    assert sub == "分布式"

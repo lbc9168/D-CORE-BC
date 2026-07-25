@@ -109,3 +109,153 @@ def test_iso3_to_en_name_loaded():
     assert len(flat_builder.ISO3_TO_EN_NAME) > 100          # WorldCountryList 有 200+ 国
     assert flat_builder.ISO3_TO_EN_NAME.get("CHL") == "Chile"
     assert flat_builder.ISO3_TO_EN_NAME.get("CHN") == "China"
+
+
+# ── 指标扩展 2026-W30：储能修复 + 子类 + 金额 ──────────────────────────────
+
+def _make_src_ext(path):
+    """扩展 schema 测试库：含 subcategory/pv_capacity_mw/金额列。"""
+    conn = sqlite3.connect(path)
+    conn.executescript(
+        """
+        CREATE TABLE canonical_projects (
+            id TEXT PRIMARY KEY, project_name TEXT, project_name_en TEXT,
+            name_en_quality TEXT, country TEXT, country_iso TEXT, bri_country TEXT,
+            ldc TEXT, location TEXT, category TEXT, excluded INTEGER DEFAULT 0,
+            excluded_reason TEXT, subcategory TEXT
+        );
+        CREATE TABLE project_events (
+            id TEXT PRIMARY KEY, canonical_id TEXT, project_stage TEXT,
+            capacity_mw REAL, capacity_mw_raw TEXT, pv_capacity_mw REAL,
+            storage_power_mw REAL, storage_energy_mwh REAL, capacity_source TEXT,
+            total_investment_usd REAL, total_investment_usd_raw TEXT,
+            contract_amount_usd REAL, financing_amount_usd REAL,
+            publish_date TEXT, investment_date TEXT,
+            official_website_links TEXT, non_official_website_links TEXT,
+            verification_status TEXT,
+            project_developer TEXT, project_developer_en TEXT
+        );
+        CREATE TABLE chinese_entities (
+            id INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT,
+            implementing_entity TEXT, implementing_entity_en TEXT,
+            subsidiary_name TEXT, subsidiary_name_en TEXT,
+            involvement_type TEXT, subcontract_amount REAL, is_central_soe INTEGER
+        );
+        """
+    )
+    conn.commit()
+    return conn
+
+
+def test_pure_es_project_keeps_storage_clears_capacity(tmp_path):
+    """纯储能项目：capacity_mw 清空（不进装机聚合）但 storage_* 保留（选值+清空双修复）。"""
+    src, dst = tmp_path / "src.db", tmp_path / "dst.db"
+    conn = _make_src_ext(str(src))
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category) VALUES ('SAU-ES-0002','红海储能','储能')"
+    )
+    # 所有事件 capacity_mw 均为 NULL——修复前储能选值永不命中
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, project_stage, storage_energy_mwh, publish_date) "
+        "VALUES ('SAU-ES-0002-01','SAU-ES-0002',?,12500.0,'2023-05')",
+        (_TERMINAL,),
+    )
+    conn.commit()
+    conn.close()
+
+    flat_builder.build_flat(src, dst, province_map={})
+    conn = sqlite3.connect(dst)
+    row = conn.execute(
+        "SELECT capacity_mw, storage_power_mw, storage_energy_mwh FROM projects_flat"
+    ).fetchone()
+    conn.close()
+    assert row[0] is None, "储能类 capacity_mw 应清空"
+    assert row[2] == 12500.0, "储能能量必须保留到导出层"
+
+
+def test_txmf_still_fully_cleared(tmp_path):
+    """TX（无 storage_metrics 标志）仍全清 capacity 与 storage 字段。"""
+    src, dst = tmp_path / "src.db", tmp_path / "dst.db"
+    conn = _make_src_ext(str(src))
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category) VALUES ('SAU-TX-0001','输电','输变电建设')"
+    )
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw, storage_energy_mwh, publish_date) "
+        "VALUES ('SAU-TX-0001-01','SAU-TX-0001',?,7000.0,50.0,'2023-05')",
+        (_TERMINAL,),
+    )
+    conn.commit()
+    conn.close()
+
+    flat_builder.build_flat(src, dst, province_map={})
+    conn = sqlite3.connect(dst)
+    row = conn.execute(
+        "SELECT capacity_mw, storage_power_mw, storage_energy_mwh, capacity_source FROM projects_flat"
+    ).fetchone()
+    conn.close()
+    assert row == (None, None, None, None)
+
+
+def test_subcategory_default_and_explicit(tmp_path):
+    """子类：DB NULL 按父类默认渲染；显式值原样导出（经 enums 查表断言，不写标签字面量）。"""
+    src, dst = tmp_path / "src.db", tmp_path / "dst.db"
+    conn = _make_src_ext(str(src))
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category, subcategory) "
+        "VALUES ('VNM-PV-0001','光伏A','光伏',NULL)"
+    )
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category, subcategory) "
+        "VALUES ('VNM-PV-0002','光伏B','光伏','分布式')"
+    )
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category) VALUES ('VNM-WD-0001','风电C','风电')"
+    )
+    for pid in ("VNM-PV-0001", "VNM-PV-0002", "VNM-WD-0001"):
+        conn.execute(
+            "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw, publish_date) "
+            f"VALUES ('{pid}-01','{pid}',?,100.0,'2023-01')",
+            (_TERMINAL,),
+        )
+    conn.commit()
+    conn.close()
+
+    flat_builder.build_flat(src, dst, province_map={})
+    conn = sqlite3.connect(dst)
+    got = dict(conn.execute("SELECT project_id, subcategory FROM projects_flat").fetchall())
+    en = dict(conn.execute("SELECT project_id, subcategory_en FROM projects_flat").fetchall())
+    conn.close()
+    _default = bri_enums.subcategory_default("光伏")
+    assert got["VNM-PV-0001"] == _default, "NULL 应渲染父类默认"
+    assert en["VNM-PV-0001"] == bri_enums.subcategory_en("光伏", _default)
+    assert got["VNM-PV-0002"] == "分布式"
+    assert got["VNM-WD-0001"] == "", "无子类定义的类别两列为空"
+
+
+def test_amounts_and_pv_capacity_exported(tmp_path):
+    """金额两新列走代表事件选值；pv_capacity_mw 终态优先取非空事件。"""
+    src, dst = tmp_path / "src.db", tmp_path / "dst.db"
+    conn = _make_src_ext(str(src))
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category) VALUES ('UZB-HB-0001','光储','综合能源')"
+    )
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw, pv_capacity_mw, "
+        "contract_amount_usd, financing_amount_usd, publish_date) "
+        "VALUES ('UZB-HB-0001-01','UZB-HB-0001',?,150.0,100.0,167.0,486.0,'2023-05')",
+        (_TERMINAL,),
+    )
+    conn.commit()
+    conn.close()
+
+    flat_builder.build_flat(src, dst, province_map={})
+    conn = sqlite3.connect(dst)
+    row = conn.execute(
+        "SELECT pv_capacity_mw, contract_amount_usd, financing_amount_usd, subcategory FROM projects_flat"
+    ).fetchone()
+    conn.close()
+    assert row[0] == 100.0
+    assert row[1] == 167.0
+    assert row[2] == 486.0
+    assert row[3] == bri_enums.subcategory_default("综合能源"), "HB NULL 渲染默认"

@@ -393,6 +393,10 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             planned_complete_date   TEXT,
             total_investment_usd_raw TEXT,
             total_investment_usd    REAL,
+            contract_amount_usd_raw TEXT,
+            contract_amount_usd     REAL,
+            financing_amount_usd_raw TEXT,
+            financing_amount_usd    REAL,
             investment_date         TEXT,
             financing_model         TEXT,
             financing_model_details TEXT,
@@ -428,6 +432,10 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN project_developer_en TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN project_developer_evidence TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN needs_review INTEGER DEFAULT 0",
+        "ALTER TABLE extracted_projects ADD COLUMN contract_amount_usd_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN contract_amount_usd REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN financing_amount_usd_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN financing_amount_usd REAL",
     ]:
         try:
             conn.execute(col_def)
@@ -954,9 +962,21 @@ class ProjectExtractorTool:
                         "Total Project Investment (Million USD)": common.get(
                             "Total Project Investment (Million USD)", ""
                         ),
-                        # 投资额原文短语（S3/S34 stage 注入，供 total_investment_usd_raw 落库）
+                        # 三类金额原文短语（S3/S34 stage 注入，供 *_raw 落库；概念不互斥，见 prompt B.5）
                         "_total_investment_usd_raw_phrase": common.get(
                             "total_investment_usd_raw_phrase", ""
+                        ),
+                        "Contract Amount (Million USD)": common.get(
+                            "Contract Amount (Million USD)", ""
+                        ),
+                        "_contract_amount_usd_raw_phrase": common.get(
+                            "contract_amount_usd_raw_phrase", ""
+                        ),
+                        "Financing Amount (Million USD)": common.get(
+                            "Financing Amount (Million USD)", ""
+                        ),
+                        "_financing_amount_usd_raw_phrase": common.get(
+                            "financing_amount_usd_raw_phrase", ""
                         ),
                         "Investment (or Financial Close) Date": common.get(
                             "Investment (or Financial Close) Date", ""
@@ -1068,9 +1088,21 @@ class ProjectExtractorTool:
                         "Total Project Investment (Million USD)": common.get(
                             "Total Project Investment (Million USD)", ""
                         ),
-                        # 投资额原文短语（S3/S34 stage 注入，供 total_investment_usd_raw 落库）
+                        # 三类金额原文短语（S3/S34 stage 注入，供 *_raw 落库；概念不互斥，见 prompt B.5）
                         "_total_investment_usd_raw_phrase": common.get(
                             "total_investment_usd_raw_phrase", ""
+                        ),
+                        "Contract Amount (Million USD)": common.get(
+                            "Contract Amount (Million USD)", ""
+                        ),
+                        "_contract_amount_usd_raw_phrase": common.get(
+                            "contract_amount_usd_raw_phrase", ""
+                        ),
+                        "Financing Amount (Million USD)": common.get(
+                            "Financing Amount (Million USD)", ""
+                        ),
+                        "_financing_amount_usd_raw_phrase": common.get(
+                            "financing_amount_usd_raw_phrase", ""
                         ),
                         "Investment (or Financial Close) Date": common.get(
                             "Investment (or Financial Close) Date", ""
@@ -1216,9 +1248,13 @@ class ProjectExtractorTool:
                         category=row_data.get("Category"),
                     )
                 sub_raw = row_data.get("Subcontract Amount (Million USD)", "")
-                # 投资额原文短语（stage 层注入 total_investment_usd_raw_phrase，写入 total_investment_usd_raw）
+                # 三类金额原文短语（stage 层注入 *_raw_phrase，写入对应 *_raw 列；概念不互斥，见 prompt B.5）
                 inv_raw = row_data.get("_total_investment_usd_raw_phrase") or ""
                 inv_val_field = row_data.get("Total Project Investment (Million USD)", "")
+                contract_raw = row_data.get("_contract_amount_usd_raw_phrase") or ""
+                contract_val_field = row_data.get("Contract Amount (Million USD)", "")
+                financing_raw = row_data.get("_financing_amount_usd_raw_phrase") or ""
+                financing_val_field = row_data.get("Financing Amount (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
                 proj_conn.execute(
                     """INSERT INTO extracted_projects
@@ -1229,14 +1265,16 @@ class ProjectExtractorTool:
                         multiple_chinese, implementing_entity,
                         implementing_entity_en, is_central_soe, subsidiary_name, subsidiary_name_en,
                         involvement_type, subcontract_amount_usd_raw, subcontract_amount_usd, planned_start_date,
-                        planned_complete_date, total_investment_usd_raw, total_investment_usd, investment_date,
+                        planned_complete_date, total_investment_usd_raw, total_investment_usd,
+                        contract_amount_usd_raw, contract_amount_usd,
+                        financing_amount_usd_raw, financing_amount_usd, investment_date,
                         financing_model, financing_model_details,
                         source_link, publish_date, official_website, non_official_website,
                         additional_remarks, project_summary, batch_id, imported_to_s02a,
                         excluded, exclude_reason, exclude_source,
                         is_unnamed_placeholder, created_at)
                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
+                               ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?, ?)""",
                     (
                         row_data.get("Record Type", "具体项目"),
                         row_data.get("Project Name", ""),
@@ -1274,6 +1312,10 @@ class ProjectExtractorTool:
                         row_data.get("(Planned) Complete Date", ""),
                         inv_raw or None,
                         bri_parse.parse_number(inv_val_field),
+                        contract_raw or None,
+                        bri_parse.parse_number(contract_val_field),
+                        financing_raw or None,
+                        bri_parse.parse_number(financing_val_field),
                         row_data.get("Investment (or Financial Close) Date", ""),
                         row_data.get("Financing Model", ""),
                         row_data.get("Financing Model Details", ""),
