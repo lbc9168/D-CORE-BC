@@ -532,7 +532,7 @@ export default function TablePage() {
       {/* 下载问卷弹窗 */}
       {showSurvey && (
         <DownloadSurveyModal
-          rowCount={sorted.length}
+          rowCount={totalCount}
           onConfirm={handleSurveyConfirm}
           onClose={() => setShowSurvey(false)}
         />
