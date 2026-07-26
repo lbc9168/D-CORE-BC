@@ -12,6 +12,7 @@ export interface SurveyData {
 }
 
 interface Props {
+  /** 下载文件包含的项目总数（全量，与页面筛选无关） */
   rowCount: number;
   onConfirm: (data: SurveyData) => Promise<void>;
   onClose: () => void;
@@ -116,7 +117,7 @@ export default function DownloadSurveyModal({ rowCount, onConfirm, onClose }: Pr
             <h2 className="text-base font-semibold text-slate-800">Download D-CORE Dataset</h2>
           </div>
           <p className="text-xs text-slate-500">
-            {rowCount.toLocaleString()} records · CSV format
+            {rowCount.toLocaleString()} projects · CSV format
           </p>
           <p className="text-xs text-slate-400 mt-1">
             Please complete this brief survey before downloading. All fields are required.

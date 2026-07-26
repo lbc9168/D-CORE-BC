@@ -164,7 +164,7 @@ const zh = {
   table: {
     title: "全部项目数据",
     search: "搜索项目名称或企业...",
-    export: "导出 CSV",
+    export: "导出 CSV（全部数据）",
     columns: {
       id: "项目编号",
       name: "项目名称",
@@ -181,7 +181,7 @@ const zh = {
       verification: "核验",
     },
     empty: "没有符合条件的数据",
-    total: "共 {{count}} 条",
+    total: "共 {{count}} 个项目",
     downloadError: "下载失败：数据文件暂时无法获取，请稍后重试或联系管理员。",
     dictionary: "数据字典 (Excel)",
   },

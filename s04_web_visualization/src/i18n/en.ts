@@ -157,7 +157,7 @@ const en: Translations = {
   table: {
     title: "All Project Data",
     search: "Search project name or entity...",
-    export: "Export CSV",
+    export: "Export CSV (all data)",
     columns: {
       id: "Project ID",
       name: "Project Name",
@@ -174,7 +174,7 @@ const en: Translations = {
       verification: "Verified",
     },
     empty: "No data matches current filters",
-    total: "{{count}} records total",
+    total: "{{count}} projects total",
     downloadError: "Download failed: the data file is temporarily unavailable. Please try again later or contact the administrator.",
     dictionary: "Data dictionary (Excel)",
   },

@@ -35,10 +35,13 @@ const TXMF_SORT_GETTERS: Record<string, (p: TxMfProject) => string | number | nu
 };
 
 export default function TablePage() {
-  const { filteredProjects, filteredTxMf, loading, error } = useData();
+  const { filteredProjects, filteredTxMf, allProjects, txProjects, mfProjects, loading, error } = useData();
   const { domain } = useDomain();
   const { t, T } = useLang();
   const isTxMf = domain === "txmf";
+
+  // 下载恒为全量单文件，与当前筛选/域无关 → 弹窗显示文件里的项目总数（发电 + 输变电·制造业）
+  const csvProjectCount = allProjects.length + txProjects.length + mfProjects.length;
 
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
@@ -153,7 +156,7 @@ export default function TablePage() {
     if (SURVEY_ENDPOINT) {
       const payload = new FormData();
       Object.entries(data).forEach(([k, v]) => payload.append(k, v));
-      payload.append("record_count", String(totalCount));
+      payload.append("record_count", String(csvProjectCount));
       payload.append("submitted_at", new Date().toISOString());
       fetch(SURVEY_ENDPOINT, { method: "POST", body: payload, mode: "no-cors" }).catch(() => {});
     }
@@ -532,7 +535,7 @@ export default function TablePage() {
       {/* 下载问卷弹窗 */}
       {showSurvey && (
         <DownloadSurveyModal
-          rowCount={totalCount}
+          rowCount={csvProjectCount}
           onConfirm={handleSurveyConfirm}
           onClose={() => setShowSurvey(false)}
         />
