@@ -1,7 +1,7 @@
 import { useState, useMemo, useEffect, useCallback, type WheelEvent } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
 import type { MetricKey } from "@/types";
-import { valueToColor, buildColorBins } from "@/utils/colorScale";
+import { valueToColor, buildColorBins, EMPTY_COLOR } from "@/utils/colorScale";
 import { METRIC_META, metricValue, type MetricRow } from "@/utils/metrics";
 import { useLang } from "@/contexts/LanguageContext";
 import { useProvinceGeo } from "@/hooks/useProvinceGeo";
@@ -302,6 +302,40 @@ export default function ProvinceMap({
           style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
         >
           {tooltip.content}
+        </div>
+      )}
+
+      {/* 图例（与世界图同款：分箱色块 + 无数据说明，标题/单位随当前度量）。
+          省级视图底部右侧另有"无省级信息"按钮，故整体上抬一行高度，窄屏也不会与之横向相撞。 */}
+      {bins.length > 0 && (
+        <div className="absolute bottom-16 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2.5
+                        shadow-sm border border-slate-100 text-xs">
+          <div className="text-slate-500 mb-1.5 font-medium">
+            {t(metricMeta.labelKey)}
+          </div>
+          <div className="flex flex-col gap-1.5">
+            {bins.map((bin) => (
+              <div key={bin.label} className="flex items-center gap-2">
+                <div
+                  className="w-7 h-3 rounded-sm flex-shrink-0"
+                  style={{ backgroundColor: bin.color }}
+                />
+                <span className="text-slate-500 leading-none" style={{ fontSize: "10px" }}>
+                  {bin.label}
+                </span>
+              </div>
+            ))}
+            {/* 无数据说明项：与数据分档用细分隔线隔开 */}
+            <div className="flex items-center gap-2 mt-0.5 pt-1.5 border-t border-slate-100">
+              <div
+                className="w-7 h-3 rounded-sm flex-shrink-0"
+                style={{ backgroundColor: EMPTY_COLOR }}
+              />
+              <span className="text-slate-500 leading-none" style={{ fontSize: "10px" }}>
+                {t("map.noData")}
+              </span>
+            </div>
+          </div>
         </div>
       )}
 
