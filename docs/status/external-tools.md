@@ -1,12 +1,28 @@
 # external-tools 状态
 
-> 最后更新：2026-07-07（新增 codex_review 章节）
+> 最后更新：2026-08-06（新增 Golden Standard Studio 的富金标准数据契约）
 
 ---
 
 ## 概述
 
 `external-tools/` 目录存放不属于主流水线的一次性辅助工具。这些工具独立运行，不依赖 crewai 框架，可直接用 `uv run --with <deps>` 执行。
+
+---
+
+## gold-standard-studio — 全库金标准复核工作台
+
+### 功能
+
+为 Full-Database Golden Standard Studio 提供与主流水线隔离的人工复核数据契约。富金标准记录保留字段状态、文章级证据、项目实体角色和候选来源；正式发布前要求整篇文章已人工复核，且不存在 `needs_adjudication` 字段。
+
+### 当前状态
+
+| 项目 | 状态 |
+|------|------|
+| Pydantic 富金标准、证据与候选契约 | ✅ 已完成 |
+| 统一字段注册表（证据要求 + 评测映射） | ✅ 已完成 |
+| 只读数据源、抽样、复核存储、发布器与 Web UI | ⬜ 待实现 |
 
 ---
 
