@@ -26,6 +26,8 @@ uv run --project external-tools/gold-standard-studio gold-studio sample --data-d
 
 For a mechanically reproducible record suitable for handoff, use `--format json`. It includes before/after logical hashes, optional main-file hashes, raw/canonical/event row counts and ID-set digests, exact selection/status/category/risk counts, every floor, and unchanged booleans. Logical hashes are authoritative because SQLite WAL content can be committed without changing the main database file; physical hashes are diagnostics only.
 
+JSON mode writes exactly one JSON document to stdout in both modes. Dry-run sets `applied: false`; `--apply` sets `applied: true` and adds `seeded_count`, the safe local `review_db` name, and manifest name in the same document. Do not parse the human-readable default output as JSON.
+
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio sample --data-dir data/gold-studio --format json
 ```

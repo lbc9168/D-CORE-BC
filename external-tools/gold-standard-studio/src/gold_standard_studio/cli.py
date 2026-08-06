@@ -246,9 +246,7 @@ def sample(
             raise typer.BadParameter(f"Pilot quotas are infeasible: {error}") from error
         source_after = repository.source_integrity()
     evidence = _sample_evidence(selected, source_before, source_after)
-    if format == "json":
-        typer.echo(json.dumps(evidence, ensure_ascii=False, sort_keys=True))
-    else:
+    if format != "json":
         selection = evidence["selection"]
         typer.echo(
             f"selected={selection['selected_count']} negatives={selection['negative_count']} statuses={selection['statuses']} "
@@ -256,6 +254,9 @@ def sample(
             f"source_hashes_unchanged={evidence['unchanged']['logical_hashes']}"
         )
     if not apply:
+        evidence["applied"] = False
+        if format == "json":
+            typer.echo(json.dumps(evidence, ensure_ascii=False, sort_keys=True))
         if format != "json":
             typer.echo("dry-run: no review database, model cache, or source database was written")
         return
@@ -263,7 +264,19 @@ def sample(
     for record in _sample_records(selected, articles):
         store.seed_article(record)
     manifest_path = _write_sample_manifest(data_dir, selected, source_before["logical_hashes"])
-    typer.echo(f"applied selected={len(selected)} review_db={store.path} manifest={manifest_path}")
+    if format == "json":
+        evidence.update(
+            {
+                "mode": "apply",
+                "applied": True,
+                "seeded_count": len(selected),
+                "review_db": store.path.name,
+                "manifest": manifest_path.name,
+            }
+        )
+        typer.echo(json.dumps(evidence, ensure_ascii=False, sort_keys=True))
+    else:
+        typer.echo(f"applied selected={len(selected)} review_db={store.path} manifest={manifest_path}")
 
 
 @app.command("build-candidates")

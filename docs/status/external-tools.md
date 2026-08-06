@@ -42,6 +42,8 @@ Studio 现提供 `gold-studio` 命令：`sample` 默认为真正的无写入 dry
 
 Task 12 fix round 1 将候选难度/风险保存为 review DB 的观察性 `sample_scoring`（`BEGIN IMMEDIATE` + 独立审计），不重开或改写已确认 rich gold；队列和完成后报告均读取该持久评分。`build-candidates --all` 现覆盖所有已种子样本，`--resume` 只跳过已保存 candidate bundle 的样本。`init` 在创建 Studio 文件前检查所有只读 SQLite 表/列契约；`sample --format json` 输出可复算的前后逻辑哈希、物理诊断哈希、行数/ID digest、配额与 unchanged 证据。
 
+Task 12 fix round 2 规定 `sample --format json` 的 stdout 永远只有一个 JSON document：dry-run 为 `applied:false`，`--apply` 在同一对象中附加 `applied:true`、`seeded_count`、安全的 review DB/manifest 文件名，不再将 apply 进度文本混入机器输出。
+
 评测器现已消费逐项目 eligibility、分派全字段指标并输出 split/category/risk 切片：`not_mentioned` 的 null 按显式空值计入分母，`not_applicable`/`uncertain` 仍排除；地点采用与 Studio evidence 相同的 normalized-exact。评测的显式 FIELD_PRIMARY_METRIC 映射将发电源指定为 set F1（精确集合准确率仅供诊断），避免 full/core 汇总退化为通用 accuracy。Studio exporter 通过不污染全局 `sys.path` 的私有 importlib 包加载仓库唯一的 `eval.gold_loader` 契约，因此从 Studio 独立工作目录导入也可用。
 
 发布投影的唯一校验契约现为 `eval.gold_loader.GoldRecord`：写入前和临时 JSONL 重读时均使用该模型，Studio 不再维护宽松的重复 projection schema。Loader 对 canonical gold 使用严格 JSON 类型、受控 category/stage/financing enum、受控发电源和严格数值字段，拒绝例如布尔值伪装的数值；验证失败在版本目录可见前清理 staging。

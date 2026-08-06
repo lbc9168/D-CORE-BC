@@ -125,12 +125,30 @@ def test_sample_json_dry_run_emits_source_integrity_and_selection_evidence(tmp_p
     payload = json.loads(result.stdout)
     assert result.exit_code == 0, result.output
     assert payload["selection"]["selected_count"] == 60
+    assert payload["applied"] is False
     assert payload["selection"]["negative_count"] == 11
     assert payload["selection"]["category_floors"]["储能"]["satisfied"] is True
     assert payload["source_before"]["logical_hashes"] == payload["source_after"]["logical_hashes"]
     assert payload["unchanged"]["logical_hashes"] is True
     assert payload["source_after"]["raw_news"]["row_count"] == 80
     assert not data_dir.exists()
+
+
+def test_sample_json_apply_emits_one_document_with_seeded_local_state(tmp_path: Path) -> None:
+    """Keep apply-mode stdout machine-parseable while reporting exactly what local review state was seeded."""
+    from gold_standard_studio.cli import app
+    from gold_standard_studio.review_store import ReviewStore
+
+    data_dir = tmp_path / "studio"
+    result = CliRunner().invoke(app, ["sample", *_args(_create_sources(tmp_path), data_dir), "--format", "json", "--apply"])
+
+    payload = json.loads(result.stdout)
+    assert result.exit_code == 0, result.output
+    assert payload["applied"] is True
+    assert payload["seeded_count"] == 60
+    assert payload["review_db"] == "review.db"
+    assert len(result.stdout.splitlines()) == 1
+    assert len(ReviewStore(data_dir / "review.db").list_all_samples()) == 60
 
 
 def test_publish_requires_explicit_version(tmp_path: Path) -> None:
