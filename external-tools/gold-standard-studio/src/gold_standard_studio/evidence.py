@@ -87,7 +87,7 @@ def locate_evidence(article_text: str, evidence: EvidenceSpan) -> EvidenceSpan:
 
 
 def compare_candidates(bundle: CandidateBundle) -> list[FieldConflict]:
-    """Return stable structural and reviewed-field conflicts while excluding errored source values."""
+    """Return identity-aligned structural and field conflicts while excluding errored source values."""
     successful = {name: value for name, value in bundle.sources.items() if value.status == "ok"}
     error_sources = tuple(sorted(name for name, value in bundle.sources.items() if value.status == "error"))
     if not successful:
@@ -105,15 +105,32 @@ def compare_candidates(bundle: CandidateBundle) -> list[FieldConflict]:
                 error_sources=error_sources,
             )
         )
-    max_projects = max(counts.values(), default=0)
-    for project_index in range(max_projects):
+    reference_source = min(successful, key=_source_sort_key)
+    reference_projects = successful[reference_source].projects
+    alignments: dict[str, dict[int, int]] = {
+        reference_source: {index: index for index in range(len(reference_projects))}
+    }
+    for source_name in sorted(successful, key=_source_sort_key):
+        if source_name == reference_source:
+            continue
+        alignment, alignment_conflicts = _align_projects(
+            reference_source,
+            reference_projects,
+            source_name,
+            successful[source_name].projects,
+            error_sources,
+        )
+        alignments[source_name] = alignment
+        conflicts.extend(alignment_conflicts)
+    for project_index in range(len(reference_projects)):
         for field_name in FIELD_REGISTRY:
             values = {
-                source_name: _field_value(candidate.projects[project_index], field_name)
-                if project_index < len(candidate.projects)
-                else None
+                source_name: _field_value(candidate.projects[alignments[source_name][project_index]], field_name)
                 for source_name, candidate in successful.items()
+                if project_index in alignments[source_name]
             }
+            if len(values) < 2:
+                continue
             if not any(value is not None for value in values.values()):
                 continue
             normalized = {source_name: _normalize_value(field_name, value) for source_name, value in values.items()}
@@ -139,8 +156,139 @@ def _validate_article_hash(article_text: str, expected_hash: str) -> None:
 
 
 def _quote_offsets(article_text: str, quote: str) -> list[int]:
-    """Return every non-overlapping exact quote occurrence in deterministic text order."""
-    return [match.start() for match in re.finditer(re.escape(quote), article_text)]
+    """Return every exact quote occurrence, including overlaps, in deterministic text order."""
+    return [match.start() for match in re.finditer(f"(?={re.escape(quote)})", article_text)]
+
+
+def _align_projects(
+    reference_source: str,
+    reference_projects: list[GoldProject],
+    source_name: str,
+    projects: list[GoldProject],
+    error_sources: tuple[str, ...],
+) -> tuple[dict[int, int], list[FieldConflict]]:
+    """Map one source's project positions to reference identities and report every unsafe mapping explicitly."""
+    alignment: dict[int, int] = {}
+    conflicts: list[FieldConflict] = []
+    remaining = set(range(len(projects)))
+    unmatched_references: list[tuple[int, GoldProject]] = []
+    for reference_index, reference_project in enumerate(reference_projects):
+        reference_name = _project_name(reference_project)
+        matches = _candidate_project_matches(reference_name, projects, remaining)
+        if len(matches) == 1:
+            matched_index = matches[0]
+            alignment[reference_index] = matched_index
+            remaining.remove(matched_index)
+            continue
+        if not matches:
+            unmatched_references.append((reference_index, reference_project))
+        else:
+            conflicts.append(
+                _alignment_conflict(
+                    reference_source,
+                    reference_index,
+                    reference_project,
+                    source_name,
+                    [projects[index] for index in matches],
+                    "project_alignment_ambiguous",
+                    error_sources,
+                )
+            )
+    if unmatched_references:
+        reference_index, _reference_project = unmatched_references[0]
+        conflicts.append(
+            FieldConflict(
+                field_name="projects",
+                project_index=reference_index,
+                source_values={
+                    reference_source: tuple(_project_identity(project) for _, project in unmatched_references),
+                    source_name: tuple(_project_identity(projects[index]) for index in sorted(remaining)),
+                },
+                normalized_values={
+                    reference_source: tuple(_project_identity(project) for _, project in unmatched_references),
+                    source_name: tuple(_project_identity(projects[index]) for index in sorted(remaining)),
+                },
+                reason_code="project_alignment_unmatched",
+                error_sources=error_sources,
+            )
+        )
+    elif remaining and not conflicts:
+        conflicts.append(
+            _alignment_conflict(
+                reference_source,
+                None,
+                None,
+                source_name,
+                [projects[index] for index in sorted(remaining)],
+                "project_alignment_unmatched",
+                error_sources,
+            )
+        )
+    return alignment, conflicts
+
+
+def _candidate_project_matches(
+    reference_name: str | None, projects: list[GoldProject], remaining: set[int]
+) -> list[int]:
+    """Find exact normalized project-name matches first, then only unambiguous conservative fuzzy matches."""
+    if reference_name is None:
+        return []
+    exact = [
+        index
+        for index in sorted(remaining)
+        if (candidate_name := _project_name(projects[index])) is not None
+        and _normalize_text(candidate_name) == _normalize_text(reference_name)
+    ]
+    if exact:
+        return exact
+    return [
+        index
+        for index in sorted(remaining)
+        if (candidate_name := _project_name(projects[index])) is not None
+        and _values_equivalent("project_name", reference_name, candidate_name)
+    ]
+
+
+def _alignment_conflict(
+    reference_source: str,
+    reference_index: int | None,
+    reference_project: GoldProject | None,
+    source_name: str,
+    candidate_projects: list[GoldProject],
+    reason_code: str,
+    error_sources: tuple[str, ...],
+) -> FieldConflict:
+    """Describe an unsafe project identity mapping without emitting misleading positional field conflicts."""
+    source_values: dict[str, Any] = {
+        source_name: tuple(_project_identity(project) for project in candidate_projects)
+    }
+    if reference_project is not None:
+        source_values[reference_source] = _project_identity(reference_project)
+    return FieldConflict(
+        field_name="projects",
+        project_index=reference_index,
+        source_values=source_values,
+        normalized_values=source_values,
+        reason_code=reason_code,
+        error_sources=error_sources,
+    )
+
+
+def _project_name(project: GoldProject) -> str | None:
+    """Return a nonblank present project name used as the only cross-source identity evidence."""
+    name = _field_value(project, "project_name")
+    return str(name) if isinstance(name, str) and name.strip() else None
+
+
+def _project_identity(project: GoldProject) -> str:
+    """Return a readable local identifier for structural alignment diagnostics without treating it as shared identity."""
+    return _project_name(project) or f"<unnamed:{project.gold_project_id}>"
+
+
+def _source_sort_key(source_name: str) -> tuple[int, str]:
+    """Order known candidate sources predictably so reference identity selection never depends on mapping insertion."""
+    priority = ("database", "production", "review", "deterministic")
+    return (priority.index(source_name) if source_name in priority else len(priority), source_name)
 
 
 def _field_value(project: GoldProject, field_name: str) -> Any:

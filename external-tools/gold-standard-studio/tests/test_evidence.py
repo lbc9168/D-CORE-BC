@@ -47,6 +47,14 @@ def test_ambiguous_quote_requires_review_instead_of_picking_first_match():
         relocate_quote(text, "储能系统", expected_start=None, article_sha256=_sha(text))
 
 
+def test_overlapping_quote_occurrences_are_ambiguous_too():
+    """Reject overlapping text matches so a regex implementation cannot silently skip a valid location."""
+    text = "aaa"
+
+    with pytest.raises(AmbiguousEvidenceError):
+        relocate_quote(text, "aa", expected_start=None, article_sha256=_sha(text))
+
+
 def test_hash_or_offset_drift_relocates_only_a_unique_quote():
     """Recover one stale evidence span while making its new immutable hash explicit to callers."""
     old_text = "建设100MW光伏电站。"
@@ -100,8 +108,8 @@ def test_compare_candidates_reports_true_numeric_and_category_conflicts_with_err
         sample_id="S002",
         article_sha256="b" * 64,
         sources={
-            "database": CandidateValue(source_name="database", projects=[_project("db-1", category="风电", capacity_mw=100)]),
-            "deterministic": CandidateValue(source_name="deterministic", projects=[_project("det-1", proposed_category="光伏", capacity_mw=106)]),
+            "database": CandidateValue(source_name="database", projects=[_project("db-1", project_name="Alpha", category="风电", capacity_mw=100)]),
+            "deterministic": CandidateValue(source_name="deterministic", projects=[_project("det-1", project_name="Alpha", proposed_category="光伏", capacity_mw=106)]),
             "review": CandidateValue(source_name="review", status="error", error_code="timeout"),
         },
     )
@@ -132,3 +140,68 @@ def test_compare_candidates_treats_multiple_projects_as_a_structure_conflict():
     assert conflict.field_name == "projects"
     assert conflict.reason_code == "project_count_disagreement"
     assert conflict.source_values == {"database": 1, "review": 2}
+
+
+def test_compare_candidates_aligns_reversed_source_projects_by_name_not_position():
+    """Compare matching project identities even when a source emits the same projects in reverse order."""
+    bundle = CandidateBundle(
+        sample_id="S004",
+        article_sha256="d" * 64,
+        sources={
+            "database": CandidateValue(
+                source_name="database",
+                projects=[
+                    _project("db-solar", project_name="Alpha Solar", category="光伏"),
+                    _project("db-wind", project_name="Beta Wind", category="风电"),
+                ],
+            ),
+            "review": CandidateValue(
+                source_name="review",
+                projects=[
+                    _project("review-wind", project_name="Beta Wind", category="风电"),
+                    _project("review-solar", project_name="Alpha Solar", category="光伏"),
+                ],
+            ),
+        },
+    )
+
+    assert compare_candidates(bundle) == []
+
+
+def test_ambiguous_name_alignment_surfaces_a_structure_conflict_without_field_comparisons():
+    """Refuse to guess between two conservatively fuzzy project-name matches from one source."""
+    bundle = CandidateBundle(
+        sample_id="S005",
+        article_sha256="e" * 64,
+        sources={
+            "database": CandidateValue(source_name="database", projects=[_project("db", project_name="Alpha Solar Plant", category="光伏")]),
+            "review": CandidateValue(
+                source_name="review",
+                projects=[
+                    _project("rv-a", project_name="Alpha Solar Plants", category="风电"),
+                    _project("rv-b", project_name="Alpha Solar Plante", category="风电"),
+                ],
+            ),
+        },
+    )
+
+    conflicts = compare_candidates(bundle)
+
+    assert any(conflict.reason_code == "project_alignment_ambiguous" for conflict in conflicts)
+    assert not any(conflict.field_name in {"project_name", "category"} for conflict in conflicts)
+
+
+def test_unmatched_project_names_remain_an_explicit_structure_conflict():
+    """Do not compare unrelated projects merely because different sources happened to emit one item each."""
+    bundle = CandidateBundle(
+        sample_id="S006",
+        article_sha256="f" * 64,
+        sources={
+            "database": CandidateValue(source_name="database", projects=[_project("db", project_name="Alpha Solar", category="光伏")]),
+            "review": CandidateValue(source_name="review", projects=[_project("rv", project_name="Beta Wind", category="风电")]),
+        },
+    )
+
+    conflicts = compare_candidates(bundle)
+
+    assert [conflict.reason_code for conflict in conflicts] == ["project_alignment_unmatched"]

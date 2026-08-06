@@ -20,7 +20,7 @@ def test_database_hb_vs_fact_pv_is_an_explained_conflict_with_storage_context():
         sources={
             "database": CandidateValue(
                 source_name="database",
-                projects=[_project("db", fields={"category": GoldField(state="present", value="混合能源")})],
+                projects=[_project("db", fields={"project_name": GoldField(state="present", value="Alpha"), "category": GoldField(state="present", value="混合能源")})],
             ),
             "deterministic": CandidateValue(
                 source_name="deterministic",
@@ -28,6 +28,7 @@ def test_database_hb_vs_fact_pv_is_an_explained_conflict_with_storage_context():
                     _project(
                         "facts",
                         fields={
+                            "project_name": GoldField(state="present", value="Alpha"),
                             "proposed_category": GoldField(state="present", value="光伏"),
                             "storage_status": GoldField(state="present", value="with_storage"),
                         },
@@ -99,6 +100,14 @@ def test_audit_selection_is_deterministic_and_about_ten_percent():
 
     assert 80 <= sum(selected) <= 120
     assert selected == [select_for_audit(f"S{index:03}", seed=20260806, rate=0.10) for index in range(1000)]
+
+
+def test_audit_selection_honors_zero_and_one_rate_boundaries():
+    """Keep deterministic audit selection empty at zero and exhaustive at one without random edge leaks."""
+    sample_ids = [f"S{index:03}" for index in range(20)]
+
+    assert not any(select_for_audit(sample_id, seed=20260806, rate=0) for sample_id in sample_ids)
+    assert all(select_for_audit(sample_id, seed=20260806, rate=1) for sample_id in sample_ids)
 
 
 def test_audited_error_increases_each_risk_tag_rate_with_a_cap(tmp_path):
