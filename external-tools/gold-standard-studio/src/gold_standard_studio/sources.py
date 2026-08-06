@@ -6,6 +6,7 @@ import hashlib
 import json
 import sqlite3
 import struct
+from threading import RLock
 from dataclasses import dataclass
 from pathlib import Path
 from types import MappingProxyType
@@ -91,50 +92,62 @@ class SourceRepository:
         self._raw_conn = _connect_ro(config.raw_news_db)
         self._projects_conn = _connect_ro(config.projects_db)
         self._main_conn = _connect_ro(config.main_db)
+        self._lock = RLock()
+        self._closed = False
 
     def close(self) -> None:
         """Close the repository's read-only source connections when no longer needed."""
-        self._raw_conn.close()
-        self._projects_conn.close()
-        self._main_conn.close()
+        with self._lock:
+            if self._closed:
+                return
+            self._raw_conn.close()
+            self._projects_conn.close()
+            self._main_conn.close()
+            self._closed = True
 
     def load_article(self, source_link: str) -> ArticleSnapshot:
         """Load one article by its source URL and return an immutable normalized snapshot."""
-        row = self._raw_conn.execute(
-            "SELECT * FROM raw_news WHERE url = ?", (source_link,)
-        ).fetchone()
-        if row is None:
-            raise KeyError(f"No raw_news article found for source link: {source_link}")
-        raw_values = _freeze_mapping(dict(row))
-        display_values = _display_values(raw_values)
-        title = _text_value(display_values, "title")
-        content = _text_value(display_values, "content")
-        publish_date = _text_value(display_values, "publish_date")
-        return ArticleSnapshot(
-            source_link=_text_value(display_values, "url"),
-            title=title,
-            content=content,
-            publish_date=publish_date,
-            article_sha256=article_sha256(title, content, publish_date),
-            raw_values=raw_values,
-            display_values=display_values,
-        )
+        with self._lock:
+            self._assert_open()
+            row = self._raw_conn.execute("SELECT * FROM raw_news WHERE url = ?", (source_link,)).fetchone()
+            if row is None:
+                raise KeyError(f"No raw_news article found for source link: {source_link}")
+            raw_values = _freeze_mapping(dict(row))
+            display_values = _display_values(raw_values)
+            title = _text_value(display_values, "title")
+            content = _text_value(display_values, "content")
+            publish_date = _text_value(display_values, "publish_date")
+            return ArticleSnapshot(
+                source_link=_text_value(display_values, "url"), title=title, content=content,
+                publish_date=publish_date, article_sha256=article_sha256(title, content, publish_date),
+                raw_values=raw_values, display_values=display_values,
+            )
 
     def load_current_labels(self, source_link: str) -> list[CurrentProject]:
         """Load authoritative main labels, or unimported extraction labels when none exist."""
-        main_projects = self._load_main_projects(source_link)
-        return main_projects if main_projects else self._load_extracted_projects(source_link)
+        with self._lock:
+            self._assert_open()
+            main_projects = self._load_main_projects(source_link)
+            return main_projects if main_projects else self._load_extracted_projects(source_link)
 
     def snapshot_hashes(self) -> dict[str, str]:
         """Return SHA-256 hashes of each source database's transactional logical state."""
-        return {
-            self._config.raw_news_db.name: _logical_snapshot_sha256(self._raw_conn),
-            self._config.projects_db.name: _logical_snapshot_sha256(self._projects_conn),
-            self._config.main_db.name: _logical_snapshot_sha256(self._main_conn),
-        }
+        with self._lock:
+            self._assert_open()
+            return {
+                self._config.raw_news_db.name: _logical_snapshot_sha256(self._raw_conn),
+                self._config.projects_db.name: _logical_snapshot_sha256(self._projects_conn),
+                self._config.main_db.name: _logical_snapshot_sha256(self._main_conn),
+            }
 
     def _load_main_projects(self, source_link: str) -> list[CurrentProject]:
         """Map a source URL through event JSON links to canonical labels and entities."""
+        with self._lock:
+            return self._load_main_projects_locked(source_link)
+
+    def _load_main_projects_locked(self, source_link: str) -> list[CurrentProject]:
+        """Load canonical projects while the repository lock protects its shared connections."""
+        self._assert_open()
         event_rows = self._main_conn.execute(
             """SELECT pe.*, cp.project_name AS canonical_project_name,
                       cp.category AS category
@@ -165,6 +178,12 @@ class SourceRepository:
 
     def _load_extracted_projects(self, source_link: str) -> list[CurrentProject]:
         """Map a source URL directly to extraction labels without changing import status."""
+        with self._lock:
+            return self._load_extracted_projects_locked(source_link)
+
+    def _load_extracted_projects_locked(self, source_link: str) -> list[CurrentProject]:
+        """Load extracted projects while the repository lock protects its shared connections."""
+        self._assert_open()
         rows = self._projects_conn.execute(
             """SELECT * FROM extracted_projects
                WHERE source_link = ? AND COALESCE(imported_to_s02a, 0) = 0
@@ -190,10 +209,21 @@ class SourceRepository:
 
     def _load_entities(self, event_id: str) -> tuple[Mapping[str, Any], ...]:
         """Load immutable Chinese-entity rows belonging to one project event."""
+        with self._lock:
+            return self._load_entities_locked(event_id)
+
+    def _load_entities_locked(self, event_id: str) -> tuple[Mapping[str, Any], ...]:
+        """Load event entities while the repository lock protects its shared connection."""
+        self._assert_open()
         rows = self._main_conn.execute(
             "SELECT * FROM chinese_entities WHERE event_id = ? ORDER BY id", (event_id,)
         ).fetchall()
         return tuple(_freeze_mapping(dict(row)) for row in rows)
+
+    def _assert_open(self) -> None:
+        """Reject operations after close instead of leaking SQLite's connection-state implementation error."""
+        if self._closed:
+            raise RuntimeError("SourceRepository is closed")
 
 
 def _text_value(values: Mapping[str, Any], key: str) -> str:

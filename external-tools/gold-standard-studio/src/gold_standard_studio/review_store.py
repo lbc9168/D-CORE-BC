@@ -592,17 +592,19 @@ class ReviewStore:
         return int(row["revision"])
 
     def _structure_gate_status(self, conn: sqlite3.Connection, sample_id: str) -> tuple[bool, bool]:
-        """Compare the latest candidate timestamp with the latest persisted structural decision in one connection."""
-        row = conn.execute(
-            "SELECT payload_json, updated_at FROM candidate_bundles WHERE sample_id = ?", (sample_id,)
-        ).fetchone()
+        """Compare monotonic audit IDs for the latest structural candidate and human structure decision."""
+        row = conn.execute("SELECT payload_json FROM candidate_bundles WHERE sample_id = ?", (sample_id,)).fetchone()
         if row is None or not structural_conflicts(CandidateBundle.model_validate_json(row["payload_json"])):
             return False, True
-        revision = conn.execute(
-            "SELECT created_at FROM structure_revisions WHERE sample_id = ? ORDER BY revision DESC LIMIT 1",
+        candidate = conn.execute(
+            "SELECT id FROM audit_log WHERE sample_id = ? AND action = 'candidate_bundle' ORDER BY id DESC LIMIT 1",
             (sample_id,),
         ).fetchone()
-        return True, revision is not None and revision["created_at"] > row["updated_at"]
+        structure = conn.execute(
+            "SELECT id FROM audit_log WHERE sample_id = ? AND action = 'structure_decision' ORDER BY id DESC LIMIT 1",
+            (sample_id,),
+        ).fetchone()
+        return True, candidate is not None and structure is not None and structure["id"] > candidate["id"]
 
     def _assert_structure_gate_resolved(self, conn: sqlite3.Connection, sample_id: str) -> None:
         """Reject confirmation before an explicit structure revision resolves the latest structural candidate conflict."""

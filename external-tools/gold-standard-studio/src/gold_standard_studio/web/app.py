@@ -58,6 +58,7 @@ class ProjectFieldCandidateResponse(BaseModel):
     source_project_index: int | None
     field: GoldField | None
     source_status: str
+    evidence_warning: bool
 
 
 class StructureGateResponse(BaseModel):
@@ -291,7 +292,7 @@ def _article_response(store: ReviewStore, sample_id: str) -> ArticleResponse:
         structural_conflicts=[_conflict_response(conflict) for conflict in structural_conflicts(bundle)],
         field_candidates={
             path: [_project_field_candidate_response(candidate) for candidate in candidates]
-            for path, candidates in project_field_candidates(article.projects, bundle).items()
+            for path, candidates in project_field_candidates(article.projects, bundle, article.article_sha256).items()
         },
         structure_gate=StructureGateResponse(required=required, resolved=resolved),
     )
@@ -326,6 +327,7 @@ def _project_field_candidate_response(candidate: ProjectFieldCandidate) -> Proje
         source_project_index=candidate.source_project_index,
         field=candidate.field,
         source_status=candidate.source_status,
+        evidence_warning=candidate.evidence_warning,
     )
 
 

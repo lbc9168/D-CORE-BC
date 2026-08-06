@@ -9,6 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from gold_standard_studio.config import StudioConfig
+import gold_standard_studio.review_store as review_store_module
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import (
     CandidateBundle,
@@ -460,3 +461,73 @@ def test_confirmation_requires_newer_persisted_structure_decision_for_structural
     assert rejected.json()["detail"] == "unresolved structure conflicts prevent article confirmation"
     assert saved.status_code == 200
     assert after["structure_gate"] == {"required": True, "resolved": True}
+
+
+def test_structure_gate_uses_monotonic_audit_order_not_wall_clock(store: ReviewStore, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Resolve only candidate-to-structure audit order even when every write shares the same timestamp."""
+    monkeypatch.setattr(review_store_module, "_utc_now", lambda: "2026-08-06T00:00:00+00:00")
+    structural_bundle = CandidateBundle(
+        sample_id="S001",
+        article_sha256=ARTICLE_SHA256,
+        sources={
+            "database": CandidateValue(source_name="database", projects=[GoldProject(gold_project_id="D1")]),
+            "review": CandidateValue(source_name="review", projects=[GoldProject(gold_project_id="R1"), GoldProject(gold_project_id="R2")]),
+        },
+    )
+
+    store.save_candidate_bundle(structural_bundle)
+    assert store.structure_gate_status("S001") == (True, False)
+    store.save_structure("S001", store.get_article("S001").projects, base_revision=1, actor="human")
+    assert store.structure_gate_status("S001") == (True, True)
+    store.save_candidate_bundle(structural_bundle)
+    assert store.structure_gate_status("S001") == (True, False)
+
+
+def test_candidate_projection_filters_wrong_hash_evidence_and_marks_warning(store: ReviewStore, client: TestClient) -> None:
+    """Never expose a candidate's stale evidence span as valid evidence for the current article snapshot."""
+    store.save_structure(
+        "S001",
+        [GoldProject(gold_project_id="P01", fields={"project_name": make_field("项目"), "category": make_field("风电")})],
+        base_revision=1,
+        actor="human",
+    )
+    store.save_candidate_bundle(
+        CandidateBundle(
+            sample_id="S001",
+            article_sha256=ARTICLE_SHA256,
+            sources={
+                "review": CandidateValue(source_name="review", projects=[GoldProject(
+                    gold_project_id="R01",
+                    fields={
+                        "project_name": make_field("项目"),
+                        "category": GoldField(
+                            state="present", value="光伏",
+                            evidence=[EvidenceSpan(quote="光伏", start=0, end=2, article_sha256="b" * 64)],
+                        ),
+                    },
+                )]),
+            },
+        )
+    )
+
+    candidate = client.get("/api/articles/S001").json()["field_candidates"]["P01.category"][0]
+
+    assert candidate["field"]["evidence"] == []
+    assert candidate["evidence_warning"] is True
+
+
+def test_present_and_not_mentioned_aligned_candidates_are_a_field_state_conflict(store: ReviewStore, client: TestClient) -> None:
+    """Treat a present candidate against a missing-state candidate as reviewable disagreement, not consensus."""
+    store.save_structure(
+        "S001", [GoldProject(gold_project_id="P01", fields={"project_name": make_field("项目"), "category": make_field("风电")})], base_revision=1, actor="human"
+    )
+    store.save_candidate_bundle(
+        CandidateBundle(sample_id="S001", article_sha256=ARTICLE_SHA256, sources={
+            "database": CandidateValue(source_name="database", projects=[GoldProject(gold_project_id="D1", fields={"project_name": make_field("项目"), "category": make_field("", state="not_mentioned")})]),
+            "review": CandidateValue(source_name="review", projects=[GoldProject(gold_project_id="R1", fields={"project_name": make_field("项目"), "category": make_field("光伏")})]),
+        })
+    )
+
+    conflicts = client.get("/api/articles/S001").json()["conflicts"]
+
+    assert [(item["field_name"], item["reason_code"]) for item in conflicts] == [("category", "field_state_disagreement")]

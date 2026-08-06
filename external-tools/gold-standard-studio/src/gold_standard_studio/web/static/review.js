@@ -51,18 +51,18 @@
   function sourceCandidate(path, sourceName = null) {
     const candidates = state.payload?.field_candidates?.[path] || [];
     if (sourceName) return candidates.find((candidate) => candidate.source_name === sourceName && candidate.field) || null;
-    return ["review", "production", "deterministic", "database"].map((name) => sourceCandidate(path, name)).find(Boolean) || null;
+    return ["review", "production", "deterministic", "database"].map((name) => sourceCandidate(path, name)).find((candidate) => candidate?.field?.state === "present" && !candidate.evidence_warning) || null;
   }
 
   /** Build provenance rows directly from the server projection, including unmatched or errored source states. */
   function provenanceRows(path) {
     const rows = [["人工草稿（review DB）", currentField(path), null]];
     for (const candidate of state.payload?.field_candidates?.[path] || []) rows.push([`${candidate.source_name} 候选`, candidate.field, candidate]);
-    return rows.map(([label, field, candidate]) => { const item = document.createElement("li"); const suffix = candidate?.source_project_id ? `，来源项目 ${candidate.source_project_id}` : candidate?.source_status === "error" ? "，来源失败" : "，无安全对齐项目"; item.textContent = `${label}：${displayValue(field?.value)}（${field?.state || "未提供"}${suffix || ""}）`; return item; });
+    return rows.map(([label, field, candidate]) => { const item = document.createElement("li"); const suffix = candidate?.source_project_id ? `，来源项目 ${candidate.source_project_id}` : candidate?.source_status === "error" ? "，来源失败" : "，无安全对齐项目"; const warning = candidate?.evidence_warning ? "；证据哈希不匹配，不能接受" : ""; item.textContent = `${label}：${displayValue(field?.value)}（${field?.state || "未提供"}${suffix || ""}${warning}）`; return item; });
   }
 
   /** Track the active card so keyboard actions cannot silently target a different field. */
-  function bindCardFocus(card) { card.addEventListener("focusin", () => { state.focusedCard = card; }); card.addEventListener("click", () => { state.focusedCard = card; }); }
+  function bindCardFocus(card) { card.addEventListener("focusin", () => { state.focusedCard = card; }); card.addEventListener("pointerdown", () => { state.focusedCard = card; }); card.addEventListener("focusout", (event) => { if (!card.contains(event.relatedTarget)) state.focusedCard = null; }); }
 
   /** Render a field card with actions sourced exclusively from the server-aligned field projection. */
   function fieldCard(path, title, kind) {
@@ -73,7 +73,7 @@
     const controls = document.createElement("div"); controls.className = "field-controls";
     const suggested = sourceCandidate(path);
     if (suggested?.field?.state === "present") { const accept = document.createElement("button"); accept.type = "button"; accept.dataset.action = "accept-field"; accept.dataset.path = path; accept.dataset.testid = `accept-${path}`; accept.textContent = `接受建议：${displayValue(suggested.field.value)}`; accept.addEventListener("click", () => saveField(path, suggested.field)); controls.append(accept); }
-    const keep = document.createElement("button"); keep.type = "button"; keep.className = "secondary"; keep.dataset.action = "keep-database"; keep.textContent = "保留数据库值"; const database = sourceCandidate(path, "database"); keep.disabled = !database?.field; keep.addEventListener("click", () => database?.field && saveField(path, database.field));
+    const keep = document.createElement("button"); keep.type = "button"; keep.className = "secondary"; keep.dataset.action = "keep-database"; keep.textContent = "保留数据库值"; const database = sourceCandidate(path, "database"); keep.disabled = !database?.field || database.evidence_warning; keep.addEventListener("click", () => database?.field && !database.evidence_warning && saveField(path, database.field));
     const edit = document.createElement("button"); edit.type = "button"; edit.className = "secondary"; edit.dataset.action = "edit-field"; edit.dataset.testid = `edit-${path}`; edit.textContent = "编辑"; edit.addEventListener("click", () => openEditor(path, card));
     const flag = document.createElement("button"); flag.type = "button"; flag.className = "secondary"; flag.dataset.action = "flag-evidence"; flag.textContent = "证据有误"; flag.addEventListener("click", () => field && saveField(path, { ...field, state: "needs_adjudication", value: null }));
     controls.append(keep, edit, flag); card.append(heading, value, provenance, controls); return card;
@@ -136,7 +136,7 @@
   async function confirmArticle() { if (!state.payload?.structure_gate?.resolved) return; const button = document.querySelector('[data-action="confirm-article"]'); try { button.disabled = true; setSaveState("正在确认…", "pending"); applyArticle(await request(`/api/articles/${encodeURIComponent(state.sampleId)}/confirm`, { method: "POST" })); setSaveState("文章已确认", "saved"); } catch (error) { setSaveState(`Save failed: ${error.message}`, "error", confirmArticle); } finally { button.disabled = !state.payload?.structure_gate?.resolved; } }
 
   /** Invoke a shortcut on the focused card only and ignore every editable control. */
-  function bindShortcuts() { document.addEventListener("keydown", (event) => { const tag = document.activeElement?.tagName?.toLowerCase(); if (["input", "textarea", "select"].includes(tag) || document.activeElement?.isContentEditable) return; const card = state.focusedCard; if (event.key.toLowerCase() === "a") card?.querySelector('[data-action="accept-field"]')?.click(); if (event.key.toLowerCase() === "e") card?.querySelector('[data-action="edit-field"]')?.click(); if (event.key.toLowerCase() === "k") card?.querySelector('[data-action="keep-database"]')?.click(); if (event.key.toLowerCase() === "x") card?.querySelector('[data-action="flag-evidence"]')?.click(); if (event.key === "Enter" && state.payload?.structure_gate?.resolved) confirmArticle(); }); }
+  function bindShortcuts() { document.addEventListener("pointerdown", (event) => { if (!event.target.closest(".field-card")) state.focusedCard = null; }); document.addEventListener("keydown", (event) => { if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return; const tag = document.activeElement?.tagName?.toLowerCase(); if (["input", "textarea", "select"].includes(tag) || document.activeElement?.isContentEditable) return; const card = document.activeElement?.closest(".field-card") || state.focusedCard; if (event.key.toLowerCase() === "a") card?.querySelector('[data-action="accept-field"]')?.click(); if (event.key.toLowerCase() === "e") card?.querySelector('[data-action="edit-field"]')?.click(); if (event.key.toLowerCase() === "k") card?.querySelector('[data-action="keep-database"]')?.click(); if (event.key.toLowerCase() === "x") card?.querySelector('[data-action="flag-evidence"]')?.click(); if (event.key === "Enter" && state.payload?.structure_gate?.resolved) confirmArticle(); }); }
 
   /** Fetch and render the existing audit endpoint only when the reviewer expands the collapsed panel. */
   async function toggleAudit(event) { const list = document.querySelector("#audit-items"); if (!list.hidden) { list.hidden = true; event.currentTarget.textContent = "展开"; return; } const payload = await request(`/api/articles/${encodeURIComponent(state.sampleId)}/audit`); list.replaceChildren(...payload.items.map((entry) => { const item = document.createElement("li"); item.textContent = `${entry.created_at} · ${entry.action} · ${entry.field_path || "文章"}`; return item; })); list.hidden = false; event.currentTarget.textContent = "折叠"; }

@@ -50,6 +50,7 @@ class ProjectFieldCandidate:
     source_project_index: int | None
     field: GoldField | None
     source_status: str
+    evidence_warning: bool = False
 
 
 def article_sha256(text: str) -> str:
@@ -164,7 +165,7 @@ def compare_candidates(bundle: CandidateBundle) -> list[FieldConflict]:
 
 
 def project_field_candidates(
-    projects: list[GoldProject], bundle: CandidateBundle | None
+    projects: list[GoldProject], bundle: CandidateBundle | None, article_sha256: str
 ) -> dict[str, list[ProjectFieldCandidate]]:
     """Project every source field onto gold project IDs using identity matching, never list position."""
     if bundle is None:
@@ -191,13 +192,17 @@ def project_field_candidates(
                     if candidate_index is not None and candidate.status == "ok"
                     else None
                 )
+                field, evidence_warning = _projection_field_with_current_evidence(
+                    _field_for_projection(candidate_project, field_name), article_sha256
+                )
                 result[path].append(
                     ProjectFieldCandidate(
                         source_name=source_name,
                         source_project_id=candidate_project.gold_project_id if candidate_project else None,
                         source_project_index=candidate_index,
-                        field=_field_for_projection(candidate_project, field_name),
+                        field=field,
                         source_status=candidate.status,
+                        evidence_warning=evidence_warning,
                     )
                 )
     return result
@@ -214,13 +219,16 @@ def aligned_field_conflicts(projects: list[GoldProject], bundle: CandidateBundle
     """Report only disagreements whose source values have first been aligned to the same gold project."""
     if bundle is None:
         return []
-    projection = project_field_candidates(projects, bundle)
+    projection = project_field_candidates(projects, bundle, bundle.article_sha256)
     conflicts: list[FieldConflict] = []
     for project_index, project in enumerate(projects):
         for field_name in project.fields:
             candidates = [item for item in projection[f"{project.gold_project_id}.{field_name}"] if item.field is not None]
+            states = {item.source_name: item.field.state for item in candidates}
             values = {item.source_name: item.field.value for item in candidates if item.field.state == "present"}
-            if len(values) < 2 or _all_equivalent(field_name, list(values.values())):
+            state_disagreement = len(set(states.values())) > 1
+            value_disagreement = len(values) >= 2 and not _all_equivalent(field_name, list(values.values()))
+            if not state_disagreement and not value_disagreement:
                 continue
             conflicts.append(
                 FieldConflict(
@@ -228,7 +236,7 @@ def aligned_field_conflicts(projects: list[GoldProject], bundle: CandidateBundle
                     project_index=project_index,
                     source_values=values,
                     normalized_values={name: _normalize_value(field_name, value) for name, value in values.items()},
-                    reason_code="field_disagreement",
+                    reason_code="field_state_disagreement" if state_disagreement else "field_disagreement",
                     error_sources=tuple(
                         sorted(item.source_name for item in projection[f"{project.gold_project_id}.{field_name}"] if item.source_status == "error")
                     ),
@@ -517,6 +525,15 @@ def _field_for_projection(project: GoldProject | None, field_name: str) -> GoldF
     if field is None and field_name == "category":
         field = project.fields.get("proposed_category")
     return field
+
+
+def _projection_field_with_current_evidence(field: GoldField | None, article_sha256: str) -> tuple[GoldField | None, bool]:
+    """Drop stale evidence spans from a presentation field and flag their source without mutating cached candidates."""
+    if field is None:
+        return None, False
+    valid_evidence = [evidence for evidence in field.evidence if evidence.article_sha256 == article_sha256]
+    warning = len(valid_evidence) != len(field.evidence)
+    return field.model_copy(update={"evidence": valid_evidence}), warning
 
 
 def _all_equivalent(field_name: str, values: list[Any]) -> bool:

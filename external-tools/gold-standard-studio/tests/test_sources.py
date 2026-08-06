@@ -2,6 +2,7 @@
 
 import hashlib
 import sqlite3
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -328,3 +329,28 @@ def test_snapshots_expose_read_only_mappings(db_fixture: DatabaseFixture):
         project.display_values["category"] = "changed"
     with pytest.raises(TypeError):
         project.entities[0]["implementing_entity"] = "changed"
+
+
+def test_repository_serializes_shared_connection_operations_and_close(db_fixture: DatabaseFixture):
+    """Keep shared read-only connections coherent while worker threads mix loads and snapshot transactions."""
+    repo = SourceRepository(db_fixture.config)
+
+    def read_article() -> str:
+        """Load the immutable article title through the shared repository."""
+        return repo.load_article("https://example.test/a").title
+
+    def read_labels() -> str:
+        """Load the main project category through the shared repository."""
+        return repo.load_current_labels("https://example.test/a")[0].category or ""
+
+    def read_hash() -> str:
+        """Read the transactional raw-news logical hash through the shared repository."""
+        return repo.snapshot_hashes()[db_fixture.config.raw_news_db.name]
+
+    with ThreadPoolExecutor(max_workers=8) as executor:
+        results = list(executor.map(lambda index: (read_article(), read_labels(), read_hash()), range(40)))
+
+    assert all(result[0] == "肯尼亚项目" and result[1] == "综合能源" and len(result[2]) == 64 for result in results)
+    repo.close()
+    with pytest.raises(RuntimeError, match="closed"):
+        repo.load_article("https://example.test/a")
