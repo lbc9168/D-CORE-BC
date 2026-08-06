@@ -18,8 +18,9 @@ import sys
 from typing import Any, Iterable
 from uuid import uuid4
 
-from pydantic import BaseModel, ConfigDict, Field, JsonValue
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from eval.gold_loader import GoldRecord
 from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import GoldEntity, GoldField, RichGoldRecord
@@ -65,46 +66,6 @@ class _PublicationRecord:
     confirmation: _ConfirmationProof
 
 
-class ProjectionProject(BaseModel):
-    """Validate the legacy-compatible project shape written into an eval projection row."""
-
-    model_config = ConfigDict(extra="forbid")
-    project_name: JsonValue | None = None
-    country: JsonValue | None = None
-    location: JsonValue | None = None
-    category: JsonValue | None = None
-    generation_sources: JsonValue | None = None
-    storage_status: JsonValue | None = None
-    capacity_mw: JsonValue | None = None
-    storage_power_mw: JsonValue | None = None
-    storage_energy_mwh: JsonValue | None = None
-    project_stage: JsonValue | None = None
-    project_developer: JsonValue | None = None
-    planned_start_date: JsonValue | None = None
-    planned_complete_date: JsonValue | None = None
-    investment_date: JsonValue | None = None
-    total_investment_usd: JsonValue | None = None
-    contract_amount_usd: JsonValue | None = None
-    financing_amount_usd: JsonValue | None = None
-    financing_model: JsonValue | None = None
-    project_summary: JsonValue | None = None
-    entities: list[dict[str, JsonValue]] = Field(default_factory=list)
-    field_eligibility: dict[str, bool] = Field(default_factory=dict)
-
-
-class ProjectionRecord(BaseModel):
-    """Validate one deterministic eval row while allowing only documented Studio metadata."""
-
-    model_config = ConfigDict(extra="forbid")
-    source_link: str = Field(min_length=1)
-    article_id: str | None = None
-    status: str
-    projects: list[ProjectionProject] = Field(default_factory=list)
-    dataset_split: str | None = None
-    risk_tags: list[str] = Field(default_factory=list)
-    difficulty: dict[str, JsonValue] | None = None
-
-
 class PublicationManifest(BaseModel):
     """Validate release metadata that binds immutable artifact hashes to a requested version."""
 
@@ -143,7 +104,7 @@ def publish_gold(store: ReviewStore, output_root: str | Path, version: str) -> P
         rich_records = [_public_rich_record(item) for item in published_records]
         projection_records = [_project_record(record) for record in records]
         _validate_jsonl_models(rich_records, RichGoldRecord)
-        _validate_jsonl_models(projection_records, ProjectionRecord)
+        _validate_projection_records(projection_records)
         try:
             temporary.mkdir()
             rich_path = temporary / "rich_gold.jsonl"
@@ -182,11 +143,11 @@ def publish_gold(store: ReviewStore, output_root: str | Path, version: str) -> P
 
 
 def load_projection(path: str | Path) -> list[dict[str, Any]]:
-    """Load a published eval projection through its release-local Pydantic compatibility contract."""
-    return [record.model_dump(exclude_none=True) for record in _load_jsonl_models(Path(path), ProjectionRecord)]
+    """Load a published eval projection through the same authoritative eval GoldRecord contract used at publish time."""
+    return [record.model_dump() for record in _load_eval_projection_models(Path(path))]
 
 
-def project_field(field: GoldField) -> tuple[JsonValue | None, bool]:
+def project_field(field: GoldField) -> tuple[Any | None, bool]:
     """Map a reviewed rich field to its legacy eval value and exact scoring eligibility flag."""
     if field.state == "present":
         return field.value, True
@@ -302,18 +263,18 @@ def _project_record(record: RichGoldRecord) -> dict[str, Any]:
             if field_name in FIELD_REGISTRY and value is not None:
                 projected[field_name] = value
         projects.append(projected)
-    return ProjectionRecord(
-        source_link=record.source_link or f"studio://{record.sample_id}",
-        article_id=record.sample_id,
-        status=_projection_status(record),
-        projects=projects,
-        dataset_split=record.dataset_split,
-        risk_tags=sorted(set(record.risk_tags)),
-        difficulty=record.difficulty.model_dump(mode="json") if record.difficulty is not None else None,
-    ).model_dump(exclude_none=True)
+    return {
+        "source_link": record.source_link or f"studio://{record.sample_id}",
+        "article_id": record.sample_id,
+        "status": _projection_status(record),
+        "projects": projects,
+        "dataset_split": record.dataset_split,
+        "risk_tags": sorted(set(record.risk_tags)),
+        "difficulty": record.difficulty.model_dump(mode="json") if record.difficulty is not None else None,
+    }
 
 
-def _project_entities(entities: list[GoldEntity]) -> list[dict[str, JsonValue]]:
+def _project_entities(entities: list[GoldEntity]) -> list[dict[str, Any]]:
     """Convert role-specific rich entities into the established eval name and involvement-type pair."""
     return [
         {"name": entity.name, "involvement_type": entity.role}
@@ -335,6 +296,15 @@ def _validate_jsonl_models(records: Iterable[dict[str, Any]], model: type[BaseMo
     """Validate every in-memory JSONL row before any release file can be committed."""
     for record in records:
         model.model_validate(record)
+
+
+def _validate_projection_records(records: Iterable[dict[str, Any]]) -> None:
+    """Validate every in-memory projection row with eval.gold_loader.GoldRecord before any bytes are written."""
+    for index, record in enumerate(records, start=1):
+        try:
+            GoldRecord.model_validate(record)
+        except ValidationError as error:
+            raise PublishError(f"invalid eval projection record {index}: {error}") from error
 
 
 def _write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
@@ -413,7 +383,7 @@ def _changelog(version: str, record_count: int) -> str:
 def _validate_staged_artifacts(directory: Path) -> None:
     """Re-open and validate every staged JSON artifact before its directory can become a visible version."""
     _load_jsonl_models(directory / "rich_gold.jsonl", RichGoldRecord)
-    _load_jsonl_models(directory / "eval_projection.jsonl", ProjectionRecord)
+    _load_eval_projection_models(directory / "eval_projection.jsonl")
     PublicationManifest.model_validate_json((directory / "manifest.json").read_text(encoding="utf-8"))
     DistributionReport.model_validate_json((directory / "distribution.json").read_text(encoding="utf-8"))
     json.loads((directory / "rich_gold.schema.json").read_text(encoding="utf-8"))
@@ -431,6 +401,19 @@ def _load_jsonl_models(path: Path, model: type[BaseModel]) -> list[BaseModel]:
             records.append(model.model_validate_json(raw_line))
         except ValueError as error:
             raise PublishError(f"invalid {path.name} line {line_number}: {error}") from error
+    return records
+
+
+def _load_eval_projection_models(path: Path) -> list[GoldRecord]:
+    """Round-trip every staged projection line through eval.gold_loader.GoldRecord before release rename."""
+    records: list[GoldRecord] = []
+    for line_number, raw_line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if not raw_line:
+            continue
+        try:
+            records.append(GoldRecord.model_validate_json(raw_line))
+        except ValidationError as error:
+            raise PublishError(f"invalid eval projection line {line_number}: {error}") from error
     return records
 
 

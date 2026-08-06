@@ -39,6 +39,8 @@
 
 评测器对逐项目 eligibility 的分母消费、全字段指标分派及 split/category/risk 切片仍严格属于 Task 11；Task 10 仅负责生产并校验已由 `eval.gold_loader` 可读取的契约，不改变现有 metrics 行为。
 
+发布投影的唯一校验契约现为 `eval.gold_loader.GoldRecord`：写入前和临时 JSONL 重读时均使用该模型，Studio 不再维护宽松的重复 projection schema。Loader 对 canonical gold 使用严格 JSON 类型、受控 category/stage/financing enum、受控发电源和严格数值字段，拒绝例如布尔值伪装的数值；验证失败在版本目录可见前清理 staging。
+
 ---
 
 ## data-combination — 外部 Excel 数据补充工具

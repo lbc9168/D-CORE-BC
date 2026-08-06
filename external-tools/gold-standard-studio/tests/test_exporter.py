@@ -254,3 +254,64 @@ def test_rich_output_exports_only_allowlisted_confirmation_metadata(tmp_path):
     assert set(published["audit_metadata"]["confirmation"]) == {"audit_id", "action", "created_at", "field_path"}
     output = paths.rich_gold.read_text(encoding="utf-8")
     assert all(f"leak-{letter}" not in output for letter in "abcdefghijk")
+
+
+def _seed_confirmed_projection_case(store, *, field_name, value):
+    """Insert one reviewed historical record whose rich field value exercises projection validation."""
+    article = store.get_article("S002")
+    article.sample_id = "S003"
+    article.source_link = "https://example.test/S003"
+    article.projects = [
+        GoldProject(gold_project_id="P01", fields={field_name: GoldField(state="present", value=value)})
+    ]
+    store.seed_article(article)
+    with sqlite3.connect(store.path) as conn:
+        conn.execute(
+            "INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            ("S003", "article_confirmed", "article_review_status", '"unreviewed"', '"reviewed"', "fixture", "2026-08-06T00:00:00+00:00"),
+        )
+
+
+@pytest.mark.parametrize(
+    ("field_name", "value"),
+    [
+        ("category", 1),
+        ("category", "not-a-category"),
+        ("generation_sources", ["solar"]),
+        ("planned_start_date", 20260101),
+        ("storage_power_mw", "unknown"),
+        ("storage_power_mw", True),
+    ],
+)
+def test_publish_rejects_loader_invalid_projection_values_before_rename(tmp_path, field_name, value):
+    """Fail closed and remove staging when a reviewed rich value violates the authoritative eval contract."""
+    from gold_standard_studio.exporter import PublishError, publish_gold
+
+    store = make_store(tmp_path, reviewed=True)
+    _seed_confirmed_projection_case(store, field_name=field_name, value=value)
+    root = tmp_path / "gold_sets"
+
+    with pytest.raises(PublishError, match="eval projection"):
+        publish_gold(store, root, "v0.1.0")
+
+    assert not (root / "v0.1.0").exists()
+    assert not list(root.glob(".v0.1.0.*.tmp"))
+
+
+@pytest.mark.parametrize(
+    ("field_name", "value"),
+    [
+        ("category", "风电"),
+        ("generation_sources", ["光伏"]),
+        ("planned_start_date", "2026-01-01"),
+        ("storage_power_mw", 50.0),
+    ],
+)
+def test_publish_accepts_strictly_typed_loader_projection_values(tmp_path, field_name, value):
+    """Accept rich values whose JSON types and controlled enums satisfy the shared eval loader contract."""
+    from gold_standard_studio.exporter import publish_gold
+
+    store = make_store(tmp_path, reviewed=True)
+    _seed_confirmed_projection_case(store, field_name=field_name, value=value)
+
+    assert publish_gold(store, tmp_path / "gold_sets", "v0.1.0").version_dir.is_dir()
