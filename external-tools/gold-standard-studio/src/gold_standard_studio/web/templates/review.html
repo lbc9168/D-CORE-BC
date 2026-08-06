@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Golden Standard Studio · 复核</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body data-sample-id="{{ sample_id }}">
+    <header class="site-header">
+      <a href="/queue">返回队列</a>
+      <strong>Golden Standard Studio</strong>
+      <output id="save-state" data-testid="save-state" role="status" aria-live="polite">准备就绪</output>
+    </header>
+    <main class="review-layout">
+      <article class="article-pane" data-region="article-evidence" aria-labelledby="article-title">
+        <p class="eyebrow">不可变原文快照</p>
+        <h1 id="article-title">{{ article_context.title or "正在加载文章…" }}</h1>
+        <dl class="metadata">
+          <div><dt>发布日期</dt><dd id="article-date">{{ article_context.publish_date or "—" }}</dd></div>
+          <div><dt>来源</dt><dd><a id="article-link" href="{{ article_context.source_link or '#' }}">{{ article_context.source_link or "未提供来源快照" }}</a></dd></div>
+        </dl>
+        <div id="article-content" class="article-content" tabindex="0">{{ article_context.content or "原文快照不可用；仍可查看审阅草稿与候选来源。" }}</div>
+      </article>
+      <aside class="review-pane" aria-label="复核决策面板">
+        <section class="structure-gate" data-region="structure-gate" aria-labelledby="structure-heading">
+          <p class="eyebrow">第一步</p>
+          <h2 id="structure-heading">确认项目结构</h2>
+          <p id="structure-summary">正在加载项目结构…</p>
+          <button type="button" data-action="accept-structure" data-testid="accept-structure">结构正确，开始字段复核</button>
+          <button type="button" class="secondary" data-action="confirm-no-project">无项目／负样本：一键确认</button>
+        </section>
+        <section data-region="consensus-panel" aria-labelledby="consensus-heading">
+          <div class="section-heading"><h2 id="consensus-heading">一致候选</h2><button type="button" class="link-button" data-action="expand-consensus">展开</button></div>
+          <p id="consensus-summary">候选一致字段将折叠在此处。</p>
+          <div id="consensus-cards" hidden></div>
+        </section>
+        <section data-region="conflict-panel" aria-labelledby="conflict-heading">
+          <h2 id="conflict-heading">冲突与需关注字段</h2>
+          <div id="conflict-cards"><p>请先确认项目结构。</p></div>
+        </section>
+        <section data-region="low-confidence-panel" aria-labelledby="low-confidence-heading">
+          <h2 id="low-confidence-heading">低置信／缺候选字段</h2>
+          <div id="low-confidence-cards"></div>
+        </section>
+        <section class="confirm-panel" aria-label="文章确认">
+          <button type="button" data-action="confirm-article" data-testid="confirm-article">确认本篇</button>
+          <p class="shortcut-help">快捷键：A 接受建议、E 编辑、K 保留数据库值、X 标记证据问题、Enter 确认；输入框内不会触发。</p>
+        </section>
+      </aside>
+    </main>
+    <script id="review-bootstrap" type="application/json">{{ {"sampleId": sample_id, "article": article_context}|tojson }}</script>
+    <script src="/static/review.js" defer></script>
+  </body>
+</html>

@@ -2,9 +2,13 @@
 
 from __future__ import annotations
 
+from pathlib import Path as FilePath
 from typing import Any, Annotated
 
 from fastapi import FastAPI, Header, Path, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
 from gold_standard_studio.evidence import FieldConflict, compare_candidates
@@ -101,8 +105,12 @@ LocalActorHeader = Annotated[str | None, Header(alias="X-Review-Actor")]
 def create_app(store: ReviewStore, *, source_repository: SourceRepository | None = None) -> FastAPI:
     """Create a local FastAPI app that can mutate only the supplied isolated review store."""
     app = FastAPI(title="Golden Standard Studio", docs_url=None, redoc_url=None, openapi_url=None)
+    template_root = FilePath(__file__).with_name("templates")
+    static_root = FilePath(__file__).with_name("static")
+    templates = Jinja2Templates(directory=str(template_root))
     app.state.review_store = store
     app.state.source_repository = source_repository
+    app.mount("/static", StaticFiles(directory=str(static_root)), name="static")
 
     @app.exception_handler(ValueError)
     async def map_store_error(_request: Request, error: ValueError):
@@ -116,6 +124,20 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
             else 422
         )
         return _error_response(status_code, detail)
+
+    @app.get("/queue", response_class=HTMLResponse)
+    def queue_page(request: Request) -> HTMLResponse:
+        """Render the local queue shell, whose rows are populated from the safe queue API."""
+        return templates.TemplateResponse(request=request, name="queue.html")
+
+    @app.get("/review/{sample_id}", response_class=HTMLResponse)
+    def review_page(request: Request, sample_id: str = Path(min_length=1, max_length=128)) -> HTMLResponse:
+        """Render a self-contained review shell using only an optional immutable source snapshot."""
+        return templates.TemplateResponse(
+            request=request,
+            name="review.html",
+            context={"sample_id": sample_id, "article_context": _page_article_context(store, source_repository, sample_id)},
+        )
 
     @app.get("/api/queue", response_model=QueueResponse)
     def get_queue() -> QueueResponse:
@@ -185,6 +207,28 @@ def _error_response(status_code: int, detail: str):
     from fastapi.responses import JSONResponse
 
     return JSONResponse(status_code=status_code, content={"detail": detail})
+
+
+def _page_article_context(
+    store: ReviewStore, source_repository: SourceRepository | None, sample_id: str
+) -> dict[str, str]:
+    """Return source text for display only when the injected read-only repository can resolve it."""
+    empty_context = {"title": "", "content": "", "publish_date": "", "source_link": ""}
+    if source_repository is None:
+        return empty_context
+    try:
+        article = store.get_article(sample_id)
+        if not article.source_link:
+            return empty_context
+        snapshot = source_repository.load_article(article.source_link)
+    except (KeyError, ValueError):
+        return empty_context
+    return {
+        "title": snapshot.title,
+        "content": snapshot.content,
+        "publish_date": snapshot.publish_date,
+        "source_link": snapshot.source_link,
+    }
 
 
 def _article_response(store: ReviewStore, sample_id: str) -> ArticleResponse:
