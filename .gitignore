@@ -80,3 +80,7 @@ s04_web_visualization/frontend/dist/
 s04_web_visualization/backend/.venv/
 # SDD 执行台账（本地 scratch，不入库）
 .superpowers/
+
+external-tools/gold-standard-studio/data/
+!external-tools/gold-standard-studio/data/.gitkeep
+eval/gold_sets/**/reports/
