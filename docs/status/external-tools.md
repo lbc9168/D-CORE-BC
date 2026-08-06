@@ -1,6 +1,6 @@
 # external-tools 状态
 
-> 最后更新：2026-08-06（Golden Standard Studio 最终加固 A 修复轮 1 完成）
+> 最后更新：2026-08-06（Golden Standard Studio 最终加固 A 修复轮 2 完成）
 
 ---
 
@@ -37,6 +37,7 @@
 | 安全 CLI（init/sample/build-candidates/serve/publish/report）与 Pilot runbook | ✅ 已完成 |
 | 最终核心加固（权威文章状态、完整状态机、严格确认门、路径身份隔离、快照身份、顺序迁移） | ✅ 已完成 |
 | 最终加固 A 修复轮 1（迁移撤权/恢复、竞态隔离、完整 UI/API、严格发布契约） | ✅ 已完成 |
+| 最终加固 A 修复轮 2（安全备份/发布、可验证 provenance、Host/CSRF/actor、真实 UI 发布） | ✅ 已完成 |
 
 发布器只读访问 Studio review DB；仅当草稿和索引均为 `reviewed`、存在匹配 `article_confirmed` 审计且其后没有 gold 草稿变更时才写入版本目录，确认后的候选观测不影响资格。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后以协作版本锁和平台 no-replace rename 原子提交；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影将 `field_eligibility` 保留在每个项目内：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；发布 rich JSON 仅保留 allowlist 的确认审计 ID、动作、时间和字段路径，不发布任意原始 audit metadata。
 
@@ -56,7 +57,9 @@ Review DB schema 现以显式版本和顺序事务迁移管理，新增不可变
 
 最终加固 A 修复轮 1 进一步规定：v1/v2 数据迁移一律撤销旧 reviewed/status 权威，只保留 `legacy_migration_hint` 并写 `migration_rereview_required` 审计；`rehydrate-snapshots` 只能从已配置只读 `SourceRepository` 恢复缺失快照，恢复后必须重新作出 status 与 confirmation。review SQLite 打开会持有 no-follow 文件句柄并核对 claimed/path/SQLite 实际 inode，配置、manifest、candidate cache 与 report 采用 sibling-temp、fsync、身份复查和原子 replace。正式/API Pydantic 边界同时启用 `strict=True` 与 `extra=forbid`，候选 envelope 保持宽容；FIELD_REGISTRY 的 `evidence_required` 在保存、确认、发布重复强制。UI 暴露专用 adjudication 动作、多证据 span、实体增改删与受控角色。`valid` 至少需要一个具名中方实体、非 `Unknown` 角色及证据；`chinese_unnamed` 明确为“有中方参与但原文未具名”的零项目负样本，不是 valid 占位实体。投影逐项目输出全部 19 个字段键，`not_mentioned` 为显式 null 且 eligible=true。
 
-最终验证：Studio 完整测试（含真实 Chromium）`191 passed`，eval loader/CSV 兼容测试 `14 passed`，fix-round 聚焦测试 `16 passed`；JavaScript `node --check`、Python `compileall` 与 `git diff --check` 通过，Studio pytest 无 warning。
+最终加固 A 修复轮 2 将 SQLite backup 的临时目标纳入 held-handle/no-follow/identity 校验，并将 rich、projection、schema、distribution、changelog、manifest 六类 staged artifacts 全部切换到源库别名感知的安全原子写入。ReviewStore schema 升至 v4：迁移值只成为显式 `legacy_unknown`/`verified=false` provenance 和审计提示，必须经 Store/API/`verify-provenance` CLI 的 operator-reviewed 决定替换后才能确认或发布；eval loader 对旧 gold 继续兼容缺少 verification 字段的 provenance。Web mutation 只接受本地 TrustedHost、`X-Gold-Studio-Request: 1`、非空 bounded actor 及可选的精确同源 Origin，真实 Chromium 回归从空项目通过页面完成 19 字段、专用裁决、双字段证据、具名实体/受控角色/双实体证据、状态与确认，再由公共 CLI 发布并校验 rich/eval projection。
+
+最终验证：Studio 完整测试（含真实 Chromium）`212 passed`；eval loader/CSV 兼容测试 `15 passed`（仅保留现有 Windows pytest cache ACL warning）；JavaScript `node --check`、Python `compileall` 与 `git diff --check` 全部通过，Studio pytest 无 warning。
 
 ---
 

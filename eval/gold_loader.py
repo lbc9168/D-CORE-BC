@@ -80,6 +80,10 @@ class SamplingProvenance(BaseModel):
     original_category_strata: list[StrictStr] = Field(default_factory=list)
     risk_tags: list[StrictStr] = Field(default_factory=list)
     negative_proxy: StrictBool
+    verified: Optional[StrictBool] = None
+    verification_source: Optional[
+        Literal["sample_selection", "operator_review", "legacy_unknown"]
+    ] = None
 
 
 class GoldRecord(BaseModel):

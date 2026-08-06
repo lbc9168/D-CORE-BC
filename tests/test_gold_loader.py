@@ -1,4 +1,6 @@
 """gold_loader：文章级 status + projects[]（每项目 entities[{name,involvement_type}]）的 Pydantic 校验。"""
+import json
+
 import pytest
 from eval import gold_loader
 
@@ -73,3 +75,36 @@ def test_old_gold_defaults_to_empty_project_eligibility_mapping(tmp_path):
     ]))[0]
 
     assert record["projects"][0]["field_eligibility"] == {}
+
+
+def test_sampling_provenance_accepts_legacy_shape_and_preserves_new_verification_fields(tmp_path):
+    """Keep old projections loadable while retaining Studio's explicit provenance verification state."""
+    legacy = {
+        "sampling_seed": 17,
+        "inclusion_reasons": ["legacy_quota"],
+        "original_category_strata": ["光伏"],
+        "risk_tags": [],
+        "negative_proxy": False,
+    }
+    verified = {
+        **legacy,
+        "verified": True,
+        "verification_source": "operator_review",
+    }
+    p = _write(
+        tmp_path,
+        [
+            '{"source_link":"http://legacy","status":"irrelevant","projects":[],"sampling_provenance":'
+            + json.dumps(legacy, ensure_ascii=False)
+            + "}",
+            '{"source_link":"http://verified","status":"irrelevant","projects":[],"sampling_provenance":'
+            + json.dumps(verified, ensure_ascii=False)
+            + "}",
+        ],
+    )
+
+    records = gold_loader.load(p)
+
+    assert records[0]["sampling_provenance"]["verified"] is None
+    assert records[1]["sampling_provenance"]["verified"] is True
+    assert records[1]["sampling_provenance"]["verification_source"] == "operator_review"

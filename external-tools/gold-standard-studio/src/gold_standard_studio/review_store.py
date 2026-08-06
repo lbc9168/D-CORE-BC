@@ -23,6 +23,7 @@ from gold_standard_studio.schemas import (
     GoldField,
     GoldProject,
     RichGoldRecord,
+    SamplingProvenance,
 )
 from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
@@ -39,7 +40,7 @@ _TABLES = (
     "review_sessions",
     "studio_meta",
 )
-_SCHEMA_VERSION = 3
+_SCHEMA_VERSION = 4
 _PUBLISHABLE_ARTICLE_STATUSES = {"valid", "no_chinese", "irrelevant", "chinese_unnamed"}
 
 
@@ -444,6 +445,32 @@ class ReviewStore:
             )
             return article
 
+    def replace_sampling_provenance(
+        self, sample_id: str, provenance: SamplingProvenance, *, actor: str
+    ) -> RichGoldRecord:
+        """Replace legacy-unknown sampling provenance with an audited operator-verified decision."""
+        _require_actor(actor)
+        if not provenance.verified or provenance.verification_source != "operator_review":
+            raise ValueError("replacement sampling provenance must be verified by operator_review")
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
+            previous = article.sampling_provenance
+            article.sampling_provenance = provenance
+            self._save_article(conn, article, now)
+            self._append_audit(
+                conn,
+                sample_id,
+                "sampling_provenance_decision",
+                "sampling_provenance",
+                previous,
+                provenance,
+                actor,
+                now,
+            )
+            return article
+
     def save_entities(
         self,
         sample_id: str,
@@ -604,6 +631,7 @@ class ReviewStore:
         now = _utc_now()
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
+            _assert_verified_sampling_provenance(article)
             self._assert_structure_gate_resolved(conn, sample_id)
             self._assert_article_status_audited(conn, sample_id, article.article_status)
             snapshot = self._load_article_snapshot(conn, sample_id, article)
@@ -635,6 +663,7 @@ class ReviewStore:
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
             _assert_draft_mutable(article)
+            _assert_verified_sampling_provenance(article)
             snapshot = self._load_article_snapshot(conn, sample_id, article)
             _validate_snapshot_identity(article, snapshot)
             previous_projects = list(article.projects)
@@ -774,12 +803,17 @@ class ReviewStore:
                 source.execute("BEGIN")
                 source_counts = self._table_row_counts(source)
                 source_tail = self._latest_audit_id(source)
-                copied = sqlite3.connect(temporary)
+                copied, copied_claim = _secured_sqlite_connect(
+                    temporary,
+                    source_paths=(*self._source_paths, self.path),
+                    allow_create=True,
+                )
                 try:
                     source.backup(copied)
                     copied.commit()
                 finally:
                     copied.close()
+                    os.close(copied_claim)
                 source.rollback()
             copied_store = ReviewStore(temporary)
             with copied_store._connect() as conn:
@@ -1125,6 +1159,7 @@ def _has_unresolved_conflicts(article: RichGoldRecord) -> bool:
 def _assert_confirmation_guards(article: RichGoldRecord, snapshot: ArticleSnapshot) -> None:
     """Reject incomplete status, structure, typed values, entities, and nonexact evidence inside confirmation."""
     _assert_draft_mutable(article)
+    _assert_verified_sampling_provenance(article)
     if _has_unresolved_conflicts(article):
         raise ValueError("unresolved conflicts prevent article confirmation")
     if article.article_status not in _PUBLISHABLE_ARTICLE_STATUSES:
@@ -1180,6 +1215,15 @@ def _assert_draft_mutable(article: RichGoldRecord) -> None:
     """Reject an attempted human draft mutation after the article has been explicitly confirmed."""
     if article.review_status == "reviewed":
         raise ReviewedRecordError("reviewed records are immutable")
+
+
+def _assert_verified_sampling_provenance(article: RichGoldRecord) -> None:
+    """Require explicit verified sampling provenance before any positive or negative confirmation."""
+    provenance = article.sampling_provenance
+    if provenance is None or not provenance.verified:
+        raise ValueError(
+            "verified sampling provenance is required; run verify-provenance with operator-reviewed data"
+        )
 
 
 def _decode_audit_entry(row: sqlite3.Row) -> AuditEntry:
@@ -1368,11 +1412,11 @@ def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
         legacy_sampling = audit_metadata.pop("sampling", None)
         if payload.get("sampling_provenance") is None and isinstance(legacy_sampling, dict):
             payload["sampling_provenance"] = {
-                "sampling_seed": legacy_sampling.get("seed", 0),
-                "inclusion_reasons": list(legacy_sampling.get("inclusion_reasons") or []),
-                "original_category_strata": list(legacy_sampling.get("category_tags") or []),
-                "risk_tags": list(payload.get("risk_tags") or []),
-                "negative_proxy": bool(legacy_sampling.get("negative_proxy", False)),
+                "sampling_seed": legacy_sampling.get("seed"),
+                "inclusion_reasons": legacy_sampling.get("inclusion_reasons"),
+                "original_category_strata": legacy_sampling.get("category_tags"),
+                "risk_tags": legacy_sampling.get("risk_tags", payload.get("risk_tags")),
+                "negative_proxy": legacy_sampling.get("negative_proxy"),
             }
         payload["audit_metadata"] = audit_metadata
         encoded = json.dumps(
@@ -1392,6 +1436,79 @@ def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
                 _utc_now(),
             ),
         )
+
+
+def _migrate_v3_to_v4(conn: sqlite3.Connection) -> None:
+    """Convert every legacy provenance payload into an explicit loadable unverified state requiring audit repair."""
+    rows = conn.execute(
+        "SELECT sample_id, payload_json, review_status FROM article_drafts ORDER BY sample_id"
+    ).fetchall()
+    for row in rows:
+        payload = json.loads(row["payload_json"])
+        raw_provenance = payload.get("sampling_provenance")
+        candidate = raw_provenance if isinstance(raw_provenance, dict) else {}
+        audit_metadata = payload.get("audit_metadata")
+        audit_metadata = audit_metadata if isinstance(audit_metadata, dict) else {}
+        audit_metadata["legacy_sampling_provenance_hint"] = raw_provenance
+        payload["audit_metadata"] = audit_metadata
+        payload["sampling_provenance"] = {
+            "sampling_seed": _legacy_integer(candidate.get("sampling_seed")),
+            "inclusion_reasons": _legacy_string_list(candidate.get("inclusion_reasons")),
+            "original_category_strata": _legacy_string_list(
+                candidate.get("original_category_strata")
+            ),
+            "risk_tags": _legacy_string_list(candidate.get("risk_tags")),
+            "negative_proxy": _legacy_boolean(candidate.get("negative_proxy")),
+            "verified": False,
+            "verification_source": "legacy_unknown",
+        }
+        payload["article_review_status"] = "unreviewed"
+        payload.pop("review_status", None)
+        encoded = json.dumps(
+            payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
+        )
+        conn.execute(
+            "UPDATE article_drafts SET payload_json=?, review_status='unreviewed' WHERE sample_id=?",
+            (encoded, row["sample_id"]),
+        )
+        now = _utc_now()
+        conn.execute(
+            """INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at)
+               VALUES (?, 'sampling_provenance_repair_required', 'sampling_provenance', ?, ?,
+                       'system:migration-v4', ?)""",
+            (
+                row["sample_id"],
+                _canonical_json(raw_provenance),
+                _canonical_json(payload["sampling_provenance"]),
+                now,
+            ),
+        )
+        conn.execute(
+            """INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at)
+               VALUES (?, 'migration_rereview_required', 'article_review_status', ?, ?,
+                       'system:migration-v4', ?)""",
+            (
+                row["sample_id"],
+                _canonical_json(row["review_status"]),
+                _canonical_json("unreviewed"),
+                now,
+            ),
+        )
+
+
+def _legacy_integer(value: Any) -> int:
+    """Preserve a strict legacy integer or return the non-authoritative migration placeholder zero."""
+    return value if isinstance(value, int) and not isinstance(value, bool) else 0
+
+
+def _legacy_boolean(value: Any) -> bool:
+    """Preserve a strict legacy boolean or return the non-authoritative migration placeholder false."""
+    return value if isinstance(value, bool) else False
+
+
+def _legacy_string_list(value: Any) -> list[str]:
+    """Preserve a strict legacy string list or return an empty non-authoritative migration placeholder."""
+    return list(value) if isinstance(value, list) and all(isinstance(item, str) for item in value) else []
 
 
 _V1_SCHEMA = (
@@ -1429,4 +1546,4 @@ _V1_SCHEMA = (
     )""",
     "CREATE TABLE studio_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)",
 )
-_MIGRATIONS = {1: _migrate_v1_to_v2, 2: _migrate_v2_to_v3}
+_MIGRATIONS = {1: _migrate_v1_to_v2, 2: _migrate_v2_to_v3, 3: _migrate_v3_to_v4}

@@ -49,11 +49,17 @@ uv run --project external-tools/gold-standard-studio gold-studio build-candidate
 
 The shipped CLI deliberately makes zero external model calls: production and review providers are recorded as `model_calls_disabled`. Before any future provider integration, obtain separate approval, review the exact count/provider/prompt/model version, and record budget, data-retention, and article-disclosure risk.
 
-An explicit `init` of a legacy v1/v2 review DB migrates its data but revokes every legacy reviewed/status claim: prior values survive only as `legacy_migration_hint`, and each row receives a `migration_rereview_required` audit event. Recover missing immutable snapshots only from the configured read-only source repository, then perform a fresh review and confirmation:
+An explicit `init` of a legacy v1/v2/v3 review DB migrates its data but revokes every legacy reviewed/status claim and never invents verified sampling facts. Prior status values survive only as `legacy_migration_hint`; prior sampling values survive as `legacy_sampling_provenance_hint`, while the active contract becomes `verified=false`, `verification_source=legacy_unknown`. Each row receives re-review and provenance-repair audit events. Recover missing immutable snapshots only from the configured read-only source repository, then replace provenance with literal operator-reviewed data before fresh review and confirmation:
 
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio rehydrate-snapshots --all --data-dir data/gold-studio
 # Or recover one row: --sample-id S001
+
+uv run --project external-tools/gold-standard-studio gold-studio verify-provenance `
+  --sample-id S001 --sampling-seed 20260806 `
+  --inclusion-reason operator_reconstructed_manifest `
+  --category-stratum 光伏 --risk-tag legacy_recovery `
+  --no-negative-proxy --data-dir data/gold-studio
 ```
 
 Ordinary opens reject missing, corrupt, old, or future schema metadata; they never infer authority or auto-migrate. `valid` requires at least one named Chinese entity, a controlled non-`Unknown` role, and exact evidence. `chinese_unnamed` means the article indicates Chinese participation but does not name the Chinese entity; it is published as a zero-project negative state, not as a placeholder entity in a valid record.
@@ -65,11 +71,11 @@ uv run --project external-tools/gold-standard-studio gold-studio serve --data-di
 # Open http://127.0.0.1:8765/queue
 ```
 
-Non-loopback hosts require `--allow-network`; do not expose article snapshots or a review DB without approved access control.
+The app accepts only `localhost`, `127.0.0.1`, `[::1]`, and `testserver` Host values. Every mutation requires the fixed Studio request header, an explicit bounded actor, and an exactly same-origin browser `Origin` when one is supplied; the shipped page emits these headers automatically. Non-loopback hosts still require `--allow-network`, but TrustedHost will reject them, so do not treat `--allow-network` as a deployment/authentication feature.
 
 ## Backup, report, and publication
 
-The UI immediately saves local decisions and audit events. Before maintenance, call `ReviewStore.backup()` from a local maintenance script/Python shell; it verifies SQLite integrity, all table counts, and the audit tail. Stop the server before restoring a verified backup into the Studio-owned `review.db`; never restore over a production source DB.
+The UI immediately saves local decisions and audit events. Before maintenance, call `ReviewStore.backup()` from a local maintenance script/Python shell; it claims the destination through a held no-follow handle, rejects source/review aliases before SQLite writes, and verifies SQLite integrity, all table counts, and the audit tail. Stop the server before restoring a verified backup into the Studio-owned `review.db`; never restore over a production source DB.
 
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio report `
@@ -78,7 +84,7 @@ uv run --project external-tools/gold-standard-studio gold-studio report `
 
 The report is accessible, self-contained HTML: inline styling, semantic table/captions, and no scripts or remote assets.
 
-Publication is separate from Pilot dry-run. It requires every article to be human-confirmed with explicit `sampling_provenance` and rejects unreviewed drafts, adjudications, structural conflicts, missing required evidence, or an existing target version.
+Publication is separate from Pilot dry-run. It requires every article to be human-confirmed with verified `sampling_provenance` and rejects legacy-unknown provenance, unreviewed drafts, adjudications, structural conflicts, missing required evidence, or an existing target version. All six staged artifacts use exclusive no-follow atomic writers with source-alias and identity rechecks before the version directory is made visible.
 
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio publish `
@@ -95,6 +101,7 @@ This writes immutable artifacts to `eval/gold_sets/database_core/v0.1.0/`: rich 
 | `source paths are required` | Run `init` with all three paths, or pass all three paths to `sample`. |
 | no review DB | Inspect dry-run output, then use `sample --apply` for the intended data directory. |
 | migrated row has no snapshot | Run `rehydrate-snapshots` for the exact row or `--all`, then re-review it; never copy a legacy reviewed flag. |
+| migrated provenance is unverified | Reconstruct literal sampling inputs from operator-reviewed records and run `verify-provenance`; never accept migration placeholders as facts. |
 | `model_calls_disabled` | Expected safe default, not a label. Do not treat it as a failed gold review. |
 | publication rejected | Resolve every draft/evidence/adjudication/structure issue in the UI; do not edit release JSONL. |
 | version exists | Select a new semantic version; releases are immutable. |

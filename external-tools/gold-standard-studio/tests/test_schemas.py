@@ -51,6 +51,8 @@ def make_record(*, field_state: str = "present", review_status: str = "reviewed"
             original_category_strata=[],
             risk_tags=[],
             negative_proxy=False,
+            verified=True,
+            verification_source="sample_selection",
         ),
         projects=[
             GoldProject(
@@ -135,6 +137,8 @@ def test_review_status_alias_does_not_replace_authoritative_article_status():
             original_category_strata=[],
             risk_tags=[],
             negative_proxy=True,
+            verified=True,
+            verification_source="sample_selection",
         ),
     )
 

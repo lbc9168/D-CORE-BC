@@ -134,6 +134,17 @@ class SamplingProvenance(StrictContractModel):
     original_category_strata: list[str] = Field(default_factory=list)
     risk_tags: list[str] = Field(default_factory=list)
     negative_proxy: bool
+    verified: bool
+    verification_source: Literal["sample_selection", "operator_review", "legacy_unknown"]
+
+    @model_validator(mode="after")
+    def validate_verification_state(self):
+        """Keep verified provenance distinct from the explicit unknown state created by legacy migration."""
+        if self.verified and self.verification_source == "legacy_unknown":
+            raise ValueError("verified sampling provenance cannot use legacy_unknown source")
+        if not self.verified and self.verification_source != "legacy_unknown":
+            raise ValueError("unverified sampling provenance must use legacy_unknown source")
+        return self
 
 
 class RichGoldRecord(StrictContractModel):
@@ -167,6 +178,10 @@ class RichGoldRecord(StrictContractModel):
             raise ValueError("record is not publishable until article gold status is decided")
         if self.sampling_provenance is None:
             raise ValueError("record is not publishable without explicit sampling provenance")
+        if not self.sampling_provenance.verified:
+            raise ValueError(
+                "record requires verified sampling provenance; run verify-provenance with operator-reviewed data"
+            )
         if self.article_status == "valid" and not self.projects:
             raise ValueError("valid article requires at least one project")
         if self.article_status != "valid" and self.projects:

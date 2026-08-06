@@ -30,6 +30,7 @@ ARTICLE_TITLE = "复核测试"
 ARTICLE_CONTENT = "风电光伏"
 ARTICLE_DATE = "2026-08-06"
 ARTICLE_SHA256 = article_sha256(ARTICLE_TITLE, ARTICLE_CONTENT, ARTICLE_DATE)
+MUTATION_HEADERS = {"X-Gold-Studio-Request": "1", "X-Review-Actor": "test-reviewer"}
 
 
 def make_snapshot(source_link: str) -> ArticleSnapshot:
@@ -92,6 +93,8 @@ def make_article(sample_id: str, *, difficulty: float = 0) -> RichGoldRecord:
             original_category_strata=["风电"],
             risk_tags=[],
             negative_proxy=False,
+            verified=True,
+            verification_source="sample_selection",
         ),
         projects=[
             GoldProject(
@@ -131,7 +134,7 @@ def store(tmp_path: Path) -> ReviewStore:
 @pytest.fixture
 def client(store: ReviewStore) -> TestClient:
     """Expose the application using the real SQLite store rather than mocks."""
-    return TestClient(create_app(store))
+    return TestClient(create_app(store), headers=MUTATION_HEADERS)
 
 
 @pytest.fixture
@@ -182,6 +185,8 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
                 original_category_strata=["光伏"],
                 risk_tags=[],
                 negative_proxy=False,
+                verified=True,
+                verification_source="sample_selection",
             ),
             projects=[
                 GoldProject(
@@ -228,7 +233,12 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
         snapshot=snapshot,
     )
     review_store.save_article_status("SRC001", "valid", actor="fixture")
-    return TestClient(create_app(review_store, source_repository=repository)), repository
+    return (
+        TestClient(
+            create_app(review_store, source_repository=repository), headers=MUTATION_HEADERS
+        ),
+        repository,
+    )
 
 
 def test_queue_defaults_to_ready_low_difficulty(client: TestClient) -> None:
@@ -271,8 +281,8 @@ def test_stale_revision_is_rejected(client: TestClient) -> None:
     assert response.json()["detail"] == "stale structure revision: expected 1, received 0"
 
 
-def test_field_decision_records_default_local_actor_and_audit(client: TestClient) -> None:
-    """Persist a field decision atomically and serialize its complete audit payload."""
+def test_field_decision_records_explicit_local_actor_and_audit(client: TestClient) -> None:
+    """Persist a field decision with an explicit actor and serialize its complete audit payload."""
     response = client.put(
         "/api/articles/S001/fields/P01.category",
         json={"field": make_field("光伏").model_dump(mode="json")},
@@ -282,7 +292,7 @@ def test_field_decision_records_default_local_actor_and_audit(client: TestClient
     assert response.json()["article"]["projects"][0]["fields"]["category"]["value"] == "光伏"
     audit = client.get("/api/articles/S001/audit").json()["items"][-1]
     assert audit["action"] == "field_decision"
-    assert audit["actor"] == "local-reviewer"
+    assert audit["actor"] == "test-reviewer"
     assert audit["old_payload"]["value"] == "风电"
     assert audit["new_payload"]["value"] == "光伏"
 
@@ -297,6 +307,134 @@ def test_unknown_article_is_not_found_and_unsafe_field_path_is_invalid(client: T
 
     assert missing.status_code == 404
     assert unsafe.status_code == 422
+
+
+def test_operator_provenance_replacement_is_exposed_as_an_audited_api_decision(
+    store: ReviewStore, client: TestClient
+) -> None:
+    """Replace sampling provenance through the protected API without bypassing store audit semantics."""
+    provenance = SamplingProvenance(
+        sampling_seed=73,
+        inclusion_reasons=["operator_reconstructed_manifest"],
+        original_category_strata=["风电"],
+        risk_tags=["manual_recovery"],
+        negative_proxy=False,
+        verified=True,
+        verification_source="operator_review",
+    )
+
+    response = client.put(
+        "/api/articles/S001/sampling-provenance",
+        json={"sampling_provenance": provenance.model_dump(mode="json")},
+    )
+
+    assert response.status_code == 200, response.text
+    assert response.json()["article"]["sampling_provenance"] == provenance.model_dump(mode="json")
+    audit = store.list_audit("S001")[-1]
+    assert audit.action == "sampling_provenance_decision"
+    assert audit.actor == "test-reviewer"
+
+
+def test_mutation_boundary_rejects_headerless_cross_origin_form_and_rebinding_requests_without_state_change(
+    store: ReviewStore,
+) -> None:
+    """Reject every mutation route before parsing when request intent, actor, origin, or Host is unsafe."""
+    app = create_app(store)
+    unsafe_client = TestClient(app)
+    before_article = store.get_article("S001").model_dump(mode="json")
+    before_revision = store.current_structure_revision("S001")
+    before_tail = store.latest_audit_id()
+    provenance = SamplingProvenance(
+        sampling_seed=73,
+        inclusion_reasons=["operator_reconstructed_manifest"],
+        original_category_strata=["风电"],
+        risk_tags=[],
+        negative_proxy=False,
+        verified=True,
+        verification_source="operator_review",
+    ).model_dump(mode="json")
+    blocked = [
+        unsafe_client.post("/api/articles/S001/start", headers={"X-Review-Actor": "reviewer"}),
+        unsafe_client.put(
+            "/api/articles/S001/structure",
+            headers={"X-Review-Actor": "reviewer"},
+            json={"base_revision": 1, "projects": [make_project_json("P01")]},
+        ),
+        unsafe_client.put(
+            "/api/articles/S001/fields/P01.category",
+            headers={"X-Review-Actor": "reviewer"},
+            json={"field": make_field("光伏").model_dump(mode="json")},
+        ),
+        unsafe_client.put(
+            "/api/articles/S001/status",
+            headers={"X-Review-Actor": "reviewer"},
+            json={"article_status": "valid"},
+        ),
+        unsafe_client.post(
+            "/api/articles/S001/adjudication",
+            headers={"X-Review-Actor": "reviewer"},
+            json={"field_path": "P01.category", "field": make_field("光伏").model_dump(mode="json")},
+        ),
+        unsafe_client.post("/api/articles/S001/confirm", headers={"X-Review-Actor": "reviewer"}),
+        unsafe_client.put(
+            "/api/articles/S001/sampling-provenance",
+            headers={"X-Review-Actor": "reviewer"},
+            json={"sampling_provenance": provenance},
+        ),
+    ]
+    blocked.append(
+        unsafe_client.post(
+            "/api/articles/S001/start",
+            data={"actor": "reviewer"},
+        )
+    )
+    blocked.append(
+        unsafe_client.post(
+            "/api/articles/S001/start",
+            headers={
+                **MUTATION_HEADERS,
+                "Origin": "https://attacker.example",
+            },
+        )
+    )
+    blocked.append(
+        unsafe_client.post(
+            "/api/articles/S001/start",
+            headers={"X-Gold-Studio-Request": "1"},
+        )
+    )
+    blocked.extend(
+        unsafe_client.post(
+            "/api/articles/S001/start",
+            headers={"X-Gold-Studio-Request": "1", "X-Review-Actor": actor},
+        )
+        for actor in ("   ", "x" * 81)
+    )
+    rebinding = unsafe_client.post(
+        "/api/articles/S001/start",
+        headers={**MUTATION_HEADERS, "Host": "attacker.example"},
+    )
+
+    assert all(response.status_code == 403 for response in blocked)
+    assert rebinding.status_code == 400
+    assert store.get_article("S001").model_dump(mode="json") == before_article
+    assert store.current_structure_revision("S001") == before_revision
+    assert store.latest_audit_id() == before_tail
+
+
+def test_trusted_local_hosts_and_same_origin_mutation_are_accepted(store: ReviewStore) -> None:
+    """Allow the documented local Host set and a browser mutation whose Origin exactly matches it."""
+    local_client = TestClient(create_app(store))
+
+    for host in ("localhost", "127.0.0.1", "[::1]", "testserver"):
+        assert local_client.get("/api/queue", headers={"Host": host}).status_code == 200
+    started = local_client.post(
+        "/api/articles/S001/start",
+        headers={**MUTATION_HEADERS, "Origin": "http://testserver"},
+    )
+
+    assert started.status_code == 200, started.text
+    assert started.json()["actor"] == "test-reviewer"
 
 
 def test_confirmation_rejects_needs_adjudication(client: TestClient) -> None:

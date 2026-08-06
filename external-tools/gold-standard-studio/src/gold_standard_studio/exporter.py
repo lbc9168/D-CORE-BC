@@ -15,11 +15,12 @@ import re
 import shutil
 import sqlite3
 import sys
-from typing import Any, Iterable
+from typing import Any, Iterable, Sequence
 from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
+from gold_standard_studio.config import assert_mutable_paths_isolated, atomic_write_text
 from gold_standard_studio.eval_contract import GoldRecord
 from gold_standard_studio.field_registry import FIELD_REGISTRY, validate_entity_role, validate_field_value
 from gold_standard_studio.review_store import ReviewStore
@@ -29,7 +30,8 @@ from gold_standard_studio.sources import article_sha256
 
 _VERSION_PATTERN = re.compile(r"v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\Z")
 _GOLD_DRAFT_MUTATION_ACTIONS = {
-    "field_decision", "adjudication", "structure_decision", "article_status_decision", "entity_decision"
+    "field_decision", "adjudication", "structure_decision", "article_status_decision",
+    "entity_decision", "sampling_provenance_decision",
 }
 
 
@@ -93,10 +95,8 @@ def publish_gold(store: ReviewStore, output_root: str | Path, version: str) -> P
     """Publish all reviewed records into one fsync-backed immutable release directory without mutating the store."""
     _validate_version(version)
     root = Path(output_root)
-    if store.source_paths:
-        from gold_standard_studio.config import assert_mutable_paths_isolated
-
-        assert_mutable_paths_isolated(store.source_paths, [root, root / version])
+    forbidden_paths = (*store.source_paths, store.path)
+    assert_mutable_paths_isolated(forbidden_paths, [root, root / version])
     if root.exists() and not root.is_dir():
         raise NotADirectoryError(f"output root is not a directory: {root}")
     root.mkdir(parents=True, exist_ok=True)
@@ -105,6 +105,7 @@ def publish_gold(store: ReviewStore, output_root: str | Path, version: str) -> P
         if final_dir.exists():
             raise FileExistsError(f"gold version already exists: {final_dir}")
         temporary = root / f".{version}.{uuid4().hex}.tmp"
+        assert_mutable_paths_isolated(forbidden_paths, [root, final_dir, temporary])
         published_records = _load_records(store)
         records = [item.record for item in published_records]
         rich_records = [_public_rich_record(item) for item in published_records]
@@ -119,17 +120,35 @@ def publish_gold(store: ReviewStore, output_root: str | Path, version: str) -> P
             distribution_path = temporary / "distribution.json"
             changelog_path = temporary / "CHANGELOG.md"
             manifest_path = temporary / "manifest.json"
-            _write_jsonl(rich_path, rich_records)
-            _write_jsonl(projection_path, projection_records)
-            _write_canonical_json(schema_path, RichGoldRecord.model_json_schema())
+            artifact_paths = (
+                rich_path,
+                projection_path,
+                schema_path,
+                distribution_path,
+                changelog_path,
+                manifest_path,
+            )
+            assert_mutable_paths_isolated(
+                forbidden_paths, [root, final_dir, temporary, *artifact_paths]
+            )
+            _write_jsonl(rich_path, rich_records, source_paths=forbidden_paths)
+            _write_jsonl(projection_path, projection_records, source_paths=forbidden_paths)
+            _write_canonical_json(
+                schema_path, RichGoldRecord.model_json_schema(), source_paths=forbidden_paths
+            )
             distribution = _distribution(records, projection_records)
             DistributionReport.model_validate(distribution)
-            _write_canonical_json(distribution_path, distribution)
-            _write_text(changelog_path, _changelog(version, len(records)))
+            _write_canonical_json(distribution_path, distribution, source_paths=forbidden_paths)
+            _write_text(
+                changelog_path, _changelog(version, len(records)), source_paths=forbidden_paths
+            )
             manifest = _manifest(version, records, rich_path, projection_path, schema_path, distribution_path, changelog_path)
             PublicationManifest.model_validate(manifest)
-            _write_canonical_json(manifest_path, manifest)
+            _write_canonical_json(manifest_path, manifest, source_paths=forbidden_paths)
             _validate_staged_artifacts(temporary)
+            assert_mutable_paths_isolated(
+                forbidden_paths, [root, final_dir, temporary, *artifact_paths]
+            )
             _fsync_directory(temporary)
             _commit_version_directory(temporary, final_dir)
             _fsync_directory(root)
@@ -388,23 +407,27 @@ def _validate_projection_records(records: Iterable[dict[str, Any]]) -> None:
             raise PublishError(f"invalid eval projection record {index}: {error}") from error
 
 
-def _write_jsonl(path: Path, records: Iterable[dict[str, Any]]) -> None:
+def _write_jsonl(
+    path: Path,
+    records: Iterable[dict[str, Any]],
+    *,
+    source_paths: Sequence[Path],
+) -> None:
     """Write canonical JSONL and fsync the completed file before the containing directory is renamed."""
     content = "".join(_canonical_json(record) + "\n" for record in records)
-    _write_text(path, content)
+    _write_text(path, content, source_paths=source_paths)
 
 
-def _write_canonical_json(path: Path, value: Any) -> None:
+def _write_canonical_json(
+    path: Path, value: Any, *, source_paths: Sequence[Path]
+) -> None:
     """Write one compact canonical JSON artifact and force its bytes to durable storage where supported."""
-    _write_text(path, _canonical_json(value) + "\n")
+    _write_text(path, _canonical_json(value) + "\n", source_paths=source_paths)
 
 
-def _write_text(path: Path, content: str) -> None:
-    """Write UTF-8 release content and fsync its descriptor before publication proceeds."""
-    with path.open("w", encoding="utf-8", newline="\n") as handle:
-        handle.write(content)
-        handle.flush()
-        os.fsync(handle.fileno())
+def _write_text(path: Path, content: str, *, source_paths: Sequence[Path]) -> None:
+    """Commit one release artifact through the shared no-follow identity-checked atomic writer."""
+    atomic_write_text(path, content, source_paths=source_paths)
 
 
 def _canonical_json(value: Any) -> str:

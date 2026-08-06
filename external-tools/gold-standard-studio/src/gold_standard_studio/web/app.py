@@ -7,10 +7,12 @@ from typing import Any, Annotated
 from urllib.parse import urlsplit
 
 from fastapi import FastAPI, Header, Path, Request
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, ConfigDict, Field
+from starlette.datastructures import Headers
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 
 from gold_standard_studio.field_registry import ENTITY_ROLES, FIELD_REGISTRY
 from gold_standard_studio.evidence import (
@@ -29,6 +31,7 @@ from gold_standard_studio.schemas import (
     GoldField,
     GoldProject,
     RichGoldRecord,
+    SamplingProvenance,
 )
 from gold_standard_studio.sources import SourceRepository
 
@@ -136,6 +139,12 @@ class EntityDecisionRequest(StrictApiModel):
     entities: list[GoldEntity]
 
 
+class SamplingProvenanceDecisionRequest(StrictApiModel):
+    """Carry a complete operator-reviewed replacement for legacy-unknown sampling provenance."""
+
+    sampling_provenance: SamplingProvenance
+
+
 class StartResponse(StrictApiModel):
     """Acknowledge a durable review-session start event."""
 
@@ -167,6 +176,26 @@ class AuditResponse(StrictApiModel):
 LocalActorHeader = Annotated[str | None, Header(alias="X-Review-Actor")]
 
 
+class _Ipv6TrustedHostMiddleware(TrustedHostMiddleware):
+    """Preserve strict TrustedHost checks while correctly parsing a bracketed IPv6 loopback Host."""
+
+    async def __call__(self, scope, receive, send) -> None:
+        """Accept exact bracketed IPv6 hosts before delegating all other Hosts to Starlette."""
+        if scope["type"] in {"http", "websocket"}:
+            host = Headers(scope=scope).get("host", "")
+            if host.startswith("["):
+                closing = host.find("]")
+                hostname = host[: closing + 1] if closing >= 0 else ""
+                suffix = host[closing + 1 :] if closing >= 0 else host
+                valid_port = not suffix or (suffix.startswith(":") and suffix[1:].isdigit())
+                if hostname in self.allowed_hosts and valid_port:
+                    await self.app(scope, receive, send)
+                    return
+                await PlainTextResponse("Invalid host header", status_code=400)(scope, receive, send)
+                return
+        await super().__call__(scope, receive, send)
+
+
 def create_app(store: ReviewStore, *, source_repository: SourceRepository | None = None) -> FastAPI:
     """Create a local FastAPI app that can mutate only the supplied isolated review store."""
     app = FastAPI(title="Golden Standard Studio", docs_url=None, redoc_url=None, openapi_url=None)
@@ -186,6 +215,21 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
             "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'",
         )
         return response
+
+    @app.middleware("http")
+    async def enforce_mutation_boundary(request: Request, call_next):
+        """Require explicit same-origin Studio intent and a bounded actor before every HTTP mutation."""
+        if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
+            if request.headers.get("X-Gold-Studio-Request") != "1":
+                return _error_response(403, "X-Gold-Studio-Request: 1 is required")
+            try:
+                _local_actor(request.headers.get("X-Review-Actor"))
+            except ValueError as error:
+                return _error_response(403, str(error))
+            origin = request.headers.get("Origin")
+            if origin is not None and not _is_same_origin(request, origin):
+                return _error_response(403, "cross-origin mutation requests are forbidden")
+        return await call_next(request)
 
     @app.exception_handler(ValueError)
     async def map_store_error(_request: Request, error: ValueError):
@@ -276,6 +320,20 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
         )
         return _article_response(store, sample_id)
 
+    @app.put("/api/articles/{sample_id}/sampling-provenance", response_model=ArticleResponse)
+    def replace_sampling_provenance(
+        payload: SamplingProvenanceDecisionRequest,
+        sample_id: str,
+        actor_header: LocalActorHeader = None,
+    ) -> ArticleResponse:
+        """Persist one complete operator-verified sampling provenance decision through the audit store."""
+        store.replace_sampling_provenance(
+            sample_id,
+            payload.sampling_provenance,
+            actor=_local_actor(actor_header),
+        )
+        return _article_response(store, sample_id)
+
     @app.post("/api/articles/{sample_id}/confirm", response_model=ArticleResponse)
     def confirm_article(sample_id: str, actor_header: LocalActorHeader = None) -> ArticleResponse:
         """Confirm only a draft whose fields have evidence and no pending adjudication."""
@@ -303,6 +361,10 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
         """Return complete serialized audit events for one requested article."""
         return AuditResponse(items=[_audit_entry_response(item) for item in store.list_audit(sample_id)])
 
+    app.add_middleware(
+        _Ipv6TrustedHostMiddleware,
+        allowed_hosts=["localhost", "127.0.0.1", "[::1]", "testserver"],
+    )
     return app
 
 
@@ -337,6 +399,31 @@ def _is_safe_source_link(value: str) -> bool:
     """Allow the review page to render only absolute HTTP(S) source links as clickable destinations."""
     parsed = urlsplit(value)
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def _is_same_origin(request: Request, origin: str) -> bool:
+    """Compare an optional browser Origin with the request scheme, hostname, and effective port."""
+    parsed = urlsplit(origin)
+    if (
+        parsed.scheme not in {"http", "https"}
+        or not parsed.hostname
+        or parsed.username is not None
+        or parsed.password is not None
+        or parsed.path not in {"", "/"}
+        or parsed.query
+        or parsed.fragment
+    ):
+        return False
+    try:
+        origin_port = parsed.port or (443 if parsed.scheme == "https" else 80)
+    except ValueError:
+        return False
+    request_port = request.url.port or (443 if request.url.scheme == "https" else 80)
+    return (
+        parsed.scheme == request.url.scheme
+        and parsed.hostname.casefold() == (request.url.hostname or "").casefold()
+        and origin_port == request_port
+    )
 
 
 def _article_response(store: ReviewStore, sample_id: str) -> ArticleResponse:
@@ -425,7 +512,7 @@ def _json_value(value: Any) -> Any:
 
 def _local_actor(value: str | None) -> str:
     """Return a bounded local actor label while rejecting control characters and spoofable blank values."""
-    actor = value.strip() if value is not None else "local-reviewer"
+    actor = value.strip() if value is not None else ""
     if not actor or len(actor) > 80 or any(character.isspace() and character not in {" "} for character in actor):
         raise ValueError("X-Review-Actor must be a nonblank single-line value up to 80 characters")
     return actor

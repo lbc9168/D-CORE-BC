@@ -173,6 +173,19 @@ def test_data_bearing_v1_migration_revokes_authority_then_rehydrates_rereviews_a
             repository.load_article(migrated.source_link),
             actor="recovery",
         )
+        store.replace_sampling_provenance(
+            sample_id,
+            SamplingProvenance(
+                sampling_seed=73,
+                inclusion_reasons=["operator_reconstructed_manifest"],
+                original_category_strata=[],
+                risk_tags=["legacy_recovery"],
+                negative_proxy=sample_id == "LEGACY-NEGATIVE",
+                verified=True,
+                verification_source="operator_review",
+            ),
+            actor="recovery",
+        )
 
     store.save_article_status("LEGACY-VALID", "valid", actor="reviewer")
     store.confirm_article("LEGACY-VALID", actor="reviewer")
@@ -398,7 +411,10 @@ def test_atomic_negative_confirmation_clears_false_positive_structure_and_resolv
         )
     )
 
-    response = TestClient(create_app(store)).post(
+    response = TestClient(
+        create_app(store),
+        headers={"X-Gold-Studio-Request": "1", "X-Review-Actor": "test-reviewer"},
+    ).post(
         "/api/articles/S001/confirm-negative",
         json={"article_status": "chinese_unnamed"},
     )
@@ -449,11 +465,16 @@ def test_public_api_reviews_every_registry_field_entity_and_publishes_through_cl
                 original_category_strata=["光伏"],
                 risk_tags=[],
                 negative_proxy=False,
+                verified=True,
+                verification_source="sample_selection",
             ),
         ),
         snapshot=snapshot,
     )
-    client = TestClient(create_app(store))
+    client = TestClient(
+        create_app(store),
+        headers={"X-Gold-Studio-Request": "1", "X-Review-Actor": "test-reviewer"},
+    )
     opened = client.get("/api/articles/PUBLIC-E2E")
     assert opened.status_code == 200, opened.text
     revision = opened.json()["structure_revision"]

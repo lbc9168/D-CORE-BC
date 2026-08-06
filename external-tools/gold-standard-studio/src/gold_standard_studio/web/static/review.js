@@ -24,7 +24,7 @@
 
   /** Send one explicit request and surface only a server-confirmed JSON response to the renderer. */
   async function request(url, options = {}) {
-    const response = await fetch(url, { headers: { "Content-Type": "application/json", "X-Review-Actor": "local-reviewer" }, ...options });
+    const response = await fetch(url, { ...options, headers: { "Content-Type": "application/json", "X-Review-Actor": "local-reviewer", "X-Gold-Studio-Request": boot?.requestHeader || "" } });
     if (!response.ok) throw new Error((await response.json().catch(() => ({}))).detail || response.statusText);
     return response.json();
   }

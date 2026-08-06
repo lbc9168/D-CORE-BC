@@ -74,6 +74,8 @@ def _sampling_provenance() -> SamplingProvenance:
         original_category_strata=["风电"],
         risk_tags=["capacity"],
         negative_proxy=False,
+        verified=True,
+        verification_source="sample_selection",
     )
 
 
@@ -257,11 +259,11 @@ def test_publish_rejects_unsafe_versions_and_cleans_temporary_output(tmp_path, m
 
     original = exporter._write_jsonl
 
-    def fail_on_projection(path, records):
+    def fail_on_projection(path, records, *, source_paths):
         """Simulate an interruption after the rich artifact has already been written."""
         if path.name == "eval_projection.jsonl":
             raise OSError("simulated write failure")
-        return original(path, records)
+        return original(path, records, source_paths=source_paths)
 
     monkeypatch.setattr(exporter, "_write_jsonl", fail_on_projection)
     root = tmp_path / "gold_sets"

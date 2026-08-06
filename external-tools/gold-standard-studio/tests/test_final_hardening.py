@@ -106,6 +106,8 @@ def _valid_record(snapshot: ArticleSnapshot, sample_id: str = "S001") -> RichGol
             original_category_strata=["光伏"],
             risk_tags=["multiple_entities"],
             negative_proxy=False,
+            verified=True,
+            verification_source="sample_selection",
         ),
         risk_tags=["multiple_entities"],
         projects=[_complete_project(snapshot)],
@@ -144,6 +146,15 @@ def test_valid_confirmation_requires_a_project_and_current_atomic_snapshot(tmp_p
             source_link=snapshot.source_link,
             article_sha256=snapshot.article_sha256,
             article_status="valid",
+            sampling_provenance=SamplingProvenance(
+                sampling_seed=20260806,
+                inclusion_reasons=["empty_fixture"],
+                original_category_strata=[],
+                risk_tags=[],
+                negative_proxy=False,
+                verified=True,
+                verification_source="sample_selection",
+            ),
         ),
         snapshot=snapshot,
     )
@@ -198,7 +209,10 @@ def test_structure_hydrates_exact_registry_and_entity_status_api_is_audited(tmp_
         RichGoldRecord(sample_id="S001", source_link=snapshot.source_link, article_sha256=snapshot.article_sha256),
         snapshot=snapshot,
     )
-    client = TestClient(create_app(store))
+    client = TestClient(
+        create_app(store),
+        headers={"X-Gold-Studio-Request": "1", "X-Review-Actor": "test-reviewer"},
+    )
 
     structured = client.put(
         "/api/articles/S001/structure",
@@ -249,11 +263,16 @@ def test_negative_one_click_sets_authoritative_status_and_confirms_server_side(
                 original_category_strata=[],
                 risk_tags=[],
                 negative_proxy=True,
+                verified=True,
+                verification_source="sample_selection",
             ),
         ),
         snapshot=snapshot,
     )
-    response = TestClient(create_app(store)).post(
+    response = TestClient(
+        create_app(store),
+        headers={"X-Gold-Studio-Request": "1", "X-Review-Actor": "test-reviewer"},
+    ).post(
         "/api/articles/N001/confirm-negative", json={"article_status": negative_status}
     )
 

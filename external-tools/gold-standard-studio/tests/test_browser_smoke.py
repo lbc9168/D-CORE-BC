@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from contextlib import contextmanager
+import json
 import socket
 from threading import Thread
 from time import monotonic, sleep
@@ -11,10 +12,16 @@ import httpx
 import pytest
 import uvicorn
 from playwright.sync_api import Browser, expect, sync_playwright
+from typer.testing import CliRunner
 
-from gold_standard_studio.schemas import CandidateBundle, CandidateValue, EvidenceSpan, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.cli import app as cli_app
+from gold_standard_studio.field_registry import FIELD_REGISTRY
+from gold_standard_studio.review_store import ReviewStore
+from gold_standard_studio.schemas import CandidateBundle, CandidateValue, EvidenceSpan, GoldField, GoldProject, RichGoldRecord, SamplingProvenance
 from gold_standard_studio.web.app import create_app
 
+from test_final_hardening import _snapshot
+from test_final_hardening_fix_round import _source_repository
 from test_web_api import ARTICLE_SHA256, configured_source_client, make_field, store
 
 
@@ -277,6 +284,142 @@ def test_browser_uses_dedicated_adjudication_and_multiple_evidence_entity_editor
         assert store.get_article("S001").projects[0].entities[0].role == "EPC总承包"
 
         page.get_by_test_id("remove-entity-P01-0").click()
-        page.get_by_test_id("save-entities-P01").click()
+        with page.expect_response(
+            lambda response: response.url.endswith(
+                "/api/articles/S001/projects/P01/entities"
+            )
+            and response.request.method == "PUT"
+        ) as deletion:
+            page.get_by_test_id("save-entities-P01").click()
+        assert deletion.value.ok
         expect(page.get_by_test_id("save-state")).to_contain_text("实体已保存")
         assert store.get_article("S001").projects[0].entities == []
+
+
+def test_public_ui_builds_complete_positive_gold_and_cli_publishes_it(
+    tmp_path, browser: Browser
+) -> None:
+    """Complete every human review decision in Chromium, then publish and validate both CLI artifacts."""
+    snapshot = _snapshot()
+    config, repository = _source_repository(tmp_path, [snapshot])
+    repository.close()
+    runner = CliRunner()
+    initialized = runner.invoke(
+        cli_app,
+        [
+            "init",
+            "--raw-news-db",
+            str(config.raw_news_db),
+            "--projects-db",
+            str(config.projects_db),
+            "--main-db",
+            str(config.main_db),
+            "--data-dir",
+            str(config.data_dir),
+        ],
+    )
+    assert initialized.exit_code == 0, initialized.output
+    review_store = ReviewStore(config.data_dir / "review.db", source_paths=config.source_paths)
+    review_store.seed_article(
+        RichGoldRecord(
+            sample_id="UI-POSITIVE",
+            article_sha256=snapshot.article_sha256,
+            source_link=snapshot.source_link,
+            sampling_provenance=SamplingProvenance(
+                sampling_seed=20260806,
+                inclusion_reasons=["public_ui_e2e"],
+                original_category_strata=["光伏"],
+                risk_tags=["browser_review"],
+                negative_proxy=False,
+                verified=True,
+                verification_source="sample_selection",
+            ),
+        ),
+        snapshot=snapshot,
+    )
+    page = browser.new_page()
+
+    with running_server(create_app(review_store)) as live_server:
+        page.goto(f"{live_server}/review/UI-POSITIVE")
+        expect(page.get_by_test_id("save-state")).to_contain_text("草稿已加载")
+        page.get_by_role("button", name="新增项目", exact=True).click()
+        page.get_by_test_id("save-structure").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("项目结构已保存")
+
+        page.get_by_test_id("edit-P01.category").click()
+        page.get_by_test_id("state-P01.category").select_option("needs_adjudication")
+        page.get_by_test_id("save-editor-P01.category").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("草稿已保存")
+        page.get_by_test_id("edit-P01.category").click()
+        page.get_by_test_id("state-P01.category").select_option("present")
+        page.get_by_test_id("editor-P01.category").fill("光伏")
+        page.get_by_test_id("add-evidence-P01.category").click()
+        page.get_by_test_id("add-evidence-P01.category").click()
+        page.get_by_test_id("evidence-quote-P01.category-0").fill("光伏")
+        page.get_by_test_id("evidence-start-P01.category-0").fill(
+            str(snapshot.content.index("光伏"))
+        )
+        page.get_by_test_id("evidence-quote-P01.category-1").fill("100MW")
+        page.get_by_test_id("evidence-start-P01.category-1").fill(
+            str(snapshot.content.index("100MW"))
+        )
+        page.get_by_test_id("save-editor-P01.category").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("草稿已保存")
+
+        for field_name in FIELD_REGISTRY:
+            if field_name == "category":
+                continue
+            field_path = f"P01.{field_name}"
+            page.get_by_test_id(f"edit-{field_path}").click()
+            page.get_by_test_id(f"state-{field_path}").select_option("not_mentioned")
+            page.get_by_test_id(f"save-editor-{field_path}").click()
+            expect(page.get_by_test_id("save-state")).to_contain_text("草稿已保存")
+
+        page.get_by_test_id("add-entity-P01").click()
+        page.get_by_test_id("entity-name-P01-0").fill("中国电建")
+        page.get_by_test_id("entity-role-P01-0").select_option("EPC总承包")
+        for quote in ("中国电建", "EPC总承包商"):
+            page.get_by_test_id("add-entity-evidence-P01-0").click()
+            evidence_index = 0 if quote == "中国电建" else 1
+            page.get_by_test_id(
+                f"entity-evidence-quote-P01-0-{evidence_index}"
+            ).fill(quote)
+            page.get_by_test_id(
+                f"entity-evidence-start-P01-0-{evidence_index}"
+            ).fill(str(snapshot.content.index(quote)))
+        page.get_by_test_id("save-entities-P01").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("实体已保存")
+        page.locator("#article-status").select_option("valid")
+        page.get_by_test_id("save-article-status").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("文章状态已保存")
+        page.get_by_test_id("confirm-article").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("文章已确认")
+
+    published = runner.invoke(
+        cli_app,
+        [
+            "publish",
+            "--version",
+            "v2.0.0",
+            "--output",
+            str(tmp_path / "gold"),
+            "--data-dir",
+            str(config.data_dir),
+        ],
+    )
+    assert published.exit_code == 0, published.output
+    release = tmp_path / "gold" / "v2.0.0"
+    rich = json.loads((release / "rich_gold.jsonl").read_text(encoding="utf-8").strip())
+    projection = json.loads(
+        (release / "eval_projection.jsonl").read_text(encoding="utf-8").strip()
+    )
+    fields = rich["projects"][0]["fields"]
+    assert rich["article_review_status"] == "reviewed"
+    assert set(fields) == set(FIELD_REGISTRY)
+    assert all(field["state"] not in {"unreviewed", "needs_adjudication"} for field in fields.values())
+    assert len(fields["category"]["evidence"]) == 2
+    assert len(rich["projects"][0]["entities"][0]["evidence"]) == 2
+    assert projection["projects"][0]["category"] == "光伏"
+    assert projection["projects"][0]["entities"] == [
+        {"name": "中国电建", "involvement_type": "EPC总承包"}
+    ]

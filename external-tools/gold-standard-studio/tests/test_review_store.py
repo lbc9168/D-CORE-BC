@@ -72,6 +72,8 @@ def make_ready_article(sample_id: str = "S001") -> RichGoldRecord:
             original_category_strata=["风电"],
             risk_tags=[],
             negative_proxy=False,
+            verified=True,
+            verification_source="sample_selection",
         ),
         projects=[
             GoldProject(
@@ -292,6 +294,8 @@ def test_candidate_scoring_is_observational_persistent_and_reorders_the_queue(tm
                 original_category_strata=[],
                 risk_tags=[],
                 negative_proxy=True,
+                verified=True,
+                verification_source="sample_selection",
             ),
         ),
         snapshot=make_snapshot("S001"),
@@ -306,6 +310,8 @@ def test_candidate_scoring_is_observational_persistent_and_reorders_the_queue(tm
                 original_category_strata=[],
                 risk_tags=[],
                 negative_proxy=True,
+                verified=True,
+                verification_source="sample_selection",
             ),
         ),
         snapshot=make_snapshot("S002"),

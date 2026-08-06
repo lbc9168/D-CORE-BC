@@ -165,6 +165,8 @@ def _sample_records(selected: Iterable[SelectedSample], articles: dict[str, Arti
                     original_category_strata=list(row.category_tags),
                     risk_tags=list(row.risk_tags),
                     negative_proxy=row.is_negative,
+                    verified=True,
+                    verification_source="sample_selection",
                 ),
             )
         )
@@ -367,6 +369,36 @@ def rehydrate_snapshots(
         typer.echo(f"rehydrated={len(recovered)} sample_id={sample_id}")
     else:
         typer.echo(f"rehydrated={len(recovered)}")
+
+
+@app.command("verify-provenance")
+def verify_provenance(
+    sample_id: Annotated[str, typer.Option("--sample-id")],
+    sampling_seed: Annotated[int, typer.Option("--sampling-seed")],
+    inclusion_reason: Annotated[list[str] | None, typer.Option("--inclusion-reason")] = None,
+    category_stratum: Annotated[list[str] | None, typer.Option("--category-stratum")] = None,
+    risk_tag: Annotated[list[str] | None, typer.Option("--risk-tag")] = None,
+    negative_proxy: Annotated[
+        bool | None, typer.Option("--negative-proxy/--no-negative-proxy")
+    ] = None,
+    data_dir: Annotated[Path, typer.Option("--data-dir")] = Path("data"),
+) -> None:
+    """Replace migrated unknown provenance with explicit operator-reviewed sampling data and audit it."""
+    if negative_proxy is None:
+        raise typer.BadParameter("choose exactly one of --negative-proxy or --no-negative-proxy")
+    config = _config_from_args(None, None, None, data_dir)
+    store = _load_store(data_dir, config=config)
+    provenance = SamplingProvenance(
+        sampling_seed=sampling_seed,
+        inclusion_reasons=inclusion_reason or [],
+        original_category_strata=category_stratum or [],
+        risk_tags=risk_tag or [],
+        negative_proxy=negative_proxy,
+        verified=True,
+        verification_source="operator_review",
+    )
+    store.replace_sampling_provenance(sample_id, provenance, actor="operator-cli")
+    typer.echo(f"verified-provenance sample_id={sample_id}")
 
 
 @app.command()
