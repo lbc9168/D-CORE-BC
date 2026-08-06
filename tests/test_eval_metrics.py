@@ -137,3 +137,66 @@ def test_unlabeled_gold_project_does_not_enter_taxonomy_denominators():
     taxonomy = m.score_article(pred, gold)["taxonomy"]
     assert taxonomy["generation_sources"] == (0, 0, 0)
     assert taxonomy["storage_status"] == (0, 0)
+
+
+def test_eligibility_excludes_only_the_inapplicable_field_from_denominator():
+    """A Studio not-applicable field must not affect legacy field denominators."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "financing_amount_usd": None,
+        "field_eligibility": {"financing_amount_usd": False},
+    }]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "financing_amount_usd": 999}]}
+
+    result = m.score_article(pred, gold)
+
+    assert result["field_hits"]["financing_amount_usd"] == (0, 0)
+    assert result["field_hits"]["capacity_mw"] == (1, 1)
+
+
+def test_explicit_not_mentioned_field_scores_correct_empty_value():
+    """An eligible null from Studio denotes an evaluated not-mentioned answer."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "financing_amount_usd": None,
+        "field_eligibility": {"financing_amount_usd": True},
+    }]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "financing_amount_usd": None}]}
+
+    assert m.score_article(pred, gold)["field_hits"]["financing_amount_usd"] == (1, 1)
+
+
+def test_full_field_dispatch_uses_date_and_normalized_name_semantics():
+    """Versioned dates and developer names follow their registry metric groups."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "country": "肯尼亚", "project_developer": "中国电建有限公司",
+        "planned_start_date": "2026-01-01", "planned_complete_date": "2027-01-01",
+        "investment_date": "2025-01-01", "contract_amount_usd": 10, "financing_amount_usd": 20,
+    }]}
+    pred = {"status": "valid", "projects": [{
+        **_alpha_gold(), "country": "肯尼亚", "project_developer": "中国电建",
+        "planned_start_date": "2026-01-01", "planned_complete_date": "2027-01-02",
+        "investment_date": "2025-01-01", "contract_amount_usd": 10.4, "financing_amount_usd": 25,
+    }]}
+
+    hits = m.score_article(pred, gold)["field_hits"]
+
+    assert hits["country"] == (1, 1)
+    assert hits["project_developer"] == (1, 1)
+    assert hits["planned_start_date"] == (1, 1)
+    assert hits["planned_complete_date"] == (0, 1)
+    assert hits["contract_amount_usd"] == (1, 1)
+    assert hits["financing_amount_usd"] == (0, 1)
+
+
+def test_unmatched_gold_project_does_not_add_eligibility_denominators():
+    """Only aligned projects contribute field eligibility totals in a multi-project article."""
+    gold = {"status": "valid", "projects": [
+        {**_alpha_gold(), "field_eligibility": {"financing_amount_usd": False}},
+        {"project_name": "未匹配风电", "category": "风电", "financing_amount_usd": 10,
+         "field_eligibility": {"financing_amount_usd": True}},
+    ]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "financing_amount_usd": 999}]}
+
+    result = m.score_article(pred, gold)
+
+    assert result["project_set"] == (1, 1, 2)
+    assert result["field_hits"]["financing_amount_usd"] == (0, 0)

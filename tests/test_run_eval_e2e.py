@@ -53,3 +53,26 @@ def test_e2e_gold_loader_rejects_bad(tmp_path):
     with pytest.raises(ValueError) as ei:
         gold_loader.load(p)
     assert "第 2 行" in str(ei.value)
+
+
+def test_e2e_reports_deterministic_slices_and_separate_challenge_metrics(tmp_path):
+    """Aggregate split, category, and risk slices without folding Challenge into regression metrics."""
+    raw = tmp_path / "raw.db"; gold = tmp_path / "gold.jsonl"
+    _make_raw_news(raw)
+    lines = [
+        {"source_link": "http://x", "status": "valid", "dataset_split": "regression",
+         "risk_tags": ["capacity"], "projects": [{"project_name": "阿尔法光伏", "category": "光伏"}]},
+        {"source_link": "http://x", "status": "valid", "dataset_split": "challenge",
+         "risk_tags": ["hard"], "projects": [{"project_name": "阿尔法光伏", "category": "光伏"}]},
+    ]
+    gold.write_text("\n".join(json.dumps(row, ensure_ascii=False) for row in lines), encoding="utf-8")
+    report = run_eval.run_eval(gold, extract_fn=_mock_extract_fn, extractor_version="slices",
+                               raw_news_db=raw, cache_dir=tmp_path / "c", reports_dir=tmp_path / "r",
+                               use_cache=False)
+
+    assert report["weighted_total_label"] == "legacy"
+    assert report["slices"]["split"]["regression"]["n_gold"] == 1
+    assert report["slices"]["category"]["光伏"]["n_gold"] == 2
+    assert report["slices"]["risk_tag"]["capacity"]["n_gold"] == 1
+    assert report["core_metrics"]["regression"]["n_gold"] == 1
+    assert report["core_metrics"]["challenge"]["n_gold"] == 1

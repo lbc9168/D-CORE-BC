@@ -1,166 +1,224 @@
-"""s01b 提取评测比较器：按字段类型比较预测 vs 金标准。"""
+"""Compare normalized extraction predictions with legacy and versioned rich-gold projects."""
 import re
-import sys, pathlib
+import sys
+import pathlib
+
 _root = next(p for p in pathlib.Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
-if str(_root) not in sys.path: sys.path.insert(0, str(_root))
-import bri_enums, bri_parse
+if str(_root) not in sys.path:
+    sys.path.insert(0, str(_root))
+import bri_enums
+import bri_parse
 
-NUMERIC_TOL = 0.05  # ±5%
-
-def cmp_status(pred, gold) -> bool:
-    return (pred or "") == (gold or "")
-
-def _norm_enum(kind: str, v):
-    if v is None: return None
-    v = str(v).strip()
-    valid = {"category": bri_enums.valid_categories, "project_stage": bri_enums.valid_stages,
-             "financing_model": bri_enums.valid_financing, "involvement_type": bri_enums.valid_involvement}
-    return v if v in valid[kind]() else v  # 归一交给上游清洗；此处按规范键比对
-
-def cmp_enum(kind: str, pred, gold) -> bool:
-    return _norm_enum(kind, pred) == _norm_enum(kind, gold)
-
-def cmp_numeric(pred, gold) -> bool:
-    a, b = bri_parse.parse_number(pred), bri_parse.parse_number(gold)
-    if a is None and b is None: return True
-    if a is None or b is None: return False
-    if a == b == 0: return True
-    return abs(a - b) / max(abs(a), abs(b)) <= NUMERIC_TOL
-
-NAME_THRESHOLD = 80  # rapidfuzz 项目名相似度阈值（0-100）
+NUMERIC_TOL = 0.05
+NAME_THRESHOLD = 80
 _WS = re.compile(r"\s+")
-
-# 容量单位中英归一：项目名对齐时让「兆瓦/吉瓦/千瓦/兆瓦时…」与「MW/GW/kW/MWh…」视为同一 token。
-# 注意：带「时」的长单位必须先于短单位替换，否则「兆瓦时」会被「兆瓦」先吃掉成「mw时」。
-# 别名均为≥2字复合词（不含单独「瓦」），误伤含此子串的专名风险极低但非零；如遇异常对齐需人工核查。
+_PUNCT = re.compile(r"[\s\-_,，。.;；:：()（）\[\]【】]+")
+_COMPANY_SUFFIX = re.compile(r"(?:有限责任公司|股份有限公司|有限公司|集团公司|集团)$")
 _UNIT_ALIASES = [("兆瓦时", "mwh"), ("吉瓦时", "gwh"), ("千瓦时", "kwh"),
                  ("兆瓦", "mw"), ("吉瓦", "gw"), ("千瓦", "kw")]
 
-def _norm_name(s) -> str:
-    """项目/实体名归一：转小写、容量单位中英归一、去空白，供相似度与集合比对。"""
-    out = str(s or "").strip().lower()
+# These groups mirror the Studio FIELD_REGISTRY metric types.  `location` and
+# `project_summary` are deliberately omitted because the registry marks them non-evaluable.
+PROJECT_ENUM_FIELDS = ("category", "project_stage", "financing_model", "storage_status", "country")
+PROJECT_NUMERIC_FIELDS = (
+    "capacity_mw", "storage_power_mw", "storage_energy_mwh", "total_investment_usd",
+    "contract_amount_usd", "financing_amount_usd",
+)
+PROJECT_DATE_FIELDS = ("planned_start_date", "planned_complete_date", "investment_date")
+PROJECT_NAME_FIELDS = ("project_name", "project_developer")
+PROJECT_SET_FIELDS = ("generation_sources",)
+LEGACY_FIELDS = ("category", "project_stage", "financing_model", "capacity_mw", "total_investment_usd")
+ALL_FIELDS = PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS + PROJECT_DATE_FIELDS + PROJECT_NAME_FIELDS
+
+
+def cmp_status(pred, gold) -> bool:
+    """Compare the article-level status exactly after treating missing values as empty."""
+    return (pred or "") == (gold or "")
+
+
+def _norm_enum(kind: str, value):
+    """Normalize a controlled enum only enough for exact canonical comparison."""
+    if value is None:
+        return None
+    normalized = str(value).strip()
+    valid = {
+        "category": bri_enums.valid_categories,
+        "project_stage": bri_enums.valid_stages,
+        "financing_model": bri_enums.valid_financing,
+        "involvement_type": bri_enums.valid_involvement,
+    }
+    return normalized if kind not in valid or normalized in valid[kind]() else normalized
+
+
+def cmp_enum(kind: str, pred, gold) -> bool:
+    """Compare enum-like values exactly after whitespace normalization."""
+    return _norm_enum(kind, pred) == _norm_enum(kind, gold)
+
+
+def cmp_numeric(pred, gold) -> bool:
+    """Compare numeric values with the reviewed ±5% tolerance and explicit empty semantics."""
+    left, right = bri_parse.parse_number(pred), bri_parse.parse_number(gold)
+    if left is None and right is None:
+        return True
+    if left is None or right is None:
+        return False
+    if left == right == 0:
+        return True
+    return abs(left - right) / max(abs(left), abs(right)) <= NUMERIC_TOL
+
+
+def cmp_date(pred, gold) -> bool:
+    """Compare strict ISO date values exactly while treating omitted values as empty."""
+    return str(pred or "").strip() == str(gold or "").strip()
+
+
+def _norm_name(value) -> str:
+    """Normalize project or entity names for conservative fuzzy identity matching."""
+    normalized = str(value or "").strip().lower()
     for zh, en in _UNIT_ALIASES:
-        out = out.replace(zh, en)
-    return _WS.sub("", out)
+        normalized = normalized.replace(zh, en)
+    return _WS.sub("", normalized)
 
-def _name_sim(a, b) -> float:
-    """两个项目名的 rapidfuzz token_set_ratio（归一后；任一为空返回 0）。"""
+
+def _norm_company_name(value) -> str:
+    """Normalize common company suffixes for developer-name comparison."""
+    return _COMPANY_SUFFIX.sub("", _PUNCT.sub("", _norm_name(value)))
+
+
+def _name_sim(left, right) -> float:
+    """Return normalized project-name token-set similarity, or zero when either name is empty."""
     from rapidfuzz import fuzz
-    na, nb = _norm_name(a), _norm_name(b)
-    if not na or not nb:
+    left_normalized, right_normalized = _norm_name(left), _norm_name(right)
+    if not left_normalized or not right_normalized:
         return 0.0
-    return fuzz.token_set_ratio(na, nb)
+    return fuzz.token_set_ratio(left_normalized, right_normalized)
 
-def _attr_bonus(p: dict, g: dict) -> int:
-    """对齐平局打破的属性加分：同 category +1、capacity_mw 在 ±5% 内 +1。"""
-    bonus = 0
-    if p.get("category") and p.get("category") == g.get("category"):
-        bonus += 1
-    if cmp_numeric(p.get("capacity_mw"), g.get("capacity_mw")):
-        bonus += 1
-    return bonus
+
+def cmp_name(field: str, pred, gold) -> bool:
+    """Dispatch project names to similarity and developer names to normalized exact comparison."""
+    if field == "project_name":
+        return _name_sim(pred, gold) >= NAME_THRESHOLD
+    return _norm_company_name(pred) == _norm_company_name(gold)
+
+
+def _attr_bonus(prediction: dict, gold: dict) -> int:
+    """Break project alignment ties using matching category and capacity evidence."""
+    bonus = int(bool(prediction.get("category")) and prediction.get("category") == gold.get("category"))
+    return bonus + int(cmp_numeric(prediction.get("capacity_mw"), gold.get("capacity_mw")))
+
 
 def align_projects(pred_projects, gold_projects, threshold: int = NAME_THRESHOLD):
-    """贪心对齐预测项目↔金标准项目（名字相似度≥阈值，平局看属性）；返回 (matched[(pi,gi)], unmatched_pred[idx], unmatched_gold[idx])。"""
+    """Greedily align project names and return matched index pairs plus unmatched indexes."""
     candidates = []
-    for pi, p in enumerate(pred_projects):
-        for gi, g in enumerate(gold_projects):
-            sim = _name_sim(p.get("project_name"), g.get("project_name"))
-            if sim >= threshold:
-                candidates.append((sim, _attr_bonus(p, g), pi, gi))
-    candidates.sort(key=lambda c: (c[0], c[1]), reverse=True)
-    used_p, used_g, matched = set(), set(), []
-    for _sim, _bonus, pi, gi in candidates:
-        if pi in used_p or gi in used_g:
-            continue
-        used_p.add(pi)
-        used_g.add(gi)
-        matched.append((pi, gi))
-    unmatched_pred = [i for i in range(len(pred_projects)) if i not in used_p]
-    unmatched_gold = [i for i in range(len(gold_projects)) if i not in used_g]
+    for pred_index, prediction in enumerate(pred_projects):
+        for gold_index, gold in enumerate(gold_projects):
+            similarity = _name_sim(prediction.get("project_name"), gold.get("project_name"))
+            if similarity >= threshold:
+                candidates.append((similarity, _attr_bonus(prediction, gold), pred_index, gold_index))
+    candidates.sort(key=lambda candidate: (candidate[0], candidate[1]), reverse=True)
+    used_pred, used_gold, matched = set(), set(), []
+    for _similarity, _bonus, pred_index, gold_index in candidates:
+        if pred_index not in used_pred and gold_index not in used_gold:
+            used_pred.add(pred_index)
+            used_gold.add(gold_index)
+            matched.append((pred_index, gold_index))
+    unmatched_pred = [index for index in range(len(pred_projects)) if index not in used_pred]
+    unmatched_gold = [index for index in range(len(gold_projects)) if index not in used_gold]
     return matched, unmatched_pred, unmatched_gold
 
-def score_entities(pred_entities, gold_entities):
-    """比较两个项目的中企集合：返回 (name_p, name_r, name_f1, role_correct, role_matched)。
-    name 按归一名集合算 P/R/F1；role 仅对两边同名企业比 involvement_type。"""
-    pmap = {_norm_name(e.get("name")): e.get("involvement_type") for e in pred_entities if e.get("name")}
-    gmap = {_norm_name(e.get("name")): e.get("involvement_type") for e in gold_entities if e.get("name")}
-    ps, gs = set(pmap), set(gmap)
-    if not ps and not gs:
-        return (1.0, 1.0, 1.0, 0, 0)
-    inter = ps & gs
-    name_p = len(inter) / len(ps) if ps else 0.0
-    name_r = len(inter) / len(gs) if gs else 0.0
-    name_f1 = 2 * name_p * name_r / (name_p + name_r) if (name_p + name_r) else 0.0
-    role_matched = len(inter)
-    role_correct = sum(1 for n in inter if cmp_enum("involvement_type", pmap[n], gmap[n]))
-    return (name_p, name_r, name_f1, role_correct, role_matched)
 
-PROJECT_ENUM_FIELDS = ("category", "project_stage", "financing_model")
-PROJECT_NUMERIC_FIELDS = ("capacity_mw", "total_investment_usd")
+def score_entities(pred_entities, gold_entities):
+    """Score normalized entity-name sets and roles within one aligned project."""
+    predicted = {_norm_name(item.get("name")): item.get("involvement_type") for item in pred_entities if item.get("name")}
+    expected = {_norm_name(item.get("name")): item.get("involvement_type") for item in gold_entities if item.get("name")}
+    predicted_names, expected_names = set(predicted), set(expected)
+    if not predicted_names and not expected_names:
+        return 1.0, 1.0, 1.0, 0, 0
+    matched = predicted_names & expected_names
+    precision = len(matched) / len(predicted_names) if predicted_names else 0.0
+    recall = len(matched) / len(expected_names) if expected_names else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    role_correct = sum(cmp_enum("involvement_type", predicted[name], expected[name]) for name in matched)
+    return precision, recall, f1, role_correct, len(matched)
+
+
+def _eligible(gold: dict, field: str) -> bool:
+    """Return a rich-gold field's explicit eligibility, defaulting legacy records to evaluable."""
+    return gold.get("field_eligibility", {}).get(field, True)
+
+
+def _set_counts(pred, gold) -> tuple[int, int, int]:
+    """Return micro set true-positive, prediction-total, and gold-total counts."""
+    predicted, expected = set(pred or []), set(gold or [])
+    return len(predicted & expected), len(predicted), len(expected)
+
 
 def score_article(pred: dict, gold: dict) -> dict:
-    """单篇文章打分：status 闸门 → 贪心对齐 → 对上项目逐字段/实体打分。
-    返回 {status_correct, scored, project_set:(matched,pred_n,gold_n)|None,
-          field_hits:{field:(correct,total)}, entity:(sum_name_f1,n_matched,role_correct,role_matched)|None}。"""
+    """Score one article through status, alignment, eligible scalar fields, entities, and taxonomy facts."""
     taxonomy = {
-        "generation_sources": (0, 0, 0),
-        "storage_status": (0, 0),
-        "storage_power_mw": (0, 0),
-        "storage_energy_mwh": (0, 0),
-        "proposed_category": (0, 0),
+        "generation_sources": (0, 0, 0), "storage_status": (0, 0),
+        "storage_power_mw": (0, 0), "storage_energy_mwh": (0, 0), "proposed_category": (0, 0),
     }
-    out = {"status_correct": cmp_status(pred.get("status"), gold.get("status")),
-           "scored": False, "project_set": None, "field_hits": {}, "entity": None,
-           "taxonomy": taxonomy}
+    out = {
+        "status_correct": cmp_status(pred.get("status"), gold.get("status")), "scored": False,
+        "project_set": None, "field_hits": {}, "set_hits": {"generation_sources": (0, 0, 0)},
+        "entity": None, "taxonomy": taxonomy,
+    }
     if not out["status_correct"] or gold.get("status") != "valid":
         return out
     out["scored"] = True
-    pred_projects = pred.get("projects") or []
-    gold_projects = gold.get("projects") or []
-    matched, _unp, _ung = align_projects(pred_projects, gold_projects)
-    out["project_set"] = (len(matched), len(pred_projects), len(gold_projects))
-    all_fields = PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS
-    field_correct = {f: 0 for f in all_fields}
-    field_total = {f: 0 for f in all_fields}
-    sum_name_f1 = 0.0
-    role_correct = role_matched = 0
+    pred_projects, gold_projects = pred.get("projects") or [], gold.get("projects") or []
+    matched, _unmatched_pred, _unmatched_gold = align_projects(pred_projects, gold_projects)
+    out["project_set"] = len(matched), len(pred_projects), len(gold_projects)
+    field_correct = {field: 0 for field in ALL_FIELDS}
+    field_total = {field: 0 for field in ALL_FIELDS}
     source_tp = source_pred = source_gold = 0
     taxonomy_hits = {key: [0, 0] for key in taxonomy if key != "generation_sources"}
-    for pi, gi in matched:
-        p, g = pred_projects[pi], gold_projects[gi]
-        for f in PROJECT_ENUM_FIELDS:
-            field_total[f] += 1
-            if cmp_enum(f, p.get(f), g.get(f)):
-                field_correct[f] += 1
-        for f in PROJECT_NUMERIC_FIELDS:
-            field_total[f] += 1
-            if cmp_numeric(p.get(f), g.get(f)):
-                field_correct[f] += 1
-        _np, _nr, nf1, rc, rm = score_entities(p.get("entities") or [], g.get("entities") or [])
-        sum_name_f1 += nf1
-        role_correct += rc
-        role_matched += rm
-        if g.get("generation_sources") is not None:
-            predicted_sources = set(p.get("generation_sources") or [])
-            gold_sources = set(g.get("generation_sources") or [])
-            source_tp += len(predicted_sources & gold_sources)
-            source_pred += len(predicted_sources)
-            source_gold += len(gold_sources)
+    name_f1_sum = 0.0
+    role_correct = role_matched = 0
+    for pred_index, gold_index in matched:
+        prediction, expected = pred_projects[pred_index], gold_projects[gold_index]
+        for field in PROJECT_ENUM_FIELDS:
+            if _eligible(expected, field):
+                field_total[field] += 1
+                field_correct[field] += cmp_enum(field, prediction.get(field), expected.get(field))
+        for field in PROJECT_NUMERIC_FIELDS:
+            if _eligible(expected, field):
+                field_total[field] += 1
+                field_correct[field] += cmp_numeric(prediction.get(field), expected.get(field))
+        for field in PROJECT_DATE_FIELDS:
+            if _eligible(expected, field):
+                field_total[field] += 1
+                field_correct[field] += cmp_date(prediction.get(field), expected.get(field))
+        for field in PROJECT_NAME_FIELDS:
+            if _eligible(expected, field):
+                field_total[field] += 1
+                field_correct[field] += cmp_name(field, prediction.get(field), expected.get(field))
+        _precision, _recall, name_f1, role_hits, role_total = score_entities(
+            prediction.get("entities") or [], expected.get("entities") or []
+        )
+        name_f1_sum += name_f1
+        role_correct += role_hits
+        role_matched += role_total
+        if _eligible(expected, "generation_sources") and expected.get("generation_sources") is not None:
+            true_positive, predicted_total, expected_total = _set_counts(
+                prediction.get("generation_sources"), expected.get("generation_sources")
+            )
+            source_tp += true_positive
+            source_pred += predicted_total
+            source_gold += expected_total
             taxonomy_hits["proposed_category"][1] += 1
-            if p.get("proposed_category") == g.get("category"):
-                taxonomy_hits["proposed_category"][0] += 1
-        if g.get("storage_status") is not None:
+            taxonomy_hits["proposed_category"][0] += prediction.get("proposed_category") == expected.get("category")
+        if _eligible(expected, "storage_status") and expected.get("storage_status") is not None:
             taxonomy_hits["storage_status"][1] += 1
-            if p.get("storage_status") == g.get("storage_status"):
-                taxonomy_hits["storage_status"][0] += 1
+            taxonomy_hits["storage_status"][0] += prediction.get("storage_status") == expected.get("storage_status")
         for field in ("storage_power_mw", "storage_energy_mwh"):
-            if g.get(field) is not None:
+            if _eligible(expected, field) and expected.get(field) is not None:
                 taxonomy_hits[field][1] += 1
-                if cmp_numeric(p.get(field), g.get(field)):
-                    taxonomy_hits[field][0] += 1
-    out["field_hits"] = {f: (field_correct[f], field_total[f]) for f in all_fields}
-    out["entity"] = (sum_name_f1, len(matched), role_correct, role_matched)
+                taxonomy_hits[field][0] += cmp_numeric(prediction.get(field), expected.get(field))
+    out["field_hits"] = {field: (field_correct[field], field_total[field]) for field in ALL_FIELDS}
+    out["set_hits"] = {"generation_sources": (source_tp, source_pred, source_gold)}
+    out["entity"] = name_f1_sum, len(matched), role_correct, role_matched
     out["taxonomy"] = {
         "generation_sources": (source_tp, source_pred, source_gold),
         **{key: tuple(value) for key, value in taxonomy_hits.items()},
