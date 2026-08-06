@@ -17,7 +17,7 @@ from gold_standard_studio.candidate_builder import (
     ReviewCandidateRunner,
 )
 from gold_standard_studio.candidate_cache import CandidateCache, cache_key
-from gold_standard_studio.review_prompt import build_review_prompt, review_prompt_hash
+from gold_standard_studio.review_prompt import REVIEW_PROMPT_TEMPLATE, build_review_prompt, review_prompt_hash
 from gold_standard_studio.schemas import CandidateValue
 from gold_standard_studio.sources import ArticleSnapshot, CurrentProject
 
@@ -172,21 +172,21 @@ def test_builder_reuses_a_content_addressed_cache_record(
 
 
 @pytest.mark.parametrize("corrupt_record", [[], None, "scalar", 3.14])
-def test_cache_load_quarantines_non_mapping_json_as_a_cache_miss(
+def test_cache_load_ignores_non_mapping_json_as_a_cache_miss(
     tmp_path: Path, article: ArticleSnapshot, corrupt_record: object
 ) -> None:
-    """Treat every valid non-object cache JSON shape as corruption instead of calling mapping methods on it."""
+    """Treat every valid non-object cache JSON shape as a non-mutating corrupt cache miss."""
     cache = CandidateCache(tmp_path / "data" / "model_cache")
     key = cache_key(article, source_name="review", model="model", prompt_hash="prompt", parser_version="parser")
     cache._directory.mkdir(parents=True)
     cache._path_for(key).write_text(json.dumps(corrupt_record), encoding="utf-8")
 
     assert cache.load(key) is None
-    assert not cache._path_for(key).exists()
-    assert list(cache._directory.glob("*.corrupt"))
+    assert cache._path_for(key).exists()
+    assert not list(cache._directory.glob("*.corrupt"))
 
 
-def test_cache_load_quarantines_schema_invalid_record_as_a_cache_miss(
+def test_cache_load_ignores_schema_invalid_record_as_a_cache_miss(
     tmp_path: Path, article: ArticleSnapshot
 ) -> None:
     """Reject cache records whose candidate payload no longer satisfies the Pydantic contract."""
@@ -199,7 +199,71 @@ def test_cache_load_quarantines_schema_invalid_record_as_a_cache_miss(
     )
 
     assert cache.load(key) is None
-    assert not cache._path_for(key).exists()
+    assert cache._path_for(key).exists()
+
+
+def test_cache_load_ignores_invalid_utf8_bytes_as_a_cache_miss(
+    tmp_path: Path, article: ArticleSnapshot
+) -> None:
+    """Never propagate decoding errors from a corrupt cache file into candidate orchestration."""
+    cache = CandidateCache(tmp_path / "data" / "model_cache")
+    key = cache_key(article, source_name="review", model="model", prompt_hash="prompt", parser_version="parser")
+    cache._directory.mkdir(parents=True)
+    cache._path_for(key).write_bytes(b"\xff\xfe")
+
+    assert cache.load(key) is None
+    assert cache._path_for(key).read_bytes() == b"\xff\xfe"
+
+
+def test_cache_invalid_read_never_moves_a_concurrently_replaced_record(
+    tmp_path: Path, article: ArticleSnapshot, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Leave a newer replacement intact when an invalid read interleaves with another writer."""
+    cache = CandidateCache(tmp_path / "data" / "model_cache")
+    key = cache_key(article, source_name="review", model="model", prompt_hash="prompt", parser_version="parser")
+    cache._directory.mkdir(parents=True)
+    path = cache._path_for(key)
+    path.write_text("[]", encoding="utf-8")
+    replacement = json.dumps(
+        {"key": key.__dict__, "candidate": CandidateValue(source_name="review", source_version="model").model_dump()}
+    ).encode("utf-8")
+
+    def replace_after_read(observed_path: Path, observed_bytes: bytes) -> None:
+        """Model a concurrent writer atomically replacing the invalid record after this reader captured it."""
+        assert observed_path == path
+        assert observed_bytes == b"[]"
+        path.write_bytes(replacement)
+
+    monkeypatch.setattr(cache, "_on_invalid_read", replace_after_read)
+
+    assert cache.load(key) is None
+    assert path.read_bytes() == replacement
+
+
+@pytest.mark.parametrize(
+    ("candidate_source_name", "candidate_source_version"),
+    [("production", "model"), ("review", "other-model")],
+)
+def test_cache_load_ignores_candidate_identity_mismatches(
+    tmp_path: Path, article: ArticleSnapshot, candidate_source_name: str, candidate_source_version: str
+) -> None:
+    """Reject records whose loaded candidate identity disagrees with the content-addressed key."""
+    cache = CandidateCache(tmp_path / "data" / "model_cache")
+    key = cache_key(article, source_name="review", model="model", prompt_hash="prompt", parser_version="parser")
+    cache._directory.mkdir(parents=True)
+    cache._path_for(key).write_text(
+        json.dumps(
+            {
+                "key": key.__dict__,
+                "candidate": CandidateValue(
+                    source_name=candidate_source_name, source_version=candidate_source_version
+                ).model_dump(),
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    assert cache.load(key) is None
 
 
 def test_production_runner_normalizes_staged_extractor_output(article: ArticleSnapshot) -> None:
@@ -271,9 +335,9 @@ def test_review_prompt_contains_only_article_material(article: ArticleSnapshot) 
 
 
 def test_review_prompt_hash_changes_with_static_instruction_material() -> None:
-    """Invalidate review cache entries when any reusable instruction wording changes."""
-    assert review_prompt_hash("Instruction: return exact evidence.") != review_prompt_hash(
-        "Instruction: return precise evidence."
+    """Invalidate review cache entries when any canonical template wording or delimiter changes."""
+    assert review_prompt_hash(REVIEW_PROMPT_TEMPLATE) != review_prompt_hash(
+        REVIEW_PROMPT_TEMPLATE.replace("Response schema:", "Review response schema:")
     )
 
 

@@ -8,7 +8,7 @@ import os
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Callable, Mapping
 
 from gold_standard_studio.schemas import CandidateValue
 from gold_standard_studio.sources import ArticleSnapshot
@@ -54,22 +54,30 @@ class CandidateCache:
     def __init__(self, directory: Path) -> None:
         """Configure the private cache directory without creating or reading source data."""
         self._directory = Path(directory)
+        self._on_invalid_read: Callable[[Path, bytes], None] | None = None
 
     def load(self, key: CandidateCacheKey) -> CandidateValue | None:
-        """Return a validated successful cache value or quarantine malformed records as misses."""
+        """Return a validated successful cache value while ignoring malformed records without mutation."""
         path = self._path_for(key)
         try:
             contents = path.read_bytes()
+        except (FileNotFoundError, OSError):
+            return None
+        try:
             raw = json.loads(contents)
-        except (FileNotFoundError, OSError, json.JSONDecodeError):
+        except (UnicodeDecodeError, json.JSONDecodeError):
+            self._observe_invalid_read(path, contents)
             return None
         if not isinstance(raw, Mapping) or raw.get("key") != asdict(key):
-            self._quarantine(path, contents)
+            self._observe_invalid_read(path, contents)
             return None
         try:
             candidate = CandidateValue.model_validate(raw["candidate"])
         except (KeyError, TypeError, ValueError):
-            self._quarantine(path, contents)
+            self._observe_invalid_read(path, contents)
+            return None
+        if candidate.source_name != key.source_name or candidate.source_version != key.source_version:
+            self._observe_invalid_read(path, contents)
             return None
         return candidate if candidate.status == "ok" else None
 
@@ -96,11 +104,7 @@ class CandidateCache:
         """Map a validated opaque identity to a confined JSON cache path."""
         return self._directory / f"{key.digest()}.json"
 
-    def _quarantine(self, path: Path, contents: bytes) -> None:
-        """Atomically move unchanged corrupt cache bytes aside without racing a concurrent replacement."""
-        destination = path.with_name(f"{path.stem}.{uuid.uuid4().hex}.corrupt")
-        try:
-            if path.read_bytes() == contents:
-                path.replace(destination)
-        except OSError:
-            return
+    def _observe_invalid_read(self, path: Path, contents: bytes) -> None:
+        """Notify an optional observer of captured corrupt bytes without touching the current cache path."""
+        if self._on_invalid_read is not None:
+            self._on_invalid_read(path, contents)

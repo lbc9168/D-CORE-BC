@@ -52,7 +52,7 @@ exit 0
 
 ## Review follow-up — cache and contract hardening
 
-- Cache loading now checks the decoded JSON is a mapping before touching mapping methods. Non-object JSON (`[]`, `null`, strings and scalars), key mismatches and schema-invalid records are quarantined beside the cache as unique `.corrupt` files and returned as cache misses.
+- Cache loading now checks the decoded JSON is a mapping before touching mapping methods. Non-object JSON (`[]`, `null`, strings and scalars), invalid UTF-8, key mismatches, candidate source/version mismatches and schema-invalid records are non-mutating cache misses: the reader does not rename, remove, overwrite or create sidecars for the current path.
 - The cache writes only successful (`status="ok"`) candidate values. Errors are intentionally non-cacheable for every source, including deterministic contract errors, because retrying a corrected provider/configuration is safer than preserving a stale failed result. Legacy cached error records are also ignored.
 - The reviewer accepts exactly `{"projects": [...]}` at the provider boundary. Missing or unknown top-level keys, non-list projects and invalid nested projects produce `CandidateValue(status="error", error_code="invalid_json")` rather than an ambiguous successful empty bundle.
 - The static review prompt material is now explicit and reused by the rendered prompt/hash. The hash includes the version, reviewer instructions and response schema, but deliberately excludes article-specific values because the candidate key already includes the article SHA-256.
@@ -63,4 +63,17 @@ exit 0
 ```text
 uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests/test_candidate_builder.py -q
 20 passed in 0.17s
+```
+
+## Review follow-up 2 — non-mutating reads and canonical prompt template
+
+- Removed the corrupt-read quarantine rename because even a compare-then-rename can race another writer that atomically replaces the cache path. The cache reads bytes once and ignores invalid content. An optional private observer receives only the captured bytes; a regression test interleaves a replacement through that hook and proves the newer record remains at its path.
+- Cache reads now catch `UnicodeDecodeError` as well as JSON errors and cross-check the loaded `CandidateValue.source_name` and `.source_version` against the content-addressed key before accepting it.
+- `REVIEW_PROMPT_TEMPLATE` is the sole source of all static reviewer instructions, response schema, labels and delimiters. Rendering substitutes article values into this one template; `review_prompt_hash` hashes the exact template plus `REVIEW_PROMPT_VERSION`, excluding article-specific substitutions.
+
+### Follow-up 2 verification
+
+```text
+uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests/test_candidate_builder.py -q
+24 passed in 0.20s
 ```
