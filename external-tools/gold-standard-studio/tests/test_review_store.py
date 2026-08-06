@@ -6,7 +6,7 @@ import sqlite3
 
 import pytest
 
-from gold_standard_studio.review_store import ReviewStore
+from gold_standard_studio.review_store import ReviewStore, ReviewedRecordError
 from gold_standard_studio.schemas import (
     CandidateBundle,
     CandidateValue,
@@ -151,8 +151,61 @@ def test_confirm_rejects_an_article_that_is_already_reviewed(tmp_path):
     store.save_field_decision("S001", "P01.category", evidenced, actor="human")
     store.confirm_article("S001", actor="human")
 
-    with pytest.raises(ValueError, match="already reviewed"):
+    with pytest.raises(ReviewedRecordError, match="reviewed records are immutable"):
         store.confirm_article("S001", actor="human")
+
+
+def test_reviewed_draft_rejects_all_mutations_without_changing_persisted_state(tmp_path):
+    """Keep a confirmed draft, revision, and audit tail immutable across every human draft mutation route."""
+    store = seeded_store(tmp_path)
+    evidenced = GoldField(
+        state="present",
+        value="风电",
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+    )
+    store.save_field_decision("S001", "P01.category", evidenced, actor="human")
+    store.confirm_article("S001", actor="human")
+    before_article = store.get_article("S001").model_dump(mode="json")
+    before_revision = store.current_structure_revision("S001")
+    before_tail = store.latest_audit_id()
+
+    with pytest.raises(ReviewedRecordError, match="reviewed records are immutable"):
+        store.save_field_decision("S001", "P01.category", make_gold_field("光伏"), actor="human")
+    with pytest.raises(ReviewedRecordError, match="reviewed records are immutable"):
+        store.save_structure("S001", [], base_revision=before_revision, actor="human")
+    with pytest.raises(ReviewedRecordError, match="reviewed records are immutable"):
+        store.adjudicate_field("S001", "P01.category", make_gold_field("光伏"), actor="human")
+    with pytest.raises(ReviewedRecordError, match="reviewed records are immutable"):
+        store.start_review("S001", actor="human")
+
+    assert store.get_article("S001").model_dump(mode="json") == before_article
+    assert store.current_structure_revision("S001") == before_revision
+    assert store.latest_audit_id() == before_tail
+
+
+def test_candidate_bundle_remains_observational_after_confirmation(tmp_path):
+    """Allow candidate provenance after confirmation because it does not alter the reviewed gold draft."""
+    store = seeded_store(tmp_path)
+    evidenced = GoldField(
+        state="present",
+        value="风电",
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+    )
+    store.save_field_decision("S001", "P01.category", evidenced, actor="human")
+    store.confirm_article("S001", actor="human")
+    before_article = store.get_article("S001")
+
+    store.save_candidate_bundle(
+        CandidateBundle(
+            sample_id="S001",
+            article_sha256=ARTICLE_SHA256,
+            sources={"database": CandidateValue(source_name="database")},
+        )
+    )
+
+    assert store.get_article("S001") == before_article
 
 
 def test_adjudication_atomically_resolves_only_a_pending_field_and_audits_its_action(tmp_path):

@@ -261,6 +261,39 @@ def test_generic_api_field_route_cannot_bypass_adjudication(client: TestClient) 
     assert response.json()["detail"] == "field resolution requires adjudication: P01.category"
 
 
+def test_reviewed_article_mutation_routes_return_conflict_and_leave_store_unchanged(
+    store: ReviewStore, client: TestClient
+) -> None:
+    """Reject post-confirmation field, structure, adjudication, and session mutations with HTTP 409."""
+    evidenced = GoldField(
+        state="present",
+        value="风电",
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+    )
+    store.save_field_decision("S001", "P01.category", evidenced, actor="human")
+    assert client.post("/api/articles/S001/confirm").status_code == 200
+    before_article = store.get_article("S001").model_dump(mode="json")
+    before_revision = store.current_structure_revision("S001")
+    before_tail = store.latest_audit_id()
+
+    responses = [
+        client.put("/api/articles/S001/fields/P01.category", json={"field": make_field("光伏").model_dump(mode="json")}),
+        client.put("/api/articles/S001/structure", json={"base_revision": before_revision, "projects": []}),
+        client.post(
+            "/api/articles/S001/adjudication",
+            json={"field_path": "P01.category", "field": make_field("光伏").model_dump(mode="json")},
+        ),
+        client.post("/api/articles/S001/start"),
+    ]
+
+    assert [response.status_code for response in responses] == [409, 409, 409, 409]
+    assert all(response.json()["detail"] == "reviewed records are immutable" for response in responses)
+    assert store.get_article("S001").model_dump(mode="json") == before_article
+    assert store.current_structure_revision("S001") == before_revision
+    assert store.latest_audit_id() == before_tail
+
+
 def test_api_actions_leave_configured_source_repository_hashes_unchanged(
     configured_source_client: tuple[TestClient, SourceRepository],
 ) -> None:

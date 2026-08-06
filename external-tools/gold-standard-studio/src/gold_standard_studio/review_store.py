@@ -27,6 +27,10 @@ _TABLES = (
 )
 
 
+class ReviewedRecordError(ValueError):
+    """Signal an attempted mutation of a confirmed record whose gold draft is permanently immutable."""
+
+
 @dataclass(frozen=True)
 class AuditEntry:
     """Expose one immutable audit event with complete payloads and convenient display values."""
@@ -260,6 +264,7 @@ class ReviewStore:
         now = _utc_now()
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
             project = _find_project(article, project_id)
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
@@ -282,11 +287,12 @@ class ReviewStore:
         """Atomically replace only a pending field and distinguish the human adjudication in audit history."""
         _require_actor(actor)
         project_id, field_name = _parse_field_path(field_path)
-        if field.state == "needs_adjudication":
-            raise ValueError("adjudication must select a non-pending field state")
         now = _utc_now()
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
+            if field.state == "needs_adjudication":
+                raise ValueError("adjudication must select a non-pending field state")
             project = _find_project(article, project_id)
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
@@ -316,6 +322,7 @@ class ReviewStore:
         now = _utc_now()
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
             current_revision = self._current_structure_revision(conn, sample_id)
             if base_revision != current_revision:
                 raise ValueError(
@@ -370,7 +377,8 @@ class ReviewStore:
         _require_actor(actor)
         now = _utc_now()
         with self._immediate_transaction() as conn:
-            self._load_article(conn, sample_id)
+            article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
             conn.execute(
                 "INSERT INTO review_sessions(sample_id, actor, started_at) VALUES (?, ?, ?)",
                 (sample_id, actor, now),
@@ -720,8 +728,7 @@ def _has_unresolved_conflicts(article: RichGoldRecord) -> bool:
 
 def _assert_confirmation_guards(article: RichGoldRecord) -> None:
     """Reject every non-publishable current draft condition while the caller retains the write transaction."""
-    if article.review_status == "reviewed":
-        raise ValueError("article is already reviewed")
+    _assert_draft_mutable(article)
     if _has_unresolved_conflicts(article):
         raise ValueError("unresolved conflicts prevent article confirmation")
     for project in article.projects:
@@ -733,6 +740,12 @@ def _assert_confirmation_guards(article: RichGoldRecord) -> None:
                 raise ValueError(f"missing required evidence: {project.gold_project_id}.{field_name}")
             if any(evidence.article_sha256 != article.article_sha256 for evidence in field.evidence):
                 raise ValueError(f"evidence article hash mismatch: {project.gold_project_id}.{field_name}")
+
+
+def _assert_draft_mutable(article: RichGoldRecord) -> None:
+    """Reject an attempted human draft mutation after the article has been explicitly confirmed."""
+    if article.review_status == "reviewed":
+        raise ReviewedRecordError("reviewed records are immutable")
 
 
 def _decode_audit_entry(row: sqlite3.Row) -> AuditEntry:

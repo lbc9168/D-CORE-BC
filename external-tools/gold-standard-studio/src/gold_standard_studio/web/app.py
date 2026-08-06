@@ -8,7 +8,7 @@ from fastapi import FastAPI, Header, Path, Request
 from pydantic import BaseModel, Field
 
 from gold_standard_studio.evidence import FieldConflict, compare_candidates
-from gold_standard_studio.review_store import AuditEntry, QueueItem, ReviewStore
+from gold_standard_studio.review_store import AuditEntry, QueueItem, ReviewedRecordError, ReviewStore
 from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
 from gold_standard_studio.sources import SourceRepository
 
@@ -108,7 +108,13 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
     async def map_store_error(_request: Request, error: ValueError):
         """Map expected review-domain failures to deterministic public HTTP errors."""
         detail = str(error)
-        status_code = 404 if detail.startswith("unknown sample '") else 409 if detail.startswith("stale structure revision:") else 422
+        status_code = (
+            404
+            if detail.startswith("unknown sample '")
+            else 409
+            if isinstance(error, ReviewedRecordError) or detail.startswith("stale structure revision:")
+            else 422
+        )
         return _error_response(status_code, detail)
 
     @app.get("/api/queue", response_model=QueueResponse)
