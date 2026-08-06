@@ -99,7 +99,9 @@ def test_e2e_predeclares_empty_groups_and_excludes_challenge_from_regression(tmp
                                raw_news_db=raw, cache_dir=tmp_path / "c", reports_dir=tmp_path / "r", use_cache=False)
 
     assert report["core_metrics"]["regression"]["status_accuracy"] == 1.0
-    assert report["core_metrics"]["regression"]["fields"]["location"] == {"correct": 1, "total": 1, "accuracy": 1.0}
+    location = report["core_metrics"]["regression"]["fields"]["location"]
+    assert location["correct"] == 1 and location["total"] == 1 and location["accuracy"] == 1.0
+    assert location["primary_metric"] == "accuracy"
     assert report["core_metrics"]["regression"]["fields"]["generation_sources"]["accuracy"] == 1.0
     assert report["core_metrics"]["regression"]["fields"]["financing_amount_usd"]["total"] == 0
     assert report["core_metrics"]["regression"]["project_set"]["recall"] == 1.0
@@ -109,3 +111,31 @@ def test_e2e_predeclares_empty_groups_and_excludes_challenge_from_regression(tmp
     assert report["slices"]["split"]["challenge"]["evaluated_count"] == 1
     assert report["slices"]["risk_tag"]["unspecified"]["n_gold"] == 1
     assert report["slices"]["category"]["水电"]["evaluated_count"] == 0
+
+
+def test_e2e_core_uses_set_f1_not_exact_set_accuracy(tmp_path):
+    """Partial generation-source overlap contributes F1 to core weighting while legacy remains unchanged."""
+    raw = tmp_path / "raw.db"; gold = tmp_path / "gold.jsonl"
+    _make_raw_news(raw)
+    gold.write_text(json.dumps({"source_link": "http://x", "status": "valid", "dataset_split": "regression",
+        "projects": [{"project_name": "阿尔法光伏", "category": "光伏", "capacity_mw": "50",
+                      "project_stage": "中标", "financing_model": "Unknown",
+                      "generation_sources": ["光伏", "风电"],
+                      "field_eligibility": {"generation_sources": True}}]}, ensure_ascii=False), encoding="utf-8")
+
+    def partial_sources(title, content, date):
+        """Return a project whose source set has one true positive and one false positive."""
+        return {"status": "valid_project", "projects": [{"common_info": {
+            "Project Name": "阿尔法光伏", "Category": "光伏", "Capacity (MW)": "50",
+            "Project Stage": "中标", "Financing Model": "Unknown", "Generation Sources": ["光伏", "水电"],
+        }}]}
+
+    report = run_eval.run_eval(gold, extract_fn=partial_sources, extractor_version="set-f1",
+                               raw_news_db=raw, cache_dir=tmp_path / "c", reports_dir=tmp_path / "r", use_cache=False)
+    sources = report["core_metrics"]["regression"]["fields"]["generation_sources"]
+
+    assert sources["accuracy"] == 0.0
+    assert sources["f1"] == 0.5
+    assert sources["primary_metric"] == "f1"
+    assert report["core_metrics"]["regression"]["weighted_total"] == 0.9907
+    assert report["weighted_total"] == 1.0

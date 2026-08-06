@@ -2,6 +2,7 @@
 import re
 import sys
 import pathlib
+import unicodedata
 
 _root = next(p for p in pathlib.Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 if str(_root) not in sys.path:
@@ -29,6 +30,10 @@ PROJECT_TEXT_FIELDS = ("location",)
 PROJECT_SET_FIELDS = ("generation_sources",)
 LEGACY_FIELDS = ("category", "project_stage", "financing_model", "capacity_mw", "total_investment_usd")
 ALL_FIELDS = PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS + PROJECT_DATE_FIELDS + PROJECT_NAME_FIELDS + PROJECT_TEXT_FIELDS + PROJECT_SET_FIELDS
+FIELD_PRIMARY_METRIC = {
+    **{field: "accuracy" for field in PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS + PROJECT_DATE_FIELDS + PROJECT_NAME_FIELDS + PROJECT_TEXT_FIELDS},
+    "generation_sources": "f1",
+}
 
 
 def cmp_status(pred, gold) -> bool:
@@ -110,8 +115,13 @@ def cmp_name(field: str, pred, gold) -> bool:
 
 
 def cmp_text(pred, gold) -> bool:
-    """Compare normalized free text exactly for registry fields such as location."""
-    return _WS.sub(" ", str(pred or "").strip()).casefold() == _WS.sub(" ", str(gold or "").strip()).casefold()
+    """Compare text with Studio's NFKC, casefold, alias, punctuation, and whitespace canonicalization."""
+    def normalize(value) -> str:
+        """Mirror Studio evidence._normalize_text without importing the optional Studio package."""
+        normalized = unicodedata.normalize("NFKC", str(value or "")).casefold()
+        normalized = normalized.replace("company", "co").replace("limited", "ltd")
+        return "".join(character for character in normalized if character.isalnum())
+    return normalize(pred) == normalize(gold)
 
 
 def _attr_bonus(prediction: dict, gold: dict) -> int:

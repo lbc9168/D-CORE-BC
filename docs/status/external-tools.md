@@ -37,7 +37,7 @@
 
 发布器只读访问 Studio review DB；仅当草稿和索引均为 `reviewed`、存在匹配 `article_confirmed` 审计且其后没有 gold 草稿变更时才写入版本目录，确认后的候选观测不影响资格。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后以协作版本锁和平台 no-replace rename 原子提交；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影将 `field_eligibility` 保留在每个项目内：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；发布 rich JSON 仅保留 allowlist 的确认审计 ID、动作、时间和字段路径，不发布任意原始 audit metadata。
 
-评测器现已消费逐项目 eligibility、分派全字段指标并输出 split/category/risk 切片：`not_mentioned` 的 null 按显式空值计入分母，`not_applicable`/`uncertain` 仍排除；地点采用 normalized-exact。Studio exporter 通过不污染全局 `sys.path` 的私有 importlib 包加载仓库唯一的 `eval.gold_loader` 契约，因此从 Studio 独立工作目录导入也可用。
+评测器现已消费逐项目 eligibility、分派全字段指标并输出 split/category/risk 切片：`not_mentioned` 的 null 按显式空值计入分母，`not_applicable`/`uncertain` 仍排除；地点采用与 Studio evidence 相同的 normalized-exact。评测的显式 FIELD_PRIMARY_METRIC 映射将发电源指定为 set F1（精确集合准确率仅供诊断），避免 full/core 汇总退化为通用 accuracy。Studio exporter 通过不污染全局 `sys.path` 的私有 importlib 包加载仓库唯一的 `eval.gold_loader` 契约，因此从 Studio 独立工作目录导入也可用。
 
 发布投影的唯一校验契约现为 `eval.gold_loader.GoldRecord`：写入前和临时 JSONL 重读时均使用该模型，Studio 不再维护宽松的重复 projection schema。Loader 对 canonical gold 使用严格 JSON 类型、受控 category/stage/financing enum、受控发电源和严格数值字段，拒绝例如布尔值伪装的数值；验证失败在版本目录可见前清理 staging。
 

@@ -9,7 +9,7 @@ import pathlib
 from datetime import datetime
 
 from eval import article_store, gold_loader
-from eval.metrics import ALL_FIELDS, LEGACY_FIELDS, PROJECT_SET_FIELDS, score_article
+from eval.metrics import ALL_FIELDS, FIELD_PRIMARY_METRIC, LEGACY_FIELDS, score_article
 from eval.predict import flat_prediction
 
 logger = logging.getLogger(__name__)
@@ -112,9 +112,9 @@ def _add_result(accumulator: dict, result: dict) -> None:
 
 
 def _weighted_total(status_accuracy: float, fields: dict, entity: dict, *, field_names: tuple[str, ...]) -> float:
-    """Calculate the historical weighted headline from the requested field population only."""
+    """Calculate a weighted headline using the explicit registry-primary metric for every field."""
     field_accuracies = [
-        fields[field].get("accuracy", fields[field].get("f1", 0.0))
+        fields[field][FIELD_PRIMARY_METRIC[field]]
         for field in field_names
         if fields[field].get("total", fields[field].get("gold_total", 0))
     ]
@@ -138,6 +138,7 @@ def _summarize(accumulator: dict, *, include_taxonomy: bool = True) -> dict:
         field: {
             "correct": accumulator["field_correct"][field], "total": accumulator["field_total"][field],
             "accuracy": _ratio(accumulator["field_correct"][field], accumulator["field_total"][field]),
+            "primary_metric": FIELD_PRIMARY_METRIC[field],
         }
         for field in ALL_FIELDS
     }
@@ -155,6 +156,7 @@ def _summarize(accumulator: dict, *, include_taxonomy: bool = True) -> dict:
         "correct": accumulator["field_correct"]["generation_sources"],
         "total": accumulator["field_total"]["generation_sources"],
         "accuracy": _ratio(accumulator["field_correct"]["generation_sources"], accumulator["field_total"]["generation_sources"]),
+        "primary_metric": FIELD_PRIMARY_METRIC["generation_sources"],
     }
     entity = {
         "name_f1_mean": round(accumulator["name_f1_sum"] / accumulator["name_f1_n"], 4) if accumulator["name_f1_n"] else 0.0,
@@ -193,7 +195,7 @@ def _metric_rows(report: dict):
     rows = [("status_accuracy", lambda item: item.get("status_accuracy")),
             ("project_set.f1", lambda item: (item.get("project_set") or {}).get("f1"))]
     rows.extend(
-        (field, lambda item, field=field: ((item.get("fields") or {}).get(field) or {}).get("accuracy", ((item.get("fields") or {}).get(field) or {}).get("f1")))
+        (field, lambda item, field=field: ((item.get("fields") or {}).get(field) or {}).get(FIELD_PRIMARY_METRIC[field]))
         for field in ALL_FIELDS
     )
     rows.extend([

@@ -260,3 +260,15 @@ def test_location_uses_normalized_exact_and_honors_eligibility():
 
     assert m.score_article(pred, gold)["field_hits"]["location"] == (1, 1)
     assert m.score_article({"status": "valid", "projects": [{**_alpha_gold(), "location": "wrong"}]}, ineligible)["field_hits"]["location"] == (0, 0)
+
+
+def test_location_normalization_matches_studio_nfkc_punctuation_policy():
+    """Location equivalence uses Studio's NFKC, casefold, punctuation-removal canonical text form."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "location": "Ｎａｉｒｏｂｉ， Kenya!", "field_eligibility": {"location": True},
+    }]}
+    equivalent = {"status": "valid", "projects": [{**_alpha_gold(), "location": "nairobi kenya"}]}
+    different = {"status": "valid", "projects": [{**_alpha_gold(), "location": "mombasa kenya"}]}
+
+    assert m.score_article(equivalent, gold)["field_hits"]["location"] == (1, 1)
+    assert m.score_article(different, gold)["field_hits"]["location"] == (0, 1)
