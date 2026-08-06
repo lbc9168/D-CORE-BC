@@ -205,3 +205,67 @@ def test_unmatched_project_names_remain_an_explicit_structure_conflict():
     conflicts = compare_candidates(bundle)
 
     assert [conflict.reason_code for conflict in conflicts] == ["project_alignment_unmatched"]
+
+
+@pytest.mark.parametrize(
+    ("database_projects", "review_projects"),
+    [
+        (
+            [("db-a", "Alpha Solar Project A", "光伏"), ("db-base", "Alpha Solar Project", "风电")],
+            [("review-base", "Alpha Solar Project", "风电"), ("review-a", "Alpha Solar Project A1", "光伏")],
+        ),
+        (
+            [("db-base", "Alpha Solar Project", "风电"), ("db-a", "Alpha Solar Project A", "光伏")],
+            [("review-a", "Alpha Solar Project A1", "光伏"), ("review-base", "Alpha Solar Project", "风电")],
+        ),
+    ],
+)
+def test_global_alignment_reserves_exact_pair_before_fuzzy_pairs_regardless_of_list_order(
+    database_projects, review_projects
+):
+    """Reserve the exact identity globally so a nearby fuzzy project cannot steal it by traversal order."""
+    bundle = CandidateBundle(
+        sample_id="S007",
+        article_sha256="a" * 64,
+        sources={
+            "database": CandidateValue(
+                source_name="database",
+                projects=[_project(identifier, project_name=name, category=category) for identifier, name, category in database_projects],
+            ),
+            "review": CandidateValue(
+                source_name="review",
+                projects=[_project(identifier, project_name=name, category=category) for identifier, name, category in review_projects],
+            ),
+        },
+    )
+
+    assert compare_candidates(bundle) == []
+
+
+def test_multiple_optimum_fuzzy_assignment_remains_an_explicit_alignment_ambiguity():
+    """Reject an all-fuzzy graph with two equally complete one-to-one assignments instead of choosing a tie."""
+    bundle = CandidateBundle(
+        sample_id="S008",
+        article_sha256="b" * 64,
+        sources={
+            "database": CandidateValue(
+                source_name="database",
+                projects=[
+                    _project("db-a", project_name="Alpha Solar Project A", category="光伏"),
+                    _project("db-b", project_name="Alpha Solar Project B", category="风电"),
+                ],
+            ),
+            "review": CandidateValue(
+                source_name="review",
+                projects=[
+                    _project("review-c", project_name="Alpha Solar Project C", category="光伏"),
+                    _project("review-d", project_name="Alpha Solar Project D", category="风电"),
+                ],
+            ),
+        },
+    )
+
+    conflicts = compare_candidates(bundle)
+
+    assert [conflict.reason_code for conflict in conflicts] == ["project_alignment_ambiguous"]
+    assert not any(conflict.field_name in {"project_name", "category"} for conflict in conflicts)

@@ -14,6 +14,9 @@ from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.schemas import CandidateBundle, EvidenceSpan, GoldProject
 
 
+_MAX_MATCHING_COMPONENT_SIDE = 8
+
+
 class EvidenceError(ValueError):
     """Base error for evidence that cannot be safely tied to an immutable article snapshot."""
 
@@ -167,59 +170,63 @@ def _align_projects(
     projects: list[GoldProject],
     error_sources: tuple[str, ...],
 ) -> tuple[dict[int, int], list[FieldConflict]]:
-    """Map one source's project positions to reference identities and report every unsafe mapping explicitly."""
+    """Map one source globally to reference identities and report every unsafe one-to-one match explicitly."""
     alignment: dict[int, int] = {}
     conflicts: list[FieldConflict] = []
-    remaining = set(range(len(projects)))
-    unmatched_references: list[tuple[int, GoldProject]] = []
-    for reference_index, reference_project in enumerate(reference_projects):
-        reference_name = _project_name(reference_project)
-        matches = _candidate_project_matches(reference_name, projects, remaining)
-        if len(matches) == 1:
-            matched_index = matches[0]
-            alignment[reference_index] = matched_index
-            remaining.remove(matched_index)
-            continue
-        if not matches:
-            unmatched_references.append((reference_index, reference_project))
-        else:
+    remaining_references = set(range(len(reference_projects)))
+    remaining_candidates = set(range(len(projects)))
+    exact_pairs = _unique_exact_pairs(reference_projects, projects, remaining_references, remaining_candidates)
+    alignment.update(exact_pairs)
+    remaining_references.difference_update(exact_pairs)
+    remaining_candidates.difference_update(exact_pairs.values())
+    fuzzy_edges = _fuzzy_edges(reference_projects, projects, remaining_references, remaining_candidates)
+    unsafe_references: set[int] = set()
+    unsafe_candidates: set[int] = set()
+    for component_references, component_candidates in _fuzzy_components(fuzzy_edges, reference_projects, projects):
+        assignments = _maximum_assignments(component_references, component_candidates, fuzzy_edges, reference_projects, projects)
+        if assignments is None:
+            unsafe_references.update(component_references)
+            unsafe_candidates.update(component_candidates)
             conflicts.append(
-                _alignment_conflict(
+                _alignment_group_conflict(
                     reference_source,
-                    reference_index,
-                    reference_project,
+                    component_references,
+                    reference_projects,
                     source_name,
-                    [projects[index] for index in matches],
+                    component_candidates,
+                    projects,
+                    "project_alignment_complex",
+                    error_sources,
+                )
+            )
+        elif len(assignments) != 1:
+            unsafe_references.update(component_references)
+            unsafe_candidates.update(component_candidates)
+            conflicts.append(
+                _alignment_group_conflict(
+                    reference_source,
+                    component_references,
+                    reference_projects,
+                    source_name,
+                    component_candidates,
+                    projects,
                     "project_alignment_ambiguous",
                     error_sources,
                 )
             )
-    if unmatched_references:
-        reference_index, _reference_project = unmatched_references[0]
+        else:
+            alignment.update(assignments[0])
+    unmatched_references = remaining_references.difference(alignment).difference(unsafe_references)
+    unmatched_candidates = remaining_candidates.difference(alignment.values()).difference(unsafe_candidates)
+    if unmatched_references or unmatched_candidates:
         conflicts.append(
-            FieldConflict(
-                field_name="projects",
-                project_index=reference_index,
-                source_values={
-                    reference_source: tuple(_project_identity(project) for _, project in unmatched_references),
-                    source_name: tuple(_project_identity(projects[index]) for index in sorted(remaining)),
-                },
-                normalized_values={
-                    reference_source: tuple(_project_identity(project) for _, project in unmatched_references),
-                    source_name: tuple(_project_identity(projects[index]) for index in sorted(remaining)),
-                },
-                reason_code="project_alignment_unmatched",
-                error_sources=error_sources,
-            )
-        )
-    elif remaining and not conflicts:
-        conflicts.append(
-            _alignment_conflict(
+            _alignment_group_conflict(
                 reference_source,
-                None,
-                None,
+                unmatched_references,
+                reference_projects,
                 source_name,
-                [projects[index] for index in sorted(remaining)],
+                unmatched_candidates,
+                projects,
                 "project_alignment_unmatched",
                 error_sources,
             )
@@ -227,51 +234,169 @@ def _align_projects(
     return alignment, conflicts
 
 
-def _candidate_project_matches(
-    reference_name: str | None, projects: list[GoldProject], remaining: set[int]
-) -> list[int]:
-    """Find exact normalized project-name matches first, then only unambiguous conservative fuzzy matches."""
-    if reference_name is None:
-        return []
-    exact = [
-        index
-        for index in sorted(remaining)
-        if (candidate_name := _project_name(projects[index])) is not None
-        and _normalize_text(candidate_name) == _normalize_text(reference_name)
-    ]
-    if exact:
-        return exact
-    return [
-        index
-        for index in sorted(remaining)
-        if (candidate_name := _project_name(projects[index])) is not None
-        and _values_equivalent("project_name", reference_name, candidate_name)
-    ]
+def _unique_exact_pairs(
+    reference_projects: list[GoldProject],
+    projects: list[GoldProject],
+    reference_indices: set[int],
+    candidate_indices: set[int],
+) -> dict[int, int]:
+    """Reserve only normalized exact names that occur once on each side before fuzzy graph construction."""
+    references_by_name = _indices_by_normalized_name(reference_projects, reference_indices)
+    candidates_by_name = _indices_by_normalized_name(projects, candidate_indices)
+    return {
+        references_by_name[name][0]: candidates_by_name[name][0]
+        for name in sorted(set(references_by_name).intersection(candidates_by_name))
+        if len(references_by_name[name]) == len(candidates_by_name[name]) == 1
+    }
 
 
-def _alignment_conflict(
+def _indices_by_normalized_name(projects: list[GoldProject], indices: set[int]) -> dict[str, list[int]]:
+    """Group named projects by their normalized identity while retaining a deterministic local index order."""
+    grouped: dict[str, list[int]] = {}
+    for index in sorted(indices, key=lambda value: _project_index_sort_key(projects, value)):
+        name = _project_name(projects[index])
+        if name is not None:
+            grouped.setdefault(_normalize_text(name), []).append(index)
+    return grouped
+
+
+def _fuzzy_edges(
+    reference_projects: list[GoldProject],
+    projects: list[GoldProject],
+    reference_indices: set[int],
+    candidate_indices: set[int],
+) -> dict[int, tuple[int, ...]]:
+    """Build every conservative fuzzy-name edge left after exact reservations without choosing a traversal order."""
+    edges: dict[int, tuple[int, ...]] = {}
+    ordered_candidates = sorted(candidate_indices, key=lambda value: _project_index_sort_key(projects, value))
+    for reference_index in sorted(reference_indices, key=lambda value: _project_index_sort_key(reference_projects, value)):
+        reference_name = _project_name(reference_projects[reference_index])
+        if reference_name is None:
+            continue
+        matches = tuple(
+            candidate_index
+            for candidate_index in ordered_candidates
+            if (candidate_name := _project_name(projects[candidate_index])) is not None
+            and _values_equivalent("project_name", reference_name, candidate_name)
+        )
+        if matches:
+            edges[reference_index] = matches
+    return edges
+
+
+def _fuzzy_components(
+    edges: Mapping[int, tuple[int, ...]], reference_projects: list[GoldProject], projects: list[GoldProject]
+) -> list[tuple[set[int], set[int]]]:
+    """Split the fuzzy bipartite graph into independent components so matching search stays bounded."""
+    candidate_edges: dict[int, set[int]] = {}
+    for reference_index, candidate_indices in edges.items():
+        for candidate_index in candidate_indices:
+            candidate_edges.setdefault(candidate_index, set()).add(reference_index)
+    components: list[tuple[set[int], set[int]]] = []
+    visited_references: set[int] = set()
+    for start in sorted(edges, key=lambda value: _project_index_sort_key(reference_projects, value)):
+        if start in visited_references:
+            continue
+        references: set[int] = set()
+        candidates: set[int] = set()
+        pending_references = [start]
+        while pending_references:
+            reference_index = pending_references.pop()
+            if reference_index in visited_references:
+                continue
+            visited_references.add(reference_index)
+            references.add(reference_index)
+            for candidate_index in edges[reference_index]:
+                if candidate_index not in candidates:
+                    candidates.add(candidate_index)
+                    pending_references.extend(candidate_edges[candidate_index].difference(visited_references))
+        components.append((references, candidates))
+    return components
+
+
+def _maximum_assignments(
+    reference_indices: set[int],
+    candidate_indices: set[int],
+    edges: Mapping[int, tuple[int, ...]],
+    reference_projects: list[GoldProject],
+    projects: list[GoldProject],
+) -> list[dict[int, int]] | None:
+    """Enumerate up to two maximum one-to-one assignments or safely defer oversized components to review."""
+    if len(reference_indices) > _MAX_MATCHING_COMPONENT_SIDE or len(candidate_indices) > _MAX_MATCHING_COMPONENT_SIDE:
+        return None
+    ordered_references = sorted(reference_indices, key=lambda value: _project_index_sort_key(reference_projects, value))
+    ordered_options = {
+        reference_index: tuple(
+            candidate_index
+            for candidate_index in edges[reference_index]
+            if candidate_index in candidate_indices
+        )
+        for reference_index in ordered_references
+    }
+    best_size = -1
+    best_assignments: list[dict[int, int]] = []
+
+    def visit(position: int, assignment: dict[int, int], used_candidates: set[int]) -> None:
+        """Search one bounded component with branch-and-bound while retaining only assignment uniqueness evidence."""
+        nonlocal best_size, best_assignments
+        if len(assignment) + len(ordered_references) - position < best_size:
+            return
+        if position == len(ordered_references):
+            size = len(assignment)
+            if size > best_size:
+                best_size = size
+                best_assignments = [dict(assignment)]
+            elif size == best_size and len(best_assignments) < 2:
+                best_assignments.append(dict(assignment))
+            return
+        reference_index = ordered_references[position]
+        for candidate_index in ordered_options[reference_index]:
+            if candidate_index not in used_candidates:
+                assignment[reference_index] = candidate_index
+                visit(position + 1, assignment, used_candidates | {candidate_index})
+                del assignment[reference_index]
+        visit(position + 1, assignment, used_candidates)
+
+    visit(0, {}, set())
+    return best_assignments
+
+
+def _alignment_group_conflict(
     reference_source: str,
-    reference_index: int | None,
-    reference_project: GoldProject | None,
+    reference_indices: set[int],
+    reference_projects: list[GoldProject],
     source_name: str,
-    candidate_projects: list[GoldProject],
+    candidate_indices: set[int],
+    projects: list[GoldProject],
     reason_code: str,
     error_sources: tuple[str, ...],
 ) -> FieldConflict:
-    """Describe an unsafe project identity mapping without emitting misleading positional field conflicts."""
+    """Describe one unsafe alignment graph component without emitting misleading positional field conflicts."""
+    reference_values = tuple(
+        _project_identity(reference_projects[index])
+        for index in sorted(reference_indices, key=lambda value: _project_index_sort_key(reference_projects, value))
+    )
+    candidate_values = tuple(
+        _project_identity(projects[index])
+        for index in sorted(candidate_indices, key=lambda value: _project_index_sort_key(projects, value))
+    )
     source_values: dict[str, Any] = {
-        source_name: tuple(_project_identity(project) for project in candidate_projects)
+        reference_source: reference_values,
+        source_name: candidate_values,
     }
-    if reference_project is not None:
-        source_values[reference_source] = _project_identity(reference_project)
     return FieldConflict(
         field_name="projects",
-        project_index=reference_index,
+        project_index=min(reference_indices) if reference_indices else None,
         source_values=source_values,
         normalized_values=source_values,
         reason_code=reason_code,
         error_sources=error_sources,
     )
+
+
+def _project_index_sort_key(projects: list[GoldProject], index: int) -> tuple[str, int]:
+    """Provide source-order-independent project traversal by normalized name with local index only as a final tie-break."""
+    return (_normalize_text(_project_name(projects[index]) or ""), index)
 
 
 def _project_name(project: GoldProject) -> str | None:
