@@ -72,6 +72,16 @@ class Project(BaseModel):
         return value
 
 
+class SamplingProvenance(BaseModel):
+    """发布投影中的显式抽样来源：只接受可审计、不可推导替代的原始分层信息。"""
+    model_config = ConfigDict(extra="forbid", strict=True)
+    sampling_seed: StrictInt
+    inclusion_reasons: list[StrictStr] = Field(default_factory=list)
+    original_category_strata: list[StrictStr] = Field(default_factory=list)
+    risk_tags: list[StrictStr] = Field(default_factory=list)
+    negative_proxy: StrictBool
+
+
 class GoldRecord(BaseModel):
     """金标准一行（一篇文章）：source_link 必填，status 文章级四选一，projects 列表。"""
     model_config = ConfigDict(extra="forbid", strict=True)
@@ -82,6 +92,7 @@ class GoldRecord(BaseModel):
     dataset_split: Optional[StrictStr] = None
     risk_tags: list[StrictStr] = Field(default_factory=list)
     difficulty: Optional[dict] = None
+    sampling_provenance: Optional[SamplingProvenance] = None
 
 
 def load(path) -> list[dict]:

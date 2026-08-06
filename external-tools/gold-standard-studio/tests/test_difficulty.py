@@ -29,7 +29,7 @@ def test_database_hb_vs_fact_pv_is_an_explained_conflict_with_storage_context():
                         "facts",
                         fields={
                             "project_name": GoldField(state="present", value="Alpha"),
-                            "proposed_category": GoldField(state="present", value="光伏"),
+                            "category": GoldField(state="present", value="光伏"),
                             "storage_status": GoldField(state="present", value="with_storage"),
                         },
                     )

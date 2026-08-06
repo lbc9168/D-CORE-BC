@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-import hashlib
 import math
 import re
 from difflib import SequenceMatcher
@@ -12,6 +11,7 @@ import unicodedata
 
 from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.schemas import CandidateBundle, EvidenceSpan, GoldField, GoldProject
+from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
 
 _MAX_MATCHING_COMPONENT_SIDE = 8
@@ -53,19 +53,14 @@ class ProjectFieldCandidate:
     evidence_warning: bool = False
 
 
-def article_sha256(text: str) -> str:
-    """Return the UTF-8 SHA-256 digest that identifies one immutable article text snapshot."""
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
-
-
 def relocate_quote(
-    article_text: str, quote: str, *, expected_start: int | None, article_sha256: str
+    article: ArticleSnapshot, quote: str, *, expected_start: int | None
 ) -> EvidenceSpan:
-    """Safely relocate a quote by accepting only one exact or uniquely nearest occurrence."""
-    _validate_article_hash(article_text, article_sha256)
+    """Safely relocate a quote against one canonical title-content-date ArticleSnapshot identity."""
+    _validate_article_snapshot(article)
     if not quote:
         raise EvidenceNotFoundError("evidence quote must not be empty")
-    matches = _quote_offsets(article_text, quote)
+    matches = _quote_offsets(article.content, quote)
     if not matches:
         raise EvidenceNotFoundError("evidence quote was not found in article text")
     if expected_start in matches:
@@ -81,23 +76,27 @@ def relocate_quote(
         if len(nearest) != 1:
             raise AmbiguousEvidenceError("evidence quote has multiple equally near locations")
         start = nearest[0]
-    return EvidenceSpan(quote=quote, start=start, end=start + len(quote), article_sha256=article_sha256)
+    return EvidenceSpan(
+        quote=quote,
+        start=start,
+        end=start + len(quote),
+        article_sha256=article.article_sha256,
+    )
 
 
-def locate_evidence(article_text: str, evidence: EvidenceSpan) -> EvidenceSpan:
-    """Return exact evidence when valid or a uniquely relocated span carrying the current article hash."""
-    current_hash = article_sha256(article_text)
+def locate_evidence(article: ArticleSnapshot, evidence: EvidenceSpan) -> EvidenceSpan:
+    """Return exact evidence or relocate it within the current canonical ArticleSnapshot."""
+    _validate_article_snapshot(article)
     if (
-        evidence.article_sha256 == current_hash
-        and evidence.end <= len(article_text)
-        and article_text[evidence.start : evidence.end] == evidence.quote
+        evidence.article_sha256 == article.article_sha256
+        and evidence.end <= len(article.content)
+        and article.content[evidence.start : evidence.end] == evidence.quote
     ):
         return evidence
     return relocate_quote(
-        article_text,
+        article,
         evidence.quote,
         expected_start=evidence.start,
-        article_sha256=current_hash,
     )
 
 
@@ -245,10 +244,11 @@ def aligned_field_conflicts(projects: list[GoldProject], bundle: CandidateBundle
     return conflicts
 
 
-def _validate_article_hash(article_text: str, expected_hash: str) -> None:
-    """Reject caller-supplied hashes that do not describe the article whose offsets are being created."""
-    if article_sha256(article_text) != expected_hash:
-        raise EvidenceError("article_sha256 does not match the supplied article text")
+def _validate_article_snapshot(article: ArticleSnapshot) -> None:
+    """Reject snapshots whose declared digest does not match their canonical title-content-date identity."""
+    expected = article_sha256(article.title, article.content, article.publish_date)
+    if article.article_sha256 != expected:
+        raise EvidenceError("article_sha256 does not match the supplied canonical article snapshot")
 
 
 def _quote_offsets(article_text: str, quote: str) -> list[int]:
@@ -510,21 +510,16 @@ def _source_sort_key(source_name: str) -> tuple[int, str]:
 
 
 def _field_value(project: GoldProject, field_name: str) -> Any:
-    """Read one present field while recognizing the deterministic candidate's proposed-category alias."""
+    """Read one canonical present field from a candidate project."""
     field = project.fields.get(field_name)
-    if field is None and field_name == "category":
-        field = project.fields.get("proposed_category")
     return field.value if field is not None and field.state == "present" else None
 
 
 def _field_for_projection(project: GoldProject | None, field_name: str) -> GoldField | None:
-    """Return a source field object, preserving its evidence and deterministic category alias when present."""
+    """Return one canonical source field object while preserving its evidence."""
     if project is None:
         return None
-    field = project.fields.get(field_name)
-    if field is None and field_name == "category":
-        field = project.fields.get("proposed_category")
-    return field
+    return project.fields.get(field_name)
 
 
 def _projection_field_with_current_evidence(field: GoldField | None, article_sha256: str) -> tuple[GoldField | None, bool]:

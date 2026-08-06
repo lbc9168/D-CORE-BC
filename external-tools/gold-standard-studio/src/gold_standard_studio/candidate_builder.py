@@ -167,7 +167,7 @@ class DeterministicCandidateRunner:
                 "storage_status": energy.storage_status,
                 "storage_power_mw": energy.storage_power_mw,
                 "storage_energy_mwh": energy.storage_energy_mwh,
-                "proposed_category": classification.proposed_category,
+                "category": classification.proposed_category,
             }
         )
         return CandidateValue(
@@ -246,8 +246,8 @@ def _current_project_to_gold(project: CurrentProject, index: int) -> GoldProject
     }
     entities = [
         GoldEntity(
-            role=str(_first_value(entity, "involvement_type", "Type of involvement of Chinese Entities") or "unknown"),
-            name=str(_first_value(entity, "implementing_entity", "Implementing Chinese Entity", "name") or "unknown"),
+            role=str(_first_value(entity, "involvement_type", "Type of involvement of Chinese Entities") or "Unknown"),
+            name=str(_first_value(entity, "implementing_entity", "Implementing Chinese Entity", "name") or "Unknown"),
         )
         for entity in project.entities
     ]
@@ -262,9 +262,9 @@ def _flat_project_to_gold(project: Mapping[str, Any], index: int) -> GoldProject
     """Convert one eval flat prediction project into the Studio field and entity contracts."""
     mapped = {name: project.get(name) for name in FIELD_REGISTRY if name in project}
     mapped["project_name"] = project.get("project_name")
-    mapped["proposed_category"] = project.get("proposed_category")
+    mapped["category"] = project.get("proposed_category", project.get("category"))
     entities = [
-        GoldEntity(role=str(entity.get("involvement_type") or "unknown"), name=str(entity.get("name") or "unknown"))
+        GoldEntity(role=str(entity.get("involvement_type") or "Unknown"), name=str(entity.get("name") or "Unknown"))
         for entity in project.get("entities", [])
         if entity.get("name")
     ]

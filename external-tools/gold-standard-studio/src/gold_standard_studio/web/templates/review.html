@@ -23,6 +23,20 @@
         <div id="article-content" class="article-content" tabindex="0">{{ article_context.content or "原文快照不可用；仍可查看审阅草稿与候选来源。" }}</div>
       </article>
       <aside class="review-pane" aria-label="复核决策面板">
+        <section data-region="article-status" aria-labelledby="article-status-heading">
+          <p class="eyebrow">文章级 Gold</p>
+          <h2 id="article-status-heading">权威文章状态</h2>
+          <label>状态
+            <select id="article-status" data-testid="article-status">
+              <option value="unreviewed">未决定</option>
+              <option value="valid">valid</option>
+              <option value="no_chinese">no_chinese</option>
+              <option value="irrelevant">irrelevant</option>
+              <option value="chinese_unnamed">chinese_unnamed</option>
+            </select>
+          </label>
+          <button type="button" data-action="save-article-status" data-testid="save-article-status">保存文章状态</button>
+        </section>
         <section class="structure-gate" data-region="structure-gate" aria-labelledby="structure-heading">
           <p class="eyebrow">第一步</p>
           <h2 id="structure-heading">确认项目结构</h2>
@@ -34,7 +48,7 @@
           <button type="button" class="secondary" data-action="add-project">新增项目</button>
           <button type="button" class="secondary" data-action="save-structure" data-testid="save-structure">保存项目结构</button>
           </div>
-          <button type="button" class="secondary" data-action="confirm-no-project">无项目／负样本：一键确认</button>
+          <button type="button" class="secondary" data-action="confirm-no-project" data-testid="confirm-negative">负样本：按所选状态一键确认</button>
         </section>
         <section data-region="consensus-panel" aria-labelledby="consensus-heading">
           <div class="section-heading"><h2 id="consensus-heading">一致候选</h2><button type="button" class="link-button" data-action="expand-consensus">展开</button></div>
@@ -48,6 +62,10 @@
         <section data-region="low-confidence-panel" aria-labelledby="low-confidence-heading">
           <h2 id="low-confidence-heading">低置信／缺候选字段</h2>
           <div id="low-confidence-cards"></div>
+        </section>
+        <section data-region="entity-panel" aria-labelledby="entity-heading">
+          <h2 id="entity-heading">中方实体、角色与证据</h2>
+          <div id="entity-editors"></div>
         </section>
         <section class="confirm-panel" aria-label="文章确认">
           <button type="button" data-action="confirm-article" data-testid="confirm-article">确认本篇</button>

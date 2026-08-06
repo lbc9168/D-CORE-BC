@@ -119,6 +119,11 @@ class SourceRepository:
         self._lock = RLock()
         self._closed = False
 
+    @property
+    def source_paths(self) -> tuple[Path, Path, Path]:
+        """Expose immutable source identities to Studio-owned write-boundary guards."""
+        return self._config.source_paths
+
     def __enter__(self) -> SourceRepository:
         """Return this opened read-only repository for scoped CLI and web-server lifetime management."""
         return self

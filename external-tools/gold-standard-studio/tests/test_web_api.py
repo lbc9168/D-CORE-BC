@@ -9,6 +9,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from gold_standard_studio.config import StudioConfig
+from gold_standard_studio.field_registry import FIELD_REGISTRY
 import gold_standard_studio.review_store as review_store_module
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import (
@@ -19,11 +20,27 @@ from gold_standard_studio.schemas import (
     GoldProject,
     RichGoldRecord,
 )
-from gold_standard_studio.sources import SourceRepository
+from gold_standard_studio.sources import ArticleSnapshot, SourceRepository, article_sha256
 from gold_standard_studio.web.app import create_app
 
 
-ARTICLE_SHA256 = "a" * 64
+ARTICLE_TITLE = "复核测试"
+ARTICLE_CONTENT = "风电光伏"
+ARTICLE_DATE = "2026-08-06"
+ARTICLE_SHA256 = article_sha256(ARTICLE_TITLE, ARTICLE_CONTENT, ARTICLE_DATE)
+
+
+def make_snapshot(source_link: str) -> ArticleSnapshot:
+    """Build the canonical immutable article snapshot used by API fixtures."""
+    return ArticleSnapshot(
+        source_link=source_link,
+        title=ARTICLE_TITLE,
+        content=ARTICLE_CONTENT,
+        publish_date=ARTICLE_DATE,
+        article_sha256=ARTICLE_SHA256,
+        raw_values={},
+        display_values={},
+    )
 
 
 def make_field(value: str, *, state: str = "present") -> GoldField:
@@ -33,20 +50,31 @@ def make_field(value: str, *, state: str = "present") -> GoldField:
 
 def make_project_json(project_id: str) -> dict[str, object]:
     """Build one complete project payload accepted by the structure endpoint."""
+    fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required).model_dump(mode="json")
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    fields["category"] = make_field("风电").model_dump(mode="json")
     return {
         "gold_project_id": project_id,
-        "fields": {"category": make_field("风电").model_dump(mode="json")},
+        "fields": fields,
         "entities": [],
     }
 
 
 def make_article(sample_id: str, *, difficulty: float = 0) -> RichGoldRecord:
     """Build a reviewable persisted draft with an explicit stable ID and score."""
+    fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required)
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    fields["category"] = make_field("风电")
     return RichGoldRecord(
         sample_id=sample_id,
         article_sha256=ARTICLE_SHA256,
         source_link=f"https://example.test/{sample_id}",
-        projects=[GoldProject(gold_project_id="P01", fields={"category": make_field("风电")})],
+        article_status="valid",
+        projects=[GoldProject(gold_project_id="P01", fields=fields)],
         difficulty={"score": difficulty},
     )
 
@@ -56,8 +84,9 @@ def store(tmp_path: Path) -> ReviewStore:
     """Create a real isolated review database populated in deterministic queue order."""
     review_store = ReviewStore(tmp_path / "review.db")
     review_store.initialize()
-    review_store.seed_article(make_article("S001", difficulty=1))
-    review_store.seed_article(make_article("S002", difficulty=0))
+    for article in (make_article("S001", difficulty=1), make_article("S002", difficulty=0)):
+        review_store.seed_article(article, snapshot=make_snapshot(article.source_link))
+        review_store.save_article_status(article.sample_id, "valid", actor="fixture")
     return review_store
 
 
@@ -108,6 +137,7 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
             sample_id="SRC001",
             article_sha256=snapshot.article_sha256,
             source_link=snapshot.source_link,
+            article_status="valid",
             projects=[
                 GoldProject(
                     gold_project_id="P01",
@@ -128,8 +158,10 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
                     },
                 )
             ],
-        )
+        ),
+        snapshot=snapshot,
     )
+    review_store.save_article_status("SRC001", "valid", actor="fixture")
     return TestClient(create_app(review_store, source_repository=repository)), repository
 
 
@@ -211,7 +243,7 @@ def test_confirmation_rejects_needs_adjudication(client: TestClient) -> None:
         state="present",
         value="光伏",
         evidence_required=True,
-        evidence=[EvidenceSpan(quote="光伏", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+        evidence=[EvidenceSpan(quote="光伏", start=2, end=4, article_sha256=ARTICLE_SHA256)],
     )
     resolved = client.post(
         "/api/articles/S001/adjudication",
@@ -318,9 +350,11 @@ def test_api_actions_leave_configured_source_repository_hashes_unchanged(
     assert source_client.get("/api/queue").status_code == 200
     assert source_client.get("/api/articles/SRC001").status_code == 200
     assert source_client.post("/api/articles/SRC001/start").status_code == 200
+    source_project = make_project_json("P01")
+    source_project["fields"]["category"] = category
     assert source_client.put(
         "/api/articles/SRC001/structure",
-        json={"base_revision": 1, "projects": [{"gold_project_id": "P01", "fields": {"category": category}}]},
+        json={"base_revision": 1, "projects": [source_project]},
     ).status_code == 200
     assert source_client.put("/api/articles/SRC001/fields/P01.category", json={"field": category}).status_code == 200
     assert source_client.put(
@@ -330,7 +364,8 @@ def test_api_actions_leave_configured_source_repository_hashes_unchanged(
     assert source_client.post(
         "/api/articles/SRC001/adjudication", json={"field_path": "P01.category", "field": category}
     ).status_code == 200
-    assert source_client.post("/api/articles/SRC001/confirm").status_code == 200
+    confirmation = source_client.post("/api/articles/SRC001/confirm")
+    assert confirmation.status_code == 200, confirmation.text
     assert source_client.get("/api/articles/SRC001/audit").status_code == 200
 
     assert repository.snapshot_hashes() == before

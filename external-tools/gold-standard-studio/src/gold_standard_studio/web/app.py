@@ -10,7 +10,7 @@ from fastapi import FastAPI, Header, Path, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from gold_standard_studio.evidence import (
     FieldConflict,
@@ -21,11 +21,24 @@ from gold_standard_studio.evidence import (
     structural_conflicts,
 )
 from gold_standard_studio.review_store import AuditEntry, QueueItem, ReviewedRecordError, ReviewStore
-from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.schemas import (
+    ArticleGoldStatus,
+    CandidateBundle,
+    GoldEntity,
+    GoldField,
+    GoldProject,
+    RichGoldRecord,
+)
 from gold_standard_studio.sources import SourceRepository
 
 
-class QueueItemResponse(BaseModel):
+class StrictApiModel(BaseModel):
+    """Reject undeclared request and response properties at the local HTTP boundary."""
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class QueueItemResponse(StrictApiModel):
     """Serialize one deterministic queue row without exposing SQLite implementation details."""
 
     sample_id: str
@@ -33,13 +46,13 @@ class QueueItemResponse(BaseModel):
     difficulty_score: float
 
 
-class QueueResponse(BaseModel):
+class QueueResponse(StrictApiModel):
     """Serialize the current outstanding review queue."""
 
     items: list[QueueItemResponse]
 
 
-class ConflictResponse(BaseModel):
+class ConflictResponse(StrictApiModel):
     """Serialize one read-only candidate disagreement for review presentation."""
 
     field_name: str
@@ -50,7 +63,7 @@ class ConflictResponse(BaseModel):
     error_sources: list[str]
 
 
-class ProjectFieldCandidateResponse(BaseModel):
+class ProjectFieldCandidateResponse(StrictApiModel):
     """Serialize one server-aligned source field without exposing unsafe positional assumptions to the UI."""
 
     source_name: str
@@ -61,14 +74,14 @@ class ProjectFieldCandidateResponse(BaseModel):
     evidence_warning: bool
 
 
-class StructureGateResponse(BaseModel):
+class StructureGateResponse(StrictApiModel):
     """Describe whether persisted candidate structure conflict resolution is required before confirmation."""
 
     required: bool
     resolved: bool
 
 
-class ArticleResponse(BaseModel):
+class ArticleResponse(StrictApiModel):
     """Serialize an article draft and its review-only context in one stable response shape."""
 
     article: RichGoldRecord
@@ -81,14 +94,14 @@ class ArticleResponse(BaseModel):
     structure_gate: StructureGateResponse
 
 
-class StructureRequest(BaseModel):
+class StructureRequest(StrictApiModel):
     """Require an entire ordered project structure and the revision it was based on."""
 
     base_revision: int
     projects: list[GoldProject]
 
 
-class FieldDecisionRequest(BaseModel):
+class FieldDecisionRequest(StrictApiModel):
     """Carry one validated replacement formal field for an existing project field path."""
 
     field: GoldField
@@ -100,14 +113,26 @@ class AdjudicationRequest(FieldDecisionRequest):
     field_path: str = Field(min_length=3, max_length=160)
 
 
-class StartResponse(BaseModel):
+class ArticleStatusRequest(StrictApiModel):
+    """Carry one explicit human article gold-status decision."""
+
+    article_status: ArticleGoldStatus
+
+
+class EntityDecisionRequest(StrictApiModel):
+    """Carry the complete reviewed Chinese-entity, role, and evidence list for one project."""
+
+    entities: list[GoldEntity]
+
+
+class StartResponse(StrictApiModel):
     """Acknowledge a durable review-session start event."""
 
     sample_id: str
     actor: str
 
 
-class AuditEntryResponse(BaseModel):
+class AuditEntryResponse(StrictApiModel):
     """Serialize append-only audit data including complete before-and-after payloads."""
 
     id: int
@@ -122,7 +147,7 @@ class AuditEntryResponse(BaseModel):
     created_at: str
 
 
-class AuditResponse(BaseModel):
+class AuditResponse(StrictApiModel):
     """Serialize every audit event for one explicitly addressed article."""
 
     items: list[AuditEntryResponse]
@@ -219,10 +244,39 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
         store.save_field_decision(sample_id, field_path, payload.field, actor=_local_actor(actor_header))
         return _article_response(store, sample_id)
 
+    @app.put("/api/articles/{sample_id}/status", response_model=ArticleResponse)
+    def replace_article_status(
+        payload: ArticleStatusRequest, sample_id: str, actor_header: LocalActorHeader = None
+    ) -> ArticleResponse:
+        """Persist one audited human article gold-status decision independently of workflow state."""
+        store.save_article_status(sample_id, payload.article_status, actor=_local_actor(actor_header))
+        return _article_response(store, sample_id)
+
+    @app.put("/api/articles/{sample_id}/projects/{project_id}/entities", response_model=ArticleResponse)
+    def replace_entities(
+        payload: EntityDecisionRequest,
+        sample_id: str,
+        project_id: str,
+        actor_header: LocalActorHeader = None,
+    ) -> ArticleResponse:
+        """Persist reviewed Chinese entity names, roles, and their evidence for one stable project."""
+        store.save_entities(
+            sample_id, project_id, payload.entities, actor=_local_actor(actor_header)
+        )
+        return _article_response(store, sample_id)
+
     @app.post("/api/articles/{sample_id}/confirm", response_model=ArticleResponse)
     def confirm_article(sample_id: str, actor_header: LocalActorHeader = None) -> ArticleResponse:
         """Confirm only a draft whose fields have evidence and no pending adjudication."""
         store.confirm_article(sample_id, actor=_local_actor(actor_header))
+        return _article_response(store, sample_id)
+
+    @app.post("/api/articles/{sample_id}/confirm-negative", response_model=ArticleResponse)
+    def confirm_negative(
+        payload: ArticleStatusRequest, sample_id: str, actor_header: LocalActorHeader = None
+    ) -> ArticleResponse:
+        """Set and confirm one explicit negative gold status in a single audited server transaction."""
+        store.confirm_negative(sample_id, payload.article_status, actor=_local_actor(actor_header))
         return _article_response(store, sample_id)
 
     @app.post("/api/articles/{sample_id}/adjudication", response_model=ArticleResponse)
@@ -253,13 +307,10 @@ def _page_article_context(
 ) -> dict[str, Any]:
     """Return source text for display only when the injected read-only repository can resolve it."""
     empty_context = {"title": "", "content": "", "publish_date": "", "source_link": "", "source_link_safe": False}
-    if source_repository is None:
-        return empty_context
     try:
-        article = store.get_article(sample_id)
-        if not article.source_link:
+        snapshot = store.get_article_snapshot(sample_id)
+        if snapshot is None:
             return empty_context
-        snapshot = source_repository.load_article(article.source_link)
     except (KeyError, ValueError):
         return empty_context
     return {

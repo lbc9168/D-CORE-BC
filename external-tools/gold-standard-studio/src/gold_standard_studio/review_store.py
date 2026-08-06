@@ -11,13 +11,24 @@ import sqlite3
 from typing import Any, Iterator, Sequence
 from uuid import uuid4
 
+from gold_standard_studio.config import assert_mutable_paths_isolated
 from gold_standard_studio.evidence import structural_conflicts
-from gold_standard_studio.field_registry import FIELD_REGISTRY
-from gold_standard_studio.schemas import CandidateBundle, DifficultyScore, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.field_registry import FIELD_REGISTRY, validate_entity_role, validate_field_value
+from gold_standard_studio.schemas import (
+    ArticleGoldStatus,
+    CandidateBundle,
+    DifficultyScore,
+    GoldEntity,
+    GoldField,
+    GoldProject,
+    RichGoldRecord,
+)
+from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
 
 _TABLES = (
     "samples",
+    "article_snapshots",
     "article_drafts",
     "candidate_bundles",
     "sample_scoring",
@@ -27,6 +38,8 @@ _TABLES = (
     "review_sessions",
     "studio_meta",
 )
+_SCHEMA_VERSION = 3
+_PUBLISHABLE_ARTICLE_STATUSES = {"valid", "no_chinese", "irrelevant", "chinese_unnamed"}
 
 
 class ReviewedRecordError(ValueError):
@@ -82,86 +95,74 @@ class SampleItem:
 class ReviewStore:
     """Provide transactional SQLite persistence for isolated Studio human-review workflows."""
 
-    def __init__(self, path: str | Path) -> None:
-        """Remember the explicit review-database path without creating or mutating it yet."""
+    def __init__(self, path: str | Path, *, source_paths: Sequence[str | Path] = ()) -> None:
+        """Remember the review path and immutable sources without creating or mutating anything yet."""
         self.path = Path(path)
+        self._source_paths = tuple(Path(source) for source in source_paths)
+
+    @property
+    def schema_version(self) -> int:
+        """Expose the latest supported ordered review schema version for diagnostics and migrations."""
+        return _SCHEMA_VERSION
+
+    @property
+    def source_paths(self) -> tuple[Path, ...]:
+        """Expose immutable source identities for publisher, backup, and report path rechecks."""
+        return self._source_paths
 
     def initialize(self) -> None:
-        """Create every review table and metadata marker idempotently before store use."""
+        """Create or transactionally migrate the review schema in order while rejecting future versions."""
+        self._assert_review_path_isolated()
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        with self._connect() as conn:
-            conn.executescript(
-                """
-                CREATE TABLE IF NOT EXISTS samples (
-                    sample_id TEXT PRIMARY KEY,
-                    article_sha256 TEXT NOT NULL,
-                    source_link TEXT,
-                    created_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS article_drafts (
-                    sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id),
-                    payload_json TEXT NOT NULL,
-                    review_status TEXT NOT NULL,
-                    difficulty_score REAL NOT NULL,
-                    updated_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS candidate_bundles (
-                    sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id),
-                    payload_json TEXT NOT NULL,
-                    updated_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS sample_scoring (
-                    sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id),
-                    difficulty_score REAL NOT NULL,
-                    reason_codes_json TEXT NOT NULL,
-                    risk_tags_json TEXT NOT NULL,
-                    updated_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS field_decisions (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    sample_id TEXT NOT NULL REFERENCES samples(sample_id),
-                    field_path TEXT NOT NULL,
-                    field_json TEXT NOT NULL,
-                    actor TEXT NOT NULL,
-                    created_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS structure_revisions (
-                    sample_id TEXT NOT NULL REFERENCES samples(sample_id),
-                    revision INTEGER NOT NULL,
-                    projects_json TEXT NOT NULL,
-                    actor TEXT NOT NULL,
-                    created_at TEXT NOT NULL,
-                    PRIMARY KEY (sample_id, revision)
-                );
-                CREATE TABLE IF NOT EXISTS audit_log (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    sample_id TEXT NOT NULL REFERENCES samples(sample_id),
-                    action TEXT NOT NULL,
-                    field_path TEXT,
-                    old_json TEXT,
-                    new_json TEXT,
-                    actor TEXT NOT NULL,
-                    created_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS review_sessions (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    sample_id TEXT NOT NULL REFERENCES samples(sample_id),
-                    actor TEXT NOT NULL,
-                    started_at TEXT NOT NULL
-                );
-                CREATE TABLE IF NOT EXISTS studio_meta (
-                    key TEXT PRIMARY KEY,
-                    value TEXT NOT NULL
-                );
-                """
-            )
-            conn.execute(
-                "INSERT OR IGNORE INTO studio_meta(key, value) VALUES (?, ?)",
-                ("schema_version", "1"),
-            )
+        conn = sqlite3.connect(self.path, timeout=30)
+        conn.row_factory = sqlite3.Row
+        conn.execute("PRAGMA foreign_keys = ON")
+        conn.execute("PRAGMA busy_timeout = 30000")
+        try:
+            conn.execute("BEGIN IMMEDIATE")
+            tables = {
+                row[0]
+                for row in conn.execute(
+                    "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+                )
+            }
+            if not tables:
+                for statement in _V1_SCHEMA:
+                    conn.execute(statement)
+                conn.execute("INSERT INTO studio_meta(key, value) VALUES ('schema_version', '1')")
+                version = 1
+            else:
+                if "studio_meta" not in tables:
+                    raise RuntimeError("review database has tables but no schema version metadata")
+                row = conn.execute("SELECT value FROM studio_meta WHERE key='schema_version'").fetchone()
+                if row is None:
+                    raise RuntimeError("review database is missing schema version metadata")
+                try:
+                    version = int(row["value"])
+                except (TypeError, ValueError) as error:
+                    raise RuntimeError("review database has an invalid schema version") from error
+            if version > _SCHEMA_VERSION:
+                raise RuntimeError(
+                    f"future review schema version {version} is unsupported; latest is {_SCHEMA_VERSION}"
+                )
+            while version < _SCHEMA_VERSION:
+                migration = _MIGRATIONS.get(version)
+                if migration is None:
+                    raise RuntimeError(f"no ordered migration exists from review schema version {version}")
+                migration(conn)
+                version += 1
+                conn.execute("UPDATE studio_meta SET value=? WHERE key='schema_version'", (str(version),))
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
 
-    def seed_article(self, article: RichGoldRecord) -> None:
-        """Insert one immutable starting draft or verify that a repeated seed is byte-equivalent."""
+    def seed_article(self, article: RichGoldRecord, *, snapshot: ArticleSnapshot | None = None) -> None:
+        """Atomically seed one immutable starting draft and its optional canonical article snapshot."""
+        if snapshot is not None:
+            _validate_snapshot_identity(article, snapshot)
         payload = _canonical_json(article)
         now = _utc_now()
         with self._immediate_transaction() as conn:
@@ -171,6 +172,8 @@ class ReviewStore:
             if current is not None:
                 if current["payload_json"] != payload:
                     raise ValueError(f"sample '{article.sample_id}' is already seeded with a different draft")
+                if snapshot is not None:
+                    self._insert_or_verify_snapshot(conn, article.sample_id, snapshot, now)
                 return
             conn.execute(
                 "INSERT INTO samples(sample_id, article_sha256, source_link, created_at) VALUES (?, ?, ?, ?)",
@@ -178,21 +181,65 @@ class ReviewStore:
             )
             conn.execute(
                 """INSERT INTO article_drafts
-                   (sample_id, payload_json, review_status, difficulty_score, updated_at)
-                   VALUES (?, ?, ?, ?, ?)""",
+                   (sample_id, payload_json, review_status, article_status, difficulty_score, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
                 (
                     article.sample_id,
                     payload,
                     article.review_status,
+                    article.article_status,
                     _difficulty_score(article),
                     now,
                 ),
             )
+            if snapshot is not None:
+                self._insert_or_verify_snapshot(conn, article.sample_id, snapshot, now)
             conn.execute(
                 """INSERT INTO structure_revisions(sample_id, revision, projects_json, actor, created_at)
                    VALUES (?, ?, ?, ?, ?)""",
                 (article.sample_id, 1, _canonical_json(article.projects), "system", now),
             )
+
+    def get_article_snapshot(self, sample_id: str) -> ArticleSnapshot | None:
+        """Return the canonical article snapshot stored atomically with review state, when available."""
+        with self._connect() as conn:
+            article = self._load_article(conn, sample_id)
+            row = conn.execute(
+                """SELECT title, content, publish_date, article_sha256
+                   FROM article_snapshots WHERE sample_id = ?""",
+                (sample_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        return ArticleSnapshot(
+            source_link=article.source_link or "",
+            title=row["title"],
+            content=row["content"],
+            publish_date=row["publish_date"],
+            article_sha256=row["article_sha256"],
+            raw_values={},
+            display_values={},
+        )
+
+    def _insert_or_verify_snapshot(
+        self, conn: sqlite3.Connection, sample_id: str, snapshot: ArticleSnapshot, now: str
+    ) -> None:
+        """Insert one immutable snapshot or reject a repeated seed whose canonical bytes differ."""
+        current = conn.execute(
+            "SELECT title, content, publish_date, article_sha256 FROM article_snapshots WHERE sample_id=?",
+            (sample_id,),
+        ).fetchone()
+        values = (snapshot.title, snapshot.content, snapshot.publish_date, snapshot.article_sha256)
+        if current is not None:
+            if tuple(current) != values:
+                raise ValueError(f"sample '{sample_id}' already has a different immutable article snapshot")
+            return
+        conn.execute(
+            """INSERT INTO article_snapshots
+               (sample_id, title, content, publish_date, article_sha256, created_at)
+               VALUES (?, ?, ?, ?, ?, ?)""",
+            (sample_id, *values, now),
+        )
 
     def get_article(self, sample_id: str) -> RichGoldRecord:
         """Load and validate the latest canonical Pydantic draft for one sample."""
@@ -331,6 +378,7 @@ class ReviewStore:
             project = _find_project(article, project_id)
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
+            validate_field_value(field_name, field.state, field.value)
             old = project.fields[field_name]
             if old.state == "needs_adjudication" and field.state != "needs_adjudication":
                 raise ValueError(f"field resolution requires adjudication: {field_path}")
@@ -342,6 +390,63 @@ class ReviewStore:
                 (sample_id, field_path, _canonical_json(field), actor, now),
             )
             self._append_audit(conn, sample_id, "field_decision", field_path, old, field, actor, now)
+            return article
+
+    def save_article_status(
+        self, sample_id: str, article_status: ArticleGoldStatus, *, actor: str
+    ) -> RichGoldRecord:
+        """Persist an explicit human article gold-status decision separately from workflow status."""
+        _require_actor(actor)
+        if article_status not in _PUBLISHABLE_ARTICLE_STATUSES:
+            raise ValueError("article gold status must be an explicit publishable value")
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
+            if article_status != "valid" and article.projects:
+                raise ValueError("negative article status requires an empty project structure")
+            old = article.article_status
+            article.article_status = article_status
+            self._save_article(conn, article, now)
+            self._append_audit(
+                conn, sample_id, "article_status_decision", "article_status", old, article_status, actor, now
+            )
+            return article
+
+    def save_entities(
+        self,
+        sample_id: str,
+        project_id: str,
+        entities: Sequence[GoldEntity | dict[str, Any]],
+        *,
+        actor: str,
+    ) -> RichGoldRecord:
+        """Replace one project's Chinese entities, roles, and evidence in one audited human decision."""
+        _require_actor(actor)
+        normalized = [
+            entity if isinstance(entity, GoldEntity) else GoldEntity.model_validate(entity)
+            for entity in entities
+        ]
+        for entity in normalized:
+            validate_entity_role(entity.role)
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
+            project = _find_project(article, project_id)
+            old = list(project.entities)
+            project.entities = normalized
+            self._save_article(conn, article, now)
+            self._append_audit(
+                conn,
+                sample_id,
+                "entity_decision",
+                f"{project_id}.entities",
+                old,
+                normalized,
+                actor,
+                now,
+            )
             return article
 
     def adjudicate_field(
@@ -359,6 +464,7 @@ class ReviewStore:
             project = _find_project(article, project_id)
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
+            validate_field_value(field_name, field.state, field.value)
             old = project.fields[field_name]
             if old.state != "needs_adjudication":
                 raise ValueError(f"field is not awaiting adjudication: {field_path}")
@@ -468,7 +574,9 @@ class ReviewStore:
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
             self._assert_structure_gate_resolved(conn, sample_id)
-            _assert_confirmation_guards(article)
+            self._assert_article_status_audited(conn, sample_id, article.article_status)
+            snapshot = self._load_article_snapshot(conn, sample_id, article)
+            _assert_confirmation_guards(article, snapshot)
             previous_status = article.review_status
             article.article_review_status = "reviewed"
             article.assert_publishable()
@@ -479,6 +587,50 @@ class ReviewStore:
                 "article_confirmed",
                 "article_review_status",
                 previous_status,
+                article.review_status,
+                actor,
+                now,
+            )
+            return article
+
+    def confirm_negative(
+        self, sample_id: str, article_status: ArticleGoldStatus, *, actor: str
+    ) -> RichGoldRecord:
+        """Atomically set one explicit negative gold status and confirm it only through all server gates."""
+        _require_actor(actor)
+        if article_status not in {"no_chinese", "irrelevant", "chinese_unnamed"}:
+            raise ValueError("negative confirmation requires no_chinese, irrelevant, or chinese_unnamed")
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
+            self._assert_structure_gate_resolved(conn, sample_id)
+            if article.projects:
+                raise ValueError("negative article confirmation requires an empty project structure")
+            snapshot = self._load_article_snapshot(conn, sample_id, article)
+            _validate_snapshot_identity(article, snapshot)
+            previous_gold_status = article.article_status
+            article.article_status = article_status
+            self._append_audit(
+                conn,
+                sample_id,
+                "article_status_decision",
+                "article_status",
+                previous_gold_status,
+                article_status,
+                actor,
+                now,
+            )
+            previous_review_status = article.review_status
+            article.article_review_status = "reviewed"
+            article.assert_publishable()
+            self._save_article(conn, article, now)
+            self._append_audit(
+                conn,
+                sample_id,
+                "article_confirmed",
+                "article_review_status",
+                previous_review_status,
                 article.review_status,
                 actor,
                 now,
@@ -562,6 +714,8 @@ class ReviewStore:
     def backup(self, destination: str | Path | None = None) -> Path:
         """Create a SQLite-native snapshot and reject it unless integrity, counts, and audit tail match."""
         target = Path(destination) if destination is not None else self._next_backup_path()
+        if self._source_paths:
+            assert_mutable_paths_isolated(self._source_paths, [target, target.parent])
         if target.resolve() == self.path.resolve():
             raise ValueError("backup destination must differ from the review database")
         if target.exists():
@@ -599,11 +753,13 @@ class ReviewStore:
     @contextmanager
     def _connect(self) -> Iterator[sqlite3.Connection]:
         """Yield and close a short-lived connection configured for foreign keys and contention tolerance."""
+        self._assert_review_path_isolated()
         conn = sqlite3.connect(self.path, timeout=30)
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         conn.execute("PRAGMA busy_timeout = 30000")
         try:
+            _assert_not_future_schema(conn)
             yield conn
         except Exception:
             conn.rollback()
@@ -635,19 +791,49 @@ class ReviewStore:
             raise ValueError(f"unknown sample '{sample_id}'")
         return RichGoldRecord.model_validate_json(row["payload_json"])
 
+    def _load_article_snapshot(
+        self, conn: sqlite3.Connection, sample_id: str, article: RichGoldRecord
+    ) -> ArticleSnapshot:
+        """Load the required immutable source snapshot within the caller's confirmation transaction."""
+        row = conn.execute(
+            """SELECT title, content, publish_date, article_sha256
+               FROM article_snapshots WHERE sample_id = ?""",
+            (sample_id,),
+        ).fetchone()
+        if row is None:
+            raise ValueError("immutable article snapshot is required for confirmation")
+        snapshot = ArticleSnapshot(
+            source_link=article.source_link or "",
+            title=row["title"],
+            content=row["content"],
+            publish_date=row["publish_date"],
+            article_sha256=row["article_sha256"],
+            raw_values={},
+            display_values={},
+        )
+        _validate_snapshot_identity(article, snapshot)
+        return snapshot
+
     def _save_article(self, conn: sqlite3.Connection, article: RichGoldRecord, now: str) -> None:
         """Write a complete canonical Pydantic draft while keeping indexed queue fields synchronized."""
         conn.execute(
-            """UPDATE article_drafts SET payload_json = ?, review_status = ?, difficulty_score = ?, updated_at = ?
+            """UPDATE article_drafts SET payload_json = ?, review_status = ?, article_status = ?,
+               difficulty_score = ?, updated_at = ?
                WHERE sample_id = ?""",
             (
                 _canonical_json(article),
                 article.review_status,
+                article.article_status,
                 _difficulty_score(article),
                 now,
                 article.sample_id,
             ),
         )
+
+    def _assert_review_path_isolated(self) -> None:
+        """Recheck the review DB filesystem identity before every open when immutable sources are known."""
+        if self._source_paths:
+            assert_mutable_paths_isolated(self._source_paths, [self.path])
 
     def _append_audit(
         self,
@@ -703,6 +889,19 @@ class ReviewStore:
         required, resolved = self._structure_gate_status(conn, sample_id)
         if required and not resolved:
             raise ValueError("unresolved structure conflicts prevent article confirmation")
+
+    def _assert_article_status_audited(
+        self, conn: sqlite3.Connection, sample_id: str, article_status: str
+    ) -> None:
+        """Require the current authoritative article status to come from an explicit audited human action."""
+        row = conn.execute(
+            """SELECT new_json FROM audit_log
+               WHERE sample_id=? AND action='article_status_decision'
+               ORDER BY id DESC LIMIT 1""",
+            (sample_id,),
+        ).fetchone()
+        if row is None or json.loads(row["new_json"]) != article_status:
+            raise ValueError("article gold status requires an audited human decision")
 
     def _next_backup_path(self) -> Path:
         """Choose a new timestamped backup path without overwriting any prior Studio snapshot."""
@@ -820,9 +1019,27 @@ def _normalize_structure_projects(
     for project in projects:
         payload = project.model_dump(mode="json") if isinstance(project, GoldProject) else dict(project)
         requested_id = payload.get("gold_project_id")
-        if not requested_id or (requested_id in historical_ids and requested_id not in current_ids):
+        if (
+            not requested_id
+            or str(requested_id).startswith("NEW")
+            or (requested_id in historical_ids and requested_id not in current_ids)
+        ):
             payload["gold_project_id"] = _next_project_id(reserved_ids)
         reserved_ids.add(payload["gold_project_id"])
+        supplied_fields = payload.get("fields") or {}
+        unknown = sorted(set(supplied_fields).difference(FIELD_REGISTRY))
+        if unknown:
+            raise ValueError(f"project contains unknown registry fields: {unknown}")
+        payload["fields"] = {
+            name: supplied_fields.get(
+                name,
+                GoldField(
+                    state="unreviewed",
+                    evidence_required=specification.evidence_required,
+                ).model_dump(mode="json"),
+            )
+            for name, specification in FIELD_REGISTRY.items()
+        }
         normalized.append(GoldProject.model_validate(payload))
     _assert_unique_project_ids(normalized)
     return normalized
@@ -847,20 +1064,42 @@ def _has_unresolved_conflicts(article: RichGoldRecord) -> bool:
     )
 
 
-def _assert_confirmation_guards(article: RichGoldRecord) -> None:
-    """Reject every non-publishable current draft condition while the caller retains the write transaction."""
+def _assert_confirmation_guards(article: RichGoldRecord, snapshot: ArticleSnapshot) -> None:
+    """Reject incomplete status, structure, typed values, entities, and nonexact evidence inside confirmation."""
     _assert_draft_mutable(article)
     if _has_unresolved_conflicts(article):
         raise ValueError("unresolved conflicts prevent article confirmation")
+    if article.article_status not in _PUBLISHABLE_ARTICLE_STATUSES:
+        raise ValueError("article gold status must be explicitly decided before confirmation")
+    if article.article_status == "valid" and not article.projects:
+        raise ValueError("valid article requires at least one project")
+    if article.article_status != "valid" and article.projects:
+        raise ValueError("negative article status requires an empty project structure")
+    _validate_snapshot_identity(article, snapshot)
     for project in article.projects:
+        missing = sorted(set(FIELD_REGISTRY).difference(project.fields))
+        extra = sorted(set(project.fields).difference(FIELD_REGISTRY))
+        if missing or extra:
+            raise ValueError(f"project field registry mismatch: missing={missing}; extra={extra}")
         for field_name, field in project.fields.items():
-            specification = FIELD_REGISTRY.get(field_name)
-            if specification is None or not specification.evidence_required or field.state != "present":
-                continue
-            if not field.evidence:
+            specification = FIELD_REGISTRY[field_name]
+            if field.state in {"unreviewed", "needs_adjudication"}:
+                raise ValueError(f"incomplete field state: {project.gold_project_id}.{field_name}")
+            validate_field_value(field_name, field.state, field.value)
+            if specification.evidence_required and field.state == "present" and not field.evidence:
                 raise ValueError(f"missing required evidence: {project.gold_project_id}.{field_name}")
-            if any(evidence.article_sha256 != article.article_sha256 for evidence in field.evidence):
-                raise ValueError(f"evidence article hash mismatch: {project.gold_project_id}.{field_name}")
+            for evidence in field.evidence:
+                _validate_evidence_span(
+                    evidence, snapshot, f"{project.gold_project_id}.{field_name}"
+                )
+        for index, entity in enumerate(project.entities):
+            validate_entity_role(entity.role)
+            if not entity.evidence:
+                raise ValueError(f"missing entity/role evidence: {project.gold_project_id}.entities[{index}]")
+            for evidence in entity.evidence:
+                _validate_evidence_span(
+                    evidence, snapshot, f"{project.gold_project_id}.entities[{index}]"
+                )
 
 
 def _assert_draft_mutable(article: RichGoldRecord) -> None:
@@ -906,3 +1145,136 @@ def _audit_display_value(payload: Any) -> Any:
     if hasattr(payload, "model_dump"):
         return payload.model_dump(mode="json")
     return payload
+
+
+def _validate_snapshot_identity(article: RichGoldRecord, snapshot: ArticleSnapshot) -> None:
+    """Require one internally canonical snapshot whose hash and source identity match the seeded draft."""
+    canonical_hash = article_sha256(snapshot.title, snapshot.content, snapshot.publish_date)
+    if snapshot.article_sha256 != canonical_hash:
+        raise ValueError("immutable article snapshot canonical hash is invalid")
+    if article.article_sha256 != snapshot.article_sha256:
+        raise ValueError("immutable article snapshot hash does not match the review draft")
+    if article.source_link and snapshot.source_link and article.source_link != snapshot.source_link:
+        raise ValueError("immutable article snapshot source link does not match the review draft")
+
+
+def _validate_evidence_span(evidence: Any, snapshot: ArticleSnapshot, field_path: str) -> None:
+    """Validate canonical hash, bounds, and exact quote text for one field, entity, or role evidence span."""
+    if evidence.article_sha256 != snapshot.article_sha256:
+        raise ValueError(f"evidence article hash mismatch: {field_path}")
+    if evidence.start < 0 or evidence.end > len(snapshot.content) or evidence.end <= evidence.start:
+        raise ValueError(f"evidence bounds are invalid: {field_path}")
+    if snapshot.content[evidence.start : evidence.end] != evidence.quote:
+        raise ValueError(f"evidence exact quote mismatch: {field_path}")
+
+
+def _assert_not_future_schema(conn: sqlite3.Connection) -> None:
+    """Fail closed whenever an opened review database declares a schema newer than this binary supports."""
+    table = conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name='studio_meta'"
+    ).fetchone()
+    if table is None:
+        return
+    row = conn.execute("SELECT value FROM studio_meta WHERE key='schema_version'").fetchone()
+    if row is None:
+        return
+    try:
+        version = int(row[0])
+    except (TypeError, ValueError) as error:
+        raise RuntimeError("review database has an invalid schema version") from error
+    if version > _SCHEMA_VERSION:
+        raise RuntimeError(f"future review schema version {version} is unsupported; latest is {_SCHEMA_VERSION}")
+
+
+def _migrate_v1_to_v2(conn: sqlite3.Connection) -> None:
+    """Add immutable article snapshots without synthesizing evidence from mutable external sources."""
+    conn.execute(
+        """CREATE TABLE IF NOT EXISTS article_snapshots (
+            sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id),
+            title TEXT NOT NULL,
+            content TEXT NOT NULL,
+            publish_date TEXT NOT NULL,
+            article_sha256 TEXT NOT NULL,
+            created_at TEXT NOT NULL
+        )"""
+    )
+
+
+def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
+    """Add indexed article gold status and relocate legacy sampling provenance into the explicit rich contract."""
+    columns = {row[1] for row in conn.execute("PRAGMA table_info(article_drafts)")}
+    if "article_status" not in columns:
+        conn.execute(
+            "ALTER TABLE article_drafts ADD COLUMN article_status TEXT NOT NULL DEFAULT 'unreviewed'"
+        )
+    rows = conn.execute(
+        "SELECT sample_id, payload_json, review_status FROM article_drafts ORDER BY sample_id"
+    ).fetchall()
+    for row in rows:
+        payload = json.loads(row["payload_json"])
+        audit_metadata = payload.get("audit_metadata")
+        audit_metadata = audit_metadata if isinstance(audit_metadata, dict) else {}
+        declared = audit_metadata.get("eval_status")
+        if declared not in _PUBLISHABLE_ARTICLE_STATUSES:
+            declared = None
+        article_status = payload.get("article_status")
+        if article_status not in _PUBLISHABLE_ARTICLE_STATUSES:
+            article_status = declared
+        if article_status is None and row["review_status"] == "reviewed":
+            article_status = "valid" if payload.get("projects") else "irrelevant"
+        payload["article_status"] = article_status or "unreviewed"
+        legacy_sampling = audit_metadata.pop("sampling", None)
+        if payload.get("sampling_provenance") is None and isinstance(legacy_sampling, dict):
+            payload["sampling_provenance"] = {
+                "sampling_seed": legacy_sampling.get("seed", 0),
+                "inclusion_reasons": list(legacy_sampling.get("inclusion_reasons") or []),
+                "original_category_strata": list(legacy_sampling.get("category_tags") or []),
+                "risk_tags": list(payload.get("risk_tags") or []),
+                "negative_proxy": bool(legacy_sampling.get("negative_proxy", False)),
+            }
+        payload["audit_metadata"] = audit_metadata
+        encoded = json.dumps(
+            payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
+        )
+        conn.execute(
+            "UPDATE article_drafts SET payload_json=?, article_status=? WHERE sample_id=?",
+            (encoded, payload["article_status"], row["sample_id"]),
+        )
+
+
+_V1_SCHEMA = (
+    """CREATE TABLE samples (
+        sample_id TEXT PRIMARY KEY, article_sha256 TEXT NOT NULL, source_link TEXT, created_at TEXT NOT NULL
+    )""",
+    """CREATE TABLE article_drafts (
+        sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id), payload_json TEXT NOT NULL,
+        review_status TEXT NOT NULL, difficulty_score REAL NOT NULL, updated_at TEXT NOT NULL
+    )""",
+    """CREATE TABLE candidate_bundles (
+        sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id), payload_json TEXT NOT NULL, updated_at TEXT NOT NULL
+    )""",
+    """CREATE TABLE sample_scoring (
+        sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id), difficulty_score REAL NOT NULL,
+        reason_codes_json TEXT NOT NULL, risk_tags_json TEXT NOT NULL, updated_at TEXT NOT NULL
+    )""",
+    """CREATE TABLE field_decisions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, sample_id TEXT NOT NULL REFERENCES samples(sample_id),
+        field_path TEXT NOT NULL, field_json TEXT NOT NULL, actor TEXT NOT NULL, created_at TEXT NOT NULL
+    )""",
+    """CREATE TABLE structure_revisions (
+        sample_id TEXT NOT NULL REFERENCES samples(sample_id), revision INTEGER NOT NULL,
+        projects_json TEXT NOT NULL, actor TEXT NOT NULL, created_at TEXT NOT NULL,
+        PRIMARY KEY (sample_id, revision)
+    )""",
+    """CREATE TABLE audit_log (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, sample_id TEXT NOT NULL REFERENCES samples(sample_id),
+        action TEXT NOT NULL, field_path TEXT, old_json TEXT, new_json TEXT,
+        actor TEXT NOT NULL, created_at TEXT NOT NULL
+    )""",
+    """CREATE TABLE review_sessions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT, sample_id TEXT NOT NULL REFERENCES samples(sample_id),
+        actor TEXT NOT NULL, started_at TEXT NOT NULL
+    )""",
+    "CREATE TABLE studio_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)",
+)
+_MIGRATIONS = {1: _migrate_v1_to_v2, 2: _migrate_v2_to_v3}

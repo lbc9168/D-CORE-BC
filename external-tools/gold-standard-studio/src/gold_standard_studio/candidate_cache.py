@@ -8,8 +8,9 @@ import os
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Callable, Mapping
+from typing import Callable, Mapping, Sequence
 
+from gold_standard_studio.config import assert_mutable_paths_isolated
 from gold_standard_studio.schemas import CandidateValue
 from gold_standard_studio.sources import ArticleSnapshot
 
@@ -51,9 +52,10 @@ def cache_key(
 class CandidateCache:
     """Store one validated JSON candidate record per content-addressed key."""
 
-    def __init__(self, directory: Path) -> None:
+    def __init__(self, directory: Path, *, source_paths: Sequence[str | Path] = ()) -> None:
         """Configure the private cache directory without creating or reading source data."""
         self._directory = Path(directory)
+        self._source_paths = tuple(Path(path) for path in source_paths)
         self._on_invalid_read: Callable[[Path, bytes], None] | None = None
 
     def load(self, key: CandidateCacheKey) -> CandidateValue | None:
@@ -83,6 +85,8 @@ class CandidateCache:
 
     def store(self, key: CandidateCacheKey, candidate: CandidateValue) -> Path:
         """Atomically write one canonical candidate record using a process-unique temporary file."""
+        if self._source_paths:
+            assert_mutable_paths_isolated(self._source_paths, [self._directory, self._path_for(key)])
         self._directory.mkdir(parents=True, exist_ok=True)
         destination = self._path_for(key)
         temporary = destination.with_name(f".{destination.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")

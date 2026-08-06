@@ -21,14 +21,16 @@ from uuid import uuid4
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from gold_standard_studio.eval_contract import GoldRecord
-from gold_standard_studio.field_registry import FIELD_REGISTRY
+from gold_standard_studio.field_registry import FIELD_REGISTRY, validate_entity_role, validate_field_value
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import GoldEntity, GoldField, RichGoldRecord
+from gold_standard_studio.sources import article_sha256
 
 
 _VERSION_PATTERN = re.compile(r"v(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\Z")
-_ALLOWED_STATUSES = {"valid", "no_chinese", "irrelevant", "chinese_unnamed"}
-_GOLD_DRAFT_MUTATION_ACTIONS = {"field_decision", "adjudication", "structure_decision"}
+_GOLD_DRAFT_MUTATION_ACTIONS = {
+    "field_decision", "adjudication", "structure_decision", "article_status_decision", "entity_decision"
+}
 
 
 class PublishError(ValueError):
@@ -91,6 +93,10 @@ def publish_gold(store: ReviewStore, output_root: str | Path, version: str) -> P
     """Publish all reviewed records into one fsync-backed immutable release directory without mutating the store."""
     _validate_version(version)
     root = Path(output_root)
+    if store.source_paths:
+        from gold_standard_studio.config import assert_mutable_paths_isolated
+
+        assert_mutable_paths_isolated(store.source_paths, [root, root / version])
     if root.exists() and not root.is_dir():
         raise NotADirectoryError(f"output root is not a directory: {root}")
     root.mkdir(parents=True, exist_ok=True)
@@ -172,7 +178,13 @@ def _load_records(store: ReviewStore) -> list[_PublicationRecord]:
             conn.row_factory = sqlite3.Row
             conn.execute("BEGIN")
             rows = conn.execute(
-                "SELECT sample_id, payload_json, review_status FROM article_drafts ORDER BY sample_id"
+                """SELECT drafts.sample_id, drafts.payload_json, drafts.review_status,
+                          drafts.article_status AS indexed_article_status,
+                          snapshots.title, snapshots.content, snapshots.publish_date,
+                          snapshots.article_sha256 AS snapshot_sha256
+                   FROM article_drafts AS drafts
+                   LEFT JOIN article_snapshots AS snapshots USING(sample_id)
+                   ORDER BY drafts.sample_id"""
             ).fetchall()
             audits = conn.execute(
                 "SELECT id, sample_id, action, field_path, new_json, created_at FROM audit_log ORDER BY id"
@@ -188,22 +200,44 @@ def _load_records(store: ReviewStore) -> list[_PublicationRecord]:
     published: list[_PublicationRecord] = []
     for row in rows:
         record = RichGoldRecord.model_validate_json(row["payload_json"])
-        _assert_publishable(record, row["review_status"], audits_by_sample.get(record.sample_id, []))
+        _assert_publishable(
+            record,
+            row["review_status"],
+            row["indexed_article_status"],
+            audits_by_sample.get(record.sample_id, []),
+        )
+        _assert_snapshot_backed(record, row)
         published.append(
             _PublicationRecord(record=record, confirmation=_confirmation_proof(audits_by_sample[record.sample_id]))
         )
     return published
 
 
-def _assert_publishable(record: RichGoldRecord, indexed_status: str, audits: list[sqlite3.Row]) -> None:
+def _assert_publishable(
+    record: RichGoldRecord,
+    indexed_status: str,
+    indexed_article_status: str,
+    audits: list[sqlite3.Row],
+) -> None:
     """Require matching reviewed payload/index status, audited confirmation, and no later gold draft mutation."""
     if indexed_status != record.review_status:
         raise PublishError(f"record {record.sample_id} status mismatch between draft and index")
+    if indexed_article_status != record.article_status:
+        raise PublishError(f"record {record.sample_id} article gold status mismatch between draft and index")
     try:
         record.assert_publishable()
     except ValueError as error:
         raise PublishError(f"record {record.sample_id} is not publishable: {error}") from error
     confirmation = _confirmation_proof(audits)
+    status_decisions = [
+        audit
+        for audit in audits
+        if audit["action"] == "article_status_decision"
+        and audit["field_path"] == "article_status"
+        and audit["id"] < confirmation.audit_id
+    ]
+    if not status_decisions or json.loads(status_decisions[-1]["new_json"] or "null") != record.article_status:
+        raise PublishError(f"record {record.sample_id} has no matching audited article gold status decision")
     if any(
         audit["id"] > confirmation.audit_id and audit["action"] in _GOLD_DRAFT_MUTATION_ACTIONS
         for audit in audits
@@ -225,6 +259,49 @@ def _confirmation_proof(audits: list[sqlite3.Row]) -> _ConfirmationProof:
     return _ConfirmationProof(
         audit_id=int(audit["id"]), action=audit["action"], created_at=audit["created_at"], field_path=audit["field_path"]
     )
+
+
+def _assert_snapshot_backed(record: RichGoldRecord, row: sqlite3.Row) -> None:
+    """Revalidate canonical snapshot identity plus every field and entity evidence before publication."""
+    if row["snapshot_sha256"] is None:
+        raise PublishError(f"record {record.sample_id} has no immutable article snapshot")
+    canonical = article_sha256(row["title"], row["content"], row["publish_date"])
+    if canonical != row["snapshot_sha256"] or canonical != record.article_sha256:
+        raise PublishError(f"record {record.sample_id} immutable article snapshot hash mismatch")
+    for project in record.projects:
+        for field_name, field in project.fields.items():
+            try:
+                validate_field_value(field_name, field.state, field.value)
+            except ValueError as error:
+                raise PublishError(f"record {record.sample_id} invalid field {field_name}: {error}") from error
+            specification = FIELD_REGISTRY[field_name]
+            if field.state == "present" and specification.evidence_required and not field.evidence:
+                raise PublishError(f"record {record.sample_id} missing required evidence: {field_name}")
+            for evidence in field.evidence:
+                _assert_exact_evidence(record.sample_id, field_name, evidence, row["content"], canonical)
+        for index, entity in enumerate(project.entities):
+            try:
+                validate_entity_role(entity.role)
+            except ValueError as error:
+                raise PublishError(f"record {record.sample_id} invalid entity role: {error}") from error
+            if not entity.evidence:
+                raise PublishError(f"record {record.sample_id} missing entity/role evidence at index {index}")
+            for evidence in entity.evidence:
+                _assert_exact_evidence(
+                    record.sample_id, f"entities[{index}]", evidence, row["content"], canonical
+                )
+
+
+def _assert_exact_evidence(
+    sample_id: str, field_path: str, evidence: Any, content: str, canonical_hash: str
+) -> None:
+    """Reject stale hashes, invalid bounds, and nonexact quotes in a staged publication record."""
+    if evidence.article_sha256 != canonical_hash:
+        raise PublishError(f"record {sample_id} evidence hash mismatch: {field_path}")
+    if evidence.start < 0 or evidence.end > len(content) or evidence.end <= evidence.start:
+        raise PublishError(f"record {sample_id} evidence bounds invalid: {field_path}")
+    if content[evidence.start : evidence.end] != evidence.quote:
+        raise PublishError(f"record {sample_id} evidence quote mismatch: {field_path}")
 
 
 def _is_reviewed_json(value: str | None) -> bool:
@@ -271,6 +348,11 @@ def _project_record(record: RichGoldRecord) -> dict[str, Any]:
         "dataset_split": record.dataset_split,
         "risk_tags": sorted(set(record.risk_tags)),
         "difficulty": record.difficulty.model_dump(mode="json") if record.difficulty is not None else None,
+        "sampling_provenance": (
+            record.sampling_provenance.model_dump(mode="json")
+            if record.sampling_provenance is not None
+            else None
+        ),
     }
 
 
@@ -283,13 +365,10 @@ def _project_entities(entities: list[GoldEntity]) -> list[dict[str, Any]]:
 
 
 def _projection_status(record: RichGoldRecord) -> str:
-    """Derive an eval status from reviewed structure while honoring an explicit safe negative classification."""
-    declared = record.audit_metadata.get("eval_status")
-    if isinstance(declared, str) and declared in _ALLOWED_STATUSES:
-        if record.projects and declared != "valid":
-            raise PublishError(f"record {record.sample_id} has projects but non-valid eval status")
-        return declared
-    return "valid" if record.projects else "irrelevant"
+    """Project only the explicitly human-decided authoritative article gold status."""
+    if record.article_status == "unreviewed":
+        raise PublishError(f"record {record.sample_id} has no authoritative article gold status")
+    return record.article_status
 
 
 def _validate_jsonl_models(records: Iterable[dict[str, Any]], model: type[BaseModel]) -> None:

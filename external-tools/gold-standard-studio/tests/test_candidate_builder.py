@@ -402,4 +402,4 @@ def test_deterministic_runner_reuses_capacity_and_taxonomy_policy(article: Artic
     fields = candidate.projects[0].fields
     assert fields["capacity_mw"].value == 100.0
     assert fields["storage_energy_mwh"].value == 50.0
-    assert fields["proposed_category"].value == "光伏"
+    assert fields["category"].value == "光伏"

@@ -2,8 +2,6 @@
 
 from __future__ import annotations
 
-import hashlib
-
 import pytest
 
 from gold_standard_studio.evidence import (
@@ -14,11 +12,26 @@ from gold_standard_studio.evidence import (
     relocate_quote,
 )
 from gold_standard_studio.schemas import CandidateBundle, CandidateValue, EvidenceSpan, GoldField, GoldProject
+from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
 
 def _sha(text: str) -> str:
-    """Return the independently calculated content hash used by the evidence contract."""
-    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+    """Return the canonical title-content-date hash used by the evidence contract."""
+    return _snapshot(text).article_sha256
+
+
+def _snapshot(text: str) -> ArticleSnapshot:
+    """Build one immutable canonical snapshot around the supplied evidence text."""
+    title, publish_date = "证据文章", "2026-08-06"
+    return ArticleSnapshot(
+        source_link="https://example.test/evidence",
+        title=title,
+        content=text,
+        publish_date=publish_date,
+        article_sha256=article_sha256(title, text, publish_date),
+        raw_values={},
+        display_values={},
+    )
 
 
 def _project(identifier: str, **values: object) -> GoldProject:
@@ -33,7 +46,7 @@ def test_quote_relocation_recovers_a_shifted_offset():
     """Find a unique quote after source text growth invalidates an earlier offset."""
     text = "前文新增。建设100MW光伏电站，并配套20MW/40MWh储能。"
 
-    span = relocate_quote(text, "20MW/40MWh储能", expected_start=5, article_sha256=_sha(text))
+    span = relocate_quote(_snapshot(text), "20MW/40MWh储能", expected_start=5)
 
     assert text[span.start : span.end] == "20MW/40MWh储能"
     assert span.article_sha256 == _sha(text)
@@ -44,7 +57,7 @@ def test_ambiguous_quote_requires_review_instead_of_picking_first_match():
     text = "储能系统；储能系统"
 
     with pytest.raises(AmbiguousEvidenceError):
-        relocate_quote(text, "储能系统", expected_start=None, article_sha256=_sha(text))
+        relocate_quote(_snapshot(text), "储能系统", expected_start=None)
 
 
 def test_overlapping_quote_occurrences_are_ambiguous_too():
@@ -52,7 +65,7 @@ def test_overlapping_quote_occurrences_are_ambiguous_too():
     text = "aaa"
 
     with pytest.raises(AmbiguousEvidenceError):
-        relocate_quote(text, "aa", expected_start=None, article_sha256=_sha(text))
+        relocate_quote(_snapshot(text), "aa", expected_start=None)
 
 
 def test_hash_or_offset_drift_relocates_only_a_unique_quote():
@@ -67,7 +80,7 @@ def test_hash_or_offset_drift_relocates_only_a_unique_quote():
         article_sha256=_sha(old_text),
     )
 
-    relocated = locate_evidence(new_text, stale)
+    relocated = locate_evidence(_snapshot(new_text), stale)
 
     assert relocated.article_sha256 == _sha(new_text)
     assert relocated.start == new_text.index("100MW")
@@ -79,7 +92,7 @@ def test_missing_quote_is_an_explicit_blocking_evidence_error():
     text = "建设100MW光伏电站。"
 
     with pytest.raises(EvidenceNotFoundError):
-        relocate_quote(text, "不存在", expected_start=0, article_sha256=_sha(text))
+        relocate_quote(_snapshot(text), "不存在", expected_start=0)
 
 
 def test_compare_candidates_normalizes_field_types_and_preserves_zero():
@@ -109,7 +122,7 @@ def test_compare_candidates_reports_true_numeric_and_category_conflicts_with_err
         article_sha256="b" * 64,
         sources={
             "database": CandidateValue(source_name="database", projects=[_project("db-1", project_name="Alpha", category="风电", capacity_mw=100)]),
-            "deterministic": CandidateValue(source_name="deterministic", projects=[_project("det-1", project_name="Alpha", proposed_category="光伏", capacity_mw=106)]),
+            "deterministic": CandidateValue(source_name="deterministic", projects=[_project("det-1", project_name="Alpha", category="光伏", capacity_mw=106)]),
             "review": CandidateValue(source_name="review", status="error", error_code="timeout"),
         },
     )

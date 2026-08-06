@@ -18,7 +18,7 @@ from gold_standard_studio.difficulty import score_difficulty
 from gold_standard_studio.exporter import publish_gold
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.sampling import SampleCandidate, SamplingConfig, SamplingInfeasibleError, SelectedSample, build_manifest, select_sample
-from gold_standard_studio.schemas import CandidateValue, DifficultyScore, RichGoldRecord
+from gold_standard_studio.schemas import CandidateValue, DifficultyScore, RichGoldRecord, SamplingProvenance
 from gold_standard_studio.sources import ArticleSnapshot, SourceContractError, SourceRepository
 from gold_standard_studio.web.app import create_app
 
@@ -78,6 +78,7 @@ def _config_from_args(
 
 def _write_config(config: StudioConfig) -> Path:
     """Persist only explicit source paths in the Studio-owned data directory for later local commands."""
+    config.assert_mutable_paths(config.data_dir, config.data_dir / _CONFIG_NAME)
     config.data_dir.mkdir(parents=True, exist_ok=True)
     path = config.data_dir / _CONFIG_NAME
     payload = {
@@ -155,18 +156,25 @@ def _sample_records(selected: Iterable[SelectedSample], articles: dict[str, Arti
                 sample_id=row.sample_id, article_sha256=article.article_sha256, source_link=article.source_link,
                 risk_tags=list(row.risk_tags), dataset_split=row.dataset_split,
                 difficulty=DifficultyScore(score=0, reason_codes=[], risk_tags=list(row.risk_tags)),
-                audit_metadata={
-                    "sampling": {
-                        "seed": row.sampling_seed, "inclusion_reasons": list(row.inclusion_reasons),
-                        "category_tags": list(row.category_tags), "negative_proxy": row.is_negative,
-                    }
-                },
+                sampling_provenance=SamplingProvenance(
+                    sampling_seed=row.sampling_seed,
+                    inclusion_reasons=list(row.inclusion_reasons),
+                    original_category_strata=list(row.category_tags),
+                    risk_tags=list(row.risk_tags),
+                    negative_proxy=row.is_negative,
+                ),
             )
         )
     return records
 
 
-def _write_sample_manifest(data_dir: Path, selected: list[SelectedSample], source_hashes: dict[str, str]) -> Path:
+def _write_sample_manifest(
+    data_dir: Path,
+    selected: list[SelectedSample],
+    source_hashes: dict[str, str],
+    *,
+    source_paths: tuple[Path, ...] = (),
+) -> Path:
     """Write a local audit manifest that binds selected IDs to the immutable source logical hashes."""
     manifest = build_manifest(selected, source_hashes).model_dump(mode="json")
     manifest["selected"] = [
@@ -178,6 +186,10 @@ def _write_sample_manifest(data_dir: Path, selected: list[SelectedSample], sourc
         for row in selected
     ]
     path = data_dir / _MANIFEST_NAME
+    if source_paths:
+        from gold_standard_studio.config import assert_mutable_paths_isolated
+
+        assert_mutable_paths_isolated(source_paths, [data_dir, path])
     path.write_text(json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     return path
 
@@ -187,13 +199,20 @@ def _build_candidate_builder(repository: SourceRepository, data_dir: Path) -> Ca
     return CandidateBuilder(
         current_labels=repository.load_current_labels,
         production_runner=_DisabledExternalRunner("production"), review_runner=_DisabledExternalRunner("review"),
-        deterministic_runner=DeterministicCandidateRunner(), cache=CandidateCache(data_dir / "model_cache"),
+        deterministic_runner=DeterministicCandidateRunner(),
+        cache=CandidateCache(data_dir / "model_cache", source_paths=repository.source_paths),
     )
 
 
-def _load_store(data_dir: Path, *, require_existing: bool = True) -> ReviewStore:
+def _load_store(
+    data_dir: Path, *, config: StudioConfig | None = None, require_existing: bool = True
+) -> ReviewStore:
     """Open the Studio-owned review store while refusing commands that would invent review history unexpectedly."""
-    store = ReviewStore(data_dir / "review.db")
+    if config is not None:
+        config.assert_mutable_paths(data_dir, data_dir / "review.db")
+    store = ReviewStore(
+        data_dir / "review.db", source_paths=config.source_paths if config is not None else ()
+    )
     if require_existing and not store.path.is_file():
         raise typer.BadParameter(f"review database does not exist: {store.path}; run init then sample --apply")
     store.initialize()
@@ -215,7 +234,7 @@ def init(
     except (SourceContractError, sqlite3.DatabaseError) as error:
         raise typer.BadParameter(str(error)) from error
     _write_config(config)
-    _load_store(data_dir, require_existing=False)
+    _load_store(data_dir, config=config, require_existing=False)
     typer.echo(f"initialized data_dir={data_dir} (source databases remain read-only)")
 
 
@@ -260,10 +279,12 @@ def sample(
         if format != "json":
             typer.echo("dry-run: no review database, model cache, or source database was written")
         return
-    store = _load_store(data_dir, require_existing=False)
+    store = _load_store(data_dir, config=config, require_existing=False)
     for record in _sample_records(selected, articles):
-        store.seed_article(record)
-    manifest_path = _write_sample_manifest(data_dir, selected, source_before["logical_hashes"])
+        store.seed_article(record, snapshot=articles[record.sample_id])
+    manifest_path = _write_sample_manifest(
+        data_dir, selected, source_before["logical_hashes"], source_paths=config.source_paths
+    )
     if format == "json":
         evidence.update(
             {
@@ -291,7 +312,7 @@ def build_candidates(
     if all_samples == (sample_id is not None):
         raise typer.BadParameter("provide exactly one of --sample-id or --all")
     config = _config_from_args(None, None, None, data_dir)
-    store = _load_store(data_dir)
+    store = _load_store(data_dir, config=config)
     records = [store.get_article(sample_id)] if sample_id else [store.get_article(item.sample_id) for item in store.list_all_samples()]
     if resume:
         records = [record for record in records if not store.has_candidate_bundle(record.sample_id)]
@@ -321,7 +342,7 @@ def serve(
     if host not in {"127.0.0.1", "::1", "localhost"} and not allow_network:
         raise typer.BadParameter("non-loopback hosts require --allow-network")
     config = _config_from_args(None, None, None, data_dir)
-    store = _load_store(data_dir)
+    store = _load_store(data_dir, config=config)
     import uvicorn
 
     with SourceRepository(config) as repository:
@@ -338,7 +359,9 @@ def publish(
     """Publish only a fully human-confirmed immutable release to a previously unused semantic version directory."""
     if not version:
         raise typer.BadParameter("--version is required")
-    store = _load_store(data_dir)
+    config = _config_from_args(None, None, None, data_dir)
+    config.assert_mutable_paths(output, output / (version or "unversioned"))
+    store = _load_store(data_dir, config=config)
     paths = publish_gold(store, output, version)
     typer.echo(f"published version={version} rich_gold={paths.rich_gold} eval_projection={paths.eval_projection}")
 
@@ -378,8 +401,10 @@ def report(
     """Write one self-contained accessible HTML report from local review state without reading or writing sources."""
     if format != "html":
         raise typer.BadParameter("only --format html is supported")
-    store = _load_store(data_dir)
+    config = _config_from_args(None, None, None, data_dir)
+    store = _load_store(data_dir, config=config)
     output = out or data_dir / "reports" / "pilot.html"
+    config.assert_mutable_paths(output, output.parent)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(_render_report("Golden Standard Studio Pilot Report", _report_counts(store), store.table_row_counts()), encoding="utf-8")
     typer.echo(f"report={output}")

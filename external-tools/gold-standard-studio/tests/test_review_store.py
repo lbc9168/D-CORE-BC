@@ -7,6 +7,7 @@ import sqlite3
 import pytest
 
 from gold_standard_studio.review_store import ReviewStore, ReviewedRecordError
+from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.schemas import (
     CandidateBundle,
     CandidateValue,
@@ -16,9 +17,26 @@ from gold_standard_studio.schemas import (
     GoldProject,
     RichGoldRecord,
 )
+from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
 
-ARTICLE_SHA256 = "a" * 64
+ARTICLE_TITLE = "测试项目"
+ARTICLE_CONTENT = "风电光伏"
+ARTICLE_DATE = "2026-08-06"
+ARTICLE_SHA256 = article_sha256(ARTICLE_TITLE, ARTICLE_CONTENT, ARTICLE_DATE)
+
+
+def make_snapshot(sample_id: str) -> ArticleSnapshot:
+    """Build the canonical source snapshot required by every confirmation test."""
+    return ArticleSnapshot(
+        source_link=f"https://example.test/{sample_id}",
+        title=ARTICLE_TITLE,
+        content=ARTICLE_CONTENT,
+        publish_date=ARTICLE_DATE,
+        article_sha256=ARTICLE_SHA256,
+        raw_values={},
+        display_values={},
+    )
 
 
 def make_gold_field(value: str, *, state: str = "present") -> GoldField:
@@ -28,11 +46,16 @@ def make_gold_field(value: str, *, state: str = "present") -> GoldField:
 
 def make_ready_article(sample_id: str = "S001") -> RichGoldRecord:
     """Build a reviewable single-project draft with a stable project identifier."""
+    fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required)
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    fields["category"] = make_gold_field("风电")
     return RichGoldRecord(
         sample_id=sample_id,
         article_sha256=ARTICLE_SHA256,
         source_link=f"https://example.test/{sample_id}",
-        projects=[GoldProject(gold_project_id="P01", fields={"category": make_gold_field("风电")})],
+        projects=[GoldProject(gold_project_id="P01", fields=fields)],
     )
 
 
@@ -43,8 +66,10 @@ def seeded_store(tmp_path, *, unresolved: bool = False) -> ReviewStore:
     first = make_ready_article("S001")
     if unresolved:
         first.projects[0].fields["category"] = make_gold_field("", state="needs_adjudication")
-    store.seed_article(first)
-    store.seed_article(make_ready_article("S002"))
+    store.seed_article(first, snapshot=make_snapshot("S001"))
+    store.seed_article(make_ready_article("S002"), snapshot=make_snapshot("S002"))
+    store.save_article_status("S001", "valid", actor="fixture")
+    store.save_article_status("S002", "valid", actor="fixture")
     return store
 
 
@@ -56,7 +81,9 @@ def test_initialize_is_idempotent_and_persists_schema_metadata(tmp_path):
     store.initialize()
 
     with sqlite3.connect(store.path) as conn:
-        assert conn.execute("SELECT value FROM studio_meta WHERE key = 'schema_version'").fetchone() == ("1",)
+        assert conn.execute("SELECT value FROM studio_meta WHERE key = 'schema_version'").fetchone() == (
+            str(store.schema_version),
+        )
 
 
 def test_field_decision_is_atomic_and_audited(tmp_path):
@@ -78,12 +105,13 @@ def test_field_decision_is_atomic_and_audited(tmp_path):
 def test_failed_field_decision_leaves_draft_and_audit_unchanged(tmp_path):
     """Reject an unsafe path without committing either a partial draft mutation or audit row."""
     store = seeded_store(tmp_path)
+    before_audit = store.list_audit("S001")
 
     with pytest.raises(ValueError, match="unknown field"):
         store.save_field_decision("S001", "P01.missing", make_gold_field("光伏"), actor="human")
 
     assert store.get_article("S001").projects[0].fields["category"].value == "风电"
-    assert store.list_audit("S001") == []
+    assert store.list_audit("S001") == before_audit
 
 
 def test_confirm_rejects_unresolved_conflicts(tmp_path):
@@ -212,9 +240,15 @@ def test_candidate_scoring_is_observational_persistent_and_reorders_the_queue(tm
     """Persist candidate-derived scoring independently of gold drafts, including after human confirmation."""
     store = ReviewStore(tmp_path / "review.db")
     store.initialize()
-    store.seed_article(RichGoldRecord(sample_id="S001", article_sha256=ARTICLE_SHA256))
-    store.seed_article(RichGoldRecord(sample_id="S002", article_sha256=ARTICLE_SHA256))
-    store.confirm_article("S001", actor="human")
+    store.seed_article(
+        RichGoldRecord(sample_id="S001", article_sha256=ARTICLE_SHA256),
+        snapshot=make_snapshot("S001"),
+    )
+    store.seed_article(
+        RichGoldRecord(sample_id="S002", article_sha256=ARTICLE_SHA256),
+        snapshot=make_snapshot("S002"),
+    )
+    store.confirm_negative("S001", "irrelevant", actor="human")
     before_gold = store.get_article("S001").model_dump(mode="json")
 
     store.update_sample_scoring(
@@ -272,7 +306,7 @@ def test_candidate_bundle_uses_canonical_json_and_replaces_same_source(tmp_path)
     with sqlite3.connect(store.path) as conn:
         payload = conn.execute("SELECT payload_json FROM candidate_bundles").fetchone()[0]
     assert payload == (
-        '{"article_sha256":"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",'
+        f'{{"article_sha256":"{ARTICLE_SHA256}",'
         '"sample_id":"S001","sources":{"database":{"error_code":null,'
         '"error_detail":null,"metadata":{},"projects":[],"source_name":"database",'
         '"source_version":"","status":"ok"}}}'
@@ -308,7 +342,7 @@ def test_field_audit_preserves_complete_payload_when_display_value_is_unchanged_
     store = ReviewStore(tmp_path / "review.db")
     store.initialize()
     article = make_ready_article()
-    article.projects[0].fields["note"] = GoldField(state="not_applicable")
+    article.projects[0].fields["location"] = GoldField(state="not_applicable")
     store.seed_article(article)
     evidenced = GoldField(
         state="present",
@@ -318,7 +352,7 @@ def test_field_audit_preserves_complete_payload_when_display_value_is_unchanged_
     )
 
     store.save_field_decision("S001", "P01.category", evidenced, actor="human")
-    store.save_field_decision("S001", "P01.note", GoldField(state="uncertain"), actor="human")
+    store.save_field_decision("S001", "P01.location", GoldField(state="uncertain"), actor="human")
 
     same_value, none_value = store.list_audit("S001")[-2:]
     assert same_value.old_value == same_value.new_value == "风电"
@@ -344,12 +378,8 @@ def test_structure_revision_requires_current_version_and_never_reuses_project_id
     assert revisions[-1].revision == 2
     assert revisions[-1].actor == "human"
     structure_audit = [entry for entry in store.list_audit("S001") if entry.action == "structure_decision"][-1]
-    assert structure_audit.old_payload == [
-        GoldProject(gold_project_id="P01", fields={"category": make_gold_field("风电")}).model_dump(
-            mode="json"
-        )
-    ]
-    assert structure_audit.new_payload == [replacement.model_dump(mode="json")]
+    assert structure_audit.old_payload[0]["fields"]["category"]["value"] == "风电"
+    assert structure_audit.new_payload[0]["fields"]["category"]["value"] == "光伏"
 
 
 def test_structure_reintroducing_deleted_id_receives_fresh_project_id(tmp_path):
@@ -384,8 +414,8 @@ def test_queue_excludes_reviewed_articles_and_sorts_by_difficulty_then_id(tmp_pa
     low.difficulty = DifficultyScore(score=1.0)
     high = make_ready_article("S004")
     high.difficulty = DifficultyScore(score=5.0)
-    store.seed_article(low)
-    store.seed_article(high)
+    store.seed_article(low, snapshot=make_snapshot("S003"))
+    store.seed_article(high, snapshot=make_snapshot("S004"))
     store.save_field_decision(
         "S002",
         "P01.category",

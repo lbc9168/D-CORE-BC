@@ -4,6 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from gold_standard_studio.schemas import EvidenceSpan, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.field_registry import FIELD_REGISTRY
 
 
 ARTICLE_SHA256 = "a" * 64
@@ -22,21 +23,25 @@ def make_evidence() -> EvidenceSpan:
 def make_record(*, field_state: str = "present", review_status: str = "reviewed") -> RichGoldRecord:
     """Create a minimally publishable rich record except for the requested state."""
     evidence = [make_evidence()] if field_state == "present" else []
+    fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required)
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    fields["capacity_mw"] = GoldField(
+        state=field_state,
+        value=100 if field_state == "present" else None,
+        evidence=evidence,
+        evidence_required=field_state == "present",
+    )
     return RichGoldRecord(
         sample_id="S001",
         article_sha256=ARTICLE_SHA256,
         article_review_status=review_status,
+        article_status="valid",
         projects=[
             GoldProject(
                 gold_project_id="P01",
-                fields={
-                    "capacity_mw": GoldField(
-                        state=field_state,
-                        value=100 if field_state == "present" else None,
-                        evidence=evidence,
-                        evidence_required=field_state == "present",
-                    )
-                },
+                fields=fields,
             )
         ],
     )
@@ -102,12 +107,13 @@ def test_uncertain_field_is_formal_but_publishable():
     record.assert_publishable()
 
 
-def test_article_status_alias_accepts_review_store_status():
-    """Accept the review store's concise article-status input name."""
+def test_review_status_alias_does_not_replace_authoritative_article_status():
+    """Accept the concise workflow alias while keeping an explicit negative gold classification separate."""
     record = RichGoldRecord(
         sample_id="S001",
         article_sha256=ARTICLE_SHA256,
-        article_status="reviewed",
+        review_status="reviewed",
+        article_status="irrelevant",
     )
 
     record.assert_publishable()

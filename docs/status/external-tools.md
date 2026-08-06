@@ -1,6 +1,6 @@
 # external-tools 状态
 
-> 最后更新：2026-08-06（Golden Standard Studio 已具备不可变 gold 版本发布）
+> 最后更新：2026-08-06（Golden Standard Studio 最终核心加固完成）
 
 ---
 
@@ -35,6 +35,7 @@
 | 冲突优先 Web UI（并发安全只读源库、审计顺序结构门控、候选与人工证据 SHA 校验、结构编辑、审计、自动保存与快捷键） | ✅ 已完成 |
 | rich gold 发布器（原子版本目录、证据/审计保留、兼容 eval 投影与发行清单） | ✅ 已完成 |
 | 安全 CLI（init/sample/build-candidates/serve/publish/report）与 Pilot runbook | ✅ 已完成 |
+| 最终核心加固（权威文章状态、完整状态机、严格确认门、路径身份隔离、快照身份、顺序迁移） | ✅ 已完成 |
 
 发布器只读访问 Studio review DB；仅当草稿和索引均为 `reviewed`、存在匹配 `article_confirmed` 审计且其后没有 gold 草稿变更时才写入版本目录，确认后的候选观测不影响资格。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后以协作版本锁和平台 no-replace rename 原子提交；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影将 `field_eligibility` 保留在每个项目内：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；发布 rich JSON 仅保留 allowlist 的确认审计 ID、动作、时间和字段路径，不发布任意原始 audit metadata。
 
@@ -47,6 +48,10 @@ Task 12 fix round 2 规定 `sample --format json` 的 stdout 永远只有一个 
 评测器现已消费逐项目 eligibility、分派全字段指标并输出 split/category/risk 切片：`not_mentioned` 的 null 按显式空值计入分母，`not_applicable`/`uncertain` 仍排除；地点采用与 Studio evidence 相同的 normalized-exact。评测的显式 FIELD_PRIMARY_METRIC 映射将发电源指定为 set F1（精确集合准确率仅供诊断），避免 full/core 汇总退化为通用 accuracy。Studio exporter 通过不污染全局 `sys.path` 的私有 importlib 包加载仓库唯一的 `eval.gold_loader` 契约，因此从 Studio 独立工作目录导入也可用。
 
 发布投影的唯一校验契约现为 `eval.gold_loader.GoldRecord`：写入前和临时 JSONL 重读时均使用该模型，Studio 不再维护宽松的重复 projection schema。Loader 对 canonical gold 使用严格 JSON 类型、受控 category/stage/financing enum、受控发电源和严格数值字段，拒绝例如布尔值伪装的数值；验证失败在版本目录可见前清理 staging。
+
+最终核心加固将文章级 gold status 与 workflow review status 完全分离，只允许人工审计的 `valid`、`no_chinese`、`irrelevant`、`chinese_unnamed` 进入发布，并把抽样种子、原始类别分层、风险、纳入原因与 negative proxy 固定为独立 `sampling_provenance`。`valid` 必须至少有一个项目且每个项目精确覆盖 19 个注册字段；负样本必须为空项目，并由单事务 `confirm-negative` 写入 status 与 confirmation。字段类型/受控值、实体角色、证据 hash/bounds/quote 都在保存、确认和发布边界重复校验。
+
+Review DB schema 现以显式版本和顺序事务迁移管理，新增不可变 `article_snapshots` 与索引化 article status，拒绝损坏、缺失或未来版本元数据。证据重定位只接受 canonical `ArticleSnapshot`（标题、正文、发布日期共同计算 hash）。所有 Studio 可写路径在配置和写入边界与三份只读源库比较 resolved path、symlink/samefile 及 device/inode hardlink 身份；回归覆盖普通路径、符号链接和硬链接别名。临时三库端到端测试包含一个全字段、实体角色与原文证据齐全的真实 `valid` 项目以及三种负样本状态，发布前后源库物理 hash、行数和 ID 集保持不变。
 
 ---
 

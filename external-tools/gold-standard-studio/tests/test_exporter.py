@@ -11,32 +11,76 @@ from pathlib import Path
 import pytest
 
 from gold_standard_studio.review_store import ReviewStore
+from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.schemas import EvidenceSpan, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
 
-ARTICLE_SHA256 = "a" * 64
+ARTICLE_TITLE = "发布测试"
+ARTICLE_CONTENT = "120 MW 风电 光伏 2026-01-01 50"
+ARTICLE_DATE = "2026-08-06"
+ARTICLE_SHA256 = article_sha256(ARTICLE_TITLE, ARTICLE_CONTENT, ARTICLE_DATE)
+
+
+def _snapshot(source_link: str) -> ArticleSnapshot:
+    """Build the canonical immutable source snapshot used by publisher fixtures."""
+    return ArticleSnapshot(
+        source_link=source_link,
+        title=ARTICLE_TITLE,
+        content=ARTICLE_CONTENT,
+        publish_date=ARTICLE_DATE,
+        article_sha256=ARTICLE_SHA256,
+        raw_values={},
+        display_values={},
+    )
+
+
+def _complete_fields() -> dict[str, GoldField]:
+    """Initialize the exact registry contract with one genuine evidence-backed numeric fact."""
+    fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required)
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    fields["capacity_mw"] = GoldField(
+        state="present",
+        value=120,
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="120 MW", start=0, end=6, article_sha256=ARTICLE_SHA256)],
+    )
+    return fields
+
+
+def _forge_review_audits(store: ReviewStore, sample_id: str, article_status: str = "valid") -> None:
+    """Insert the two historical audit proofs required by a deliberately forged reviewed fixture."""
+    with sqlite3.connect(store.path) as conn:
+        conn.execute(
+            "INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (sample_id, "article_status_decision", "article_status", '"unreviewed"', json.dumps(article_status), "fixture", "2026-08-06T00:00:00+00:00"),
+        )
+        conn.execute(
+            "INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            (sample_id, "article_confirmed", "article_review_status", '"unreviewed"', '"reviewed"', "fixture", "2026-08-06T00:00:01+00:00"),
+        )
 
 
 def make_store(tmp_path: pytest.TempPathFactory, *, reviewed: bool) -> ReviewStore:
     """Seed a review store with one article whose confirmation state is explicit."""
     store = ReviewStore(tmp_path / "review.db")
     store.initialize()
-    field = GoldField(
-        state="present",
-        value=120,
-        evidence_required=True,
-        evidence=[EvidenceSpan(quote="120 MW", start=0, end=6, article_sha256=ARTICLE_SHA256)],
-    )
+    source_link = "https://example.test/S002"
     store.seed_article(
         RichGoldRecord(
             sample_id="S002",
             article_sha256=ARTICLE_SHA256,
-            source_link="https://example.test/S002",
+            source_link=source_link,
+            article_status="valid",
             dataset_split="regression",
             risk_tags=["capacity"],
-            projects=[GoldProject(gold_project_id="P01", fields={"capacity_mw": field})],
-        )
+            projects=[GoldProject(gold_project_id="P01", fields=_complete_fields())],
+        ),
+        snapshot=_snapshot(source_link),
     )
+    store.save_article_status("S002", "valid", actor="reviewer")
     if reviewed:
         store.confirm_article("S002", actor="reviewer")
     return store
@@ -88,7 +132,7 @@ def test_projection_is_deterministic_loadable_and_preserves_review_store(tmp_pat
     first = paths.eval_projection.read_bytes()
     loaded = load_projection(paths.eval_projection)
     assert loaded[0]["article_id"] == "S002"
-    assert loaded[0]["projects"][0]["field_eligibility"] == {"capacity_mw": True}
+    assert loaded[0]["projects"][0]["field_eligibility"]["capacity_mw"] is True
     assert loaded[0]["projects"][0]["capacity_mw"] == 120
     assert all(path.is_file() for path in (
         paths.rich_gold, paths.manifest, paths.schema, paths.distribution, paths.changelog
@@ -109,24 +153,24 @@ def test_projection_uses_per_project_eligibility_and_loads_through_eval_loader(t
     article = store.get_article("S002")
     article.sample_id = "S003"
     article.source_link = "https://example.test/S003"
+    first_fields = _complete_fields()
+    second_fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required)
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    second_fields["capacity_mw"] = GoldField(state="uncertain", evidence_required=True)
     article.projects = [
-        GoldProject(gold_project_id="P01", fields={"capacity_mw": GoldField(state="present", value=12)}),
-        GoldProject(gold_project_id="P02", fields={"capacity_mw": GoldField(state="uncertain")}),
+        GoldProject(gold_project_id="P01", fields=first_fields),
+        GoldProject(gold_project_id="P02", fields=second_fields),
     ]
-    store.seed_article(article)
-    with sqlite3.connect(store.path) as conn:
-        conn.execute(
-            "INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            ("S003", "article_confirmed", "article_review_status", '"unreviewed"', '"reviewed"', "forged", "2026-08-06T00:00:00+00:00"),
-        )
+    store.seed_article(article, snapshot=_snapshot(article.source_link))
+    _forge_review_audits(store, "S003")
 
     paths = publish_gold(store, tmp_path / "gold_sets", "v0.1.0")
     record = next(row for row in load_projection(paths.eval_projection) if row["article_id"] == "S003")
 
     assert "field_eligibility" not in record
-    assert [project["field_eligibility"] for project in record["projects"]] == [
-        {"capacity_mw": True}, {"capacity_mw": False}
-    ]
+    assert [project["field_eligibility"]["capacity_mw"] for project in record["projects"]] == [True, False]
 
 
 def test_publish_requires_matching_confirmation_audit_and_consistent_indexed_status(tmp_path):
@@ -235,12 +279,8 @@ def test_rich_output_exports_only_allowlisted_confirmation_metadata(tmp_path):
         "credential": "leak-h", "auth": "leak-i", "cookie": "leak-j", "nested": {"private key": "leak-k"},
     }
     # A seeded historical record needs a matching confirmation proof before publication.
-    store.seed_article(article)
-    with sqlite3.connect(store.path) as conn:
-        conn.execute(
-            "INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            ("S003", "article_confirmed", "article_review_status", '"unreviewed"', '"reviewed"', "forged", "2026-08-06T00:00:00+00:00"),
-        )
+    store.seed_article(article, snapshot=_snapshot(article.source_link))
+    _forge_review_audits(store, "S003")
 
     paths = publish_gold(store, tmp_path / "gold_sets", "v0.1.0")
 
@@ -258,15 +298,29 @@ def _seed_confirmed_projection_case(store, *, field_name, value):
     article = store.get_article("S002")
     article.sample_id = "S003"
     article.source_link = "https://example.test/S003"
+    fields = {
+        name: GoldField(state="not_mentioned", evidence_required=spec.evidence_required)
+        for name, spec in FIELD_REGISTRY.items()
+    }
+    evidence_quotes = {
+        "category": ("风电", 7, 9),
+        "generation_sources": ("光伏", 10, 12),
+        "planned_start_date": ("2026-01-01", 13, 23),
+        "storage_power_mw": ("50", 24, 26),
+    }
+    quote, start, end = evidence_quotes.get(field_name, ("120 MW", 0, 6))
+    evidence = [EvidenceSpan(quote=quote, start=start, end=end, article_sha256=ARTICLE_SHA256)]
+    fields[field_name] = GoldField(
+        state="present",
+        value=value,
+        evidence_required=FIELD_REGISTRY[field_name].evidence_required,
+        evidence=evidence,
+    )
     article.projects = [
-        GoldProject(gold_project_id="P01", fields={field_name: GoldField(state="present", value=value)})
+        GoldProject(gold_project_id="P01", fields=fields)
     ]
-    store.seed_article(article)
-    with sqlite3.connect(store.path) as conn:
-        conn.execute(
-            "INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-            ("S003", "article_confirmed", "article_review_status", '"unreviewed"', '"reviewed"', "fixture", "2026-08-06T00:00:00+00:00"),
-        )
+    store.seed_article(article, snapshot=_snapshot(article.source_link))
+    _forge_review_audits(store, "S003")
 
 
 @pytest.mark.parametrize(
@@ -288,7 +342,7 @@ def test_publish_rejects_loader_invalid_projection_values_before_rename(tmp_path
     _seed_confirmed_projection_case(store, field_name=field_name, value=value)
     root = tmp_path / "gold_sets"
 
-    with pytest.raises(PublishError, match="eval projection"):
+    with pytest.raises(PublishError, match="not publishable|invalid field"):
         publish_gold(store, root, "v0.1.0")
 
     assert not (root / "v0.1.0").exists()

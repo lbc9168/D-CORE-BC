@@ -1,18 +1,27 @@
-"""Model rich gold, evidence, candidates, difficulty, and dataset manifests for Studio."""
+"""Model strict rich gold, evidence, candidates, difficulty, and sampling provenance for Studio."""
 
 from typing import Literal
 
-from pydantic import AliasChoices, BaseModel, Field, JsonValue, model_validator
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field, JsonValue, model_validator
+
+from gold_standard_studio.field_registry import FIELD_REGISTRY, validate_entity_role, validate_field_value
 
 
 FieldState = Literal[
-    "present", "not_mentioned", "not_applicable", "uncertain", "needs_adjudication"
+    "unreviewed", "present", "not_mentioned", "not_applicable", "uncertain", "needs_adjudication"
 ]
 ArticleReviewStatus = Literal["unreviewed", "reviewed"]
+ArticleGoldStatus = Literal["unreviewed", "valid", "no_chinese", "irrelevant", "chinese_unnamed"]
 CandidateStatus = Literal["ok", "error"]
 
 
-class EvidenceSpan(BaseModel):
+class StrictContractModel(BaseModel):
+    """Forbid undeclared keys at every persisted or public Pydantic contract boundary."""
+
+    model_config = ConfigDict(extra="forbid")
+
+
+class EvidenceSpan(StrictContractModel):
     """Capture a quoted span from the immutable source article."""
 
     quote: str = Field(min_length=1)
@@ -29,7 +38,7 @@ class EvidenceSpan(BaseModel):
         return self
 
 
-class GoldField(BaseModel):
+class GoldField(StrictContractModel):
     """Represent one formal field with its evidence-backed semantic state."""
 
     state: FieldState
@@ -49,7 +58,7 @@ class GoldField(BaseModel):
         return self
 
 
-class GoldEntity(BaseModel):
+class GoldEntity(StrictContractModel):
     """Represent one role-specific project entity and the evidence supporting that role."""
 
     role: str = Field(min_length=1)
@@ -58,15 +67,23 @@ class GoldEntity(BaseModel):
     evidence: list[EvidenceSpan] = Field(default_factory=list)
 
 
-class GoldProject(BaseModel):
+class GoldProject(StrictContractModel):
     """Group stable project identity, formal fields, and role-specific entities for an article."""
 
     gold_project_id: str = Field(min_length=1)
     fields: dict[str, GoldField] = Field(default_factory=dict)
     entities: list[GoldEntity] = Field(default_factory=list)
 
+    @model_validator(mode="after")
+    def validate_known_fields(self):
+        """Reject arbitrary project keys while allowing source candidates to retain dirty typed values for review."""
+        unknown = sorted(set(self.fields).difference(FIELD_REGISTRY))
+        if unknown:
+            raise ValueError(f"project contains unknown registry fields: {unknown}")
+        return self
 
-class DifficultyScore(BaseModel):
+
+class DifficultyScore(StrictContractModel):
     """Store explainable review difficulty and risk signals for an article."""
 
     score: float = Field(ge=0)
@@ -74,7 +91,7 @@ class DifficultyScore(BaseModel):
     risk_tags: list[str] = Field(default_factory=list)
 
 
-class CandidateValue(BaseModel):
+class CandidateValue(StrictContractModel):
     """Store one candidate source's structured project interpretation or a structured failure."""
 
     source_name: str = Field(min_length=1)
@@ -86,7 +103,7 @@ class CandidateValue(BaseModel):
     metadata: dict[str, JsonValue] = Field(default_factory=dict)
 
 
-class CandidateBundle(BaseModel):
+class CandidateBundle(StrictContractModel):
     """Collect all independently produced candidate values for one immutable article snapshot."""
 
     sample_id: str = Field(min_length=1)
@@ -94,7 +111,7 @@ class CandidateBundle(BaseModel):
     sources: dict[str, CandidateValue] = Field(default_factory=dict)
 
 
-class DatasetManifest(BaseModel):
+class DatasetManifest(StrictContractModel):
     """Describe the deterministic sample and immutable source hashes behind a gold dataset."""
 
     dataset_version: str = "draft"
@@ -103,20 +120,32 @@ class DatasetManifest(BaseModel):
     source_hashes: dict[str, str] = Field(default_factory=dict)
 
 
-class RichGoldRecord(BaseModel):
+class SamplingProvenance(StrictContractModel):
+    """Preserve the explicit, publishable sampling decision that selected one article."""
+
+    sampling_seed: int
+    inclusion_reasons: list[str] = Field(default_factory=list)
+    original_category_strata: list[str] = Field(default_factory=list)
+    risk_tags: list[str] = Field(default_factory=list)
+    negative_proxy: bool
+
+
+class RichGoldRecord(StrictContractModel):
     """Represent the complete evidence-preserving gold record for one sampled article."""
 
     sample_id: str = Field(min_length=1)
     article_sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
     source_link: str | None = None
+    article_status: ArticleGoldStatus = "unreviewed"
     article_review_status: ArticleReviewStatus = Field(
         default="unreviewed",
-        validation_alias=AliasChoices("article_review_status", "review_status", "article_status"),
+        validation_alias=AliasChoices("article_review_status", "review_status"),
     )
     projects: list[GoldProject] = Field(default_factory=list)
     difficulty: DifficultyScore | None = None
     risk_tags: list[str] = Field(default_factory=list)
     dataset_split: str | None = None
+    sampling_provenance: SamplingProvenance | None = None
     audit_metadata: dict[str, JsonValue] = Field(default_factory=dict)
 
     @property
@@ -128,7 +157,22 @@ class RichGoldRecord(BaseModel):
         """Raise when an article is unreviewed or a field still needs adjudication."""
         if self.article_review_status != "reviewed":
             raise ValueError("record is not publishable until the article is reviewed")
+        if self.article_status == "unreviewed":
+            raise ValueError("record is not publishable until article gold status is decided")
+        if self.article_status == "valid" and not self.projects:
+            raise ValueError("valid article requires at least one project")
+        if self.article_status != "valid" and self.projects:
+            raise ValueError("negative article status cannot carry projects")
         for project in self.projects:
-            for field in project.fields.values():
-                if field.state == "needs_adjudication":
-                    raise ValueError("record is not publishable with fields needing adjudication")
+            missing = sorted(set(FIELD_REGISTRY).difference(project.fields))
+            extra = sorted(set(project.fields).difference(FIELD_REGISTRY))
+            if missing or extra:
+                raise ValueError(f"project field registry mismatch: missing={missing}; extra={extra}")
+            for field_name, field in project.fields.items():
+                if field.state in {"unreviewed", "needs_adjudication"}:
+                    raise ValueError("record is not publishable with incomplete fields")
+                validate_field_value(field_name, field.state, field.value)
+            for entity in project.entities:
+                validate_entity_role(entity.role)
+                if not entity.evidence:
+                    raise ValueError("record is not publishable without entity/role evidence")

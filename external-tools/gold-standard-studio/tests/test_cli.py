@@ -196,7 +196,7 @@ def test_build_all_and_resume_include_reviewed_samples_using_bundle_presence_onl
     assert runner.invoke(app, ["sample", "--apply", "--data-dir", str(data_dir)]).exit_code == 0
     store = ReviewStore(data_dir / "review.db")
     for item in store.list_all_samples():
-        store.confirm_article(item.sample_id, actor="fixture")
+        store.confirm_negative(item.sample_id, "irrelevant", actor="fixture")
     first = store.list_all_samples()[0]
     store.save_candidate_bundle(CandidateBundle(sample_id=first.sample_id, article_sha256=store.get_article(first.sample_id).article_sha256, sources={"database": CandidateValue(source_name="database")}))
 
@@ -241,7 +241,7 @@ def test_report_retains_status_split_and_risk_totals_after_every_sample_is_revie
     assert runner.invoke(app, ["sample", "--apply", "--data-dir", str(data_dir)]).exit_code == 0
     store = ReviewStore(data_dir / "review.db")
     for item in store.list_all_samples():
-        store.confirm_article(item.sample_id, actor="fixture")
+        store.confirm_negative(item.sample_id, "irrelevant", actor="fixture")
     store.update_sample_scoring("raw-1", DifficultyScore(score=10, risk_tags=["storage_context"]))
     output = tmp_path / "completed.html"
 
