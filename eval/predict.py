@@ -1,4 +1,8 @@
-"""flat_prediction：把 s01b 原始提取结果归一成文章级 {status, projects[]}，每项目含字段 + entities[{name,involvement_type}]。"""
+"""flat_prediction：把 s01b 原始提取结果归一成含 legacy 与能源事实字段的文章级结果。"""
+
+import json
+
+from s01b_project_extractor.energy_taxonomy import classify_energy, normalize_generation_sources
 
 _STATUS_MAP = {"valid_project": "valid", "no_chinese_participation": "no_chinese",
                "irrelevant": "irrelevant", "chinese_unnamed_participation": "chinese_unnamed"}
@@ -17,6 +21,17 @@ def _flat_project(proj: dict) -> dict:
     # capacity_mw_parsed 由 s2_basic._apply_capacity_post_process() 在 stage 层注入（确定性解析结果）；
     # 若键不存在（旧路径/测试桩）则回退到原文短语，metrics.cmp_numeric 内部会再解析一次。
     cap = common.get("capacity_mw_parsed", common.get("Capacity (MW)", ""))
+    sources_raw = common.get("generation_sources_json", common.get("Generation Sources", []))
+    if isinstance(sources_raw, str):
+        try:
+            sources = json.loads(sources_raw)
+        except json.JSONDecodeError:
+            sources = []
+    else:
+        sources = sources_raw or []
+    storage_status = common.get("storage_status_normalized", common.get("Storage Status", "not_mentioned"))
+    normalized_sources = normalize_generation_sources(sources)
+    classification = classify_energy(normalized_sources, storage_status)
     return {
         "project_name": common.get("Project Name", ""),
         "category": common.get("Category", ""),
@@ -25,6 +40,11 @@ def _flat_project(proj: dict) -> dict:
         "location": common.get("Location(State)", ""),
         "total_investment_usd": common.get("Total Project Investment (Million USD)", ""),
         "financing_model": common.get("Financing Model", ""),
+        "generation_sources": list(normalized_sources),
+        "storage_status": storage_status,
+        "storage_power_mw": common.get("storage_power_mw_parsed"),
+        "storage_energy_mwh": common.get("storage_energy_mwh_parsed"),
+        "proposed_category": classification.proposed_category,
         "entities": entities,
     }
 

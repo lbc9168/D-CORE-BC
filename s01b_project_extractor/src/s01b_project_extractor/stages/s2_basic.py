@@ -1,8 +1,15 @@
 """S2 阶段：项目识别+基本信息；in-memory 校验 category/stage 枚举与名称含中文。"""
+import json
 import logging
 import re
 import bri_enums as enums
 from s01b_project_extractor.capacity_parser import parse_capacity_mw
+from s01b_project_extractor.energy_taxonomy import (
+    GENERATION_SOURCES,
+    STORAGE_STATUSES,
+    extract_energy_facts,
+    normalize_generation_sources,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +33,31 @@ def _apply_capacity_post_process(ci: dict) -> None:
     ci["capacity_details_note"] = details_note
 
 
+def _apply_energy_facts_post_process(ci: dict) -> None:
+    """规范化 S2 能源事实并确定性解析 confirmed 储能原文容量。"""
+    raw_sources = ci.get("Generation Sources", []) or []
+    if isinstance(raw_sources, str):
+        raw_sources = [part.strip() for part in re.split(r"[,，;；]", raw_sources) if part.strip()]
+    try:
+        sources = normalize_generation_sources(raw_sources)
+    except ValueError:
+        sources = tuple(dict.fromkeys(str(source).strip() for source in raw_sources if str(source).strip()))
+    status = str(ci.get("Storage Status", "not_mentioned") or "not_mentioned").strip()
+    power_raw = str(ci.get("Storage Power", "") or "").strip()
+    energy_raw = str(ci.get("Storage Energy", "") or "").strip()
+    evidence = str(ci.get("Energy Composition Evidence", "") or "").strip()
+    parsed = extract_energy_facts(
+        f"{evidence}；储能：{power_raw}/{energy_raw}" if status == "confirmed" else evidence
+    )
+    ci["generation_sources_json"] = json.dumps(sources, ensure_ascii=False)
+    ci["storage_status_normalized"] = status
+    ci["storage_power_mw_raw_phrase"] = power_raw
+    ci["storage_energy_mwh_raw_phrase"] = energy_raw
+    ci["storage_power_mw_parsed"] = parsed.storage_power_mw if status == "confirmed" else None
+    ci["storage_energy_mwh_parsed"] = parsed.storage_energy_mwh if status == "confirmed" else None
+    ci["energy_composition_evidence_normalized"] = evidence
+
+
 def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
     """跑 S2，返回 projects 列表（每项含 common_info，容量字段已经过确定性后处理）。"""
     from s01b_project_extractor.prompts.s2_basic import build_s2_prompt
@@ -45,6 +77,7 @@ def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
         p.setdefault("out_of_scope_reason", "")
         # 容量后处理：确定性解析器在此处运行（单一解析点），写入 capacity_mw_parsed / capacity_mw_raw_phrase
         _apply_capacity_post_process(ci)
+        _apply_energy_facts_post_process(ci)
     return projects
 
 
@@ -64,4 +97,13 @@ def validate_s2(projects: list[dict]) -> list[str]:
         pname = str(ci.get("Project Name", "")).strip()
         if pname and not _CHINESE_RE.search(pname):
             errors.append(f"项目#{i} 名称未含中文: {pname[:30]}")
+        sources = ci.get("Generation Sources", []) or []
+        if isinstance(sources, str):
+            sources = [part.strip() for part in re.split(r"[,，;；]", sources) if part.strip()]
+        invalid_sources = sorted(set(sources).difference(GENERATION_SOURCES))
+        if invalid_sources:
+            errors.append(f"项目#{i} 发电源不合法: {invalid_sources}")
+        storage_status = str(ci.get("Storage Status", "not_mentioned") or "not_mentioned").strip()
+        if storage_status not in STORAGE_STATUSES:
+            errors.append(f"项目#{i} 储能状态不合法: {storage_status}")
     return errors

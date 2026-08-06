@@ -16,7 +16,7 @@ class Entity(BaseModel):
 
 
 class Project(BaseModel):
-    """金标准单个项目：project_name 仅对齐用，5 个评分字段 + location 可空，entities 列表。"""
+    """金标准单个项目：旧评分字段保持兼容，taxonomy 标签均为可选。"""
     model_config = ConfigDict(extra="forbid")
     project_name: Optional[str] = None
     category: Optional[str] = None
@@ -25,6 +25,10 @@ class Project(BaseModel):
     capacity_mw: Optional[str] = None
     total_investment_usd: Optional[str] = None
     location: Optional[str] = None
+    generation_sources: Optional[list[Literal["光伏", "风电", "水电", "地热及余热", "生物质", "核电", "火电"]]] = None
+    storage_status: Optional[Literal["confirmed", "planned", "optional", "unclear", "not_mentioned"]] = None
+    storage_power_mw: Optional[float] = None
+    storage_energy_mwh: Optional[float] = None
     entities: list[Entity] = Field(default_factory=list)
 
 

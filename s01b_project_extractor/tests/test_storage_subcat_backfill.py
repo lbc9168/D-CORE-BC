@@ -136,8 +136,8 @@ def test_apply_sets_pv_subcategory_on_evidence(tmp_path):
     assert s2 is None, "无证据不写库（导出层渲染默认）"
 
 
-def test_apply_sets_hb_subcategory_via_planned_storage(tmp_path):
-    """HB 判定能看到步骤 1 刚回填的储能值（文本只提光伏+MWh，无'储能'字样）。"""
+def test_hb_light_storage_subcategory_is_deprecated_and_battery_only_is_unclear(tmp_path):
+    """2B-7 不再新增 HB/光储，且只有 battery+MWh 的含糊文本不得回填 confirmed 储能。"""
     db = _make_db(
         tmp_path,
         [("UZB-HB-0002", "综合能源项目", "综合能源", 0, None)],
@@ -149,9 +149,9 @@ def test_apply_sets_hb_subcategory_via_planned_storage(tmp_path):
     eng = conn.execute("SELECT storage_energy_mwh FROM project_events WHERE id='UZB-HB-0002-01'").fetchone()[0]
     pv = conn.execute("SELECT pv_capacity_mw FROM project_events WHERE id='UZB-HB-0002-01'").fetchone()[0]
     conn.close()
-    assert eng == 400.0
+    assert eng is None
     assert pv == 200.0
-    assert sub == "光储"
+    assert sub is None
 
 
 def test_hb_wind_solar_storage_stays_null(tmp_path):

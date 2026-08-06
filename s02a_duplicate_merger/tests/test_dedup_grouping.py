@@ -202,6 +202,40 @@ def test_canonical_location_assist_blocked_by_capacity_guard(monkeypatch, tmp_pa
     conn.close()
 
 
+def test_cross_category_exact_name_reuses_immutable_canonical_id(tmp_path):
+    """同一项目分类变化后应复用原 ID，而不是因 category 不同创建重复 canonical。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    conn.execute(
+        "INSERT INTO canonical_projects (id,project_name,country,country_iso,category) "
+        "VALUES ('PAK-PV-0001','巴基斯坦达瓦德密能源项目','巴基斯坦','PAK','光伏')"
+    )
+    conn.execute(
+        "INSERT INTO project_events (id,canonical_id,project_stage,capacity_mw) "
+        "VALUES ('PAK-PV-0001-01','PAK-PV-0001','在建',50)"
+    )
+    conn.commit()
+    incoming = _full_proj(
+        project_name="巴基斯坦达瓦德密能源项目", category="综合能源", capacity_mw="50"
+    )
+    canonical_id, is_new = dmt._find_or_create_canonical(conn, incoming, client=None, config=None)
+    conn.close()
+    assert canonical_id == "PAK-PV-0001"
+    assert is_new is False
+
+
+def test_cross_category_same_country_and_capacity_without_name_match_stays_separate(tmp_path):
+    """跨类别救援不得仅凭国家和相同容量误并两个不同项目。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    _seed_canonical(conn, name="信德风能项目", cap=50.0)
+    incoming = _full_proj(
+        project_name="俾路支太阳能园区", category="光伏", capacity_mw="50", location="俾路支"
+    )
+    canonical_id, is_new = dmt._find_or_create_canonical(conn, incoming, client=None, config=None)
+    conn.close()
+    assert is_new is True
+    assert canonical_id != "PAK-WD-0001"
+
+
 # ───────────────────── P3 (c)：批内 in-memory 地点归一化接线 ─────────────────────
 
 def test_apply_location_norm_sets_norm_per_country(monkeypatch):

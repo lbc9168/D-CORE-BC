@@ -22,3 +22,15 @@ def test_capacity_stored_as_real(tmp_path):
     assert row[1] == "约50MW"
     assert row[2] == "real"
     assert row[3] == "original"
+
+
+def test_energy_fact_columns_exist_in_extracted_projects(tmp_path):
+    """新建和旧库升级路径都必须提供完整事件级能源事实列。"""
+    conn = _init_projects_db(str(tmp_path / "projects.db"))
+    columns = {row[1]: row[2] for row in conn.execute("PRAGMA table_info(extracted_projects)")}
+    conn.close()
+    assert columns["generation_sources_json"] == "TEXT"
+    assert columns["storage_status"] == "TEXT"
+    assert columns["storage_power_mw_raw"] == "TEXT"
+    assert columns["storage_energy_mwh_raw"] == "TEXT"
+    assert columns["energy_composition_evidence"] == "TEXT"

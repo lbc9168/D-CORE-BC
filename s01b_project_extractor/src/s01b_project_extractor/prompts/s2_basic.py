@@ -63,6 +63,13 @@ def build_s2_prompt(title: str, content: str, date: str) -> str:
 - 若发现某条目实为油气/化工/采矿/纯民用基建/纯运维/纯框架 MOU（S1 漏放进来）→ 仍按 recall-first 记录该项目，但置 `in_scope: false` 并在 `out_of_scope_reason` 写一句话理由。**不要**为了"看起来像项目"而把它归到「综合能源」或其它发电类别。
 - in_scope=false 时 Category 一律填 "Unknown"（合法枚举值），**不要**硬挑发电类别。
 
+### 能源构成影子事实（不改变上面的 legacy Category）
+- `Generation Sources` 只列实际发电源，可多选：光伏、风电、水电、地热及余热、生物质、核电、火电；储能、综合能源、制造业、输变电不得填入。
+- `Storage Status` 五选一：confirmed=项目明确包含储能；planned=未来拟配/预留；optional=招标或方案可选；unclear=只提电池/设备而无法确认项目配储；not_mentioned=未提储能。
+- `Storage Power` 与 `Storage Energy` 逐字抄原文容量短语，分别对应 MW 与 MWh；只有 confirmed 才填写。
+- 年发电量/上网电量、工厂 GWh/年产能、设备出口均不是项目 confirmed 储能。
+- `Energy Composition Evidence` 逐字摘录支撑发电源和储能状态的短证据；不要输出 proposed category 或标签。
+
 ### 输出（严格 JSON）
 {{
   "projects": [
@@ -77,6 +84,11 @@ def build_s2_prompt(title: str, content: str, date: str) -> str:
         "Country": "国家中文名",
         "Location(State)": "州/省，可空",
         "Category": "只能选 [{cat_list}]；若 in_scope=false 则填 Unknown",
+        "Generation Sources": ["只能从光伏/风电/水电/地热及余热/生物质/核电/火电选择；无证据则空数组"],
+        "Storage Status": "confirmed/planned/optional/unclear/not_mentioned 五选一",
+        "Storage Power": "confirmed 储能功率原文短语（MW）或空",
+        "Storage Energy": "confirmed 储能能量原文短语（MWh/GWh）或空",
+        "Energy Composition Evidence": "支撑能源构成判断的原文短证据",
         "Capacity (MW)": "逐字抄录原文数字短语或空（如原文写「600万千瓦」则填「600万千瓦」；原文写「3GW」则填「3GW」；**禁止做任何单位换算**）",
         "Capacity Details": "明细或 capacity_source=derived 标注",
         "Project Stage": "只能选 [{stage_list}]",

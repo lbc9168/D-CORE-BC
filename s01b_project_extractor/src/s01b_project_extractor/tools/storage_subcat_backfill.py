@@ -28,10 +28,10 @@ from pydantic import BaseModel, ValidationError, field_validator
 
 from s01b_project_extractor.storage_parser import (
     extract_pv_capacity,
-    extract_storage,
     mentions_pv,
 )
-from s01b_project_extractor.subcategory_rules import classify_hb, classify_pv
+from s01b_project_extractor.energy_taxonomy import extract_energy_facts
+from s01b_project_extractor.subcategory_rules import classify_pv
 
 import bri_enums as enums
 
@@ -127,11 +127,8 @@ def _scan(db_path: str) -> tuple[list[dict], list[dict], list[dict]]:
 
     event_plan: list[dict] = []
     misses: list[dict] = []
-    # 步骤 1 计划中会被填上储能值的 canonical（供步骤 2 的 HB 判定预见）
-    planned_storage_canonicals: set[str] = set()
-    # canonical → 事件文本 / 现有储能非空标记（供步骤 2 复用，避免二次查询）
+    # canonical → 事件文本（仅供光伏形态子类复用，避免二次查询）
     texts_by_canonical: dict[str, list[str]] = {}
-    storage_in_db: set[str] = set()
 
     for r in events:
         details = r["capacity_details"]
@@ -139,21 +136,20 @@ def _scan(db_path: str) -> tuple[list[dict], list[dict], list[dict]]:
         texts_by_canonical.setdefault(r["canonical_id"], []).extend(
             t for t in (details, r["project_summary"], r["additional_remarks"]) if t
         )
-        if r["storage_power_mw"] is not None or r["storage_energy_mwh"] is not None:
-            storage_in_db.add(r["canonical_id"])
-
         change: dict[str, Any] = {"event_id": r["event_id"]}
 
-        # 步骤 1：储能 fill-if-null
+        # 步骤 1：严格储能 fill-if-null（只有 confirmed 语境才返回容量）
         if r["storage_power_mw"] is None or r["storage_energy_mwh"] is None:
-            pwr, eng = extract_storage(details)
+            combined = "；".join(
+                t for t in (details, r["project_summary"], r["additional_remarks"]) if t
+            )
+            facts = extract_energy_facts(combined)
+            pwr, eng = facts.storage_power_mw, facts.storage_energy_mwh
             if r["storage_power_mw"] is None and pwr is not None:
                 change["storage_power_mw"] = pwr
             if r["storage_energy_mwh"] is None and eng is not None:
                 change["storage_energy_mwh"] = eng
-            if pwr is not None or eng is not None:
-                planned_storage_canonicals.add(r["canonical_id"])
-            elif (r["category"] == _ES_CATEGORY and (details or "").strip()
+            if (pwr is None and eng is None and r["category"] == _ES_CATEGORY and (details or "").strip()
                   and r["storage_power_mw"] is None and r["storage_energy_mwh"] is None):
                 misses.append({
                     "event_id": r["event_id"], "canonical_id": r["canonical_id"],
@@ -184,11 +180,8 @@ def _scan(db_path: str) -> tuple[list[dict], list[dict], list[dict]]:
         texts = [c["project_name"] or ""] + texts_by_canonical.get(c["id"], [])
         if c["category"] == _PV_CATEGORY:
             sub = classify_pv(texts)
-        elif c["category"] == _HB_CATEGORY:
-            has_storage = c["id"] in storage_in_db or c["id"] in planned_storage_canonicals
-            sub = classify_hb(texts, has_storage)
         else:
-            sub = None
+            sub = None  # 综合能源组合标签已迁入 shadow taxonomy，不再写 subcategory=光储
         if sub is not None:
             if sub not in enums.subcategories(c["category"]):
                 raise ValueError(f"非法子类 {sub!r}（父类 {c['category']}，合法值 {enums.subcategories(c['category'])}）")

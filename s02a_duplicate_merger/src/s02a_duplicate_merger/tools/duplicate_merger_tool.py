@@ -113,6 +113,22 @@ CREATE TABLE IF NOT EXISTS canonical_projects (
     created_at       TEXT
 );
 
+CREATE TABLE IF NOT EXISTS project_classification_shadow (
+    canonical_id             TEXT PRIMARY KEY REFERENCES canonical_projects(id),
+    generation_sources_json  TEXT NOT NULL DEFAULT '[]',
+    storage_status           TEXT NOT NULL DEFAULT 'not_mentioned',
+    storage_power_mw         REAL,
+    storage_energy_mwh       REAL,
+    proposed_category        TEXT,
+    technology_tags_json     TEXT NOT NULL DEFAULT '[]',
+    classification_version   TEXT NOT NULL,
+    needs_review             INTEGER NOT NULL DEFAULT 0,
+    review_reason            TEXT,
+    classification_source    TEXT NOT NULL DEFAULT 'policy',
+    manual_locked            INTEGER NOT NULL DEFAULT 0,
+    updated_at               TEXT NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS project_events (
     id                      TEXT PRIMARY KEY,   -- e.g. IND-PV-0001-01
     canonical_id            TEXT NOT NULL REFERENCES canonical_projects(id),
@@ -122,6 +138,11 @@ CREATE TABLE IF NOT EXISTS project_events (
     capacity_details        TEXT,
     storage_power_mw        REAL,
     storage_energy_mwh      REAL,
+    generation_sources_json TEXT,
+    storage_status          TEXT,
+    storage_power_mw_raw    TEXT,
+    storage_energy_mwh_raw  TEXT,
+    energy_composition_evidence TEXT,
     capacity_source         TEXT,
     project_developer       TEXT,
     project_developer_en    TEXT,
@@ -214,6 +235,11 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE project_events ADD COLUMN capacity_mw_raw TEXT",
         "ALTER TABLE project_events ADD COLUMN storage_power_mw REAL",
         "ALTER TABLE project_events ADD COLUMN storage_energy_mwh REAL",
+        "ALTER TABLE project_events ADD COLUMN generation_sources_json TEXT",
+        "ALTER TABLE project_events ADD COLUMN storage_status TEXT",
+        "ALTER TABLE project_events ADD COLUMN storage_power_mw_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN storage_energy_mwh_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN energy_composition_evidence TEXT",
         "ALTER TABLE project_events ADD COLUMN capacity_source TEXT",
         "ALTER TABLE project_events ADD COLUMN total_investment_usd_raw TEXT",
         "ALTER TABLE chinese_entities ADD COLUMN subcontract_amount_raw TEXT",
@@ -305,6 +331,13 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
         "category":                "Category",
         "capacity_mw":             "Capacity (MW)",
         "capacity_details":        "Capacity Details",
+        "generation_sources_json": "Generation Sources JSON",
+        "storage_status":          "Storage Status",
+        "storage_power_mw_raw":    "Storage Power Raw",
+        "storage_energy_mwh_raw":  "Storage Energy Raw",
+        "storage_power_mw":        "Storage Power MW",
+        "storage_energy_mwh":      "Storage Energy MWh",
+        "energy_composition_evidence": "Energy Composition Evidence",
         "project_stage":           "Project Stage",
         "project_developer":       "Project Developer",
         "project_developer_en":    "Project Developer (EN)",
@@ -437,6 +470,13 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "category":             _clean(first.get("Category", "")),
             "capacity_mw":          _clean(first.get("Capacity (MW)", "")),
             "capacity_details":     _clean(first.get("Capacity Details", "")),
+            "generation_sources_json": _clean(first.get("Generation Sources JSON", "")) or "[]",
+            "storage_status":       _clean(first.get("Storage Status", "")) or "not_mentioned",
+            "storage_power_mw_raw": _clean(first.get("Storage Power Raw", "")),
+            "storage_energy_mwh_raw": _clean(first.get("Storage Energy Raw", "")),
+            "storage_power_mw":     _parse_capacity(first.get("Storage Power MW", "")),
+            "storage_energy_mwh":   _parse_capacity(first.get("Storage Energy MWh", "")),
+            "energy_composition_evidence": _clean(first.get("Energy Composition Evidence", "")),
             "project_stage":        _clean(first.get("Project Stage", "")),
             "project_developer":    _clean(first.get("Project Developer", "")),
             "project_developer_en": _clean(first.get("Project Developer (EN)", "")),
@@ -614,7 +654,7 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
     找出潜在的跨源重复对，采用多信号 OR 逻辑以最大化召回率。
 
     硬过滤（必须同时满足）：
-      - 相同国家 + 能源类型（由预分组保证，无需循环内检查）
+      - 相同国家；跨类别时必须满足极强名称或名称+地点+容量救援条件
       - 不共享信源链接
 
     软信号（满足任一即送 LLM 确认）：
@@ -635,11 +675,11 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
     """
     candidates: List[Tuple[int, int, float]] = []
 
-    # 预分组：仅在相同国家 + 类别的组内两两比较（O(k²) 代替 O(n²)）
+    # 预分组：在同一国家内比较，以允许类别纠正后仍找回原 canonical ID。
     # P3 (a)：去掉 project_stage 维度——同一物理项目的签约/开工/竣工记录必须能进同一候选组
     groups: Dict[Tuple, List[int]] = defaultdict(list)
     for idx, p in enumerate(projects):
-        groups[(p["country"], p["category"])].append(idx)
+        groups[(p["country"],)].append(idx)
 
     for group_indices in groups.values():
         ng = len(group_indices)
@@ -654,6 +694,22 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
 
                 # ── 名称多信号匹配 ───────────────────────────────────────────
                 name_ok, best_score = _name_similarity(a, b)
+
+                # 跨类别救援仅接受极强名称，或中强名称叠加同地点与相近容量。
+                if a.get("category") != b.get("category"):
+                    loc_a, loc_b = _norm_location(a), _norm_location(b)
+                    cap_a = _parse_capacity(a.get("capacity_mw"))
+                    cap_b = _parse_capacity(b.get("capacity_mw"))
+                    anchored = (
+                        best_score >= CANONICAL_LLM_MIN_SCORE
+                        and loc_a
+                        and loc_a == loc_b
+                        and cap_a
+                        and cap_b
+                        and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_BROAD_TOLERANCE
+                    )
+                    if best_score < CANONICAL_AUTO_MATCH_SCORE and not anchored:
+                        continue
 
                 # ── 实体重叠辅助（名称中度相似 + 同一中方实体）──────────────
                 entity_boost = (
@@ -1236,7 +1292,7 @@ def _find_or_create_canonical(
     """
     查找已有的 canonical_project，或新建一条。
 
-    名称匹配：相同 country_iso + category，比较四个名称对（取最高分）：
+    名称匹配：相同 country_iso（允许跨类别救援），比较四个名称对（取最高分）：
       1. incoming CN  vs DB CN
       2. incoming EN  vs DB CN
       3. incoming EN  vs DB EN
@@ -1257,13 +1313,18 @@ def _find_or_create_canonical(
     incoming_en = (project.get("project_name_en") or "").strip()
 
     if canonical_cache is not None:
-        rows = canonical_cache.get((iso, cat), [])
+        rows = [
+            row
+            for (row_iso, _row_category), cached_rows in canonical_cache.items()
+            if row_iso == iso
+            for row in cached_rows
+        ]
     else:
         rows = conn.execute(
             "SELECT id, project_name, project_name_en, "
             "COALESCE(NULLIF(location_norm, ''), location, '') "
-            "FROM canonical_projects WHERE country_iso = ? AND category = ?",
-            (iso, cat),
+            "FROM canonical_projects WHERE country_iso = ?",
+            (iso,),
         ).fetchall()
 
     best_id: Optional[str] = None
@@ -1487,7 +1548,7 @@ def _write_to_db(
                     project["project_stage"],
                     project["capacity_mw"], bri_parse.parse_number(project["capacity_mw"]),
                     project["capacity_details"],
-                    None, None, "original",  # storage 提取属 v2.1，本次留空
+                    project.get("storage_power_mw"), project.get("storage_energy_mwh"), "original",
                     project["project_developer"], project.get("project_developer_en", ""),
                     project["planned_start_date"], project["planned_complete_date"],
                     project["total_investment_usd"], bri_parse.parse_number(project["total_investment_usd"]),
@@ -1506,6 +1567,33 @@ def _write_to_db(
                 ),
             )
             cnt["event_new"] += 1
+
+        # 新旧事件都可补齐能源事实，但已存在的非空/confirmed 事实不会被降级覆盖。
+        conn.execute(
+            """UPDATE project_events SET
+                 generation_sources_json=CASE
+                   WHEN generation_sources_json IS NULL OR generation_sources_json IN ('', '[]') THEN ?
+                   ELSE generation_sources_json END,
+                 storage_status=CASE
+                   WHEN storage_status IS NULL OR storage_status IN ('', 'not_mentioned') THEN ?
+                   ELSE storage_status END,
+                 storage_power_mw=COALESCE(storage_power_mw, ?),
+                 storage_energy_mwh=COALESCE(storage_energy_mwh, ?),
+                 storage_power_mw_raw=COALESCE(NULLIF(storage_power_mw_raw,''), ?),
+                 storage_energy_mwh_raw=COALESCE(NULLIF(storage_energy_mwh_raw,''), ?),
+                 energy_composition_evidence=COALESCE(NULLIF(energy_composition_evidence,''), ?)
+               WHERE id=?""",
+            (
+                project.get("generation_sources_json") or "[]",
+                project.get("storage_status") or "not_mentioned",
+                project.get("storage_power_mw"),
+                project.get("storage_energy_mwh"),
+                project.get("storage_power_mw_raw") or None,
+                project.get("storage_energy_mwh_raw") or None,
+                project.get("energy_composition_evidence") or None,
+                event_id,
+            ),
+        )
 
         # ── chinese_entities ───────────────────────────────────────────────
         for ent in project.get("entities", []):

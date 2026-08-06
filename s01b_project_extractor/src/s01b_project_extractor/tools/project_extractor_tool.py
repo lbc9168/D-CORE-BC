@@ -375,6 +375,11 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             capacity_details        TEXT,
             storage_power_mw        REAL,
             storage_energy_mwh      REAL,
+            generation_sources_json TEXT,
+            storage_status          TEXT,
+            storage_power_mw_raw    TEXT,
+            storage_energy_mwh_raw  TEXT,
+            energy_composition_evidence TEXT,
             capacity_source         TEXT,
             project_stage           TEXT,
             project_developer       TEXT,
@@ -422,6 +427,11 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN capacity_mw_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN storage_power_mw REAL",
         "ALTER TABLE extracted_projects ADD COLUMN storage_energy_mwh REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN generation_sources_json TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN storage_status TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN storage_power_mw_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN storage_energy_mwh_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN energy_composition_evidence TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN capacity_source TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN subcontract_amount_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN total_investment_usd_raw TEXT",
@@ -949,6 +959,15 @@ class ProjectExtractorTool:
                         "_capacity_mw_parsed": common.get("capacity_mw_parsed"),
                         "_capacity_mw_raw_phrase": common.get("capacity_mw_raw_phrase", ""),
                         "_capacity_details_note": common.get("capacity_details_note"),
+                        "_generation_sources_json": common.get("generation_sources_json", "[]"),
+                        "_storage_status": common.get("storage_status_normalized", "not_mentioned"),
+                        "_storage_power_mw_raw": common.get("storage_power_mw_raw_phrase", ""),
+                        "_storage_energy_mwh_raw": common.get("storage_energy_mwh_raw_phrase", ""),
+                        "_storage_power_mw": common.get("storage_power_mw_parsed"),
+                        "_storage_energy_mwh": common.get("storage_energy_mwh_parsed"),
+                        "_energy_composition_evidence": common.get(
+                            "energy_composition_evidence_normalized", ""
+                        ),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": dev_cn,
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
@@ -1076,6 +1095,15 @@ class ProjectExtractorTool:
                         "_capacity_mw_parsed": common.get("capacity_mw_parsed"),
                         "_capacity_mw_raw_phrase": common.get("capacity_mw_raw_phrase", ""),
                         "_capacity_details_note": common.get("capacity_details_note"),
+                        "_generation_sources_json": common.get("generation_sources_json", "[]"),
+                        "_storage_status": common.get("storage_status_normalized", "not_mentioned"),
+                        "_storage_power_mw_raw": common.get("storage_power_mw_raw_phrase", ""),
+                        "_storage_energy_mwh_raw": common.get("storage_energy_mwh_raw_phrase", ""),
+                        "_storage_power_mw": common.get("storage_power_mw_parsed"),
+                        "_storage_energy_mwh": common.get("storage_energy_mwh_parsed"),
+                        "_energy_composition_evidence": common.get(
+                            "energy_composition_evidence_normalized", ""
+                        ),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
@@ -1256,7 +1284,7 @@ class ProjectExtractorTool:
                 financing_raw = row_data.get("_financing_amount_usd_raw_phrase") or ""
                 financing_val_field = row_data.get("Financing Amount (Million USD)", "")
                 is_unnamed_ph = 1 if row_data.get("_is_unnamed_placeholder") else 0
-                proj_conn.execute(
+                cursor = proj_conn.execute(
                     """INSERT INTO extracted_projects
                        (record_type, project_name, project_name_en, name_en_quality, country, country_iso,
                         bri_country, ldc, location, category, capacity_mw_raw, capacity_mw, capacity_details,
@@ -1292,8 +1320,8 @@ class ProjectExtractorTool:
                         _merge_capacity_details(
                             row_data.get("Capacity Details", ""), _cap_details_note
                         ),
-                        None,  # storage_power_mw：提取属 v2.1，本次留空
-                        None,  # storage_energy_mwh
+                        row_data.get("_storage_power_mw"),
+                        row_data.get("_storage_energy_mwh"),
                         "original",  # capacity_source：新提取数值来自原文
                         row_data.get("Project Stage", ""),
                         row_data.get("Project Developer", ""),
@@ -1331,6 +1359,19 @@ class ProjectExtractorTool:
                         row_data.get("_exclude_source", "") or None,
                         is_unnamed_ph,
                         created_at,
+                    ),
+                )
+                proj_conn.execute(
+                    """UPDATE extracted_projects SET generation_sources_json=?, storage_status=?,
+                       storage_power_mw_raw=?, storage_energy_mwh_raw=?, energy_composition_evidence=?
+                       WHERE id=?""",
+                    (
+                        row_data.get("_generation_sources_json", "[]"),
+                        row_data.get("_storage_status", "not_mentioned"),
+                        row_data.get("_storage_power_mw_raw") or None,
+                        row_data.get("_storage_energy_mwh_raw") or None,
+                        row_data.get("_energy_composition_evidence") or None,
+                        cursor.lastrowid,
                     ),
                 )
             proj_conn.commit()

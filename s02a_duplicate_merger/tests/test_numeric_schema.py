@@ -119,3 +119,21 @@ def test_amount_and_subcat_columns_exist(tmp_path):
     assert row[3] == 486.0 and row[4] == "real"
     assert row[5] == 100.0
     assert sub == "分布式"
+
+
+def test_energy_fact_and_shadow_schema_exist(tmp_path):
+    """s02a 新库必须包含事件事实列和不改生产 category 的 canonical 影子快照表。"""
+    conn = _init_db(str(tmp_path / "t.db"))
+    event_columns = {row[1] for row in conn.execute("PRAGMA table_info(project_events)")}
+    shadow_columns = {row[1] for row in conn.execute("PRAGMA table_info(project_classification_shadow)")}
+    conn.close()
+    assert {
+        "generation_sources_json", "storage_status", "storage_power_mw_raw",
+        "storage_energy_mwh_raw", "energy_composition_evidence",
+    } <= event_columns
+    assert {
+        "canonical_id", "generation_sources_json", "storage_status", "storage_power_mw",
+        "storage_energy_mwh", "proposed_category",
+        "technology_tags_json", "classification_version", "needs_review", "review_reason",
+        "classification_source", "manual_locked", "updated_at",
+    } <= shadow_columns

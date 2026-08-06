@@ -32,3 +32,16 @@ def test_flat_maps_chinese_unnamed():
     from eval.predict import flat_prediction
     art = flat_prediction({"status": "chinese_unnamed_participation", "projects": []})
     assert art["status"] == "chinese_unnamed" and art["projects"] == []
+
+def test_flat_exposes_energy_facts_and_derives_shadow_category():
+    result = {"status": "valid_project", "projects": [{"common_info": {
+        "Project Name": "A", "Category": "综合能源",
+        "generation_sources_json": '["光伏"]',
+        "storage_status_normalized": "confirmed",
+        "storage_power_mw_parsed": 50,
+        "storage_energy_mwh_parsed": 100,
+    }}]}
+    project = flat_prediction(result)["projects"][0]
+    assert project["generation_sources"] == ["光伏"]
+    assert project["storage_status"] == "confirmed"
+    assert project["proposed_category"] == "光伏"

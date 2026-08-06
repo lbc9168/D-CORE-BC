@@ -45,7 +45,7 @@ def _default_extractor_version() -> str:
             pass
     # 确定性解析层（capacity_parser + s2_basic stage 后处理 + entity_normalize + s4/s5 stage）纳入哈希：
     # 解析器修复应使旧 eval 缓存失效（否则 parser-only 改动不能触发重跑）
-    for modname in ("capacity_parser", "stages.s2_basic", "stages.entity_normalize",
+    for modname in ("capacity_parser", "energy_taxonomy", "stages.s2_basic", "stages.entity_normalize",
                     "stages.s4_entity", "stages.s5_summary"):
         try:
             mod = __import__(f"s01b_project_extractor.{modname}", fromlist=["*"])
@@ -169,6 +169,13 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
     name_f1_sum = 0.0
     name_f1_n = 0
     role_correct = role_matched = 0
+    tax_source_tp = tax_source_pred = tax_source_gold = 0
+    tax_hits = {
+        "storage_status": [0, 0],
+        "storage_power_mw": [0, 0],
+        "storage_energy_mwh": [0, 0],
+        "proposed_category": [0, 0],
+    }
 
     for rec in gold:
         link = rec["source_link"]
@@ -207,6 +214,12 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
             nf1_sum, n_matched, rc, rm = r["entity"]
             name_f1_sum += nf1_sum; name_f1_n += n_matched
             role_correct += rc; role_matched += rm
+            taxonomy = r["taxonomy"]
+            tp, pred_n, gold_n = taxonomy["generation_sources"]
+            tax_source_tp += tp; tax_source_pred += pred_n; tax_source_gold += gold_n
+            for key in tax_hits:
+                c, t = taxonomy[key]
+                tax_hits[key][0] += c; tax_hits[key][1] += t
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     n_eval = n_gold - n_skipped - n_failed  # 实际参与 status 判定的记录数
@@ -218,6 +231,26 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
               for f in ALL_FIELDS}
     name_f1_mean = round(name_f1_sum / name_f1_n, 4) if name_f1_n else 0.0
     role_accuracy = _ratio(role_correct, role_matched)
+    tax_source_precision = _ratio(tax_source_tp, tax_source_pred)
+    tax_source_recall = _ratio(tax_source_tp, tax_source_gold)
+    tax_source_f1 = (
+        round(2 * tax_source_precision * tax_source_recall / (tax_source_precision + tax_source_recall), 4)
+        if tax_source_precision + tax_source_recall else 0.0
+    )
+    taxonomy_report = {
+        "generation_sources": {
+            "true_positive": tax_source_tp,
+            "pred_total": tax_source_pred,
+            "gold_total": tax_source_gold,
+            "precision": tax_source_precision,
+            "recall": tax_source_recall,
+            "f1": tax_source_f1,
+        },
+        **{
+            key: {"correct": values[0], "total": values[1], "accuracy": _ratio(*values)}
+            for key, values in tax_hits.items()
+        },
+    }
 
     field_accs = [v["accuracy"] for v in fields.values() if v["total"]]
     components = {
@@ -242,6 +275,7 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
                         "precision": ps_precision, "recall": ps_recall, "f1": ps_f1},
         "fields": fields,
         "entity": {"name_f1_mean": name_f1_mean, "role_accuracy": role_accuracy, "role_matched_total": role_matched},
+        "taxonomy": taxonomy_report,
         "weighted_total": weighted_total,
     }
 
