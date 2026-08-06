@@ -96,6 +96,65 @@ def test_confirm_rejects_unresolved_conflicts(tmp_path):
     assert store.get_article("S001").review_status == "unreviewed"
 
 
+def test_confirm_revalidates_current_state_after_an_observer_has_seen_an_earlier_draft(tmp_path):
+    """Reject a later pending-field write even when an earlier observer saw a confirmable draft."""
+    store = seeded_store(tmp_path)
+    evidenced = GoldField(
+        state="present",
+        value="风电",
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+    )
+    store.save_field_decision("S001", "P01.category", evidenced, actor="human")
+    observed = store.get_article("S001")
+    store.save_field_decision("S001", "P01.category", make_gold_field("", state="needs_adjudication"), actor="other")
+
+    with pytest.raises(ValueError, match="unresolved conflicts"):
+        store.confirm_article("S001", actor="human")
+
+    assert observed.projects[0].fields["category"].state == "present"
+    assert store.get_article("S001").review_status == "unreviewed"
+
+
+def test_confirm_rejects_registered_present_field_without_evidence_inside_store(tmp_path):
+    """Enforce critical-field evidence in the confirmation transaction rather than in an API precheck."""
+    store = seeded_store(tmp_path)
+
+    with pytest.raises(ValueError, match="missing required evidence: P01.category"):
+        store.confirm_article("S001", actor="human")
+
+
+def test_confirm_rejects_required_evidence_from_a_different_article_snapshot(tmp_path):
+    """Reject evidence whose hash does not match the immutable article addressed by confirmation."""
+    store = seeded_store(tmp_path)
+    mismatched = GoldField(
+        state="present",
+        value="风电",
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256="b" * 64)],
+    )
+    store.save_field_decision("S001", "P01.category", mismatched, actor="human")
+
+    with pytest.raises(ValueError, match="evidence article hash mismatch: P01.category"):
+        store.confirm_article("S001", actor="human")
+
+
+def test_confirm_rejects_an_article_that_is_already_reviewed(tmp_path):
+    """Prevent a second confirmation from appending a duplicate confirmation audit event."""
+    store = seeded_store(tmp_path)
+    evidenced = GoldField(
+        state="present",
+        value="风电",
+        evidence_required=True,
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+    )
+    store.save_field_decision("S001", "P01.category", evidenced, actor="human")
+    store.confirm_article("S001", actor="human")
+
+    with pytest.raises(ValueError, match="already reviewed"):
+        store.confirm_article("S001", actor="human")
+
+
 def test_adjudication_atomically_resolves_only_a_pending_field_and_audits_its_action(tmp_path):
     """Resolve a held field in one transaction while preserving an adjudication-specific audit event."""
     store = seeded_store(tmp_path, unresolved=True)
@@ -106,6 +165,17 @@ def test_adjudication_atomically_resolves_only_a_pending_field_and_audits_its_ac
     assert store.list_audit("S001")[-1].action == "adjudication"
     with pytest.raises(ValueError, match="not awaiting adjudication"):
         store.adjudicate_field("S001", "P01.category", make_gold_field("风电"), actor="human")
+
+
+def test_generic_field_decision_cannot_resolve_a_pending_field_but_can_keep_it_pending(tmp_path):
+    """Reserve resolution for adjudication while allowing a reviewer to retain an unresolved pending state."""
+    store = seeded_store(tmp_path, unresolved=True)
+
+    store.save_field_decision("S001", "P01.category", make_gold_field("", state="needs_adjudication"), actor="human")
+    with pytest.raises(ValueError, match="requires adjudication"):
+        store.save_field_decision("S001", "P01.category", make_gold_field("光伏"), actor="human")
+
+    assert store.get_article("S001").projects[0].fields["category"].state == "needs_adjudication"
 
 
 def test_candidate_bundle_uses_canonical_json_and_replaces_same_source(tmp_path):
@@ -238,6 +308,17 @@ def test_queue_excludes_reviewed_articles_and_sorts_by_difficulty_then_id(tmp_pa
     high.difficulty = DifficultyScore(score=5.0)
     store.seed_article(low)
     store.seed_article(high)
+    store.save_field_decision(
+        "S002",
+        "P01.category",
+        GoldField(
+            state="present",
+            value="风电",
+            evidence_required=True,
+            evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+        ),
+        actor="human",
+    )
     store.confirm_article("S002", actor="human")
 
     assert [item.sample_id for item in store.list_queue()] == ["S001", "S003", "S004"]

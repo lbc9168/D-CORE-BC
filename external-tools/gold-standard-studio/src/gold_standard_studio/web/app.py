@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from typing import Any, Annotated
 
-from fastapi import FastAPI, Header, HTTPException, Path, Request
+from fastapi import FastAPI, Header, Path, Request
 from pydantic import BaseModel, Field
 
 from gold_standard_studio.evidence import FieldConflict, compare_candidates
-from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.review_store import AuditEntry, QueueItem, ReviewStore
 from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.sources import SourceRepository
 
 
 class QueueItemResponse(BaseModel):
@@ -98,10 +98,11 @@ class AuditResponse(BaseModel):
 LocalActorHeader = Annotated[str | None, Header(alias="X-Review-Actor")]
 
 
-def create_app(store: ReviewStore) -> FastAPI:
+def create_app(store: ReviewStore, *, source_repository: SourceRepository | None = None) -> FastAPI:
     """Create a local FastAPI app that can mutate only the supplied isolated review store."""
     app = FastAPI(title="Golden Standard Studio", docs_url=None, redoc_url=None, openapi_url=None)
     app.state.review_store = store
+    app.state.source_repository = source_repository
 
     @app.exception_handler(ValueError)
     async def map_store_error(_request: Request, error: ValueError):
@@ -154,8 +155,6 @@ def create_app(store: ReviewStore) -> FastAPI:
     @app.post("/api/articles/{sample_id}/confirm", response_model=ArticleResponse)
     def confirm_article(sample_id: str, actor_header: LocalActorHeader = None) -> ArticleResponse:
         """Confirm only a draft whose fields have evidence and no pending adjudication."""
-        article = store.get_article(sample_id)
-        _assert_required_evidence(article)
         store.confirm_article(sample_id, actor=_local_actor(actor_header))
         return _article_response(store, sample_id)
 
@@ -244,12 +243,3 @@ def _local_actor(value: str | None) -> str:
     if not actor or len(actor) > 80 or any(character.isspace() and character not in {" "} for character in actor):
         raise ValueError("X-Review-Actor must be a nonblank single-line value up to 80 characters")
     return actor
-
-
-def _assert_required_evidence(article: RichGoldRecord) -> None:
-    """Reject confirmation when a present registry-critical field lacks immutable article evidence."""
-    for project in article.projects:
-        for field_name, field in project.fields.items():
-            specification = FIELD_REGISTRY.get(field_name)
-            if specification is not None and specification.evidence_required and field.state == "present" and not field.evidence:
-                raise ValueError(f"missing required evidence: {project.gold_project_id}.{field_name}")

@@ -11,6 +11,7 @@ import sqlite3
 from typing import Any, Iterator, Sequence
 from uuid import uuid4
 
+from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
 
 
@@ -263,6 +264,8 @@ class ReviewStore:
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
             old = project.fields[field_name]
+            if old.state == "needs_adjudication" and field.state != "needs_adjudication":
+                raise ValueError(f"field resolution requires adjudication: {field_path}")
             project.fields[field_name] = field
             self._save_article(conn, article, now)
             conn.execute(
@@ -393,8 +396,7 @@ class ReviewStore:
         now = _utc_now()
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
-            if _has_unresolved_conflicts(article):
-                raise ValueError("unresolved conflicts prevent article confirmation")
+            _assert_confirmation_guards(article)
             previous_status = article.review_status
             article.article_review_status = "reviewed"
             article.assert_publishable()
@@ -714,6 +716,23 @@ def _has_unresolved_conflicts(article: RichGoldRecord) -> bool:
         for project in article.projects
         for field in project.fields.values()
     )
+
+
+def _assert_confirmation_guards(article: RichGoldRecord) -> None:
+    """Reject every non-publishable current draft condition while the caller retains the write transaction."""
+    if article.review_status == "reviewed":
+        raise ValueError("article is already reviewed")
+    if _has_unresolved_conflicts(article):
+        raise ValueError("unresolved conflicts prevent article confirmation")
+    for project in article.projects:
+        for field_name, field in project.fields.items():
+            specification = FIELD_REGISTRY.get(field_name)
+            if specification is None or not specification.evidence_required or field.state != "present":
+                continue
+            if not field.evidence:
+                raise ValueError(f"missing required evidence: {project.gold_project_id}.{field_name}")
+            if any(evidence.article_sha256 != article.article_sha256 for evidence in field.evidence):
+                raise ValueError(f"evidence article hash mismatch: {project.gold_project_id}.{field_name}")
 
 
 def _decode_audit_entry(row: sqlite3.Row) -> AuditEntry:

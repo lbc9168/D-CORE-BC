@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import hashlib
 import sqlite3
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
 
+from gold_standard_studio.config import StudioConfig
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import (
     CandidateBundle,
@@ -18,6 +18,7 @@ from gold_standard_studio.schemas import (
     GoldProject,
     RichGoldRecord,
 )
+from gold_standard_studio.sources import SourceRepository
 from gold_standard_studio.web.app import create_app
 
 
@@ -63,6 +64,72 @@ def store(tmp_path: Path) -> ReviewStore:
 def client(store: ReviewStore) -> TestClient:
     """Expose the application using the real SQLite store rather than mocks."""
     return TestClient(create_app(store))
+
+
+@pytest.fixture
+def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceRepository]:
+    """Build the actual configured source repositories used to derive an API review draft."""
+    raw_news_db, projects_db, main_db = (tmp_path / name for name in ("raw_news.db", "projects.db", "main.db"))
+    with sqlite3.connect(raw_news_db) as conn:
+        conn.execute("CREATE TABLE raw_news (url TEXT PRIMARY KEY, title TEXT, content TEXT, publish_date TEXT)")
+        conn.execute(
+            "INSERT INTO raw_news VALUES (?, ?, ?, ?)",
+            ("https://example.test/source-backed", "标题", "光伏项目证据", "2026-08-06"),
+        )
+    with sqlite3.connect(projects_db) as conn:
+        conn.execute(
+            "CREATE TABLE extracted_projects (id INTEGER PRIMARY KEY, source_link TEXT, category TEXT, imported_to_s02a INTEGER)"
+        )
+    with sqlite3.connect(main_db) as conn:
+        conn.executescript(
+            """CREATE TABLE canonical_projects (id TEXT PRIMARY KEY, project_name TEXT, category TEXT);
+            CREATE TABLE project_events (id TEXT PRIMARY KEY, canonical_id TEXT, source_links TEXT);
+            CREATE TABLE chinese_entities (id INTEGER PRIMARY KEY, event_id TEXT);"""
+        )
+        conn.execute("INSERT INTO canonical_projects VALUES (?, ?, ?)", ("P-1", "光伏项目", "光伏"))
+        conn.execute(
+            "INSERT INTO project_events VALUES (?, ?, ?)",
+            ("E-1", "P-1", '["https://example.test/source-backed"]'),
+        )
+    config = StudioConfig.from_paths(
+        raw_news_db=raw_news_db,
+        projects_db=projects_db,
+        main_db=main_db,
+        data_dir=tmp_path / "studio",
+    )
+    repository = SourceRepository(config)
+    snapshot = repository.load_article("https://example.test/source-backed")
+    labels = repository.load_current_labels(snapshot.source_link)
+    review_store = ReviewStore(tmp_path / "studio" / "review.db")
+    review_store.initialize()
+    review_store.seed_article(
+        RichGoldRecord(
+            sample_id="SRC001",
+            article_sha256=snapshot.article_sha256,
+            source_link=snapshot.source_link,
+            projects=[
+                GoldProject(
+                    gold_project_id="P01",
+                    fields={
+                        "category": GoldField(
+                            state="present",
+                            value=labels[0].category,
+                            evidence_required=True,
+                            evidence=[
+                                EvidenceSpan(
+                                    quote="光伏",
+                                    start=0,
+                                    end=2,
+                                    article_sha256=snapshot.article_sha256,
+                                )
+                            ],
+                        )
+                    },
+                )
+            ],
+        )
+    )
+    return TestClient(create_app(review_store, source_repository=repository)), repository
 
 
 def test_queue_defaults_to_ready_low_difficulty(client: TestClient) -> None:
@@ -178,23 +245,61 @@ def test_adjudication_requires_a_field_held_for_adjudication(client: TestClient)
     assert response.json()["detail"] == "field is not awaiting adjudication: P01.category"
 
 
-def test_api_actions_leave_all_source_database_hashes_unchanged(tmp_path: Path, client: TestClient) -> None:
-    """Keep API mutations confined to the review store while three source SQLite files stay byte-identical."""
-    source_paths = [tmp_path / name for name in ("raw_news.db", "projects.db", "main.db")]
-    for path in source_paths:
-        with sqlite3.connect(path) as conn:
-            conn.execute("CREATE TABLE source_rows (value TEXT)")
-            conn.execute("INSERT INTO source_rows VALUES ('immutable')")
-    before = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in source_paths}
+def test_generic_api_field_route_cannot_bypass_adjudication(client: TestClient) -> None:
+    """Reject an ordinary API field write that attempts to resolve a pending adjudication field."""
+    client.put(
+        "/api/articles/S001/fields/P01.category",
+        json={"field": make_field("", state="needs_adjudication").model_dump(mode="json")},
+    )
 
-    assert client.post("/api/articles/S001/start").status_code == 200
-    assert client.put(
+    response = client.put(
         "/api/articles/S001/fields/P01.category",
         json={"field": make_field("光伏").model_dump(mode="json")},
-    ).status_code == 200
-    after = {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in source_paths}
+    )
 
-    assert after == before
+    assert response.status_code == 422
+    assert response.json()["detail"] == "field resolution requires adjudication: P01.category"
+
+
+def test_api_actions_leave_configured_source_repository_hashes_unchanged(
+    configured_source_client: tuple[TestClient, SourceRepository],
+) -> None:
+    """Keep every API action away from the configured source databases that seeded its review draft."""
+    source_client, repository = configured_source_client
+    before = repository.snapshot_hashes()
+    category = GoldField(
+        state="present",
+        value="光伏",
+        evidence_required=True,
+        evidence=[
+            EvidenceSpan(
+                quote="光伏",
+                start=0,
+                end=2,
+                article_sha256=repository.load_article("https://example.test/source-backed").article_sha256,
+            )
+        ],
+    ).model_dump(mode="json")
+
+    assert source_client.get("/api/queue").status_code == 200
+    assert source_client.get("/api/articles/SRC001").status_code == 200
+    assert source_client.post("/api/articles/SRC001/start").status_code == 200
+    assert source_client.put(
+        "/api/articles/SRC001/structure",
+        json={"base_revision": 1, "projects": [{"gold_project_id": "P01", "fields": {"category": category}}]},
+    ).status_code == 200
+    assert source_client.put("/api/articles/SRC001/fields/P01.category", json={"field": category}).status_code == 200
+    assert source_client.put(
+        "/api/articles/SRC001/fields/P01.category",
+        json={"field": make_field("", state="needs_adjudication").model_dump(mode="json")},
+    ).status_code == 200
+    assert source_client.post(
+        "/api/articles/SRC001/adjudication", json={"field_path": "P01.category", "field": category}
+    ).status_code == 200
+    assert source_client.post("/api/articles/SRC001/confirm").status_code == 200
+    assert source_client.get("/api/articles/SRC001/audit").status_code == 200
+
+    assert repository.snapshot_hashes() == before
 
 
 def test_article_conflicts_are_read_only_candidate_context(store: ReviewStore, client: TestClient) -> None:
