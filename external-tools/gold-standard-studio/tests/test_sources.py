@@ -46,7 +46,7 @@ def _create_raw_news_db(path: Path) -> None:
 
 
 def _create_projects_db(path: Path) -> None:
-    """Create the minimum extracted-project schema and one unimported record."""
+    """Create the minimum extracted-project schema with imported and pending labels."""
     with sqlite3.connect(path) as conn:
         conn.execute(
             """CREATE TABLE extracted_projects (
@@ -57,9 +57,13 @@ def _create_projects_db(path: Path) -> None:
                 imported_to_s02a INTEGER DEFAULT 0
             )"""
         )
-        conn.execute(
+        conn.executemany(
             "INSERT INTO extracted_projects(project_name, category, source_link, imported_to_s02a) VALUES (?, ?, ?, ?)",
-            ("提取项目", " 光伏 ", "https://example.test/unimported", 0),
+            [
+                ("已导入项目", "风电", "https://example.test/unimported", 1),
+                ("提取项目", " 光伏 ", "https://example.test/unimported", 0),
+                ("遗留待导入项目", "储能", "https://example.test/unimported", None),
+            ],
         )
 
 
@@ -109,6 +113,15 @@ def _create_main_db(path: Path) -> None:
             "INSERT INTO chinese_entities(event_id, implementing_entity, involvement_type) VALUES (?, ?, ?)",
             ("KEN-MIX-0001-01", "中国电建", "承包商"),
         )
+        conn.execute(
+            "INSERT INTO canonical_projects(id, project_name, category, country) VALUES (?, ?, ?, ?)",
+            ("KEN-BAD-0001", "损坏链接项目", "风电", "肯尼亚"),
+        )
+        conn.execute(
+            """INSERT INTO project_events(id, canonical_id, source_links)
+               VALUES (?, ?, ?)""",
+            ("KEN-BAD-0001-01", "KEN-BAD-0001", "https://example.test/malformed"),
+        )
 
 
 @pytest.fixture
@@ -157,8 +170,15 @@ def test_repository_reads_unimported_extracted_project_without_changing_import_f
 
     projects = repo.load_current_labels("https://example.test/unimported")
 
-    assert projects[0].category == "光伏"
-    assert projects[0].raw_values["imported_to_s02a"] == 0
+    assert [project.category for project in projects] == ["光伏", "储能"]
+    assert [project.raw_values["imported_to_s02a"] for project in projects] == [0, None]
+
+
+def test_repository_rejects_malformed_event_source_link_json(db_fixture: DatabaseFixture):
+    """Ignore malformed event-link JSON rather than treating raw text as a source URL."""
+    repo = SourceRepository(db_fixture.config)
+
+    assert repo.load_current_labels("https://example.test/malformed") == []
 
 
 def test_repository_connection_rejects_insert(db_fixture: DatabaseFixture):
@@ -170,7 +190,50 @@ def test_repository_connection_rejects_insert(db_fixture: DatabaseFixture):
 
 
 def test_snapshot_hashes_cover_all_source_databases(db_fixture: DatabaseFixture):
-    """Report stable SHA-256 hashes for each immutable source database file."""
+    """Report stable logical hashes for every source database under unchanged data."""
     repo = SourceRepository(db_fixture.config)
 
-    assert repo.snapshot_hashes() == db_fixture.hashes()
+    hashes = repo.snapshot_hashes()
+
+    assert set(hashes) == {path.name for path in db_fixture.paths}
+    assert all(len(value) == 64 for value in hashes.values())
+    assert hashes == repo.snapshot_hashes()
+
+
+def test_snapshot_hashes_include_committed_wal_content(db_fixture: DatabaseFixture):
+    """Hash logical rows so commits stored only in a WAL change the source snapshot."""
+    raw_path = db_fixture.config.raw_news_db
+    with sqlite3.connect(raw_path) as writer:
+        writer.execute("PRAGMA journal_mode=WAL")
+        writer.execute("PRAGMA wal_checkpoint(TRUNCATE)")
+        writer.execute("PRAGMA wal_autocheckpoint=0")
+        before_main_bytes = raw_path.read_bytes()
+        before = SourceRepository(db_fixture.config).snapshot_hashes()[raw_path.name]
+        writer.execute(
+            "INSERT INTO raw_news(url, title, content, publish_date) VALUES (?, ?, ?, ?)",
+            ("https://example.test/wal", "WAL 项目", "WAL 正文", "2026-08-02"),
+        )
+        writer.commit()
+
+        after = SourceRepository(db_fixture.config).snapshot_hashes()[raw_path.name]
+
+    assert raw_path.read_bytes() == before_main_bytes
+    assert after != before
+
+
+def test_snapshots_expose_read_only_mappings(db_fixture: DatabaseFixture):
+    """Prevent callers from mutating raw, display, and entity snapshot mappings."""
+    repo = SourceRepository(db_fixture.config)
+    article = repo.load_article("https://example.test/a")
+    project = repo.load_current_labels(article.source_link)[0]
+
+    with pytest.raises(TypeError):
+        article.raw_values["title"] = "changed"
+    with pytest.raises(TypeError):
+        article.display_values["title"] = "changed"
+    with pytest.raises(TypeError):
+        project.raw_values["category"] = "changed"
+    with pytest.raises(TypeError):
+        project.display_values["category"] = "changed"
+    with pytest.raises(TypeError):
+        project.entities[0]["implementing_entity"] = "changed"

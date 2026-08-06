@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
+import struct
 from dataclasses import dataclass
 from pathlib import Path
 from types import MappingProxyType
@@ -69,13 +70,13 @@ def _display_values(values: Mapping[str, Any]) -> Mapping[str, Any]:
 
 
 def _parse_source_links(value: Any) -> tuple[str, ...]:
-    """Decode a project-event source-link JSON value without treating malformed data as a match."""
+    """Decode only valid project-event source-link JSON arrays and reject malformed values."""
     if not isinstance(value, str):
         return ()
     try:
         decoded = json.loads(value)
     except json.JSONDecodeError:
-        return (value.strip(),) if value.strip() else ()
+        return ()
     if not isinstance(decoded, list):
         return ()
     return tuple(item for item in decoded if isinstance(item, str))
@@ -125,14 +126,11 @@ class SourceRepository:
         return main_projects if main_projects else self._load_extracted_projects(source_link)
 
     def snapshot_hashes(self) -> dict[str, str]:
-        """Return SHA-256 file hashes that pin every database used by the repository."""
+        """Return SHA-256 hashes of each source database's transactional logical state."""
         return {
-            path.name: _file_sha256(path)
-            for path in (
-                self._config.raw_news_db,
-                self._config.projects_db,
-                self._config.main_db,
-            )
+            self._config.raw_news_db.name: _logical_snapshot_sha256(self._raw_conn),
+            self._config.projects_db.name: _logical_snapshot_sha256(self._projects_conn),
+            self._config.main_db.name: _logical_snapshot_sha256(self._main_conn),
         }
 
     def _load_main_projects(self, source_link: str) -> list[CurrentProject]:
@@ -167,7 +165,9 @@ class SourceRepository:
     def _load_extracted_projects(self, source_link: str) -> list[CurrentProject]:
         """Map a source URL directly to extraction labels without changing import status."""
         rows = self._projects_conn.execute(
-            "SELECT * FROM extracted_projects WHERE source_link = ?", (source_link,)
+            """SELECT * FROM extracted_projects
+               WHERE source_link = ? AND COALESCE(imported_to_s02a, 0) = 0""",
+            (source_link,),
         ).fetchall()
         projects: list[CurrentProject] = []
         for row in rows:
@@ -206,6 +206,61 @@ def _optional_text_value(values: Mapping[str, Any], key: str) -> str | None:
     return value or None
 
 
-def _file_sha256(path: Path) -> str:
-    """Hash one source database file without opening it for mutation."""
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+def _logical_snapshot_sha256(conn: sqlite3.Connection) -> str:
+    """Hash schemas and sorted table rows within one read transaction, including committed WAL pages."""
+    owns_transaction = not conn.in_transaction
+    if owns_transaction:
+        conn.execute("BEGIN")
+    try:
+        digest = hashlib.sha256()
+        tables = conn.execute(
+            """SELECT name, sql FROM sqlite_master
+               WHERE type = 'table' AND name NOT LIKE 'sqlite_%'
+               ORDER BY name"""
+        ).fetchall()
+        for table in tables:
+            table_name = table["name"]
+            _update_hash_value(digest, "table")
+            _update_hash_value(digest, table_name)
+            _update_hash_value(digest, table["sql"])
+            columns = [
+                row["name"]
+                for row in conn.execute(f"PRAGMA table_info({_quote_identifier(table_name)})")
+            ]
+            for column in columns:
+                _update_hash_value(digest, column)
+            query = f"SELECT * FROM {_quote_identifier(table_name)}"
+            if columns:
+                order_by = ", ".join(_quote_identifier(column) for column in columns)
+                query = f"{query} ORDER BY {order_by}"
+            for row in conn.execute(query):
+                _update_hash_value(digest, "row")
+                for value in row:
+                    _update_hash_value(digest, value)
+        return digest.hexdigest()
+    finally:
+        if owns_transaction:
+            conn.execute("ROLLBACK")
+
+
+def _quote_identifier(identifier: str) -> str:
+    """Quote a SQLite identifier while preserving its exact schema-provided name."""
+    return '"' + identifier.replace('"', '""') + '"'
+
+
+def _update_hash_value(digest: Any, value: Any) -> None:
+    """Write one typed SQLite value to a digest without ambiguous text concatenation."""
+    if value is None:
+        encoded = b"null"
+    elif isinstance(value, bytes):
+        encoded = b"blob:" + value
+    elif isinstance(value, str):
+        encoded = b"text:" + value.encode("utf-8")
+    elif isinstance(value, int):
+        encoded = b"int:" + str(value).encode("ascii")
+    elif isinstance(value, float):
+        encoded = b"float:" + struct.pack("!d", value)
+    else:
+        raise TypeError(f"Unsupported SQLite value for logical hashing: {type(value)!r}")
+    digest.update(len(encoded).to_bytes(8, "big"))
+    digest.update(encoded)
