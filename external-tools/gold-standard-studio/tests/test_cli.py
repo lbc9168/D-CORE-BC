@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 import sqlite3
 from pathlib import Path
 
@@ -82,6 +83,56 @@ def test_init_persists_explicit_paths_and_sample_apply_seeds_only_review_db(tmp_
     assert {path: hashlib.sha256(path.read_bytes()).hexdigest() for path in sources} == source_hashes
 
 
+def test_init_rejects_an_unusable_source_contract_without_creating_studio_state(tmp_path: Path) -> None:
+    """Validate actual SQLite tables and columns before init can create local configuration or review state."""
+    from gold_standard_studio.cli import app
+
+    sources = _create_sources(tmp_path)
+    with sqlite3.connect(sources[1]) as conn:
+        conn.execute("DROP TABLE extracted_projects")
+        conn.execute("CREATE TABLE extracted_projects (id INTEGER PRIMARY KEY, source_link TEXT)")
+    data_dir = tmp_path / "studio"
+
+    result = CliRunner().invoke(app, ["init", *_args(sources, data_dir)])
+
+    assert result.exit_code != 0
+    assert "contract" in result.output.lower()
+    assert not data_dir.exists()
+
+
+def test_init_rejects_corrupt_sqlite_without_creating_studio_state(tmp_path: Path) -> None:
+    """Fail closed when a configured source is not queryable SQLite rather than leaving partial Studio state."""
+    from gold_standard_studio.cli import app
+
+    sources = _create_sources(tmp_path)
+    sources[0].write_bytes(b"not a sqlite database")
+    data_dir = tmp_path / "studio"
+
+    result = CliRunner().invoke(app, ["init", *_args(sources, data_dir)])
+
+    assert result.exit_code != 0
+    assert "sqlite" in result.output.lower() or "contract" in result.output.lower()
+    assert not data_dir.exists()
+
+
+def test_sample_json_dry_run_emits_source_integrity_and_selection_evidence(tmp_path: Path) -> None:
+    """Make source hash, row, ID, quota, and unchanged evidence machine-readable without Studio writes."""
+    from gold_standard_studio.cli import app
+
+    data_dir = tmp_path / "studio"
+    result = CliRunner().invoke(app, ["sample", *_args(_create_sources(tmp_path), data_dir), "--format", "json"])
+
+    payload = json.loads(result.stdout)
+    assert result.exit_code == 0, result.output
+    assert payload["selection"]["selected_count"] == 60
+    assert payload["selection"]["negative_count"] == 11
+    assert payload["selection"]["category_floors"]["储能"]["satisfied"] is True
+    assert payload["source_before"]["logical_hashes"] == payload["source_after"]["logical_hashes"]
+    assert payload["unchanged"]["logical_hashes"] is True
+    assert payload["source_after"]["raw_news"]["row_count"] == 80
+    assert not data_dir.exists()
+
+
 def test_publish_requires_explicit_version(tmp_path: Path) -> None:
     """Prevent ambiguous or accidental formal publication without a semantic version request."""
     from gold_standard_studio.cli import app
@@ -114,6 +165,32 @@ def test_build_all_requires_confirmation_and_reports_exact_resume_count(tmp_path
     assert "remaining=0" in resumed.stdout
 
 
+def test_build_all_and_resume_include_reviewed_samples_using_bundle_presence_only(tmp_path: Path) -> None:
+    """Build every seeded record and skip only stored bundles under resume, even after all articles are reviewed."""
+    from gold_standard_studio.cli import app
+    from gold_standard_studio.review_store import ReviewStore
+    from gold_standard_studio.schemas import CandidateBundle, CandidateValue
+
+    sources = _create_sources(tmp_path)
+    data_dir = tmp_path / "studio"
+    runner = CliRunner()
+    assert runner.invoke(app, ["init", *_args(sources, data_dir)]).exit_code == 0
+    assert runner.invoke(app, ["sample", "--apply", "--data-dir", str(data_dir)]).exit_code == 0
+    store = ReviewStore(data_dir / "review.db")
+    for item in store.list_all_samples():
+        store.confirm_article(item.sample_id, actor="fixture")
+    first = store.list_all_samples()[0]
+    store.save_candidate_bundle(CandidateBundle(sample_id=first.sample_id, article_sha256=store.get_article(first.sample_id).article_sha256, sources={"database": CandidateValue(source_name="database")}))
+
+    resume_result = runner.invoke(app, ["build-candidates", "--all", "--resume", "--yes", "--data-dir", str(data_dir)])
+    all_result = runner.invoke(app, ["build-candidates", "--all", "--yes", "--data-dir", str(data_dir)])
+
+    assert resume_result.exit_code == 0, resume_result.output
+    assert "candidate scope count=59" in resume_result.stdout
+    assert all_result.exit_code == 0, all_result.output
+    assert "candidate scope count=60" in all_result.stdout
+
+
 def test_report_writes_accessible_self_contained_html(tmp_path: Path) -> None:
     """Produce a local review summary with no network dependencies after the review database exists."""
     from gold_standard_studio.cli import app
@@ -131,3 +208,28 @@ def test_report_writes_accessible_self_contained_html(tmp_path: Path) -> None:
     assert result.exit_code == 0, result.stdout
     assert "<main" in contents and "<table" in contents and "<caption" in contents
     assert "https://" not in contents
+
+
+def test_report_retains_status_split_and_risk_totals_after_every_sample_is_reviewed(tmp_path: Path) -> None:
+    """Report the completed Pilot from all samples rather than accidentally hiding reviewed records."""
+    from gold_standard_studio.cli import app
+    from gold_standard_studio.review_store import ReviewStore
+    from gold_standard_studio.schemas import DifficultyScore
+
+    sources = _create_sources(tmp_path)
+    data_dir = tmp_path / "studio"
+    runner = CliRunner()
+    assert runner.invoke(app, ["init", *_args(sources, data_dir)]).exit_code == 0
+    assert runner.invoke(app, ["sample", "--apply", "--data-dir", str(data_dir)]).exit_code == 0
+    store = ReviewStore(data_dir / "review.db")
+    for item in store.list_all_samples():
+        store.confirm_article(item.sample_id, actor="fixture")
+    store.update_sample_scoring("raw-1", DifficultyScore(score=10, risk_tags=["storage_context"]))
+    output = tmp_path / "completed.html"
+
+    result = runner.invoke(app, ["report", "--data-dir", str(data_dir), "--out", str(output)])
+
+    contents = output.read_text(encoding="utf-8")
+    assert result.exit_code == 0, result.output
+    assert "reviewed" in contents and ">60<" in contents
+    assert "development" in contents and "storage_context" in contents

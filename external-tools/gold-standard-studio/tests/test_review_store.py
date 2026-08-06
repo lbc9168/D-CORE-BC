@@ -208,6 +208,31 @@ def test_candidate_bundle_remains_observational_after_confirmation(tmp_path):
     assert store.get_article("S001") == before_article
 
 
+def test_candidate_scoring_is_observational_persistent_and_reorders_the_queue(tmp_path):
+    """Persist candidate-derived scoring independently of gold drafts, including after human confirmation."""
+    store = ReviewStore(tmp_path / "review.db")
+    store.initialize()
+    store.seed_article(RichGoldRecord(sample_id="S001", article_sha256=ARTICLE_SHA256))
+    store.seed_article(RichGoldRecord(sample_id="S002", article_sha256=ARTICLE_SHA256))
+    store.confirm_article("S001", actor="human")
+    before_gold = store.get_article("S001").model_dump(mode="json")
+
+    store.update_sample_scoring(
+        "S001", DifficultyScore(score=90, reason_codes=["category_disagreement"], risk_tags=["category_conflict"])
+    )
+    store.update_sample_scoring(
+        "S002", DifficultyScore(score=10, reason_codes=["single_source_support"], risk_tags=["single_source_support"])
+    )
+    reopened = ReviewStore(store.path)
+
+    assert reopened.get_article("S001").model_dump(mode="json") == before_gold
+    assert [(item.sample_id, item.difficulty_score) for item in reopened.list_queue()] == [("S002", 10)]
+    all_samples = {item.sample_id: item for item in reopened.list_all_samples()}
+    assert all_samples["S001"].risk_tags == ("category_conflict",)
+    assert all_samples["S001"].difficulty_score == 90
+    assert reopened.list_audit("S001")[-1].action == "sample_scoring"
+
+
 def test_adjudication_atomically_resolves_only_a_pending_field_and_audits_its_action(tmp_path):
     """Resolve a held field in one transaction while preserving an adjudication-specific audit event."""
     store = seeded_store(tmp_path, unresolved=True)

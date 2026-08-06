@@ -50,6 +50,21 @@ class SamplingRow:
     label_count: int
 
 
+class SourceContractError(ValueError):
+    """Signal that one configured source is unreadable or lacks the Studio's required read-only schema contract."""
+
+
+_REQUIRED_SOURCE_COLUMNS = {
+    "raw_news": {"raw_news": {"id", "url", "title", "content", "publish_date"}},
+    "projects": {"extracted_projects": {"id", "source_link", "imported_to_s02a", "category"}},
+    "main": {
+        "canonical_projects": {"id", "project_name", "category"},
+        "project_events": {"id", "canonical_id", "source_links"},
+        "chinese_entities": {"id", "event_id"},
+    },
+}
+
+
 def _connect_ro(path: Path) -> sqlite3.Connection:
     """Open a SQLite database in URI and pragma-enforced read-only mode."""
     conn = sqlite3.connect(sqlite_ro_uri(path), uri=True, check_same_thread=False)
@@ -224,6 +239,52 @@ class SourceRepository:
                 self._config.main_db.name: _logical_snapshot_sha256(self._main_conn),
             }
 
+    def validate_contract(self) -> None:
+        """Verify all configured SQLite sources are queryable and expose required tables and columns before local init."""
+        with self._lock:
+            self._assert_open()
+            connections = {
+                "raw_news": self._raw_conn,
+                "projects": self._projects_conn,
+                "main": self._main_conn,
+            }
+            try:
+                for source_name, requirements in _REQUIRED_SOURCE_COLUMNS.items():
+                    conn = connections[source_name]
+                    for table, required_columns in requirements.items():
+                        table_row = conn.execute(
+                            "SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?", (table,)
+                        ).fetchone()
+                        if table_row is None:
+                            raise SourceContractError(f"source contract failed: {source_name} missing table '{table}'")
+                        available = {
+                            row["name"] for row in conn.execute(f"PRAGMA table_info({_quote_identifier(table)})")
+                        }
+                        missing = sorted(required_columns.difference(available))
+                        if missing:
+                            raise SourceContractError(
+                                f"source contract failed: {source_name}.{table} missing columns {missing}"
+                            )
+                        conn.execute(f"SELECT * FROM {_quote_identifier(table)} LIMIT 0").fetchall()
+            except sqlite3.DatabaseError as error:
+                raise SourceContractError(f"source contract failed: SQLite is unreadable ({error})") from error
+
+    def source_integrity(self) -> dict[str, Any]:
+        """Return authoritative logical hashes plus required table counts and ID-set digests from one read-only source view."""
+        with self._lock:
+            self._assert_open()
+            return {
+                "logical_hashes": self.snapshot_hashes(),
+                "physical_hashes": {
+                    self._config.raw_news_db.name: _physical_sha256(self._config.raw_news_db),
+                    self._config.projects_db.name: _physical_sha256(self._config.projects_db),
+                    self._config.main_db.name: _physical_sha256(self._config.main_db),
+                },
+                "raw_news": _table_identity(self._raw_conn, "raw_news"),
+                "canonical_projects": _table_identity(self._main_conn, "canonical_projects"),
+                "project_events": _table_identity(self._main_conn, "project_events"),
+            }
+
     def _load_main_projects(self, source_link: str) -> list[CurrentProject]:
         """Map a source URL through event JSON links to canonical labels and entities."""
         with self._lock:
@@ -357,6 +418,22 @@ def _logical_snapshot_sha256(conn: sqlite3.Connection) -> str:
     finally:
         if owns_transaction:
             conn.execute("ROLLBACK")
+
+
+def _physical_sha256(path: Path) -> str:
+    """Hash the main SQLite file for supplemental diagnostics while logical hashes remain WAL-safe authority."""
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _table_identity(conn: sqlite3.Connection, table: str) -> dict[str, Any]:
+    """Return a row count and ordered primary-ID digest for one required source table without exporting identifiers."""
+    digest = hashlib.sha256()
+    row_count = 0
+    for row in conn.execute(f"SELECT id FROM {_quote_identifier(table)} ORDER BY id"):
+        digest.update(str(row[0]).encode("utf-8"))
+        digest.update(b"\0")
+        row_count += 1
+    return {"row_count": row_count, "id_set_sha256": digest.hexdigest()}
 
 
 def _quote_identifier(identifier: str) -> str:

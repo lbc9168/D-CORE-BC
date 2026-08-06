@@ -77,3 +77,11 @@ The source scan found 27,444 usable raw articles, 5,654 with current labels, and
 | `git diff --check` | exit 0 |
 
 The first unmodified pipeline test command could not spawn `pytest` because its project environment does not declare it. Re-running with temporary `--with pytest` passed; no dependency lock was changed.
+
+## Fix round 1 rerun (machine-readable dry-run)
+
+`sample --format json` now produces the complete real-data evidence in one source-only command. Its 2026-08-06 rerun returned `selected_count=60`, `negative_count=11`, status counts `labeled_current_source=49` / `unlabeled_negative_proxy=11`, and all floors satisfied (储能 6/3, 制造业 7/3, 输变电建设 13/3, 核电 2/2, 火电 10/2, 地热及余热 4/2, 生物质 3/2). Risks were multiple projects 13, rare category 36, and unlabeled source 11.
+
+The structured `source_before` and `source_after` objects matched for authoritative logical hashes, physical diagnostic file hashes, raw-news 27,444-row ID digest `869f88e768d3cc805229ea225b956160b7af2570279ac9466682ea417c3482f0`, canonical-project 4,529-row ID digest `13f155a1355d7df8dff1266eb38cccc9b397d150dc914566aa4abf2846c8be21`, and project-event 5,365-row ID digest `68f874840ddbcaa954753e6a912f850e936ff6371c119eb56acd59644fcb6f2c`. Every `unchanged` boolean was true. No `--apply`, model call, or publication was used.
+
+Fix-round verification: Studio `160 passed`; root `304 passed, 1 skipped`; s01b `605 passed`; s02a `54 passed`; pipeline `2 passed` via `uv run --project pipeline --with pytest pytest pipeline/tests -q`; `git diff --check` returned zero. The only test warnings were pre-existing cache-permission notices and FastAPI's Starlette TestClient deprecation warning.

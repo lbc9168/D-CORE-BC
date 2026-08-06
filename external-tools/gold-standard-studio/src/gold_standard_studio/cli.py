@@ -6,6 +6,7 @@ from collections import Counter
 import html
 import json
 from pathlib import Path
+import sqlite3
 from typing import Annotated, Any, Iterable
 
 import typer
@@ -18,7 +19,7 @@ from gold_standard_studio.exporter import publish_gold
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.sampling import SampleCandidate, SamplingConfig, SamplingInfeasibleError, SelectedSample, build_manifest, select_sample
 from gold_standard_studio.schemas import CandidateValue, DifficultyScore, RichGoldRecord
-from gold_standard_studio.sources import ArticleSnapshot, SourceRepository
+from gold_standard_studio.sources import ArticleSnapshot, SourceContractError, SourceRepository
 from gold_standard_studio.web.app import create_app
 
 
@@ -86,6 +87,35 @@ def _write_config(config: StudioConfig) -> Path:
     }
     path.write_text(json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
     return path
+
+
+def _sample_evidence(selected: list[SelectedSample], before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
+    """Assemble machine-readable selection quotas and before/after source-integrity evidence for a dry-run record."""
+    categories = Counter(category for row in selected for category in row.category_tags)
+    risks = Counter(risk for row in selected for risk in row.risk_tags)
+    statuses = Counter("unlabeled_negative_proxy" if row.is_negative else "labeled_current_source" for row in selected)
+    floors = {
+        category: {"required": required, "selected": categories[category], "satisfied": categories[category] >= required}
+        for category, required in SamplingConfig.pilot().category_floors.items()
+    }
+    unchanged = {
+        "logical_hashes": before["logical_hashes"] == after["logical_hashes"],
+        "physical_hashes": before["physical_hashes"] == after["physical_hashes"],
+        "raw_news": before["raw_news"] == after["raw_news"],
+        "canonical_projects": before["canonical_projects"] == after["canonical_projects"],
+        "project_events": before["project_events"] == after["project_events"],
+    }
+    return {
+        "mode": "dry-run",
+        "selection": {
+            "selected_count": len(selected), "negative_count": sum(row.is_negative for row in selected),
+            "statuses": dict(sorted(statuses.items())), "categories": dict(sorted(categories.items())),
+            "risks": dict(sorted(risks.items())), "category_floors": floors,
+        },
+        "source_before": before,
+        "source_after": after,
+        "unchanged": unchanged,
+    }
 
 
 def _sampling_candidates(repository: SourceRepository) -> tuple[list[SampleCandidate], dict[str, ArticleSnapshot]]:
@@ -179,10 +209,13 @@ def init(
 ) -> None:
     """Initialize isolated local review storage after validating explicit read-only source paths."""
     config = StudioConfig.from_paths(raw_news_db=raw_news_db, projects_db=projects_db, main_db=main_db, data_dir=data_dir)
+    try:
+        with SourceRepository(config) as repository:
+            repository.validate_contract()
+    except (SourceContractError, sqlite3.DatabaseError) as error:
+        raise typer.BadParameter(str(error)) from error
     _write_config(config)
     _load_store(data_dir, require_existing=False)
-    with SourceRepository(config) as _repository:
-        pass
     typer.echo(f"initialized data_dir={data_dir} (source databases remain read-only)")
 
 
@@ -194,35 +227,42 @@ def sample(
     data_dir: Annotated[Path, typer.Option("--data-dir")] = Path("data"),
     pilot_size: Annotated[int, typer.Option("--pilot-size")] = 60,
     apply: Annotated[bool, typer.Option("--apply")] = False,
+    format: Annotated[str, typer.Option("--format")] = "text",
 ) -> None:
     """Propose or explicitly seed an exact quota-validated Pilot sample without writing source databases."""
     config = _config_from_args(raw_news_db, projects_db, main_db, data_dir)
     sampling_config = SamplingConfig.pilot() if pilot_size == 60 else SamplingConfig(
         seed=config.seed, size=pilot_size, negative_fraction=config.negative_fraction,
     )
+    if format not in {"text", "json"}:
+        raise typer.BadParameter("--format must be text or json")
     with SourceRepository(config) as repository:
+        repository.validate_contract()
         candidates, articles = _sampling_candidates(repository)
-        hashes_before = repository.snapshot_hashes()
+        source_before = repository.source_integrity()
         try:
             selected = select_sample(candidates, sampling_config)
         except SamplingInfeasibleError as error:
             raise typer.BadParameter(f"Pilot quotas are infeasible: {error}") from error
-        hashes_after = repository.snapshot_hashes()
-    categories = Counter(category for row in selected for category in row.category_tags)
-    risks = Counter(risk for row in selected for risk in row.risk_tags)
-    negatives = sum(row.is_negative for row in selected)
-    statuses = Counter("unlabeled_negative_proxy" if row.is_negative else "labeled_current_source" for row in selected)
-    typer.echo(
-        f"selected={len(selected)} negatives={negatives} statuses={dict(sorted(statuses.items()))} categories={dict(sorted(categories.items()))} "
-        f"risks={dict(sorted(risks.items()))} source_hashes_unchanged={hashes_before == hashes_after}"
-    )
+        source_after = repository.source_integrity()
+    evidence = _sample_evidence(selected, source_before, source_after)
+    if format == "json":
+        typer.echo(json.dumps(evidence, ensure_ascii=False, sort_keys=True))
+    else:
+        selection = evidence["selection"]
+        typer.echo(
+            f"selected={selection['selected_count']} negatives={selection['negative_count']} statuses={selection['statuses']} "
+            f"categories={selection['categories']} risks={selection['risks']} "
+            f"source_hashes_unchanged={evidence['unchanged']['logical_hashes']}"
+        )
     if not apply:
-        typer.echo("dry-run: no review database, model cache, or source database was written")
+        if format != "json":
+            typer.echo("dry-run: no review database, model cache, or source database was written")
         return
     store = _load_store(data_dir, require_existing=False)
     for record in _sample_records(selected, articles):
         store.seed_article(record)
-    manifest_path = _write_sample_manifest(data_dir, selected, hashes_before)
+    manifest_path = _write_sample_manifest(data_dir, selected, source_before["logical_hashes"])
     typer.echo(f"applied selected={len(selected)} review_db={store.path} manifest={manifest_path}")
 
 
@@ -239,9 +279,9 @@ def build_candidates(
         raise typer.BadParameter("provide exactly one of --sample-id or --all")
     config = _config_from_args(None, None, None, data_dir)
     store = _load_store(data_dir)
-    records = [store.get_article(sample_id)] if sample_id else [store.get_article(item.sample_id) for item in store.list_queue()]
+    records = [store.get_article(sample_id)] if sample_id else [store.get_article(item.sample_id) for item in store.list_all_samples()]
     if resume:
-        records = [record for record in records if store.get_candidate_bundle(record.sample_id) is None]
+        records = [record for record in records if not store.has_candidate_bundle(record.sample_id)]
     typer.echo(f"candidate scope count={len(records)} remaining={len(records)}; external model calls are disabled by this CLI")
     if not records:
         return
@@ -253,11 +293,7 @@ def build_candidates(
             article = repository.load_article(record.source_link or "")
             bundle = builder.build(article, sample_id=record.sample_id)
             store.save_candidate_bundle(bundle)
-            difficulty = score_difficulty(bundle)
-            if record.difficulty != difficulty:
-                record.difficulty = difficulty
-                record.risk_tags = difficulty.risk_tags
-                # A candidate bundle is review context, so preserve the unreviewed shell by reseeding is unsafe.
+            store.update_sample_scoring(record.sample_id, score_difficulty(bundle))
     typer.echo(f"built={len(records)} model_calls=0")
 
 
@@ -299,12 +335,11 @@ def _report_counts(store: ReviewStore) -> dict[str, Counter[str]]:
     statuses: Counter[str] = Counter()
     splits: Counter[str] = Counter()
     risks: Counter[str] = Counter()
-    for item in store.list_queue():
-        record = store.get_article(item.sample_id)
-        statuses[record.review_status] += 1
-        if record.dataset_split:
-            splits[record.dataset_split] += 1
-        risks.update(record.risk_tags)
+    for item in store.list_all_samples():
+        statuses[item.review_status] += 1
+        if item.dataset_split:
+            splits[item.dataset_split] += 1
+        risks.update(item.risk_tags)
     return {"status": statuses, "split": splits, "risk": risks}
 
 

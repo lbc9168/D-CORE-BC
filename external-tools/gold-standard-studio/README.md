@@ -24,6 +24,12 @@ First run the default, no-write proposal. It reports selection count, negative p
 uv run --project external-tools/gold-standard-studio gold-studio sample --data-dir data/gold-studio
 ```
 
+For a mechanically reproducible record suitable for handoff, use `--format json`. It includes before/after logical hashes, optional main-file hashes, raw/canonical/event row counts and ID-set digests, exact selection/status/category/risk counts, every floor, and unchanged booleans. Logical hashes are authoritative because SQLite WAL content can be committed without changing the main database file; physical hashes are diagnostics only.
+
+```powershell
+uv run --project external-tools/gold-standard-studio gold-studio sample --data-dir data/gold-studio --format json
+```
+
 The Pilot is fixed at 60 articles and an exact 18% negative quota (11/60); it also enforces floors for 储能, 制造业, 输变电建设, 核电, 火电, 地热及余热, and 生物质. The current production category `新能源制造业` is explicitly retained in audit data and additionally mapped to the design stratum `制造业`; this is a taxonomy alias, not a lowered quota. If any quota is otherwise infeasible, the command fails rather than weakening it. An unlabeled current-source article is only a negative sampling proxy, never an automatic gold status.
 
 After inspection, explicitly create local review shells and a manifest:
@@ -88,9 +94,9 @@ Pilot acceptance requires 60 manually reviewed samples, 9–12 human-confirmed n
 
 ```powershell
 uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests -q
-pytest tests -q
-pytest s01b_project_extractor/tests -q
-pytest s02a_duplicate_merger/tests -q
-pytest pipeline/tests -q
+uv run pytest tests -q
+uv run --project s01b_project_extractor pytest s01b_project_extractor/tests -q
+uv run --project s02a_duplicate_merger pytest s02a_duplicate_merger/tests -q
+uv run --project pipeline --with pytest pytest pipeline/tests -q
 git diff --check
 ```

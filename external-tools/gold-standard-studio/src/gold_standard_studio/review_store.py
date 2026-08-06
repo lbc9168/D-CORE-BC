@@ -13,13 +13,14 @@ from uuid import uuid4
 
 from gold_standard_studio.evidence import structural_conflicts
 from gold_standard_studio.field_registry import FIELD_REGISTRY
-from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.schemas import CandidateBundle, DifficultyScore, GoldField, GoldProject, RichGoldRecord
 
 
 _TABLES = (
     "samples",
     "article_drafts",
     "candidate_bundles",
+    "sample_scoring",
     "field_decisions",
     "structure_revisions",
     "audit_log",
@@ -67,6 +68,17 @@ class QueueItem:
     difficulty_score: float
 
 
+@dataclass(frozen=True)
+class SampleItem:
+    """Describe every persisted sample with observational scoring and the immutable draft dimensions used in reports."""
+
+    sample_id: str
+    review_status: str
+    difficulty_score: float
+    risk_tags: tuple[str, ...]
+    dataset_split: str | None
+
+
 class ReviewStore:
     """Provide transactional SQLite persistence for isolated Studio human-review workflows."""
 
@@ -96,6 +108,13 @@ class ReviewStore:
                 CREATE TABLE IF NOT EXISTS candidate_bundles (
                     sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id),
                     payload_json TEXT NOT NULL,
+                    updated_at TEXT NOT NULL
+                );
+                CREATE TABLE IF NOT EXISTS sample_scoring (
+                    sample_id TEXT PRIMARY KEY REFERENCES samples(sample_id),
+                    difficulty_score REAL NOT NULL,
+                    reason_codes_json TEXT NOT NULL,
+                    risk_tags_json TEXT NOT NULL,
                     updated_at TEXT NOT NULL
                 );
                 CREATE TABLE IF NOT EXISTS field_decisions (
@@ -219,6 +238,49 @@ class ReviewStore:
                 "SELECT payload_json FROM candidate_bundles WHERE sample_id = ?", (sample_id,)
             ).fetchone()
         return CandidateBundle.model_validate_json(row["payload_json"]) if row is not None else None
+
+    def has_candidate_bundle(self, sample_id: str) -> bool:
+        """Return whether one sample already has a saved candidate bundle regardless of review status."""
+        with self._connect() as conn:
+            self._load_article(conn, sample_id)
+            return conn.execute(
+                "SELECT 1 FROM candidate_bundles WHERE sample_id = ?", (sample_id,)
+            ).fetchone() is not None
+
+    def update_sample_scoring(self, sample_id: str, difficulty: DifficultyScore) -> None:
+        """Persist observational candidate scoring and an audit event without modifying or reopening any gold draft."""
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            self._load_article(conn, sample_id)
+            previous_row = conn.execute(
+                """SELECT difficulty_score, reason_codes_json, risk_tags_json
+                   FROM sample_scoring WHERE sample_id = ?""",
+                (sample_id,),
+            ).fetchone()
+            previous = (
+                DifficultyScore(
+                    score=previous_row["difficulty_score"],
+                    reason_codes=json.loads(previous_row["reason_codes_json"]),
+                    risk_tags=json.loads(previous_row["risk_tags_json"]),
+                )
+                if previous_row is not None
+                else None
+            )
+            conn.execute(
+                """INSERT INTO sample_scoring(sample_id, difficulty_score, reason_codes_json, risk_tags_json, updated_at)
+                   VALUES (?, ?, ?, ?, ?)
+                   ON CONFLICT(sample_id) DO UPDATE SET difficulty_score = excluded.difficulty_score,
+                   reason_codes_json = excluded.reason_codes_json, risk_tags_json = excluded.risk_tags_json,
+                   updated_at = excluded.updated_at""",
+                (
+                    sample_id,
+                    difficulty.score,
+                    _canonical_json(difficulty.reason_codes),
+                    _canonical_json(difficulty.risk_tags),
+                    now,
+                ),
+            )
+            self._append_audit(conn, sample_id, "sample_scoring", None, previous, difficulty, "system", now)
 
     def get_risk_audit_rate(self, risk_tag: str, *, default_rate: float = 0.10) -> float:
         """Return one persisted risk-tag audit rate or its validated default when no error has escalated it."""
@@ -431,20 +493,50 @@ class ReviewStore:
 
     def list_queue(self) -> list[QueueItem]:
         """List outstanding drafts by low difficulty first with sample ID as a deterministic tie-breaker."""
-        with self._connect() as conn:
-            rows = conn.execute(
-                """SELECT sample_id, review_status, difficulty_score FROM article_drafts
-                   WHERE review_status != 'reviewed'
-                   ORDER BY difficulty_score, sample_id"""
-            ).fetchall()
         return [
             QueueItem(
-                sample_id=row["sample_id"],
-                review_status=row["review_status"],
-                difficulty_score=row["difficulty_score"],
+                sample_id=item.sample_id,
+                review_status=item.review_status,
+                difficulty_score=item.difficulty_score,
             )
-            for row in rows
+            for item in self.list_all_samples(review_status="unreviewed")
         ]
+
+    def list_all_samples(self, *, review_status: str | None = None) -> list[SampleItem]:
+        """List every sample or one explicit review status using persisted scoring in deterministic queue order."""
+        if review_status not in {None, "unreviewed", "reviewed"}:
+            raise ValueError("review_status must be unreviewed, reviewed, or None")
+        where = "" if review_status is None else "WHERE drafts.review_status = ?"
+        params: tuple[str, ...] = () if review_status is None else (review_status,)
+        with self._connect() as conn:
+            rows = conn.execute(
+                f"""SELECT drafts.sample_id, drafts.review_status, drafts.payload_json,
+                           COALESCE(scoring.difficulty_score, drafts.difficulty_score) AS difficulty_score,
+                           scoring.risk_tags_json
+                    FROM article_drafts AS drafts
+                    LEFT JOIN sample_scoring AS scoring USING(sample_id)
+                    {where}
+                    ORDER BY difficulty_score, drafts.sample_id""",
+                params,
+            ).fetchall()
+        items: list[SampleItem] = []
+        for row in rows:
+            article = RichGoldRecord.model_validate_json(row["payload_json"])
+            risk_tags = (
+                tuple(json.loads(row["risk_tags_json"]))
+                if row["risk_tags_json"] is not None
+                else tuple(article.risk_tags)
+            )
+            items.append(
+                SampleItem(
+                    sample_id=row["sample_id"],
+                    review_status=row["review_status"],
+                    difficulty_score=row["difficulty_score"],
+                    risk_tags=risk_tags,
+                    dataset_split=article.dataset_split,
+                )
+            )
+        return items
 
     def list_audit(self, sample_id: str) -> list[AuditEntry]:
         """Return a complete append-only audit history for the requested article in event order."""
