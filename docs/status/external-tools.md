@@ -34,8 +34,11 @@
 | 本地复核 API（队列、文章上下文、字段/结构/裁决、事务内确认守卫、已确认草稿不可变与完整审计） | ✅ 已完成 |
 | 冲突优先 Web UI（并发安全只读源库、审计顺序结构门控、候选与人工证据 SHA 校验、结构编辑、审计、自动保存与快捷键） | ✅ 已完成 |
 | rich gold 发布器（原子版本目录、证据/审计保留、兼容 eval 投影与发行清单） | ✅ 已完成 |
+| 安全 CLI（init/sample/build-candidates/serve/publish/report）与 Pilot runbook | ✅ 已完成 |
 
 发布器只读访问 Studio review DB；仅当草稿和索引均为 `reviewed`、存在匹配 `article_confirmed` 审计且其后没有 gold 草稿变更时才写入版本目录，确认后的候选观测不影响资格。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后以协作版本锁和平台 no-replace rename 原子提交；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影将 `field_eligibility` 保留在每个项目内：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；发布 rich JSON 仅保留 allowlist 的确认审计 ID、动作、时间和字段路径，不发布任意原始 audit metadata。
+
+Studio 现提供 `gold-studio` 命令：`sample` 默认为真正的无写入 dry-run，只有 `--apply` 才向 Studio-owned review DB 和 manifest 写入；60 篇/11 个负样本与稀有类别下限不足时 fail-closed。`build-candidates --all` 显示精确数量并要求确认（或 `--yes`），CLI 默认完全禁用外部模型调用。`serve` 默认为 `127.0.0.1`，非 loopback 必须 `--allow-network`。`publish` 要求显式版本并复用不可变发布 gate；`report` 输出无网络依赖、带语义表格的可访问 HTML。完整运行、备份/恢复、成本和故障处理见 `external-tools/gold-standard-studio/README.md`。
 
 评测器现已消费逐项目 eligibility、分派全字段指标并输出 split/category/risk 切片：`not_mentioned` 的 null 按显式空值计入分母，`not_applicable`/`uncertain` 仍排除；地点采用与 Studio evidence 相同的 normalized-exact。评测的显式 FIELD_PRIMARY_METRIC 映射将发电源指定为 set F1（精确集合准确率仅供诊断），避免 full/core 汇总退化为通用 accuracy。Studio exporter 通过不污染全局 `sys.path` 的私有 importlib 包加载仓库唯一的 `eval.gold_loader` 契约，因此从 Studio 独立工作目录导入也可用。
 

@@ -11,6 +11,9 @@ dependencies = [
     "typer",
 ]
 
+[project.scripts]
+gold-studio = "gold_standard_studio.cli:app"
+
 [dependency-groups]
 dev = [
     "pytest",

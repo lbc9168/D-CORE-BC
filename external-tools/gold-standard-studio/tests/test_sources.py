@@ -190,6 +190,21 @@ def test_repository_reads_article_and_current_project_without_writes(db_fixture:
     assert db_fixture.hashes() == before
 
 
+def test_repository_lists_sampling_rows_with_source_label_counts_in_one_read_only_pass(
+    db_fixture: DatabaseFixture,
+):
+    """Expose stable raw articles with main-or-extraction label strata for quota-aware Pilot sampling."""
+    repo = SourceRepository(db_fixture.config)
+    before = db_fixture.hashes()
+
+    rows = repo.list_sampling_rows()
+
+    assert [row.article.source_link for row in rows] == ["https://example.test/a"]
+    assert rows[0].category_tags == ("综合能源",)
+    assert rows[0].label_count == 1
+    assert db_fixture.hashes() == before
+
+
 def test_repository_reads_unimported_extracted_project_without_changing_import_flag(
     db_fixture: DatabaseFixture,
 ):

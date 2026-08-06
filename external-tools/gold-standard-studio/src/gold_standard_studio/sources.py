@@ -41,6 +41,15 @@ class CurrentProject:
     entities: tuple[Mapping[str, Any], ...]
 
 
+@dataclass(frozen=True)
+class SamplingRow:
+    """Pair one immutable raw article with its current-label count and normalized category strata."""
+
+    article: ArticleSnapshot
+    category_tags: tuple[str, ...]
+    label_count: int
+
+
 def _connect_ro(path: Path) -> sqlite3.Connection:
     """Open a SQLite database in URI and pragma-enforced read-only mode."""
     conn = sqlite3.connect(sqlite_ro_uri(path), uri=True, check_same_thread=False)
@@ -95,6 +104,14 @@ class SourceRepository:
         self._lock = RLock()
         self._closed = False
 
+    def __enter__(self) -> SourceRepository:
+        """Return this opened read-only repository for scoped CLI and web-server lifetime management."""
+        return self
+
+    def __exit__(self, _exc_type: object, _exc_value: object, _traceback: object) -> None:
+        """Close all read-only SQLite connections after a scoped repository operation finishes."""
+        self.close()
+
     def close(self) -> None:
         """Close the repository's read-only source connections when no longer needed."""
         with self._lock:
@@ -122,6 +139,73 @@ class SourceRepository:
                 publish_date=publish_date, article_sha256=article_sha256(title, content, publish_date),
                 raw_values=raw_values, display_values=display_values,
             )
+
+    def list_articles(self) -> list[ArticleSnapshot]:
+        """Return all usable raw-news articles in stable URL order without writing any source database."""
+        with self._lock:
+            self._assert_open()
+            rows = self._raw_conn.execute("SELECT * FROM raw_news ORDER BY url ASC").fetchall()
+            articles: list[ArticleSnapshot] = []
+            for row in rows:
+                raw_values = _freeze_mapping(dict(row))
+                display_values = _display_values(raw_values)
+                source_link = _text_value(display_values, "url")
+                title = _text_value(display_values, "title")
+                content = _text_value(display_values, "content")
+                publish_date = _text_value(display_values, "publish_date")
+                if source_link and content:
+                    articles.append(
+                        ArticleSnapshot(
+                            source_link=source_link,
+                            title=title,
+                            content=content,
+                            publish_date=publish_date,
+                            article_sha256=article_sha256(title, content, publish_date),
+                            raw_values=raw_values,
+                            display_values=display_values,
+                        )
+                    )
+            return articles
+
+    def list_sampling_rows(self) -> list[SamplingRow]:
+        """Read all usable article sampling strata with three bounded source queries instead of per-article scans."""
+        with self._lock:
+            self._assert_open()
+            main_by_link: dict[str, list[str]] = {}
+            main_rows = self._main_conn.execute(
+                """SELECT pe.source_links, cp.category
+                   FROM project_events AS pe
+                   JOIN canonical_projects AS cp ON cp.id = pe.canonical_id
+                   ORDER BY pe.id ASC"""
+            ).fetchall()
+            for row in main_rows:
+                category = _optional_text_value(_display_values(dict(row)), "category")
+                for source_link in _parse_source_links(row["source_links"]):
+                    main_by_link.setdefault(source_link, []).append(category or "")
+            extracted_by_link: dict[str, list[str]] = {}
+            extracted_rows = self._projects_conn.execute(
+                """SELECT source_link, category FROM extracted_projects
+                   WHERE COALESCE(imported_to_s02a, 0) = 0
+                   ORDER BY id ASC"""
+            ).fetchall()
+            for row in extracted_rows:
+                source_link = _text_value(_display_values(dict(row)), "source_link")
+                category = _optional_text_value(_display_values(dict(row)), "category") or ""
+                if source_link:
+                    extracted_by_link.setdefault(source_link, []).append(category)
+            rows: list[SamplingRow] = []
+            for article in self.list_articles():
+                labels = main_by_link.get(article.source_link)
+                if labels is None:
+                    labels = extracted_by_link.get(article.source_link, [])
+                rows.append(
+                    SamplingRow(
+                        article=article,
+                        category_tags=tuple(sorted({category for category in labels if category})),
+                        label_count=len(labels),
+                    )
+                )
+            return rows
 
     def load_current_labels(self, source_link: str) -> list[CurrentProject]:
         """Load authoritative main labels, or unimported extraction labels when none exist."""

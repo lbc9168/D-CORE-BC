@@ -1,5 +1,9 @@
 # eval — s01b 提取器金标准评测框架
 
+## Golden Standard Studio 发布投影
+
+Studio 是人工确认 rich gold 的唯一编辑入口。发布后从 `eval/gold_sets/<set>/<version>/eval_projection.jsonl` 读取兼容投影；请勿手工同时维护 rich JSONL 与 projection。项目级 `field_eligibility` 中 `present`/`not_mentioned` 进入分母，`not_applicable`/`uncertain` 不进入分母，旧 `eval/gold_set.jsonl` 仍按原方式加载。Pilot 抽样、成本确认、备份/恢复和不可变发布说明见 `external-tools/gold-standard-studio/README.md`。
+
 为 `s01b_project_extractor` 的 AI 提取提供一把「尺子」：约 150 篇人工核对过的金标准文章 + 字段级准确率，
 让每一次 prompt / agent 改动都能被量化为「变好」还是「变差」，而不是凭感觉。
 
