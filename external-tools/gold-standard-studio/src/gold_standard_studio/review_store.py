@@ -632,6 +632,7 @@ class ReviewStore:
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
             _assert_verified_sampling_provenance(article)
+            self._assert_operator_sampling_provenance_audited(conn, sample_id, article)
             self._assert_structure_gate_resolved(conn, sample_id)
             self._assert_article_status_audited(conn, sample_id, article.article_status)
             snapshot = self._load_article_snapshot(conn, sample_id, article)
@@ -664,6 +665,7 @@ class ReviewStore:
             article = self._load_article(conn, sample_id)
             _assert_draft_mutable(article)
             _assert_verified_sampling_provenance(article)
+            self._assert_operator_sampling_provenance_audited(conn, sample_id, article)
             snapshot = self._load_article_snapshot(conn, sample_id, article)
             _validate_snapshot_identity(article, snapshot)
             previous_projects = list(article.projects)
@@ -992,6 +994,24 @@ class ReviewStore:
         ).fetchone()
         if row is None or json.loads(row["new_json"]) != article_status:
             raise ValueError("article gold status requires an audited human decision")
+
+    def _assert_operator_sampling_provenance_audited(
+        self, conn: sqlite3.Connection, sample_id: str, article: RichGoldRecord
+    ) -> None:
+        """Require operator-reviewed provenance to exactly match an existing audited replacement payload."""
+        provenance = article.sampling_provenance
+        if provenance is None or provenance.verification_source != "operator_review":
+            return
+        row = conn.execute(
+            """SELECT 1 FROM audit_log
+               WHERE sample_id=? AND action='sampling_provenance_decision'
+               AND field_path='sampling_provenance' AND new_json=? LIMIT 1""",
+            (sample_id, _canonical_json(provenance)),
+        ).fetchone()
+        if row is None:
+            raise ValueError(
+                "operator-reviewed provenance requires a matching sampling_provenance_decision audit"
+            )
 
     def _next_backup_path(self) -> Path:
         """Choose a new timestamped backup path without overwriting any prior Studio snapshot."""

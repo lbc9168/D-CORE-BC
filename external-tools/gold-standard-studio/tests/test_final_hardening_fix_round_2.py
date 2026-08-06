@@ -13,11 +13,11 @@ from typer.testing import CliRunner
 
 import gold_standard_studio.config as config_module
 import gold_standard_studio.review_store as review_store_module
-from gold_standard_studio.exporter import publish_gold
+from gold_standard_studio.exporter import PublishError, publish_gold
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import SamplingProvenance
 
-from test_final_hardening import _complete_project, _snapshot, _source_files
+from test_final_hardening import _complete_project, _snapshot, _source_files, _valid_record
 from test_final_hardening_fix_round import (
     _create_data_bearing_v1,
     _seed_valid,
@@ -273,3 +273,94 @@ def test_cli_verify_provenance_repairs_migrated_record_with_operator_data(tmp_pa
     assert provenance is not None and provenance.verified is True
     assert provenance.verification_source == "operator_review"
     assert reopened.list_audit("LEGACY")[-1].action == "sampling_provenance_decision"
+
+
+def test_forged_operator_verified_payload_without_matching_audit_fails_confirm_and_publish(
+    tmp_path: Path,
+) -> None:
+    """Reject a forged operator-review flag at both confirmation and publication without an exact audit proof."""
+    snapshot = _snapshot()
+    provenance = SamplingProvenance(
+        sampling_seed=73,
+        inclusion_reasons=["forged_payload_only"],
+        original_category_strata=["光伏"],
+        risk_tags=["manual_recovery"],
+        negative_proxy=False,
+        verified=True,
+        verification_source="operator_review",
+    )
+    confirmation_store = ReviewStore(tmp_path / "confirm-forged.db")
+    confirmation_store.initialize()
+    confirmation_record = _valid_record(snapshot, "FORGED-CONFIRM")
+    confirmation_record.sampling_provenance = provenance
+    confirmation_store.seed_article(confirmation_record, snapshot=snapshot)
+    confirmation_store.save_article_status("FORGED-CONFIRM", "valid", actor="reviewer")
+    confirmation_errors: list[str] = []
+    try:
+        confirmation_store.confirm_article("FORGED-CONFIRM", actor="reviewer")
+    except ValueError as error:
+        confirmation_errors.append(str(error))
+
+    publication_store = ReviewStore(tmp_path / "publish-forged.db")
+    publication_store.initialize()
+    publication_record = _valid_record(snapshot, "FORGED-PUBLISH")
+    publication_record.sampling_provenance = provenance
+    publication_store.seed_article(publication_record, snapshot=snapshot)
+    publication_store.save_article_status("FORGED-PUBLISH", "valid", actor="reviewer")
+    publication_record.article_review_status = "reviewed"
+    with sqlite3.connect(publication_store.path) as conn:
+        conn.execute(
+            "UPDATE article_drafts SET payload_json=?, review_status='reviewed' WHERE sample_id=?",
+            (
+                json.dumps(
+                    publication_record.model_dump(mode="json"),
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                ),
+                publication_record.sample_id,
+            ),
+        )
+        conn.execute(
+            """INSERT INTO audit_log
+               (sample_id, action, field_path, old_json, new_json, actor, created_at)
+               VALUES (?, 'article_confirmed', 'article_review_status', '"unreviewed"',
+                       '"reviewed"', 'forger', '2026-08-06T00:01:00+00:00')""",
+            (publication_record.sample_id,),
+        )
+    publication_errors: list[str] = []
+    try:
+        publish_gold(publication_store, tmp_path / "forged-gold", "v1.0.0")
+    except PublishError as error:
+        publication_errors.append(str(error))
+
+    assert confirmation_errors and "sampling_provenance_decision" in confirmation_errors[0]
+    assert publication_errors and "sampling_provenance_decision" in publication_errors[0]
+
+
+def test_audited_operator_provenance_repair_is_accepted_by_confirm_and_publish(
+    tmp_path: Path,
+) -> None:
+    """Accept an exact operator provenance payload when its audited repair precedes confirmation."""
+    snapshot = _snapshot()
+    store = ReviewStore(tmp_path / "audited.db")
+    store.initialize()
+    _seed_valid(store, snapshot, "AUDITED")
+    provenance = SamplingProvenance(
+        sampling_seed=73,
+        inclusion_reasons=["operator_reconstructed_manifest"],
+        original_category_strata=["光伏"],
+        risk_tags=["legacy_recovery"],
+        negative_proxy=False,
+        verified=True,
+        verification_source="operator_review",
+    )
+
+    store.replace_sampling_provenance("AUDITED", provenance, actor="reviewer")
+    confirmed = store.confirm_article("AUDITED", actor="reviewer")
+    paths = publish_gold(store, tmp_path / "audited-gold", "v1.0.0")
+
+    assert confirmed.article_review_status == "reviewed"
+    assert json.loads(paths.rich_gold.read_text(encoding="utf-8"))["sampling_provenance"] == (
+        provenance.model_dump(mode="json")
+    )

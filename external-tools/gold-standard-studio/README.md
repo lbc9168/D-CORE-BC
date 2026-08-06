@@ -49,7 +49,7 @@ uv run --project external-tools/gold-standard-studio gold-studio build-candidate
 
 The shipped CLI deliberately makes zero external model calls: production and review providers are recorded as `model_calls_disabled`. Before any future provider integration, obtain separate approval, review the exact count/provider/prompt/model version, and record budget, data-retention, and article-disclosure risk.
 
-An explicit `init` of a legacy v1/v2/v3 review DB migrates its data but revokes every legacy reviewed/status claim and never invents verified sampling facts. Prior status values survive only as `legacy_migration_hint`; prior sampling values survive as `legacy_sampling_provenance_hint`, while the active contract becomes `verified=false`, `verification_source=legacy_unknown`. Each row receives re-review and provenance-repair audit events. Recover missing immutable snapshots only from the configured read-only source repository, then replace provenance with literal operator-reviewed data before fresh review and confirmation:
+An explicit `init` migrates legacy schemas without inventing authority. For v1/v2 data, the v3 migration revokes inferred article status and reviewed workflow state, preserving prior status only in `legacy_migration_hint`. For an existing v3 database, the v4 migration retains its authoritative `article_status` but resets `article_review_status` to `unreviewed`. In both cases, pre-v4 sampling values survive only as `legacy_sampling_provenance_hint`, while the active provenance becomes `verified=false`, `verification_source=legacy_unknown`, with repair/re-review audit events. Recover any missing immutable snapshot, replace provenance with literal operator-reviewed data, and re-review; v1/v2 rows must also receive a fresh article-status decision:
 
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio rehydrate-snapshots --all --data-dir data/gold-studio
@@ -73,6 +73,8 @@ uv run --project external-tools/gold-standard-studio gold-studio serve --data-di
 
 The app accepts only `localhost`, `127.0.0.1`, `[::1]`, and `testserver` Host values. Every mutation requires the fixed Studio request header, an explicit bounded actor, and an exactly same-origin browser `Origin` when one is supplied; the shipped page emits these headers automatically. Non-loopback hosts still require `--allow-network`, but TrustedHost will reject them, so do not treat `--allow-network` as a deployment/authentication feature.
 
+The safety model assumes a trusted local operator and no adversarial process running under the same OS identity. Atomic writes, no-follow opens, and source-alias checks protect against operator mistakes and detected path substitutions; they do not claim to defeat a malicious same-user process that swaps a path between final validation and commit. Use OS permissions or a dedicated account when that stronger threat model is required.
+
 ## Backup, report, and publication
 
 The UI immediately saves local decisions and audit events. Before maintenance, call `ReviewStore.backup()` from a local maintenance script/Python shell; it claims the destination through a held no-follow handle, rejects source/review aliases before SQLite writes, and verifies SQLite integrity, all table counts, and the audit tail. Stop the server before restoring a verified backup into the Studio-owned `review.db`; never restore over a production source DB.
@@ -84,7 +86,7 @@ uv run --project external-tools/gold-standard-studio gold-studio report `
 
 The report is accessible, self-contained HTML: inline styling, semantic table/captions, and no scripts or remote assets.
 
-Publication is separate from Pilot dry-run. It requires every article to be human-confirmed with verified `sampling_provenance` and rejects legacy-unknown provenance, unreviewed drafts, adjudications, structural conflicts, missing required evidence, or an existing target version. All six staged artifacts use exclusive no-follow atomic writers with source-alias and identity rechecks before the version directory is made visible.
+Publication is separate from Pilot dry-run. It requires every article to be human-confirmed with verified `sampling_provenance` and rejects legacy-unknown provenance, unreviewed drafts, adjudications, structural conflicts, missing required evidence, or an existing target version. `operator_review` provenance must exactly match a `sampling_provenance_decision` audit that precedes confirmation; a payload flag alone is not authority. All six staged artifacts use exclusive no-follow atomic writers with source-alias and identity rechecks before the version directory is made visible.
 
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio publish `

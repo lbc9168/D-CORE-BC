@@ -246,6 +246,7 @@ def _assert_publishable(
     except ValueError as error:
         raise PublishError(f"record {record.sample_id} is not publishable: {error}") from error
     confirmation = _confirmation_proof(audits)
+    _assert_operator_sampling_provenance_audited(record, audits, confirmation)
     status_decisions = [
         audit
         for audit in audits
@@ -260,6 +261,29 @@ def _assert_publishable(
         for audit in audits
     ):
         raise PublishError(f"record {record.sample_id} has later gold-draft mutation after confirmation")
+
+
+def _assert_operator_sampling_provenance_audited(
+    record: RichGoldRecord,
+    audits: list[sqlite3.Row],
+    confirmation: _ConfirmationProof,
+) -> None:
+    """Require an exact operator provenance decision audit that predates the publication confirmation."""
+    provenance = record.sampling_provenance
+    if provenance is None or provenance.verification_source != "operator_review":
+        return
+    expected = _canonical_json(provenance.model_dump(mode="json"))
+    if not any(
+        audit["action"] == "sampling_provenance_decision"
+        and audit["field_path"] == "sampling_provenance"
+        and audit["new_json"] == expected
+        and audit["id"] < confirmation.audit_id
+        for audit in audits
+    ):
+        raise PublishError(
+            f"record {record.sample_id} operator-reviewed provenance requires a matching "
+            "sampling_provenance_decision audit before confirmation"
+        )
 
 
 def _confirmation_proof(audits: list[sqlite3.Row]) -> _ConfirmationProof:
