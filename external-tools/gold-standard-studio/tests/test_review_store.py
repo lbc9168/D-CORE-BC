@@ -11,6 +11,7 @@ from gold_standard_studio.schemas import (
     CandidateBundle,
     CandidateValue,
     DifficultyScore,
+    EvidenceSpan,
     GoldField,
     GoldProject,
     RichGoldRecord,
@@ -118,6 +119,56 @@ def test_candidate_bundle_uses_canonical_json_and_replaces_same_source(tmp_path)
     )
 
 
+def test_candidate_bundle_update_audits_complete_previous_and_new_payloads(tmp_path):
+    """Audit a replacement candidate bundle with exact decoded before-and-after bundle payloads."""
+    store = seeded_store(tmp_path)
+    first = CandidateBundle(
+        sample_id="S001",
+        article_sha256=ARTICLE_SHA256,
+        sources={"database": CandidateValue(source_name="database", source_version="v1")},
+    )
+    second = CandidateBundle(
+        sample_id="S001",
+        article_sha256=ARTICLE_SHA256,
+        sources={"database": CandidateValue(source_name="database", source_version="v2")},
+    )
+
+    store.save_candidate_bundle(first)
+    store.save_candidate_bundle(second)
+
+    candidate_audit = [entry for entry in store.list_audit("S001") if entry.action == "candidate_bundle"]
+    assert candidate_audit[-1].old_payload == first
+    assert candidate_audit[-1].new_payload == second
+    assert candidate_audit[-1].old_value == first.model_dump(mode="json")
+    assert candidate_audit[-1].new_value == second.model_dump(mode="json")
+
+
+def test_field_audit_preserves_complete_payload_when_display_value_is_unchanged_or_none(tmp_path):
+    """Expose field states and evidence even when old and new display values cannot show the decision change."""
+    store = ReviewStore(tmp_path / "review.db")
+    store.initialize()
+    article = make_ready_article()
+    article.projects[0].fields["note"] = GoldField(state="not_applicable")
+    store.seed_article(article)
+    evidenced = GoldField(
+        state="present",
+        value="风电",
+        evidence=[EvidenceSpan(quote="风电", start=0, end=2, article_sha256=ARTICLE_SHA256)],
+        evidence_required=True,
+    )
+
+    store.save_field_decision("S001", "P01.category", evidenced, actor="human")
+    store.save_field_decision("S001", "P01.note", GoldField(state="uncertain"), actor="human")
+
+    same_value, none_value = store.list_audit("S001")[-2:]
+    assert same_value.old_value == same_value.new_value == "风电"
+    assert same_value.old_payload == make_gold_field("风电")
+    assert same_value.new_payload == evidenced
+    assert none_value.old_value is None and none_value.new_value is None
+    assert none_value.old_payload == GoldField(state="not_applicable")
+    assert none_value.new_payload == GoldField(state="uncertain")
+
+
 def test_structure_revision_requires_current_version_and_never_reuses_project_ids(tmp_path):
     """Save a full project structure atomically and reject an optimistic-concurrency conflict."""
     store = seeded_store(tmp_path)
@@ -132,6 +183,13 @@ def test_structure_revision_requires_current_version_and_never_reuses_project_id
     revisions = store.list_structure_revisions("S001")
     assert revisions[-1].revision == 2
     assert revisions[-1].actor == "human"
+    structure_audit = [entry for entry in store.list_audit("S001") if entry.action == "structure_decision"][-1]
+    assert structure_audit.old_payload == [
+        GoldProject(gold_project_id="P01", fields={"category": make_gold_field("风电")}).model_dump(
+            mode="json"
+        )
+    ]
+    assert structure_audit.new_payload == [replacement.model_dump(mode="json")]
 
 
 def test_structure_reintroducing_deleted_id_receives_fresh_project_id(tmp_path):

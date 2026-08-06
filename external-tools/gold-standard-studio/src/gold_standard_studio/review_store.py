@@ -28,7 +28,7 @@ _TABLES = (
 
 @dataclass(frozen=True)
 class AuditEntry:
-    """Expose one immutable audit event with decoded field values for review consumers."""
+    """Expose one immutable audit event with complete payloads and convenient display values."""
 
     id: int
     sample_id: str
@@ -38,6 +38,8 @@ class AuditEntry:
     new_value: Any
     actor: str
     created_at: str
+    old_payload: Any = None
+    new_payload: Any = None
 
 
 @dataclass(frozen=True)
@@ -180,13 +182,29 @@ class ReviewStore:
             article = self._load_article(conn, bundle.sample_id)
             if article.article_sha256 != bundle.article_sha256:
                 raise ValueError("candidate bundle article hash does not match the seeded article")
+            previous_row = conn.execute(
+                "SELECT payload_json FROM candidate_bundles WHERE sample_id = ?", (bundle.sample_id,)
+            ).fetchone()
+            previous_bundle = (
+                CandidateBundle.model_validate_json(previous_row["payload_json"])
+                if previous_row is not None
+                else None
+            )
             conn.execute(
                 """INSERT INTO candidate_bundles(sample_id, payload_json, updated_at) VALUES (?, ?, ?)
                    ON CONFLICT(sample_id) DO UPDATE SET payload_json = excluded.payload_json,
                    updated_at = excluded.updated_at""",
                 (bundle.sample_id, payload, now),
             )
-            self._append_audit(conn, bundle.sample_id, "candidate_bundle", None, None, bundle, "system")
+            self._append_audit(
+                conn,
+                bundle.sample_id,
+                "candidate_bundle",
+                None,
+                previous_bundle,
+                bundle,
+                "system",
+            )
 
     def get_candidate_bundle(self, sample_id: str) -> CandidateBundle | None:
         """Return a validated candidate bundle when it has been saved for the requested sample."""
@@ -356,19 +374,7 @@ class ReviewStore:
                    FROM audit_log WHERE sample_id = ? ORDER BY id""",
                 (sample_id,),
             ).fetchall()
-        return [
-            AuditEntry(
-                id=row["id"],
-                sample_id=row["sample_id"],
-                action=row["action"],
-                field_path=row["field_path"],
-                old_value=_audit_value(row["old_json"]),
-                new_value=_audit_value(row["new_json"]),
-                actor=row["actor"],
-                created_at=row["created_at"],
-            )
-            for row in rows
-        ]
+        return [_decode_audit_entry(row) for row in rows]
 
     def latest_audit_id(self) -> int:
         """Return the audit tail ID for backup validation and external consistency checks."""
@@ -629,11 +635,40 @@ def _has_unresolved_conflicts(article: RichGoldRecord) -> bool:
     )
 
 
-def _audit_value(encoded: str | None) -> Any:
-    """Decode an audit JSON value and expose GoldField decisions as their user-facing value only."""
+def _decode_audit_entry(row: sqlite3.Row) -> AuditEntry:
+    """Build one audit entry whose rich payloads and display values describe the same persisted event."""
+    old_payload = _decode_audit_payload(row["action"], row["old_json"])
+    new_payload = _decode_audit_payload(row["action"], row["new_json"])
+    return AuditEntry(
+        id=row["id"],
+        sample_id=row["sample_id"],
+        action=row["action"],
+        field_path=row["field_path"],
+        old_payload=old_payload,
+        new_payload=new_payload,
+        old_value=_audit_display_value(old_payload),
+        new_value=_audit_display_value(new_payload),
+        actor=row["actor"],
+        created_at=row["created_at"],
+    )
+
+
+def _decode_audit_payload(action: str, encoded: str | None) -> Any:
+    """Decode stored canonical JSON into its known Pydantic shape or unchanged generic JSON data."""
     if encoded is None:
         return None
     value = json.loads(encoded)
-    if isinstance(value, dict) and {"state", "value", "evidence", "evidence_required"}.issubset(value):
-        return GoldField.model_validate(value).value
+    if action == "field_decision":
+        return GoldField.model_validate(value)
+    if action == "candidate_bundle":
+        return CandidateBundle.model_validate(value)
     return value
+
+
+def _audit_display_value(payload: Any) -> Any:
+    """Expose a compact legacy-friendly value while retaining the complete payload alongside it."""
+    if isinstance(payload, GoldField):
+        return payload.value
+    if hasattr(payload, "model_dump"):
+        return payload.model_dump(mode="json")
+    return payload

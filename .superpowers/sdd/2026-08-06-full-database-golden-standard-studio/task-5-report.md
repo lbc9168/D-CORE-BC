@@ -12,6 +12,8 @@ Implemented the isolated SQLite review store in `external-tools/gold-standard-st
 - GREEN 2: the same focused command passed `9 passed in 0.30s` after the allocation fix.
 - RED 3: after review-driven connection cleanup, the initialization regression failed because `studio_meta.schema_version` was absent after reopen.
 - GREEN 3: restoring success-path commit and exception rollback made the focused suite pass `10 passed in 0.34s`.
+- RED 4: audit-fidelity regressions failed because `AuditEntry` exposed no complete old/new payload and candidate-bundle updates wrote `old_json = NULL`.
+- GREEN 4: canonical prior-bundle capture plus full decoded `old_payload/new_payload` made the focused suite pass `12 passed in 0.95s`.
 
 ## Delivered files
 
@@ -23,7 +25,7 @@ Implemented the isolated SQLite review store in `external-tools/gold-standard-st
 ## Verification
 
 - Focused review-store tests cover atomic field/audit writes, failed-write rollback, unresolved-conflict confirmation guard, canonical candidate JSON, structure revisions and stale revisions, deleted-ID non-reuse, session resume, deterministic queueing, and SQLite backup integrity/tail preservation.
-- Full Studio suite: `uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests -q` passed `41 passed in 0.64s` after independent review fixes.
+- Full Studio suite: `uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests -q` passed `43 passed in 1.68s` after the audit-fidelity fix.
 - `git diff --check` and `git diff --cached --check` completed with no whitespace errors; the staged path list contains only the five Task 5 deliverables.
 
 ## Self-review
@@ -34,6 +36,7 @@ Implemented the isolated SQLite review store in `external-tools/gold-standard-st
 - The backup API compares `PRAGMA integrity_check`, all store-table row counts, and the final audit ID.
 - Review follow-up fixed backup validation to collect metadata and copy under one source read snapshot, then retain the temporary SQLite file only after all checks succeed.
 - The connection helper now commits successful implicit transactions and rolls back exceptions before closing, preserving idempotent initialization metadata as well as write atomicity.
+- Audit entries now preserve complete decoded GoldField and CandidateBundle payloads while retaining compact `old_value/new_value` display access; generic structure and confirmation payloads remain faithful decoded JSON.
 
 ## Concerns
 
