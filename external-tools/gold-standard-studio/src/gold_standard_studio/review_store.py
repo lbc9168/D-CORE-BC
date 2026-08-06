@@ -214,6 +214,42 @@ class ReviewStore:
             ).fetchone()
         return CandidateBundle.model_validate_json(row["payload_json"]) if row is not None else None
 
+    def get_risk_audit_rate(self, risk_tag: str, *, default_rate: float = 0.10) -> float:
+        """Return one persisted risk-tag audit rate or its validated default when no error has escalated it."""
+        _validate_audit_rate(default_rate)
+        key = _risk_audit_rate_key(risk_tag)
+        with self._connect() as conn:
+            row = conn.execute("SELECT value FROM studio_meta WHERE key = ?", (key,)).fetchone()
+        if row is None:
+            return default_rate
+        try:
+            stored_rate = float(row["value"])
+        except (TypeError, ValueError) as error:
+            raise ValueError(f"invalid stored audit rate for risk tag '{risk_tag}'") from error
+        _validate_audit_rate(stored_rate)
+        return stored_rate
+
+    def record_audit_error(self, risk_tags: Sequence[str]) -> dict[str, float]:
+        """Increase every supplied risk tag's stored audit rate by ten points, capped at one."""
+        tags = sorted({_validate_risk_tag(tag) for tag in risk_tags})
+        if not tags:
+            return {}
+        updated: dict[str, float] = {}
+        with self._immediate_transaction() as conn:
+            for tag in tags:
+                key = _risk_audit_rate_key(tag)
+                row = conn.execute("SELECT value FROM studio_meta WHERE key = ?", (key,)).fetchone()
+                current = 0.10 if row is None else float(row["value"])
+                _validate_audit_rate(current)
+                rate = min(1.0, round(current + 0.10, 10))
+                conn.execute(
+                    """INSERT INTO studio_meta(key, value) VALUES (?, ?)
+                       ON CONFLICT(key) DO UPDATE SET value = excluded.value""",
+                    (key, f"{rate:.10g}"),
+                )
+                updated[tag] = rate
+        return updated
+
     def save_field_decision(
         self, sample_id: str, field_path: str, field: GoldField, *, actor: str
     ) -> RichGoldRecord:
@@ -568,6 +604,24 @@ def _require_actor(actor: str) -> None:
     """Reject blank actors so every human review mutation remains attributable in audit history."""
     if not actor.strip():
         raise ValueError("actor must not be blank")
+
+
+def _risk_audit_rate_key(risk_tag: str) -> str:
+    """Build the private metadata namespace key for one explicitly validated risk tag."""
+    return f"audit_rate:{_validate_risk_tag(risk_tag)}"
+
+
+def _validate_risk_tag(risk_tag: str) -> str:
+    """Reject blank or control-character risk tags before they can enter shared Studio metadata."""
+    if not isinstance(risk_tag, str) or not risk_tag.strip() or any(character.isspace() for character in risk_tag):
+        raise ValueError("risk tag must be a nonblank token without whitespace")
+    return risk_tag
+
+
+def _validate_audit_rate(rate: float) -> None:
+    """Reject invalid persisted or caller-default audit rates before they influence review expansion."""
+    if not isinstance(rate, (int, float)) or not 0 <= rate <= 1:
+        raise ValueError("audit rate must be between 0 and 1")
 
 
 def _parse_field_path(field_path: str) -> tuple[str, str]:
