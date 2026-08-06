@@ -1,6 +1,6 @@
 # external-tools 状态
 
-> 最后更新：2026-08-06（Golden Standard Studio 已具备冲突优先的本地复核界面）
+> 最后更新：2026-08-06（Golden Standard Studio 已具备不可变 gold 版本发布）
 
 ---
 
@@ -33,7 +33,9 @@
 | 可解释难度评分与固定种子抽检（风险标签动态提升） | ✅ 已完成 |
 | 本地复核 API（队列、文章上下文、字段/结构/裁决、事务内确认守卫、已确认草稿不可变与完整审计） | ✅ 已完成 |
 | 冲突优先 Web UI（并发安全只读源库、审计顺序结构门控、候选与人工证据 SHA 校验、结构编辑、审计、自动保存与快捷键） | ✅ 已完成 |
-| rich gold 发布器 | ⬜ 待实现 |
+| rich gold 发布器（原子版本目录、证据/审计保留、兼容 eval 投影与发行清单） | ✅ 已完成 |
+
+发布器只读访问 Studio review DB；仅当库内每条记录均已人工确认且无待裁决字段时才写入版本目录。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后原子重命名；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影保留 `dataset_split`、`risk_tags` 与字段可评测性：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；常见密钥字段会在公开审计元数据中脱敏。
 
 ---
 

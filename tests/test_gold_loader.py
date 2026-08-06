@@ -49,3 +49,16 @@ def test_load_accepts_optional_taxonomy_labels_without_breaking_old_gold(tmp_pat
     recs = gold_loader.load(p)
     assert recs[0]["projects"][0]["generation_sources"] == ["光伏"]
     assert recs[1]["projects"][0]["generation_sources"] is None
+
+
+def test_load_accepts_optional_studio_projection_metadata(tmp_path):
+    """Accept Studio split, risk, and field-eligibility metadata while retaining legacy fields."""
+    p = _write(tmp_path, [
+        '{"source_link":"http://a","article_id":"S001","status":"valid","dataset_split":"development","risk_tags":["capacity"],"field_eligibility":{"capacity_mw":true},"projects":[{"capacity_mw":12}]}',
+    ])
+
+    record = gold_loader.load(p)[0]
+
+    assert record["dataset_split"] == "development"
+    assert record["risk_tags"] == ["capacity"]
+    assert record["field_eligibility"] == {"capacity_mw": True}

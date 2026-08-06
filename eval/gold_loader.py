@@ -22,8 +22,8 @@ class Project(BaseModel):
     category: Optional[str] = None
     project_stage: Optional[str] = None
     financing_model: Optional[str] = None
-    capacity_mw: Optional[str] = None
-    total_investment_usd: Optional[str] = None
+    capacity_mw: Optional[str | float | int] = None
+    total_investment_usd: Optional[str | float | int] = None
     location: Optional[str] = None
     generation_sources: Optional[list[Literal["光伏", "风电", "水电", "地热及余热", "生物质", "核电", "火电"]]] = None
     storage_status: Optional[Literal["confirmed", "planned", "optional", "unclear", "not_mentioned"]] = None
@@ -39,6 +39,9 @@ class GoldRecord(BaseModel):
     article_id: Optional[str] = None
     status: Literal["valid", "no_chinese", "irrelevant", "chinese_unnamed"]
     projects: list[Project] = Field(default_factory=list)
+    dataset_split: Optional[str] = None
+    risk_tags: list[str] = Field(default_factory=list)
+    field_eligibility: dict[str, bool] = Field(default_factory=dict)
 
 
 def load(path) -> list[dict]:
