@@ -76,12 +76,12 @@ def test_pilot_is_deterministic_and_has_negative_quota(candidates):
 
 
 def test_rare_categories_receive_configured_floor(candidates):
-    """Reserve each configured rare-category floor before the weighted remainder is filled."""
+    """Reserve every configured rare-category floor before the weighted remainder is filled."""
     chosen = select_sample(candidates, SamplingConfig.pilot())
     counts = Counter(tag for row in chosen for tag in row.category_tags)
 
-    assert counts["储能"] >= 3
-    assert counts["输变电建设"] >= 3
+    for category, floor in SamplingConfig.pilot().category_floors.items():
+        assert counts[category] >= floor
 
 
 def test_selection_records_reasons_risk_tags_and_pilot_split_targets(candidates):
@@ -126,6 +126,32 @@ def test_source_link_deduplication_keeps_the_stable_lowest_sample_id():
     assert [row.sample_id for row in selected] == ["A", "B", "C"]
 
 
+def test_zero_negative_quota_excludes_high_risk_negative_candidates():
+    """Exclude all negative candidates from weighted fill when the requested negative quota is zero."""
+    candidates = [_candidate(f"P{index}") for index in range(8)] + [
+        _candidate(f"N{index}", is_negative=True, risk_weight=1_000_000.0) for index in range(4)
+    ]
+
+    selected = select_sample(
+        candidates,
+        SamplingConfig(seed=20260806, size=8, negative_fraction=0, category_floors={}),
+    )
+
+    assert sum(row.is_negative for row in selected) == 0
+
+
+def test_weighted_fill_selects_the_extreme_risk_candidate_deterministically():
+    """Select an extreme-risk remaining candidate reproducibly through the deterministic weighted fill."""
+    candidates = [_candidate("low-a"), _candidate("low-b"), _candidate("high", risk_weight=1_000_000.0)]
+    config = SamplingConfig(seed=17, size=1, negative_fraction=0, category_floors={})
+
+    first = select_sample(candidates, config)
+    second = select_sample(list(reversed(candidates)), config)
+
+    assert [row.sample_id for row in first] == ["high"]
+    assert [row.sample_id for row in first] == [row.sample_id for row in second]
+
+
 def test_infeasible_negative_or_category_quotas_raise_stable_errors():
     """Reject unavailable negative and category quotas rather than silently weakening the sample design."""
     no_negative = [_candidate(f"P{index}") for index in range(10)]
@@ -139,4 +165,9 @@ def test_infeasible_negative_or_category_quotas_raise_stable_errors():
         select_sample(
             no_negative + [_candidate("N", is_negative=True)],
             SamplingConfig(seed=1, size=10, negative_fraction=0, category_floors={"储能": 1}),
+        )
+    with pytest.raises(SamplingInfeasibleError, match="category floors require more negative candidates"):
+        select_sample(
+            [_candidate("P"), _candidate("N", category_tags=("储能",), is_negative=True)],
+            SamplingConfig(seed=1, size=2, negative_fraction=0, category_floors={"储能": 1}),
         )

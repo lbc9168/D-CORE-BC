@@ -45,3 +45,15 @@ Result: `6 passed in 0.10s`.
 ## Commit
 
 Commit message: `feat(gold-studio): add deterministic pilot sampling`.
+
+## Round 1 follow-up fix
+
+### Root cause and RED
+
+The original fill predicate allowed negative candidates whenever `negative_quota == 0`. This inverted the intended rule after the quota had already been satisfied, so high-risk negatives could win the weighted fill. Added a high-risk-negative regression with `negative_fraction=0`; it failed as expected with `assert 4 == 0` before the code change.
+
+### GREEN and coverage
+
+The fill pool now always excludes remaining negative candidates. Added focused coverage for all configured default category floors, deterministic selection of an extreme-risk fill candidate under reversed input order, and the explicit infeasibility path where an all-zero-negative quota conflicts with a negative-only category floor.
+
+Final verification: focused sampling `8 passed in 0.09s`; full Studio suite `31 passed in 0.34s`; `git diff --check` and `git show --check` were clean. Round-one commit: `fix(gold-studio): enforce negative sample quota`.

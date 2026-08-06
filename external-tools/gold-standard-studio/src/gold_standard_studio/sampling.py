@@ -270,7 +270,7 @@ def select_sample(candidates: Sequence[SampleCandidate], config: SamplingConfig)
     fill_pool = [
         row
         for row in normalized
-        if row.sample_id not in selected_ids and (not row.is_negative or negative_quota == 0)
+        if row.sample_id not in selected_ids and not row.is_negative
     ]
     required_fill = config.size - len(selected)
     weighted_fill = _rank_weighted(fill_pool, config.seed)[:required_fill]
