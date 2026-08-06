@@ -12,7 +12,7 @@ import pytest
 import uvicorn
 from playwright.sync_api import Browser, expect, sync_playwright
 
-from gold_standard_studio.schemas import CandidateBundle, CandidateValue, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.schemas import CandidateBundle, CandidateValue, EvidenceSpan, GoldField, GoldProject, RichGoldRecord
 from gold_standard_studio.web.app import create_app
 
 from test_web_api import ARTICLE_SHA256, configured_source_client, make_field, store
@@ -211,3 +211,29 @@ def test_source_backed_page_highlights_evidence_in_the_browser(configured_source
     with running_server(client.app) as live_server:
         page.goto(f"{live_server}/review/SRC001")
         expect(page.locator("#article-content mark")).to_have_text("光伏")
+
+
+def test_stale_human_evidence_is_neither_highlighted_nor_silently_confirmed(configured_source_client, browser: Browser) -> None:
+    """Keep a wrong-hash human span visible as a warning but out of the article evidence layer and confirmation flow."""
+    client, _repository = configured_source_client
+    review_store = client.app.state.review_store
+    review_store.save_field_decision(
+        "SRC001",
+        "P01.category",
+        GoldField(
+            state="present",
+            value="光伏",
+            evidence_required=True,
+            evidence=[EvidenceSpan(quote="光伏", start=0, end=2, article_sha256="b" * 64)],
+        ),
+        actor="human",
+    )
+    page = browser.new_page()
+
+    with running_server(client.app) as live_server:
+        page.goto(f"{live_server}/review/SRC001")
+        expect(page.locator("#article-content mark")).to_have_count(0)
+        expect(page.get_by_test_id("human-evidence-warning-P01.category")).to_be_visible()
+        page.get_by_test_id("confirm-article").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("Save failed")
+        assert review_store.get_article("SRC001").article_review_status == "unreviewed"

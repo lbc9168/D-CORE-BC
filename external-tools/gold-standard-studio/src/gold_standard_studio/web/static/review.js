@@ -47,6 +47,12 @@
   /** Return the human field at a stable gold-project field path. */
   function currentField(path) { const [projectId, fieldName] = path.split("."); return state.article?.projects.find((project) => project.gold_project_id === projectId)?.fields[fieldName] || null; }
 
+  /** Return only human evidence spans explicitly tied to the immutable article currently under review. */
+  function currentArticleEvidence(field) { return (field?.evidence || []).filter((span) => span.article_sha256 === state.article?.article_sha256); }
+
+  /** Report whether a human field carries any evidence excluded from the current article snapshot. */
+  function hasStaleHumanEvidence(field) { return (field?.evidence || []).some((span) => span.article_sha256 !== state.article?.article_sha256); }
+
   /** Return a server-aligned source candidate rather than indexing into any source project list in JavaScript. */
   function sourceCandidate(path, sourceName = null) {
     const candidates = state.payload?.field_candidates?.[path] || [];
@@ -69,6 +75,8 @@
     const field = currentField(path); const card = document.createElement("section"); card.className = `field-card ${kind}`; card.dataset.path = path; card.tabIndex = 0; bindCardFocus(card);
     const heading = document.createElement("h3"); heading.textContent = title;
     const value = document.createElement("p"); value.className = "field-value"; value.dataset.testid = `value-${path}`; value.textContent = displayValue(field?.value);
+    const humanEvidenceWarning = hasStaleHumanEvidence(field) ? message("人工草稿证据哈希不匹配，已从当前文章高亮中排除，不能作为本篇确认依据。") : null;
+    if (humanEvidenceWarning) { humanEvidenceWarning.className = "human-evidence-warning"; humanEvidenceWarning.dataset.testid = `human-evidence-warning-${path}`; }
     const provenance = document.createElement("ul"); provenance.className = "provenance"; provenance.setAttribute("aria-label", `${title} 的候选来源`); provenance.replaceChildren(...provenanceRows(path));
     const controls = document.createElement("div"); controls.className = "field-controls";
     const suggested = sourceCandidate(path);
@@ -76,7 +84,7 @@
     const keep = document.createElement("button"); keep.type = "button"; keep.className = "secondary"; keep.dataset.action = "keep-database"; keep.textContent = "保留数据库值"; const database = sourceCandidate(path, "database"); keep.disabled = !database?.field || database.evidence_warning; keep.addEventListener("click", () => database?.field && !database.evidence_warning && saveField(path, database.field));
     const edit = document.createElement("button"); edit.type = "button"; edit.className = "secondary"; edit.dataset.action = "edit-field"; edit.dataset.testid = `edit-${path}`; edit.textContent = "编辑"; edit.addEventListener("click", () => openEditor(path, card));
     const flag = document.createElement("button"); flag.type = "button"; flag.className = "secondary"; flag.dataset.action = "flag-evidence"; flag.textContent = "证据有误"; flag.addEventListener("click", () => field && saveField(path, { ...field, state: "needs_adjudication", value: null }));
-    controls.append(keep, edit, flag); card.append(heading, value, provenance, controls); return card;
+    controls.append(keep, edit, flag); card.append(heading, value, ...(humanEvidenceWarning ? [humanEvidenceWarning] : []), provenance, controls); return card;
   }
 
   /** Open an autosaving field editor whose retry uses the same payload that failed. */
@@ -89,7 +97,7 @@
   /** Draw non-overlapping human evidence spans from the immutable article source text. */
   function renderEvidence() {
     const target = document.querySelector("#article-content"); const text = state.articleContext?.content; if (!target || !text || !state.article) return;
-    const spans = state.article.projects.flatMap((project) => Object.values(project.fields).flatMap((field) => field.evidence || [])).filter((span) => span.end <= text.length && text.slice(span.start, span.end) === span.quote).sort((a, b) => a.start - b.start || a.end - b.end);
+    const spans = state.article.projects.flatMap((project) => Object.values(project.fields).flatMap(currentArticleEvidence)).filter((span) => span.end <= text.length && text.slice(span.start, span.end) === span.quote).sort((a, b) => a.start - b.start || a.end - b.end);
     const nodes = []; let cursor = 0; for (const span of spans) { if (span.start < cursor) continue; nodes.push(document.createTextNode(text.slice(cursor, span.start))); const mark = document.createElement("mark"); mark.textContent = text.slice(span.start, span.end); nodes.push(mark); cursor = span.end; } nodes.push(document.createTextNode(text.slice(cursor))); target.replaceChildren(...nodes);
   }
 
