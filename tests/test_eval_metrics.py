@@ -200,3 +200,63 @@ def test_unmatched_gold_project_does_not_add_eligibility_denominators():
 
     assert result["project_set"] == (1, 1, 2)
     assert result["field_hits"]["financing_amount_usd"] == (0, 0)
+
+
+def test_eligible_null_values_score_as_explicit_empty_for_all_scalar_families():
+    """Rich not-mentioned nulls have one denominator and accept only the correct empty representation."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "category": None, "storage_status": None, "capacity_mw": None,
+        "planned_start_date": None, "project_developer": None, "location": None,
+        "field_eligibility": {
+            "category": True, "storage_status": True, "capacity_mw": True,
+            "planned_start_date": True, "project_developer": True, "location": True,
+        },
+    }]}
+    pred = {"status": "valid", "projects": [{
+        **_alpha_gold(), "category": "", "storage_status": "not_mentioned", "capacity_mw": "",
+        "planned_start_date": "", "project_developer": "", "location": "",
+    }]}
+
+    hits = m.score_article(pred, gold)["field_hits"]
+
+    assert {field: hits[field] for field in ("category", "storage_status", "capacity_mw", "planned_start_date", "project_developer", "location")} == {
+        "category": (1, 1), "storage_status": (1, 1), "capacity_mw": (1, 1),
+        "planned_start_date": (1, 1), "project_developer": (1, 1), "location": (1, 1),
+    }
+
+
+def test_eligible_null_enum_rejects_a_nonempty_value():
+    """Only empty strings and the storage-specific not-mentioned marker can match a null enum."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "category": None, "field_eligibility": {"category": True},
+    }]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "category": "光伏"}]}
+
+    assert m.score_article(pred, gold)["field_hits"]["category"] == (0, 1)
+
+
+def test_eligible_null_generation_sources_is_an_empty_set_denominator():
+    """An explicitly eligible null source list scores one correct empty-set field, not no field."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "generation_sources": None, "field_eligibility": {"generation_sources": True},
+    }]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "generation_sources": []}]}
+
+    result = m.score_article(pred, gold)
+
+    assert result["field_hits"]["generation_sources"] == (1, 1)
+    assert result["set_hits"]["generation_sources"] == (0, 0, 0, 1, 1)
+
+
+def test_location_uses_normalized_exact_and_honors_eligibility():
+    """Location is evaluable only when eligible and compares normalized text exactly."""
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "location": " Nairobi ", "field_eligibility": {"location": True},
+    }]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "location": "nairobi"}]}
+    ineligible = {"status": "valid", "projects": [{
+        **_alpha_gold(), "location": "Nairobi", "field_eligibility": {"location": False},
+    }]}
+
+    assert m.score_article(pred, gold)["field_hits"]["location"] == (1, 1)
+    assert m.score_article({"status": "valid", "projects": [{**_alpha_gold(), "location": "wrong"}]}, ineligible)["field_hits"]["location"] == (0, 0)

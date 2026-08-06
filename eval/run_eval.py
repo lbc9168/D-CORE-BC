@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 _EVAL_DIR = pathlib.Path(__file__).resolve().parent
 WEIGHTS = {"status": 0.25, "fields": 0.25, "entity_name": 0.25, "entity_role": 0.25}
 _DEFAULT_MODEL = "gemini-2.5-flash-lite"
+_STANDARD_SPLITS = ("development", "regression", "challenge")
 
 
 def _default_extractor_version() -> str:
@@ -66,7 +67,7 @@ def _ratio(correct, total) -> float:
 def _empty_accumulator() -> dict:
     """Create independent counters for one whole report or deterministic report slice."""
     return {
-        "n_gold": 0, "n_status_correct": 0, "n_scored_articles": 0,
+        "n_gold": 0, "evaluated_count": 0, "n_status_correct": 0, "n_scored_articles": 0,
         "ps_matched": 0, "ps_pred": 0, "ps_gold": 0,
         "field_correct": {field: 0 for field in ALL_FIELDS},
         "field_total": {field: 0 for field in ALL_FIELDS},
@@ -76,9 +77,14 @@ def _empty_accumulator() -> dict:
     }
 
 
+def _register_record(accumulator: dict) -> None:
+    """Reserve one gold record in an aggregate before extraction can skip or fail it."""
+    accumulator["n_gold"] += 1
+
+
 def _add_result(accumulator: dict, result: dict) -> None:
     """Add one already-scored article outcome to an aggregate without changing its denominator policy."""
-    accumulator["n_gold"] += 1
+    accumulator["evaluated_count"] += 1
     accumulator["n_status_correct"] += int(result["status_correct"])
     if not result["scored"]:
         return
@@ -137,25 +143,33 @@ def _summarize(accumulator: dict, *, include_taxonomy: bool = True) -> dict:
     }
     source_precision = _ratio(accumulator["source_tp"], accumulator["source_pred"])
     source_recall = _ratio(accumulator["source_tp"], accumulator["source_gold"])
-    source_f1 = round(2 * source_precision * source_recall / (source_precision + source_recall), 4) if source_precision + source_recall else 0.0
+    source_f1 = (
+        round(2 * source_precision * source_recall / (source_precision + source_recall), 4)
+        if source_precision + source_recall
+        else _ratio(accumulator["field_correct"]["generation_sources"], accumulator["field_total"]["generation_sources"])
+    )
     fields["generation_sources"] = {
         "true_positive": accumulator["source_tp"], "pred_total": accumulator["source_pred"],
         "gold_total": accumulator["source_gold"], "precision": source_precision,
         "recall": source_recall, "f1": source_f1,
+        "correct": accumulator["field_correct"]["generation_sources"],
+        "total": accumulator["field_total"]["generation_sources"],
+        "accuracy": _ratio(accumulator["field_correct"]["generation_sources"], accumulator["field_total"]["generation_sources"]),
     }
     entity = {
         "name_f1_mean": round(accumulator["name_f1_sum"] / accumulator["name_f1_n"], 4) if accumulator["name_f1_n"] else 0.0,
         "role_accuracy": _ratio(accumulator["role_correct"], accumulator["role_matched"]),
         "role_matched_total": accumulator["role_matched"], "matched_projects": accumulator["name_f1_n"],
     }
-    status_accuracy = _ratio(accumulator["n_status_correct"], accumulator["n_gold"])
+    status_accuracy = _ratio(accumulator["n_status_correct"], accumulator["evaluated_count"])
     summary = {
         "n_gold": accumulator["n_gold"], "status_accuracy": status_accuracy,
+        "evaluated_count": accumulator["evaluated_count"],
         "n_scored_articles": accumulator["n_scored_articles"],
         "project_set": {"matched": accumulator["ps_matched"], "pred_total": accumulator["ps_pred"], "gold_total": accumulator["ps_gold"],
                         "precision": precision, "recall": recall, "f1": project_f1},
         "fields": fields, "entity": entity,
-        "weighted_total": _weighted_total(status_accuracy, fields, entity, field_names=ALL_FIELDS + PROJECT_SET_FIELDS),
+        "weighted_total": _weighted_total(status_accuracy, fields, entity, field_names=ALL_FIELDS),
         "legacy_weighted_total": _weighted_total(status_accuracy, fields, entity, field_names=LEGACY_FIELDS),
     }
     if include_taxonomy:
@@ -180,7 +194,7 @@ def _metric_rows(report: dict):
             ("project_set.f1", lambda item: (item.get("project_set") or {}).get("f1"))]
     rows.extend(
         (field, lambda item, field=field: ((item.get("fields") or {}).get(field) or {}).get("accuracy", ((item.get("fields") or {}).get(field) or {}).get("f1")))
-        for field in ALL_FIELDS + PROJECT_SET_FIELDS
+        for field in ALL_FIELDS
     )
     rows.extend([
         ("entity.name_f1_mean", lambda item: (item.get("entity") or {}).get("name_f1_mean")),
@@ -210,6 +224,17 @@ def _slice_categories(record: dict) -> list[str]:
     return sorted({project.get("category") or "unspecified" for project in record.get("projects") or []}) or ["unspecified"]
 
 
+def _slice_split(record: dict) -> str:
+    """Normalize standard split spellings while retaining observed custom split labels verbatim."""
+    value = str(record.get("dataset_split") or "unspecified").strip()
+    return value.casefold() if value.casefold() in _STANDARD_SPLITS else value or "unspecified"
+
+
+def _slice_risk_tags(record: dict) -> list[str]:
+    """Return sorted unique risk labels, assigning untagged records to the explicit unspecified slice."""
+    return sorted(set(record.get("risk_tags") or [])) or ["unspecified"]
+
+
 def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None, reports_dir=None,
              use_cache=True, extractor_version=None) -> dict:
     """Extract, score, aggregate, and persist one rich-gold evaluation report without mutating source data."""
@@ -220,9 +245,24 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None, re
     extract_fn = extract_fn or _build_real_extract_fn()
     gold_records = gold_loader.load(gold_path)
     overall, regression, challenge = _empty_accumulator(), _empty_accumulator(), _empty_accumulator()
-    split_slices, category_slices, risk_slices = {}, {}, {}
-    n_failed = n_skipped = 0
+    split_slices = {split: _empty_accumulator() for split in _STANDARD_SPLITS}
+    category_slices, risk_slices = {"unspecified": _empty_accumulator()}, {"unspecified": _empty_accumulator()}
+    predeclared = []
     for record in gold_records:
+        split, categories, risk_tags = _slice_split(record), _slice_categories(record), _slice_risk_tags(record)
+        _register_record(overall)
+        _register_record(split_slices.setdefault(split, _empty_accumulator()))
+        for category in categories:
+            _register_record(category_slices.setdefault(category, _empty_accumulator()))
+        for risk_tag in risk_tags:
+            _register_record(risk_slices.setdefault(risk_tag, _empty_accumulator()))
+        if split == "regression":
+            _register_record(regression)
+        elif split == "challenge":
+            _register_record(challenge)
+        predeclared.append((record, split, categories, risk_tags))
+    n_failed = n_skipped = 0
+    for record, split, categories, risk_tags in predeclared:
         article = article_store.get_article(record["source_link"], db_path=raw_news_db)
         if article is None:
             logger.warning("run_eval 跳过：raw_news 库无此原文 url=%s", record["source_link"])
@@ -242,12 +282,11 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None, re
                 article_store.cache_put(article_store.cache_key(record["source_link"], extractor_version), result, cache_dir)
         outcome = score_article(flat_prediction(result), record)
         _add_result(overall, outcome)
-        split = record.get("dataset_split") or "unspecified"
-        _add_result(split_slices.setdefault(split, _empty_accumulator()), outcome)
-        for category in _slice_categories(record):
-            _add_result(category_slices.setdefault(category, _empty_accumulator()), outcome)
-        for risk_tag in sorted(set(record.get("risk_tags") or [])):
-            _add_result(risk_slices.setdefault(risk_tag, _empty_accumulator()), outcome)
+        _add_result(split_slices[split], outcome)
+        for category in categories:
+            _add_result(category_slices[category], outcome)
+        for risk_tag in risk_tags:
+            _add_result(risk_slices[risk_tag], outcome)
         if split == "regression":
             _add_result(regression, outcome)
         elif split == "challenge":

@@ -20,7 +20,7 @@ from uuid import uuid4
 
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
-from eval.gold_loader import GoldRecord
+from gold_standard_studio.eval_contract import GoldRecord
 from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import GoldEntity, GoldField, RichGoldRecord

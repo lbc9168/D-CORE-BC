@@ -64,3 +64,12 @@ def test_load_accepts_optional_studio_projection_metadata(tmp_path):
     assert record["difficulty"] == {"score": 10}
     assert record["projects"][0]["field_eligibility"] == {"capacity_mw": True}
     assert record["projects"][0]["project_developer"] == "中国电建"
+
+
+def test_old_gold_defaults_to_empty_project_eligibility_mapping(tmp_path):
+    """Legacy gold rows retain an empty mapping rather than inheriting a rich projection state."""
+    record = gold_loader.load(_write(tmp_path, [
+        '{"source_link":"http://legacy","status":"valid","projects":[{"project_name":"A","category":"光伏"}]}'
+    ]))[0]
+
+    assert record["projects"][0]["field_eligibility"] == {}

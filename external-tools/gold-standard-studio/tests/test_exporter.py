@@ -3,15 +3,12 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
-import sys
+import subprocess
 from pathlib import Path
 
 import pytest
-
-REPOSITORY_ROOT = Path(__file__).resolve().parents[3]
-if str(REPOSITORY_ROOT) not in sys.path:
-    sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.schemas import EvidenceSpan, GoldField, GoldProject, RichGoldRecord
@@ -78,7 +75,7 @@ def test_project_field_preserves_exact_eligibility_semantics():
 
 def test_projection_is_deterministic_loadable_and_preserves_review_store(tmp_path):
     """Write canonical artifacts without changing review records, audit history, or row counts."""
-    from eval.gold_loader import load as load_projection
+    from gold_standard_studio.eval_contract import load_projection
     from gold_standard_studio.exporter import publish_gold
 
     store = make_store(tmp_path, reviewed=True)
@@ -105,7 +102,7 @@ def test_projection_is_deterministic_loadable_and_preserves_review_store(tmp_pat
 
 def test_projection_uses_per_project_eligibility_and_loads_through_eval_loader(tmp_path):
     """Keep mixed field eligibility attached to each project rather than collapsing article denominators."""
-    from eval.gold_loader import load as load_projection
+    from gold_standard_studio.eval_contract import load_projection
     from gold_standard_studio.exporter import publish_gold
 
     store = make_store(tmp_path, reviewed=True)
@@ -315,3 +312,14 @@ def test_publish_accepts_strictly_typed_loader_projection_values(tmp_path, field
     _seed_confirmed_projection_case(store, field_name=field_name, value=value)
 
     assert publish_gold(store, tmp_path / "gold_sets", "v0.1.0").version_dir.is_dir()
+
+
+def test_exporter_imports_without_repository_root_on_sys_path(tmp_path):
+    """The standalone Studio package dynamically loads the authoritative eval contract without path mutation."""
+    env = {key: value for key, value in os.environ.items() if key not in {"PYTHONPATH", "PWD"}}
+    result = subprocess.run(
+        [os.fspath(Path(os.sys.executable)), "-c", "import gold_standard_studio.exporter"],
+        cwd=tmp_path, env=env, text=True, capture_output=True, check=False,
+    )
+
+    assert result.returncode == 0, result.stderr

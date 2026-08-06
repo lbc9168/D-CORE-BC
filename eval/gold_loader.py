@@ -3,7 +3,10 @@ import json
 import logging
 from typing import Literal, Optional
 
-import bri_enums
+try:
+    from ._root_modules import bri_enums
+except ImportError:  # pragma: no cover - direct script fallback has no package context.
+    from _root_modules import bri_enums
 from pydantic import (
     BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr, ValidationError,
     field_validator,
