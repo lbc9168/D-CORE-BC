@@ -54,11 +54,13 @@ def test_load_accepts_optional_taxonomy_labels_without_breaking_old_gold(tmp_pat
 def test_load_accepts_optional_studio_projection_metadata(tmp_path):
     """Accept Studio split, risk, and field-eligibility metadata while retaining legacy fields."""
     p = _write(tmp_path, [
-        '{"source_link":"http://a","article_id":"S001","status":"valid","dataset_split":"development","risk_tags":["capacity"],"field_eligibility":{"capacity_mw":true},"projects":[{"capacity_mw":12}]}',
+        '{"source_link":"http://a","article_id":"S001","status":"valid","dataset_split":"development","risk_tags":["capacity"],"difficulty":{"score":10},"projects":[{"capacity_mw":12,"country":"肯尼亚","project_developer":"中国电建","planned_start_date":"2026-01-01","planned_complete_date":"2027-01-01","investment_date":"2025-01-01","contract_amount_usd":3,"financing_amount_usd":4,"project_summary":"x","field_eligibility":{"capacity_mw":true}}]}',
     ])
 
     record = gold_loader.load(p)[0]
 
     assert record["dataset_split"] == "development"
     assert record["risk_tags"] == ["capacity"]
-    assert record["field_eligibility"] == {"capacity_mw": True}
+    assert record["difficulty"] == {"score": 10}
+    assert record["projects"][0]["field_eligibility"] == {"capacity_mw": True}
+    assert record["projects"][0]["project_developer"] == "中国电建"

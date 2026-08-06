@@ -35,7 +35,9 @@
 | 冲突优先 Web UI（并发安全只读源库、审计顺序结构门控、候选与人工证据 SHA 校验、结构编辑、审计、自动保存与快捷键） | ✅ 已完成 |
 | rich gold 发布器（原子版本目录、证据/审计保留、兼容 eval 投影与发行清单） | ✅ 已完成 |
 
-发布器只读访问 Studio review DB；仅当库内每条记录均已人工确认且无待裁决字段时才写入版本目录。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后原子重命名；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影保留 `dataset_split`、`risk_tags` 与字段可评测性：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；常见密钥字段会在公开审计元数据中脱敏。
+发布器只读访问 Studio review DB；仅当草稿和索引均为 `reviewed`、存在匹配 `article_confirmed` 审计且其后没有 gold 草稿变更时才写入版本目录，确认后的候选观测不影响资格。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后以协作版本锁和平台 no-replace rename 原子提交；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影将 `field_eligibility` 保留在每个项目内：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；发布 rich JSON 仅保留 allowlist 的确认审计 ID、动作、时间和字段路径，不发布任意原始 audit metadata。
+
+评测器对逐项目 eligibility 的分母消费、全字段指标分派及 split/category/risk 切片仍严格属于 Task 11；Task 10 仅负责生产并校验已由 `eval.gold_loader` 可读取的契约，不改变现有 metrics 行为。
 
 ---
 

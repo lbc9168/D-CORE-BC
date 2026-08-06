@@ -19,17 +19,26 @@ class Project(BaseModel):
     """金标准单个项目：旧评分字段保持兼容，taxonomy 标签均为可选。"""
     model_config = ConfigDict(extra="forbid")
     project_name: Optional[str] = None
+    country: Optional[str] = None
     category: Optional[str] = None
     project_stage: Optional[str] = None
     financing_model: Optional[str] = None
     capacity_mw: Optional[str | float | int] = None
     total_investment_usd: Optional[str | float | int] = None
     location: Optional[str] = None
+    project_developer: Optional[str] = None
+    planned_start_date: Optional[str] = None
+    planned_complete_date: Optional[str] = None
+    investment_date: Optional[str] = None
+    contract_amount_usd: Optional[str | float | int] = None
+    financing_amount_usd: Optional[str | float | int] = None
+    project_summary: Optional[str] = None
     generation_sources: Optional[list[Literal["光伏", "风电", "水电", "地热及余热", "生物质", "核电", "火电"]]] = None
     storage_status: Optional[Literal["confirmed", "planned", "optional", "unclear", "not_mentioned"]] = None
     storage_power_mw: Optional[float] = None
     storage_energy_mwh: Optional[float] = None
     entities: list[Entity] = Field(default_factory=list)
+    field_eligibility: dict[str, bool] = Field(default_factory=dict)
 
 
 class GoldRecord(BaseModel):
@@ -41,7 +50,7 @@ class GoldRecord(BaseModel):
     projects: list[Project] = Field(default_factory=list)
     dataset_split: Optional[str] = None
     risk_tags: list[str] = Field(default_factory=list)
-    field_eligibility: dict[str, bool] = Field(default_factory=dict)
+    difficulty: Optional[dict] = None
 
 
 def load(path) -> list[dict]:
