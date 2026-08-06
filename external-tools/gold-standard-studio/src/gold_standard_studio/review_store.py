@@ -273,6 +273,33 @@ class ReviewStore:
             self._append_audit(conn, sample_id, "field_decision", field_path, old, field, actor, now)
             return article
 
+    def adjudicate_field(
+        self, sample_id: str, field_path: str, field: GoldField, *, actor: str
+    ) -> RichGoldRecord:
+        """Atomically replace only a pending field and distinguish the human adjudication in audit history."""
+        _require_actor(actor)
+        project_id, field_name = _parse_field_path(field_path)
+        if field.state == "needs_adjudication":
+            raise ValueError("adjudication must select a non-pending field state")
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            article = self._load_article(conn, sample_id)
+            project = _find_project(article, project_id)
+            if field_name not in project.fields:
+                raise ValueError(f"unknown field '{field_path}'")
+            old = project.fields[field_name]
+            if old.state != "needs_adjudication":
+                raise ValueError(f"field is not awaiting adjudication: {field_path}")
+            project.fields[field_name] = field
+            self._save_article(conn, article, now)
+            conn.execute(
+                """INSERT INTO field_decisions(sample_id, field_path, field_json, actor, created_at)
+                   VALUES (?, ?, ?, ?, ?)""",
+                (sample_id, field_path, _canonical_json(field), actor, now),
+            )
+            self._append_audit(conn, sample_id, "adjudication", field_path, old, field, actor, now)
+            return article
+
     def save_structure(
         self,
         sample_id: str,

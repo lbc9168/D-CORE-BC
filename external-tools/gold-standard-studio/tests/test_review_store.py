@@ -96,6 +96,18 @@ def test_confirm_rejects_unresolved_conflicts(tmp_path):
     assert store.get_article("S001").review_status == "unreviewed"
 
 
+def test_adjudication_atomically_resolves_only_a_pending_field_and_audits_its_action(tmp_path):
+    """Resolve a held field in one transaction while preserving an adjudication-specific audit event."""
+    store = seeded_store(tmp_path, unresolved=True)
+
+    updated = store.adjudicate_field("S001", "P01.category", make_gold_field("光伏"), actor="human")
+
+    assert updated.projects[0].fields["category"].value == "光伏"
+    assert store.list_audit("S001")[-1].action == "adjudication"
+    with pytest.raises(ValueError, match="not awaiting adjudication"):
+        store.adjudicate_field("S001", "P01.category", make_gold_field("风电"), actor="human")
+
+
 def test_candidate_bundle_uses_canonical_json_and_replaces_same_source(tmp_path):
     """Store one canonical Pydantic bundle per article and source without duplicate source rows."""
     store = seeded_store(tmp_path)
