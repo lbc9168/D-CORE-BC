@@ -139,7 +139,8 @@ class SourceRepository:
             """SELECT pe.*, cp.project_name AS canonical_project_name,
                       cp.category AS category
                FROM project_events AS pe
-               JOIN canonical_projects AS cp ON cp.id = pe.canonical_id"""
+               JOIN canonical_projects AS cp ON cp.id = pe.canonical_id
+               ORDER BY pe.id ASC"""
         ).fetchall()
         projects: list[CurrentProject] = []
         for event_row in event_rows:
@@ -166,7 +167,8 @@ class SourceRepository:
         """Map a source URL directly to extraction labels without changing import status."""
         rows = self._projects_conn.execute(
             """SELECT * FROM extracted_projects
-               WHERE source_link = ? AND COALESCE(imported_to_s02a, 0) = 0""",
+               WHERE source_link = ? AND COALESCE(imported_to_s02a, 0) = 0
+               ORDER BY id ASC""",
             (source_link,),
         ).fetchall()
         projects: list[CurrentProject] = []

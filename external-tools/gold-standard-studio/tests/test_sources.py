@@ -57,12 +57,25 @@ def _create_projects_db(path: Path) -> None:
                 imported_to_s02a INTEGER DEFAULT 0
             )"""
         )
+        conn.execute(
+            """CREATE INDEX extracted_projects_source_project_desc
+               ON extracted_projects(source_link, project_name DESC)"""
+        )
         conn.executemany(
             "INSERT INTO extracted_projects(project_name, category, source_link, imported_to_s02a) VALUES (?, ?, ?, ?)",
             [
                 ("已导入项目", "风电", "https://example.test/unimported", 1),
                 ("提取项目", " 光伏 ", "https://example.test/unimported", 0),
                 ("遗留待导入项目", "储能", "https://example.test/unimported", None),
+            ],
+        )
+        conn.executemany(
+            """INSERT INTO extracted_projects(
+                id, project_name, category, source_link, imported_to_s02a
+            ) VALUES (?, ?, ?, ?, ?)""",
+            [
+                (30, "z-order", "储能", "https://example.test/ordered-extraction", 0),
+                (20, "a-order", "光伏", "https://example.test/ordered-extraction", 0),
             ],
         )
 
@@ -122,6 +135,20 @@ def _create_main_db(path: Path) -> None:
                VALUES (?, ?, ?)""",
             ("KEN-BAD-0001-01", "KEN-BAD-0001", "https://example.test/malformed"),
         )
+        conn.executemany(
+            "INSERT INTO canonical_projects(id, project_name, category, country) VALUES (?, ?, ?, ?)",
+            [
+                ("ORDER-0001", "后插入项目", "风电", "肯尼亚"),
+                ("ORDER-0002", "先插入项目", "光伏", "肯尼亚"),
+            ],
+        )
+        conn.executemany(
+            "INSERT INTO project_events(id, canonical_id, source_links) VALUES (?, ?, ?)",
+            [
+                ("ORDER-02", "ORDER-0002", '["https://example.test/ordered-main"]'),
+                ("ORDER-01", "ORDER-0001", '["https://example.test/ordered-main"]'),
+            ],
+        )
 
 
 @pytest.fixture
@@ -174,6 +201,24 @@ def test_repository_reads_unimported_extracted_project_without_changing_import_f
     assert [project.raw_values["imported_to_s02a"] for project in projects] == [0, None]
 
 
+def test_repository_orders_main_labels_by_event_id(db_fixture: DatabaseFixture):
+    """Return multiple main labels in deterministic ascending project-event ID order."""
+    repo = SourceRepository(db_fixture.config)
+
+    projects = repo.load_current_labels("https://example.test/ordered-main")
+
+    assert [project.event_id for project in projects] == ["ORDER-01", "ORDER-02"]
+
+
+def test_repository_orders_extraction_labels_by_id(db_fixture: DatabaseFixture):
+    """Return pending extraction labels in deterministic ascending extracted-row ID order."""
+    repo = SourceRepository(db_fixture.config)
+
+    projects = repo.load_current_labels("https://example.test/ordered-extraction")
+
+    assert [project.category for project in projects] == ["光伏", "储能"]
+
+
 def test_repository_rejects_malformed_event_source_link_json(db_fixture: DatabaseFixture):
     """Ignore malformed event-link JSON rather than treating raw text as a source URL."""
     repo = SourceRepository(db_fixture.config)
@@ -219,6 +264,52 @@ def test_snapshot_hashes_include_committed_wal_content(db_fixture: DatabaseFixtu
 
     assert raw_path.read_bytes() == before_main_bytes
     assert after != before
+
+
+def _create_equivalent_raw_news_db(path: Path, rows: list[tuple[int, str, str]]) -> None:
+    """Create a raw-news database whose identical rows may be committed in any insertion order."""
+    with sqlite3.connect(path) as conn:
+        conn.execute(
+            """CREATE TABLE raw_news (
+                id INTEGER PRIMARY KEY,
+                url TEXT UNIQUE,
+                title TEXT
+            )"""
+        )
+        conn.executemany("INSERT INTO raw_news(id, url, title) VALUES (?, ?, ?)", rows)
+
+
+def test_logical_snapshot_hash_ignores_equivalent_row_insertion_order(
+    db_fixture: DatabaseFixture, tmp_path: Path
+):
+    """Produce equal hashes when semantically identical source rows were inserted in reverse order."""
+    first_raw_db = tmp_path / "first" / "raw_news.db"
+    second_raw_db = tmp_path / "second" / "raw_news.db"
+    first_raw_db.parent.mkdir()
+    second_raw_db.parent.mkdir()
+    rows = [
+        (1, "https://example.test/hash-a", "A"),
+        (2, "https://example.test/hash-b", "B"),
+    ]
+    _create_equivalent_raw_news_db(first_raw_db, rows)
+    _create_equivalent_raw_news_db(second_raw_db, list(reversed(rows)))
+    first_config = StudioConfig.from_paths(
+        raw_news_db=first_raw_db,
+        projects_db=db_fixture.config.projects_db,
+        main_db=db_fixture.config.main_db,
+        data_dir=tmp_path / "first-studio",
+    )
+    second_config = StudioConfig.from_paths(
+        raw_news_db=second_raw_db,
+        projects_db=db_fixture.config.projects_db,
+        main_db=db_fixture.config.main_db,
+        data_dir=tmp_path / "second-studio",
+    )
+
+    first_hash = SourceRepository(first_config).snapshot_hashes()[first_raw_db.name]
+    second_hash = SourceRepository(second_config).snapshot_hashes()[second_raw_db.name]
+
+    assert first_hash == second_hash
 
 
 def test_snapshots_expose_read_only_mappings(db_fixture: DatabaseFixture):
