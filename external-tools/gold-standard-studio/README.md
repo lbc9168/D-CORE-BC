@@ -49,6 +49,15 @@ uv run --project external-tools/gold-standard-studio gold-studio build-candidate
 
 The shipped CLI deliberately makes zero external model calls: production and review providers are recorded as `model_calls_disabled`. Before any future provider integration, obtain separate approval, review the exact count/provider/prompt/model version, and record budget, data-retention, and article-disclosure risk.
 
+An explicit `init` of a legacy v1/v2 review DB migrates its data but revokes every legacy reviewed/status claim: prior values survive only as `legacy_migration_hint`, and each row receives a `migration_rereview_required` audit event. Recover missing immutable snapshots only from the configured read-only source repository, then perform a fresh review and confirmation:
+
+```powershell
+uv run --project external-tools/gold-standard-studio gold-studio rehydrate-snapshots --all --data-dir data/gold-studio
+# Or recover one row: --sample-id S001
+```
+
+Ordinary opens reject missing, corrupt, old, or future schema metadata; they never infer authority or auto-migrate. `valid` requires at least one named Chinese entity, a controlled non-`Unknown` role, and exact evidence. `chinese_unnamed` means the article indicates Chinese participation but does not name the Chinese entity; it is published as a zero-project negative state, not as a placeholder entity in a valid record.
+
 Serve the review UI on loopback:
 
 ```powershell
@@ -69,7 +78,7 @@ uv run --project external-tools/gold-standard-studio gold-studio report `
 
 The report is accessible, self-contained HTML: inline styling, semantic table/captions, and no scripts or remote assets.
 
-Publication is separate from Pilot dry-run. It requires every article to be human-confirmed and rejects unreviewed drafts, adjudications, structural conflicts, missing required evidence, or an existing target version.
+Publication is separate from Pilot dry-run. It requires every article to be human-confirmed with explicit `sampling_provenance` and rejects unreviewed drafts, adjudications, structural conflicts, missing required evidence, or an existing target version.
 
 ```powershell
 uv run --project external-tools/gold-standard-studio gold-studio publish `
@@ -85,6 +94,7 @@ This writes immutable artifacts to `eval/gold_sets/database_core/v0.1.0/`: rich 
 | `Pilot quotas are infeasible` | Preserve the error and pool counts; inspect coverage/category spelling. Never reduce a floor or negative quota silently. |
 | `source paths are required` | Run `init` with all three paths, or pass all three paths to `sample`. |
 | no review DB | Inspect dry-run output, then use `sample --apply` for the intended data directory. |
+| migrated row has no snapshot | Run `rehydrate-snapshots` for the exact row or `--all`, then re-review it; never copy a legacy reviewed flag. |
 | `model_calls_disabled` | Expected safe default, not a label. Do not treat it as a failed gold review. |
 | publication rejected | Resolve every draft/evidence/adjudication/structure issue in the UI; do not edit release JSONL. |
 | version exists | Select a new semantic version; releases are immutable. |

@@ -12,6 +12,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, ConfigDict, Field
 
+from gold_standard_studio.field_registry import ENTITY_ROLES, FIELD_REGISTRY
 from gold_standard_studio.evidence import (
     FieldConflict,
     ProjectFieldCandidate,
@@ -35,7 +36,7 @@ from gold_standard_studio.sources import SourceRepository
 class StrictApiModel(BaseModel):
     """Reject undeclared request and response properties at the local HTTP boundary."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", strict=True)
 
 
 class QueueItemResponse(StrictApiModel):
@@ -81,6 +82,14 @@ class StructureGateResponse(StrictApiModel):
     resolved: bool
 
 
+class FieldRegistryResponse(StrictApiModel):
+    """Expose only the formal field type, evidence flag, and controlled values required by local editors."""
+
+    field_type: str
+    evidence_required: bool
+    allowed_values: list[str]
+
+
 class ArticleResponse(StrictApiModel):
     """Serialize an article draft and its review-only context in one stable response shape."""
 
@@ -92,6 +101,8 @@ class ArticleResponse(StrictApiModel):
     structural_conflicts: list[ConflictResponse]
     field_candidates: dict[str, list[ProjectFieldCandidateResponse]]
     structure_gate: StructureGateResponse
+    field_registry: dict[str, FieldRegistryResponse]
+    entity_roles: list[str]
 
 
 class StructureRequest(StrictApiModel):
@@ -346,6 +357,15 @@ def _article_response(store: ReviewStore, sample_id: str) -> ArticleResponse:
             for path, candidates in project_field_candidates(article.projects, bundle, article.article_sha256).items()
         },
         structure_gate=StructureGateResponse(required=required, resolved=resolved),
+        field_registry={
+            name: FieldRegistryResponse(
+                field_type=specification.field_type,
+                evidence_required=specification.evidence_required,
+                allowed_values=sorted(specification.allowed_values or ()),
+            )
+            for name, specification in FIELD_REGISTRY.items()
+        },
+        entity_roles=sorted(ENTITY_ROLES),
     )
 
 

@@ -4,13 +4,11 @@ from __future__ import annotations
 
 import hashlib
 import json
-import os
-import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Callable, Mapping, Sequence
 
-from gold_standard_studio.config import assert_mutable_paths_isolated
+from gold_standard_studio.config import atomic_write_text
 from gold_standard_studio.schemas import CandidateValue
 from gold_standard_studio.sources import ArticleSnapshot
 
@@ -85,24 +83,10 @@ class CandidateCache:
 
     def store(self, key: CandidateCacheKey, candidate: CandidateValue) -> Path:
         """Atomically write one canonical candidate record using a process-unique temporary file."""
-        if self._source_paths:
-            assert_mutable_paths_isolated(self._source_paths, [self._directory, self._path_for(key)])
-        self._directory.mkdir(parents=True, exist_ok=True)
         destination = self._path_for(key)
-        temporary = destination.with_name(f".{destination.name}.{os.getpid()}.{uuid.uuid4().hex}.tmp")
         record = {"key": asdict(key), "candidate": candidate.model_dump(mode="json")}
-        try:
-            with temporary.open("x", encoding="utf-8") as handle:
-                json.dump(record, handle, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
-                handle.flush()
-                os.fsync(handle.fileno())
-            temporary.replace(destination)
-        finally:
-            try:
-                temporary.unlink()
-            except FileNotFoundError:
-                pass
-        return destination
+        content = json.dumps(record, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+        return atomic_write_text(destination, content, source_paths=self._source_paths)
 
     def _path_for(self, key: CandidateCacheKey) -> Path:
         """Map a validated opaque identity to a confined JSON cache path."""

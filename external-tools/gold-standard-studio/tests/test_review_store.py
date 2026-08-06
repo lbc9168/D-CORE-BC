@@ -13,9 +13,11 @@ from gold_standard_studio.schemas import (
     CandidateValue,
     DifficultyScore,
     EvidenceSpan,
+    GoldEntity,
     GoldField,
     GoldProject,
     RichGoldRecord,
+    SamplingProvenance,
 )
 from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
@@ -40,8 +42,17 @@ def make_snapshot(sample_id: str) -> ArticleSnapshot:
 
 
 def make_gold_field(value: str, *, state: str = "present") -> GoldField:
-    """Build a non-critical field whose literal value makes decision assertions independent."""
-    return GoldField(state=state, value=value if state == "present" else None)
+    """Build one registry-compliant category decision with exact fixture evidence when present."""
+    evidence = []
+    if state == "present":
+        start = ARTICLE_CONTENT.index(value)
+        evidence = [EvidenceSpan(quote=value, start=start, end=start + len(value), article_sha256=ARTICLE_SHA256)]
+    return GoldField(
+        state=state,
+        value=value if state == "present" else None,
+        evidence=evidence,
+        evidence_required=True,
+    )
 
 
 def make_ready_article(sample_id: str = "S001") -> RichGoldRecord:
@@ -55,7 +66,33 @@ def make_ready_article(sample_id: str = "S001") -> RichGoldRecord:
         sample_id=sample_id,
         article_sha256=ARTICLE_SHA256,
         source_link=f"https://example.test/{sample_id}",
-        projects=[GoldProject(gold_project_id="P01", fields=fields)],
+        sampling_provenance=SamplingProvenance(
+            sampling_seed=20260806,
+            inclusion_reasons=["review_store_fixture"],
+            original_category_strata=["风电"],
+            risk_tags=[],
+            negative_proxy=False,
+        ),
+        projects=[
+            GoldProject(
+                gold_project_id="P01",
+                fields=fields,
+                entities=[
+                    GoldEntity(
+                        name="风电",
+                        role="EPC总承包",
+                        evidence=[
+                            EvidenceSpan(
+                                quote="风电",
+                                start=0,
+                                end=2,
+                                article_sha256=ARTICLE_SHA256,
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
     )
 
 
@@ -144,11 +181,16 @@ def test_confirm_revalidates_current_state_after_an_observer_has_seen_an_earlier
     assert store.get_article("S001").review_status == "unreviewed"
 
 
-def test_confirm_rejects_registered_present_field_without_evidence_inside_store(tmp_path):
-    """Enforce critical-field evidence in the confirmation transaction rather than in an API precheck."""
-    store = seeded_store(tmp_path)
+def test_confirm_rejects_registered_evidence_flag_mismatch_inside_store(tmp_path):
+    """Enforce the registry-derived evidence flag again inside the confirmation transaction."""
+    store = ReviewStore(tmp_path / "review.db")
+    store.initialize()
+    article = make_ready_article()
+    article.projects[0].fields["category"] = GoldField(state="present", value="风电")
+    store.seed_article(article, snapshot=make_snapshot("S001"))
+    store.save_article_status("S001", "valid", actor="fixture")
 
-    with pytest.raises(ValueError, match="missing required evidence: P01.category"):
+    with pytest.raises(ValueError, match="evidence_required must match"):
         store.confirm_article("S001", actor="human")
 
 
@@ -241,11 +283,31 @@ def test_candidate_scoring_is_observational_persistent_and_reorders_the_queue(tm
     store = ReviewStore(tmp_path / "review.db")
     store.initialize()
     store.seed_article(
-        RichGoldRecord(sample_id="S001", article_sha256=ARTICLE_SHA256),
+        RichGoldRecord(
+            sample_id="S001",
+            article_sha256=ARTICLE_SHA256,
+            sampling_provenance=SamplingProvenance(
+                sampling_seed=20260806,
+                inclusion_reasons=["scoring_fixture"],
+                original_category_strata=[],
+                risk_tags=[],
+                negative_proxy=True,
+            ),
+        ),
         snapshot=make_snapshot("S001"),
     )
     store.seed_article(
-        RichGoldRecord(sample_id="S002", article_sha256=ARTICLE_SHA256),
+        RichGoldRecord(
+            sample_id="S002",
+            article_sha256=ARTICLE_SHA256,
+            sampling_provenance=SamplingProvenance(
+                sampling_seed=20260806,
+                inclusion_reasons=["scoring_fixture"],
+                original_category_strata=[],
+                risk_tags=[],
+                negative_proxy=True,
+            ),
+        ),
         snapshot=make_snapshot("S002"),
     )
     store.confirm_negative("S001", "irrelevant", actor="human")

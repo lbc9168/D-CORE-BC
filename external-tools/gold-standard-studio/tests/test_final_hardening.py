@@ -239,7 +239,18 @@ def test_negative_one_click_sets_authoritative_status_and_confirms_server_side(
     store = ReviewStore(tmp_path / f"{negative_status}.db")
     store.initialize()
     store.seed_article(
-        RichGoldRecord(sample_id="N001", source_link=snapshot.source_link, article_sha256=snapshot.article_sha256),
+        RichGoldRecord(
+            sample_id="N001",
+            source_link=snapshot.source_link,
+            article_sha256=snapshot.article_sha256,
+            sampling_provenance=SamplingProvenance(
+                sampling_seed=20260806,
+                inclusion_reasons=["negative_fixture"],
+                original_category_strata=[],
+                risk_tags=[],
+                negative_proxy=True,
+            ),
+        ),
         snapshot=snapshot,
     )
     response = TestClient(create_app(store)).post(
@@ -249,7 +260,8 @@ def test_negative_one_click_sets_authoritative_status_and_confirms_server_side(
     assert response.status_code == 200, response.text
     assert response.json()["article"]["article_status"] == negative_status
     assert response.json()["article"]["article_review_status"] == "reviewed"
-    assert [entry.action for entry in store.list_audit("N001")][-2:] == [
+    assert [entry.action for entry in store.list_audit("N001")][-3:] == [
+        "structure_decision",
         "article_status_decision",
         "article_confirmed",
     ]

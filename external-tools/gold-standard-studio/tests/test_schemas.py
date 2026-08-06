@@ -3,7 +3,14 @@
 import pytest
 from pydantic import ValidationError
 
-from gold_standard_studio.schemas import EvidenceSpan, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.schemas import (
+    EvidenceSpan,
+    GoldEntity,
+    GoldField,
+    GoldProject,
+    RichGoldRecord,
+    SamplingProvenance,
+)
 from gold_standard_studio.field_registry import FIELD_REGISTRY
 
 
@@ -31,17 +38,25 @@ def make_record(*, field_state: str = "present", review_status: str = "reviewed"
         state=field_state,
         value=100 if field_state == "present" else None,
         evidence=evidence,
-        evidence_required=field_state == "present",
+        evidence_required=True,
     )
     return RichGoldRecord(
         sample_id="S001",
         article_sha256=ARTICLE_SHA256,
         article_review_status=review_status,
         article_status="valid",
+        sampling_provenance=SamplingProvenance(
+            sampling_seed=17,
+            inclusion_reasons=["schema_fixture"],
+            original_category_strata=[],
+            risk_tags=[],
+            negative_proxy=False,
+        ),
         projects=[
             GoldProject(
                 gold_project_id="P01",
                 fields=fields,
+                entities=[GoldEntity(name="中国企业", role="EPC总承包", evidence=[make_evidence()])],
             )
         ],
     )
@@ -114,6 +129,13 @@ def test_review_status_alias_does_not_replace_authoritative_article_status():
         article_sha256=ARTICLE_SHA256,
         review_status="reviewed",
         article_status="irrelevant",
+        sampling_provenance=SamplingProvenance(
+            sampling_seed=17,
+            inclusion_reasons=["schema_fixture"],
+            original_category_strata=[],
+            risk_tags=[],
+            negative_proxy=True,
+        ),
     )
 
     record.assert_publishable()

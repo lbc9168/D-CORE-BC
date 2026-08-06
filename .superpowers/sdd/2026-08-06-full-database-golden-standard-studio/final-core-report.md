@@ -69,3 +69,7 @@ The repository root is a multi-project tree without one environment that install
 
 - Updated `docs/status/external-tools.md` with the final hardened state.
 - Updated `docs/changes/2026-W32.md` with the A1–A6 contract and verification record.
+
+## Final Hardening A fix round 1 addendum
+
+The post-review fix round closes migration authority/recovery, race-safe SQLite/artifact identity, mandatory Studio provenance, complete browser/API adjudication and entity editors, atomic negative structure decisions, strict formal types and registry evidence flags, complete null-bearing projection keys, and exact warning hygiene. See `final-hardening-a-fix-round-1-report.md` for the ten-finding mapping and final `191` Studio / `14` eval test evidence.

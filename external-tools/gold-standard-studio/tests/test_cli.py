@@ -161,6 +161,31 @@ def test_publish_requires_explicit_version(tmp_path: Path) -> None:
     assert "--version" in result.output
 
 
+def test_rehydrate_snapshots_restores_missing_migrated_articles_from_configured_sources(tmp_path: Path) -> None:
+    """Recover missing immutable snapshots explicitly through configured read-only sources before re-review."""
+    from gold_standard_studio.cli import app
+    from gold_standard_studio.review_store import ReviewStore
+
+    sources = _create_sources(tmp_path)
+    data_dir = tmp_path / "studio"
+    runner = CliRunner()
+    assert runner.invoke(app, ["init", *_args(sources, data_dir)]).exit_code == 0
+    assert runner.invoke(app, ["sample", "--apply", "--data-dir", str(data_dir)]).exit_code == 0
+    store = ReviewStore(data_dir / "review.db")
+    sample_id = store.list_all_samples()[0].sample_id
+    with sqlite3.connect(store.path) as conn:
+        conn.execute("DELETE FROM article_snapshots WHERE sample_id=?", (sample_id,))
+
+    result = runner.invoke(
+        app,
+        ["rehydrate-snapshots", "--sample-id", sample_id, "--data-dir", str(data_dir)],
+    )
+
+    assert result.exit_code == 0, result.output
+    assert f"rehydrated=1 sample_id={sample_id}" in result.output
+    assert store.get_article_snapshot(sample_id) is not None
+
+
 def test_build_all_requires_confirmation_and_reports_exact_resume_count(tmp_path: Path) -> None:
     """Block cost-bearing all-sample candidate work until the operator confirms the exact scope."""
     from gold_standard_studio.cli import app

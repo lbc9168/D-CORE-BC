@@ -18,7 +18,13 @@ CandidateStatus = Literal["ok", "error"]
 class StrictContractModel(BaseModel):
     """Forbid undeclared keys at every persisted or public Pydantic contract boundary."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", strict=True)
+
+
+class CandidateContractModel(BaseModel):
+    """Accept provider-envelope drift and numeric identifiers while candidates remain observational only."""
+
+    model_config = ConfigDict(extra="ignore", strict=False, coerce_numbers_to_str=True)
 
 
 class EvidenceSpan(StrictContractModel):
@@ -91,7 +97,7 @@ class DifficultyScore(StrictContractModel):
     risk_tags: list[str] = Field(default_factory=list)
 
 
-class CandidateValue(StrictContractModel):
+class CandidateValue(CandidateContractModel):
     """Store one candidate source's structured project interpretation or a structured failure."""
 
     source_name: str = Field(min_length=1)
@@ -103,7 +109,7 @@ class CandidateValue(StrictContractModel):
     metadata: dict[str, JsonValue] = Field(default_factory=dict)
 
 
-class CandidateBundle(StrictContractModel):
+class CandidateBundle(CandidateContractModel):
     """Collect all independently produced candidate values for one immutable article snapshot."""
 
     sample_id: str = Field(min_length=1)
@@ -159,10 +165,15 @@ class RichGoldRecord(StrictContractModel):
             raise ValueError("record is not publishable until the article is reviewed")
         if self.article_status == "unreviewed":
             raise ValueError("record is not publishable until article gold status is decided")
+        if self.sampling_provenance is None:
+            raise ValueError("record is not publishable without explicit sampling provenance")
         if self.article_status == "valid" and not self.projects:
             raise ValueError("valid article requires at least one project")
         if self.article_status != "valid" and self.projects:
             raise ValueError("negative article status cannot carry projects")
+        entities = [entity for project in self.projects for entity in project.entities]
+        if self.article_status == "valid" and not entities:
+            raise ValueError("valid article requires at least one named Chinese entity")
         for project in self.projects:
             missing = sorted(set(FIELD_REGISTRY).difference(project.fields))
             extra = sorted(set(project.fields).difference(FIELD_REGISTRY))
@@ -171,8 +182,14 @@ class RichGoldRecord(StrictContractModel):
             for field_name, field in project.fields.items():
                 if field.state in {"unreviewed", "needs_adjudication"}:
                     raise ValueError("record is not publishable with incomplete fields")
+                if field.evidence_required != FIELD_REGISTRY[field_name].evidence_required:
+                    raise ValueError(f"{field_name} evidence_required must match the field registry")
                 validate_field_value(field_name, field.state, field.value)
             for entity in project.entities:
                 validate_entity_role(entity.role)
+                if entity.role == "Unknown":
+                    raise ValueError("valid article entity role must be confirmed and non-Unknown")
+                if not entity.name.strip():
+                    raise ValueError("valid article requires a named Chinese entity")
                 if not entity.evidence:
                     raise ValueError("record is not publishable without entity/role evidence")

@@ -6,6 +6,7 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from datetime import UTC, datetime
 import json
+import os
 from pathlib import Path
 import sqlite3
 from typing import Any, Iterator, Sequence
@@ -114,7 +115,9 @@ class ReviewStore:
         """Create or transactionally migrate the review schema in order while rejecting future versions."""
         self._assert_review_path_isolated()
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        conn = sqlite3.connect(self.path, timeout=30)
+        conn, claim = _secured_sqlite_connect(
+            self.path, source_paths=self._source_paths, allow_create=True
+        )
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         conn.execute("PRAGMA busy_timeout = 30000")
@@ -158,6 +161,7 @@ class ReviewStore:
             raise
         finally:
             conn.close()
+            os.close(claim)
 
     def seed_article(self, article: RichGoldRecord, *, snapshot: ArticleSnapshot | None = None) -> None:
         """Atomically seed one immutable starting draft and its optional canonical article snapshot."""
@@ -220,6 +224,33 @@ class ReviewStore:
             raw_values={},
             display_values={},
         )
+
+    def attach_article_snapshot(
+        self, sample_id: str, snapshot: ArticleSnapshot, *, actor: str
+    ) -> ArticleSnapshot:
+        """Attach a canonical source snapshot during explicit migration recovery and audit that rehydration."""
+        _require_actor(actor)
+        now = _utc_now()
+        with self._immediate_transaction() as conn:
+            article = self._load_article(conn, sample_id)
+            _assert_draft_mutable(article)
+            _validate_snapshot_identity(article, snapshot)
+            existing = conn.execute(
+                "SELECT article_sha256 FROM article_snapshots WHERE sample_id=?", (sample_id,)
+            ).fetchone()
+            self._insert_or_verify_snapshot(conn, sample_id, snapshot, now)
+            if existing is None:
+                self._append_audit(
+                    conn,
+                    sample_id,
+                    "article_snapshot_attached",
+                    "article_snapshot",
+                    None,
+                    {"article_sha256": snapshot.article_sha256},
+                    actor,
+                    now,
+                )
+        return snapshot
 
     def _insert_or_verify_snapshot(
         self, conn: sqlite3.Connection, sample_id: str, snapshot: ArticleSnapshot, now: str
@@ -378,7 +409,7 @@ class ReviewStore:
             project = _find_project(article, project_id)
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
-            validate_field_value(field_name, field.state, field.value)
+            _validate_formal_field(field_name, field)
             old = project.fields[field_name]
             if old.state == "needs_adjudication" and field.state != "needs_adjudication":
                 raise ValueError(f"field resolution requires adjudication: {field_path}")
@@ -464,7 +495,7 @@ class ReviewStore:
             project = _find_project(article, project_id)
             if field_name not in project.fields:
                 raise ValueError(f"unknown field '{field_path}'")
-            validate_field_value(field_name, field.state, field.value)
+            _validate_formal_field(field_name, field)
             old = project.fields[field_name]
             if old.state != "needs_adjudication":
                 raise ValueError(f"field is not awaiting adjudication: {field_path}")
@@ -604,11 +635,27 @@ class ReviewStore:
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
             _assert_draft_mutable(article)
-            self._assert_structure_gate_resolved(conn, sample_id)
-            if article.projects:
-                raise ValueError("negative article confirmation requires an empty project structure")
             snapshot = self._load_article_snapshot(conn, sample_id, article)
             _validate_snapshot_identity(article, snapshot)
+            previous_projects = list(article.projects)
+            article.projects = []
+            new_revision = self._current_structure_revision(conn, sample_id) + 1
+            conn.execute(
+                """INSERT INTO structure_revisions(sample_id, revision, projects_json, actor, created_at)
+                   VALUES (?, ?, ?, ?, ?)""",
+                (sample_id, new_revision, _canonical_json([]), actor, now),
+            )
+            self._append_audit(
+                conn,
+                sample_id,
+                "structure_decision",
+                None,
+                previous_projects,
+                [],
+                actor,
+                now,
+            )
+            self._assert_structure_gate_resolved(conn, sample_id)
             previous_gold_status = article.article_status
             article.article_status = article_status
             self._append_audit(
@@ -751,15 +798,23 @@ class ReviewStore:
             raise
 
     @contextmanager
+    def read_connection(self) -> Iterator[sqlite3.Connection]:
+        """Expose one schema-validated secured connection for read-only publication snapshots."""
+        with self._connect() as conn:
+            yield conn
+
+    @contextmanager
     def _connect(self) -> Iterator[sqlite3.Connection]:
         """Yield and close a short-lived connection configured for foreign keys and contention tolerance."""
         self._assert_review_path_isolated()
-        conn = sqlite3.connect(self.path, timeout=30)
+        conn, claim = _secured_sqlite_connect(
+            self.path, source_paths=self._source_paths, allow_create=False
+        )
         conn.row_factory = sqlite3.Row
         conn.execute("PRAGMA foreign_keys = ON")
         conn.execute("PRAGMA busy_timeout = 30000")
         try:
-            _assert_not_future_schema(conn)
+            _assert_current_schema(conn)
             yield conn
         except Exception:
             conn.rollback()
@@ -768,6 +823,7 @@ class ReviewStore:
             conn.commit()
         finally:
             conn.close()
+            os.close(claim)
 
     @contextmanager
     def _immediate_transaction(self) -> Iterator[sqlite3.Connection]:
@@ -1030,6 +1086,8 @@ def _normalize_structure_projects(
         unknown = sorted(set(supplied_fields).difference(FIELD_REGISTRY))
         if unknown:
             raise ValueError(f"project contains unknown registry fields: {unknown}")
+        for name, supplied in supplied_fields.items():
+            _validate_formal_field(name, GoldField.model_validate(supplied))
         payload["fields"] = {
             name: supplied_fields.get(
                 name,
@@ -1085,7 +1143,7 @@ def _assert_confirmation_guards(article: RichGoldRecord, snapshot: ArticleSnapsh
             specification = FIELD_REGISTRY[field_name]
             if field.state in {"unreviewed", "needs_adjudication"}:
                 raise ValueError(f"incomplete field state: {project.gold_project_id}.{field_name}")
-            validate_field_value(field_name, field.state, field.value)
+            _validate_formal_field(field_name, field)
             if specification.evidence_required and field.state == "present" and not field.evidence:
                 raise ValueError(f"missing required evidence: {project.gold_project_id}.{field_name}")
             for evidence in field.evidence:
@@ -1094,12 +1152,28 @@ def _assert_confirmation_guards(article: RichGoldRecord, snapshot: ArticleSnapsh
                 )
         for index, entity in enumerate(project.entities):
             validate_entity_role(entity.role)
+            if entity.role == "Unknown":
+                raise ValueError("valid article entity role must be confirmed and non-Unknown")
+            if not entity.name.strip():
+                raise ValueError("valid article requires a named Chinese entity")
             if not entity.evidence:
                 raise ValueError(f"missing entity/role evidence: {project.gold_project_id}.entities[{index}]")
             for evidence in entity.evidence:
                 _validate_evidence_span(
                     evidence, snapshot, f"{project.gold_project_id}.entities[{index}]"
                 )
+    if article.article_status == "valid" and not any(project.entities for project in article.projects):
+        raise ValueError("valid article requires at least one named Chinese entity")
+
+
+def _validate_formal_field(field_name: str, field: GoldField) -> None:
+    """Enforce registry-derived evidence flags and exact value semantics at every human/formal boundary."""
+    specification = FIELD_REGISTRY.get(field_name)
+    if specification is None:
+        raise ValueError(f"unknown registry field: {field_name}")
+    if field.evidence_required != specification.evidence_required:
+        raise ValueError(f"{field_name} evidence_required must match the field registry")
+    validate_field_value(field_name, field.state, field.value)
 
 
 def _assert_draft_mutable(article: RichGoldRecord) -> None:
@@ -1168,22 +1242,85 @@ def _validate_evidence_span(evidence: Any, snapshot: ArticleSnapshot, field_path
         raise ValueError(f"evidence exact quote mismatch: {field_path}")
 
 
-def _assert_not_future_schema(conn: sqlite3.Connection) -> None:
-    """Fail closed whenever an opened review database declares a schema newer than this binary supports."""
+def _assert_current_schema(conn: sqlite3.Connection) -> None:
+    """Require exact current schema metadata on every normal open after explicit initialization/migration."""
     table = conn.execute(
         "SELECT 1 FROM sqlite_master WHERE type='table' AND name='studio_meta'"
     ).fetchone()
     if table is None:
-        return
+        raise RuntimeError("review database is missing schema version metadata")
     row = conn.execute("SELECT value FROM studio_meta WHERE key='schema_version'").fetchone()
     if row is None:
-        return
+        raise RuntimeError("review database is missing schema version metadata")
     try:
         version = int(row[0])
     except (TypeError, ValueError) as error:
         raise RuntimeError("review database has an invalid schema version") from error
     if version > _SCHEMA_VERSION:
         raise RuntimeError(f"future review schema version {version} is unsupported; latest is {_SCHEMA_VERSION}")
+    if version != _SCHEMA_VERSION:
+        raise RuntimeError(
+            f"review schema version {version} requires explicit initialize migration to {_SCHEMA_VERSION}"
+        )
+
+
+def _before_sqlite_open(_path: Path) -> None:
+    """Provide a deterministic no-op seam for testing a filesystem swap during secured open."""
+
+
+def _secured_sqlite_connect(
+    path: Path, *, source_paths: Sequence[Path], allow_create: bool
+) -> tuple[sqlite3.Connection, int]:
+    """Claim and hold a no-follow file handle, then verify SQLite opened the identical non-source inode."""
+    path = Path(path)
+    if path.is_symlink():
+        raise ValueError(f"review database path must not be a symbolic link: {path}")
+    flags = os.O_RDONLY
+    if allow_create and not path.exists():
+        flags = os.O_RDWR | os.O_CREAT | os.O_EXCL
+    no_follow = getattr(os, "O_NOFOLLOW", 0)
+    try:
+        claim = os.open(path, flags | no_follow, 0o600)
+    except FileExistsError:
+        claim = os.open(path, os.O_RDONLY | no_follow)
+    claimed_identity = _descriptor_identity(claim)
+    connection: sqlite3.Connection | None = None
+    try:
+        try:
+            _before_sqlite_open(path)
+        except OSError as error:
+            raise ValueError("review database path changed during secured open") from error
+        connection = sqlite3.connect(path, timeout=30)
+        current_identity = _path_identity_no_follow(path)
+        opened_row = connection.execute("PRAGMA database_list").fetchone()
+        opened_identity = _path_identity_no_follow(Path(opened_row[2]))
+        if claimed_identity != current_identity or claimed_identity != opened_identity:
+            raise ValueError("review database path changed during secured open")
+        forbidden = {
+            _path_identity_no_follow(source.resolve())
+            for source in source_paths
+            if source.exists()
+        }
+        if claimed_identity in forbidden:
+            raise ValueError("review database aliases a forbidden source database")
+        return connection, claim
+    except Exception:
+        if connection is not None:
+            connection.close()
+        os.close(claim)
+        raise
+
+
+def _descriptor_identity(descriptor: int) -> tuple[int, int]:
+    """Return stable device/inode identity for one held filesystem descriptor."""
+    stat = os.fstat(descriptor)
+    return stat.st_dev, stat.st_ino
+
+
+def _path_identity_no_follow(path: Path) -> tuple[int, int]:
+    """Return a current path's own identity without following a final symbolic-link component."""
+    stat = os.stat(path, follow_symlinks=False)
+    return stat.st_dev, stat.st_ino
 
 
 def _migrate_v1_to_v2(conn: sqlite3.Connection) -> None:
@@ -1201,7 +1338,7 @@ def _migrate_v1_to_v2(conn: sqlite3.Connection) -> None:
 
 
 def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
-    """Add indexed article gold status and relocate legacy sampling provenance into the explicit rich contract."""
+    """Revoke legacy review authority, preserve hints, and relocate sampling into the explicit contract."""
     columns = {row[1] for row in conn.execute("PRAGMA table_info(article_drafts)")}
     if "article_status" not in columns:
         conn.execute(
@@ -1214,15 +1351,20 @@ def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
         payload = json.loads(row["payload_json"])
         audit_metadata = payload.get("audit_metadata")
         audit_metadata = audit_metadata if isinstance(audit_metadata, dict) else {}
-        declared = audit_metadata.get("eval_status")
+        declared = audit_metadata.pop("eval_status", None)
         if declared not in _PUBLISHABLE_ARTICLE_STATUSES:
             declared = None
-        article_status = payload.get("article_status")
-        if article_status not in _PUBLISHABLE_ARTICLE_STATUSES:
-            article_status = declared
-        if article_status is None and row["review_status"] == "reviewed":
-            article_status = "valid" if payload.get("projects") else "irrelevant"
-        payload["article_status"] = article_status or "unreviewed"
+        prior_status = payload.get("article_status")
+        if prior_status not in _PUBLISHABLE_ARTICLE_STATUSES:
+            prior_status = declared
+        audit_metadata["legacy_migration_hint"] = {
+            "declared_status": prior_status,
+            "had_projects": bool(payload.get("projects")),
+            "review_status": row["review_status"],
+        }
+        payload["article_status"] = "unreviewed"
+        payload["article_review_status"] = "unreviewed"
+        payload.pop("review_status", None)
         legacy_sampling = audit_metadata.pop("sampling", None)
         if payload.get("sampling_provenance") is None and isinstance(legacy_sampling, dict):
             payload["sampling_provenance"] = {
@@ -1237,8 +1379,18 @@ def _migrate_v2_to_v3(conn: sqlite3.Connection) -> None:
             payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False
         )
         conn.execute(
-            "UPDATE article_drafts SET payload_json=?, article_status=? WHERE sample_id=?",
-            (encoded, payload["article_status"], row["sample_id"]),
+            "UPDATE article_drafts SET payload_json=?, review_status='unreviewed', article_status='unreviewed' WHERE sample_id=?",
+            (encoded, row["sample_id"]),
+        )
+        conn.execute(
+            """INSERT INTO audit_log(sample_id, action, field_path, old_json, new_json, actor, created_at)
+               VALUES (?, 'migration_rereview_required', 'article_review_status', ?, ?, 'system:migration-v3', ?)""",
+            (
+                row["sample_id"],
+                _canonical_json(row["review_status"]),
+                _canonical_json("unreviewed"),
+                _utc_now(),
+            ),
         )
 
 

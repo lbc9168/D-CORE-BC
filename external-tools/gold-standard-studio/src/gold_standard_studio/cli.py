@@ -13,7 +13,7 @@ import typer
 
 from gold_standard_studio.candidate_builder import CandidateBuilder, CandidateRunRequest, CandidateRunnerError, DeterministicCandidateRunner
 from gold_standard_studio.candidate_cache import CandidateCache
-from gold_standard_studio.config import StudioConfig
+from gold_standard_studio.config import StudioConfig, atomic_write_text
 from gold_standard_studio.difficulty import score_difficulty
 from gold_standard_studio.exporter import publish_gold
 from gold_standard_studio.review_store import ReviewStore
@@ -86,8 +86,11 @@ def _write_config(config: StudioConfig) -> Path:
         "projects_db": str(config.projects_db.resolve()),
         "main_db": str(config.main_db.resolve()),
     }
-    path.write_text(json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
-    return path
+    return atomic_write_text(
+        path,
+        json.dumps(payload, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
+        source_paths=config.source_paths,
+    )
 
 
 def _sample_evidence(selected: list[SelectedSample], before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
@@ -186,12 +189,11 @@ def _write_sample_manifest(
         for row in selected
     ]
     path = data_dir / _MANIFEST_NAME
-    if source_paths:
-        from gold_standard_studio.config import assert_mutable_paths_isolated
-
-        assert_mutable_paths_isolated(source_paths, [data_dir, path])
-    path.write_text(json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n", encoding="utf-8")
-    return path
+    return atomic_write_text(
+        path,
+        json.dumps(manifest, ensure_ascii=False, sort_keys=True, indent=2) + "\n",
+        source_paths=source_paths,
+    )
 
 
 def _build_candidate_builder(repository: SourceRepository, data_dir: Path) -> CandidateBuilder:
@@ -331,6 +333,42 @@ def build_candidates(
     typer.echo(f"built={len(records)} model_calls=0")
 
 
+@app.command("rehydrate-snapshots")
+def rehydrate_snapshots(
+    sample_id: Annotated[str | None, typer.Option("--sample-id")] = None,
+    all_samples: Annotated[bool, typer.Option("--all")] = False,
+    data_dir: Annotated[Path, typer.Option("--data-dir")] = Path("data"),
+) -> None:
+    """Explicitly restore missing migrated article snapshots from configured read-only source databases."""
+    if all_samples == (sample_id is not None):
+        raise typer.BadParameter("provide exactly one of --sample-id or --all")
+    config = _config_from_args(None, None, None, data_dir)
+    store = _load_store(data_dir, config=config)
+    records = (
+        [store.get_article(sample_id)]
+        if sample_id is not None
+        else [store.get_article(item.sample_id) for item in store.list_all_samples()]
+    )
+    recovered: list[str] = []
+    with SourceRepository(config) as repository:
+        repository.validate_contract()
+        for record in records:
+            if store.get_article_snapshot(record.sample_id) is not None:
+                continue
+            if not record.source_link:
+                raise typer.BadParameter(f"sample has no source link for recovery: {record.sample_id}")
+            store.attach_article_snapshot(
+                record.sample_id,
+                repository.load_article(record.source_link),
+                actor="recovery-cli",
+            )
+            recovered.append(record.sample_id)
+    if sample_id is not None:
+        typer.echo(f"rehydrated={len(recovered)} sample_id={sample_id}")
+    else:
+        typer.echo(f"rehydrated={len(recovered)}")
+
+
 @app.command()
 def serve(
     data_dir: Annotated[Path, typer.Option("--data-dir")] = Path("data"),
@@ -405,8 +443,11 @@ def report(
     store = _load_store(data_dir, config=config)
     output = out or data_dir / "reports" / "pilot.html"
     config.assert_mutable_paths(output, output.parent)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(_render_report("Golden Standard Studio Pilot Report", _report_counts(store), store.table_row_counts()), encoding="utf-8")
+    atomic_write_text(
+        output,
+        _render_report("Golden Standard Studio Pilot Report", _report_counts(store), store.table_row_counts()),
+        source_paths=config.source_paths,
+    )
     typer.echo(f"report={output}")
 
 

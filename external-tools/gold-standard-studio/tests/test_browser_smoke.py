@@ -129,6 +129,7 @@ def test_shortcuts_do_not_run_while_a_field_editor_has_focus(store, browser: Bro
 
 def test_confirm_stays_unconfirmed_when_server_rejects_it(store, browser: Browser) -> None:
     """Avoid optimistic confirmation when evidence validation rejects the final server request."""
+    store.save_entities("S001", "P01", [], actor="fixture")
     page = browser.new_page()
 
     with running_server(create_app(store)) as live_server:
@@ -237,3 +238,45 @@ def test_stale_human_evidence_is_neither_highlighted_nor_silently_confirmed(conf
         page.get_by_test_id("confirm-article").click()
         expect(page.get_by_test_id("save-state")).to_contain_text("Save failed")
         assert review_store.get_article("SRC001").article_review_status == "unreviewed"
+
+
+def test_browser_uses_dedicated_adjudication_and_multiple_evidence_entity_editors(store, browser: Browser) -> None:
+    """Adjudicate through its public action and add/edit/delete repeated field/entity evidence in the real UI."""
+    store.save_entities("S001", "P01", [], actor="fixture")
+    page = browser.new_page()
+
+    with running_server(create_app(store)) as live_server:
+        page.goto(f"{live_server}/review/S001")
+        page.get_by_test_id("edit-P01.category").click()
+        page.get_by_test_id("state-P01.category").select_option("needs_adjudication")
+        page.get_by_test_id("save-editor-P01.category").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("草稿已保存")
+
+        page.get_by_test_id("edit-P01.category").click()
+        page.get_by_test_id("state-P01.category").select_option("present")
+        page.get_by_test_id("editor-P01.category").fill("光伏")
+        page.get_by_test_id("add-evidence-P01.category").click()
+        page.get_by_test_id("add-evidence-P01.category").click()
+        page.get_by_test_id("evidence-quote-P01.category-0").fill("风电")
+        page.get_by_test_id("evidence-start-P01.category-0").fill("0")
+        page.get_by_test_id("evidence-quote-P01.category-1").fill("光伏")
+        page.get_by_test_id("evidence-start-P01.category-1").fill("2")
+        page.get_by_test_id("save-editor-P01.category").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("草稿已保存")
+        assert store.list_audit("S001")[-1].action == "adjudication"
+        assert len(store.get_article("S001").projects[0].fields["category"].evidence) == 2
+
+        page.get_by_test_id("add-entity-P01").click()
+        page.get_by_test_id("entity-name-P01-0").fill("中国电建")
+        page.get_by_test_id("entity-role-P01-0").select_option("EPC总承包")
+        page.get_by_test_id("add-entity-evidence-P01-0").click()
+        page.get_by_test_id("entity-evidence-quote-P01-0-0").fill("风电")
+        page.get_by_test_id("entity-evidence-start-P01-0-0").fill("0")
+        page.get_by_test_id("save-entities-P01").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("实体已保存")
+        assert store.get_article("S001").projects[0].entities[0].role == "EPC总承包"
+
+        page.get_by_test_id("remove-entity-P01-0").click()
+        page.get_by_test_id("save-entities-P01").click()
+        expect(page.get_by_test_id("save-state")).to_contain_text("实体已保存")
+        assert store.get_article("S001").projects[0].entities == []

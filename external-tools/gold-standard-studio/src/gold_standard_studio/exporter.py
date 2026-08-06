@@ -171,11 +171,9 @@ def _validate_version(version: str) -> None:
 
 
 def _load_records(store: ReviewStore) -> list[_PublicationRecord]:
-    """Read reviewed drafts and durable confirmation proofs from one stable read-only SQLite snapshot."""
-    database_uri = f"{store.path.resolve().as_uri()}?mode=ro"
+    """Read reviewed drafts and durable proofs through the store's secured schema-validated connection."""
     try:
-        with sqlite3.connect(database_uri, uri=True) as conn:
-            conn.row_factory = sqlite3.Row
+        with store.read_connection() as conn:
             conn.execute("BEGIN")
             rows = conn.execute(
                 """SELECT drafts.sample_id, drafts.payload_json, drafts.review_status,
@@ -190,7 +188,7 @@ def _load_records(store: ReviewStore) -> list[_PublicationRecord]:
                 "SELECT id, sample_id, action, field_path, new_json, created_at FROM audit_log ORDER BY id"
             ).fetchall()
             conn.execute("ROLLBACK")
-    except sqlite3.Error as error:
+    except (sqlite3.Error, RuntimeError, ValueError) as error:
         raise PublishError(f"cannot read review store: {error}") from error
     if not rows:
         raise PublishError("no reviewed records are available for publication")
@@ -275,6 +273,10 @@ def _assert_snapshot_backed(record: RichGoldRecord, row: sqlite3.Row) -> None:
             except ValueError as error:
                 raise PublishError(f"record {record.sample_id} invalid field {field_name}: {error}") from error
             specification = FIELD_REGISTRY[field_name]
+            if field.evidence_required != specification.evidence_required:
+                raise PublishError(
+                    f"record {record.sample_id} field {field_name} evidence_required mismatches registry"
+                )
             if field.state == "present" and specification.evidence_required and not field.evidence:
                 raise PublishError(f"record {record.sample_id} missing required evidence: {field_name}")
             for evidence in field.evidence:
@@ -337,7 +339,7 @@ def _project_record(record: RichGoldRecord) -> dict[str, Any]:
             field = project.fields[field_name]
             value, eligible = project_field(field)
             projected["field_eligibility"][field_name] = eligible
-            if field_name in FIELD_REGISTRY and value is not None:
+            if field_name in FIELD_REGISTRY:
                 projected[field_name] = value
         projects.append(projected)
     return {

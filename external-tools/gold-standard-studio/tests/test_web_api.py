@@ -16,9 +16,11 @@ from gold_standard_studio.schemas import (
     CandidateBundle,
     CandidateValue,
     EvidenceSpan,
+    GoldEntity,
     GoldField,
     GoldProject,
     RichGoldRecord,
+    SamplingProvenance,
 )
 from gold_standard_studio.sources import ArticleSnapshot, SourceRepository, article_sha256
 from gold_standard_studio.web.app import create_app
@@ -44,8 +46,18 @@ def make_snapshot(source_link: str) -> ArticleSnapshot:
 
 
 def make_field(value: str, *, state: str = "present") -> GoldField:
-    """Build one noncritical test field with a hand-checked literal value."""
-    return GoldField(state=state, value=value if state == "present" else None)
+    """Build one registry-compliant critical fixture field with exact current-article evidence."""
+    evidence = []
+    if state == "present":
+        quote = value if value in ARTICLE_CONTENT else "风电"
+        start = ARTICLE_CONTENT.index(quote)
+        evidence = [EvidenceSpan(quote=quote, start=start, end=start + len(quote), article_sha256=ARTICLE_SHA256)]
+    return GoldField(
+        state=state,
+        value=value if state == "present" else None,
+        evidence=evidence,
+        evidence_required=True,
+    )
 
 
 def make_project_json(project_id: str) -> dict[str, object]:
@@ -74,7 +86,33 @@ def make_article(sample_id: str, *, difficulty: float = 0) -> RichGoldRecord:
         article_sha256=ARTICLE_SHA256,
         source_link=f"https://example.test/{sample_id}",
         article_status="valid",
-        projects=[GoldProject(gold_project_id="P01", fields=fields)],
+        sampling_provenance=SamplingProvenance(
+            sampling_seed=20260806,
+            inclusion_reasons=["web_fixture"],
+            original_category_strata=["风电"],
+            risk_tags=[],
+            negative_proxy=False,
+        ),
+        projects=[
+            GoldProject(
+                gold_project_id="P01",
+                fields=fields,
+                entities=[
+                    GoldEntity(
+                        name="风电",
+                        role="EPC总承包",
+                        evidence=[
+                            EvidenceSpan(
+                                quote="风电",
+                                start=0,
+                                end=2,
+                                article_sha256=ARTICLE_SHA256,
+                            )
+                        ],
+                    )
+                ],
+            )
+        ],
         difficulty={"score": difficulty},
     )
 
@@ -130,7 +168,7 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
     repository = SourceRepository(config)
     snapshot = repository.load_article("https://example.test/source-backed")
     labels = repository.load_current_labels(snapshot.source_link)
-    review_store = ReviewStore(tmp_path / "studio" / "review.db")
+    review_store = ReviewStore(tmp_path / "studio" / "review.db", source_paths=config.source_paths)
     review_store.initialize()
     review_store.seed_article(
         RichGoldRecord(
@@ -138,10 +176,24 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
             article_sha256=snapshot.article_sha256,
             source_link=snapshot.source_link,
             article_status="valid",
+            sampling_provenance=SamplingProvenance(
+                sampling_seed=20260806,
+                inclusion_reasons=["source_fixture"],
+                original_category_strata=["光伏"],
+                risk_tags=[],
+                negative_proxy=False,
+            ),
             projects=[
                 GoldProject(
                     gold_project_id="P01",
                     fields={
+                        **{
+                            name: GoldField(
+                                state="not_mentioned",
+                                evidence_required=specification.evidence_required,
+                            )
+                            for name, specification in FIELD_REGISTRY.items()
+                        },
                         "category": GoldField(
                             state="present",
                             value=labels[0].category,
@@ -154,8 +206,22 @@ def configured_source_client(tmp_path: Path) -> tuple[TestClient, SourceReposito
                                     article_sha256=snapshot.article_sha256,
                                 )
                             ],
-                        )
+                        ),
                     },
+                    entities=[
+                        GoldEntity(
+                            name="光伏",
+                            role="EPC总承包",
+                            evidence=[
+                                EvidenceSpan(
+                                    quote="光伏",
+                                    start=0,
+                                    end=2,
+                                    article_sha256=snapshot.article_sha256,
+                                )
+                            ],
+                        )
+                    ],
                 )
             ],
         ),
@@ -182,6 +248,8 @@ def test_article_response_includes_revision_candidates_and_conflicts(client: Tes
     assert response.json()["article"]["sample_id"] == "S001"
     assert response.json()["candidate_bundle"] is None
     assert response.json()["conflicts"] == []
+    assert set(response.json()["field_registry"]) == set(FIELD_REGISTRY)
+    assert "EPC总承包" in response.json()["entity_roles"]
 
 
 def test_structure_revision_can_split_project(client: TestClient) -> None:
@@ -259,12 +327,22 @@ def test_confirmation_rejects_needs_adjudication(client: TestClient) -> None:
     assert confirmed.json()["article"]["article_review_status"] == "reviewed"
 
 
-def test_confirmation_rejects_registered_field_without_required_evidence(client: TestClient) -> None:
-    """Require article evidence for a present field marked critical by the field registry."""
-    response = client.post("/api/articles/S001/confirm")
+def test_api_rejects_registered_evidence_flag_mismatch(client: TestClient) -> None:
+    """Reject an API field decision whose evidence flag disagrees with the server registry."""
+    response = client.put(
+        "/api/articles/S001/fields/P01.category",
+        json={
+            "field": {
+                "state": "not_mentioned",
+                "value": None,
+                "evidence": [],
+                "evidence_required": False,
+            }
+        },
+    )
 
     assert response.status_code == 422
-    assert response.json()["detail"] == "missing required evidence: P01.category"
+    assert response.json()["detail"] == "category evidence_required must match the field registry"
 
 
 def test_adjudication_requires_a_field_held_for_adjudication(client: TestClient) -> None:
@@ -352,6 +430,7 @@ def test_api_actions_leave_configured_source_repository_hashes_unchanged(
     assert source_client.post("/api/articles/SRC001/start").status_code == 200
     source_project = make_project_json("P01")
     source_project["fields"]["category"] = category
+    source_project["entities"] = source_client.get("/api/articles/SRC001").json()["article"]["projects"][0]["entities"]
     assert source_client.put(
         "/api/articles/SRC001/structure",
         json={"base_revision": 1, "projects": [source_project]},

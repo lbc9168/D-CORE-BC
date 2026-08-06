@@ -3,7 +3,8 @@
 from dataclasses import dataclass
 import os
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Sequence
+from uuid import uuid4
 
 
 _DATA_MUTABLE_RELATIVE_PATHS = (
@@ -102,3 +103,80 @@ def _stat_identity(path: Path) -> tuple[int, int] | None:
     except OSError as error:
         raise ValueError(f"cannot safely inspect path: {path}") from error
     return stat.st_dev, stat.st_ino
+
+
+def atomic_write_text(
+    path: str | Path,
+    content: str,
+    *,
+    source_paths: Sequence[str | Path] = (),
+) -> Path:
+    """Durably write a sibling temporary file, recheck identities, and atomically replace one artifact."""
+    destination = Path(path)
+    sources = tuple(Path(source) for source in source_paths)
+    if sources:
+        assert_mutable_paths_isolated(sources, [destination.parent, destination])
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    parent_identity = _path_identity_optional_no_follow(destination.parent)
+    destination_identity = _path_identity_optional_no_follow(destination)
+    temporary = destination.with_name(f".{destination.name}.{uuid4().hex}.tmp")
+    flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
+    descriptor = os.open(temporary, flags, 0o600)
+    temporary_identity: tuple[int, int] | None = None
+    try:
+        handle = os.fdopen(descriptor, "w", encoding="utf-8", newline="\n")
+        descriptor = -1
+        with handle:
+            handle.write(content)
+            handle.flush()
+            os.fsync(handle.fileno())
+            stat = os.fstat(handle.fileno())
+            temporary_identity = (stat.st_dev, stat.st_ino)
+        _before_atomic_replace(destination)
+        if sources:
+            assert_mutable_paths_isolated(sources, [destination.parent, destination, temporary])
+        if _path_identity_optional_no_follow(destination.parent) != parent_identity:
+            raise ValueError("artifact parent changed during atomic write")
+        if _path_identity_optional_no_follow(destination) != destination_identity:
+            raise ValueError("artifact destination changed during atomic write")
+        if _path_identity_optional_no_follow(temporary) != temporary_identity:
+            raise ValueError("artifact temporary file changed during atomic write")
+        os.replace(temporary, destination)
+        _fsync_directory(destination.parent)
+        return destination
+    finally:
+        if descriptor >= 0:
+            os.close(descriptor)
+        try:
+            temporary.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def _before_atomic_replace(_path: Path) -> None:
+    """Provide a deterministic no-op seam for testing destination swaps before atomic replacement."""
+
+
+def _path_identity_optional_no_follow(path: Path) -> tuple[int, int] | None:
+    """Return one path entry's identity without following its final component, or None when absent."""
+    try:
+        stat = os.stat(path, follow_symlinks=False)
+    except FileNotFoundError:
+        return None
+    except OSError as error:
+        raise ValueError(f"cannot safely inspect artifact path: {path}") from error
+    return stat.st_dev, stat.st_ino
+
+
+def _fsync_directory(path: Path) -> None:
+    """Best-effort fsync directory metadata after an artifact replacement on supporting platforms."""
+    try:
+        descriptor = os.open(path, os.O_RDONLY)
+    except OSError:
+        return
+    try:
+        os.fsync(descriptor)
+    except OSError:
+        pass
+    finally:
+        os.close(descriptor)

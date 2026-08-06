@@ -12,7 +12,14 @@ import pytest
 
 from gold_standard_studio.review_store import ReviewStore
 from gold_standard_studio.field_registry import FIELD_REGISTRY
-from gold_standard_studio.schemas import EvidenceSpan, GoldField, GoldProject, RichGoldRecord
+from gold_standard_studio.schemas import (
+    EvidenceSpan,
+    GoldEntity,
+    GoldField,
+    GoldProject,
+    RichGoldRecord,
+    SamplingProvenance,
+)
 from gold_standard_studio.sources import ArticleSnapshot, article_sha256
 
 
@@ -50,6 +57,26 @@ def _complete_fields() -> dict[str, GoldField]:
     return fields
 
 
+def _entity() -> GoldEntity:
+    """Build one controlled Chinese-name entity backed by exact fixture evidence."""
+    return GoldEntity(
+        name="风电",
+        role="EPC总承包",
+        evidence=[EvidenceSpan(quote="风电", start=7, end=9, article_sha256=ARTICLE_SHA256)],
+    )
+
+
+def _sampling_provenance() -> SamplingProvenance:
+    """Build the mandatory exact sampling provenance shared by publisher fixtures."""
+    return SamplingProvenance(
+        sampling_seed=20260806,
+        inclusion_reasons=["exporter_fixture"],
+        original_category_strata=["风电"],
+        risk_tags=["capacity"],
+        negative_proxy=False,
+    )
+
+
 def _forge_review_audits(store: ReviewStore, sample_id: str, article_status: str = "valid") -> None:
     """Insert the two historical audit proofs required by a deliberately forged reviewed fixture."""
     with sqlite3.connect(store.path) as conn:
@@ -76,7 +103,8 @@ def make_store(tmp_path: pytest.TempPathFactory, *, reviewed: bool) -> ReviewSto
             article_status="valid",
             dataset_split="regression",
             risk_tags=["capacity"],
-            projects=[GoldProject(gold_project_id="P01", fields=_complete_fields())],
+            sampling_provenance=_sampling_provenance(),
+            projects=[GoldProject(gold_project_id="P01", fields=_complete_fields(), entities=[_entity()])],
         ),
         snapshot=_snapshot(source_link),
     )
@@ -160,7 +188,7 @@ def test_projection_uses_per_project_eligibility_and_loads_through_eval_loader(t
     }
     second_fields["capacity_mw"] = GoldField(state="uncertain", evidence_required=True)
     article.projects = [
-        GoldProject(gold_project_id="P01", fields=first_fields),
+        GoldProject(gold_project_id="P01", fields=first_fields, entities=[_entity()]),
         GoldProject(gold_project_id="P02", fields=second_fields),
     ]
     store.seed_article(article, snapshot=_snapshot(article.source_link))
@@ -317,7 +345,7 @@ def _seed_confirmed_projection_case(store, *, field_name, value):
         evidence=evidence,
     )
     article.projects = [
-        GoldProject(gold_project_id="P01", fields=fields)
+        GoldProject(gold_project_id="P01", fields=fields, entities=[_entity()])
     ]
     store.seed_article(article, snapshot=_snapshot(article.source_link))
     _forge_review_audits(store, "S003")
