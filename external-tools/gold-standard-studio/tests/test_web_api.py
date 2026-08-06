@@ -337,6 +337,17 @@ def test_api_actions_leave_configured_source_repository_hashes_unchanged(
 
 def test_article_conflicts_are_read_only_candidate_context(store: ReviewStore, client: TestClient) -> None:
     """Report candidate disagreement without allowing it to mutate the human draft automatically."""
+    store.save_structure(
+        "S001",
+        [
+            GoldProject(
+                gold_project_id="P01",
+                fields={"project_name": make_field("示例项目"), "category": make_field("风电")},
+            )
+        ],
+        base_revision=1,
+        actor="human",
+    )
     store.save_candidate_bundle(
         CandidateBundle(
             sample_id="S001",
@@ -368,3 +379,84 @@ def test_article_conflicts_are_read_only_candidate_context(store: ReviewStore, c
 
     assert response.status_code == 200
     assert response.json()["conflicts"][0]["field_name"] == "category"
+
+
+def test_article_projects_receive_server_aligned_candidates_when_sources_are_reversed(
+    store: ReviewStore, client: TestClient
+) -> None:
+    """Project candidate provenance follows stable project identity instead of every source's list order."""
+    article = RichGoldRecord(
+        sample_id="S003",
+        article_sha256=ARTICLE_SHA256,
+        projects=[
+            GoldProject(
+                gold_project_id="P01",
+                fields={"project_name": make_field("风电项目"), "category": make_field("风电")},
+            ),
+            GoldProject(
+                gold_project_id="P02",
+                fields={"project_name": make_field("光伏项目"), "category": make_field("风电")},
+            ),
+        ],
+    )
+    store.seed_article(article)
+    store.save_candidate_bundle(
+        CandidateBundle(
+            sample_id="S003",
+            article_sha256=ARTICLE_SHA256,
+            sources={
+                "database": CandidateValue(
+                    source_name="database",
+                    projects=[
+                        GoldProject(gold_project_id="D-PV", fields={"project_name": make_field("光伏项目"), "category": make_field("光伏")}),
+                        GoldProject(gold_project_id="D-WIND", fields={"project_name": make_field("风电项目"), "category": make_field("风电")}),
+                    ],
+                ),
+                "review": CandidateValue(
+                    source_name="review",
+                    projects=[
+                        GoldProject(gold_project_id="R-PV", fields={"project_name": make_field("光伏项目"), "category": make_field("光伏")}),
+                        GoldProject(gold_project_id="R-WIND", fields={"project_name": make_field("风电项目"), "category": make_field("风电")}),
+                    ],
+                ),
+            },
+        )
+    )
+
+    response = client.get("/api/articles/S003")
+
+    assert response.status_code == 200
+    pv_suggestion = next(item for item in response.json()["field_candidates"]["P02.category"] if item["source_name"] == "review")
+    assert pv_suggestion["source_project_id"] == "R-PV"
+    assert pv_suggestion["source_project_index"] == 0
+    assert pv_suggestion["field"]["value"] == "光伏"
+
+
+def test_confirmation_requires_newer_persisted_structure_decision_for_structural_conflict(
+    store: ReviewStore, client: TestClient
+) -> None:
+    """Block direct or shortcut confirmation until a structural candidate conflict has an audited resolution."""
+    store.save_candidate_bundle(
+        CandidateBundle(
+            sample_id="S001",
+            article_sha256=ARTICLE_SHA256,
+            sources={
+                "database": CandidateValue(source_name="database", projects=[GoldProject(gold_project_id="D1")]),
+                "review": CandidateValue(
+                    source_name="review",
+                    projects=[GoldProject(gold_project_id="R1"), GoldProject(gold_project_id="R2")],
+                ),
+            },
+        )
+    )
+
+    before = client.get("/api/articles/S001").json()
+    rejected = client.post("/api/articles/S001/confirm")
+    saved = client.put("/api/articles/S001/structure", json={"base_revision": 1, "projects": before["projects"]})
+    after = client.get("/api/articles/S001").json()
+
+    assert before["structure_gate"] == {"required": True, "resolved": False}
+    assert rejected.status_code == 422
+    assert rejected.json()["detail"] == "unresolved structure conflicts prevent article confirmation"
+    assert saved.status_code == 200
+    assert after["structure_gate"] == {"required": True, "resolved": True}

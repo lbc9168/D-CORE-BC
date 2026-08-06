@@ -18,7 +18,7 @@
         <h1 id="article-title">{{ article_context.title or "正在加载文章…" }}</h1>
         <dl class="metadata">
           <div><dt>发布日期</dt><dd id="article-date">{{ article_context.publish_date or "—" }}</dd></div>
-          <div><dt>来源</dt><dd><a id="article-link" href="{{ article_context.source_link or '#' }}">{{ article_context.source_link or "未提供来源快照" }}</a></dd></div>
+          <div><dt>来源</dt><dd>{% if article_context.source_link_safe %}<a id="article-link" href="{{ article_context.source_link }}">{{ article_context.source_link }}</a>{% else %}<span id="article-link">{{ article_context.source_link or "未提供来源快照" }}</span>{% endif %}</dd></div>
         </dl>
         <div id="article-content" class="article-content" tabindex="0">{{ article_context.content or "原文快照不可用；仍可查看审阅草稿与候选来源。" }}</div>
       </article>
@@ -27,7 +27,13 @@
           <p class="eyebrow">第一步</p>
           <h2 id="structure-heading">确认项目结构</h2>
           <p id="structure-summary">正在加载项目结构…</p>
+          <div id="structural-conflicts" aria-live="polite"></div>
+          <div id="structure-editor" data-region="structure-editor"></div>
+          <div class="field-controls">
           <button type="button" data-action="accept-structure" data-testid="accept-structure">结构正确，开始字段复核</button>
+          <button type="button" class="secondary" data-action="add-project">新增项目</button>
+          <button type="button" class="secondary" data-action="save-structure" data-testid="save-structure">保存项目结构</button>
+          </div>
           <button type="button" class="secondary" data-action="confirm-no-project">无项目／负样本：一键确认</button>
         </section>
         <section data-region="consensus-panel" aria-labelledby="consensus-heading">
@@ -46,6 +52,10 @@
         <section class="confirm-panel" aria-label="文章确认">
           <button type="button" data-action="confirm-article" data-testid="confirm-article">确认本篇</button>
           <p class="shortcut-help">快捷键：A 接受建议、E 编辑、K 保留数据库值、X 标记证据问题、Enter 确认；输入框内不会触发。</p>
+        </section>
+        <section aria-labelledby="audit-heading">
+          <div class="section-heading"><h2 id="audit-heading">审计记录</h2><button type="button" class="link-button" data-action="expand-audit">展开</button></div>
+          <ol id="audit-items" hidden></ol>
         </section>
       </aside>
     </main>

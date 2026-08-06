@@ -11,7 +11,7 @@ from typing import Any, Mapping
 import unicodedata
 
 from gold_standard_studio.field_registry import FIELD_REGISTRY
-from gold_standard_studio.schemas import CandidateBundle, EvidenceSpan, GoldProject
+from gold_standard_studio.schemas import CandidateBundle, EvidenceSpan, GoldField, GoldProject
 
 
 _MAX_MATCHING_COMPONENT_SIDE = 8
@@ -39,6 +39,17 @@ class FieldConflict:
     normalized_values: Mapping[str, Any]
     reason_code: str
     error_sources: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class ProjectFieldCandidate:
+    """Represent one source field safely aligned to a human gold-project identity."""
+
+    source_name: str
+    source_project_id: str | None
+    source_project_index: int | None
+    field: GoldField | None
+    source_status: str
 
 
 def article_sha256(text: str) -> str:
@@ -147,6 +158,80 @@ def compare_candidates(bundle: CandidateBundle) -> list[FieldConflict]:
                     normalized_values=normalized,
                     reason_code="field_disagreement",
                     error_sources=error_sources,
+                )
+            )
+    return conflicts
+
+
+def project_field_candidates(
+    projects: list[GoldProject], bundle: CandidateBundle | None
+) -> dict[str, list[ProjectFieldCandidate]]:
+    """Project every source field onto gold project IDs using identity matching, never list position."""
+    if bundle is None:
+        return {}
+    result: dict[str, list[ProjectFieldCandidate]] = {
+        f"{project.gold_project_id}.{field_name}": []
+        for project in projects
+        for field_name in project.fields
+    }
+    successful = {name: value for name, value in bundle.sources.items() if value.status == "ok"}
+    error_sources = tuple(sorted(name for name, value in bundle.sources.items() if value.status == "error"))
+    alignments: dict[str, dict[int, int]] = {}
+    for source_name, candidate in successful.items():
+        alignment, _conflicts = _align_projects("gold", projects, source_name, candidate.projects, error_sources)
+        alignments[source_name] = alignment
+    for project_index, project in enumerate(projects):
+        for field_name in project.fields:
+            path = f"{project.gold_project_id}.{field_name}"
+            for source_name in sorted(bundle.sources, key=_source_sort_key):
+                candidate = bundle.sources[source_name]
+                candidate_index = alignments.get(source_name, {}).get(project_index)
+                candidate_project = (
+                    candidate.projects[candidate_index]
+                    if candidate_index is not None and candidate.status == "ok"
+                    else None
+                )
+                result[path].append(
+                    ProjectFieldCandidate(
+                        source_name=source_name,
+                        source_project_id=candidate_project.gold_project_id if candidate_project else None,
+                        source_project_index=candidate_index,
+                        field=_field_for_projection(candidate_project, field_name),
+                        source_status=candidate.status,
+                    )
+                )
+    return result
+
+
+def structural_conflicts(bundle: CandidateBundle | None) -> list[FieldConflict]:
+    """Return every project-count or unsafe-alignment conflict for the persisted structure gate."""
+    if bundle is None:
+        return []
+    return [conflict for conflict in compare_candidates(bundle) if conflict.field_name == "projects"]
+
+
+def aligned_field_conflicts(projects: list[GoldProject], bundle: CandidateBundle | None) -> list[FieldConflict]:
+    """Report only disagreements whose source values have first been aligned to the same gold project."""
+    if bundle is None:
+        return []
+    projection = project_field_candidates(projects, bundle)
+    conflicts: list[FieldConflict] = []
+    for project_index, project in enumerate(projects):
+        for field_name in project.fields:
+            candidates = [item for item in projection[f"{project.gold_project_id}.{field_name}"] if item.field is not None]
+            values = {item.source_name: item.field.value for item in candidates if item.field.state == "present"}
+            if len(values) < 2 or _all_equivalent(field_name, list(values.values())):
+                continue
+            conflicts.append(
+                FieldConflict(
+                    field_name=field_name,
+                    project_index=project_index,
+                    source_values=values,
+                    normalized_values={name: _normalize_value(field_name, value) for name, value in values.items()},
+                    reason_code="field_disagreement",
+                    error_sources=tuple(
+                        sorted(item.source_name for item in projection[f"{project.gold_project_id}.{field_name}"] if item.source_status == "error")
+                    ),
                 )
             )
     return conflicts
@@ -422,6 +507,16 @@ def _field_value(project: GoldProject, field_name: str) -> Any:
     if field is None and field_name == "category":
         field = project.fields.get("proposed_category")
     return field.value if field is not None and field.state == "present" else None
+
+
+def _field_for_projection(project: GoldProject | None, field_name: str) -> GoldField | None:
+    """Return a source field object, preserving its evidence and deterministic category alias when present."""
+    if project is None:
+        return None
+    field = project.fields.get(field_name)
+    if field is None and field_name == "category":
+        field = project.fields.get("proposed_category")
+    return field
 
 
 def _all_equivalent(field_name: str, values: list[Any]) -> bool:

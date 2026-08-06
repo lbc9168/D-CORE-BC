@@ -42,7 +42,7 @@ class CurrentProject:
 
 def _connect_ro(path: Path) -> sqlite3.Connection:
     """Open a SQLite database in URI and pragma-enforced read-only mode."""
-    conn = sqlite3.connect(sqlite_ro_uri(path), uri=True)
+    conn = sqlite3.connect(sqlite_ro_uri(path), uri=True, check_same_thread=False)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA query_only=ON")
     return conn

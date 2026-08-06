@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path as FilePath
 from typing import Any, Annotated
+from urllib.parse import urlsplit
 
 from fastapi import FastAPI, Header, Path, Request
 from fastapi.responses import HTMLResponse
@@ -11,7 +12,14 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel, Field
 
-from gold_standard_studio.evidence import FieldConflict, compare_candidates
+from gold_standard_studio.evidence import (
+    FieldConflict,
+    ProjectFieldCandidate,
+    aligned_field_conflicts,
+    compare_candidates,
+    project_field_candidates,
+    structural_conflicts,
+)
 from gold_standard_studio.review_store import AuditEntry, QueueItem, ReviewedRecordError, ReviewStore
 from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
 from gold_standard_studio.sources import SourceRepository
@@ -42,6 +50,23 @@ class ConflictResponse(BaseModel):
     error_sources: list[str]
 
 
+class ProjectFieldCandidateResponse(BaseModel):
+    """Serialize one server-aligned source field without exposing unsafe positional assumptions to the UI."""
+
+    source_name: str
+    source_project_id: str | None
+    source_project_index: int | None
+    field: GoldField | None
+    source_status: str
+
+
+class StructureGateResponse(BaseModel):
+    """Describe whether persisted candidate structure conflict resolution is required before confirmation."""
+
+    required: bool
+    resolved: bool
+
+
 class ArticleResponse(BaseModel):
     """Serialize an article draft and its review-only context in one stable response shape."""
 
@@ -50,6 +75,9 @@ class ArticleResponse(BaseModel):
     structure_revision: int
     candidate_bundle: CandidateBundle | None
     conflicts: list[ConflictResponse]
+    structural_conflicts: list[ConflictResponse]
+    field_candidates: dict[str, list[ProjectFieldCandidateResponse]]
+    structure_gate: StructureGateResponse
 
 
 class StructureRequest(BaseModel):
@@ -111,6 +139,16 @@ def create_app(store: ReviewStore, *, source_repository: SourceRepository | None
     app.state.review_store = store
     app.state.source_repository = source_repository
     app.mount("/static", StaticFiles(directory=str(static_root)), name="static")
+
+    @app.middleware("http")
+    async def apply_local_csp(request: Request, call_next):
+        """Attach a restrictive local-app CSP while permitting the same-origin static template assets."""
+        response = await call_next(request)
+        response.headers.setdefault(
+            "Content-Security-Policy",
+            "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'",
+        )
+        return response
 
     @app.exception_handler(ValueError)
     async def map_store_error(_request: Request, error: ValueError):
@@ -211,9 +249,9 @@ def _error_response(status_code: int, detail: str):
 
 def _page_article_context(
     store: ReviewStore, source_repository: SourceRepository | None, sample_id: str
-) -> dict[str, str]:
+) -> dict[str, Any]:
     """Return source text for display only when the injected read-only repository can resolve it."""
-    empty_context = {"title": "", "content": "", "publish_date": "", "source_link": ""}
+    empty_context = {"title": "", "content": "", "publish_date": "", "source_link": "", "source_link_safe": False}
     if source_repository is None:
         return empty_context
     try:
@@ -228,20 +266,34 @@ def _page_article_context(
         "content": snapshot.content,
         "publish_date": snapshot.publish_date,
         "source_link": snapshot.source_link,
+        "source_link_safe": _is_safe_source_link(snapshot.source_link),
     }
+
+
+def _is_safe_source_link(value: str) -> bool:
+    """Allow the review page to render only absolute HTTP(S) source links as clickable destinations."""
+    parsed = urlsplit(value)
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
 def _article_response(store: ReviewStore, sample_id: str) -> ArticleResponse:
     """Build the stable article payload from isolated persisted state and read-only candidate comparisons."""
     article = store.get_article(sample_id)
     bundle = store.get_candidate_bundle(sample_id)
-    conflicts = compare_candidates(bundle) if bundle is not None else []
+    conflicts = aligned_field_conflicts(article.projects, bundle)
+    required, resolved = store.structure_gate_status(sample_id)
     return ArticleResponse(
         article=article,
         projects=article.projects,
         structure_revision=store.current_structure_revision(sample_id),
         candidate_bundle=bundle,
         conflicts=[_conflict_response(conflict) for conflict in conflicts],
+        structural_conflicts=[_conflict_response(conflict) for conflict in structural_conflicts(bundle)],
+        field_candidates={
+            path: [_project_field_candidate_response(candidate) for candidate in candidates]
+            for path, candidates in project_field_candidates(article.projects, bundle).items()
+        },
+        structure_gate=StructureGateResponse(required=required, resolved=resolved),
     )
 
 
@@ -263,6 +315,17 @@ def _conflict_response(conflict: FieldConflict) -> ConflictResponse:
         normalized_values=dict(conflict.normalized_values),
         reason_code=conflict.reason_code,
         error_sources=list(conflict.error_sources),
+    )
+
+
+def _project_field_candidate_response(candidate: ProjectFieldCandidate) -> ProjectFieldCandidateResponse:
+    """Convert one identity-aligned candidate field into the public review presentation contract."""
+    return ProjectFieldCandidateResponse(
+        source_name=candidate.source_name,
+        source_project_id=candidate.source_project_id,
+        source_project_index=candidate.source_project_index,
+        field=candidate.field,
+        source_status=candidate.source_status,
     )
 
 

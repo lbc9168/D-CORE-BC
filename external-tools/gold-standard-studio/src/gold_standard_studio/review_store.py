@@ -11,6 +11,7 @@ import sqlite3
 from typing import Any, Iterator, Sequence
 from uuid import uuid4
 
+from gold_standard_studio.evidence import structural_conflicts
 from gold_standard_studio.field_registry import FIELD_REGISTRY
 from gold_standard_studio.schemas import CandidateBundle, GoldField, GoldProject, RichGoldRecord
 
@@ -404,6 +405,7 @@ class ReviewStore:
         now = _utc_now()
         with self._immediate_transaction() as conn:
             article = self._load_article(conn, sample_id)
+            self._assert_structure_gate_resolved(conn, sample_id)
             _assert_confirmation_guards(article)
             previous_status = article.review_status
             article.article_review_status = "reviewed"
@@ -420,6 +422,12 @@ class ReviewStore:
                 now,
             )
             return article
+
+    def structure_gate_status(self, sample_id: str) -> tuple[bool, bool]:
+        """Return whether a current structural candidate conflict requires and has a persisted newer decision."""
+        with self._connect() as conn:
+            self._load_article(conn, sample_id)
+            return self._structure_gate_status(conn, sample_id)
 
     def list_queue(self) -> list[QueueItem]:
         """List outstanding drafts by low difficulty first with sample ID as a deterministic tie-breaker."""
@@ -582,6 +590,25 @@ class ReviewStore:
             (sample_id,),
         ).fetchone()
         return int(row["revision"])
+
+    def _structure_gate_status(self, conn: sqlite3.Connection, sample_id: str) -> tuple[bool, bool]:
+        """Compare the latest candidate timestamp with the latest persisted structural decision in one connection."""
+        row = conn.execute(
+            "SELECT payload_json, updated_at FROM candidate_bundles WHERE sample_id = ?", (sample_id,)
+        ).fetchone()
+        if row is None or not structural_conflicts(CandidateBundle.model_validate_json(row["payload_json"])):
+            return False, True
+        revision = conn.execute(
+            "SELECT created_at FROM structure_revisions WHERE sample_id = ? ORDER BY revision DESC LIMIT 1",
+            (sample_id,),
+        ).fetchone()
+        return True, revision is not None and revision["created_at"] > row["updated_at"]
+
+    def _assert_structure_gate_resolved(self, conn: sqlite3.Connection, sample_id: str) -> None:
+        """Reject confirmation before an explicit structure revision resolves the latest structural candidate conflict."""
+        required, resolved = self._structure_gate_status(conn, sample_id)
+        if required and not resolved:
+            raise ValueError("unresolved structure conflicts prevent article confirmation")
 
     def _next_backup_path(self) -> Path:
         """Choose a new timestamped backup path without overwriting any prior Studio snapshot."""
