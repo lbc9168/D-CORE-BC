@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import json
 from pathlib import Path
 
 import pytest
@@ -16,7 +17,7 @@ from gold_standard_studio.candidate_builder import (
     ReviewCandidateRunner,
 )
 from gold_standard_studio.candidate_cache import CandidateCache, cache_key
-from gold_standard_studio.review_prompt import build_review_prompt
+from gold_standard_studio.review_prompt import build_review_prompt, review_prompt_hash
 from gold_standard_studio.schemas import CandidateValue
 from gold_standard_studio.sources import ArticleSnapshot, CurrentProject
 
@@ -50,6 +51,24 @@ class FailingRunner:
     def run(self, request: CandidateRunRequest) -> CandidateValue:
         """Expose one provider-like failure without manufacturing a candidate."""
         raise CandidateRunnerError(self.code, f"{self.source_name} failed")
+
+
+@dataclass
+class FlakyRunner:
+    """Fail once with a provider timeout before producing a source candidate."""
+
+    source_name: str
+    version: str = "test-v1"
+    prompt_hash: str = ""
+    parser_version: str = ""
+    calls: int = 0
+
+    def run(self, request: CandidateRunRequest) -> CandidateValue:
+        """Simulate one transient provider failure followed by a valid retry."""
+        self.calls += 1
+        if self.calls == 1:
+            raise CandidateRunnerError("timeout", "temporary provider timeout")
+        return CandidateValue(source_name=self.source_name, source_version=self.version)
 
 
 @pytest.fixture
@@ -152,6 +171,37 @@ def test_builder_reuses_a_content_addressed_cache_record(
     assert len(production.calls) == 1
 
 
+@pytest.mark.parametrize("corrupt_record", [[], None, "scalar", 3.14])
+def test_cache_load_quarantines_non_mapping_json_as_a_cache_miss(
+    tmp_path: Path, article: ArticleSnapshot, corrupt_record: object
+) -> None:
+    """Treat every valid non-object cache JSON shape as corruption instead of calling mapping methods on it."""
+    cache = CandidateCache(tmp_path / "data" / "model_cache")
+    key = cache_key(article, source_name="review", model="model", prompt_hash="prompt", parser_version="parser")
+    cache._directory.mkdir(parents=True)
+    cache._path_for(key).write_text(json.dumps(corrupt_record), encoding="utf-8")
+
+    assert cache.load(key) is None
+    assert not cache._path_for(key).exists()
+    assert list(cache._directory.glob("*.corrupt"))
+
+
+def test_cache_load_quarantines_schema_invalid_record_as_a_cache_miss(
+    tmp_path: Path, article: ArticleSnapshot
+) -> None:
+    """Reject cache records whose candidate payload no longer satisfies the Pydantic contract."""
+    cache = CandidateCache(tmp_path / "data" / "model_cache")
+    key = cache_key(article, source_name="review", model="model", prompt_hash="prompt", parser_version="parser")
+    cache._directory.mkdir(parents=True)
+    cache._path_for(key).write_text(
+        json.dumps({"key": key.__dict__, "candidate": {"source_name": "review", "status": "invalid"}}),
+        encoding="utf-8",
+    )
+
+    assert cache.load(key) is None
+    assert not cache._path_for(key).exists()
+
+
 def test_production_runner_normalizes_staged_extractor_output(article: ArticleSnapshot) -> None:
     """Convert the existing staged extractor shape through the established flat prediction contract."""
     runner = ProductionCandidateRunner(
@@ -184,6 +234,32 @@ def test_review_runner_records_invalid_provider_json_as_a_structured_error(artic
     assert candidate.projects == []
 
 
+@pytest.mark.parametrize(
+    "payload",
+    [
+        {},
+        {"projects": [], "unexpected": True},
+        {"projects": {}},
+        {"projects": [{"gold_project_id": "review-1", "fields": []}]},
+    ],
+)
+def test_review_runner_rejects_incomplete_or_malformed_provider_contract(
+    article: ArticleSnapshot, payload: object
+) -> None:
+    """Require exactly the review top-level contract and valid nested GoldProject values."""
+    runner = ReviewCandidateRunner(
+        reviewer=lambda _prompt: payload,
+        model="review-model",
+        prompt_hash="review-prompt-v1",
+    )
+
+    candidate = runner.run(CandidateRunRequest(article=article))
+
+    assert candidate.status == "error"
+    assert candidate.error_code == "invalid_json"
+    assert candidate.projects == []
+
+
 def test_review_prompt_contains_only_article_material(article: ArticleSnapshot) -> None:
     """Keep review instructions and source text free of database or production answers."""
     prompt = build_review_prompt(article)
@@ -192,6 +268,41 @@ def test_review_prompt_contains_only_article_material(article: ArticleSnapshot) 
     assert article.content in prompt
     assert "database candidate" not in prompt.lower()
     assert "production candidate" not in prompt.lower()
+
+
+def test_review_prompt_hash_changes_with_static_instruction_material() -> None:
+    """Invalidate review cache entries when any reusable instruction wording changes."""
+    assert review_prompt_hash("Instruction: return exact evidence.") != review_prompt_hash(
+        "Instruction: return precise evidence."
+    )
+
+
+def test_builder_rejects_unknown_or_duplicate_source_names_before_execution(
+    tmp_path: Path, current_project: CurrentProject
+) -> None:
+    """Require one runner for each expected source so collisions cannot overwrite bundle entries."""
+    with pytest.raises(ValueError, match="unknown=.*unknown.*missing=.*production"):
+        make_builder(
+            tmp_path,
+            current_project,
+            production=RecordingRunner("unknown"),
+            deterministic=RecordingRunner("review"),
+        )
+
+
+def test_builder_retries_transient_runner_errors_instead_of_caching_them(
+    tmp_path: Path, article: ArticleSnapshot, current_project: CurrentProject
+) -> None:
+    """Allow a later build to retry a timed-out source while retaining other cached candidates."""
+    review = FlakyRunner("review", prompt_hash="review-prompt-v1")
+    builder = make_builder(tmp_path, current_project, review=review)
+
+    first = builder.build(article)
+    second = builder.build(article)
+
+    assert first.sources["review"].error_code == "timeout"
+    assert second.sources["review"].status == "ok"
+    assert review.calls == 2
 
 
 def test_deterministic_runner_reuses_capacity_and_taxonomy_policy(article: ArticleSnapshot) -> None:

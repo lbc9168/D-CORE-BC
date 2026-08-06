@@ -8,6 +8,7 @@ import os
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
+from typing import Any, Mapping
 
 from gold_standard_studio.schemas import CandidateValue
 from gold_standard_studio.sources import ArticleSnapshot
@@ -55,18 +56,22 @@ class CandidateCache:
         self._directory = Path(directory)
 
     def load(self, key: CandidateCacheKey) -> CandidateValue | None:
-        """Return a validated cached value only when its embedded key exactly matches."""
+        """Return a validated successful cache value or quarantine malformed records as misses."""
         path = self._path_for(key)
         try:
-            raw = json.loads(path.read_text(encoding="utf-8"))
+            contents = path.read_bytes()
+            raw = json.loads(contents)
         except (FileNotFoundError, OSError, json.JSONDecodeError):
             return None
-        if raw.get("key") != asdict(key):
+        if not isinstance(raw, Mapping) or raw.get("key") != asdict(key):
+            self._quarantine(path, contents)
             return None
         try:
-            return CandidateValue.model_validate(raw["candidate"])
+            candidate = CandidateValue.model_validate(raw["candidate"])
         except (KeyError, TypeError, ValueError):
+            self._quarantine(path, contents)
             return None
+        return candidate if candidate.status == "ok" else None
 
     def store(self, key: CandidateCacheKey, candidate: CandidateValue) -> Path:
         """Atomically write one canonical candidate record using a process-unique temporary file."""
@@ -90,3 +95,12 @@ class CandidateCache:
     def _path_for(self, key: CandidateCacheKey) -> Path:
         """Map a validated opaque identity to a confined JSON cache path."""
         return self._directory / f"{key.digest()}.json"
+
+    def _quarantine(self, path: Path, contents: bytes) -> None:
+        """Atomically move unchanged corrupt cache bytes aside without racing a concurrent replacement."""
+        destination = path.with_name(f"{path.stem}.{uuid.uuid4().hex}.corrupt")
+        try:
+            if path.read_bytes() == contents:
+                path.replace(destination)
+        except OSError:
+            return

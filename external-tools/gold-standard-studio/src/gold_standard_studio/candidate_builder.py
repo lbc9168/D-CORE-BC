@@ -117,8 +117,22 @@ class ReviewCandidateRunner:
             return _error_candidate(self.source_name, self.version, "invalid_json", str(error))
         if not isinstance(decoded, Mapping):
             return _error_candidate(self.source_name, self.version, "invalid_json", "review response is not an object")
+        if set(decoded) != {"projects"}:
+            return _error_candidate(
+                self.source_name,
+                self.version,
+                "invalid_json",
+                "review response must contain only the required projects key",
+            )
+        if not isinstance(decoded["projects"], list):
+            return _error_candidate(
+                self.source_name,
+                self.version,
+                "invalid_json",
+                "review response projects must be a list",
+            )
         try:
-            projects = [GoldProject.model_validate(project) for project in decoded.get("projects", [])]
+            projects = [GoldProject.model_validate(project) for project in decoded["projects"]]
         except (TypeError, ValueError) as error:
             return _error_candidate(self.source_name, self.version, "invalid_json", str(error))
         return CandidateValue(source_name=self.source_name, source_version=self.version, projects=projects)
@@ -183,6 +197,7 @@ class CandidateBuilder:
             review_runner,
             deterministic_runner,
         )
+        _validate_runner_sources(self._runners)
         self._cache = cache
 
     def build(self, article: ArticleSnapshot, *, sample_id: str | None = None) -> CandidateBundle:
@@ -199,7 +214,8 @@ class CandidateBuilder:
             candidate = self._cache.load(key)
             if candidate is None:
                 candidate = self._run_isolated(runner, article)
-                self._cache.store(key, candidate)
+                if candidate.status == "ok":
+                    self._cache.store(key, candidate)
             sources[runner.source_name] = candidate
         return CandidateBundle(sample_id=sample_id or article.article_sha256, article_sha256=article.article_sha256, sources=sources)
 
@@ -286,6 +302,18 @@ def _capacity_phrase(text: str) -> str | None:
 def _error_candidate(source_name: str, source_version: str, code: str, detail: str) -> CandidateValue:
     """Construct a structured candidate error without inventing empty project content."""
     return CandidateValue(source_name=source_name, source_version=source_version, status="error", error_code=code, error_detail=detail)
+
+
+def _validate_runner_sources(runners: Sequence[CandidateRunner]) -> None:
+    """Reject missing, duplicate, or unknown runner names before any candidate execution can begin."""
+    expected = {"database", "production", "review", "deterministic"}
+    names = [runner.source_name for runner in runners]
+    actual = set(names)
+    unknown = sorted(actual.difference(expected))
+    duplicates = sorted(name for name in actual if names.count(name) != 1)
+    missing = sorted(expected.difference(actual))
+    if unknown or duplicates or missing:
+        raise ValueError(f"invalid candidate runners: unknown={unknown}; duplicates={duplicates}; missing={missing}")
 
 
 def _flat_prediction(result: dict[str, Any]) -> dict[str, Any]:

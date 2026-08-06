@@ -49,3 +49,18 @@ exit 0
 
 - Production and review runner versions must be supplied by the caller whenever provider, model, or code behavior changes; the cache deliberately treats that version string as part of its stable public key.
 - Candidate generation has no side effect on production databases, but it does write Studio-local cache files only when invoked by a caller with a configured cache directory.
+
+## Review follow-up — cache and contract hardening
+
+- Cache loading now checks the decoded JSON is a mapping before touching mapping methods. Non-object JSON (`[]`, `null`, strings and scalars), key mismatches and schema-invalid records are quarantined beside the cache as unique `.corrupt` files and returned as cache misses.
+- The cache writes only successful (`status="ok"`) candidate values. Errors are intentionally non-cacheable for every source, including deterministic contract errors, because retrying a corrected provider/configuration is safer than preserving a stale failed result. Legacy cached error records are also ignored.
+- The reviewer accepts exactly `{"projects": [...]}` at the provider boundary. Missing or unknown top-level keys, non-list projects and invalid nested projects produce `CandidateValue(status="error", error_code="invalid_json")` rather than an ambiguous successful empty bundle.
+- The static review prompt material is now explicit and reused by the rendered prompt/hash. The hash includes the version, reviewer instructions and response schema, but deliberately excludes article-specific values because the candidate key already includes the article SHA-256.
+- CandidateBuilder validates source names on construction, requiring one each of database, production, review and deterministic before any source invocation.
+
+### Follow-up verification
+
+```text
+uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests/test_candidate_builder.py -q
+20 passed in 0.17s
+```
