@@ -77,3 +77,15 @@ uv run --project external-tools/gold-standard-studio pytest external-tools/gold-
 uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests/test_candidate_builder.py -q
 24 passed in 0.20s
 ```
+
+## Review follow-up 3 — single-pass prompt rendering
+
+- Replaced sequential `str.replace` calls with one compiled-regex callback over the four exact canonical article tokens. Template tokens are matched only in the static template; replacement values are never re-scanned.
+- Regression coverage gives title, publication date and article content a marker containing every token. Each marker is emitted exactly once in its own labeled position, and the schema receives only the actual article SHA-256.
+
+### Follow-up 3 verification
+
+```text
+uv run --project external-tools/gold-standard-studio pytest external-tools/gold-standard-studio/tests/test_candidate_builder.py -q
+25 passed in 0.21s
+```

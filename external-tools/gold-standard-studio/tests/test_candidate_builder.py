@@ -334,6 +334,32 @@ def test_review_prompt_contains_only_article_material(article: ArticleSnapshot) 
     assert "production candidate" not in prompt.lower()
 
 
+def test_review_prompt_renders_placeholder_like_article_values_exactly_once() -> None:
+    """Preserve placeholder-looking title, date, and content values without cross-substitution."""
+    placeholders = (
+        "__ARTICLE_SHA256__",
+        "__ARTICLE_TITLE__",
+        "__ARTICLE_PUBLISH_DATE__",
+        "__ARTICLE_CONTENT__",
+    )
+    marker = "|".join(placeholders)
+    article = ArticleSnapshot(
+        source_link="https://example.test/placeholders",
+        title=marker,
+        content=marker,
+        publish_date=marker,
+        article_sha256="b" * 64,
+        raw_values={},
+        display_values={},
+    )
+
+    prompt = build_review_prompt(article)
+
+    assert prompt.count(marker) == 3
+    assert f"Title: {marker}\nPublication date: {marker}\nArticle content:\n{marker}\n" in prompt
+    assert f'"article_sha256": "{"b" * 64}"' in prompt
+
+
 def test_review_prompt_hash_changes_with_static_instruction_material() -> None:
     """Invalidate review cache entries when any canonical template wording or delimiter changes."""
     assert review_prompt_hash(REVIEW_PROMPT_TEMPLATE) != review_prompt_hash(

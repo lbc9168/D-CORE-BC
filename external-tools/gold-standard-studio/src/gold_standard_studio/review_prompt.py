@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 
 from gold_standard_studio.sources import ArticleSnapshot
 
@@ -24,6 +25,9 @@ Publication date: __ARTICLE_PUBLISH_DATE__
 Article content:
 __ARTICLE_CONTENT__
 """
+_ARTICLE_PLACEHOLDER = re.compile(
+    r"__ARTICLE_(?:SHA256|TITLE|PUBLISH_DATE|CONTENT)__"
+)
 
 
 def review_prompt_material(template: str | None = None) -> str:
@@ -44,7 +48,4 @@ def build_review_prompt(article: ArticleSnapshot) -> str:
         "__ARTICLE_PUBLISH_DATE__": article.publish_date,
         "__ARTICLE_CONTENT__": article.content,
     }
-    prompt = REVIEW_PROMPT_TEMPLATE
-    for placeholder, value in replacements.items():
-        prompt = prompt.replace(placeholder, value)
-    return prompt
+    return _ARTICLE_PLACEHOLDER.sub(lambda match: replacements[match.group(0)], REVIEW_PROMPT_TEMPLATE)
