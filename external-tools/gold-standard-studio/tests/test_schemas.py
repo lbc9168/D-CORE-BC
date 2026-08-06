@@ -54,6 +54,31 @@ def test_non_present_field_rejects_value():
         GoldField(state="not_applicable", value=100, evidence=[])
 
 
+def test_present_field_requires_value():
+    """Reject a present field that omits its required value."""
+    with pytest.raises(ValidationError, match="present field requires value"):
+        GoldField(state="present")
+
+
+@pytest.mark.parametrize(("start", "end"), [(3, 3), (4, 3)])
+def test_evidence_end_must_follow_start(start: int, end: int):
+    """Reject evidence spans whose end offset is not after the start offset."""
+    with pytest.raises(ValidationError, match="evidence end must be greater than start"):
+        EvidenceSpan(
+            quote="project",
+            start=start,
+            end=end,
+            article_sha256=ARTICLE_SHA256,
+        )
+
+
+@pytest.mark.parametrize("article_sha256", ["not-a-hash", "A" * 64])
+def test_evidence_requires_lowercase_sha256(article_sha256: str):
+    """Reject evidence whose source hash is not a lowercase SHA-256 digest."""
+    with pytest.raises(ValidationError):
+        EvidenceSpan(quote="project", start=0, end=7, article_sha256=article_sha256)
+
+
 def test_formal_record_rejects_needs_adjudication():
     """Block publication while any formal field still needs adjudication."""
     record = make_record(field_state="needs_adjudication")
