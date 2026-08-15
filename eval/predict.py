@@ -1,14 +1,6 @@
 """flat_prediction：把 s01b 原始提取结果归一成含 legacy 与能源事实字段的文章级结果。"""
 
 import json
-import pathlib
-import sys
-
-# Root eval tests run without installing the nested src-layout package.
-_ROOT = next(path for path in pathlib.Path(__file__).resolve().parents if (path / "bri_enums.py").exists())
-_S01B_SRC = _ROOT / "s01b_project_extractor" / "src"
-if str(_S01B_SRC) not in sys.path:
-    sys.path.insert(0, str(_S01B_SRC))
 
 from s01b_project_extractor.energy_taxonomy import classify_energy, normalize_generation_sources
 
@@ -47,19 +39,19 @@ def _flat_project(proj: dict) -> dict:
         "capacity_mw": cap,
         "project_stage": common.get("Project Stage", ""),
         "location": common.get("Location(State)", ""),
+        "project_developer": common.get("Project Developer", ""),
+        "planned_start_date": common.get("Planned Start Date", ""),
+        "planned_complete_date": common.get("Planned Complete Date", ""),
+        "investment_date": common.get("Investment Date", ""),
         "total_investment_usd": common.get("Total Project Investment (Million USD)", ""),
         "contract_amount_usd": common.get("Contract Amount (Million USD)", ""),
         "financing_amount_usd": common.get("Financing Amount (Million USD)", ""),
         "financing_model": common.get("Financing Model", ""),
-        "project_developer": common.get("Project Developer", ""),
-        "planned_start_date": common.get("Planned Start Date", ""),
-        "planned_complete_date": common.get("Planned Complete Date", common.get("Planned Completion Date", "")),
-        "investment_date": common.get("Investment Date", ""),
-        "project_summary": proj.get("project_summary", common.get("Project Summary", "")),
+        "project_summary": common.get("Project Summary", ""),
         "generation_sources": list(normalized_sources),
         "storage_status": storage_status,
-        "storage_power_mw": common.get("storage_power_mw_parsed", common.get("Storage Power")),
-        "storage_energy_mwh": common.get("storage_energy_mwh_parsed", common.get("Storage Energy")),
+        "storage_power_mw": common.get("storage_power_mw_parsed"),
+        "storage_energy_mwh": common.get("storage_energy_mwh_parsed"),
         "proposed_category": classification.proposed_category,
         "entities": entities,
     }

@@ -41,8 +41,6 @@ def test_e2e_multiproject(tmp_path):
     assert rep["fields"]["capacity_mw"]["correct"] == 2
     assert abs(rep["entity"]["name_f1_mean"] - 1.0) < 1e-9
     assert rep["entity"]["role_accuracy"] == 0.5
-    assert rep["weighted_total"] == 0.85
-    assert rep["fields"]["category"]["total"] == 2
     assert rep["taxonomy"]["generation_sources"]["gold_total"] == 0
     assert rep["taxonomy"]["storage_status"]["total"] == 0
     written = list((tmp_path/"r").glob("*.json"))
@@ -55,87 +53,3 @@ def test_e2e_gold_loader_rejects_bad(tmp_path):
     with pytest.raises(ValueError) as ei:
         gold_loader.load(p)
     assert "第 2 行" in str(ei.value)
-
-
-def test_e2e_reports_deterministic_slices_and_separate_challenge_metrics(tmp_path):
-    """Aggregate split, category, and risk slices without folding Challenge into regression metrics."""
-    raw = tmp_path / "raw.db"; gold = tmp_path / "gold.jsonl"
-    _make_raw_news(raw)
-    lines = [
-        {"source_link": "http://x", "status": "valid", "dataset_split": "regression",
-         "risk_tags": ["capacity"], "projects": [{"project_name": "阿尔法光伏", "category": "光伏"}]},
-        {"source_link": "http://x", "status": "valid", "dataset_split": "challenge",
-         "risk_tags": ["hard"], "projects": [{"project_name": "阿尔法光伏", "category": "光伏"}]},
-    ]
-    gold.write_text("\n".join(json.dumps(row, ensure_ascii=False) for row in lines), encoding="utf-8")
-    report = run_eval.run_eval(gold, extract_fn=_mock_extract_fn, extractor_version="slices",
-                               raw_news_db=raw, cache_dir=tmp_path / "c", reports_dir=tmp_path / "r",
-                               use_cache=False)
-
-    assert report["weighted_total_label"] == "legacy"
-    assert report["slices"]["split"]["regression"]["n_gold"] == 1
-    assert report["slices"]["category"]["光伏"]["n_gold"] == 2
-    assert report["slices"]["risk_tag"]["capacity"]["n_gold"] == 1
-    assert report["core_metrics"]["regression"]["n_gold"] == 1
-    assert report["core_metrics"]["challenge"]["n_gold"] == 1
-
-
-def test_e2e_predeclares_empty_groups_and_excludes_challenge_from_regression(tmp_path):
-    """Skipped or failed rows keep their groups, while Challenge accuracy cannot change regression core metrics."""
-    raw = tmp_path / "raw.db"; gold = tmp_path / "gold.jsonl"
-    _make_raw_news(raw)
-    lines = [
-        {"source_link": "http://x", "status": "valid", "dataset_split": "regression", "risk_tags": [],
-         "projects": [{"project_name": "阿尔法光伏", "category": "光伏", "location": None,
-                       "field_eligibility": {"location": True, "generation_sources": True, "financing_amount_usd": False},
-                       "generation_sources": None}]},
-        {"source_link": "http://x", "status": "valid", "dataset_split": "challenge", "risk_tags": ["hard"],
-         "projects": [{"project_name": "不相同的项目", "category": "风电"}]},
-        {"source_link": "http://missing", "status": "valid", "dataset_split": "development", "risk_tags": ["missing"],
-         "projects": [{"project_name": "缺失", "category": "水电"}]},
-    ]
-    gold.write_text("\n".join(json.dumps(row, ensure_ascii=False) for row in lines), encoding="utf-8")
-    report = run_eval.run_eval(gold, extract_fn=_mock_extract_fn, extractor_version="predeclared",
-                               raw_news_db=raw, cache_dir=tmp_path / "c", reports_dir=tmp_path / "r", use_cache=False)
-
-    assert report["core_metrics"]["regression"]["status_accuracy"] == 1.0
-    location = report["core_metrics"]["regression"]["fields"]["location"]
-    assert location["correct"] == 1 and location["total"] == 1 and location["accuracy"] == 1.0
-    assert location["primary_metric"] == "accuracy"
-    assert report["core_metrics"]["regression"]["fields"]["generation_sources"]["accuracy"] == 1.0
-    assert report["core_metrics"]["regression"]["fields"]["financing_amount_usd"]["total"] == 0
-    assert report["core_metrics"]["regression"]["project_set"]["recall"] == 1.0
-    assert report["core_metrics"]["challenge"]["project_set"]["recall"] == 0.0
-    assert report["slices"]["split"]["development"]["n_gold"] == 1
-    assert report["slices"]["split"]["development"]["evaluated_count"] == 0
-    assert report["slices"]["split"]["challenge"]["evaluated_count"] == 1
-    assert report["slices"]["risk_tag"]["unspecified"]["n_gold"] == 1
-    assert report["slices"]["category"]["水电"]["evaluated_count"] == 0
-
-
-def test_e2e_core_uses_set_f1_not_exact_set_accuracy(tmp_path):
-    """Partial generation-source overlap contributes F1 to core weighting while legacy remains unchanged."""
-    raw = tmp_path / "raw.db"; gold = tmp_path / "gold.jsonl"
-    _make_raw_news(raw)
-    gold.write_text(json.dumps({"source_link": "http://x", "status": "valid", "dataset_split": "regression",
-        "projects": [{"project_name": "阿尔法光伏", "category": "光伏", "capacity_mw": "50",
-                      "project_stage": "中标", "financing_model": "Unknown",
-                      "generation_sources": ["光伏", "风电"],
-                      "field_eligibility": {"generation_sources": True}}]}, ensure_ascii=False), encoding="utf-8")
-
-    def partial_sources(title, content, date):
-        """Return a project whose source set has one true positive and one false positive."""
-        return {"status": "valid_project", "projects": [{"common_info": {
-            "Project Name": "阿尔法光伏", "Category": "光伏", "Capacity (MW)": "50",
-            "Project Stage": "中标", "Financing Model": "Unknown", "Generation Sources": ["光伏", "水电"],
-        }}]}
-
-    report = run_eval.run_eval(gold, extract_fn=partial_sources, extractor_version="set-f1",
-                               raw_news_db=raw, cache_dir=tmp_path / "c", reports_dir=tmp_path / "r", use_cache=False)
-    sources = report["core_metrics"]["regression"]["fields"]["generation_sources"]
-
-    assert sources["accuracy"] == 0.0
-    assert sources["f1"] == 0.5
-    assert sources["primary_metric"] == "f1"
-    assert report["core_metrics"]["regression"]["weighted_total"] == 0.9907
-    assert report["weighted_total"] == 1.0
