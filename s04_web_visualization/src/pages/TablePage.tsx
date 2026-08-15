@@ -20,14 +20,6 @@ const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT as string | undefin
 
 const PAGE_SIZE = 50;
 
-/** 储能合并列：MW/MWh 有值拼接（不限类别——综合能源披露了储能字段同样显示） */
-function storageCellLabel(p: Project): string | null {
-  const parts: string[] = [];
-  if (p.storage_power_mw != null) parts.push(`${p.storage_power_mw.toFixed(0)} MW`);
-  if (p.storage_energy_mwh != null) parts.push(`${p.storage_energy_mwh.toFixed(0)} MWh`);
-  return parts.length ? parts.join(" · ") : null;
-}
-
 /** txmf 表可排序键 → 取值器（专表 union 无法直接按 keyof 索引） */
 const TXMF_SORT_GETTERS: Record<string, (p: TxMfProject) => string | number | null> = {
   project_id: (p) => p.project_id,
@@ -261,9 +253,6 @@ export default function TablePage() {
                 <th className="text-right px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
                   <SortBtn k="capacity_mw" label={col.capacity || "Capacity (MW)"} />
                 </th>
-                <th className="text-right px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
-                  <SortBtn k="storage_energy_mwh" label={col.storage || "Storage"} />
-                </th>
                 <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
                   <SortBtn k="latest_stage" label={col.stage || "Stage"} />
                 </th>
@@ -281,7 +270,7 @@ export default function TablePage() {
             <tbody className="divide-y divide-slate-50">
               {pageMain.length === 0 ? (
                 <tr>
-                  <td colSpan={11} className="py-12 text-center text-slate-400">
+                  <td colSpan={10} className="py-12 text-center text-slate-400">
                     {t("table.empty")}
                   </td>
                 </tr>
@@ -349,9 +338,6 @@ export default function TablePage() {
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600 whitespace-nowrap">
                         {p.capacity_mw?.toFixed(0) ?? "—"}
-                      </td>
-                      <td className="px-3 py-2 text-right text-slate-600 whitespace-nowrap">
-                        {storageCellLabel(p) ?? "—"}
                       </td>
                       <td className="px-3 py-2 whitespace-nowrap">
                         <span
