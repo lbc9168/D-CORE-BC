@@ -44,3 +44,26 @@ def test_resolve_province_map_fills_from_seed_without_overwriting_current(tmp_pa
         "B": "Current State",
         "C": "Seed Region",
     }
+
+
+def test_regenerate_checks_tracked_database_state_before_export(monkeypatch, tmp_path: Path) -> None:
+    """Offline regeneration verifies the tracked database state before touching export artifacts."""
+    main_db = tmp_path / "main.db"
+    state = tmp_path / "state.json"
+    calls: list[tuple[Path, Path]] = []
+
+    def _record_verify(database: Path, manifest: Path) -> None:
+        """Record the fail-closed verification call made before export work begins."""
+        calls.append((database, manifest))
+
+    def _stop_after_guard(*_args: object, **_kwargs: object) -> dict[str, str | None]:
+        """Stop the test immediately after the state guard to avoid building fixture exports."""
+        raise RuntimeError("after guard")
+
+    monkeypatch.setattr(MODULE, "verify_database", _record_verify)
+    monkeypatch.setattr(MODULE, "_resolve_province_map", _stop_after_guard)
+
+    with pytest.raises(RuntimeError, match="after guard"):
+        MODULE.regenerate(main_db, tmp_path / "output", tmp_path / "public", state_manifest=state)
+
+    assert calls == [(main_db, state)]

@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-08-14（energy taxonomy v2.1 与 TX/MF 专用指标契约）
+> 最后更新：2026-08-15（稳定库恢复与 ignored SQLite worktree 交付门禁）
 
 **"一带一路"可再生能源项目数据库** —— 追踪中国企业参与的海外可再生能源项目。
 纯本地流水线（Python）+ 静态前端（React），无后端服务；主存储为 SQLite，前端消费静态 JSON/CSV。
@@ -9,13 +9,12 @@
 
 ## 当前 Git 工作区布局
 
-- 仓库根目录 `E:/Projects/BRI_RE_Database_v2` 固定检出 `main`，作为稳定代码线。
-- `.claude/worktrees/d_core_v3` 检出 `d_core_v3`（s01a2 多源爬虫开发线）。
-- `.claude/worktrees/database-refactor-expansion-aa6198` 检出
-  `claude/database-refactor-expansion-aa6198`（W30 指标、s04 与储能分类开发线）。
+- 仓库根目录 `E:/Projects/BRI_RE_Database_v2` 固定检出 `main`，作为稳定代码和稳定数据库所在工作区。
+- 功能分支使用独立 worktree，实时列表以 `git worktree list` 为准，不在状态文档固化临时路径。
 - SQLite、审计 CSV、导出 JSON 等被 Git 忽略的运行数据按 worktree 分别保存；分支合并只带入
-  schema、迁移/回填脚本、测试与文档，不会自动合并数据库文件。正式更新稳定库时，必须先备份，
-  再在 `main` 上显式执行已验证的幂等迁移/回填流程。
+  schema、迁移/回填脚本、测试与文档，不会自动合并数据库文件。正式更新稳定库使用
+  `scripts/database_worktree_guard.py` 的审计/推广流程，并由 `supporting_docs/database_state.json`
+  固定逻辑状态；完整规则见 `docs/rules_and_plans/database_worktree_policy.md`。
 
 ---
 
@@ -70,11 +69,12 @@ s01a: raw_news.db
 
 主库为 SQLite 三表模型（`canonical_projects` / `project_events` / `chinese_entities`）+ `non_project_records`，并新增内部 `project_classification_shadow` 审计表。`energy_taxonomy_v2` 先在 shadow 记录差异；只有证据与 Terra/Sol 门禁通过的 resolved 项才写正式类别、技术标签和事件能源事实，未决项只写 `needs_review`，不会进入自动覆盖。
 
-### 2026-08-13：光储分类口径 v2 已落库
+### 2026-08-15：光储分类口径 v2.1 已恢复到 Main 稳定库
 
 - 储能不再作为发电源：单一新能源配储回归光伏/风电等主类，多种新能源才归综合能源，独立储能归储能；组合信息改由 `technology_tags_json` 表达。
 - 809 个候选完成 Terra 全量重读，789 个风险项目完成 Sol 复核；594 个 resolved 项安全应用，215 个未决项只写 shadow。resolved 正式记录中旧 `综合能源/光储|其他` 子类为 0；57 个未决旧子类保持原值，但 s03/s04 不再导出。
-- 主表/事件/实体行数保持 `4529/5365/6572`，SQLite integrity=`ok`、foreign-key errors=`0`，项目/事件/实体 ID 集合未变化。最终主库 SHA-256=`7E60276F...FA33B`。
+- 主表/事件/实体行数保持 `4529/5365/6572`，SQLite integrity=`ok`、foreign-key errors=`0`，项目/事件/实体 ID 集合未变化；809 条 shadow 为 594 resolved + 215 needs review，全部为 `energy_taxonomy_v2.1`。
+- 稳定库逻辑 SHA-256=`92382A3E...0567`；逻辑指纹覆盖 schema 与有序数据，不受 WAL checkpoint 或 SQLite 物理页布局影响。推广前备份和本地 receipt 保存在稳定库同目录且继续被 Git 忽略。
 - Golden Standard Studio 已暂停并按旧 guideline 原样封存；未用本轮 taxonomy 静默改写 Pilot、40 篇候选或人工草稿。
 
 ### 2026-08-15：封存 Gold-18 模型替换诊断

@@ -1,0 +1,28 @@
+{
+  "schema_version": "database-state-v1",
+  "database_path": "s02a_duplicate_merger/data/db/bri_re_database.db",
+  "logical_sha256": "92382a3e0108f99448b50ef0df0fb03e8d24817a36e6f64fe5d4ff42b3ea0567",
+  "counts": {
+    "canonical_projects": 4529,
+    "project_events": 5365,
+    "chinese_entities": 6572
+  },
+  "missing_schema": {},
+  "taxonomy": {
+    "shadow_rows": 809,
+    "shadow_resolved": 594,
+    "shadow_needs_review": 215,
+    "classification_versions": {
+      "energy_taxonomy_v2.1": 809
+    },
+    "tagged_projects": 236,
+    "technology_tag_counts": {
+      "光储": 172,
+      "风储": 11,
+      "风光": 27,
+      "风光储": 26
+    },
+    "malformed_tag_rows": 0,
+    "invalid_tag_rows": 0
+  }
+}
