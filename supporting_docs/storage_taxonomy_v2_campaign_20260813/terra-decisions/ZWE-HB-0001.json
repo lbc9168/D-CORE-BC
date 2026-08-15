@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZWE-HB-0001",
+  "package_sha256": "917b42f46706b489543ef4711fdc16c618ac392e035beae46fff53375095828f",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92767.html",
+        "surface": "body",
+        "quote": "项目因地制宜定制“光储融合+智慧运维”一体化方案，并开创“项目共建、收益共享”合作模式，为非洲分散式农场、工业园区提供可复制的清洁能源落地样本。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZWE-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92767.html",
+          "surface": "body",
+          "quote": "项目因地制宜定制“光储融合+智慧运维”一体化方案，并开创“项目共建、收益共享”合作模式，为非洲分散式农场、工业园区提供可复制的清洁能源落地样本。"
+        }
+      ]
+    }
+  ]
+}

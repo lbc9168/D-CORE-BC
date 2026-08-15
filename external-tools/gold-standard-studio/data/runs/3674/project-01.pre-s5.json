@@ -1,0 +1,31 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "思格新能源",
+      "role": "系统供应商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "200 MWh",
+    "Category": "储能",
+    "Country": "保加利亚",
+    "Energy Composition Evidence": "200 MWh 储能合作协议，该项目将采用思格的 SigenStack",
+    "Generation Sources": [],
+    "Location(State)": "",
+    "Project Developer": "Global Solar Bulgaria",
+    "Project Developer Evidence": "与保加利亚领先的可再生能源企业Global Solar Bulgaria",
+    "Project Name": "保加利亚200MWh储能示范项目",
+    "Project Name (EN)": "Bulgaria 200MWh Energy Storage Demonstration Project",
+    "Project Stage": "签约",
+    "Record Type": "具体项目",
+    "Storage Energy": "200 MWh",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

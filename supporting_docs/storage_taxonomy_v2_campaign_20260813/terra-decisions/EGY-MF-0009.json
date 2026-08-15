@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-MF-0009",
+  "package_sha256": "0713219c06e7d747c6c4339f78d47a711686e16f489db98a652bfd156f59fc8a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76322.html",
+        "surface": "body",
+        "quote": "该项目位于中埃泰达苏伊士经贸合作区，占地7.8万平方米，规划建设 2GW太阳能电池 和 3GW太阳能组件产线，预计于2025年9月全面投产。项目建成后，年发电量可达 5亿千瓦时，相当于节约约 3.07亿吨标准煤，减少二氧化碳排放量相当于种植 8400万棵树。\n中非泰达投资股份有限公司董事长李代新表示，博达新能的埃及项目不仅助力完善埃及光伏产业链，还将使埃及成为中东及北非地区的重要光伏制"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/71249.html",
+        "surface": "body",
+        "quote": "项目一期计划于2025年9月达产，建成2GW的太阳能电池产线，预计年销售额将达到1.9亿美元。该项目不仅是博达全球战略布局的重要组成部分，还被视为中东地区利润增长的重要推动力。\n博达新能董事长柳敬麒表示，未来将在中东建设总产能达到8GW的生产基地，进一步增强该地区的市场竞争力。项目将引入先进的制造技术，优化埃及本地的供应链，以提升整体制造"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-MF-0009-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76322.html",
+          "surface": "body",
+          "quote": "该项目位于中埃泰达苏伊士经贸合作区，占地7.8万平方米，规划建设 2GW太阳能电池 和 3GW太阳能组件产线，预计于2025年9月全面投产。项目建成后，年发电量可达 5亿千瓦时，相当于节约约 3.07亿吨标准煤，减少二氧化碳排放量相当于种植 8400万棵树。\n中非泰达投资股份有限公司董事长李代新表示，博达新能的埃及项目不仅助力完善埃及光伏产业链，还将使埃及成为中东及北非地区的重要光伏制"
+        }
+      ]
+    },
+    {
+      "event_id": "EGY-MF-0009-02",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/71249.html",
+          "surface": "body",
+          "quote": "项目一期计划于2025年9月达产，建成2GW的太阳能电池产线，预计年销售额将达到1.9亿美元。该项目不仅是博达全球战略布局的重要组成部分，还被视为中东地区利润增长的重要推动力。\n博达新能董事长柳敬麒表示，未来将在中东建设总产能达到8GW的生产基地，进一步增强该地区的市场竞争力。项目将引入先进的制造技术，优化埃及本地的供应链，以提升整体制造"
+        }
+      ]
+    }
+  ]
+}

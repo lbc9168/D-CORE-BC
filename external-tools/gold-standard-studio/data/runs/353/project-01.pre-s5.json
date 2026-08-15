@@ -1,0 +1,20 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "中电工程国际公司",
+      "Type of involvement of Chinese Entities": "EPC总承包方"
+    },
+    {
+      "Implementing Chinese Entity": "华东院",
+      "Type of involvement of Chinese Entities": "联合体成员"
+    },
+    {
+      "Implementing Chinese Entity": "湖南火电",
+      "Type of involvement of Chinese Entities": "联合体成员"
+    }
+  ],
+  "common_info": {
+    "Category": "综合能源",
+    "Project Name": "阿曼伊布里三期700MW光伏+150MWh储能电站项目"
+  }
+}

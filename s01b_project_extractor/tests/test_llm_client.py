@@ -1,6 +1,6 @@
 """LLM client 单测：JSON 解析、重试、provider 切换，全部用注入的 fake provider，不调真实 API。"""
 import pytest
-from s01b_project_extractor.llm.client import LLMClient, LLMConfig
+from s01b_project_extractor.llm.client import LLMClient, LLMConfig, _request_timeout_from_env
 
 
 class _FakeGenai:
@@ -12,6 +12,7 @@ class _FakeGenai:
 
     def generate_content(self, *, model, contents, config):
         self.calls += 1
+        self.last_config = config
         item = self._script.pop(0)
         if isinstance(item, Exception):
             raise item
@@ -57,8 +58,14 @@ class _FakeOpenAI:
         self.completions = self
         self.calls = 0
 
-    def create(self, *, model, messages, temperature, response_format=None):
+    def create(self, *, model, messages, temperature=None, response_format=None, reasoning_effort=None):
         self.calls += 1
+        self.last_kwargs = {
+            "model": model,
+            "temperature": temperature,
+            "response_format": response_format,
+            "reasoning_effort": reasoning_effort,
+        }
         msg = type("Msg", (), {"content": self._text})()
         choice = type("Choice", (), {"message": msg})()
         return type("Resp", (), {"choices": [choice]})()
@@ -72,8 +79,41 @@ def test_deepseek_dispatch_parses_json():
     assert fake.calls == 1
 
 
+def test_openai_dispatch_uses_reasoning_effort_without_temperature():
+    """OpenAI Nano 使用 JSON mode 与 reasoning effort，但不发送 sampling temperature。"""
+    fake = _FakeOpenAI('{"a": 3}')
+    cfg = LLMConfig(provider="openai", model="gpt-5.4-nano", temperature=None, reasoning_effort="none")
+    out = LLMClient(cfg, _client=fake).complete("return JSON", stage="s2", json_mode=True)
+    assert out == {"a": 3}
+    assert fake.last_kwargs == {
+        "model": "gpt-5.4-nano",
+        "temperature": None,
+        "response_format": {"type": "json_object"},
+        "reasoning_effort": "none",
+    }
+
+
+def test_gemini_35_omits_deprecated_temperature():
+    """Gemini 3.x generateContent 不再携带已废止的 sampling 参数。"""
+    fake = _FakeGenai(['{"ok": true}'])
+    cfg = LLMConfig(provider="gemini", model="gemini-3.5-flash-lite", temperature=0.14)
+    out = LLMClient(cfg, _client=fake).complete("p", stage="s1", json_mode=True)
+    assert out == {"ok": True}
+    assert fake.last_config.temperature is None
+
+
 def test_complete_plain_text_when_not_json_mode():
     fake = _FakeGenai(["hello world"])
     c = LLMClient(LLMConfig(provider="gemini", model="m"), _client=fake)
     out = c.complete("p", stage="s5", json_mode=False)
     assert out == "hello world"
+
+
+def test_request_timeout_env_is_positive_and_fail_safe(monkeypatch):
+    """单次请求超时允许实验覆盖，但非法值不能恢复为无限等待。"""
+    monkeypatch.setenv("LLM_REQUEST_TIMEOUT_SECONDS", "45.5")
+    assert _request_timeout_from_env() == 45.5
+    monkeypatch.setenv("LLM_REQUEST_TIMEOUT_SECONDS", "invalid")
+    assert _request_timeout_from_env() == 90.0
+    monkeypatch.setenv("LLM_REQUEST_TIMEOUT_SECONDS", "0")
+    assert _request_timeout_from_env() == 90.0

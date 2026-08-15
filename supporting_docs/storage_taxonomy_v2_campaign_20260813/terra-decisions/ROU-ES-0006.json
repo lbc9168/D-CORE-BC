@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ROU-ES-0006",
+  "package_sha256": "435ecf1553855e48a951ca0da1706022223b39453b36704babfaeaf540ee0a55",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 13.76,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95285.html",
+        "surface": "title",
+        "quote": "赣锋锂电罗马尼亚康斯坦察13.76MWh储能项目正式投运 助力欧洲能源转型"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ROU-ES-0006-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 13.76,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "13.76MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95285.html",
+          "surface": "title",
+          "quote": "赣锋锂电罗马尼亚康斯坦察13.76MWh储能项目正式投运 助力欧洲能源转型"
+        }
+      ]
+    }
+  ]
+}

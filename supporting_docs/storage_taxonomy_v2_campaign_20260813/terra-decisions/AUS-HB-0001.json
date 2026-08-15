@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-HB-0001",
+  "package_sha256": "b963d9539cdaed12e08172355d67996f4692091a844aa4712db8af5d8e1ca35e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 4.95,
+    "storage_energy_mwh": 5.5,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90152.html",
+        "surface": "title",
+        "quote": "正泰新能源澳大利亚Kerta储能项目成功并网 海外光储布局再添里程碑"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90152.html",
+        "surface": "body",
+        "quote": "近日，正泰新能源位于澳大利亚南部的Kerta 5.5MWh储能项目在南澳电网公司（SA Power Networks）工作人员的见证下成功实现并网运行。该项目是在2022年已建成的Kerta 4.95MWac光伏项目基础上的储能扩建，标志着正泰新能源作为项目业主与合作伙伴绿金能源（Green Gold Energy）的再度携手。与此同时，正"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 4.95,
+      "storage_energy_mwh": 5.5,
+      "storage_power_mw_raw": "4.95MW",
+      "storage_energy_mwh_raw": "5.5MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90152.html",
+          "surface": "title",
+          "quote": "正泰新能源澳大利亚Kerta储能项目成功并网 海外光储布局再添里程碑"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90152.html",
+          "surface": "body",
+          "quote": "近日，正泰新能源位于澳大利亚南部的Kerta 5.5MWh储能项目在南澳电网公司（SA Power Networks）工作人员的见证下成功实现并网运行。该项目是在2022年已建成的Kerta 4.95MWac光伏项目基础上的储能扩建，标志着正泰新能源作为项目业主与合作伙伴绿金能源（Green Gold Energy）的再度携手。与此同时，正"
+        }
+      ]
+    }
+  ]
+}

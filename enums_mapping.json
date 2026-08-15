@@ -7,12 +7,12 @@
     "水电":         { "zh": "水电",         "en": "Hydropower",                   "code": "HY", "color": "#06B6D4", "no_capacity": false, "hidden": false, "excluded": false },
     "地热及余热":   { "zh": "地热及余热",   "en": "Geothermal & Waste Heat",      "code": "GT", "color": "#10B981", "no_capacity": false, "hidden": false, "excluded": false },
     "生物质":       { "zh": "生物质",       "en": "Biomass",                      "code": "BM", "color": "#84CC16", "no_capacity": false, "hidden": false, "excluded": false },
-    "储能":         { "zh": "储能",         "en": "Energy Storage",               "code": "ES", "color": "#64748B", "no_capacity": true,  "hidden": false, "excluded": false },
+    "储能":         { "zh": "储能",         "en": "Energy Storage",               "code": "ES", "color": "#64748B", "no_capacity": true,  "hidden": false, "excluded": false, "storage_metrics": true },
     "综合能源":     { "zh": "综合能源",     "en": "Integrated Energy",            "code": "HB", "color": "#EC4899", "no_capacity": false, "hidden": false, "excluded": false },
     "核电":         { "zh": "核电",         "en": "Nuclear Power",                "code": "NC", "color": "#8B5CF6", "no_capacity": false, "hidden": true,  "excluded": false },
     "火电":         { "zh": "火电",         "en": "Thermal Power",                "code": "TH", "color": "#78716C", "no_capacity": false, "hidden": true,  "excluded": false },
-    "新能源制造业": { "zh": "新能源制造业", "en": "New Energy Manufacturing",     "code": "MF", "color": "#A78BFA", "no_capacity": true,  "hidden": true,  "excluded": false },
-    "输变电建设":   { "zh": "输变电建设",   "en": "Transmission & Distribution",  "code": "TX", "color": "#F97316", "no_capacity": true,  "hidden": true,  "excluded": false },
+    "新能源制造业": { "zh": "新能源制造业", "en": "New Energy Manufacturing",     "code": "MF", "color": "#A78BFA", "no_capacity": true,  "hidden": true,  "excluded": false, "data_domain": "txmf", "spec_profile": "mf" },
+    "输变电建设":   { "zh": "输变电建设",   "en": "Transmission & Distribution",  "code": "TX", "color": "#F97316", "no_capacity": true,  "hidden": true,  "excluded": false, "data_domain": "txmf", "spec_profile": "tx" },
     "Unknown":      { "zh": "未知",         "en": "Unknown",                      "code": "UNK","color": "#9CA3AF", "no_capacity": false, "hidden": false, "excluded": false }
   },
 
@@ -29,10 +29,46 @@
   },
 
   "viz_group": {
-    "pre_construction":   {"zh": "前期", "en": "Pre-construction",    "color": "#9333EA", "order": 1},
-    "under_construction": {"zh": "在建", "en": "Under construction",  "color": "#F59E0B", "order": 2},
-    "completed":          {"zh": "完工", "en": "Completed",           "color": "#2563EB", "order": 3},
-    "acquired":           {"zh": "收购", "en": "Acquired",            "color": "#6B7280", "order": 4}
+    "pre_construction":   {"zh": "前期", "en": "Pre-construction",       "color": "#9333EA", "order": 1},
+    "under_construction": {"zh": "在建", "en": "In Construction",        "color": "#F59E0B", "order": 2},
+    "completed":          {"zh": "完工", "en": "Construction Completed", "color": "#2563EB", "order": 3},
+    "acquired":           {"zh": "收购", "en": "Acquired",               "color": "#6B7280", "order": 4}
+  },
+
+  "subcategory": {
+    "_comment": "项目子类只表达集中式/分布式等项目形态；能源组合必须写 technology_tags_json。NULL=规则无证据，导出层可按 _default 渲染。",
+    "光伏": {
+      "_default": "集中式",
+      "values": {
+        "集中式": { "zh": "集中式", "en": "Utility-scale" },
+        "分布式": { "zh": "分布式", "en": "Distributed" }
+      }
+    }
+  },
+
+  "generation_source": {
+    "光伏":       { "zh": "光伏",       "en": "Solar PV",                 "order": 1 },
+    "风电":       { "zh": "风电",       "en": "Wind Power",               "order": 2 },
+    "水电":       { "zh": "水电",       "en": "Hydropower",               "order": 3 },
+    "地热及余热": { "zh": "地热及余热", "en": "Geothermal & Waste Heat",  "order": 4 },
+    "生物质":     { "zh": "生物质",     "en": "Biomass",                  "order": 5 },
+    "核电":       { "zh": "核电",       "en": "Nuclear Power",            "order": 6 },
+    "火电":       { "zh": "火电",       "en": "Thermal Power",            "order": 7 }
+  },
+
+  "storage_status": {
+    "confirmed":     { "zh": "已确认配储", "en": "Confirmed",     "priority": 4 },
+    "planned":       { "zh": "拟配储",     "en": "Planned",       "priority": 3 },
+    "optional":      { "zh": "可选配储",   "en": "Optional",      "priority": 2 },
+    "unclear":       { "zh": "含糊",       "en": "Unclear",       "priority": 1 },
+    "not_mentioned": { "zh": "未提及",     "en": "Not Mentioned", "priority": 0 }
+  },
+
+  "technology_tag": {
+    "光储":   { "zh": "光储",   "en": "Solar + Storage",        "allowed_categories": ["光伏"] },
+    "风储":   { "zh": "风储",   "en": "Wind + Storage",         "allowed_categories": ["风电"] },
+    "风光":   { "zh": "风光",   "en": "Wind + Solar",           "allowed_categories": ["综合能源"] },
+    "风光储": { "zh": "风光储", "en": "Wind + Solar + Storage", "allowed_categories": ["综合能源"] }
   },
 
   "financing_model": {

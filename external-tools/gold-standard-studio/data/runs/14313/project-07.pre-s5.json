@@ -1,0 +1,30 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程西南院",
+      "role": "设计方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "2×350兆瓦",
+    "Capacity Details": "",
+    "Category": "火电",
+    "Country": "柬埔寨",
+    "Energy Composition Evidence": "西哈努克港2×350兆瓦燃煤电站",
+    "Generation Sources": [
+      "火电"
+    ],
+    "Location(State)": "磅逊湾",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "柬埔寨西哈努克港2×350兆瓦燃煤电站",
+    "Project Name (EN)": "Sihanoukville 2x350MW Coal Power Plant",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

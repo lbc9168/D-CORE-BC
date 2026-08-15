@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ESP-MF-0005",
+  "package_sha256": "eceb722b2c82e486688a011af7cafe91a1de357e9bf9e98d9da78cbd494e4b6b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68347.html",
+        "surface": "body",
+        "quote": "这是奇瑞在欧洲建立的首个生产基地。\n小鹏汽车也与西班牙的分销商萨尔瓦多·卡埃塔诺集团达成协议，预计今年将在西班牙销售电动车。\n在电池端，5月，国轩高科与西班牙Phi4Tech科技集团、Unicorn RE欧迪投资集团签订合作协议，三方将在西班牙围绕能源存储和新材料开发等探索全新合作模式。1月，外媒称Stella"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ESP-MF-0005-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68347.html",
+          "surface": "body",
+          "quote": "这是奇瑞在欧洲建立的首个生产基地。\n小鹏汽车也与西班牙的分销商萨尔瓦多·卡埃塔诺集团达成协议，预计今年将在西班牙销售电动车。\n在电池端，5月，国轩高科与西班牙Phi4Tech科技集团、Unicorn RE欧迪投资集团签订合作协议，三方将在西班牙围绕能源存储和新材料开发等探索全新合作模式。1月，外媒称Stella"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MDV-HB-0005",
+  "package_sha256": "6a2753ce55672c6896c9f5e5b69b77f06883ef787f012c4a064b4293bb5cc99c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目仅找到火电证据，新能源技术仍不明确",
+  "canonical_decision": {
+    "generation_sources": [
+      "火电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "火电",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/69188.html",
+        "surface": "body",
+        "quote": "智慧能源系统将岛屿以往依赖的柴油发电系统与新能源系统有机结合，通过智能调度和控制，实现多能互补和高效绿色的运行。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MDV-HB-0005-01",
+      "generation_sources": [
+        "火电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/69188.html",
+          "surface": "body",
+          "quote": "智慧能源系统将岛屿以往依赖的柴油发电系统与新能源系统有机结合，通过智能调度和控制，实现多能互补和高效绿色的运行。"
+        }
+      ]
+    }
+  ]
+}

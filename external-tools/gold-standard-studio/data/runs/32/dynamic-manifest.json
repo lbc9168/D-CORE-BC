@@ -1,0 +1,57 @@
+{
+  "article_id": 32,
+  "article_sha256": "ac3ad7fdb9c7a0000d68845c83163fe0dbf674655f42d780541f7558dbb27a85",
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "projects": [
+    {
+      "project_index": 0,
+      "project_name": "埃及本班Nefertiti 1000兆瓦时储能项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\project-01.s34.prompt.txt",
+        "sha256": "9733dc3189f2cf6126b75065ad9a7f17a3c1e6aeefab72cf54256beff097eda3"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\project-01.s5.prompt.txt",
+        "sha256": "860d6cd3c08c84b0b5c552e2750b4fb4c15611fedf77fea12704da561fecdd63"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\project-01.pre-s5.json",
+        "sha256": "74c36580ed7b59c294bf73afa0e55edea313080c674bf1fc4f3e90c2fea8f389"
+      }
+    },
+    {
+      "project_index": 1,
+      "project_name": "印度尼西亚SCM矿区227兆瓦光伏及100兆瓦/400兆瓦时储能项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\project-02.s34.prompt.txt",
+        "sha256": "655ea2fb89ec1a87f945ac316a55b5941bb9d9702211780aa84515bd8e00ea8e"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\project-02.s5.prompt.txt",
+        "sha256": "2e3ad4b7cb28d3a5b9a65e49b450bc7fb4e2e8a029ee800e689df253004c7dbc"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\project-02.pre-s5.json",
+        "sha256": "af7b301aef03ae2f092acdd52de0551d9f31f9c91539fd82678e607cdf836780"
+      }
+    }
+  ],
+  "working_result": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\32\\provider-working.json"
+}

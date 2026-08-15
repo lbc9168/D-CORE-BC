@@ -1,0 +1,412 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：协鑫将在沙特建首家硅料工厂！光伏企业中东掘金，终成澎湃之势！
+发布日期：2023-09-07 13:08:03
+来源：https://news.goalfore.cn/topstories/detail/46581.html
+正文：
+中东的光伏机会究竟有多大？
+如果只是简单地认为中东国家有钱任性、是我们重要的出口对象之一，那很可能流于表面和片面了。
+从海外大市场角度，
+赶碳号认为，中国光伏出口的不确定其实在加大：
+欧洲增长放缓，印度已然生变，北美政策风险有增无减，澳洲拉美逐渐饱和，非洲尚难形成气候。我们未来最重要的增长极，很可能就是中东——虽然目前的绝对值还不算大。
+从全球产业深耕角度，
+中东有可能是成为继东南亚之后的另外一个主战场。就像我们在过去40年中所经历的、跨国公司在中国的发展路径一样：全球化的初级阶段都是从产品营销开始，接下来是生产制造的全球化，最后才是研发设计以及管理运营的全球化，从易到难，由浅入深。
+对于光伏企业而言，停留在产品行销全球的初级阶段，显然是不行的。我们必须要从产能、研发、管理等层面，谋篇布局全球化。赶碳号认为，可以从中东开始尝试。
+0
+1
+我国首家海外硅料工厂，或将花落沙特
+据彭博最新消息，协鑫联合首席执行官兰天石在接受彭博电视主持人David Ingles专访时表示，公司正在寻求在中东国家建造一家工厂，年产量为 12 万吨，并计划最早于2025年投产。
+兰天石表示，“沙特阿拉伯拥有成熟的基础设施和工业制造经验。”他补充说，该国充足的阳光可以支持其从石油大国向太阳能生产国的转型。
+兰天石不久前在香港表示，协鑫也在考虑在其他国家建立前哨基地，比如柬埔寨。不过，沙特阿拉伯显然更具优势。目前，协鑫在沙特阿拉伯已取得一些积极进展，该公司已在沙特启动了注册程序，在当地部署了约12人的现场团队，积极与当地政府和皇家委员会开展沟通合作。
+这一重要进展是在习近平主席于2022年12月访问利雅得之后取得的，这次访问的重点是扩大中国与沙特阿拉伯之间的能源合作。访问期间，两国领导人讨论了投资机会并探讨了地区和国际发展中的共同利益。
+今年8月24日，金砖国家领导人第十五次会议宣布，邀请沙特、埃及、阿联酋、阿根廷、伊朗、埃塞俄比亚正式成为金砖大家庭成员。这也进一步凸显了中沙两国间不断增长的能源合作。
+据彭博社报道，兰天石已经和协鑫管理层一道前往沙特阿拉伯和卡塔尔，致力于加快项目的实施。 兰天石还表示，协
+鑫科技同时也在考虑向澳大利亚和墨西哥扩张，并借此进入北美市场。
+另据《阿拉伯新闻》（ArabNews)报道，协鑫集团与沙特阿拉伯之间的谈判，实际上已进入了后期阶段，并将之称为——“这是两国寻求将能源合作扩大到传统石油关系之外的关键举措”。
+在赶碳号看来，该项目的意义非比寻常。
+今年以来硅料价格回归正常，即使在目前的价格区间，中国光伏企业仍在进口德国瓦克的硅料。所以说，协鑫该计划如能付诸实施，将成为中国硅料企业的首度出海。而且，这还不只是硅料产品的出海，而是硅料产能的出海。
+0
+2
+沙特如何复制整条光伏产业链
+2月19日，通威集团董事局刘汉元主席与ACWA董事会主席穆罕默德·阿布纳扬座谈交流
+早在今年6月，赶碳号综合各方消息判断，沙特走马灯式地与我国多家头部光伏新能源企业密切接触，正全力推动中国光伏、储能、氢能等企业赴沙特投资建厂事宜，背后要做的大事，相当不简单。
+今年5月25日，TCL中环宣布与沙特Vision Industries Company（中文名称：愿景工业）签约，双方拟共同成立合资公司，并在沙特投资建设光伏晶体晶片工厂项目。中环也由此成为第一个布局沙特的硅片企业。
+当时，一位行业资深人士认为，沙特计划大力发展本国光伏产业，将不再局限于光伏电站这一终端应用场景，而会建立一个完整的光伏制造业体系。现在，赶碳号可以明确，当时这位消息人士，其实就是来自协鑫的一位高管。
+光伏制造四大环节——硅料、硅片、电池、组件，TCL中环在沙特的项目只是硅片这一个环节。现在，协鑫等有望在硅料领域取得突破。在不久的将来，沙特光伏制造业的每一个环节，可能都有头部光伏企业的参与——四大环节，一个都不能少。
+值得一提的是，愿景工业的股东阿布纳延（Abunayyan）在中国非常活跃，旗下的ACWA Power（沙特国际电力和水务公司）与中国多家企业有业务交流与合作。
+根据中国商务部在2019年6月发布的一则消息，沙特电力和海水淡化供应商——ACWA同意
+丝路基金
+作为合作伙伴，参股其旗下的可再生能源公司，丝路基金持股比例高达49%。
+丝路基金是由中国外汇储备、中国投资有限责任公司、中国进出口银行、国家开发银行共同出资，依照《中华人民共和国公司法》，按照市场化、国际化、专业化原则设立的中长期开发投资基金。
+2022年，ACWA与九家中国企业签署了谅解备忘录 (MOU) 协议，以支持其在沙特和“一带一路”倡议国家的项目的融资、投资和建设。
+这九家企业，由六家央国企和三家民营企业构成，分别是：
+工商银行、中国银行、国电投、南方电网、中国电建、中国能源、晶科能源、阳光电源和中来太阳能。
+我们看到，晶科能源、阳光电源等企业，最近均已在沙特斩获大单。
+今年2月，穆罕默德·阿布纳扬（左）与中国能建董事长宋海良（右）
+ACWA的董事会主席——穆罕默德·阿布纳扬，同样也是中国人的“老朋友”，他直接推动了多笔与中国企业的合作。今年上半年，穆罕默德·阿布纳扬马不停蹄，率队集中拜会了一大批中国电力企业和光伏企业：
+2月14日，拜访了中国电建；
+2月15日，会见了中建集团、哈电集团；
+2月16日，拜访了中国能建集团；
+2月17日，拜访了上海电气集团；
+2月18日，拜访了阳光电源董事长曹仁贤；
+2月19日，拜访了通威集团董事局主席刘汉元；
+2月20日，拜访了隆基绿能创始人、总裁李振国；
+2月20日，会见了上能电气……
+0
+3
+最大石油输出国的焦虑与雄心
+来源：《全球油气储量报告》
+沙特是全球第二大石油生产国，却是全球第一大石油输出国。2022年，沙特向我国出口原油8748.852万吨，交易总金额为4323.830亿元。
+“头顶一块布，全球我最富”。
+虽然如此，以化石能源立国的沙特在能源问题上却一直有着深深的焦虑，一直想摆脱对石油的路径依赖——赶碳号不得不佩服这种自我变革、自我革命的勇气。
+2016年4月，全球油价从115 美元/桶降到33美元/桶。在此背景下，由沙特王储穆罕默德·本·萨勒曼主导，该国正式发布《沙特阿拉伯2030愿景》，明确了该国未来15年的发展目标：即成为阿拉伯与伊斯兰世界的核心国家、全球投资强国、连接亚欧非三大洲的世界枢纽。
+“摆脱对油气的过度依赖，实现经济多元化发展”，是其中一项核心目标。
+“2030愿景”明确提出：到2030年可再生能源在该国能源结构中的占比将达到50%。沙特计划到2023年实现安装27.3GW的可再生能源，到2030年实现安装58.7GW可再生能源的目标，
+其中高达40GW是光伏
+。
+发力光伏，是因为沙特在太阳能资源方面，就像石油资源一样得天独厚：
+当地年均光照强度为2200-2400 kwh/m2（我国大部分地区在1400-1600 kwh/m2)。
+以沙特首都和最大城市利雅得为例，平均每年有3225小时的日照，在全球各大城市中，日照排名位列第七。
+0
+4
+来自全球的竞争对手们
+图为晶科能源与沙特电力管理团队；2023年9月，马斯达尔(Masdar)和晶科电力(香港)公司牵头的两个财团入围沙特阿拉伯两个太阳能项目的开发名单，总容量为1.5吉瓦！
+实际上，早在十几年前，中国的光伏组件、光伏逆变器等在十几年前，就已经销往沙特。
+中国企业在沙特已经参与建设开发了多个太阳能发电项目，其中包括目前全球最大的光伏电站项目。去年底，由中国能建承建的沙特阿尔舒巴赫2.6吉瓦光伏电站项目正式开工，是中东北非地区单体最大的在建光伏电站项目。
+另外，晶科能源、天合光能等企业也多次披露中标沙特光伏大单。
+天合光能N型700W系列组件输送绿色电力,助力沙特海水淡化
+此外，中国香港企业也正在展开与沙特的投资合作。恒基兆业地产联席主席兼董事总经理、李兆基之子李家杰正在押注沙特阿拉伯的绿色经济。据《华盛顿邮报》报道，李氏的燃气分销公司香港中华煤气 (Towngas) 正在研究在沙特立清洁能源制造基地的可行性。
+石油资源丰富的沙特阿拉伯利用其巨额投资资金，正在 NEOM 建设世界上最大的绿色氢工厂，这座耗资 5000 亿美元的未来大城市正在红海上建造。
+沙特阿拉伯尼奥姆八角形浮动港口城市计划，投资总额5000亿美元
+面对这样一个拥有巨大潜力的市场，来自全球其它国家的竞争者，其实也不在少数。
+9月6日，沙特投资部长哈立德·法利赫在意大利米兰宣布，意大利将成为沙特阿拉伯在能源和可持续发展领域的长期合作伙伴。
+自2022年10月就任以来，意大利总理乔治亚·梅洛尼积极寻求与海湾合作委员会（GCC）成员国建立更密切的关系。意大利将自己视为连接欧盟（EU）与中东和北非能源供应商的重要纽带。
+本周，意大利能源公司埃尼和沙特 ACWA 达成协议，
+在中东和北非合作开发绿氢项目
+。此外，意大利正在积极吸引海湾国家的主权财富基金投资一个新基金，旨在为具有战略意义的行业运营的公司提供资源，并促进重要原材料的采购和回收。
+沙特王储穆罕默德·本·萨勒曼与日本首相岸田文雄在吉达举行会谈
+今年7月16日，日本首相岸田文雄访问沙特阿拉伯，以加强与沙特在能源、日本企业商业机会等关键领域的关系，其表示：“我们将用现代技术支持沙特阿拉伯获得清洁能源。”日本非常愿意与沙特在半导体领域展开合作，并热衷于将沙特阿拉伯作为“采矿业的目的地”。
+2022年11月，沙特王储穆罕默德·本·萨勒曼访问韩国，并签订多项新能源大单。韩国贸易工业部宣布，双方已签署了 26份项目合作谅解备忘录，其中包括清洁能源开发以及沙特耗资 5000 亿美元建设高科技沙漠城市——Neom 的项目。据《首尔经济日报》报道，这些协议价值至少100万亿韩元（750 亿美元）。
+后记
+沙特是全球的最大石油输出国，中国是全球最大的石油进口国。这种核心利益的高度一致，是中沙的基本盘。双方基于此在各个领域的合作，只会越来越紧密，越来越持久。
+一句话总结：关系越紧，合作越深！起点越低，空间越大！
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-12153-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 12153,
+  "article_sha256": "eaac2134d2764d3c8a0d2778bd7783ff30b66bbd71db90229416381118601d77",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "沙特阿拉伯12万吨年产量硅料工厂项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "新能源制造业",
+        "evidence": "建造一家工厂，年产量为 12 万吨",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "建造一家工厂，年产量为 12 万吨",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "建造一家工厂，年产量为 12 万吨",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "建造一家工厂，年产量为 12 万吨",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "建造一家工厂，年产量为 12 万吨",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "建造一家工厂，年产量为 12 万吨",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "拟开发",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "沙特阿拉伯",
+        "evidence": "沙特阿拉伯",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "协鑫集团",
+        "evidence": "协鑫集团",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "协鑫集团",
+            "evidence": "协鑫集团",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "开发商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "沙特阿拉伯光伏晶体晶片工厂项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "新能源制造业",
+        "evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签约",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "沙特阿拉伯",
+        "evidence": "沙特阿拉伯",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "uncertain",
+        "value": "TCL中环;Vision Industries Company",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "TCL中环",
+            "evidence": "TCL中环",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "投资方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "协鑫拟在沙特建设12万吨年产量硅料工厂",
+      "is_power_generation_plant": false,
+      "reasoning": "具名中国企业拟建新能源制造业工厂。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "沙特阿拉伯12万吨年产量硅料工厂项目",
+            "Project Name (EN)": "Saudi Arabia 120,000-tonne Annual Polysilicon Factory Project",
+            "Country": "沙特阿拉伯",
+            "Location(State)": "",
+            "Category": "新能源制造业",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "建造一家工厂，年产量为 12 万吨",
+            "Capacity (MW)": "",
+            "Capacity Details": "年产量12万吨",
+            "Project Stage": "拟开发",
+            "Project Developer": "协鑫集团",
+            "Project Developer Evidence": "协鑫联合首席执行官兰天石",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": "2025-01-01"
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "一般合作",
+            "Project Name": "沙特阿拉伯光伏晶体晶片工厂项目",
+            "Project Name (EN)": "Saudi Arabia PV Crystal and Wafer Factory Project",
+            "Country": "沙特阿拉伯",
+            "Location(State)": "",
+            "Category": "新能源制造业",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "",
+            "Project Stage": "签约",
+            "Project Developer": "TCL中环;Vision Industries Company",
+            "Project Developer Evidence": "TCL中环宣布与沙特Vision Industries Company签约",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "协鑫集团",
+            "role": "开发商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "TCL中环",
+            "role": "投资方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {},
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/12153/base-manifest.json",
+    "dynamic": "data/runs/12153/dynamic-manifest.json",
+    "working_result": "data/runs/12153/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

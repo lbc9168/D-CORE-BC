@@ -60,7 +60,14 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     province            TEXT,
     category            TEXT,
     category_en         TEXT,
+    subcategory         TEXT,
+    subcategory_en      TEXT,
+    generation_sources  TEXT NOT NULL DEFAULT '[]',
+    storage_status      TEXT NOT NULL DEFAULT 'not_mentioned',
+    technology_tags     TEXT NOT NULL DEFAULT '[]',
+    technology_tags_en  TEXT NOT NULL DEFAULT '[]',
     capacity_mw         REAL,
+    pv_capacity_mw      REAL,
     storage_power_mw    REAL,
     storage_energy_mwh  REAL,
     capacity_source     TEXT,
@@ -75,6 +82,8 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     last_event_year     INTEGER,
     event_count         INTEGER,
     total_investment_usd REAL,
+    contract_amount_usd  REAL,
+    financing_amount_usd REAL,
     financing_model     TEXT,
     financing_model_en  TEXT,
     primary_entity      TEXT,
@@ -89,6 +98,55 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     record_type                TEXT
 )
 """
+
+_STORAGE_STATUS_PRIORITY = {
+    status: enums.storage_status_priority(status) for status in enums.valid_storage_statuses()
+}
+
+
+def _json_string_list(value) -> list[str]:
+    """把 JSON 数组或 Python 序列安全规范为去重字符串列表。"""
+    if isinstance(value, str):
+        try:
+            value = json.loads(value or "[]")
+        except (json.JSONDecodeError, TypeError):
+            return []
+    if not isinstance(value, (list, tuple)):
+        return []
+    return list(dict.fromkeys(str(item).strip() for item in value if str(item).strip()))
+
+
+def _technology_tag_en(tag: str) -> str:
+    """从根枚举翻译受控技术标签，未知历史值原样返回。"""
+    return enums.technology_tag_en(tag) or tag
+
+
+def _project_energy_fields(proj: dict, sorted_events: list[dict]) -> tuple[list[str], str, list[str], list[str]]:
+    """聚合事件能源事实并读取已批准的 canonical 技术标签，兼容旧 schema。"""
+    sources: list[str] = []
+    statuses: list[str] = []
+    status_column_present = any("storage_status" in event for event in sorted_events)
+    for event in sorted_events:
+        sources.extend(_json_string_list(event.get("generation_sources_json")))
+        status = str(event.get("storage_status") or "").strip()
+        if status in _STORAGE_STATUS_PRIORITY:
+            statuses.append(status)
+    sources = list(dict.fromkeys(sources))
+    status = max(statuses, key=_STORAGE_STATUS_PRIORITY.__getitem__) if statuses else "not_mentioned"
+    if not status_column_present and any(
+        event.get("storage_power_mw") is not None or event.get("storage_energy_mwh") is not None
+        for event in sorted_events
+    ):
+        status = "confirmed"
+    tags = _json_string_list(proj.get("technology_tags_json"))
+    return sources, status, tags, [_technology_tag_en(tag) for tag in tags]
+
+
+def _export_subcategory(category: str, subcategory) -> Optional[str]:
+    """仅导出项目形态子类；综合能源旧“光储/其他”子类不再进入消费层。"""
+    if enums.category_code(category) != "PV":
+        return None
+    return enums.effective_subcategory(category, subcategory)
 
 
 def _stage_rank(stage: str) -> int:
@@ -201,6 +259,22 @@ def build_flat(
                 capacity_source = ev.get("capacity_source")
                 break
 
+        # 储能独立选值：capacity_mw 全空的项目（如纯储能）也要带出 storage_*（同事件成对取）
+        if storage_power_mw is None and storage_energy_mwh is None:
+            for ev in sorted_events:
+                if ev.get("storage_power_mw") is not None or ev.get("storage_energy_mwh") is not None:
+                    storage_power_mw = ev.get("storage_power_mw")
+                    storage_energy_mwh = ev.get("storage_energy_mwh")
+                    if capacity_source is None:
+                        capacity_source = ev.get("capacity_source")
+                    break
+
+        # 光伏子项装机（综合能源项目）：终态优先第一个非空事件
+        pv_capacity_mw: Optional[float] = next(
+            (ev.get("pv_capacity_mw") for ev in sorted_events if ev.get("pv_capacity_mw") is not None),
+            None,
+        )
+
         # timeline_notes：按日期升序，格式"签约: 2022-03 → 开工: 2023-06"
         timeline_notes = ""
         if len(proj_events) > 1:
@@ -270,12 +344,26 @@ def build_flat(
 
         category     = proj.get("category") or ""
 
-        # 无装机容量意义的类别：清空容量与储能字段
-        if enums.is_no_capacity(category):
-            capacity_mw = None
+        # 子类只承载项目形态；综合能源的旧“光储/其他”组合信息改由 technology_tags 表达。
+        _sub = _export_subcategory(category, proj.get("subcategory"))
+        generation_sources, storage_status, technology_tags, technology_tags_en = (
+            _project_energy_fields(proj, sorted_events)
+        )
+
+        # 新口径只允许 confirmed 储能事实携带确定 MW/MWh；旧 schema 由上方兼容逻辑推断 confirmed。
+        if storage_status != "confirmed":
             storage_power_mw = None
             storage_energy_mwh = None
-            capacity_source = None
+
+        # 无装机容量意义的类别：清空容量字段；储能类（storage_metrics）保留 storage_*——
+        # 储能功率/能量正是其核心指标，仅 capacity_mw 不进装机聚合（TX/MF 继续全清）
+        if enums.is_no_capacity(category):
+            capacity_mw = None
+            pv_capacity_mw = None
+            if not enums.has_storage_metrics(category):
+                storage_power_mw = None
+                storage_energy_mwh = None
+                capacity_source = None
 
         latest_stage = latest.get("project_stage") or ""
 
@@ -291,25 +379,29 @@ def build_flat(
         ]
         financing_model = _valid_fm_events[-1].get("financing_model", "").strip() if _valid_fm_events else ""
 
-        # total_investment_usd（百万美元）：取代表(终态)事件值；为空则取最新有值事件
-        # 弃用"所有事件均值"——同一项目不同阶段披露的投资额并非可平均的同类量
-        def _inv(ev) -> Optional[float]:
-            v = bri_parse.parse_number(ev.get("total_investment_usd"))
-            return v if (v is not None and v > 0) else None
+        # 金额（百万美元）：取代表(终态)事件值；为空则取最新有值事件——三类金额同规则
+        # 弃用"所有事件均值"——同一项目不同阶段披露的金额并非可平均的同类量
+        def _pick_amount(col: str) -> Optional[float]:
+            def _val(ev) -> Optional[float]:
+                v = bri_parse.parse_number(ev.get(col))
+                return v if (v is not None and v > 0) else None
 
-        total_investment_usd = _inv(latest)
-        if total_investment_usd is None:
-            for ev in sorted(
-                proj_events,
-                key=lambda e: e.get("publish_date") or e.get("investment_date") or "",
-                reverse=True,
-            ):
-                v = _inv(ev)
-                if v is not None:
-                    total_investment_usd = v
-                    break
-        if total_investment_usd is not None:
-            total_investment_usd = round(total_investment_usd, 2)
+            picked = _val(latest)
+            if picked is None:
+                for ev in sorted(
+                    proj_events,
+                    key=lambda e: e.get("publish_date") or e.get("investment_date") or "",
+                    reverse=True,
+                ):
+                    v = _val(ev)
+                    if v is not None:
+                        picked = v
+                        break
+            return round(picked, 2) if picked is not None else None
+
+        total_investment_usd = _pick_amount("total_investment_usd")
+        contract_amount_usd = _pick_amount("contract_amount_usd")
+        financing_amount_usd = _pick_amount("financing_amount_usd")
 
         has_soe = 1 if any(e.get("is_central_soe") == 1 for e in all_entities_list) else 0
 
@@ -352,7 +444,14 @@ def build_flat(
                 "province":            province_map.get(pid),
                 "category":            category,
                 "category_en":         enums.category_en(category) or category,
+                "subcategory":         _sub or "",
+                "subcategory_en":      (enums.subcategory_en(category, _sub) or "") if _sub else "",
+                "generation_sources":  json.dumps(generation_sources, ensure_ascii=False),
+                "storage_status":      storage_status,
+                "technology_tags":     json.dumps(technology_tags, ensure_ascii=False),
+                "technology_tags_en":  json.dumps(technology_tags_en, ensure_ascii=False),
                 "capacity_mw":         capacity_mw,
+                "pv_capacity_mw":      pv_capacity_mw,
                 "storage_power_mw":    storage_power_mw,
                 "storage_energy_mwh":  storage_energy_mwh,
                 "capacity_source":     capacity_source,
@@ -369,6 +468,8 @@ def build_flat(
                 "last_event_year":     last_event_year,
                 "event_count":         len(proj_events),
                 "total_investment_usd": total_investment_usd,
+                "contract_amount_usd":  contract_amount_usd,
+                "financing_amount_usd": financing_amount_usd,
                 "financing_model":     financing_model,
                 "financing_model_en":  enums.financing_en(financing_model) or financing_model,
                 "primary_entity":      primary_entity,

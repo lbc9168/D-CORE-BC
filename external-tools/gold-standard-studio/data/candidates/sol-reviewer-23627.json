@@ -1,0 +1,205 @@
+{
+  "candidate_id": "sol-reviewer-23627",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 23627,
+  "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+  "parent_candidate_id": "terra-provider-23627",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "Maoneng and CHINT have announced their partnership at an introduction ceremony recently at the SNEC expo hosted in Shanghai by signing a term sheet to acquire and co-develop utility-scale solar projects in Australia.",
+    "confidence": 0.95,
+    "verdict": "ok",
+    "reviewer_note": "原文明确报道两方签署条款清单，拟收购并共同开发澳大利亚公用事业规模光伏项目；虽为项目管线而非单一已开工工程，仍构成有中企参与的有效项目合作记录。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 1.0,
+    "verdict": "ok",
+    "reviewer_note": "文章状态为 valid_project，本字段不适用。"
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "extracted",
+        "value": "澳大利亚至少150MWac公用事业规模光伏项目管线",
+        "evidence": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+        "confidence": 0.9,
+        "verdict": "ok",
+        "reviewer_note": "原文没有正式项目名；该名称清楚标识这是合资开发管线而非单一具名电站。"
+      },
+      "category": {
+        "value_state": "extracted",
+        "value": "光伏",
+        "evidence": "acquire and co-develop utility-scale solar projects in Australia",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "utility-scale solar projects 可归类为光伏。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "utility-scale solar projects",
+        "evidence": "utility-scale solar projects",
+        "confidence": 1.0,
+        "verdict": "ok",
+        "reviewer_note": "值为原文逐字事实。"
+      },
+      "generation_sources": {
+        "value_state": "extracted",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "utility-scale solar projects",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "发电来源由 solar projects 直接归一化得到。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "正文虽在公司介绍中泛称 CHINT 关注供储输配用，但未说明本项目管线配置储能。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "未见本项目储能功率。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "未见本项目储能能量；文末 PPA 年供电量也不是储能容量。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": "at least 150MWac by 2019; 500MWac by 2021",
+        "evidence": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+        "confidence": 1.0,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 只保留了 2019 年至少 150MWac，遗漏同一句明确给出的 2021 年 500MWac 管线目标；现已保留两个时间节点。"
+      },
+      "project_stage": {
+        "value_state": "extracted",
+        "value": "签署条款清单（最终协议尚待敲定）",
+        "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia; With the execution of the definitive agreements expected to be finalised shortly",
+        "confidence": 0.95,
+        "verdict": "wrong",
+        "reviewer_note": "仅写“签约”会弱化 term sheet 与 definitive agreements 尚未最终敲定的确定性边界，已修正为准确阶段。"
+      },
+      "country": {
+        "value_state": "extracted",
+        "value": "澳大利亚",
+        "evidence": "in Australia",
+        "confidence": 1.0,
+        "verdict": "ok",
+        "reviewer_note": "国家有直接原文依据。"
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.95,
+        "verdict": "ok",
+        "reviewer_note": "合作管线没有给出州或更具体地点；背景段落中的 South Australia 和 NSW 属于历史或其他项目，不应移植。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.9,
+        "verdict": "ok",
+        "reviewer_note": "原文的 $60m-$200m 是拟收购/共同开发项目的 enterprise value 范围，不是本管线已确认的总投资、合同额或融资额。"
+      },
+      "financing_mode": {
+        "value_state": "unknown",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.85,
+        "verdict": "ok",
+        "reviewer_note": "原文只说不局限于传统项目融资且可能采用纯商营模式，属于备选方案，并未确认最终融资模式。"
+      },
+      "project_developer": {
+        "value_state": "extracted",
+        "value": [
+          "CHINT",
+          "Maoneng"
+        ],
+        "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia",
+        "confidence": 0.95,
+        "verdict": "ok",
+        "reviewer_note": "两方均是拟共同开发方。"
+      },
+      "chinese_entities": [
+        {
+          "name": {
+            "value_state": "explicit",
+            "value": "CHINT",
+            "evidence": "CHINT",
+            "confidence": 1.0,
+            "verdict": "ok",
+            "reviewer_note": "中方实体名称为原文逐字值。"
+          },
+          "role": {
+            "value_state": "extracted",
+            "value": "拟任合资公司多数股东、共同开发方",
+            "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia; with CHINT taking a majority 60% shareholding",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "“股权投资方”容易表达成已完成投资；原文支持的是条款清单下拟持多数股权并共同开发。"
+          },
+          "ownership": {
+            "value_state": "extracted",
+            "value": "拟持有60%股权",
+            "evidence": "with CHINT taking a majority 60% shareholding",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "比例明确，但合资公司处于将要设立、最终协议尚待敲定阶段，需保留“拟持有”的确定性。"
+          }
+        }
+      ],
+      "project_summary": {
+        "value_state": "extracted",
+        "value": "CHINT与Maoneng签署条款清单，拟在澳大利亚收购和共同开发公用事业规模光伏项目。合资项目管线目标为2019年至少150MWac、2021年500MWac；CHINT拟持有合资公司60%股权，最终协议尚待敲定。",
+        "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia; The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.; with CHINT taking a majority 60% shareholding; With the execution of the definitive agreements expected to be finalised shortly",
+        "confidence": 0.95,
+        "verdict": "wrong",
+        "reviewer_note": "补入 Provider 遗漏的 2021 年 500MWac 目标，并明确最终协议尚未敲定，以避免把条款清单表述为已完成确定性交易。"
+      }
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": "gold_standard_studio.prompt_pack",
+    "builder_versions": {
+      "s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a",
+      "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd",
+      "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6",
+      "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    },
+    "rendered_prompts": {
+      "s1": "cd997674b8fe894fad44cee78b91d97201229b175c9032b458458f7d4bd94d8c",
+      "s2": "8d54ec06ff2efdff2738f2215775f5d1a46b6a8998faefc389ae78504f63e7c2",
+      "s34_project_01": "22d17c24ea5adb63b16968cdba68f2ecd96d7e021d95efc7353aa09f2731b359",
+      "s5_project_01": "789d121a6ccb448184e95d31e71afcfb1f992f09fa32475e72978e1e235fadde"
+    },
+    "reviewer_prompt": {
+      "path": "data/runs/23627/reviewer.prompt.txt",
+      "sha256": "88b5e50b146baa6800fd9edd6180dc26e0ca3576cb4831a083105f03454da3bf"
+    },
+    "provider_artifact": {
+      "path": "data/candidates/terra-provider-23627.json",
+      "candidate_id": "terra-provider-23627",
+      "sha256": "b110950c3f9368c8959d63b20179e811fbbb1fdc48f72a9d3f79b7ac865cf9c6"
+    }
+  }
+}

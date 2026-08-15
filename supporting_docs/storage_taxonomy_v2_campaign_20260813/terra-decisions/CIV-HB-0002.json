@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CIV-HB-0002",
+  "package_sha256": "8227ba9957d33851023198ba20b74e470d1fe570d2371bfefa55b1ac0fdcfcb2",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 5,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+        "surface": "body",
+        "quote": "此项目客户是希腊领先的综合可再生能源企业，长期致力于太阳能、风能等清洁能源项目的开发与运维。此次合作充分体现了国际市场对海博思创技术实力与服务能力的高度认可。\n爱沙尼亚、立陶宛\n进军波罗的海，强化区域调节能力\n海博思创在爱沙尼亚、立陶宛相继落地7MWh、20MWh、5MWh电网侧储能项目\n，提供储能系统设备，为波罗的海地区能源转型注入新"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+        "surface": "body",
+        "quote": "海博思创在EMEA（欧洲、中东、非洲）储能市场实现重要突破，接连\n在希腊、爱沙尼亚、立陶宛、科特迪瓦与津巴布韦五国新增储能项目\n，以定制化解决方案精准对接区域能源需求，进一步完善全球化战略布局，为当地能源结构转型注入强劲动力。\n希腊\n签约45MWh 项目，叩开南欧市场大门\n海博思创与希腊客户正式签署45MWh电网侧独立储"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CIV-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 5,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "5MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+          "surface": "body",
+          "quote": "此项目客户是希腊领先的综合可再生能源企业，长期致力于太阳能、风能等清洁能源项目的开发与运维。此次合作充分体现了国际市场对海博思创技术实力与服务能力的高度认可。\n爱沙尼亚、立陶宛\n进军波罗的海，强化区域调节能力\n海博思创在爱沙尼亚、立陶宛相继落地7MWh、20MWh、5MWh电网侧储能项目\n，提供储能系统设备，为波罗的海地区能源转型注入新"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+          "surface": "body",
+          "quote": "海博思创在EMEA（欧洲、中东、非洲）储能市场实现重要突破，接连\n在希腊、爱沙尼亚、立陶宛、科特迪瓦与津巴布韦五国新增储能项目\n，以定制化解决方案精准对接区域能源需求，进一步完善全球化战略布局，为当地能源结构转型注入强劲动力。\n希腊\n签约45MWh 项目，叩开南欧市场大门\n海博思创与希腊客户正式签署45MWh电网侧独立储"
+        }
+      ]
+    }
+  ]
+}

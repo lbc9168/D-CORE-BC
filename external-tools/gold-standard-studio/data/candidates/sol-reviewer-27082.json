@@ -1,0 +1,45 @@
+{
+  "candidate_id": "sol-reviewer-27082-pilot-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 27082,
+  "article_sha256": "68c79b1a2f8bda342f146e5defb65323bfc4db095f44f7c7d5ca79254ba5e7b6",
+  "parent_candidate_id": "terra-provider-27082-pilot-v1",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "no_chinese_participation",
+    "evidence": "股权结构是 TotalEnergies 持65%、 Nextnorth 持35%。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "正文明确是440MWp光伏项目，但项目股东、贷款银行、购电方和平台参与方均未显示中国实体参与。"
+  },
+  "non_project_reason": {
+    "value_state": "explicit",
+    "value": "真实光伏项目，但正文披露的开发商、股东及融资银行均非中国企业",
+    "evidence": "放款的是三家纯商业银行：日本住友三井银行（SMBC）、荷兰国际集团（ING）、渣打银行（SCB）。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "末尾对中国企业的三项建议是泛化分析，不构成任何中国企业参与伊莎贝拉项目的事实。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "reviewer_manifest": "data/runs/27082/reviewer-manifest.json",
+    "reviewer_prompt": "data/runs/27082/reviewer.prompt.txt",
+    "reviewer_prompt_sha256": "fae5497a5fef745dc9138143a4f2ae7fcf25875a74d02305de5a5dcde6cad445",
+    "parent_candidate_id": "terra-provider-27082-pilot-v1",
+    "parent_candidate_sha256": "8b5bdbe0d66efa9d113202bfecde1e4cc339a18db96d6a982961255c2d8f403b"
+  },
+  "verdict_summary": {
+    "overall_verdict": "pass",
+    "article_status_correct": true,
+    "project_count_correct": true,
+    "reviewed_project_count": 0,
+    "critical_field_corrections": 0,
+    "summary": "S1确认真实光伏项目后，应因无中国参与短路，projects为空。"
+  },
+  "warnings": [
+    "TotalEnergies、Nextnorth、SMBC、ING、SCB、AdventEnergy、PrimeRES和Masdar均不是正文中的中国参与实体。",
+    "对中国可再生能源投资企业的建议不等于中国企业参与本项目。",
+    "13.5TWh是20年总发电量，不是装机容量或储能容量。"
+  ]
+}

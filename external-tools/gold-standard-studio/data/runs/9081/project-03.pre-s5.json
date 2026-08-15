@@ -1,0 +1,28 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国西电",
+      "role": "总承包商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "230千伏",
+    "Category": "输变电建设",
+    "Country": "孟加拉国",
+    "Energy Composition Evidence": "MRSML钢厂230千伏变电站总包项目",
+    "Generation Sources": [],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "孟加拉MRSML钢厂230千伏变电站总包项目",
+    "Project Name (EN)": "Bangladesh MRSML Steel Plant 230kV Substation EPC Project",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

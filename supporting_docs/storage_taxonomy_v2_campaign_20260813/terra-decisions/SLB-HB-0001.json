@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SLB-HB-0001",
+  "package_sha256": "74bc7e1157fa09e417bb5c706ca5cf9a4707a07ffeb745655166059f0f4f29ce",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91998.html",
+        "surface": "title",
+        "quote": "应收卖断出表！中国信保助力所罗门金矿配套光储工程融资落地"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91998.html",
+        "surface": "body",
+        "quote": "近日，中国信保成功为江西省水利水电建设集团有限公司承建的所罗门群岛金岭金矿配套光储工程项目出具了出口延付合同再融资保险（创新模式）保单，并携手中国进出口银行、中国建设银行实现绿色融资落地。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SLB-HB-0001-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91998.html",
+          "surface": "title",
+          "quote": "应收卖断出表！中国信保助力所罗门金矿配套光储工程融资落地"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91998.html",
+          "surface": "body",
+          "quote": "近日，中国信保成功为江西省水利水电建设集团有限公司承建的所罗门群岛金岭金矿配套光储工程项目出具了出口延付合同再融资保险（创新模式）保单，并携手中国进出口银行、中国建设银行实现绿色融资落地。"
+        }
+      ]
+    }
+  ]
+}

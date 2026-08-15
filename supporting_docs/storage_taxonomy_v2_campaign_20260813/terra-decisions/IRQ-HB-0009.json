@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IRQ-HB-0009",
+  "package_sha256": "7a15aea63dce7e022bda0bf6c681f8359a5836c686ae0f50205df02f2e8c4a2d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package describes a manufacturing/processing facility rather than a generation project",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82110.html",
+        "surface": "body",
+        "quote": "2025年4月13日，双方签订伊拉克SCP一线烧成升级改造项目合同，迈出生产线技改合作的第一步。\nPART 02履约回顾\n始于初心，成于笃行。苏州中材与MASS近二十年的合作历程中，坚持以信任为纽带、以目标为灯塔，共建设了SCP 3×5300t/d水泥生产线、苏丹Alsalam 2500t/d水泥生产线、杜胡克电厂等重大工程项目，共同开创了生产线运维服务模"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IRQ-HB-0009-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82110.html",
+          "surface": "body",
+          "quote": "2025年4月13日，双方签订伊拉克SCP一线烧成升级改造项目合同，迈出生产线技改合作的第一步。\nPART 02履约回顾\n始于初心，成于笃行。苏州中材与MASS近二十年的合作历程中，坚持以信任为纽带、以目标为灯塔，共建设了SCP 3×5300t/d水泥生产线、苏丹Alsalam 2500t/d水泥生产线、杜胡克电厂等重大工程项目，共同开创了生产线运维服务模"
+        }
+      ]
+    }
+  ]
+}

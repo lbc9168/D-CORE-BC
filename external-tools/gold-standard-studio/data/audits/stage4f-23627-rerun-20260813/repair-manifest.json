@@ -1,0 +1,12 @@
+{
+  "article_id": 23627,
+  "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+  "draft_revision_after": 24,
+  "draft_revision_before": 23,
+  "provider_candidate_id": "terra-provider-23627",
+  "provider_sha256": "b110950c3f9368c8959d63b20179e811fbbb1fdc48f72a9d3f79b7ac865cf9c6",
+  "repair": "stage4f-23627-s1-final-consistency-rerun",
+  "review_db_backup_sha256": "712523114a0c32454882d178960a92c508ba7baa655ab678352e326860679032",
+  "reviewer_candidate_id": "sol-reviewer-23627",
+  "reviewer_sha256": "b73f1c7f29e800131f7cef49f3b270599acac1c11a23a21da612b0f85f2ec554"
+}

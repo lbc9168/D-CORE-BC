@@ -1,0 +1,213 @@
+{
+  "candidate_id": "sol-reviewer-1586-pilot-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 1586,
+  "article_sha256": "d34ac3e0e0d68af902d37f210249053b90a6335ec129bc26c59c5367e1592515",
+  "parent_candidate_id": "terra-provider-1586-pilot-v1",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "valid_project",
+    "evidence": "近日，全球领先的风机制造商明阳智慧能源集团股份公司（以下简称“明阳智能”）宣布，拟投资15亿英镑（折合人民币超142亿元），在苏格兰建设英国最大、也是首个全产业链一体化风电机组制造基地。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文明示中国企业拟投资建设新能源装备制造项目。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "文章属于有效项目，非项目原因不适用。"
+  },
+  "projects": [
+    {
+      "project_key": "project_1_uk_ardersier_manufacturing",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "明阳智能拟建设英国首个全产业链一体化风电机组制造基地。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文描述了有投资、选址和分期建设安排的具体基地。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "英国苏格兰风电机组制造基地项目（阿德赛尔港为首选址）",
+        "evidence": "目前，项目已进入选址最终阶段，位于因弗内斯附近的阿德赛尔港成为首选地点。",
+        "confidence": 0.96,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 将首选地点写成确定项目地址；已保留其尚未最终定址的限定。"
+      },
+      "project_name_en": {
+        "value_state": "derived_from_explicit",
+        "value": "United Kingdom Scotland Wind Turbine Manufacturing Base Project (Ardersier Port preferred site)",
+        "evidence": "位于因弗内斯附近的阿德赛尔港成为首选地点。",
+        "confidence": 0.9,
+        "verdict": "wrong",
+        "reviewer_note": "英文名同步补充 preferred site，避免把候选址表述为最终地址。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "新能源制造业",
+        "evidence": "第一阶段，建设风机机舱和叶片制造工厂",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "制造业事实明确；最终 taxonomy 应由确定性 policy 派生。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "风机机舱和叶片制造工厂；风电机组全产业链一体化制造基地",
+        "evidence": "第一阶段，建设风机机舱和叶片制造工厂",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原始制造对象得到正文直接支持。"
+      },
+      "generation_sources": {
+        "value_state": "not_applicable",
+        "value": [],
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "这是装备制造基地而非发电项目。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": "not_mentioned",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "末段政策背景中的储能不是本项目配置。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "本制造项目不适用。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "本制造项目不适用。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "文中的风机订单和市场装机统计均非本基地发电容量。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "拟开发",
+        "evidence": "目前，项目已进入选址最终阶段，位于因弗内斯附近的阿德赛尔港成为首选地点。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "选址尚未最终完成，拟开发准确。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "英国",
+        "evidence": "在苏格兰建设英国最大、也是首个全产业链一体化风电机组制造基地。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "国家明确。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "苏格兰因弗内斯附近的阿德赛尔港（首选地点）",
+        "evidence": "目前，项目已进入选址最终阶段，位于因弗内斯附近的阿德赛尔港成为首选地点。",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "已明确保留首选地点限定。"
+      },
+      "investment": {
+        "value_state": "explicit",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": "拟投资15亿英镑（折合人民币超142亿元）",
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "拟投资15亿英镑（折合人民币超142亿元）",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "保留原币种原文，不臆造美元换算。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "商业磋商不等于已确定融资模式。"
+      },
+      "project_developer": {
+        "value_state": "explicit",
+        "value": "明阳智慧能源集团股份公司",
+        "evidence": "明阳智慧能源集团股份公司（以下简称“明阳智能”）宣布，拟投资15亿英镑（折合人民币超142亿元），在苏格兰建设英国最大、也是首个全产业链一体化风电机组制造基地。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "投资建设主体明确。"
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "未给出开工日期。"
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.95,
+        "verdict": "ok",
+        "reviewer_note": "2028年底是首批产品下线时间，不等同项目整体完工日期。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "明阳智慧能源集团股份公司",
+            "evidence": "明阳智慧能源集团股份公司（以下简称“明阳智能”）宣布，拟投资15亿英镑（折合人民币超142亿元），在苏格兰建设英国最大、也是首个全产业链一体化风电机组制造基地。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "中国参与实体明确。"
+          },
+          "role": {
+            "value_state": "derived_from_explicit",
+            "value": "股权投资方",
+            "evidence": "明阳智能此次对外投资将分三个阶段进行",
+            "confidence": 0.92,
+            "verdict": "ok",
+            "reviewer_note": "对外投资并自建基地支持投资方角色。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "英国制造基地作为一条主项目；意大利制造基地与Med Wind供货属于背景项目，不合并。",
+        "evidence": "就在今年8月上旬，明阳智能、意大利开发商Renexia和意大利商业与制造业部部长Adolfo Urso三方签署谅解备忘录，目的是在意大利建立风机组件生产基地，并为Renexia的Med Wind浮式海上风电项目提供18.8MW浮式风机。",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "历史背景项目地域、事件均不同，应排除而非拆入当前记录。"
+      },
+      "project_summary": "中国企业明阳智慧能源集团股份公司拟投资在英国苏格兰建设风电机组制造基地，阿德赛尔港仅为当前首选地点。项目类别事实为新能源装备制造，处于拟开发阶段，正文未披露制造产能。"
+    }
+  ],
+  "prompt_manifest": {
+    "reviewer": "data/runs/1586/reviewer-manifest.json",
+    "prompt_sha256": "fec1661f2fd85ab2b8ba89b1a46e0909baa09695a98675430e668146fee249fc"
+  }
+}

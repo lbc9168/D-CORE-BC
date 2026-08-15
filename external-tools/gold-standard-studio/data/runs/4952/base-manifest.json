@@ -1,0 +1,45 @@
+{
+  "article_id": 4952,
+  "article_sha256": "b1e0a15148bbc591f0847eb6125d0cfa8298aa8f1de6e34c0e8b567e0b41bc8d",
+  "article_snapshot": {
+    "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\4952\\article.json",
+    "sha256": "4c7792ca897273891333713636d99eb66873caeb3a68414bb6e10f2e7b7824d3"
+  },
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "cohort": "stage-4e-40-v1",
+  "execution_order": [
+    "s1",
+    "s2",
+    "s34[]",
+    "s5[]"
+  ],
+  "prompts": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\4952\\s1.prompt.txt",
+      "sha256": "c4667178c39db263b588e5683bc4fa46d21ed8071048534590e34c4a028aa6da"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\4952\\s2.prompt.txt",
+      "sha256": "03ca26db4293197ce59967b893a1f859fa7b7c2ff618c28f3a843bca311b840c"
+    }
+  },
+  "provider_model": "gpt-5.6-terra",
+  "split": "challenge"
+}

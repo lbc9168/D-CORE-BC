@@ -1,0 +1,68 @@
+{
+  "s1_output": {
+    "status": "valid_project",
+    "project_subject": "明阳智能拟在英国苏格兰建设全产业链一体化风电机组制造基地",
+    "is_power_generation_plant": false,
+    "reasoning": "第一步命中新能源装备制造业；第二步明确点名中国企业明阳智能作为投资建设方，因此为 valid_project。"
+  },
+  "s2_output": {
+    "projects": [
+      {
+        "project_summary": "",
+        "in_scope": true,
+        "out_of_scope_reason": "",
+        "common_info": {
+          "Record Type": "具体项目",
+          "Project Name": "英国苏格兰阿德赛尔港风电机组制造基地项目",
+          "Project Name (EN)": "Ardersier Port Wind Turbine Manufacturing Base Project, Scotland, United Kingdom",
+          "Country": "英国",
+          "Location(State)": "苏格兰因弗内斯附近阿德赛尔港",
+          "Category": "新能源制造业",
+          "Generation Sources": [],
+          "Storage Status": "not_mentioned",
+          "Storage Power": "",
+          "Storage Energy": "",
+          "Energy Composition Evidence": "全产业链一体化风电机组制造基地",
+          "Capacity (MW)": "",
+          "Capacity Details": "",
+          "Project Stage": "拟开发",
+          "Project Developer": "明阳智慧能源集团股份公司",
+          "Project Developer Evidence": "明阳智慧能源集团股份公司宣布，拟投资15亿英镑",
+          "(Planned) Start Date": "",
+          "(Planned) Complete Date": ""
+        }
+      }
+    ]
+  },
+  "s34_outputs": [
+    {
+      "chinese_entities": [
+        {
+          "Implementing Chinese Entity": "明阳智慧能源集团股份公司",
+          "Subsidiary Name": "",
+          "Type of involvement of Chinese Entities": "股权投资方",
+          "Subcontract Amount (Million USD)": "",
+          "equipment_role": "未提及",
+          "equipment_items": "",
+          "equipment_supply_scope": ""
+        }
+      ],
+      "Total Project Investment Raw": "拟投资15亿英镑（折合人民币超142亿元）",
+      "Total Project Investment (Million USD)": "",
+      "Contract Amount Raw": "",
+      "Contract Amount (Million USD)": "",
+      "Financing Amount Raw": "",
+      "Financing Amount (Million USD)": "",
+      "Investment (or Financial Close) Date": "",
+      "Financing Model": "Unknown",
+      "Financing Model Details": "",
+      "Additional Remarks": "已与英国政府和苏格兰政府深入讨论，并与英国国家能源公司、国家财富基金、苏格兰国家投资银行、英国王室地产署以及英国出口信贷署进行了商业磋商；正文未说明已落实的融资。"
+    }
+  ],
+  "s5_outputs": [
+    {
+      "project_summary": "中国企业明阳智慧能源集团股份公司拟投资在英国苏格兰阿德赛尔港建设风电机组制造基地，项目类别为新能源制造业。项目处于拟开发阶段，正文未披露制造产能。",
+      "corrections": []
+    }
+  ]
+}

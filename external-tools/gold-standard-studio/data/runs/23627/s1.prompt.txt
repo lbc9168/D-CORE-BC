@@ -1,0 +1,55 @@
+你是一个能源新闻相关性审核专家。请按下面的【两步决策】判断这篇新闻，只输出三选一结论。**不要提取项目明细。**
+
+文章发布日期：2019-06-11 07:13:47
+文章标题：正泰与茂能签署澳大利亚150MW光伏项目
+文章正文：
+Maoneng and CHINT have announced their partnership at an introduction ceremony recently at the SNEC expo hosted in Shanghai by signing a term sheet to acquire and co-develop utility-scale solar projects in Australia.
+The parties will be establishing a joint venture company in Australia, with CHINT taking a majority 60% shareholding and Maoneng having a 40% shareholding. Maoneng and CHINT are looking to acquire and co-develop projects with an enterprise value between $60m-$200m. The parties will not be restricted to traditional project finance in developing the projects, and may seek to develop projects on a pure merchant basis. The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.
+At the conference, Mr. Morris Zhou, CEO and Chairman of Maoneng and Dr. Chuan Lu, CEO of CHINT have shared their ambition towards building a renewable future for Australia with the development of large scale renewable energy infrastructure.
+"We are delighted to partner with CHINT to achieve our ambition of a renewable energy future for Australia. Maoneng has been a key player in the renewable infrastructure development Australian market for many years and CHINT has been a key player in EPC, module supply and project development in the Chinese market, and as such there are strong synergies between the two companies. We look forward to playing a big part in Australia's transition towards a cleaner and renewable energy future," explained Mr. Morris Zhou at the conference.
+"We are very glad that our capability in production and downstream businesses has been well recognized from Maoneng. Maoneng plays an important role in Australian Solar market and the partnership between two companies also marks a new milestone for both parties. We will put more efforts together with Maoneng in developing the Australian market." Commented by Dr. Lu, Chuan, the CEO of CHINT Solar/Astronergy.
+With the execution of the definitive agreements expected to be finalised shortly, Maoneng and CHINT's strong alliance will benefit Australia's energy industry as a whole and keep the country on track to generate 50% of its energy consumption with renewables by 2050.
+About CHINT
+Founded in 1984, CHINT is a publicly listed tier-1 solar panel manufacturer and EPC Contractor, and has developed a business network in over 140 countries and regions with more than 30,000 employees.
+CHINT has a track record of developing projects in Australia, having developed 68MW of solar farms in South Australia and worked on project pipeline at 400MW in total.
+Focusing on energy system of supply, storage, transmission, allotment and consumption, CHINT's core businesses are clean energy, energy allotment, big data and energy value-added services.
+CHINT is ranked top 50 Asian Listed Companies and top 100 China Private Enterprises.
+About Maoneng
+Maoneng is an Australian-Chinese developer, owner and operator of renewable power generation assets. With a development pipeline of over 1 GW of solar farms within Australia, Maoneng sells energy and large-scale generation certificates to Australian businesses and governments through a combination of medium and long-term contracts.
+Maoneng commissioned a 13MW solar farm developed under the ACT Government's Reverse Solar Auction scheme in November 2016 and is currently leading the development of Sunraysia 255MWp Solar Farm.
+Set to be Australia's largest single-phase solar farm construction, the project is scheduled for completion in December 2019. Maoneng reached financial close on this project in October 2018, securing equity investment from publicly listed infrastructure fund, John Laing plc, and debt financing from 5 international banks, namely, ING, Mizuho, Nord LB, NAB and Bank of China.
+In December 2017, Maoneng entered into a PPA with AGL Energy and UNSW to supply respectively up to 800,000 MWh and 124,000MWh of renewable energy per annum for 15 years. A portion of the PPA entered into with AGL Energy will be allocated towards the Sunraysia Solar Farm while the balance will be allocated to the next most suitable project within Maoneng's development portfolio in NSW.
+(内容截断)
+
+### 两步决策（务必严格按顺序）
+
+**第一步：这篇新闻是否属于以下三类「录入范围」之一？**（含为其招标/拍卖/签约/中标/建设/供货/投融资/并网等任一环节）
+- ① **发电项目（不限燃料/类型）**：光伏、风电、水电、储能、火电、煤电、燃气发电、核电、生物质、地热、综合能源等任何发电厂/电站。
+- ② **新能源制造业**：以产能计的**新能源装备工厂**——光伏组件厂、电池厂、光伏板/多晶硅厂、新能源装备产业园等（判别线索：产出以「GW/年」「万吨/年」计；这类**不发电**但属录入范围，**不要**当成普通工业园区排除掉）。⚠️ 仅限**新能源装备/材料**产能；矿产/化肥/化工品/冶金/建材产品（钾肥、锂盐、氧化铝、甲醇、水泥、钢铁等）的「万吨/年」产能**不属于**新能源制造业，也不在录入范围。
+- ③ **输变电/电网工程**：输电线路、变电站、电网改造、升压站等。
+- 命中①②③任一 → 进第二步。若属于以下情形（**不在范围**）→ 直接 status = "irrelevant"（**与是否有中企无关**）：
+  1. 非发电的基建/民用/用电户：学校、医院、机场、铁路、港口、灌溉、供水管网、住宅、数据中心、（不以产能计的）普通工业园区本身等。例外：「为其配套自建的发电电站」本身进第二步。
+  2. 油气/矿业的非发电环节：油气田开采、炼油炼化、油气管道、LNG 接收/储运站、采矿、冶炼等本身不发电的环节，以及**矿产/化肥/化工/冶金/建材产品的开采、生产与加工本身**（钾肥/钾盐矿、锂矿、铜金矿、氧化铝、甲醇、水泥、钢铁等，即使以「万吨/年」计产能）。例外：燃气电厂、煤电厂、核电厂、垃圾/生物质发电厂等**发电项目**进第二步。
+  3. 仅检修/维护/改造既有设施且无新增装机容量。
+  4. 纯「国家/地区级总量设备供货」且**完全不指向任何具体电站/工程**。例外：连到任一可识别具体电站的供货进第二步（存疑倾向算）。
+  5. 纯评论/综述/榜单，无具体项目节点。
+  6. 纯领导访问/会议/视察且**无任何具体项目节点**。例外：含具体签约/中标/开工/并网节点（有项目名或电站）则进第二步。
+  7. **绿氢/绿氨/电解水制氢项目**：仅当正文明确给出为其供电的**可再生能源发电种类**（光伏/风电/水电等）时才进第二步；只提「绿氢/电解」而无明确能源种类 → irrelevant。
+  8. **批量招标计划/国家能源规划/企业远期目标**：通篇仅描述"某国此轮招标 N 个地块/轮次公告本身"（未指向任何具体可识别电站）、"某国 2030 年达到 X GW 装机目标"式国家规划、或"某公司未来 X 年拟开发 X GW"式战略愿景，**不指向任何可识别单体项目** → irrelevant。⚠️ 若文章同时含具体电站名/中标具体标段，则仍进第二步（招标/中标新闻只要指向具体单体项目即照常收录）。
+- 不确定是否在范围内时，**存疑倾向算**（recall-first，宁可多收再筛）。
+
+**第二步：在这个电力/发电项目中，是否有中国企业参与？**（业主/承包商/设备商/投资方/融资方等任一）
+- 有中企且给出具体公司名 → status = "valid_project"。
+- 明确有中国企业参与（中标/承建/融资/EPC 等）但通篇未给出具体公司名 → status = "chinese_unnamed_participation"。
+- 无中企（正文无任何中国企业，或各环节参与者均非中企）→ status = "no_chinese_participation"。
+- ⚠️ **关键规则**：一篇「确是电力/发电项目、但没有中企参与」的新闻，**必须**判 "no_chinese_participation"，**绝不可**判 "irrelevant"。"irrelevant" 仅用于第一步判定的非电力主题。
+- 注意识别中方企业的简称、曾用名、子公司名（如「中材节能」属中国建材集团）。
+- 例：「该光伏项目由一家中国企业中标承建」（未点名）→ chinese_unnamed_participation；「中国电建中标」（点名）→ valid_project；「设备由中国厂商供应」但无中企主体 → 视具体情况（多为 valid_project 设备供应商或 no_chinese）。
+
+### 输出格式（严格 JSON，仅这些字段）
+{
+  "status": "valid_project | chinese_unnamed_participation | no_chinese_participation | irrelevant",
+  "project_subject": "一句话点明新闻主体（什么项目/什么主体）",
+  "is_power_generation_plant": true | false,
+  "reasoning": "判定理由：第一步命中哪条→irrelevant，或第二步有/无/未具名中企→valid/chinese_unnamed/no_chinese（简短）"
+}

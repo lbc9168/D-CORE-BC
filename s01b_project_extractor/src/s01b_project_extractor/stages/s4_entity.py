@@ -7,11 +7,12 @@ import bri_enums as enums
 from s01b_project_extractor.stages.entity_normalize import normalize_entity
 
 
-def run_s4(title: str, content: str, project_name: str, category: str, *, llm) -> list[dict]:
+def run_s4(title: str, content: str, project_name: str, category: str, *, llm,
+           technology_tags: tuple[str, ...] = ()) -> list[dict]:
     """跑 S4 抽取并对每个实体做母子公司归一；返回 chinese_entities 列表。"""
     from s01b_project_extractor.prompts.s4_entity import build_s4_prompt
     from s01b_project_extractor.knowledge import main_equipment
-    prompt = build_s4_prompt(title, content, project_name, category, main_equipment(category))
+    prompt = build_s4_prompt(title, content, project_name, category, main_equipment(category, technology_tags))
     out = llm.complete(prompt, stage="s4", json_mode=True)
     ents = out.get("chinese_entities", []) if isinstance(out, dict) else []
     for e in ents:

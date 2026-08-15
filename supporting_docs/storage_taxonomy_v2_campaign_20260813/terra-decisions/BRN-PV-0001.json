@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRN-PV-0001",
+  "package_sha256": "c034bf3b4419b6cc0e9490f82ca483ee8a35e443b141302626d17321caac698a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92867.html",
+        "surface": "body",
+        "quote": "作为文莱当前规模最大的太阳能项目，SINAR项目不仅是恒逸推进可持续发展历程中的重要里程碑，更标志着恒逸在将可再生能源深度整合到石化炼油厂运营方面迈出关键一步，同时也为文莱实现国家可再生能源目标注入强劲动力。\n中国驻文莱大使陈少春，文莱首相署部长、财政及经济部第二部长兼恒逸实业（文莱）有限公司董事会成员拿督"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRN-PV-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92867.html",
+          "surface": "body",
+          "quote": "作为文莱当前规模最大的太阳能项目，SINAR项目不仅是恒逸推进可持续发展历程中的重要里程碑，更标志着恒逸在将可再生能源深度整合到石化炼油厂运营方面迈出关键一步，同时也为文莱实现国家可再生能源目标注入强劲动力。\n中国驻文莱大使陈少春，文莱首相署部长、财政及经济部第二部长兼恒逸实业（文莱）有限公司董事会成员拿督"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-HB-0023",
+  "package_sha256": "92795703ef8bc3ec0a79d4840ccf8ffa9d30d8e1805a211cd2cdd4eaa1d14b2f",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26242.html",
+        "surface": "title",
+        "quote": "GREENISM为南非红石100MW塔式光热项目  提供完备的全厂水处理解决方案"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-HB-0023-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26242.html",
+          "surface": "title",
+          "quote": "GREENISM为南非红石100MW塔式光热项目  提供完备的全厂水处理解决方案"
+        }
+      ]
+    }
+  ]
+}

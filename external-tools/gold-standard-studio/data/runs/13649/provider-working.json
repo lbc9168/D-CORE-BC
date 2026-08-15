@@ -1,0 +1,68 @@
+{
+  "s1_output": {
+    "status": "valid_project",
+    "project_subject": "塞尔维亚潘切沃300 MW Vetrozelena风电项目投资与股权收购",
+    "is_power_generation_plant": true,
+    "reasoning": "第一步命中具名风力发电项目；第二步明确点名中国企业PowerChina Resources收购项目51%股权，故为valid_project。"
+  },
+  "s2_output": {
+    "projects": [
+      {
+        "project_summary": "",
+        "in_scope": true,
+        "out_of_scope_reason": "",
+        "common_info": {
+          "Record Type": "具体项目",
+          "Project Name": "塞尔维亚潘切沃300 MW Vetrozelena风电项目",
+          "Project Name (EN)": "Serbia Pančevo 300 MW Vetrozelena Wind Power Project",
+          "Country": "塞尔维亚",
+          "Location(State)": "潘切沃",
+          "Category": "风电",
+          "Generation Sources": ["风电"],
+          "Storage Status": "not_mentioned",
+          "Storage Power": "",
+          "Storage Energy": "",
+          "Energy Composition Evidence": "300 MW wind power project",
+          "Capacity (MW)": "300 MW",
+          "Capacity Details": "",
+          "Project Stage": "收购",
+          "Project Developer": "PowerChina Resources;CWP Europe",
+          "Project Developer Evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+          "(Planned) Start Date": "",
+          "(Planned) Complete Date": ""
+        }
+      }
+    ]
+  },
+  "s34_outputs": [
+    {
+      "chinese_entities": [
+        {
+          "Implementing Chinese Entity": "PowerChina Resources",
+          "Subsidiary Name": "",
+          "Type of involvement of Chinese Entities": "股权投资方",
+          "Subcontract Amount (Million USD)": "",
+          "equipment_role": "未提及",
+          "equipment_items": "",
+          "equipment_supply_scope": ""
+        }
+      ],
+      "Total Project Investment Raw": "",
+      "Total Project Investment (Million USD)": "",
+      "Contract Amount Raw": "",
+      "Contract Amount (Million USD)": "",
+      "Financing Amount Raw": "",
+      "Financing Amount (Million USD)": "",
+      "Investment (or Financial Close) Date": "",
+      "Financing Model": "股权融资",
+      "Financing Model Details": "PowerChina Resources收购项目51%股权，CWP Europe保留其余股权",
+      "Additional Remarks": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe"
+    }
+  ],
+  "s5_outputs": [
+    {
+      "project_summary": "中国企业PowerChina Resources收购塞尔维亚潘切沃300 MW Vetrozelena风电项目51%股权，CWP Europe保留其余股权。项目处于收购阶段。",
+      "corrections": []
+    }
+  ]
+}

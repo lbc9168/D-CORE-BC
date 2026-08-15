@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ARE-HB-0013",
+  "package_sha256": "50caf71bb215d088a259f39180ff7917d243baf6560e62b35712f038492b79f5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 0.4,
+    "storage_energy_mwh": 1,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/13964.html",
+        "surface": "title",
+        "quote": "上海电气迪拜光伏储能集成示范电站启动"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/13964.html",
+        "surface": "body",
+        "quote": "项目实施过程中，还将对当前用于迪拜项目办公室供电的柴油发电机组进行智能化改造，并将其接入新建的光储系统，把项目建设成为“光储柴”一体化的智能控制电站。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/13964.html",
+        "surface": "body",
+        "quote": "迪拜光储电站集成示范工程项目\n（一期）正式启动。这是上海电气电站集团为在建的迪拜四期光热光伏项目现场办公室配建的一套“光伏+储能”集成示范电站。光储示范电站将搭建400KW光伏发电系统，以及1MWh级上海电气电池储能系统。项目实施过程中，还将对当前用于迪拜项目办公室供电的柴油发电机组进行"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ARE-HB-0013-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 0.4,
+      "storage_energy_mwh": 1,
+      "storage_power_mw_raw": "400KW",
+      "storage_energy_mwh_raw": "1MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/13964.html",
+          "surface": "title",
+          "quote": "上海电气迪拜光伏储能集成示范电站启动"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/13964.html",
+          "surface": "body",
+          "quote": "项目实施过程中，还将对当前用于迪拜项目办公室供电的柴油发电机组进行智能化改造，并将其接入新建的光储系统，把项目建设成为“光储柴”一体化的智能控制电站。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/13964.html",
+          "surface": "body",
+          "quote": "迪拜光储电站集成示范工程项目\n（一期）正式启动。这是上海电气电站集团为在建的迪拜四期光热光伏项目现场办公室配建的一套“光伏+储能”集成示范电站。光储示范电站将搭建400KW光伏发电系统，以及1MWh级上海电气电池储能系统。项目实施过程中，还将对当前用于迪拜项目办公室供电的柴油发电机组进行"
+        }
+      ]
+    }
+  ]
+}

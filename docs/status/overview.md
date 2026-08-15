@@ -1,9 +1,21 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-07-09（数据流补 s02b 全部子步骤；单一可信源更新为 hierarchy_v2 + developer_registry；结构补 codex_review/）
+> 最后更新：2026-08-14（energy taxonomy v2.1 与 TX/MF 专用指标契约）
 
 **"一带一路"可再生能源项目数据库** —— 追踪中国企业参与的海外可再生能源项目。
 纯本地流水线（Python）+ 静态前端（React），无后端服务；主存储为 SQLite，前端消费静态 JSON/CSV。
+
+---
+
+## 当前 Git 工作区布局
+
+- 仓库根目录 `E:/Projects/BRI_RE_Database_v2` 固定检出 `main`，作为稳定代码线。
+- `.claude/worktrees/d_core_v3` 检出 `d_core_v3`（s01a2 多源爬虫开发线）。
+- `.claude/worktrees/database-refactor-expansion-aa6198` 检出
+  `claude/database-refactor-expansion-aa6198`（W30 指标、s04 与储能分类开发线）。
+- SQLite、审计 CSV、导出 JSON 等被 Git 忽略的运行数据按 worktree 分别保存；分支合并只带入
+  schema、迁移/回填脚本、测试与文档，不会自动合并数据库文件。正式更新稳定库时，必须先备份，
+  再在 `main` 上显式执行已验证的幂等迁移/回填流程。
 
 ---
 
@@ -50,12 +62,25 @@ s01a: raw_news.db
     → s02a: bri_re_database.db（主库，三表 + non_project_records）
       → s02b: 原地更新主库——实体/地点/业主归一化（implementing_entity / location_norm / project_developer）
               + 英文名回填(*_en 三列) + TX/MF 指标回填(5 稀疏列) + 剩余名称翻译（流水线 2B~2B-6）
+              + 严格储能事实回填(2B-7) → 能源分类影子快照与 CSV/JSON 差异报告(2B-8)
         →（可选 s02c: 写回验证字段）
           → s03: projects_flat + tx/mf_flat + 3 张 stats 表 → JSON/CSV
             → s04: 前端直接 fetch 静态 JSON/CSV
 ```
 
-主库为 SQLite 三表模型（`canonical_projects` / `project_events` / `chinese_entities`）+ 一张 `non_project_records` 扁平表，详见 [s02a.md](s02a.md)。
+主库为 SQLite 三表模型（`canonical_projects` / `project_events` / `chinese_entities`）+ `non_project_records`，并新增内部 `project_classification_shadow` 审计表。`energy_taxonomy_v2` 先在 shadow 记录差异；只有证据与 Terra/Sol 门禁通过的 resolved 项才写正式类别、技术标签和事件能源事实，未决项只写 `needs_review`，不会进入自动覆盖。
+
+### 2026-08-13：光储分类口径 v2 已落库
+
+- 储能不再作为发电源：单一新能源配储回归光伏/风电等主类，多种新能源才归综合能源，独立储能归储能；组合信息改由 `technology_tags_json` 表达。
+- 809 个候选完成 Terra 全量重读，789 个风险项目完成 Sol 复核；594 个 resolved 项安全应用，215 个未决项只写 shadow。resolved 正式记录中旧 `综合能源/光储|其他` 子类为 0；57 个未决旧子类保持原值，但 s03/s04 不再导出。
+- 主表/事件/实体行数保持 `4529/5365/6572`，SQLite integrity=`ok`、foreign-key errors=`0`，项目/事件/实体 ID 集合未变化。最终主库 SHA-256=`7E60276F...FA33B`。
+- Golden Standard Studio 已暂停并按旧 guideline 原样封存；未用本轮 taxonomy 静默改写 Pilot、40 篇候选或人工草稿。
+
+### 2026-08-15：封存 Gold-18 模型替换诊断
+
+- 只读复用暂停快照 18 篇 confirmed development Gold（24 项目）比较 baseline、Gemini 3.5 + DeepSeek、GPT-5.4 Nano + DeepSeek，以及 S1=Gemini 3.5/S2=Gemini 2.5/S34+S5=GPT-5.4 Nano 的混合路由；23627 未确认并排除，生产数据库/模型默认均未修改。
+- 四组均完成 18/18。混合路由状态准确率 1.0000、项目 F1 0.7843，接近 baseline 的 0.8077，并修复 14595 的严重过拆；但 1533 仍 8→11 且实体角色退化，因此保持 challenger，不切换生产默认。
 
 ---
 

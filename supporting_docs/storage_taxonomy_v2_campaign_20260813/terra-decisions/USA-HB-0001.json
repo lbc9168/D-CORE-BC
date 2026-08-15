@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "USA-HB-0001",
+  "package_sha256": "e376cabe899f7cacc0787fa8450afa39c8317aa72857aded9c904606ac132644",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 6000,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76140.html",
+        "surface": "body",
+        "quote": "作为可再生能源领域的领军企业，阿特斯将助力我们在光伏电站和储能电站项目的交付过程中实现性能目标，同时提供可再生、清洁、经济的电力。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76140.html",
+        "surface": "body",
+        "quote": "德克萨斯州的这两个储能项目总共将采用超过60个阿特斯储能（e-STORAGE）最新型号SolBank"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76140.html",
+        "surface": "body",
+        "quote": "在美国，我们已交付或正在建设的储能解决方案总量已超过6吉瓦时。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "USA-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 6000,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "6吉瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76140.html",
+          "surface": "body",
+          "quote": "作为可再生能源领域的领军企业，阿特斯将助力我们在光伏电站和储能电站项目的交付过程中实现性能目标，同时提供可再生、清洁、经济的电力。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76140.html",
+          "surface": "body",
+          "quote": "德克萨斯州的这两个储能项目总共将采用超过60个阿特斯储能（e-STORAGE）最新型号SolBank"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76140.html",
+          "surface": "body",
+          "quote": "在美国，我们已交付或正在建设的储能解决方案总量已超过6吉瓦时。"
+        }
+      ]
+    }
+  ]
+}

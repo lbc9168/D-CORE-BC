@@ -1,0 +1,182 @@
+{
+  "candidate_id": "terra-provider-260-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 260,
+  "article_sha256": "40b114bd5df4b23368583981ab289888182a2c9eb591d26d1d532ed5f5ad8688",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "尼日利亚拉各斯州OJO医院1MW光伏储能项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "综合能源",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "一套集光伏、储能、智能控制",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "一套集光伏、储能、智能控制",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "一套集光伏、储能、智能控制",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "1MW",
+        "evidence": "1MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签约",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "尼日利亚",
+        "evidence": "尼日利亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "拉各斯州",
+        "evidence": "拉各斯州",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "中节能太阳能镇江公司",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "尼日利亚OJO医院1MW光伏储能项目签约",
+      "is_power_generation_plant": true,
+      "reasoning": "医院配套自建光储发电项目且中节能太阳能镇江公司签约。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "尼日利亚拉各斯州OJO医院1MW光伏储能项目",
+            "Project Name (EN)": "OJO General Hospital 1MW Solar PV and Energy Storage Project",
+            "Country": "尼日利亚",
+            "Location(State)": "拉各斯州",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "一套集光伏、储能、智能控制",
+            "Capacity (MW)": "1MW",
+            "Capacity Details": "",
+            "Project Stage": "签约",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中节能太阳能镇江公司",
+            "role": "承包商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/260/base-manifest.json",
+    "dynamic": "data/runs/260/dynamic-manifest.json",
+    "working_result": "data/runs/260/provider-working.json"
+  }
+}

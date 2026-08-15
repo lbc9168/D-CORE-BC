@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHL-ES-0003",
+  "package_sha256": "380692979df344111a0aa3554e07b8a136abd628a801afbd4a9461aab1ed0436",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 228,
+    "storage_energy_mwh": 912,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81879.html",
+        "surface": "title",
+        "quote": "南美版图再拓展，阿特斯储能斩获智利912兆瓦时大单"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81879.html",
+        "surface": "body",
+        "quote": "2025年4月23日，全球领先的光储企业阿特斯阳光电力集团股份有限公司宣布，旗下子公司阿特斯储能科技有限公司(e-STORAGE)已与智利头部发电企业Colbún公司签订协议，将为智利阿塔卡马大区的“迭戈·德阿尔马格罗南(Diego de Almagro Sur)”项目提供228兆瓦/912兆瓦时(MW/MWh)的"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHL-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 228,
+      "storage_energy_mwh": 912,
+      "storage_power_mw_raw": "228兆瓦",
+      "storage_energy_mwh_raw": "912兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81879.html",
+          "surface": "title",
+          "quote": "南美版图再拓展，阿特斯储能斩获智利912兆瓦时大单"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81879.html",
+          "surface": "body",
+          "quote": "2025年4月23日，全球领先的光储企业阿特斯阳光电力集团股份有限公司宣布，旗下子公司阿特斯储能科技有限公司(e-STORAGE)已与智利头部发电企业Colbún公司签订协议，将为智利阿塔卡马大区的“迭戈·德阿尔马格罗南(Diego de Almagro Sur)”项目提供228兆瓦/912兆瓦时(MW/MWh)的"
+        }
+      ]
+    }
+  ]
+}

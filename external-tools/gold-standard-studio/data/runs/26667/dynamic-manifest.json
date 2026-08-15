@@ -1,0 +1,41 @@
+{
+  "article_id": 26667,
+  "article_sha256": "0bb141fe8517f72f1508dd58b542b2496ed59f17b0932074d18d75e8cb35ef0e",
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "projects": [
+    {
+      "project_index": 0,
+      "project_name": "乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期300兆瓦",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\26667\\project-01.s34.prompt.txt",
+        "sha256": "bdfbe62b5d5f5af2fe07b4dcae0e3f1596f4f7c9f1592bccc8377e60393047a2"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\26667\\project-01.s5.prompt.txt",
+        "sha256": "057cfb13baed77b24c52385aec0098632c6f31702a82c02eb4bb97f8160a71c4"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\26667\\project-01.pre-s5.json",
+        "sha256": "fe9d6465820478f24ee4f3074ee000e8de8226fda85f7ef2f170807b21263306"
+      }
+    }
+  ],
+  "working_result": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\26667\\provider-working.json"
+}

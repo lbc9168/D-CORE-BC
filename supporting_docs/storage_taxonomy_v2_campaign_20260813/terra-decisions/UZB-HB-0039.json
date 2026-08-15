@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0039",
+  "package_sha256": "a4b4ec56c512f6603bde66644887cb0d41078cbb67c7773579fab7aa810f5a8d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35391.html",
+        "surface": "title",
+        "quote": "1.73亿元！再签乌兹别克斯坦能源动力岛项目设计合同"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0039-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35391.html",
+          "surface": "title",
+          "quote": "1.73亿元！再签乌兹别克斯坦能源动力岛项目设计合同"
+        }
+      ]
+    }
+  ]
+}

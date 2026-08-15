@@ -1,0 +1,87 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MDV-HB-0007",
+  "package_sha256": "c6e5e8e15bb12035bb9337cbfb7ea600778b6d433bd285987de8c9c78bd4f333",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "水电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 4.45,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+        "surface": "body",
+        "quote": "项目计划将原有的单柴油发电系统升级改造成光柴储混能微电网系统供电，单体光伏装机量从85-450 kWp不等。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+        "surface": "body",
+        "quote": "EMS主控制器是微电网电站的核心控制设备，负责微电网内的分布式电源出力与负载电量需求的动态平衡控制，通过与柴发系统控制器、储能系统控制器、光伏发电系统控制器、风力发电系统控制器和水力发电系统控制器等模块与各系统进行通讯，实现各发电系统、储能系统、负载等系统数据采集和控制命令执行，进而保障微电网系统的安全稳定经济运行。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+        "surface": "body",
+        "quote": "使柴油发电系统和储能系统有机的结合起来，既实现了多能互补，高效绿色的运行，又保障了岛屿电力系统的安全与稳定。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+        "surface": "body",
+        "quote": "项目涵盖的30个岛总计光伏装机量6MWp, 储能装机量4.45MWh。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MDV-HB-0007-01",
+      "generation_sources": [
+        "光伏",
+        "风电",
+        "水电",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 4.45,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "4.45MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+          "surface": "body",
+          "quote": "项目计划将原有的单柴油发电系统升级改造成光柴储混能微电网系统供电，单体光伏装机量从85-450 kWp不等。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+          "surface": "body",
+          "quote": "EMS主控制器是微电网电站的核心控制设备，负责微电网内的分布式电源出力与负载电量需求的动态平衡控制，通过与柴发系统控制器、储能系统控制器、光伏发电系统控制器、风力发电系统控制器和水力发电系统控制器等模块与各系统进行通讯，实现各发电系统、储能系统、负载等系统数据采集和控制命令执行，进而保障微电网系统的安全稳定经济运行。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+          "surface": "body",
+          "quote": "使柴油发电系统和储能系统有机的结合起来，既实现了多能互补，高效绿色的运行，又保障了岛屿电力系统的安全与稳定。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54654.html",
+          "surface": "body",
+          "quote": "项目涵盖的30个岛总计光伏装机量6MWp, 储能装机量4.45MWh。"
+        }
+      ]
+    }
+  ]
+}

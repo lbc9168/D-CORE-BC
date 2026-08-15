@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AGO-HB-0005",
+  "package_sha256": "10ec9561cd698555c22a96d176c7cb9d34352df2dc4cabeb6eefccc5e8941997",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/11570.html",
+        "surface": "title",
+        "quote": "中国建材集团与安哥拉昆腾能源签约非洲地区最大光储一体化项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/11570.html",
+        "surface": "body",
+        "quote": "安哥拉光伏储能一体化电站EPC项目\n签署协议。\n该项目将成为\n安哥拉首个光储一体化项目，同时也将是非洲地区最大的光储一体化项目\n。\n项目将为安哥拉最大的国有钻石集团Endiama旗下22个钻石矿安装光伏储能一体化电站系统，以清洁可再生的太阳能发电取代当地的高成本高污染的柴油发电。\n中国建材集团"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AGO-HB-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/11570.html",
+          "surface": "title",
+          "quote": "中国建材集团与安哥拉昆腾能源签约非洲地区最大光储一体化项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/11570.html",
+          "surface": "body",
+          "quote": "安哥拉光伏储能一体化电站EPC项目\n签署协议。\n该项目将成为\n安哥拉首个光储一体化项目，同时也将是非洲地区最大的光储一体化项目\n。\n项目将为安哥拉最大的国有钻石集团Endiama旗下22个钻石矿安装光伏储能一体化电站系统，以清洁可再生的太阳能发电取代当地的高成本高污染的柴油发电。\n中国建材集团"
+        }
+      ]
+    }
+  ]
+}

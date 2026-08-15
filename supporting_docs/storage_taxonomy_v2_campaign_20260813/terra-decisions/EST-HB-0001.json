@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EST-HB-0001",
+  "package_sha256": "9c7ffc1e46491eb390a77d567a0340e10d033f0bc932fda14a6f54501dc1e110",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 21,
+    "storage_energy_mwh": 42,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91396.html",
+        "surface": "title",
+        "quote": "天合光能携手Sunly深化合作，共筑爱沙尼亚光储电站新标杆"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91396.html",
+        "surface": "body",
+        "quote": "近日，天合光能与爱沙尼亚领先的能源公司Sunly就Raba太阳能电站正式签署电池储能系统合同。根据协议，天合光能旗下天合储能将为项目提供21MW/42MWh储能系统，并采用其成熟可靠的Elementa 金刚2储能解决方案平台，以全套交流耦合解决方案形式交付。项目系统额定容量达48.88MWh，计划于2025年底前完成交付。此次签约，标志着天合一体化系统解决方案在"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EST-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 21,
+      "storage_energy_mwh": 42,
+      "storage_power_mw_raw": "21MW",
+      "storage_energy_mwh_raw": "42MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91396.html",
+          "surface": "title",
+          "quote": "天合光能携手Sunly深化合作，共筑爱沙尼亚光储电站新标杆"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91396.html",
+          "surface": "body",
+          "quote": "近日，天合光能与爱沙尼亚领先的能源公司Sunly就Raba太阳能电站正式签署电池储能系统合同。根据协议，天合光能旗下天合储能将为项目提供21MW/42MWh储能系统，并采用其成熟可靠的Elementa 金刚2储能解决方案平台，以全套交流耦合解决方案形式交付。项目系统额定容量达48.88MWh，计划于2025年底前完成交付。此次签约，标志着天合一体化系统解决方案在"
+        }
+      ]
+    }
+  ]
+}

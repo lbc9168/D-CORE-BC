@@ -1,0 +1,36 @@
+{
+  "candidate_id": "terra-provider-20872-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 20872,
+  "article_sha256": "ca709cb3b8fd088650ef4b7ce0a22b2d4c5839ae706fe9ddfa1e1f441cfeecf0",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "no_chinese_participation",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "孟加拉Summit Meghnaghat II 583MW联合循环电站融资",
+      "is_power_generation_plant": true,
+      "reasoning": "具名燃气发电项目，但文中参与者为Summit、GE及国际金融机构，未见中国企业。"
+    },
+    "s2": null,
+    "s34": [],
+    "s5": []
+  },
+  "prompt_manifest": {
+    "base": "data/runs/20872/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/20872/provider-working.json"
+  }
+}

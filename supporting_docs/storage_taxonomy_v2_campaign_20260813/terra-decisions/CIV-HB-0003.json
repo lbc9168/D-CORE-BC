@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CIV-HB-0003",
+  "package_sha256": "a1f949308129b6471342a5dd059938c9e42ab0ab0f33dfb1197ec503552d21d9",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 13,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80987.html",
+        "surface": "body",
+        "quote": "项目名称：科特迪瓦3个橡胶厂“柴光储一体化”勘测设计项目\n中标方：中国电建成都院\n项目位置：科特迪瓦西南部地区\n项目概况：科特迪瓦作为全球第三大天然橡胶生产国，产量仅次于泰国和印度尼西亚。2024年橡胶产量188万吨，近年来产量持续增长。3个橡胶厂柴光储项目位于科特迪瓦西南部地区，项目总装机容量13兆瓦+20兆瓦"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80987.html",
+        "surface": "body",
+        "quote": "项目名称：科特迪瓦3个橡胶厂“柴光储一体化”勘测设计项目\n中标方：中国电建成都院\n项目位置：科特迪瓦西南部地区\n项目概况：科特迪瓦作为全球第三大天然橡胶生产国，产量仅次于泰国和印度尼西亚。2024年橡胶产量188万吨，近年来产量持续增长。3个橡胶厂柴光储项目位于科特迪瓦西南部地区，项目总装机容量13兆瓦+20兆瓦，"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CIV-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 13,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "13兆瓦",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80987.html",
+          "surface": "body",
+          "quote": "项目名称：科特迪瓦3个橡胶厂“柴光储一体化”勘测设计项目\n中标方：中国电建成都院\n项目位置：科特迪瓦西南部地区\n项目概况：科特迪瓦作为全球第三大天然橡胶生产国，产量仅次于泰国和印度尼西亚。2024年橡胶产量188万吨，近年来产量持续增长。3个橡胶厂柴光储项目位于科特迪瓦西南部地区，项目总装机容量13兆瓦+20兆瓦"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80987.html",
+          "surface": "body",
+          "quote": "项目名称：科特迪瓦3个橡胶厂“柴光储一体化”勘测设计项目\n中标方：中国电建成都院\n项目位置：科特迪瓦西南部地区\n项目概况：科特迪瓦作为全球第三大天然橡胶生产国，产量仅次于泰国和印度尼西亚。2024年橡胶产量188万吨，近年来产量持续增长。3个橡胶厂柴光储项目位于科特迪瓦西南部地区，项目总装机容量13兆瓦+20兆瓦，"
+        }
+      ]
+    }
+  ]
+}

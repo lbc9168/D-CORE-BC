@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0008",
+  "package_sha256": "b578291ad5f412be7bcadcc4f0600c56f659b4f10f408bd6c61c891eca414898",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/58279.html",
+        "surface": "title",
+        "quote": "中国能建中电工程湖南院与安徽二联合体同业主TGE公司成功签署泰国垃圾发电项目EPC合同"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0008-01",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/58279.html",
+          "surface": "title",
+          "quote": "中国能建中电工程湖南院与安徽二联合体同业主TGE公司成功签署泰国垃圾发电项目EPC合同"
+        }
+      ]
+    }
+  ]
+}

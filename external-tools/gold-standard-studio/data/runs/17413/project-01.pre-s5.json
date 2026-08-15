@@ -1,0 +1,41 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "福建永福电力设计股份有限公司",
+      "Subcontract Amount (Million USD)": "19.443",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "EPC总承包",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Additional Remarks": "归属于本公司金额为 19,443,000美元（不含税）",
+    "Capacity (MW)": "",
+    "Capacity Details": "1 座 230kV 变电站扩建改造，2 座 138kV 变电站扩建改造",
+    "Category": "输变电建设",
+    "Contract Amount (Million USD)": "42.94255582",
+    "Contract Amount Raw": "合同总金额\n为\n42,942,555.82 美元（最终以结算金额为准）",
+    "Country": "菲律宾",
+    "Energy Composition Evidence": "",
+    "Financing Model": "其他",
+    "Financing Model Details": "企业自筹资金",
+    "Generation Sources": [],
+    "Location(State)": "维塞亚斯群岛",
+    "Project Developer": "菲律宾国家电网",
+    "Project Developer Evidence": "菲律宾国家电网（甲方）\n福建永福电力设计股份有限公司（乙方）",
+    "Project Name": "菲律宾维塞亚斯群岛变电站升级改造项目",
+    "Project Name (EN)": "Philippines Visayas Substation Upgrade Project",
+    "Project Stage": "签约",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

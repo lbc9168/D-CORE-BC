@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-XX-0006",
+  "package_sha256": "ee37a4858273c8aa0f7b77c3c5bf6e7988c57065139097b45499a782b019df8f",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/67954.html",
+        "surface": "title",
+        "quote": "中建四局印尼分公司、安装分公司接连中标英发滨淡南山工业园  高效电池EPC总承包工程等项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-XX-0006-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/67954.html",
+          "surface": "title",
+          "quote": "中建四局印尼分公司、安装分公司接连中标英发滨淡南山工业园  高效电池EPC总承包工程等项目"
+        }
+      ]
+    }
+  ]
+}

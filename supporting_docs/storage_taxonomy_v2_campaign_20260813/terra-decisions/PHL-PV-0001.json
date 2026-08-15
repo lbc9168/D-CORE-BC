@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PHL-PV-0001",
+  "package_sha256": "515c50dd2e834015ba141563a8d26697651a97e3a28bfc901b3f76afa3b8c6dc",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1050,
+    "storage_energy_mwh": 1200,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92557.html",
+        "surface": "title",
+        "quote": "湖南安装中标2个菲律宾光伏项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92557.html",
+        "surface": "body",
+        "quote": "菲律宾Terra二期1.05GWp光伏+1.2GWh储能EPC项目光伏区建筑安装工程标段一工程（G地块）"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PHL-PV-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1050,
+      "storage_energy_mwh": 1200,
+      "storage_power_mw_raw": "1.05GW",
+      "storage_energy_mwh_raw": "1.2GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92557.html",
+          "surface": "title",
+          "quote": "湖南安装中标2个菲律宾光伏项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92557.html",
+          "surface": "body",
+          "quote": "菲律宾Terra二期1.05GWp光伏+1.2GWh储能EPC项目光伏区建筑安装工程标段一工程（G地块）"
+        }
+      ]
+    }
+  ]
+}

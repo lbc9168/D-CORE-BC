@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZAF-ES-0001",
+  "package_sha256": "8640568b656358028781a7110d0ab691884b0ddefef3169c3acd24a50529ed57",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 153,
+    "storage_energy_mwh": 612,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84448.html",
+        "surface": "body",
+        "quote": "当地时间6月21日，2025年非洲能源论坛期间，中国能建与英国独立发电商Globeleq签署非洲单体规模最大电池储能电站——南非红沙153MW/612MWh电池储能项目EPC合同，实现了南非市场新突破。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZAF-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 153,
+      "storage_energy_mwh": 612,
+      "storage_power_mw_raw": "153MW",
+      "storage_energy_mwh_raw": "612MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84448.html",
+          "surface": "body",
+          "quote": "当地时间6月21日，2025年非洲能源论坛期间，中国能建与英国独立发电商Globeleq签署非洲单体规模最大电池储能电站——南非红沙153MW/612MWh电池储能项目EPC合同，实现了南非市场新突破。"
+        }
+      ]
+    }
+  ]
+}

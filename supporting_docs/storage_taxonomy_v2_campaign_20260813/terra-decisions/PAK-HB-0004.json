@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PAK-HB-0004",
+  "package_sha256": "6bf219145a1b9042dd7808f20b3720d39c38bd1a389521da2ee1e09937018f8a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 450,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26008.html",
+        "surface": "body",
+        "quote": "”整个项目的总估计成本预计为20亿美元，其中700MW的太阳能项目将需要投资4.2亿美元，500MW的风能项目为6亿美元，450MW的电池储能项目为1.13亿美元。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PAK-HB-0004-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 450,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "450MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26008.html",
+          "surface": "body",
+          "quote": "”整个项目的总估计成本预计为20亿美元，其中700MW的太阳能项目将需要投资4.2亿美元，500MW的风能项目为6亿美元，450MW的电池储能项目为1.13亿美元。"
+        }
+      ]
+    }
+  ]
+}

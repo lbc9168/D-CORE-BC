@@ -1,0 +1,40 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "CHINT",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "股权投资方",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Additional Remarks": "projects with an enterprise value between $60m-$200m",
+    "Capacity (MW)": "at least 150MWac",
+    "Capacity Details": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+    "Category": "光伏",
+    "Country": "澳大利亚",
+    "Energy Composition Evidence": "acquire and co-develop utility-scale solar projects in Australia",
+    "Financing Model": "Unknown",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "",
+    "Project Developer": "CHINT;Maoneng",
+    "Project Developer Evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects",
+    "Project Name": "澳大利亚至少150MWac公用事业规模光伏项目管线",
+    "Project Name (EN)": "Australia utility-scale solar project pipeline",
+    "Project Stage": "签约",
+    "Record Type": "一般合作",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -3,14 +3,39 @@ import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
 import { CATEGORIES, VIZ_GROUPS } from "@/types";
 import { Zap } from "lucide-react";
+import TechnologyTagBadges from "./TechnologyTagBadges";
 
 interface ProjectListProps {
   projects: Project[];
   onSelect: (project: Project) => void;
   selectedId: string | null;
+  /** storage = 储能域视图：规模标签以 MWh/MW 储能口径优先（默认发电口径 MW） */
+  variant?: "default" | "storage";
 }
 
-export default function ProjectList({ projects, onSelect, selectedId }: ProjectListProps) {
+/**
+ * 规模标签：默认口径 capacity MW（ES 项目 capacity 恒空时回退储能双指标）；
+ * storage 域口径 MWh 优先，光储项目附 PV 子项装机。
+ */
+function scaleLabel(p: Project, variant: "default" | "storage"): string | null {
+  const storageParts: string[] = [];
+  if (p.storage_power_mw != null) storageParts.push(`${p.storage_power_mw.toFixed(0)} MW`);
+  if (p.storage_energy_mwh != null) storageParts.push(`${p.storage_energy_mwh.toFixed(0)} MWh`);
+
+  if (variant === "storage") {
+    const parts: string[] = [];
+    if (p.storage_energy_mwh != null) parts.push(`${p.storage_energy_mwh.toFixed(0)} MWh`);
+    else if (p.storage_power_mw != null) parts.push(`${p.storage_power_mw.toFixed(0)} MW`);
+    if (p.pv_capacity_mw != null) parts.push(`PV ${p.pv_capacity_mw.toFixed(0)} MW`);
+    if (parts.length) return parts.join(" · ");
+    return p.capacity_mw != null ? `${p.capacity_mw.toFixed(0)} MW` : null;
+  }
+
+  if (p.capacity_mw != null) return `${p.capacity_mw.toFixed(0)} MW`;
+  return storageParts.length ? storageParts.join(" · ") : null;
+}
+
+export default function ProjectList({ projects, onSelect, selectedId, variant = "default" }: ProjectListProps) {
   const { t } = useLang();
   const { statusGroupOf } = useData();
 
@@ -64,6 +89,19 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                     {cat.en}
                   </span>
                 )}
+                {p.subcategory_en && (
+                  <span
+                    className="badge border bg-white"
+                    style={{
+                      color: cat?.color ?? "#64748B",
+                      borderColor: (cat?.color ?? "#64748B") + "66",
+                      fontSize: "10px",
+                    }}
+                  >
+                    {p.subcategory_en}
+                  </span>
+                )}
+                <TechnologyTagBadges project={p} compact />
                 <span
                   className="badge"
                   style={{
@@ -74,9 +112,9 @@ export default function ProjectList({ projects, onSelect, selectedId }: ProjectL
                 >
                   {grpMeta?.en ?? "—"}
                 </span>
-                {p.capacity_mw != null && (
+                {scaleLabel(p, variant) && (
                   <span className="text-slate-400" style={{ fontSize: "10px" }}>
-                    {p.capacity_mw.toFixed(0)} MW
+                    {scaleLabel(p, variant)}
                   </span>
                 )}
                 {p.event_year && (

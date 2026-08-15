@@ -41,6 +41,8 @@ def test_e2e_multiproject(tmp_path):
     assert rep["fields"]["capacity_mw"]["correct"] == 2
     assert abs(rep["entity"]["name_f1_mean"] - 1.0) < 1e-9
     assert rep["entity"]["role_accuracy"] == 0.5
+    assert rep["taxonomy"]["generation_sources"]["gold_total"] == 0
+    assert rep["taxonomy"]["storage_status"]["total"] == 0
     written = list((tmp_path/"r").glob("*.json"))
     assert len(written) == 1
 

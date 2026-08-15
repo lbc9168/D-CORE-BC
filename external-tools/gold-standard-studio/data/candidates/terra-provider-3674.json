@@ -1,0 +1,314 @@
+{
+  "candidate_id": "terra-provider-3674-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 3674,
+  "article_sha256": "ae08f4b1f406a3d67a14be4151d6be3e2d0fe4cf2fb5f124b9cc7568caddf666",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "保加利亚200MWh储能示范项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "储能",
+        "evidence": "储能",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "not_mentioned",
+        "value": [],
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "storage_status": {
+        "value_state": "uncertain",
+        "value": "confirmed",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "200 MWh",
+        "evidence": "200 MWh",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签约",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "保加利亚",
+        "evidence": "保加利亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "Global Solar Bulgaria",
+        "evidence": "Global Solar Bulgaria",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "思格新能源",
+            "evidence": "思格新能源",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "系统供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "保加利亚20MWh储能项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "储能",
+        "evidence": "储能",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "20 MWh 储能项目合作协议",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "20 MWh 储能项目合作协议",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "20 MWh 储能项目合作协议",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "20 MWh",
+        "evidence": "20 MWh",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "20 MWh 储能项目合作协议",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签约",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "保加利亚",
+        "evidence": "保加利亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "Debar Solar",
+        "evidence": "Debar Solar",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "思格新能源",
+            "evidence": "思格新能源",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "系统供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "思格在欧洲多个储能合作项目签约",
+      "is_power_generation_plant": true,
+      "reasoning": "具名中国企业参与具体储能项目。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "保加利亚200MWh储能示范项目",
+            "Project Name (EN)": "Bulgaria 200MWh Energy Storage Demonstration Project",
+            "Country": "保加利亚",
+            "Location(State)": "",
+            "Category": "储能",
+            "Generation Sources": [],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "200 MWh",
+            "Energy Composition Evidence": "200 MWh 储能合作协议，该项目将采用思格的 SigenStack",
+            "Capacity (MW)": "",
+            "Capacity Details": "200 MWh",
+            "Project Stage": "签约",
+            "Project Developer": "Global Solar Bulgaria",
+            "Project Developer Evidence": "与保加利亚领先的可再生能源企业Global Solar Bulgaria",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "保加利亚20MWh储能项目",
+            "Project Name (EN)": "Bulgaria 20MWh Energy Storage Project",
+            "Country": "保加利亚",
+            "Location(State)": "",
+            "Category": "储能",
+            "Generation Sources": [],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "20 MWh",
+            "Energy Composition Evidence": "20 MWh 储能项目合作协议",
+            "Capacity (MW)": "",
+            "Capacity Details": "20 MWh",
+            "Project Stage": "签约",
+            "Project Developer": "Debar Solar",
+            "Project Developer Evidence": "与保加利亚合作伙伴 Debar Solar",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "思格新能源",
+            "role": "系统供应商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "思格新能源",
+            "role": "系统供应商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {},
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/3674/base-manifest.json",
+    "dynamic": "data/runs/3674/dynamic-manifest.json",
+    "working_result": "data/runs/3674/provider-working.json"
+  }
+}

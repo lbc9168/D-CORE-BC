@@ -1,0 +1,39 @@
+{
+  "candidate_id": "sol-reviewer-13649-pilot-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 13649,
+  "article_sha256": "14d84e218ced04317fad79ffba5ca7c3699caffbb88315eb1a03379a9d764996",
+  "parent_candidate_id": "terra-provider-13649-pilot-v1",
+  "article_status": {"value_state":"extracted","value":"valid_project","evidence":"Renewable energy investor CWP Europe and PowerChina Resources signed an investment contract for the proposed Vetrozelena wind farm in Serbia.","confidence":0.99,"verdict":"ok","reviewer_note":"具名风电项目且中国企业 PowerChina Resources 明确签署投资合同并收购股权。"},
+  "non_project_reason": {"value_state":"not_applicable","value":null,"evidence":"","confidence":0.99,"verdict":"ok","reviewer_note":"文章符合有效项目条件。"},
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_summary": {"value_state":"extracted","value":"中国企业PowerChina Resources收购塞尔维亚潘切沃300 MW Vetrozelena风电项目51%股权，CWP Europe保留其余股权。项目处于收购阶段。","evidence":"The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe","confidence":0.97,"verdict":"ok","reviewer_note":"摘要准确概括股权比例、项目地点容量与交易阶段。"},
+      "project_name": {"value_state":"extracted","value":"塞尔维亚潘切沃300 MW Vetrozelena风电项目","evidence":"Vetrozelena wind farm in Serbia","confidence":0.99,"verdict":"ok","reviewer_note":"名称与原文具名项目一致，容量与潘切沃地点由同文其他句子支持。"},
+      "category": {"value_state":"extracted","value":"风电","evidence":"300 MW wind power project","confidence":0.99,"verdict":"ok","reviewer_note":"原文明确为风电项目。"},
+      "subcategory_raw_fact": {"value_state":"not_mentioned","value":null,"evidence":"","confidence":0.98,"verdict":"ok","reviewer_note":"原文未给出更细风机或场址子类事实。"},
+      "generation_sources": {"value_state":"extracted","value":["风电"],"evidence":"300 MW wind power project","confidence":0.99,"verdict":"ok","reviewer_note":"能源来源为风。"},
+      "storage_status": {"value_state":"extracted","value":"not_mentioned","evidence":"","confidence":0.99,"verdict":"ok","reviewer_note":"原文未提储能。"},
+      "storage_power_mw": {"value_state":"not_mentioned","value":null,"evidence":"","confidence":0.99,"verdict":"ok","reviewer_note":"原文未提储能功率。"},
+      "storage_energy_mwh": {"value_state":"not_mentioned","value":null,"evidence":"","confidence":0.99,"verdict":"ok","reviewer_note":"原文未提储能容量。"},
+      "generation_capacity_mw": {"value_state":"extracted","value":"300 MW","evidence":"300 MW wind power project","confidence":0.99,"verdict":"ok","reviewer_note":"300 MW 明确修饰该风电项目。"},
+      "project_stage": {"value_state":"extracted","value":"收购","evidence":"The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe","confidence":0.99,"verdict":"ok","reviewer_note":"中国企业正在收购 51% 项目股权。"},
+      "country": {"value_state":"extracted","value":"塞尔维亚","evidence":"wind farm in Serbia","confidence":0.99,"verdict":"ok","reviewer_note":"国家明确。"},
+      "location": {"value_state":"extracted","value":"潘切沃","evidence":"in Pančevo","confidence":0.99,"verdict":"ok","reviewer_note":"具体地点明确。"},
+      "investment": {"value_state":"not_mentioned","value":null,"evidence":"","confidence":0.98,"verdict":"ok","reviewer_note":"文章只称投资很大，未给金额。"},
+      "financing_mode": {"value_state":"extracted","value":"股权融资","evidence":"The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe","confidence":0.97,"verdict":"needs_adjudication","reviewer_note":"原文明确为股权收购/投资，但是否归入‘股权融资’需由确定性业务 policy 最终映射。"},
+      "project_developer": {"value_state":"extracted","value":"PowerChina Resources;CWP Europe","evidence":"The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe","confidence":0.98,"verdict":"ok","reviewer_note":"CWP Europe 持续开发，PowerChina Resources 收购控股权益；并列可反映当前项目方。"},
+      "planned_start_date": {"value_state":"unknown","value":null,"evidence":"the construction is planned to start by the end of the year","confidence":0.95,"verdict":"ok","reviewer_note":"相对日期缺少足够规范化信息，保留未知。"},
+      "planned_complete_date": {"value_state":"unknown","value":null,"evidence":"in 2025, when it starts to generate electricity","confidence":0.95,"verdict":"ok","reviewer_note":"仅说明 2025 年开始发电，未给具体完成日期。"},
+      "chinese_entities": [
+        {
+          "entity": {"value_state":"extracted","value":"PowerChina Resources","evidence":"PowerChina Resources signed an investment contract","confidence":0.99,"verdict":"ok","reviewer_note":"中国参与实体明确。"},
+          "role": {"value_state":"extracted","value":"股权投资方","evidence":"The Chinese company is acquiring 51% of the project","confidence":0.99,"verdict":"ok","reviewer_note":"收购 51% 股权支持股权投资方角色。"}
+        }
+      ]
+    }
+  ],
+  "prompt_manifest": {"path":"data/runs/13649/reviewer-manifest.json","prompt_path":"data/runs/13649/reviewer.prompt.txt","prompt_sha256":"a0f4ea473b941fb70b006894936c93d9ddbc9eedd2b98a5596e73d3f19be813f"}
+}

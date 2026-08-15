@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0006",
+  "package_sha256": "b67bc8afc53edd1ac8eb29dcbab2505abd84d2c3da0ad25dedffd079693467b2",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/61476.html",
+        "surface": "title",
+        "quote": "泰国孔敬府乌汶叻水面漂浮光伏电站并网发电"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/61476.html",
+        "surface": "body",
+        "quote": "泰国乌汶叻水面漂浮光伏电站位于泰国东北部孔敬府，是泰国电力局第一个集水面光伏、清洁水电、高效储能系统及智慧能源管理系统于一体的示范性电站工程项目，"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0006-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/61476.html",
+          "surface": "title",
+          "quote": "泰国孔敬府乌汶叻水面漂浮光伏电站并网发电"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/61476.html",
+          "surface": "body",
+          "quote": "泰国乌汶叻水面漂浮光伏电站位于泰国东北部孔敬府，是泰国电力局第一个集水面光伏、清洁水电、高效储能系统及智慧能源管理系统于一体的示范性电站工程项目，"
+        }
+      ]
+    }
+  ]
+}

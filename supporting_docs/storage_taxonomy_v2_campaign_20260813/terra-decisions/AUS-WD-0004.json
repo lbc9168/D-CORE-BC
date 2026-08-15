@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-WD-0004",
+  "package_sha256": "5415b149632fd9ab9cb5a04741c9fa254ca93f826b0b83770e705ad8e3ecfc27",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 24,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/70927.html",
+        "surface": "body",
+        "quote": "除此之外，Tropicana可再生能源项目还包含24MW的光伏设备和13MW的储能系统，它们将共同与一座54MW的天然气发电站集成，\n为Tropicana金矿供应电力\n。\n图片来源：太平洋能源（Pacific Energy）\nTropicana金矿是澳大利亚重要矿区，年黄金产量可达\n31万盎司\n，电力需求十分庞大。Tropicana可再生能"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/70927.html",
+        "surface": "title",
+        "quote": "金风科技携手太平洋能源成功完成澳洲项目风电设备交付"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/70927.html",
+        "surface": "body",
+        "quote": "除此之外，Tropicana可再生能源项目还包含24MW的光伏设备和13MW的储能系统，它们将共同与一座54MW的天然气发电站集成，\n为Tropicana金矿供应电力\n。\n图片来源：太平洋能源（Pacific Energy）\nTropicana金矿是澳大利亚重要矿区，年黄金产量可达\n31万盎司\n，电力需求十分庞大。Tropicana可再生能源项目建成后，其供应"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-WD-0004-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 24,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "24MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/70927.html",
+          "surface": "body",
+          "quote": "除此之外，Tropicana可再生能源项目还包含24MW的光伏设备和13MW的储能系统，它们将共同与一座54MW的天然气发电站集成，\n为Tropicana金矿供应电力\n。\n图片来源：太平洋能源（Pacific Energy）\nTropicana金矿是澳大利亚重要矿区，年黄金产量可达\n31万盎司\n，电力需求十分庞大。Tropicana可再生能"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/70927.html",
+          "surface": "title",
+          "quote": "金风科技携手太平洋能源成功完成澳洲项目风电设备交付"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/70927.html",
+          "surface": "body",
+          "quote": "除此之外，Tropicana可再生能源项目还包含24MW的光伏设备和13MW的储能系统，它们将共同与一座54MW的天然气发电站集成，\n为Tropicana金矿供应电力\n。\n图片来源：太平洋能源（Pacific Energy）\nTropicana金矿是澳大利亚重要矿区，年黄金产量可达\n31万盎司\n，电力需求十分庞大。Tropicana可再生能源项目建成后，其供应"
+        }
+      ]
+    }
+  ]
+}

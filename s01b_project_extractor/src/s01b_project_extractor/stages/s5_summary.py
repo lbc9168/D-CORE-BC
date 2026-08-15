@@ -1,4 +1,4 @@
-"""S5 阶段：生成摘要并按高置信度纠偏 common_info 的 stage/category。"""
+"""S5 阶段：生成摘要并纠偏非确定性字段，不得覆盖 v2 确定性 category。"""
 import logging
 import bri_enums as enums
 
@@ -16,7 +16,7 @@ def run_s5(structured_project: dict, *, llm) -> dict:
 
 
 def apply_s5(project: dict, s5_out: dict) -> dict:
-    """把 S5 摘要写入 project；高置信度(≥0.8)且枚举合法的纠偏应用到 common_info 和 chinese_entities。"""
+    """把 S5 摘要及合法 stage/involvement 纠偏写入项目，忽略 category 建议。"""
     summary = (s5_out.get("project_summary") or "").strip()
     if summary:
         project["project_summary"] = summary
@@ -24,10 +24,9 @@ def apply_s5(project: dict, s5_out: dict) -> dict:
     # common_info 级别可纠偏字段：field 键 → common_info 实际键名
     valid = {
         "project_stage": set(enums.valid_stages()),
-        "category": set(enums.valid_categories()),
         "involvement_type": set(enums.valid_involvement()),
     }
-    field_map = {"project_stage": "Project Stage", "category": "Category"}
+    field_map = {"project_stage": "Project Stage"}
     for c in (s5_out.get("corrections") or []):
         f = c.get("field")
         sv = str(c.get("suggested_value", "")).strip()

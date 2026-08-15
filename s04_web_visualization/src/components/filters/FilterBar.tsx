@@ -1,16 +1,12 @@
 import { useRef, useState, useEffect, useMemo } from "react";
 import { RotateCcw, ChevronDown, Globe } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
+import { useDomain } from "@/contexts/DomainContext";
 import { useLang } from "@/contexts/LanguageContext";
 import { CATEGORIES, VIZ_GROUPS, VIZ_GROUP_KEYS } from "@/types";
-import type { ColorBy, RegionFilter, VizGroup } from "@/types";
-import { isHiddenCategory } from "@/utils/enums";
+import type { RegionFilter, VizGroup } from "@/types";
+import { isHiddenCategory, SUBCATEGORIES } from "@/utils/enums";
 import { CONTINENTS, CONTINENT_SUBREGIONS } from "@/utils/continentMapping";
-
-interface FilterBarProps {
-  colorBy: ColorBy;
-  onColorByChange: (v: ColorBy) => void;
-}
 
 /** 点击触发多选下拉（点击外部关闭） */
 function MultiSelect({
@@ -269,8 +265,9 @@ function YearRangeSlider({
   );
 }
 
-export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) {
+export default function FilterBar() {
   const { filter, setFilter, resetFilter, availableYears } = useData();
+  const { domain } = useDomain();
   const { t } = useLang();
 
   const minYear = availableYears[0] ?? 2022;   // 数据集起始年兜底（availableYears 为空时）
@@ -286,6 +283,32 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
     if (filter.categories.every((cat) => categoryOptions.includes(cat))) return;
     setFilter((f) => ({ ...f, categories: f.categories.filter((cat) => categoryOptions.includes(cat)) }));
   }, [filter.categories, setFilter, categoryOptions]);
+
+  // 子类二级筛选只承载项目形态：当前仅光伏集中式/分布式，不暴露综合能源旧组合子类。
+  const subcatCats = useMemo(
+    () => filter.categories.filter((c) => CATEGORIES[c]?.code === "PV" && SUBCATEGORIES[c]),
+    [filter.categories],
+  );
+  const subcatOptions = useMemo(
+    () => subcatCats.flatMap((c) => Object.keys(SUBCATEGORIES[c].values)),
+    [subcatCats],
+  );
+  // 子类键 → 「类别 · 子类」前缀标签（两类同选时消歧）
+  const subcatLabel = useMemo(() => {
+    const m: Record<string, string> = {};
+    subcatCats.forEach((c) => {
+      Object.entries(SUBCATEGORIES[c].values).forEach(([k, v]) => {
+        m[k] = `${CATEGORIES[c]?.en ?? c} · ${v.en}`;
+      });
+    });
+    return m;
+  }, [subcatCats]);
+
+  // 类别取消选中时联动清空对应子类（防残留子类把列表筛空）
+  useEffect(() => {
+    if (filter.subcategories.every((s) => subcatOptions.includes(s))) return;
+    setFilter((f) => ({ ...f, subcategories: f.subcategories.filter((s) => subcatOptions.includes(s)) }));
+  }, [filter.subcategories, subcatOptions, setFilter]);
 
   return (
     <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-100 shadow-sm
@@ -339,27 +362,62 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
 
       <div className="w-px h-4 bg-slate-200 mx-1" />
       
-      {/* 能源类型 */}
-      <MultiSelect
-        label={t("filter.category")}
-        options={categoryOptions}
-        selected={filter.categories}
-        onChange={(v) => setFilter((f) => ({ ...f, categories: v }))}
-        renderLabel={(k) => CATEGORIES[k]?.en ?? k}
-        allLabel={t("filter.allCategories")}
-      />
+      {/* 能源类型（仅发电域；储能域构成固定、txmf 域用子域 Tab） */}
+      {domain === "renewable" && (
+        <MultiSelect
+          label={t("filter.category")}
+          options={categoryOptions}
+          selected={filter.categories}
+          onChange={(v) => setFilter((f) => ({ ...f, categories: v }))}
+          renderLabel={(k) => CATEGORIES[k]?.en ?? k}
+          allLabel={t("filter.allCategories")}
+        />
+      )}
 
-      {/* 项目状态（4 大类） */}
-      <MultiSelect
-        label={t("filter.status")}
-        options={VIZ_GROUP_KEYS}
-        selected={filter.groups}
-        onChange={(v) => setFilter((f) => ({ ...f, groups: v as VizGroup[] }))}
-        renderLabel={(k) => VIZ_GROUPS[k]?.en ?? k}
-        allLabel={t("filter.allStatuses")}
-      />
+      {/* 项目形态子类二级筛选（选中光伏时出现） */}
+      {domain === "renewable" && subcatCats.length > 0 && (
+        <MultiSelect
+          label={t("filter.subtype")}
+          options={subcatOptions}
+          selected={filter.subcategories}
+          onChange={(v) => setFilter((f) => ({ ...f, subcategories: v }))}
+          renderLabel={(k) => subcatLabel[k] ?? k}
+          allLabel={t("filter.allSubtypes")}
+        />
+      )}
 
-      
+      {/* TX/MF 子域 Tab（仅 txmf 域） */}
+      {domain === "txmf" && (
+        <div className="inline-flex border border-slate-200 rounded-lg overflow-hidden">
+          {(["all", "tx", "mf"] as const).map((k) => (
+            <button
+              key={k}
+              onClick={() => setFilter((f) => ({ ...f, txmfKind: k }))}
+              className={`px-2.5 py-1.5 text-xs border-r border-slate-200 last:border-r-0 transition-colors ${
+                filter.txmfKind === k
+                  ? "bg-brand-50 text-brand-600 font-semibold"
+                  : "text-slate-500 hover:bg-slate-50"
+              }`}
+            >
+              {k === "all" ? t("filter.txmfAll") : k === "tx" ? t("filter.txmfTx") : t("filter.txmfMf")}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* 项目状态（4 大类；txmf 专表无时间线，不支持状态筛选） */}
+      {domain !== "txmf" && (
+        <MultiSelect
+          label={t("filter.status")}
+          options={VIZ_GROUP_KEYS}
+          selected={filter.groups}
+          onChange={(v) => setFilter((f) => ({ ...f, groups: v as VizGroup[] }))}
+          renderLabel={(k) => VIZ_GROUPS[k]?.en ?? k}
+          allLabel={t("filter.allStatuses")}
+        />
+      )}
+
+
 
       {/* 央企筛选 */}
       <div className="flex items-center gap-1.5">
@@ -381,21 +439,7 @@ export default function FilterBar({ colorBy, onColorByChange }: FilterBarProps) 
         </select>
       </div>
 
-      <div className="w-px h-4 bg-slate-200 mx-1" />
-
-      {/* 着色方式 */}
-      <div className="flex items-center gap-1.5">
-        <span className="text-slate-500">{t("map.colorBy")}</span>
-        <select
-          value={colorBy}
-          onChange={(e) => onColorByChange(e.target.value as ColorBy)}
-          className="text-xs border border-slate-200 rounded-lg px-2 py-1 bg-white
-                     text-slate-700 focus:outline-none focus:ring-1 focus:ring-brand-400"
-        >
-          <option value="count">{t("map.byCount")}</option>
-          <option value="capacity">{t("map.byCapacity")}</option>
-        </select>
-      </div>
+      {/* 着色度量选择器已随 V3 视角条移入 DomainSwitcher（度量是域的属性，不是筛选条件） */}
 
       {/* 重置 */}
       <button onClick={resetFilter} className="btn-ghost ml-auto text-xs">

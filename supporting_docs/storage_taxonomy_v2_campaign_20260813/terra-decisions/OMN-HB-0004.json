@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "OMN-HB-0004",
+  "package_sha256": "ca5a166c8d56e8fcad3314e96a323dc7538dfce07af0ce54ad167ae154b51876",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 500,
+    "storage_energy_mwh": 150,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84793.html",
+        "surface": "title",
+        "quote": "阿曼Ibri 3光伏储能项目签署早期工作协议"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84793.html",
+        "surface": "body",
+        "quote": "近期，中国能建中电工程国际公司、华东院与湖南火电组成的联营体，与阿布扎比未来能源公司Masdar签署阿曼Ibri 3光伏储能电站项目早期工作协议，标志着项目正式进入履约阶段。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84793.html",
+        "surface": "body",
+        "quote": "项目总装机容量为500MWac光伏及150MWh储能，配套建设400kV升压站及2回400kV送出线路。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "OMN-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 500,
+      "storage_energy_mwh": 150,
+      "storage_power_mw_raw": "500MW",
+      "storage_energy_mwh_raw": "150MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84793.html",
+          "surface": "title",
+          "quote": "阿曼Ibri 3光伏储能项目签署早期工作协议"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84793.html",
+          "surface": "body",
+          "quote": "近期，中国能建中电工程国际公司、华东院与湖南火电组成的联营体，与阿布扎比未来能源公司Masdar签署阿曼Ibri 3光伏储能电站项目早期工作协议，标志着项目正式进入履约阶段。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84793.html",
+          "surface": "body",
+          "quote": "项目总装机容量为500MWac光伏及150MWh储能，配套建设400kV升压站及2回400kV送出线路。"
+        }
+      ]
+    }
+  ]
+}

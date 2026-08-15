@@ -1,0 +1,28 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "许继电气",
+      "role": "中标方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "132千伏",
+    "Category": "输变电建设",
+    "Country": "尼泊尔",
+    "Energy Composition Evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+    "Generation Sources": [],
+    "Location(State)": "普拉绍尼-比尔根杰",
+    "Project Developer": "尼泊尔国家电力局",
+    "Project Developer Evidence": "尼泊尔国家电力局",
+    "Project Name": "尼泊尔普拉绍尼-比尔根杰132千伏地下输电线路项目",
+    "Project Name (EN)": "Prasouni-Birgunj 132kV Underground Transmission Line",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

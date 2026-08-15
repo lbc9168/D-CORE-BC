@@ -1,0 +1,14 @@
+# 国资委·央企联播（聚合全体央企新闻稿，广度独一无二；curl_cffi 可达，WebFetch 被 WAF 拦）
+# 分页为 JS(createPageHTML) 生成，首页列表已含最新一批，单页足够覆盖增量
+name: sasac
+label: 国资委·央企联播
+tier: 2
+parser: html_list
+listing_urls:
+  - http://www.sasac.gov.cn/n2588025/n2588124/index.html
+max_pages: 1
+article_url_pattern: 'sasac\.gov\.cn/.+/c\d+/content\.html'
+article:
+  content_selectors: ['.zsy_comain', '.article', '.content']
+  title_strip: '－国务院国有资产监督管理委员会$'
+rate_limit_seconds: 3.0

@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GRC-ES-0003",
+  "package_sha256": "3296330910658d0f49dd27a69ec619f1d06a2f958a1a92a7066f4587ae4e2a5d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 100,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/83740.html",
+        "surface": "title",
+        "quote": "晶科储能在希腊签署100MWh储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/83740.html",
+        "surface": "body",
+        "quote": "晶科储能（Jinko ESS）近日宣布，与希腊重要客户成功签署100MWh储能项目。该项目将部署20套Jinko ESS G2 5MWh蓝鲸液冷储能系统（四小时长时储能配置），覆盖希腊境内20个不同项目站点，计划于2025年11月中旬分批交付。此次合作标志着晶科储能在欧洲分布式储能领域的"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GRC-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 100,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "100MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/83740.html",
+          "surface": "title",
+          "quote": "晶科储能在希腊签署100MWh储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/83740.html",
+          "surface": "body",
+          "quote": "晶科储能（Jinko ESS）近日宣布，与希腊重要客户成功签署100MWh储能项目。该项目将部署20套Jinko ESS G2 5MWh蓝鲸液冷储能系统（四小时长时储能配置），覆盖希腊境内20个不同项目站点，计划于2025年11月中旬分批交付。此次合作标志着晶科储能在欧洲分布式储能领域的"
+        }
+      ]
+    }
+  ]
+}

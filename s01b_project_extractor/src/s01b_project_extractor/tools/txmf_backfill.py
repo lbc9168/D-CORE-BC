@@ -22,7 +22,12 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, ValidationError, field_validator
 
-from s01b_project_extractor.txmf_spec_parser import parse_mf_event, parse_tx_event
+from s01b_project_extractor.txmf_spec_parser import (
+    parse_mf_atomic,
+    parse_mf_event,
+    parse_tx_atomic,
+    parse_tx_event,
+)
 
 import bri_enums as enums
 
@@ -37,6 +42,10 @@ _MF_CATEGORY = "新能源制造业"
 _REQUIRED_COLUMNS = (
     "voltage_kv", "line_length_km", "transmission_capacity_mw",
     "production_capacity_value", "production_capacity_unit",
+)
+_RAW_COLUMNS = (
+    "voltage_kv_raw", "line_length_km_raw", "transmission_capacity_mw_raw",
+    "production_capacity_raw",
 )
 _TX_COLUMNS = ("voltage_kv", "line_length_km", "transmission_capacity_mw")
 
@@ -98,10 +107,16 @@ def _scan_events(db_path: str) -> tuple[list[dict], list[dict]]:
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     try:
+        existing = {row[1] for row in conn.execute("PRAGMA table_info(project_events)")}
+        raw_select = ", ".join(
+            f"e.{column}" if column in existing else f"NULL AS {column}"
+            for column in _RAW_COLUMNS
+        )
         rows = conn.execute(
-            """
+            f"""
             SELECT e.id AS event_id, e.canonical_id, c.category,
                    e.capacity_details, e.project_summary, e.capacity_mw_raw,
+                   {raw_select},
                    e.voltage_kv, e.line_length_km, e.transmission_capacity_mw,
                    e.production_capacity_value, e.production_capacity_unit
             FROM project_events e
@@ -120,7 +135,15 @@ def _scan_events(db_path: str) -> tuple[list[dict], list[dict]]:
         has_text = bool((r["capacity_details"] or "").strip() or (r["project_summary"] or "").strip())
 
         if r["category"] == _TX_CATEGORY:
-            parsed = parse_tx_event(r["capacity_details"], r["project_summary"], r["capacity_mw_raw"])
+            has_atomic = any((r[col] or "").strip() for col in (
+                "voltage_kv_raw", "line_length_km_raw", "transmission_capacity_mw_raw"
+            ))
+            parsed = parse_tx_atomic(
+                r["voltage_kv_raw"], r["line_length_km_raw"],
+                r["transmission_capacity_mw_raw"],
+            ) if has_atomic else parse_tx_event(
+                r["capacity_details"], r["project_summary"], r["capacity_mw_raw"]
+            )
             change: dict[str, Any] = {"event_id": r["event_id"]}
             for col in _TX_COLUMNS:
                 if r[col] is None and parsed[col] is not None:
@@ -136,7 +159,11 @@ def _scan_events(db_path: str) -> tuple[list[dict], list[dict]]:
                     "summary": (r["project_summary"] or "")[:200],
                 })
         else:  # MF
-            parsed = parse_mf_event(r["capacity_details"], r["project_summary"], r["capacity_mw_raw"])
+            parsed = parse_mf_atomic(r["production_capacity_raw"]) if (
+                r["production_capacity_raw"] or ""
+            ).strip() else parse_mf_event(
+                r["capacity_details"], r["project_summary"], r["capacity_mw_raw"]
+            )
             change = {"event_id": r["event_id"]}
             # 成对填：value/unit 只要目标列现有值均为 NULL 且解析出新值就一起写
             if (r["production_capacity_value"] is None and r["production_capacity_unit"] is None

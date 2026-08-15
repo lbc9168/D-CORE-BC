@@ -1,0 +1,114 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MYS-HB-0009",
+  "package_sha256": "056b27a0e837490b3e183cc14f215c1685d94f0fdc740c8aaef86b87df029bfb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/75769.html",
+        "surface": "title",
+        "quote": "官方肯定！马来西亚雪兰莪州再生能源电站项目环保管理收获颇丰"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/44833.html",
+        "surface": "body",
+        "quote": "业主方表示，该项目作为马来西亚最大垃圾发电项目之一，希望上海电气项目团队在保证项目质量和安全情况下，早日实现商业运行。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/41464.html",
+        "surface": "title",
+        "quote": "上海电气电站工程公司签约马来西亚再生能源项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/39679.html",
+        "surface": "body",
+        "quote": "马来西亚雪兰莪州再生能源电站项目是雪兰莪州的第一个垃圾焚烧发电项目，是马来西亚发展绿色能源、节能减排的示范项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MYS-HB-0009-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/75769.html",
+          "surface": "title",
+          "quote": "官方肯定！马来西亚雪兰莪州再生能源电站项目环保管理收获颇丰"
+        }
+      ]
+    },
+    {
+      "event_id": "MYS-HB-0009-02",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/44833.html",
+          "surface": "body",
+          "quote": "业主方表示，该项目作为马来西亚最大垃圾发电项目之一，希望上海电气项目团队在保证项目质量和安全情况下，早日实现商业运行。"
+        }
+      ]
+    },
+    {
+      "event_id": "MYS-HB-0009-03",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/41464.html",
+          "surface": "title",
+          "quote": "上海电气电站工程公司签约马来西亚再生能源项目"
+        }
+      ]
+    },
+    {
+      "event_id": "MYS-HB-0009-04",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/39679.html",
+          "surface": "body",
+          "quote": "马来西亚雪兰莪州再生能源电站项目是雪兰莪州的第一个垃圾焚烧发电项目，是马来西亚发展绿色能源、节能减排的示范项目。"
+        }
+      ]
+    }
+  ]
+}

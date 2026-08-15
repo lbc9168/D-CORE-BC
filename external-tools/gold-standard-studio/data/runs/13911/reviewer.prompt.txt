@@ -1,0 +1,56 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：汇总丨近期新能源国际并购事件概览
+发布日期：NA
+来源：https://news.goalfore.cn/topstories/detail/38242.html
+正文：
+当前，全球新能源投资浪潮澎湃，境外投资并购已成为走出去企业快速布局海外新能源版图的重要举措，主要投资模式包括绿地投资、棕地投资。
+其中棕地投资的主要方式为兼并和收购，此模式下有助于买方企业快速进入目标市场，弥补自身在目标市场经验不足的劣势，绕开知识产权、技术或市场壁垒等，但与此同时也面临着目标市场的外商投资限制或产业保护、并后属地化运营管理问题等挑战。
+经统计，近期全球新能源市场主要投资并购事件节选如下：
+0
+1
+日本大和能源收购英国海上风电项目
+日本大和能源与基础设施公司近日宣布收购英国1.2吉瓦Hornsea One风电场的少数股权。
+Hornsea One位于英格兰东海岸的北海，由Ørsted和全球基础设施合作伙伴（GIP）开发，于2020年1月全面投入运营。项目由174台西门子歌美飒风机组成，产生的能量足以为英国超过一百万个家庭供电。该风电场由Ørsted运营，采用与通货膨胀挂钩的差价合约机制，运营期剩余13年。
+0
+2
+荷兰风机运维商收购法国Net-Wind
+荷兰风机运营和维护商Full Circle宣布收购法国同行Net-Wind，本大和能源与基础设施公司近日宣布收购英国1.2吉瓦Hornsea One风电场的少数股权。
+Full Circle成立于2021年，是风机制造商EWT的分拆公司，其团队拥有超过二十年的专业运维经验，目前为欧洲，北美和南亚的陆上风电场提供风力服务。
+Net-Wind成立于2011，为Senvion, Nordex, Gamesa, Vestas等多品牌提供运维服务，主要在法国开展业务。
+0
+3
+澳大利亚Zen Energy收购储能项目
+澳大利亚Zen Energy于近日收购了位于南澳大利亚阿德莱德北部的111MW / 270MWh Templers电池项目，此项目是该公司的第一个电池存储项目。
+Templers项目已获得接入电网的批准，预计将于2023年第二季度开始建设，2024年底实现商业化运营。Zen Energy将使用电池储能系统（BESS）向客户提供能源，并将为电网运营商AEMO提供电网稳定服务。
+据电网运营商AEMO预测，到2050年，澳大利亚将需要46GW / 640GWh的储能，且“迫切需要”增加对长期储能（LDES）的投资。
+0
+4
+TAQA与RG成立地热合资公司
+日前，沙特Industrialization and Energy Services Company（TAQA）和冰岛雷克雅未克地热公司（Reykjavik Geothermal）签署了一项合资企业协议，成立总部位于沙特阿拉伯利雅得的TAQA地热能源有限责任公司。
+TAQA地热公司将在沙特阿拉伯和中东和北非地区勘探和开发地热资源，预计为沙特提供1GW的地热电力。
+0
+5
+菲律宾ACEN收购美国136兆瓦风电项目
+菲律宾Ayala集团的上市能源平台ACEN通过其合资公司UPC Power Solutions LLC与GlidePath签署了购买和销售协议，以收购位于美国德克萨斯州北部的八个运营风电项目的投资组合。
+此举标志着ACEN有望进入快速增长的美国可再生能源市场。
+ACEN是Ayala集团在菲律宾上市的能源平台。Ayala Corporation成立于1834年，是菲律宾最大的企业集团之一，其核心业务涉及房地产，银行，电信和电力。
+0
+6
+气候基金CFP收购肯尼亚310MW风电项目
+日前，由BlackRock Alternatives管理的基金Climate Finance Partnership（CFP）收购了肯尼亚310MW风电场Lake Turkana Wind Power31.25%的股份。
+该部分股份从维斯塔斯、Finnfund以及发展中国家投资基金收购，金额未公开。
+Lake Turkana Wind Power项目位于肯尼亚最北部地区，该项目配备了365台风力涡轮机，于2018年与肯尼亚国家电网相连，并与肯尼亚电力公司签署了20年PPA。
+0
+7
+韩华能源出售西班牙204MW太阳能项目
+日前，韩国能源巨头韩华能源宣布，已将西班牙正在开发的204MW太阳能发电项目出售给爱尔兰独立电力生产商Amarenco。
+该项目位于西班牙的Castile and Leon地区，韩华能源于2019年购买，原计划2023年9月开工，2024年8月投入商业运营。
+此举是双方第二次交易。首次交易始于2022年12月，韩华能源向Amarenco出售西班牙49.94MW的太阳能光伏项目，助力其进入西班牙市场。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-13911-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":13911,"article_sha256":"98ed2d72edeb851b64f5d251f4a40befaae9e27354dce357c5649c1b4849b19d","article_status":{"value_state":"present","value":"no_chinese_participation","evidence":"日本大和能源与基础设施公司近日宣布收购英国1.2吉瓦Hornsea One风电场的少数股权。","confidence":0.97},"non_project_reason":{"value_state":"not_applicable","value":null,"evidence":"","confidence":0.95},"projects":[],"stage_outputs":{"s1":{"status":"no_chinese_participation","project_subject":"全球新能源并购事件概览中的多个海外项目","is_power_generation_plant":true,"reasoning":"文章列举风电、储能、地热和光伏项目，但所述参与方均非中国企业。"},"s2":{"projects":[]},"s34":[],"s5":[]},"prompt_manifest":{"base":"data/runs/13911/base-manifest.json","working_result":"data/runs/13911/provider-working.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

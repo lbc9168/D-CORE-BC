@@ -1,0 +1,66 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：正泰与茂能签署澳大利亚150MW光伏项目
+发布日期：2019-06-11 07:13:47
+来源：https://news.goalfore.cn/topstories/detail/9627.html
+正文：
+Maoneng and CHINT have announced their partnership at an introduction ceremony recently at the SNEC expo hosted in Shanghai by signing a term sheet to acquire and co-develop utility-scale solar projects in Australia.
+The parties will be establishing a joint venture company in Australia, with CHINT taking a majority 60% shareholding and Maoneng having a 40% shareholding. Maoneng and CHINT are looking to acquire and co-develop projects with an enterprise value between $60m-$200m. The parties will not be restricted to traditional project finance in developing the projects, and may seek to develop projects on a pure merchant basis. The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.
+At the conference, Mr. Morris Zhou, CEO and Chairman of Maoneng and Dr. Chuan Lu, CEO of CHINT have shared their ambition towards building a renewable future for Australia with the development of large scale renewable energy infrastructure.
+"We are delighted to partner with CHINT to achieve our ambition of a renewable energy future for Australia. Maoneng has been a key player in the renewable infrastructure development Australian market for many years and CHINT has been a key player in EPC, module supply and project development in the Chinese market, and as such there are strong synergies between the two companies. We look forward to playing a big part in Australia's transition towards a cleaner and renewable energy future," explained Mr. Morris Zhou at the conference.
+"We are very glad that our capability in production and downstream businesses has been well recognized from Maoneng. Maoneng plays an important role in Australian Solar market and the partnership between two companies also marks a new milestone for both parties. We will put more efforts together with Maoneng in developing the Australian market." Commented by Dr. Lu, Chuan, the CEO of CHINT Solar/Astronergy.
+With the execution of the definitive agreements expected to be finalised shortly, Maoneng and CHINT's strong alliance will benefit Australia's energy industry as a whole and keep the country on track to generate 50% of its energy consumption with renewables by 2050.
+About CHINT
+Founded in 1984, CHINT is a publicly listed tier-1 solar panel manufacturer and EPC Contractor, and has developed a business network in over 140 countries and regions with more than 30,000 employees.
+CHINT has a track record of developing projects in Australia, having developed 68MW of solar farms in South Australia and worked on project pipeline at 400MW in total.
+Focusing on energy system of supply, storage, transmission, allotment and consumption, CHINT's core businesses are clean energy, energy allotment, big data and energy value-added services.
+CHINT is ranked top 50 Asian Listed Companies and top 100 China Private Enterprises.
+About Maoneng
+Maoneng is an Australian-Chinese developer, owner and operator of renewable power generation assets. With a development pipeline of over 1 GW of solar farms within Australia, Maoneng sells energy and large-scale generation certificates to Australian businesses and governments through a combination of medium and long-term contracts.
+Maoneng commissioned a 13MW solar farm developed under the ACT Government's Reverse Solar Auction scheme in November 2016 and is currently leading the development of Sunraysia 255MWp Solar Farm.
+Set to be Australia's largest single-phase solar farm construction, the project is scheduled for completion in December 2019. Maoneng reached financial close on this project in October 2018, securing equity investment from publicly listed infrastructure fund, John Laing plc, and debt financing from 5 international banks, namely, ING, Mizuho, Nord LB, NAB and Bank of China.
+In December 2017, Maoneng entered into a PPA with AGL Energy and UNSW to supply respectively up to 800,000 MWh and 124,000MWh of renewable energy per annum for 15 years. A portion of the PPA entered into with AGL Energy will be allocated towards the Sunraysia Solar Farm while the balance will be allocated to the next most suitable project within Maoneng's development portfolio in NSW.
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-23627-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 23627,
+  "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "other_non_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "uncertain",
+    "value": "仅有项目管线或非项目文章",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "正泰与茂能拟在澳大利亚合作开发光伏项目",
+      "is_power_generation_plant": true,
+      "reasoning": "有中企参与光伏合作，但仅为项目管线与term sheet，未指向具体工程。"
+    },
+    "s2": {
+      "projects": []
+    },
+    "s34": [],
+    "s5": []
+  },
+  "prompt_manifest": {
+    "base": "data/runs/23627/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/23627/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

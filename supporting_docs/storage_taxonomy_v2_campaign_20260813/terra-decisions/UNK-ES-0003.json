@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UNK-ES-0003",
+  "package_sha256": "5edb894e79c6d9601c3248559fdf7e4a5f689b3f542eb745925cdf948519f011",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 10,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84069.html",
+        "surface": "title",
+        "quote": "晶科储能在东南亚签约10MWh储能离网系统"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UNK-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 10,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "10MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84069.html",
+          "surface": "title",
+          "quote": "晶科储能在东南亚签约10MWh储能离网系统"
+        }
+      ]
+    }
+  ]
+}

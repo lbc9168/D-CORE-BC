@@ -27,14 +27,38 @@ ALL_FIELDS = PROJECT_ENUM_FIELDS + PROJECT_NUMERIC_FIELDS
 _DEFAULT_MODEL = "gemini-2.5-flash-lite"
 
 
+def _llm_routing_snapshot() -> dict:
+    """返回不含密钥的有效 provider/model 路由，供缓存哈希和评测报告追溯。"""
+    from s01b_project_extractor.llm.client import (
+        _config_for_provider,
+        _parse_stage_models,
+        _parse_stage_providers,
+    )
+
+    default_provider = os.getenv("S01B_PROVIDER", "gemini").strip().lower()
+    provider_overrides = _parse_stage_providers(os.getenv("S01B_STAGE_PROVIDERS", ""))
+    model_overrides = _parse_stage_models(os.getenv("S01B_STAGE_MODELS", ""))
+    default_cfg = _config_for_provider(default_provider)
+    stages = {}
+    for stage in sorted(set(provider_overrides) | set(model_overrides)):
+        provider = provider_overrides.get(stage, default_provider)
+        cfg = _config_for_provider(provider, model_overrides.get(stage, ""))
+        stages[stage] = {"provider": cfg.provider, "model": cfg.model}
+    return {
+        "profile": os.getenv("S01B_EVAL_PROFILE", "").strip(),
+        "default": {"provider": default_cfg.provider, "model": default_cfg.model},
+        "stages": stages,
+        "merge_s34": os.getenv("S01B_MERGE_S34", "").strip(),
+        "openai_reasoning_effort": os.getenv("OPENAI_REASONING_EFFORT", "").strip(),
+    }
+
+
 def _default_extractor_version() -> str:
     """由 orchestrator + 各阶段 prompt + 确定性解析层源码 + provider/model 算 sha1[:12]，任一变更即让缓存失效（供应商间缓存隔离）。"""
     from s01b_project_extractor.stages import orchestrator  # 延迟导入
 
     # provider/model + 分阶段路由 纳入哈希：各供应商/混合配置各自独立缓存、报告可比
-    provider_tag = (os.getenv("S01B_PROVIDER", "gemini") + os.getenv("S01B_MODEL", "")
-                    + os.getenv("DEEPSEEK_MODEL", "") + os.getenv("DS_MODEL", "")
-                    + os.getenv("S01B_STAGE_PROVIDERS", "") + os.getenv("S01B_MERGE_S34", ""))
+    provider_tag = json.dumps(_llm_routing_snapshot(), ensure_ascii=False, sort_keys=True)
     src = inspect.getsource(orchestrator) + (provider_tag or _DEFAULT_MODEL)
     # 各阶段 prompt 模块加入哈希（存在才纳入，便于逐 Phase 增量上线）
     for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary", "s34_entity_finance"):
@@ -45,7 +69,7 @@ def _default_extractor_version() -> str:
             pass
     # 确定性解析层（capacity_parser + s2_basic stage 后处理 + entity_normalize + s4/s5 stage）纳入哈希：
     # 解析器修复应使旧 eval 缓存失效（否则 parser-only 改动不能触发重跑）
-    for modname in ("capacity_parser", "stages.s2_basic", "stages.entity_normalize",
+    for modname in ("capacity_parser", "energy_taxonomy", "energy_taxonomy_v2", "stages.s2_basic", "stages.entity_normalize",
                     "stages.s4_entity", "stages.s5_summary"):
         try:
             mod = __import__(f"s01b_project_extractor.{modname}", fromlist=["*"])
@@ -169,6 +193,13 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
     name_f1_sum = 0.0
     name_f1_n = 0
     role_correct = role_matched = 0
+    tax_source_tp = tax_source_pred = tax_source_gold = 0
+    tax_hits = {
+        "storage_status": [0, 0],
+        "storage_power_mw": [0, 0],
+        "storage_energy_mwh": [0, 0],
+        "proposed_category": [0, 0],
+    }
 
     for rec in gold:
         link = rec["source_link"]
@@ -207,6 +238,12 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
             nf1_sum, n_matched, rc, rm = r["entity"]
             name_f1_sum += nf1_sum; name_f1_n += n_matched
             role_correct += rc; role_matched += rm
+            taxonomy = r["taxonomy"]
+            tp, pred_n, gold_n = taxonomy["generation_sources"]
+            tax_source_tp += tp; tax_source_pred += pred_n; tax_source_gold += gold_n
+            for key in tax_hits:
+                c, t = taxonomy[key]
+                tax_hits[key][0] += c; tax_hits[key][1] += t
 
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     n_eval = n_gold - n_skipped - n_failed  # 实际参与 status 判定的记录数
@@ -218,6 +255,26 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
               for f in ALL_FIELDS}
     name_f1_mean = round(name_f1_sum / name_f1_n, 4) if name_f1_n else 0.0
     role_accuracy = _ratio(role_correct, role_matched)
+    tax_source_precision = _ratio(tax_source_tp, tax_source_pred)
+    tax_source_recall = _ratio(tax_source_tp, tax_source_gold)
+    tax_source_f1 = (
+        round(2 * tax_source_precision * tax_source_recall / (tax_source_precision + tax_source_recall), 4)
+        if tax_source_precision + tax_source_recall else 0.0
+    )
+    taxonomy_report = {
+        "generation_sources": {
+            "true_positive": tax_source_tp,
+            "pred_total": tax_source_pred,
+            "gold_total": tax_source_gold,
+            "precision": tax_source_precision,
+            "recall": tax_source_recall,
+            "f1": tax_source_f1,
+        },
+        **{
+            key: {"correct": values[0], "total": values[1], "accuracy": _ratio(*values)}
+            for key, values in tax_hits.items()
+        },
+    }
 
     field_accs = [v["accuracy"] for v in fields.values() if v["total"]]
     components = {
@@ -233,6 +290,7 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
     report = {
         "timestamp": timestamp,
         "extractor_version": extractor_version,
+        "llm_routing": _llm_routing_snapshot(),
         "n_gold": n_gold,
         "n_failed": n_failed,
         "n_skipped": n_skipped,
@@ -242,6 +300,7 @@ def run_eval(gold_path, *, extract_fn=None, raw_news_db=None, cache_dir=None,
                         "precision": ps_precision, "recall": ps_recall, "f1": ps_f1},
         "fields": fields,
         "entity": {"name_f1_mean": name_f1_mean, "role_accuracy": role_accuracy, "role_matched_total": role_matched},
+        "taxonomy": taxonomy_report,
         "weighted_total": weighted_total,
     }
 

@@ -32,3 +32,38 @@ def test_flat_maps_chinese_unnamed():
     from eval.predict import flat_prediction
     art = flat_prediction({"status": "chinese_unnamed_participation", "projects": []})
     assert art["status"] == "chinese_unnamed" and art["projects"] == []
+
+def test_flat_exposes_energy_facts_and_derives_shadow_category():
+    result = {"status": "valid_project", "projects": [{"common_info": {
+        "Project Name": "A", "Category": "综合能源",
+        "generation_sources_json": '["光伏"]',
+        "storage_status_normalized": "confirmed",
+        "storage_power_mw_parsed": 50,
+        "storage_energy_mwh_parsed": 100,
+    }}]}
+    project = flat_prediction(result)["projects"][0]
+    assert project["generation_sources"] == ["光伏"]
+    assert project["storage_status"] == "confirmed"
+    assert project["proposed_category"] == "光伏"
+
+
+def test_flat_exposes_all_versioned_projection_fields():
+    """Flatten every Studio-scored project field from the staged extractor shape."""
+    result = {"status": "valid_project", "projects": [{"common_info": {
+        "Project Name": "A", "Country": "肯尼亚", "Project Developer": "中国电建",
+        "Planned Start Date": "2026-01-01", "Planned Complete Date": "2027-01-01",
+        "Investment Date": "2025-01-01", "Contract Amount (Million USD)": 12.0,
+        "Financing Amount (Million USD)": 8.0, "Project Summary": "摘要",
+        "Storage Power": "50", "Storage Energy": "100",
+    }}]}
+
+    project = flat_prediction(result)["projects"][0]
+
+    assert project["country"] == "肯尼亚"
+    assert project["project_developer"] == "中国电建"
+    assert project["planned_start_date"] == "2026-01-01"
+    assert project["planned_complete_date"] == "2027-01-01"
+    assert project["investment_date"] == "2025-01-01"
+    assert project["contract_amount_usd"] == 12.0
+    assert project["financing_amount_usd"] == 8.0
+    assert project["project_summary"] == "摘要"

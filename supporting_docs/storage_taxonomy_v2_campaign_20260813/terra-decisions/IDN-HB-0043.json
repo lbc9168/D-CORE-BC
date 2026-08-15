@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0043",
+  "package_sha256": "52c309f17cecb6092ef3f3a1cf5c2da94bc3745067e13f9a5e6c0e6314f9749c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93091.html",
+        "surface": "title",
+        "quote": "旺能环境成功中标印尼勿加泗项目，“一带一路”绿色版图再添重彩"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0043-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93091.html",
+          "surface": "title",
+          "quote": "旺能环境成功中标印尼勿加泗项目，“一带一路”绿色版图再添重彩"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "HND-ES-0001",
+  "package_sha256": "1352813bca21dd2e5223a5ca346351a167bf54245de62f9716fbfb0da1c5a9b4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80245.html",
+        "surface": "title",
+        "quote": "运达股份中标中美洲地区首个储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80245.html",
+        "surface": "body",
+        "quote": "近日，运达股份联合洪都拉斯当地电力企业EQUINSA，成功中标中美洲地区首个储能项目——洪都拉斯储能EPC项目，实现了国际储能业务“首投首中”的重要突破，不仅标志着公司正式迈入全球储能市场，更为未来的国际化发展奠定了坚实基础。\n据悉，该项目系洪都拉斯国家重点工程，建成后，将显著提升洪都拉斯电网的稳定性和可再生能源的接纳能力，助力当地能源结构优化和区域经济的可"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "HND-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80245.html",
+          "surface": "title",
+          "quote": "运达股份中标中美洲地区首个储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80245.html",
+          "surface": "body",
+          "quote": "近日，运达股份联合洪都拉斯当地电力企业EQUINSA，成功中标中美洲地区首个储能项目——洪都拉斯储能EPC项目，实现了国际储能业务“首投首中”的重要突破，不仅标志着公司正式迈入全球储能市场，更为未来的国际化发展奠定了坚实基础。\n据悉，该项目系洪都拉斯国家重点工程，建成后，将显著提升洪都拉斯电网的稳定性和可再生能源的接纳能力，助力当地能源结构优化和区域经济的可"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程江苏院",
+      "role": "总承包商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "2×30兆瓦",
+    "Capacity Details": "直流侧装机总容量60兆瓦",
+    "Category": "光伏",
+    "Country": "泰国",
+    "Energy Composition Evidence": "NPS绿湖2×30兆瓦漂浮光伏项目",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "巴真武里府304工业园",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "泰国NPS绿湖2×30兆瓦漂浮光伏项目",
+    "Project Name (EN)": "NPS Green Lake 2x30MW Floating Solar Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

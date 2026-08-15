@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GBR-ES-0012",
+  "package_sha256": "0f33eb33260353f13806a6f3166d40fc714db3ed434b5bb4a1d50b4861900ba5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 42000,
+    "storage_energy_mwh": 70000,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/69836.html",
+        "surface": "body",
+        "quote": "8月7日，远景储能近日又中标英国两个储能项目。\n项目具体情况为：远景储能将成为阿布扎比Masdar能源公司的供应商，为其英国子公司Arlington Energy旗下两个项目Welkin Road和Royle Barn Road提供交直流整套储能设备、场站SCADA及EMS系统，预计将于2025年"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GBR-ES-0012-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 42000,
+      "storage_energy_mwh": 70000,
+      "storage_power_mw_raw": "42GW",
+      "storage_energy_mwh_raw": "70GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/69836.html",
+          "surface": "body",
+          "quote": "8月7日，远景储能近日又中标英国两个储能项目。\n项目具体情况为：远景储能将成为阿布扎比Masdar能源公司的供应商，为其英国子公司Arlington Energy旗下两个项目Welkin Road和Royle Barn Road提供交直流整套储能设备、场站SCADA及EMS系统，预计将于2025年"
+        }
+      ]
+    }
+  ]
+}

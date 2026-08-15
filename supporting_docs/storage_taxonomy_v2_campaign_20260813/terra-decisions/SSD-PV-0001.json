@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SSD-PV-0001",
+  "package_sha256": "db9bcc8e966bf365ae89d8c883efd17c8299ad6d82d5193b4a666ee674907c05",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 0.12,
+    "storage_energy_mwh": 0.48,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94124.html",
+        "surface": "title",
+        "quote": "南苏丹朱巴基地光伏发电系统改造完成，正式投运"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94124.html",
+        "surface": "body",
+        "quote": "该光伏发电系统有效规避了当地频繁停电的影响，大幅降低柴油发电依赖度，成功摆脱能源供应不可控风险，以实际行动促进节能降耗，为基地运营提供了经济、安全、稳定的绿色能源保障，也为集团海外绿色低碳营地的建设与运营积累了宝贵经验。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94124.html",
+        "surface": "body",
+        "quote": "结合南苏丹光照充足、连绵阴雨天气稀少的地域特点及实际用电需求，该光伏系统总安装面积约1000平方米，装机容量0.198MW，储能0.12MW/0.48MWh，通过搭载高性能逆变器、储能电池等设备，可全面覆盖基地办公区、生活区及商铺，实现日常用电自给自足。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SSD-PV-0001-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 0.12,
+      "storage_energy_mwh": 0.48,
+      "storage_power_mw_raw": "0.12MW",
+      "storage_energy_mwh_raw": "0.48MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94124.html",
+          "surface": "title",
+          "quote": "南苏丹朱巴基地光伏发电系统改造完成，正式投运"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94124.html",
+          "surface": "body",
+          "quote": "该光伏发电系统有效规避了当地频繁停电的影响，大幅降低柴油发电依赖度，成功摆脱能源供应不可控风险，以实际行动促进节能降耗，为基地运营提供了经济、安全、稳定的绿色能源保障，也为集团海外绿色低碳营地的建设与运营积累了宝贵经验。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94124.html",
+          "surface": "body",
+          "quote": "结合南苏丹光照充足、连绵阴雨天气稀少的地域特点及实际用电需求，该光伏系统总安装面积约1000平方米，装机容量0.198MW，储能0.12MW/0.48MWh，通过搭载高性能逆变器、储能电池等设备，可全面覆盖基地办公区、生活区及商铺，实现日常用电自给自足。"
+        }
+      ]
+    }
+  ]
+}

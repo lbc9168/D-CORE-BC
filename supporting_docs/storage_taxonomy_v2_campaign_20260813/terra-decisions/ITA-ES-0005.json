@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ITA-ES-0005",
+  "package_sha256": "e33bf97e9b952c0cd4f5e5e0d1a527d81a943b07cae1882a89cacdd0fdaed063",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 597.88,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26513.html",
+        "surface": "body",
+        "quote": "本次签约的储能系统项目具体包括美国Stampede光伏储能项目、美国Frence Post光伏储能项目和意大利La Casella电网服务项目。\n南都电源将为该项目提供锂电非步入式储能集装箱及系统，并提供现场调试、培训等增值服务。\n项目预计在2022年底前完成交付。\n其中，美国Stampede和美国Frence Post光伏储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26513.html",
+        "surface": "title",
+        "quote": "南都电源签约597.88MWh海外储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26513.html",
+        "surface": "body",
+        "quote": "日前，南都电源揽获了意大利国家电力公司集团的锂电池储能系统项目，\n总容量为597.88MWh，实现了签约项目重大规模突破。\n该项目是公司进入欧美主流电力辅助服务市场的标杆性项目，将有力推动公司储能业务未来在海外市场的快速发展。\n本次签约的储能系统项目具体包括美国Stampede光伏储能项目、美国Frence Post光伏储能项目和意"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ITA-ES-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 597.88,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "597.88MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26513.html",
+          "surface": "body",
+          "quote": "本次签约的储能系统项目具体包括美国Stampede光伏储能项目、美国Frence Post光伏储能项目和意大利La Casella电网服务项目。\n南都电源将为该项目提供锂电非步入式储能集装箱及系统，并提供现场调试、培训等增值服务。\n项目预计在2022年底前完成交付。\n其中，美国Stampede和美国Frence Post光伏储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26513.html",
+          "surface": "title",
+          "quote": "南都电源签约597.88MWh海外储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26513.html",
+          "surface": "body",
+          "quote": "日前，南都电源揽获了意大利国家电力公司集团的锂电池储能系统项目，\n总容量为597.88MWh，实现了签约项目重大规模突破。\n该项目是公司进入欧美主流电力辅助服务市场的标杆性项目，将有力推动公司储能业务未来在海外市场的快速发展。\n本次签约的储能系统项目具体包括美国Stampede光伏储能项目、美国Frence Post光伏储能项目和意"
+        }
+      ]
+    }
+  ]
+}

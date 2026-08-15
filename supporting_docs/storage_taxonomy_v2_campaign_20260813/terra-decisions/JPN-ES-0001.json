@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "JPN-ES-0001",
+  "package_sha256": "3fe4bf54cdbdb244e62f73af541e5587b74f523e5fd1117b70f92e7ee9128283",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 12,
+    "storage_energy_mwh": 48,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86054.html",
+        "surface": "title",
+        "quote": "正式投运，国轩高科助力打造日本离岛最大储能电站"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86054.html",
+        "surface": "body",
+        "quote": "日前，日本冲绳电力株式会社宣布，宫古岛第二发电所大型储能电站正式投入商业运行。该项目容量达12MW/48MWh，是冲绳县乃至日本离岛中规模最大的储能电站，全部采用国轩高科提供的3.42MWh液冷储能系统。\n作为独立电网的离岛，宫古岛长期依赖柴油机发电，既受燃油运输制约，又面临成本高昂的问题；而可再生能源占比的大幅提升，进一步加剧了对电"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "JPN-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 12,
+      "storage_energy_mwh": 48,
+      "storage_power_mw_raw": "12MW",
+      "storage_energy_mwh_raw": "48MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86054.html",
+          "surface": "title",
+          "quote": "正式投运，国轩高科助力打造日本离岛最大储能电站"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86054.html",
+          "surface": "body",
+          "quote": "日前，日本冲绳电力株式会社宣布，宫古岛第二发电所大型储能电站正式投入商业运行。该项目容量达12MW/48MWh，是冲绳县乃至日本离岛中规模最大的储能电站，全部采用国轩高科提供的3.42MWh液冷储能系统。\n作为独立电网的离岛，宫古岛长期依赖柴油机发电，既受燃油运输制约，又面临成本高昂的问题；而可再生能源占比的大幅提升，进一步加剧了对电"
+        }
+      ]
+    }
+  ]
+}

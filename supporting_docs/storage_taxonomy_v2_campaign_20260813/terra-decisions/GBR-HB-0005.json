@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GBR-HB-0005",
+  "package_sha256": "f0f1ccafb027b9f506d62d904b0dc2751138906c00b6be3137d477c592fe7455",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 25,
+    "storage_energy_mwh": 58,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/36398.html",
+        "surface": "body",
+        "quote": "，将在英国应用液冷系统TrinaStorage Elementa，建设容量为25MW/58MWh的首个海外光储项目和与SMS公司再度联手的50MW/58MWh的电池储能项目。\n天合储能海外业务负责人陈程表示，“我们非常期待海外首个光伏配储项目的落地，同时非常感谢SMS公司的认可，让我们有机会再度合作。我们将提供全生命周期的解决方案和行业领先的服务，以优质的产品为基础，以专业的运维为后盾，"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/36398.html",
+        "surface": "title",
+        "quote": "天合储能再签约英国超100MWh储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/36398.html",
+        "surface": "body",
+        "quote": "近期，继英国容量为50MW/102MWh的Swangate项目签约仅一个月后，天合储能在海外市场再次斩获\n超100MWh储能订单\n，将在英国应用液冷系统TrinaStorage Elementa，建设容量为25MW/58MWh的首个海外光储项目和与SMS公司再度联手的50MW/58MWh的电池储能项目。\n天合储能海外业务负责人陈程表示，“我们非常期待海外首个光伏配"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GBR-HB-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 25,
+      "storage_energy_mwh": 58,
+      "storage_power_mw_raw": "25MW",
+      "storage_energy_mwh_raw": "58MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/36398.html",
+          "surface": "body",
+          "quote": "，将在英国应用液冷系统TrinaStorage Elementa，建设容量为25MW/58MWh的首个海外光储项目和与SMS公司再度联手的50MW/58MWh的电池储能项目。\n天合储能海外业务负责人陈程表示，“我们非常期待海外首个光伏配储项目的落地，同时非常感谢SMS公司的认可，让我们有机会再度合作。我们将提供全生命周期的解决方案和行业领先的服务，以优质的产品为基础，以专业的运维为后盾，"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/36398.html",
+          "surface": "title",
+          "quote": "天合储能再签约英国超100MWh储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/36398.html",
+          "surface": "body",
+          "quote": "近期，继英国容量为50MW/102MWh的Swangate项目签约仅一个月后，天合储能在海外市场再次斩获\n超100MWh储能订单\n，将在英国应用液冷系统TrinaStorage Elementa，建设容量为25MW/58MWh的首个海外光储项目和与SMS公司再度联手的50MW/58MWh的电池储能项目。\n天合储能海外业务负责人陈程表示，“我们非常期待海外首个光伏配"
+        }
+      ]
+    }
+  ]
+}

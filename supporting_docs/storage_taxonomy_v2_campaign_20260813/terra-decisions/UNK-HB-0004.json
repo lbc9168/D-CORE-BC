@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UNK-HB-0004",
+  "package_sha256": "48b27ff77ad77d260052657eebe9c13380f60f34f195c4adae1094722f204797",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据；能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/87271.html",
+        "surface": "body",
+        "quote": "双方一致表示，将以此次签约为契机，充分发挥各自资源优势，围绕光伏、风电、垃圾发电、生物质发电、储能等多种清洁能源类型，在赞比亚乃至东非、西非等区域展开一揽子项目合作，共同推进非洲绿色能源建设，助力非洲可持续发展和全球低碳转型。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UNK-HB-0004-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/87271.html",
+          "surface": "body",
+          "quote": "双方一致表示，将以此次签约为契机，充分发挥各自资源优势，围绕光伏、风电、垃圾发电、生物质发电、储能等多种清洁能源类型，在赞比亚乃至东非、西非等区域展开一揽子项目合作，共同推进非洲绿色能源建设，助力非洲可持续发展和全球低碳转型。"
+        }
+      ]
+    }
+  ]
+}

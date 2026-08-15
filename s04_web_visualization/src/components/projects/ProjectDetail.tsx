@@ -3,7 +3,8 @@ import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { formatCountryName } from "@/utils/display";
-import { INVOLVEMENT_TYPES } from "@/utils/enums";
+import EntityList from "./EntityList";
+import TechnologyTagBadges from "./TechnologyTagBadges";
 
 interface ProjectDetailProps {
   project: Project;
@@ -50,6 +51,15 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             {cat.en}
           </span>
         )}
+        {p.subcategory_en && (
+          <span
+            className="badge text-xs border bg-white"
+            style={{ color: cat?.color ?? "#64748B", borderColor: (cat?.color ?? "#64748B") + "66" }}
+          >
+            {p.subcategory_en}
+          </span>
+        )}
+        <TechnologyTagBadges project={p} />
         <span
           className="badge text-xs"
           style={{ backgroundColor: stageColor + "20", color: stageColor }}
@@ -65,7 +75,8 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
       </div>
 
       {/* 关键数字条（cobalt 风格：彩色竖线 + 大数字）；event_count 恒有值，故无条件渲染 */}
-      <div className="flex gap-6 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
+      {/* 储能/光储字段有值才出现对应格：ES 项目 capacity 恒空，由储能双指标顶上（W30b） */}
+      <div className="flex flex-wrap gap-x-6 gap-y-2 px-4 py-3 border-b border-slate-100 bg-slate-50/60">
         {p.capacity_mw != null && (
           <div className="border-l-[3px] pl-2.5" style={{ borderColor: cat?.color ?? "#2F6562" }}>
             <div className="text-lg font-bold text-slate-800 leading-tight">
@@ -73,6 +84,33 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               <span className="text-xs font-medium text-slate-400 ml-1">MW</span>
             </div>
             <div className="text-[11px] text-slate-400">{t("projectDetail.capacity")}</div>
+          </div>
+        )}
+        {p.pv_capacity_mw != null && (
+          <div className="border-l-[3px] border-amber-500 pl-2.5">
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.pv_capacity_mw.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">MW</span>
+            </div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.pvSubCapacity")}</div>
+          </div>
+        )}
+        {p.storage_power_mw != null && (
+          <div className="border-l-[3px] border-violet-500 pl-2.5">
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.storage_power_mw.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">MW</span>
+            </div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.storagePower")}</div>
+          </div>
+        )}
+        {p.storage_energy_mwh != null && (
+          <div className="border-l-[3px] border-violet-400 pl-2.5">
+            <div className="text-lg font-bold text-slate-800 leading-tight">
+              {p.storage_energy_mwh.toFixed(1)}
+              <span className="text-xs font-medium text-slate-400 ml-1">MWh</span>
+            </div>
+            <div className="text-[11px] text-slate-400">{t("projectDetail.storageEnergy")}</div>
           </div>
         )}
         {p.total_investment_usd != null && (
@@ -110,6 +148,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               label={t("projectDetail.category")}
               value={cat ? cat.en : (p.category_en || p.category)}
             />
+            <Row label={t("projectDetail.subtype")} value={p.subcategory_en} />
             {p.verification_status === "verified" && (
               <Row label={t("projectDetail.verification")} value={t("projectDetail.verified")} />
             )}
@@ -136,33 +175,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               {t("projectDetail.entities")}
             </h4>
-            <div className="space-y-2">
-              {p.all_entities.map((ent, i) => (
-                <div key={i} className="bg-slate-50 rounded-xl p-3 text-xs">
-                  <div className="flex items-center gap-1.5 flex-wrap">
-                    <span className="font-medium text-slate-800">
-                      {ent.name_en || ent.name}
-                    </span>
-                    {ent.is_central_soe === 1 && (
-                      <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold
-                                       bg-amber-100 text-amber-700 leading-none">
-                        Central SOE
-                      </span>
-                    )}
-                  </div>
-                  {ent.subsidiary && (
-                    <div className="text-slate-500 mt-0.5">
-                      {ent.subsidiary_en || ent.subsidiary}
-                    </div>
-                  )}
-                  {ent.involvement_type && (
-                    <div className="text-slate-400 mt-0.5">
-                      {ent.involvement_type_en || INVOLVEMENT_TYPES[ent.involvement_type]?.en || ent.involvement_type}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <EntityList entities={p.all_entities} />
           </section>
         )}
 
@@ -196,7 +209,13 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
               : p.financing_model && p.financing_model !== "Unknown"
               ? p.financing_model
               : null;
-          if (!fmValue && p.total_investment_usd == null) return null;
+          // 区块出现条件覆盖全部四个字段，防"只有金额有值"时整块漏渲染（W30b）
+          if (
+            !fmValue &&
+            p.total_investment_usd == null &&
+            p.contract_amount_usd == null &&
+            p.financing_amount_usd == null
+          ) return null;
           return (
             <section>
               <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
@@ -213,6 +232,19 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
                   <div className="flex gap-2">
                     <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.investment")}</span>
                     <span className="text-slate-800">{p.total_investment_usd.toFixed(1)}</span>
+                  </div>
+                )}
+                {/* 合同金额/融资额度：2026-07 起新数据才有值，历史全空 → 条件渲染（用户拍板） */}
+                {p.contract_amount_usd != null && (
+                  <div className="flex gap-2">
+                    <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.contractAmount")}</span>
+                    <span className="text-slate-800">{p.contract_amount_usd.toFixed(1)}</span>
+                  </div>
+                )}
+                {p.financing_amount_usd != null && (
+                  <div className="flex gap-2">
+                    <span className="text-slate-400 w-24 flex-shrink-0">{t("projectDetail.financingAmount")}</span>
+                    <span className="text-slate-800">{p.financing_amount_usd.toFixed(1)}</span>
                   </div>
                 )}
               </div>

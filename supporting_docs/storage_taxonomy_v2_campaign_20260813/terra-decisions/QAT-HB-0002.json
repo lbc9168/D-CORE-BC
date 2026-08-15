@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "QAT-HB-0002",
+  "package_sha256": "49ecc96d3e92000d6ba7e3772cc4b225432b050a0bd102f043af9f5885ccfe37",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93179.html",
+        "surface": "title",
+        "quote": "兴电国际中标海外多个项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "QAT-HB-0002-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93179.html",
+          "surface": "title",
+          "quote": "兴电国际中标海外多个项目"
+        }
+      ]
+    }
+  ]
+}

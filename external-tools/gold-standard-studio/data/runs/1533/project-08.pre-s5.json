@@ -1,0 +1,41 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "三一重能",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "股权投资方",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "2028-01-01",
+    "(Planned) Start Date": "",
+    "Additional Remarks": "已签署15年PPA和CfD，计划2028年投运。",
+    "Capacity (MW)": "168MW",
+    "Capacity Details": "年发电量预计为480GWh，不作为装机容量",
+    "Category": "风电",
+    "Country": "塞尔维亚",
+    "Energy Composition Evidence": "收购168MW风电项目",
+    "Financing Model": "股权融资",
+    "Financing Model Details": "三一重能收购168MW风电项目",
+    "Generation Sources": [
+      "风电"
+    ],
+    "Location(State)": "",
+    "Project Developer": "三一重能",
+    "Project Developer Evidence": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目",
+    "Project Name": "塞尔维亚168MW风电项目",
+    "Project Name (EN)": "Serbia 168MW Wind Power Project",
+    "Project Stage": "收购",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

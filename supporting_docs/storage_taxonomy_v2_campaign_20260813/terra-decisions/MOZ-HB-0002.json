@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MOZ-HB-0002",
+  "package_sha256": "e6daff424dfa6f4e7dd3ac6de8bbdd8728fab6826079adc44691d23a2dd2ce45",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 350,
+    "storage_energy_mwh": 62,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49894.html",
+        "surface": "body",
+        "quote": "▪ 迪拜DEWA VI光伏项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49894.html",
+        "surface": "body",
+        "quote": "▪ 乌兹别克斯坦Guzar 350MW+62MWh光伏及储能项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MOZ-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 350,
+      "storage_energy_mwh": 62,
+      "storage_power_mw_raw": "350MW",
+      "storage_energy_mwh_raw": "62MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49894.html",
+          "surface": "body",
+          "quote": "▪ 迪拜DEWA VI光伏项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49894.html",
+          "surface": "body",
+          "quote": "▪ 乌兹别克斯坦Guzar 350MW+62MWh光伏及储能项目"
+        }
+      ]
+    }
+  ]
+}

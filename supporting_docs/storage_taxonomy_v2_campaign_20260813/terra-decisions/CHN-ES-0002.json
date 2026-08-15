@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHN-ES-0002",
+  "package_sha256": "c771cab252f999340ae572f29958e67ac54b75a0824d193429a5eedbd0e7ba11",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 200,
+    "storage_energy_mwh": 400,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/60517.html",
+        "surface": "body",
+        "quote": "平高集团投资建设的首批宁夏宁东、锦洋绿储共享储能项目并网发电张玉雪摄\n农历腊月二十九，位于宁夏国家级工业园区宁东能源化工基地内的宁夏宁东绿储共享储能项目现场，室外气温已经降到零下11度。平高集团电力工程公司项目负责人李黎明正带领李振坡、金军涛两名员工冒着严寒进行设备巡检，确保春节期间电力供应。\n“这个项目是平高集团投资建设的首"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHN-ES-0002-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 200,
+      "storage_energy_mwh": 400,
+      "storage_power_mw_raw": "200MW",
+      "storage_energy_mwh_raw": "400MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/60517.html",
+          "surface": "body",
+          "quote": "平高集团投资建设的首批宁夏宁东、锦洋绿储共享储能项目并网发电张玉雪摄\n农历腊月二十九，位于宁夏国家级工业园区宁东能源化工基地内的宁夏宁东绿储共享储能项目现场，室外气温已经降到零下11度。平高集团电力工程公司项目负责人李黎明正带领李振坡、金军涛两名员工冒着严寒进行设备巡检，确保春节期间电力供应。\n“这个项目是平高集团投资建设的首"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRA-ES-0003",
+  "package_sha256": "18baf01ec17fb3b237a47f9eda29c89d85d0a6d730021ef864c607fd111dcf0b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 1500,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95664.html",
+        "surface": "title",
+        "quote": "运达首个海外储能工厂在巴西正式揭幕"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95664.html",
+        "surface": "body",
+        "quote": "近日，运达能源科技集团巴西巴伊亚州卡马萨里储能工厂正式举行揭幕仪式。巴伊亚州州长杰罗尼莫·罗德里格斯，省机电集团党委书记、董事长孙哲君，运达能源科技集团党委书记、董事长陈棋出席活动，共同见证运达首个海外储能制造基地正式启用。\n作为运达在海外布局的首个电池储能系统（BESS）工厂，卡马萨里储能工厂坐落于巴西巴伊亚州卡马萨里工业"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRA-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 1500,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "1.5GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95664.html",
+          "surface": "title",
+          "quote": "运达首个海外储能工厂在巴西正式揭幕"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95664.html",
+          "surface": "body",
+          "quote": "近日，运达能源科技集团巴西巴伊亚州卡马萨里储能工厂正式举行揭幕仪式。巴伊亚州州长杰罗尼莫·罗德里格斯，省机电集团党委书记、董事长孙哲君，运达能源科技集团党委书记、董事长陈棋出席活动，共同见证运达首个海外储能制造基地正式启用。\n作为运达在海外布局的首个电池储能系统（BESS）工厂，卡马萨里储能工厂坐落于巴西巴伊亚州卡马萨里工业"
+        }
+      ]
+    }
+  ]
+}

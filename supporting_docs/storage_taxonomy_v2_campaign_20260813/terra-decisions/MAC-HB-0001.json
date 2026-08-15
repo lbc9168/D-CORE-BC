@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MAC-HB-0001",
+  "package_sha256": "83418adb399311c99cafbb8a038b472bdf2b4a8a64279c54dbaf818c1ce08f3e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/71182.html",
+        "surface": "title",
+        "quote": "澳门垃圾焚化中心第三期扩建工程顺利交付"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MAC-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/71182.html",
+          "surface": "title",
+          "quote": "澳门垃圾焚化中心第三期扩建工程顺利交付"
+        }
+      ]
+    }
+  ]
+}

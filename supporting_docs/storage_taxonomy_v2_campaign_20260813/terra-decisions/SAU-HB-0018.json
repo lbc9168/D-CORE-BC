@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-HB-0018",
+  "package_sha256": "cd11a7ec43a62b8b06d841d449372f9c5fb0c370a0ce5cdfac5288013ed97985",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原光储子类未找到明确项目储能证据",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/41429.html",
+        "surface": "title",
+        "quote": "沙特首个光伏综合海水淡化项目投运"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-HB-0018-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/41429.html",
+          "surface": "title",
+          "quote": "沙特首个光伏综合海水淡化项目投运"
+        }
+      ]
+    }
+  ]
+}

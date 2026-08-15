@@ -1,0 +1,16 @@
+# 北极星光伏（guangfu 子站）：瑞数分层 JS 反爬墙——列表页隐身 headless 可过，
+# 但文章详情页触发滑块验证码（"滑动验证页面"）隐身过不了，故 discover_only（只登记 URL 不抓正文）。
+# 详情页正文需未来接入滑块求解或人工；当前存列表页标题 + URL 内日期，已够下一轮重叠率标题比对。
+name: bjx
+label: 北极星光伏
+tier: 2
+parser: html_list
+render: headless
+discover_only: true
+listing_urls:
+  - https://guangfu.bjx.com.cn/
+max_pages: 1
+article_url_pattern: 'guangfu\.bjx\.com\.cn/news/\d{8}/\d+\.shtml'
+article:
+  url_date_pattern: '/news/(\d{4})(\d{2})(\d{2})/'  # discover_only：日期从 URL 提取（详情页不抓）
+rate_limit_seconds: 4.0

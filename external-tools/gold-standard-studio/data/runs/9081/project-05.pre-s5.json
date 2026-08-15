@@ -1,0 +1,31 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "许继集团",
+      "role": "中标方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "",
+    "Category": "综合能源",
+    "Country": "塔吉克斯坦",
+    "Energy Composition Evidence": "塔吉克斯坦风光储项目",
+    "Generation Sources": [
+      "风电",
+      "光伏"
+    ],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "塔吉克斯坦风光储项目",
+    "Project Name (EN)": "Tajikistan Wind Solar PV and Energy Storage Project",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  }
+}

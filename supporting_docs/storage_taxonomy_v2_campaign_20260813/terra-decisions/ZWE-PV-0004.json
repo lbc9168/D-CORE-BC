@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZWE-PV-0004",
+  "package_sha256": "027a487d411c963c72674febdb530516fac63561d237f76b64d4dc5e2dbc0723",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/61901.html",
+        "surface": "title",
+        "quote": "中矿资源集团津巴布韦Bikita矿山配套光伏发电项目主体工程建成并投入使用"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/61901.html",
+        "surface": "body",
+        "quote": "目前，最大单日发电量8万度、平均5.75万度，所发电量占比矿山每日用电量达到20%以上，大大降低了使用柴油发电机的用电成本（每度光伏发电成本是每度柴油发电成本的近1/20）。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/61901.html",
+        "surface": "body",
+        "quote": "该项目是津巴布韦第一个带储能的光伏发电站，也是第一个市电+柴油发电站+光伏+储能的能源系统。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZWE-PV-0004-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/61901.html",
+          "surface": "title",
+          "quote": "中矿资源集团津巴布韦Bikita矿山配套光伏发电项目主体工程建成并投入使用"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/61901.html",
+          "surface": "body",
+          "quote": "目前，最大单日发电量8万度、平均5.75万度，所发电量占比矿山每日用电量达到20%以上，大大降低了使用柴油发电机的用电成本（每度光伏发电成本是每度柴油发电成本的近1/20）。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/61901.html",
+          "surface": "body",
+          "quote": "该项目是津巴布韦第一个带储能的光伏发电站，也是第一个市电+柴油发电站+光伏+储能的能源系统。"
+        }
+      ]
+    }
+  ]
+}

@@ -24,9 +24,12 @@ export function statusMix(projects: Project[], year: number | null): Map<VizGrou
   return m;
 }
 
+/** topCountries 的最小行结构：Project 与 TxMfProject 均满足（count 只用 country_iso） */
+export type CountryRow = { country_iso: string; category?: string; capacity_mw?: number | null };
+
 /** Top N 国家（按项目数或装机容量） */
 export function topCountries(
-  projects: Project[],
+  projects: CountryRow[],
   metric: "count" | "capacity",
   n = 12,
 ): { iso: string; value: number }[] {

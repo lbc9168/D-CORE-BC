@@ -1,0 +1,26 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：中国电气装备签约国际市场
+发布日期：2025-02-22 13:30:25
+来源：https://news.goalfore.cn/topstories/detail/79051.html
+正文：
+中国西电西电国际连续签约马来西亚柔佛州数据中心275千伏和132千伏变电站成套供货项目、柬埔寨国家电力公司4个230千伏变电站电力变压器供货合同及磅德罗拉230千伏输电线路总包项目。
+中国西电西电西变中标直接出口OBI4×380MW电厂工程2#降压站降压变压器项目。
+中国西电西开有限中标中电装备巴西东北部新能源±800千伏特高压直流输电项目高压直流转换开关设备，实现了中国制造的高压直流转换开关设备首次出口应用于海外±800千伏特高压直流输电项目。中标印尼聚萬铝业电解铝项目252千伏组合电器，取得有色金属冶炼项目新突破。
+中国西电西电西容中标中电装备沙特柔直换流站项目RI电容器产品、坦桑尼亚-赞比亚联网项目电压互感器系列产品，进一步提升了产品在国际市场的影响力。
+中国西电集团西电光电缆中标中国土木工程集团尼日利亚拉各斯轻轨蓝线五期项目、中国交建马来西亚东海岸铁路物资采购项目等海外订单。
+许继电气中标中国水利电力对外有限公司阿尔及利亚780兆瓦光伏项目开关柜及附属设备采购项目，是近年来企业中标的单体最大的海外开关柜项目。
+平高电气中标白俄罗斯利达330千伏变电站、印度420千伏Godda及PSP变电站、东帝汶Comoro变电站、肯尼亚Lessos变电站等项目GIS设备；中标2024年巴西新能源送出±800千伏特高压直流输电项目穿墙套管产品。
+山东电工电气中标葡萄牙能源公司REN导线项目8000吨导线，创造了企业线缆类产品出口欧洲市场的最大合同额纪录。
+山东电工电气中标马来西亚PESTECH公司柬埔寨松朗河输电线路项目，项目包含3800吨铁塔和892公里导线。
+山东电工电气中标哈萨克斯坦600兆瓦燃机高厂变项目，标志着企业高厂变首次进入哈萨克斯坦市场。
+山东电工电气常州东智中标阿尔巴尼亚Koman站项目，是首次以东智名义在欧洲市场上的中标，实现了“东智”品牌在欧洲市场的破冰。
+山东电工电气中标阿曼Voltamp公司试验变项目600千伏200兆伏安变压器，实现了企业在特种变压器领域的全新突破。
+国际公司签约沙特电力公司（SEC）高压移动变电站EPC框架合同，并匹配首批采购订单。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-4604-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":4604,"article_sha256":"011e9210a3238bcdeae2d545b2835246cda66b3de60774fc78ff8320a62e4111","article_status":{"value_state":"present","value":"valid_project","evidence":"中国西电西电国际连续签约马来西亚柔佛州数据中心275千伏和132千伏变电站成套供货项目"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"马来西亚柔佛州数据中心275千伏和132千伏变电站成套供货项目","evidence":"马来西亚柔佛州数据中心275千伏和132千伏变电站成套供货项目"},"category":{"value_state":"present","value":"输变电建设","evidence":"275千伏和132千伏变电站"},"subcategory_raw_fact":{"value_state":"present","value":"变电站成套供货","evidence":"变电站成套供货项目"},"generation_sources":{"value_state":"not_applicable","value":[]},"storage_status":{"value_state":"not_applicable","value":null},"storage_power_mw":{"value_state":"not_applicable","value":null},"storage_energy_mwh":{"value_state":"not_applicable","value":null},"generation_capacity_mw":{"value_state":"not_applicable","value":null},"project_stage":{"value_state":"present","value":"签约","evidence":"中国西电西电国际连续签约马来西亚柔佛州数据中心275千伏和132千伏变电站成套供货项目"},"country":{"value_state":"present","value":"马来西亚","evidence":"马来西亚柔佛州"},"location":{"value_state":"present","value":"柔佛州","evidence":"马来西亚柔佛州"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"not_mentioned","value":null},"chinese_entities":[{"entity":{"value_state":"present","value":"中国西电西电国际","evidence":"中国西电西电国际连续签约"},"role":{"value_state":"present","value":"成套供货","evidence":"变电站成套供货项目"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{"in_scope":true}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/4604/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

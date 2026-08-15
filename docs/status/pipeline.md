@@ -1,6 +1,6 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-07-09（新增阶段 2B-6 剩余名称翻译回填：LLM 批翻长尾名 + 残余缓存，fill-if-null）
+> 最后更新：2026-08-05（2B-7 严格事实回填 + 2B-8 能源分类影子报告）
 
 ---
 
@@ -36,6 +36,10 @@
    ↓
 阶段二B-6 剩余名称翻译回填 ← cfg.run_residual_translate=False 时跳过（2B-4 miss 的长尾中文名：registry>主缓存>残余缓存>LLM 批翻，写 residual_translation_cache.json，fill-if-null 只填 *_en 空/含中文行）
    ↓
+阶段二B-7 能源事实/储能容量/光伏形态回填 ← cfg.run_storage_subcat_backfill=False 时跳过（严格上下文，停止新增“综合能源/光储”）
+   ↓
+阶段二B-8 能源分类影子汇总 ← cfg.run_energy_taxonomy_shadow=False 时跳过（默认写 shadow 表并生成内部 CSV/JSON；正式类别/子类/ID 不变）
+   ↓
 预留（默认关，置标志位启用，函数内延迟 import）：
    阶段二C 交叉验证  ← cfg.run_cross_verification=True
    阶段三   导出     ← cfg.run_export=True
@@ -61,6 +65,8 @@
 | `run_en_backfill` | bool | True | 是否执行英文名回填（缓存口径同步 *_en 列） |
 | `run_txmf_backfill` | bool | True | 是否执行 TX/MF 专用列回填（s01b txmf_backfill，fill-if-null） |
 | `run_residual_translate` | bool | True | 是否执行剩余名称翻译回填（长尾名 LLM 翻译+残余缓存，fill-if-null） |
+| `run_storage_subcat_backfill` | bool | True | 是否执行严格储能事实与光伏形态回填（不新增 HB/光储） |
+| `run_energy_taxonomy_shadow` | bool | True | 是否执行版本化影子分类并生成内部差异报告 |
 | `run_cross_verification` | bool | False | 是否执行 s02c 交叉验证（预留） |
 | `run_export` | bool | False | 是否执行 s03 导出（预留） |
 | `start_date` / `end_date` | str | 见代码 | s01a 爬取日期范围 |

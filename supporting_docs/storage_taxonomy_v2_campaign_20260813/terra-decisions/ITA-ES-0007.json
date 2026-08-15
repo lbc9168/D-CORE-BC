@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ITA-ES-0007",
+  "package_sha256": "5b2ab9a2bf3587ab94b97036fa06f4152d8f9d095cffcb9ea461b4699a8ccaf0",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 35,
+    "storage_energy_mwh": 50.16,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94443.html",
+        "surface": "body",
+        "quote": "项目配置13.75MW/50.16MWh储能系统与35MWp光伏电站协同运行，标志着隆基在欧洲市场的布局迈出坚实一步。\n此次并网的意大利项目，不仅是隆基在欧洲储能市场的首次成功实践，更充分验证了隆基储能在交付效率与系统可靠性方面的显著优势。\n项目中，隆基为该电站提供了从储能核心设备到系统级管控的全套一体化集成方案。依托统一的技术体系与深度优化"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94443.html",
+        "surface": "title",
+        "quote": "隆基首个欧洲储能项目并网"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94443.html",
+        "surface": "body",
+        "quote": "近日，隆基在意大利成功完成首个欧洲储能一体化项目的并网投运。项目配置13.75MW/50.16MWh储能系统与35MWp光伏电站协同运行，标志着隆基在欧洲市场的布局迈出坚实一步。\n此次并网的意大利项目，不仅是隆基在欧洲储能市场的首次成功实践，更充分验证了隆基储能在交付效率与系统可靠性方面的显著优势。\n项目中，隆基为该"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ITA-ES-0007-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 35,
+      "storage_energy_mwh": 50.16,
+      "storage_power_mw_raw": "35MW",
+      "storage_energy_mwh_raw": "50.16MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94443.html",
+          "surface": "body",
+          "quote": "项目配置13.75MW/50.16MWh储能系统与35MWp光伏电站协同运行，标志着隆基在欧洲市场的布局迈出坚实一步。\n此次并网的意大利项目，不仅是隆基在欧洲储能市场的首次成功实践，更充分验证了隆基储能在交付效率与系统可靠性方面的显著优势。\n项目中，隆基为该电站提供了从储能核心设备到系统级管控的全套一体化集成方案。依托统一的技术体系与深度优化"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94443.html",
+          "surface": "title",
+          "quote": "隆基首个欧洲储能项目并网"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94443.html",
+          "surface": "body",
+          "quote": "近日，隆基在意大利成功完成首个欧洲储能一体化项目的并网投运。项目配置13.75MW/50.16MWh储能系统与35MWp光伏电站协同运行，标志着隆基在欧洲市场的布局迈出坚实一步。\n此次并网的意大利项目，不仅是隆基在欧洲储能市场的首次成功实践，更充分验证了隆基储能在交付效率与系统可靠性方面的显著优势。\n项目中，隆基为该"
+        }
+      ]
+    }
+  ]
+}

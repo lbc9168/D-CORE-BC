@@ -1,0 +1,24 @@
+{
+  "candidate_id": "sol-reviewer-12153-stage4e-v1", "execution_role": "reviewer", "model": "gpt-5.6-sol", "article_id": 12153,
+  "article_sha256": "eaac2134d2764d3c8a0d2778bd7783ff30b66bbd71db90229416381118601d77", "parent_candidate_id": "terra-provider-12153-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "公司正在寻求在中东国家建造一家工厂，年产量为 12 万吨，并计划最早于2025年投产", "confidence": 0.97, "verdict": "ok", "reviewer_note": "保留文章主述的协鑫拟建工厂；TCL中环早前签约仅为背景历史案例，予以排除。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [{
+    "project_name": {"value_state": "derived_from_explicit", "value": "沙特阿拉伯年产12万吨硅料工厂项目", "evidence": "公司正在寻求在中东国家建造一家工厂，年产量为 12 万吨", "confidence": 0.92, "verdict": "ok", "reviewer_note": "沙特落点由后文在沙特注册、部署团队及谈判后期共同支持。"},
+    "category": {"value_state": "derived_from_explicit", "value": "新能源制造业", "evidence": "中国硅料企业的首度出海", "confidence": 0.99, "verdict": "ok", "reviewer_note": "硅料制造工厂的确定性分类。"},
+    "subcategory_raw_fact": {"value_state": "present", "value": "硅料工厂", "evidence": "硅料企业的首度出海", "confidence": 0.98, "verdict": "wrong", "reviewer_note": "Provider遗漏原始制造子类。"},
+    "generation_sources": {"value_state": "not_applicable", "value": [], "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "制造项目不适用。"},
+    "storage_status": {"value_state": "not_applicable", "value": "not_applicable", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "制造项目不适用储能字段。"},
+    "storage_power_mw": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "不适用。"},
+    "storage_energy_mwh": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "不适用。"},
+    "generation_capacity_mw": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "12万吨是年产量，绝非发电容量。"},
+    "project_stage": {"value_state": "present", "value": "拟建/谈判后期", "evidence": "协鑫集团与沙特阿拉伯之间的谈判，实际上已进入了后期阶段", "confidence": 0.95, "verdict": "wrong", "reviewer_note": "较泛化“拟开发”更精确。"},
+    "country": {"value_state": "derived_from_explicit", "value": "沙特阿拉伯", "evidence": "协鑫在沙特阿拉伯已取得一些积极进展", "confidence": 0.94, "verdict": "ok", "reviewer_note": "正文先写中东，后续多处明确沙特落地进展。"},
+    "location": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未给城市或园区。"},
+    "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未披露投资额。"},
+    "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "project_developer": {"value_state": "present", "value": "协鑫集团", "evidence": "协鑫集团与沙特阿拉伯之间的谈判", "confidence": 0.98, "verdict": "ok", "reviewer_note": "拟建主体明确。"},
+    "chinese_entities": [{"entity_name": {"value_state": "present", "value": "协鑫集团", "evidence": "协鑫集团与沙特阿拉伯之间的谈判", "confidence": 0.99, "verdict": "ok", "reviewer_note": "企业明确。"}, "role": {"value_state": "present", "value": "拟建方", "evidence": "公司正在寻求在中东国家建造一家工厂", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "现阶段是拟建方而非已确定开发商。"}}]
+  }],
+  "prompt_manifest": {"renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"}, "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"}, "prompt": {"path": "data/runs/12153/reviewer.prompt.txt", "sha256": "bb5ad73e5ed988372423e88e064a22d17f34866e3d8d60acb40c81e9469e68a8"}, "provider_sha256": "031e564a9cd4e6a235a20acc7769ad371bd7c76b6335d4f48ef62fa34dae91c5"}
+}

@@ -92,6 +92,35 @@ uv --project s01b_project_extractor run python -m eval.run_eval \
   对 `run_eval()` 同时传 `extract_fn=` 与 `extractor_version=` 即走纯本地路径（genai 为延迟导入）。
 - `--no-cache` 强制重新提取；`--reports-dir` / `--cache-dir` 可覆盖默认目录。
 
+### 5. 模型组合可行性评测 `run_model_matrix.py`
+
+用固定 seed 从现有 Gold 按 status 分层抽取小样本，对生产基线、Gemini 3.5 Flash-Lite、GPT-5 Nano、GPT-5.4 Nano 和固定 Nano 混合路由运行相同 Prompt/后处理：
+
+```bash
+python -m eval.run_model_matrix --sample-size 8 --seed 20260814
+```
+
+- OpenAI key 读取 `OPENAI_API_KEY`，兼容现有 `GPT_API_KEY`；模型用 `OPENAI_MODEL`。
+- `S01B_STAGE_MODELS` 支持 `s1:gpt-5-nano,s2:gpt-5.4-nano` 形式的阶段级模型覆盖，与 `S01B_STAGE_PROVIDERS` 配合。
+- 每个 profile 使用独立 cache/report，`summary.json` 记录无密钥路由、Prompt/模型版本、样本 hash、指标和失败。
+- 对一文一项目样本额外输出 URL 锁定诊断，避免旧中文项目名 `token_set_ratio >= 80` 阈值遮蔽字段表现；canonical evaluator 原指标保持不变。
+- 早期 Gold 的能源分类、投资字段和实体规则可能已过时，只适合 smoke 与方向性诊断。正式排名必须使用当前 guideline 的 development Gold。
+
+暂停封存的人工确认草稿可作为只读 development benchmark；适配器只选择 `confirmed=1`，并从封存 article snapshot 生成同一次运行专用的原文库，未确认草稿（如 23627）自动排除：
+
+```bash
+python -m eval.run_model_matrix \
+  --archive-review-db external-tools/gold-standard-studio/data/archives/golden-standard-paused-20260813/review.db \
+  --sample-size 0 \
+  --profiles baseline-gemini25-deepseek,gemini35-deepseek,gpt54nano-deepseek,gemini35s1-gemini25s2-gpt54nano
+```
+
+`gemini35s1-gemini25s2-gpt54nano` 固定路由为 S1=`gemini-3.5-flash-lite`、S2=`gemini-2.5-flash-lite`、合并 S34 与 S5=`gpt-5.4-nano`；它只属于评测 profile，不改变生产默认值。
+
+- `benchmark/manifest.json` 记录封存库、Gold、原文库 hash、confirmed/excluded ID 与旧 taxonomy 限制；不会解封或改写 Studio。
+- `LLM_REQUEST_TIMEOUT_SECONDS` 控制单次 provider 请求超时，默认 90 秒；provider SDK 内部隐式重试关闭，统一由 S01B 外层重试，避免重试乘法导致批次无限挂起。
+- 一文一项目诊断额外报告排除 category 的 `policy_stable_fields`，用于区分旧 taxonomy 漂移与 stage/financing/capacity/investment 表现。
+
 ---
 
 ## 打分规则（`metrics.py`，P0.1 多项目）

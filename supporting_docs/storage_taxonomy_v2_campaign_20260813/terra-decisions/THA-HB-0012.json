@@ -1,0 +1,97 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0012",
+  "package_sha256": "96b9aa2f43967c3dff91259dfcb0675d0205808a7a71ce6a9e905ceb9e8006e5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/22598.html",
+        "surface": "title",
+        "quote": "中国能建总承包建设泰国诗琳通大坝综合浮体光伏项目全容量并网发电"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/22598.html",
+        "surface": "body",
+        "quote": "该项目是泰国最大的浮体光伏项目，也是泰国国家电力局第一个浮体光伏和水电站相结合的综合能源项目。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/13062.html",
+        "surface": "body",
+        "quote": "诗琳通大坝58.5兆瓦水面浮体光伏EPC总承包项目合同"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/13062.html",
+        "surface": "body",
+        "quote": "诗琳通大坝水面浮体光伏项目是泰国最大的浮体光伏项目，也是泰国最大的水电+光伏+储能的综合能源项目，项目规划容量58.5兆瓦。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0012-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/22598.html",
+          "surface": "title",
+          "quote": "中国能建总承包建设泰国诗琳通大坝综合浮体光伏项目全容量并网发电"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/22598.html",
+          "surface": "body",
+          "quote": "该项目是泰国最大的浮体光伏项目，也是泰国国家电力局第一个浮体光伏和水电站相结合的综合能源项目。"
+        }
+      ]
+    },
+    {
+      "event_id": "THA-HB-0012-02",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/13062.html",
+          "surface": "body",
+          "quote": "诗琳通大坝58.5兆瓦水面浮体光伏EPC总承包项目合同"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/13062.html",
+          "surface": "body",
+          "quote": "诗琳通大坝水面浮体光伏项目是泰国最大的浮体光伏项目，也是泰国最大的水电+光伏+储能的综合能源项目，项目规划容量58.5兆瓦。"
+        }
+      ]
+    }
+  ]
+}

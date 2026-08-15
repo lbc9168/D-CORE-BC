@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ROU-HB-0003",
+  "package_sha256": "1a7e4e7d52db2e91a4f46d574c527f07b2dc8327d0e934e2c224de9cf2bdd298",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54531.html",
+        "surface": "body",
+        "quote": "罗马尼亚光储项目EPC合同、"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54531.html",
+        "surface": "title",
+        "quote": "连签三单！中电工程国际公司海外市场光伏、光储、风电项目全面开花"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ROU-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54531.html",
+          "surface": "body",
+          "quote": "罗马尼亚光储项目EPC合同、"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54531.html",
+          "surface": "title",
+          "quote": "连签三单！中电工程国际公司海外市场光伏、光储、风电项目全面开花"
+        }
+      ]
+    }
+  ]
+}

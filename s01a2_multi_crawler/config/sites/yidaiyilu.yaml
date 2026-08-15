@@ -1,0 +1,9 @@
+# 中国一带一路网（官方门户）：按日 sitemap 增量，volume 小（~23篇/天），合规最干净
+name: yidaiyilu
+label: 中国一带一路网
+parser: sitemap_daily
+sitemap_index: https://www.yidaiyilu.gov.cn/websitemap/sitemapindex.xml
+article_url_pattern: 'yidaiyilu\.gov\.cn/p/[0-9A-Z]+\.html'
+article:
+  content_selectors: ['.news-details-content']
+rate_limit_seconds: 3.0

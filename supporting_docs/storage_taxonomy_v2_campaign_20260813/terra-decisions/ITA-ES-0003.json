@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ITA-ES-0003",
+  "package_sha256": "c1315f7904f45468a980b0c32e4fd4d60aaba42c72eb8ec210957a48658e78c3",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 6200,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/70903.html",
+        "surface": "title",
+        "quote": "天合储能成功交付意大利标杆性独立储能项目，系统解决方案引领全球智慧光储发展"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/70903.html",
+        "surface": "body",
+        "quote": "作为全球领先的储能解决方案提供商，天合储能海内外储能项目在全球各个角落接连交付投运。天合储能位于意大利的标杆性地面电站独立储能项目——Torre di Pierri于2023年底成功投运，目前持续稳定运营中，为提高当地电网的稳定性和可靠性贡献重要价值。\n一个个储能项目的顺利交付，再次证明了天合储能"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ITA-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 6200,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "6.2GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/70903.html",
+          "surface": "title",
+          "quote": "天合储能成功交付意大利标杆性独立储能项目，系统解决方案引领全球智慧光储发展"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/70903.html",
+          "surface": "body",
+          "quote": "作为全球领先的储能解决方案提供商，天合储能海内外储能项目在全球各个角落接连交付投运。天合储能位于意大利的标杆性地面电站独立储能项目——Torre di Pierri于2023年底成功投运，目前持续稳定运营中，为提高当地电网的稳定性和可靠性贡献重要价值。\n一个个储能项目的顺利交付，再次证明了天合储能"
+        }
+      ]
+    }
+  ]
+}

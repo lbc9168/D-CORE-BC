@@ -1,0 +1,41 @@
+{
+  "article_id": 75,
+  "article_sha256": "eba1c54e950fa61aa2b893ccff79eb9ee9c5c54533916d82d041b2c8ee94a89e",
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "projects": [
+    {
+      "project_index": 0,
+      "project_name": "印度尼西亚邦加槟港150吨/日垃圾焚烧发电项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\75\\project-01.s34.prompt.txt",
+        "sha256": "246e5c17adeffa397d5979c187870ca0a2f085ddf1152a10f257cbd88b46d308"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\75\\project-01.s5.prompt.txt",
+        "sha256": "7beea5d6d77f8ccde8bee48cec45cda7342c9d67227a5f7f53592cfc3ce887ec"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\75\\project-01.pre-s5.json",
+        "sha256": "28c1bdadf6d94bc4061be0c89025e1b6ac5ef8d5597322dfd2814624657b1535"
+      }
+    }
+  ],
+  "working_result": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\75\\provider-working.json"
+}

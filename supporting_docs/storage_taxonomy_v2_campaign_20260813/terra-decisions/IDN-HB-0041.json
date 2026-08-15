@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0041",
+  "package_sha256": "8b801518928d63a02c05f5575f28b8b7ffea2e4b0db2184b669b45f4e610abbb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/18864.html",
+        "surface": "body",
+        "quote": "该项目计划在印尼青山园区和印尼纬达贝园区建设包括太阳能、风能的发电站及配套设施。\n经过前期为时半年的考察及规划，\n青山实业决定在未来3至5年期间\n，在印尼投资建设2000MW的清洁能源基地，为绿色发展提供电力保障。其生产的电能将主要用于生产新能源电动车电池所需要的原材料。\n项目建成后，青山实业印尼工业园区内的电池原料生产将在很大程度"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0041-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/18864.html",
+          "surface": "body",
+          "quote": "该项目计划在印尼青山园区和印尼纬达贝园区建设包括太阳能、风能的发电站及配套设施。\n经过前期为时半年的考察及规划，\n青山实业决定在未来3至5年期间\n，在印尼投资建设2000MW的清洁能源基地，为绿色发展提供电力保障。其生产的电能将主要用于生产新能源电动车电池所需要的原材料。\n项目建成后，青山实业印尼工业园区内的电池原料生产将在很大程度"
+        }
+      ]
+    }
+  ]
+}

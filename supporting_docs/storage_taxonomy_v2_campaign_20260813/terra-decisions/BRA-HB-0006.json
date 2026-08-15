@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRA-HB-0006",
+  "package_sha256": "790c81a326d91809675b9670f9dc6c9df87c778d3d22a17a405937798181b7cb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 0.5,
+    "storage_energy_mwh": 0.1,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/69398.html",
+        "surface": "title",
+        "quote": "晶澳科技高效组件助力巴西“光伏+储能”实证实验项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/69398.html",
+        "surface": "body",
+        "quote": "2024年下半年，晶澳科技供货组件的巴西伊利亚索尔泰拉（Ilha Solteira）水电站的500kW+100kWh“光伏+储能”实证实验项目将启动建设，开启巴西市场提升光伏电站发电灵活性和系统稳定性的创新尝试。\n项目由三峡巴西公司（CTG Brasil）开发，依托巴西国家电力局（Aneel）的电力部门研究、开发和创新计划（PDI），计划在巴拉那河上的伊利亚索尔泰拉水"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/69398.html",
+        "surface": "body",
+        "quote": "2024年下半年，晶澳科技供货组件的巴西伊利亚索尔泰拉（Ilha Solteira）水电站的500kW+100kWh“光伏+储能”实证实验项目将启动建设，开启巴西市场提升光伏电站发电灵活性和系统稳定性的创新尝试。\n项目由三峡巴西公司（CTG Brasil）开发，依托巴西国家电力局（Aneel）的电力部门研究、开发和创新计划（PDI），计划在巴拉那河上的伊利亚索尔泰拉水电站（Ilha Solteira）成立"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRA-HB-0006-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 0.5,
+      "storage_energy_mwh": 0.1,
+      "storage_power_mw_raw": "500kW",
+      "storage_energy_mwh_raw": "100kWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/69398.html",
+          "surface": "title",
+          "quote": "晶澳科技高效组件助力巴西“光伏+储能”实证实验项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/69398.html",
+          "surface": "body",
+          "quote": "2024年下半年，晶澳科技供货组件的巴西伊利亚索尔泰拉（Ilha Solteira）水电站的500kW+100kWh“光伏+储能”实证实验项目将启动建设，开启巴西市场提升光伏电站发电灵活性和系统稳定性的创新尝试。\n项目由三峡巴西公司（CTG Brasil）开发，依托巴西国家电力局（Aneel）的电力部门研究、开发和创新计划（PDI），计划在巴拉那河上的伊利亚索尔泰拉水"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/69398.html",
+          "surface": "body",
+          "quote": "2024年下半年，晶澳科技供货组件的巴西伊利亚索尔泰拉（Ilha Solteira）水电站的500kW+100kWh“光伏+储能”实证实验项目将启动建设，开启巴西市场提升光伏电站发电灵活性和系统稳定性的创新尝试。\n项目由三峡巴西公司（CTG Brasil）开发，依托巴西国家电力局（Aneel）的电力部门研究、开发和创新计划（PDI），计划在巴拉那河上的伊利亚索尔泰拉水电站（Ilha Solteira）成立"
+        }
+      ]
+    }
+  ]
+}

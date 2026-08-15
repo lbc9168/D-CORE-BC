@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SUR-HB-0004",
+  "package_sha256": "7ffe04836e90e56e3d99bd2eedb3f4b4ca095d9906529992611cfbc19a032ebd",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 18.6,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82085.html",
+        "surface": "title",
+        "quote": "江西电建苏里南村庄微电网光伏项目（二期）博托帕西微电网项目完工揭牌"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82085.html",
+        "surface": "body",
+        "quote": "苏里南村庄微电网光伏项目（二期）位于苏里南萨拉玛卡省苏里南河沿岸和马罗韦纳河沿岸，为光伏、储能、柴发混合能源的离网型微电网项目，总覆盖45个森林村落，总计光伏装机5.349兆瓦，储能18.6兆瓦时，柴油发电机总计容量2.813兆伏安，建成后年发电量8780兆瓦时。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SUR-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 18.6,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "18.6兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82085.html",
+          "surface": "title",
+          "quote": "江西电建苏里南村庄微电网光伏项目（二期）博托帕西微电网项目完工揭牌"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82085.html",
+          "surface": "body",
+          "quote": "苏里南村庄微电网光伏项目（二期）位于苏里南萨拉玛卡省苏里南河沿岸和马罗韦纳河沿岸，为光伏、储能、柴发混合能源的离网型微电网项目，总覆盖45个森林村落，总计光伏装机5.349兆瓦，储能18.6兆瓦时，柴油发电机总计容量2.813兆伏安，建成后年发电量8780兆瓦时。"
+        }
+      ]
+    }
+  ]
+}

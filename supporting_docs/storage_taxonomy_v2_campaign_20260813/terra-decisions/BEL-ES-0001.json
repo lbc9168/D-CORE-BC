@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BEL-ES-0001",
+  "package_sha256": "61c1cf390712c04ed97891be0e2bafc2b7d4a6fd375abb00f6a3cbb39d4ca8c1",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 10,
+    "storage_energy_mwh": 55,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94534.html",
+        "surface": "title",
+        "quote": "深化欧洲布局｜欣旺达携手本土客户，落地比利时配电侧储能标杆项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94534.html",
+        "surface": "body",
+        "quote": "当地时间4月22日，欣旺达携手比利时本土客户，在当地举行电池储能项目落成仪式。该项目规模为10MW/55MWh，是接入Fluvius配电网最大的电池储能园区之一，标志着欣旺达在欧洲市场本地化布局与项目交付能力进一步落地。\n活动当天，项目各方代表出席落成仪式。欣旺达高级副总裁孙威现场出席并参与剪彩仪式，与合作伙伴共同见证项目正式投运。\n聚焦配电"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BEL-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 10,
+      "storage_energy_mwh": 55,
+      "storage_power_mw_raw": "10MW",
+      "storage_energy_mwh_raw": "55MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94534.html",
+          "surface": "title",
+          "quote": "深化欧洲布局｜欣旺达携手本土客户，落地比利时配电侧储能标杆项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94534.html",
+          "surface": "body",
+          "quote": "当地时间4月22日，欣旺达携手比利时本土客户，在当地举行电池储能项目落成仪式。该项目规模为10MW/55MWh，是接入Fluvius配电网最大的电池储能园区之一，标志着欣旺达在欧洲市场本地化布局与项目交付能力进一步落地。\n活动当天，项目各方代表出席落成仪式。欣旺达高级副总裁孙威现场出席并参与剪彩仪式，与合作伙伴共同见证项目正式投运。\n聚焦配电"
+        }
+      ]
+    }
+  ]
+}

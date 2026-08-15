@@ -103,8 +103,16 @@ def score_article(pred: dict, gold: dict) -> dict:
     """单篇文章打分：status 闸门 → 贪心对齐 → 对上项目逐字段/实体打分。
     返回 {status_correct, scored, project_set:(matched,pred_n,gold_n)|None,
           field_hits:{field:(correct,total)}, entity:(sum_name_f1,n_matched,role_correct,role_matched)|None}。"""
+    taxonomy = {
+        "generation_sources": (0, 0, 0),
+        "storage_status": (0, 0),
+        "storage_power_mw": (0, 0),
+        "storage_energy_mwh": (0, 0),
+        "proposed_category": (0, 0),
+    }
     out = {"status_correct": cmp_status(pred.get("status"), gold.get("status")),
-           "scored": False, "project_set": None, "field_hits": {}, "entity": None}
+           "scored": False, "project_set": None, "field_hits": {}, "entity": None,
+           "taxonomy": taxonomy}
     if not out["status_correct"] or gold.get("status") != "valid":
         return out
     out["scored"] = True
@@ -117,6 +125,8 @@ def score_article(pred: dict, gold: dict) -> dict:
     field_total = {f: 0 for f in all_fields}
     sum_name_f1 = 0.0
     role_correct = role_matched = 0
+    source_tp = source_pred = source_gold = 0
+    taxonomy_hits = {key: [0, 0] for key in taxonomy if key != "generation_sources"}
     for pi, gi in matched:
         p, g = pred_projects[pi], gold_projects[gi]
         for f in PROJECT_ENUM_FIELDS:
@@ -131,6 +141,28 @@ def score_article(pred: dict, gold: dict) -> dict:
         sum_name_f1 += nf1
         role_correct += rc
         role_matched += rm
+        if g.get("generation_sources") is not None:
+            predicted_sources = set(p.get("generation_sources") or [])
+            gold_sources = set(g.get("generation_sources") or [])
+            source_tp += len(predicted_sources & gold_sources)
+            source_pred += len(predicted_sources)
+            source_gold += len(gold_sources)
+            taxonomy_hits["proposed_category"][1] += 1
+            if p.get("proposed_category") == g.get("category"):
+                taxonomy_hits["proposed_category"][0] += 1
+        if g.get("storage_status") is not None:
+            taxonomy_hits["storage_status"][1] += 1
+            if p.get("storage_status") == g.get("storage_status"):
+                taxonomy_hits["storage_status"][0] += 1
+        for field in ("storage_power_mw", "storage_energy_mwh"):
+            if g.get(field) is not None:
+                taxonomy_hits[field][1] += 1
+                if cmp_numeric(p.get(field), g.get(field)):
+                    taxonomy_hits[field][0] += 1
     out["field_hits"] = {f: (field_correct[f], field_total[f]) for f in all_fields}
     out["entity"] = (sum_name_f1, len(matched), role_correct, role_matched)
+    out["taxonomy"] = {
+        "generation_sources": (source_tp, source_pred, source_gold),
+        **{key: tuple(value) for key, value in taxonomy_hits.items()},
+    }
     return out

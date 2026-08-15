@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ESP-HB-0006",
+  "package_sha256": "72b77bb4af88bc97652bb9b10f9a65d786794a949e3f5ea6580950b55cacd6f4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/21849.html",
+        "surface": "body",
+        "quote": "2021年8月12日，三峡国际所属三峡欧洲公司顺利完成西班牙Horus项目交割，继Daylight光伏项目后，在西班牙新能源市场再下一城，清洁能源运营装机规模达到百万千瓦，并实现风电和光伏的资产优化配置。\nHorus项目包含位于西班牙境内的11座风电站和1座光伏电站，总装机40.49万千瓦，项目拥有具备长期监管收入、运营安全稳定、设备质量可靠等优势。\n三峡国际利用多年来在欧洲资本"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/21849.html",
+        "surface": "body",
+        "quote": "2021年8月12日，三峡国际所属三峡欧洲公司顺利完成西班牙Horus项目交割，继Daylight光伏项目后，在西班牙新能源市场再下一城，清洁能源运营装机规模达到百万千瓦，并实现风电和光伏的资产优化配置。\nHorus项目包含位于西班牙境内的11座风电站和1座光伏电站，总装机40.49万千瓦，项目拥有具备长期监管收入、运营安全稳定、设备质量可靠等优势。\n三峡国际利用多年来在欧洲资本市场和清洁能源市场树立的良好声誉，克服疫情不利影响，经过审慎研究和艰苦谈判，成功"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ESP-HB-0006-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/21849.html",
+          "surface": "body",
+          "quote": "2021年8月12日，三峡国际所属三峡欧洲公司顺利完成西班牙Horus项目交割，继Daylight光伏项目后，在西班牙新能源市场再下一城，清洁能源运营装机规模达到百万千瓦，并实现风电和光伏的资产优化配置。\nHorus项目包含位于西班牙境内的11座风电站和1座光伏电站，总装机40.49万千瓦，项目拥有具备长期监管收入、运营安全稳定、设备质量可靠等优势。\n三峡国际利用多年来在欧洲资本"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/21849.html",
+          "surface": "body",
+          "quote": "2021年8月12日，三峡国际所属三峡欧洲公司顺利完成西班牙Horus项目交割，继Daylight光伏项目后，在西班牙新能源市场再下一城，清洁能源运营装机规模达到百万千瓦，并实现风电和光伏的资产优化配置。\nHorus项目包含位于西班牙境内的11座风电站和1座光伏电站，总装机40.49万千瓦，项目拥有具备长期监管收入、运营安全稳定、设备质量可靠等优势。\n三峡国际利用多年来在欧洲资本市场和清洁能源市场树立的良好声誉，克服疫情不利影响，经过审慎研究和艰苦谈判，成功"
+        }
+      ]
+    }
+  ]
+}

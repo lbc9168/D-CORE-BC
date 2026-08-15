@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ROU-ES-0003",
+  "package_sha256": "5967e816b2473bfccaa49dd15ca6156b881e233262cc2b8be2e20a1b86ffb3f2",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 65,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85166.html",
+        "surface": "title",
+        "quote": "罗马尼亚储能新突破: Visual Fan联手Renovatio投建65兆瓦时电池储能项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ROU-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 65,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "65兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85166.html",
+          "surface": "title",
+          "quote": "罗马尼亚储能新突破: Visual Fan联手Renovatio投建65兆瓦时电池储能项目"
+        }
+      ]
+    }
+  ]
+}

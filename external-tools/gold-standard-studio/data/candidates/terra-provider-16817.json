@@ -1,0 +1,178 @@
+{
+  "candidate_id": "terra-provider-16817-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 16817,
+  "article_sha256": "619782f7e9adc9abf2f9195602473c12622350c46363280424ec7a6b47bce12c",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "英国威尔特郡门迪99.8兆瓦/99.8兆瓦时电池储能项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "储能",
+        "evidence": "储能",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "规划装机容量为99.8兆瓦，总能量密度为99.8兆瓦时",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "规划装机容量为99.8兆瓦，总能量密度为99.8兆瓦时",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "99.8兆瓦",
+        "evidence": "99.8兆瓦",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "99.8兆瓦时",
+        "evidence": "99.8兆瓦时",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "99.8兆瓦",
+        "evidence": "99.8兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "英国",
+        "evidence": "英国",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "威尔特郡门迪镇",
+        "evidence": "威尔特郡门迪镇",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "中国华能集团",
+        "evidence": "中国华能集团",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国华能集团",
+            "evidence": "中国华能集团",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "投资方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "英国门迪99.8MW/99.8MWh电池储能项目运营",
+      "is_power_generation_plant": true,
+      "reasoning": "具名电网侧储能项目且中国华能投资运营。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "英国威尔特郡门迪99.8兆瓦/99.8兆瓦时电池储能项目",
+            "Project Name (EN)": "Mendi 99.8MW/99.8MWh Battery Energy Storage Project",
+            "Country": "英国",
+            "Location(State)": "威尔特郡门迪镇",
+            "Category": "储能",
+            "Generation Sources": [],
+            "Storage Status": "confirmed",
+            "Storage Power": "99.8兆瓦",
+            "Storage Energy": "99.8兆瓦时",
+            "Energy Composition Evidence": "规划装机容量为99.8兆瓦，总能量密度为99.8兆瓦时",
+            "Capacity (MW)": "99.8兆瓦",
+            "Capacity Details": "99.8兆瓦时",
+            "Project Stage": "投入运营",
+            "Project Developer": "中国华能集团",
+            "Project Developer Evidence": "中国华能集团位于英国",
+            "(Planned) Start Date": "2019-12-01",
+            "(Planned) Complete Date": "2021-06-01"
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国华能集团",
+            "role": "投资方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/16817/base-manifest.json",
+    "dynamic": "data/runs/16817/dynamic-manifest.json",
+    "working_result": "data/runs/16817/provider-working.json"
+  }
+}

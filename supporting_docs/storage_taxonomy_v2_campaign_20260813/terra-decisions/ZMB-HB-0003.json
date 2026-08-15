@@ -1,0 +1,53 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZMB-HB-0003",
+  "package_sha256": "c0678a5b71a0b8f4e0ed2a9cee733b207e4fc6171fff6a37681449692c09da7c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88134.html",
+        "surface": "title",
+        "quote": "水电十一局卢森发太阳能光伏项目举行奠基仪式"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZMB-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88134.html",
+          "surface": "title",
+          "quote": "水电十一局卢森发太阳能光伏项目举行奠基仪式"
+        }
+      ]
+    }
+  ]
+}

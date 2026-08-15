@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0013",
+  "package_sha256": "6acdcb6ab24106b88b492df91fc711765b8e0568bff621303cf325cfaafaedd8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/83647.html",
+        "surface": "title",
+        "quote": "中建三局三局海外市场连中六标"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0013-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/83647.html",
+          "surface": "title",
+          "quote": "中建三局三局海外市场连中六标"
+        }
+      ]
+    }
+  ]
+}

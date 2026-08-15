@@ -1,0 +1,37 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中工国际工程股份有限公司",
+      "role": "投资方"
+    },
+    {
+      "entity_name": "机械工业勘察设计研究院有限公司",
+      "role": "服务商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "日处理垃圾2,500吨",
+    "Category": "生物质",
+    "Country": "乌兹别克斯坦",
+    "Energy Composition Evidence": "生活垃圾焚烧发电项目",
+    "Generation Sources": [
+      "生物质"
+    ],
+    "Location(State)": "塔什干市",
+    "Project Developer": "中工国际工程股份有限公司",
+    "Project Developer Evidence": "由中工国际工程股份有限公司（CAMCE）投资、建设及运营",
+    "Project Name": "乌兹别克斯坦塔什干生活垃圾焚烧发电项目",
+    "Project Name (EN)": "Tashkent Municipal Solid Waste Incineration Power Project",
+    "Project Stage": "拟开发",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

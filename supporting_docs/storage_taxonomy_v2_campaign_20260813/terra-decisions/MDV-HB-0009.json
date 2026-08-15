@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MDV-HB-0009",
+  "package_sha256": "08e841adf96acf1c3aaeed25148026480e4cf13ea5e656a5f69cbbcb71ea9000",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32749.html",
+        "surface": "body",
+        "quote": "酒店建成后，将铺设光伏和储能发电设施，柴油发电机组转为备用电源使用，可降低酒店的碳排放与用电成本，提升供电可靠性及质量。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32749.html",
+        "surface": "body",
+        "quote": "针对业主绿色环保和低噪音需求，机电公司提出“光柴储互补”的电力系统解决方案：项目建设初期以柴油发电机组发电为主；"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MDV-HB-0009-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32749.html",
+          "surface": "body",
+          "quote": "酒店建成后，将铺设光伏和储能发电设施，柴油发电机组转为备用电源使用，可降低酒店的碳排放与用电成本，提升供电可靠性及质量。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32749.html",
+          "surface": "body",
+          "quote": "针对业主绿色环保和低噪音需求，机电公司提出“光柴储互补”的电力系统解决方案：项目建设初期以柴油发电机组发电为主；"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRA-HB-0013",
+  "package_sha256": "d5b6d846d3db5b5213cfe6e8973207db5174f5fbe2f62356d004a9505ddcdda6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 5,
+    "storage_energy_mwh": 1.36,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/4744.html",
+        "surface": "body",
+        "quote": "据了解，该1.26MW/1.36MWh储能系统将配合已建成的5MW光伏电站接入当地配电网络，用于可再生能源平稳出力和电网辅助服务等，成为当地首个光伏+储能的示范项目，项目将于2018年12月交付完成。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/4744.html",
+        "surface": "title",
+        "quote": "比亚迪签约巴西储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/4744.html",
+        "surface": "body",
+        "quote": "近期，比亚迪储能再次发力，成功签约巴西首个锂电池集装箱式储能项目，\n此项目不仅是比亚迪在巴西的首个集装箱式储能项目，同时也是巴西的第一个Utility级别锂电池储能项目\n。\n据了解，该1.26MW/1.36MWh储能系统将配合已建成的5MW光伏电站接入当地配电网络，用于可再生能源平稳出力和电网辅"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRA-HB-0013-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 5,
+      "storage_energy_mwh": 1.36,
+      "storage_power_mw_raw": "5MW",
+      "storage_energy_mwh_raw": "1.36MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/4744.html",
+          "surface": "body",
+          "quote": "据了解，该1.26MW/1.36MWh储能系统将配合已建成的5MW光伏电站接入当地配电网络，用于可再生能源平稳出力和电网辅助服务等，成为当地首个光伏+储能的示范项目，项目将于2018年12月交付完成。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/4744.html",
+          "surface": "title",
+          "quote": "比亚迪签约巴西储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/4744.html",
+          "surface": "body",
+          "quote": "近期，比亚迪储能再次发力，成功签约巴西首个锂电池集装箱式储能项目，\n此项目不仅是比亚迪在巴西的首个集装箱式储能项目，同时也是巴西的第一个Utility级别锂电池储能项目\n。\n据了解，该1.26MW/1.36MWh储能系统将配合已建成的5MW光伏电站接入当地配电网络，用于可再生能源平稳出力和电网辅"
+        }
+      ]
+    }
+  ]
+}

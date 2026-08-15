@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BGR-ES-0001",
+  "package_sha256": "0d8a3d129593c2d5754f02a37bb789c56911a94cbcd170bdad8a6ea162ec32bb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 3000,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86069.html",
+        "surface": "title",
+        "quote": "采日能源斩获保加利亚430+MWh储能大单，助力东欧能源转型"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86069.html",
+        "surface": "body",
+        "quote": "从保加利亚的阳光海岸到东欧能源腹地，中国储能技术正凭借先进的系统级解决方案，深度参与重塑欧洲绿色能源格局。 近日，上海采日能源科技有限公司在欧洲市场实现重大突破，\n成功斩获保加利亚430+MWh储能采购项目\n，展现中国储能方案引领欧洲能源转型的东方智慧。\n01\n政策引领，筑牢能源安全与韧性\n保加利亚地处欧洲东南部，日照资源"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BGR-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 3000,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "3GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86069.html",
+          "surface": "title",
+          "quote": "采日能源斩获保加利亚430+MWh储能大单，助力东欧能源转型"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86069.html",
+          "surface": "body",
+          "quote": "从保加利亚的阳光海岸到东欧能源腹地，中国储能技术正凭借先进的系统级解决方案，深度参与重塑欧洲绿色能源格局。 近日，上海采日能源科技有限公司在欧洲市场实现重大突破，\n成功斩获保加利亚430+MWh储能采购项目\n，展现中国储能方案引领欧洲能源转型的东方智慧。\n01\n政策引领，筑牢能源安全与韧性\n保加利亚地处欧洲东南部，日照资源"
+        }
+      ]
+    }
+  ]
+}

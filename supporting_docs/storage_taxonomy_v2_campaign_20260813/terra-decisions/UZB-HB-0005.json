@@ -1,0 +1,105 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0005",
+  "package_sha256": "2e0ac47aed8788de7ba9b81b7a3ea91706a72014c33b259ee7e1ffdd3e159033",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 75,
+    "storage_energy_mwh": 75,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91265.html",
+        "surface": "body",
+        "quote": "项目规划建设300MW光伏发电装机容量，配套建设75MW/75MWh储能系统，是乌兹别克斯坦推动能源结构转型、促进工业低碳发展的重点项目之一，为大型工业设施的绿色运行提供稳定保障。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84475.html",
+        "surface": "body",
+        "quote": "这是乌兹别克斯坦绿色能源转型战略下的重要项目，包括新建1座300兆瓦（直流侧）/360兆瓦（交流侧）光伏电站和75兆瓦/7兆瓦时储能电站。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/73847.html",
+        "surface": "body",
+        "quote": "国际投资公司拟通过在香港、荷兰设立平台公司，并由平台公司在乌兹别克斯坦共和国设立纳沃伊清洁能源有限公司（暂定名，届时以工商登记为准）（以下简称“项目公司”）作为项目公司建设乌兹项目，建设装机容量300MW光伏电站和75MW/75MWh 的储能系统，项目计划投资总额约为136,185万元人民币。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/73847.html",
+        "surface": "body",
+        "quote": "75MW/75MWh 的储能系统、电站侧变电站、并网线路及对侧站改造，以满足纳沃伊氮肥厂的用电需求。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0005-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 75,
+      "storage_energy_mwh": 75,
+      "storage_power_mw_raw": "75MW",
+      "storage_energy_mwh_raw": "75MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91265.html",
+          "surface": "body",
+          "quote": "项目规划建设300MW光伏发电装机容量，配套建设75MW/75MWh储能系统，是乌兹别克斯坦推动能源结构转型、促进工业低碳发展的重点项目之一，为大型工业设施的绿色运行提供稳定保障。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0005-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 75,
+      "storage_energy_mwh": 7,
+      "storage_power_mw_raw": "75兆瓦",
+      "storage_energy_mwh_raw": "7兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84475.html",
+          "surface": "body",
+          "quote": "这是乌兹别克斯坦绿色能源转型战略下的重要项目，包括新建1座300兆瓦（直流侧）/360兆瓦（交流侧）光伏电站和75兆瓦/7兆瓦时储能电站。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0005-03",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 75,
+      "storage_energy_mwh": 75,
+      "storage_power_mw_raw": "75MW",
+      "storage_energy_mwh_raw": "75MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/73847.html",
+          "surface": "body",
+          "quote": "国际投资公司拟通过在香港、荷兰设立平台公司，并由平台公司在乌兹别克斯坦共和国设立纳沃伊清洁能源有限公司（暂定名，届时以工商登记为准）（以下简称“项目公司”）作为项目公司建设乌兹项目，建设装机容量300MW光伏电站和75MW/75MWh 的储能系统，项目计划投资总额约为136,185万元人民币。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/73847.html",
+          "surface": "body",
+          "quote": "75MW/75MWh 的储能系统、电站侧变电站、并网线路及对侧站改造，以满足纳沃伊氮肥厂的用电需求。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-ES-0009",
+  "package_sha256": "4ba0cb3784a3618ffbc5bf114ab3acfc12cf98c3bde1d3d1caefade35aa4d4be",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 150,
+    "storage_energy_mwh": 300,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76201.html",
+        "surface": "body",
+        "quote": "乌兹别克斯坦总统米尔济约耶夫发表致辞，并对中国能建投资建设的安集延洛奇150MW/300MWh储能项目、费尔干纳奥兹150MW/300MWh储能项目成功并网和纳沃伊风光储综合能源项目顺利开工表示祝贺。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62720.html",
+        "surface": "body",
+        "quote": "150兆瓦/300兆瓦时储能项目开工建设。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62116.html",
+        "surface": "title",
+        "quote": "中标！乌兹别克斯坦两座150兆瓦/300兆瓦时电化学储能EPC总承包项目！"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95810.html",
+        "surface": "body",
+        "quote": "储能一期项目由奥兹、洛奇150MW/300MWh储能电站组成，采用无追索项目融资模式，由中国出口信用保险公司提供全额承保支持，并获得由中国银行澳门分行牵头，中国银行深圳分行联合组建的中资银团全额人民币贷款，为项目后续运营提供了长期稳定的资金保障。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-ES-0009-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76201.html",
+          "surface": "body",
+          "quote": "乌兹别克斯坦总统米尔济约耶夫发表致辞，并对中国能建投资建设的安集延洛奇150MW/300MWh储能项目、费尔干纳奥兹150MW/300MWh储能项目成功并网和纳沃伊风光储综合能源项目顺利开工表示祝贺。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-ES-0009-02",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150兆瓦",
+      "storage_energy_mwh_raw": "300兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62720.html",
+          "surface": "body",
+          "quote": "150兆瓦/300兆瓦时储能项目开工建设。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-ES-0009-03",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150兆瓦",
+      "storage_energy_mwh_raw": "300兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62116.html",
+          "surface": "title",
+          "quote": "中标！乌兹别克斯坦两座150兆瓦/300兆瓦时电化学储能EPC总承包项目！"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-ES-0009-04",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95810.html",
+          "surface": "body",
+          "quote": "储能一期项目由奥兹、洛奇150MW/300MWh储能电站组成，采用无追索项目融资模式，由中国出口信用保险公司提供全额承保支持，并获得由中国银行澳门分行牵头，中国银行深圳分行联合组建的中资银团全额人民币贷款，为项目后续运营提供了长期稳定的资金保障。"
+        }
+      ]
+    }
+  ]
+}

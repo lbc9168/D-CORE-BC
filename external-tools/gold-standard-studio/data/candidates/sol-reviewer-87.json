@@ -1,0 +1,179 @@
+{
+  "candidate_id": "sol-reviewer-87-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 87,
+  "article_sha256": "369a848b25de5d7696ea21e7048e09fd5d984b16167d1684befd35e5e2c89c3a",
+  "parent_candidate_id": "terra-provider-87-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "由中建八局承建的博达新能4GW光伏制造基地项目顺利竣工",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "埃及博达新能4GW光伏制造基地项目",
+        "evidence": "博达新能4GW光伏制造基地项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "新能源制造业",
+        "evidence": "光伏制造基地项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "present",
+        "value": "光伏电池片生产厂及光伏组件生产厂",
+        "evidence": "光伏电池片生产厂及光伏组件生产厂",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "generation_sources": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 将缺失状态写成 present；原文没有储能事实。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "该字段对本项目不适用。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "竣工",
+        "evidence": "项目顺利竣工",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "埃及",
+        "evidence": "埃及苏伊士经贸合作区",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "中埃·泰达苏伊士经贸合作区工业园区",
+        "evidence": "项目位于中埃·泰达苏伊士经贸合作区工业园区",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中建八局",
+            "evidence": "由中建八局承建",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "设计/施工服务方",
+            "evidence": "由中建八局承建",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/87/reviewer.prompt.txt",
+      "sha256": "9dbfdab222df59be04e8c0050470c7e50b9280c0cc40d2ad5dc27a6429a09b62"
+    },
+    "reviewer_manifest": "data/runs/87/reviewer-manifest.json",
+    "provider_sha256": "22c1bfd39b0ff9096f247fe83bd012ba3844ab67e463765fbb1112ae1d67ff0d"
+  }
+}

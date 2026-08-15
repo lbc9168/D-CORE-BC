@@ -1,0 +1,247 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：CWP Europe, PowerChina Resources sign investment contract for Vetrozelena wind farm in Serbia
+发布日期：2023-04-23 15:25:15
+来源：https://news.goalfore.cn/topstories/detail/39588.html
+正文：
+Renewable energy investor CWP Europe and PowerChina Resources signed an investment contract for the proposed Vetrozelena wind farm in Serbia. The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe, which has been developing the 300 MW wind power project in Pančevo from the start.
+The contract on the investment in the Vetrozelena contract was signed by Executive Vice President of PowerChina Resources He Shiyou and Chief Executive Officer of CWP Europe Dimitar Enchev. CWP Europe is developing a renewable energy project portfolio of over 6 GW in Albania, Bulgaria, Bosnia and Herzegovina, Montenegro, Romania, Slovenia, Serbia, Moldova and Ukraine.
+He Shiyou said that PowerChina Group’s overseas investment platform is proud of its partnership with CWP Europe aimed at upgrading the Vetrozelena project.
+He Shiyou: The contract is a perfect start of Power China Resources’ participation in the renewable energy sector in Serbia
+When the power plant becomes operational, it will help optimize the energy mix, cut energy costs, stimulate the energy sector’s transformation and sustainable and affordable clean energy supply to the Serbian people, he said and added that the new contract is a perfect start of Power China Resources’ participation in the renewable energy sector in Serbia
+According to Enchev, in 2025, when it starts to generate electricity, Vetrozelena will be the biggest wind power plant in Serbia and one of the biggest in the region.
+The investment is big, and the clean energy supply at a low price is an important step in the diversification and decarbonization of Serbia’s energy mix, he said and added that the construction is planned to start by the end of the year.
+Enchev: Construction is planned to start by the end of the year
+Vetrozelena is the second project that CWP developed in Serbia, Enchev said. It will lower CO2 emissions by an expected 820,000 tons per year, in his words.
+CWP Europe is a joint venture of renewable energy investor CWP Global and independent energy trader Mercuria Energy, which has over USD 140 billion dollars in revenues.
+Its first project in Serbia was wind park Čibuk.
+Đedović: Projects like this one are changing Serbia’s energy map
+The contract signing ceremony was attended by Jovana Joksimović, assistant to Serbia’s minister of mining and energy for international cooperation and European integration, Liu Kai, economic and trade cooperation counselor in the Embassy of China in Serbia, and Ji Xiaoyong, president of PowerChina International. Minister of Mining and Energy Dubravka Đedović addressed the gathering via video call.
+She said Serbia and China are friends and strategic partners and that their political and economic relations are excellent. The cooperation is particularly strong in the energy sector, she added and highlighted the construction of the Kostolac B3 coal-fired power plant in Serbia.
+“Vetrozelena is a large and significant investment in Serbia, which will almost double our current wind power generation capacity. Such projects are changing Serbia’s energy map,” Đedović stressed.
+Liu Kai said both China and Serbia are attributing great significance to “new energy” and that the contract marks the start of cooperation in the sphere.
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-13649-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 13649,
+  "article_sha256": "14d84e218ced04317fad79ffba5ca7c3699caffbb88315eb1a03379a9d764996",
+  "article_status": {
+    "value_state": "extracted",
+    "value": "valid_project",
+    "evidence": "Renewable energy investor CWP Europe and PowerChina Resources signed an investment contract for the proposed Vetrozelena wind farm in Serbia.",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_summary": {
+        "value_state": "extracted",
+        "value": "中国企业PowerChina Resources收购塞尔维亚潘切沃300 MW Vetrozelena风电项目51%股权，CWP Europe保留其余股权。项目处于收购阶段。",
+        "evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+        "confidence": 0.97
+      },
+      "project_name": {
+        "value_state": "extracted",
+        "value": "塞尔维亚潘切沃300 MW Vetrozelena风电项目",
+        "evidence": "Vetrozelena wind farm in Serbia",
+        "confidence": 0.99
+      },
+      "category": {
+        "value_state": "extracted",
+        "value": "风电",
+        "evidence": "300 MW wind power project",
+        "confidence": 0.99
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98
+      },
+      "generation_sources": {
+        "value_state": "extracted",
+        "value": [
+          "风电"
+        ],
+        "evidence": "300 MW wind power project",
+        "confidence": 0.99
+      },
+      "storage_status": {
+        "value_state": "extracted",
+        "value": "not_mentioned",
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "generation_capacity_mw": {
+        "value_state": "extracted",
+        "value": "300 MW",
+        "evidence": "300 MW wind power project",
+        "confidence": 0.99
+      },
+      "project_stage": {
+        "value_state": "extracted",
+        "value": "收购",
+        "evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+        "confidence": 0.99
+      },
+      "country": {
+        "value_state": "extracted",
+        "value": "塞尔维亚",
+        "evidence": "wind farm in Serbia",
+        "confidence": 0.99
+      },
+      "location": {
+        "value_state": "extracted",
+        "value": "潘切沃",
+        "evidence": "in Pančevo",
+        "confidence": 0.99
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98
+      },
+      "financing_mode": {
+        "value_state": "extracted",
+        "value": "股权融资",
+        "evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+        "confidence": 0.99
+      },
+      "project_developer": {
+        "value_state": "extracted",
+        "value": "PowerChina Resources;CWP Europe",
+        "evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+        "confidence": 0.98
+      },
+      "planned_start_date": {
+        "value_state": "unknown",
+        "value": null,
+        "evidence": "the construction is planned to start by the end of the year",
+        "confidence": 0.95
+      },
+      "planned_complete_date": {
+        "value_state": "unknown",
+        "value": null,
+        "evidence": "in 2025, when it starts to generate electricity",
+        "confidence": 0.95
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "extracted",
+            "value": "PowerChina Resources",
+            "evidence": "PowerChina Resources signed an investment contract",
+            "confidence": 0.99
+          },
+          "role": {
+            "value_state": "extracted",
+            "value": "股权投资方",
+            "evidence": "The Chinese company is acquiring 51% of the project",
+            "confidence": 0.99
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "塞尔维亚潘切沃300 MW Vetrozelena风电项目投资与股权收购",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步命中具名风力发电项目；第二步明确点名中国企业PowerChina Resources收购项目51%股权，故为valid_project。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "塞尔维亚潘切沃300 MW Vetrozelena风电项目",
+            "Project Name (EN)": "Serbia Pančevo 300 MW Vetrozelena Wind Power Project",
+            "Country": "塞尔维亚",
+            "Location(State)": "潘切沃",
+            "Category": "风电",
+            "Generation Sources": [
+              "风电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "300 MW wind power project",
+            "Capacity (MW)": "300 MW",
+            "Capacity Details": "",
+            "Project Stage": "收购",
+            "Project Developer": "PowerChina Resources;CWP Europe",
+            "Project Developer Evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "PowerChina Resources",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "股权投资方",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "股权融资",
+        "Financing Model Details": "PowerChina Resources收购项目51%股权，CWP Europe保留其余股权",
+        "Additional Remarks": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe"
+      }
+    ],
+    "s5": [
+      {
+        "project_summary": "中国企业PowerChina Resources收购塞尔维亚潘切沃300 MW Vetrozelena风电项目51%股权，CWP Europe保留其余股权。项目处于收购阶段。",
+        "corrections": []
+      }
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/13649/base-manifest.json",
+    "dynamic": "data/runs/13649/dynamic-manifest.json",
+    "working_result": "data/runs/13649/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

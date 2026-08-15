@@ -1,0 +1,33 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中节能太阳能镇江公司",
+      "role": "承包商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "1MW",
+    "Capacity Details": "",
+    "Category": "综合能源",
+    "Country": "尼日利亚",
+    "Energy Composition Evidence": "一套集光伏、储能、智能控制",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "拉各斯州",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "尼日利亚拉各斯州OJO医院1MW光伏储能项目",
+    "Project Name (EN)": "OJO General Hospital 1MW Solar PV and Energy Storage Project",
+    "Project Stage": "签约",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

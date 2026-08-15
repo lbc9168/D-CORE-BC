@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NGA-HB-0003",
+  "package_sha256": "2888ffd0c95b896fffa2768d14c7d068b36a0120474df9321658c2c95ea047ff",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86088.html",
+        "surface": "body",
+        "quote": "永煌锂业计划在尼日利亚建设先进构网光储系统，满足自身用电需求。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NGA-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86088.html",
+          "surface": "body",
+          "quote": "永煌锂业计划在尼日利亚建设先进构网光储系统，满足自身用电需求。"
+        }
+      ]
+    }
+  ]
+}

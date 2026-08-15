@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZAF-ES-0005",
+  "package_sha256": "23d97d3b15609ed131924b8f7ab4e5706b061ed4aab0bfdcb5416ba6c6c155a0",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 80,
+    "storage_energy_mwh": 320,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/36560.html",
+        "surface": "body",
+        "quote": "2022年，平高集团精心布局海外新能源市场，相继中标签署或跟踪了多个海外新能源项目，其中签署的南非国家电力公司80兆瓦/320兆瓦时电化学储能电站EPC项目是海外首个电化学储能项目及非洲单体容量最大的电化学储能项目。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/29542.html",
+        "surface": "body",
+        "quote": "南非国家电力公司80兆瓦/320兆瓦时电化学储能电站EPC项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZAF-ES-0005-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 80,
+      "storage_energy_mwh": 320,
+      "storage_power_mw_raw": "80兆瓦",
+      "storage_energy_mwh_raw": "320兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/36560.html",
+          "surface": "body",
+          "quote": "2022年，平高集团精心布局海外新能源市场，相继中标签署或跟踪了多个海外新能源项目，其中签署的南非国家电力公司80兆瓦/320兆瓦时电化学储能电站EPC项目是海外首个电化学储能项目及非洲单体容量最大的电化学储能项目。"
+        }
+      ]
+    },
+    {
+      "event_id": "ZAF-ES-0005-02",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 80,
+      "storage_energy_mwh": 320,
+      "storage_power_mw_raw": "80兆瓦",
+      "storage_energy_mwh_raw": "320兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/29542.html",
+          "surface": "body",
+          "quote": "南非国家电力公司80兆瓦/320兆瓦时电化学储能电站EPC项目"
+        }
+      ]
+    }
+  ]
+}

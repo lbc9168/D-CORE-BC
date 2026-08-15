@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect, useCallback, type WheelEvent } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
-import type { Project, ColorBy } from "@/types";
-import { valueToColor, buildColorBins } from "@/utils/colorScale";
+import type { MetricKey } from "@/types";
+import { valueToColor, buildColorBins, EMPTY_COLOR } from "@/utils/colorScale";
+import { METRIC_META, metricValue, type MetricRow } from "@/utils/metrics";
 import { useLang } from "@/contexts/LanguageContext";
 import { useProvinceGeo } from "@/hooks/useProvinceGeo";
-import { hasCapacity } from "@/utils/capacityPolicy";
 import { Loader2 } from "lucide-react";
 
 interface TooltipState {
@@ -14,11 +14,14 @@ interface TooltipState {
   content: string;
 }
 
+/** 省级聚合的最小行结构：Project 与 TxMfProject 均满足 */
+type ProvinceRow = { province: string | null } & MetricRow;
+
 interface ProvinceMapProps {
   countryIso3: string;
   countryName: string;
-  projects: Project[];            // 已过滤的该国项目
-  colorBy: ColorBy;
+  projects: ProvinceRow[];        // 已过滤的该国项目（Project 或 TxMfProject）
+  metric: MetricKey;
   onProvinceClick: (provinceName: string | null) => void;  // null = 无省级信息
   selectedProvince: string | null;
 }
@@ -85,11 +88,12 @@ export default function ProvinceMap({
   countryIso3,
   countryName,
   projects,
-  colorBy,
+  metric,
   onProvinceClick,
   selectedProvince,
 }: ProvinceMapProps) {
   const { t } = useLang();
+  const metricMeta = METRIC_META[metric];
   const geo = useProvinceGeo(countryIso3);
   const [projectionCenter, setProjectionCenter] = useState<[number, number]>(DEFAULT_CENTER);
   const [projectionScale, setProjectionScale] = useState(BASE_SCALE * DEFAULT_ZOOM);
@@ -99,25 +103,24 @@ export default function ProvinceMap({
     visible: false, x: 0, y: 0, content: "",
   });
 
-  /** 省名 → 聚合值 */
+  /** 省名 → 聚合值（度量语义含 capacity 的 hasCapacity 守卫，收口在 metrics.ts） */
   const provinceValues = useMemo(() => {
     const map = new Map<string, number>();
     projects.forEach((p) => {
       if (!p.province) return;
+      const v = metricValue(metric, p);
+      if (v == null) return;
       const key = normalizeName(p.province);
-      if (colorBy === "count") {
-        map.set(key, (map.get(key) ?? 0) + 1);
-      } else {
-        // 储能/输变电建设单位非 MW，装机容量统计时排除
-        if (!hasCapacity(p.category)) return;
-        map.set(key, (map.get(key) ?? 0) + (p.capacity_mw ?? 0));
-      }
+      map.set(key, (map.get(key) ?? 0) + v);
     });
     return map;
-  }, [projects, colorBy]);
+  }, [projects, metric]);
 
   const colorValues = useMemo(() => Array.from(provinceValues.values()), [provinceValues]);
-  const bins = useMemo(() => buildColorBins(colorValues, colorBy), [colorValues, colorBy]);
+  const bins = useMemo(
+    () => buildColorBins(colorValues, metricMeta.unit),
+    [colorValues, metricMeta.unit],
+  );
   const safeProjectionCenter = useMemo<[number, number]>(() => {
     if (!Number.isFinite(projectionCenter[0]) || !Number.isFinite(projectionCenter[1])) {
       return DEFAULT_CENTER;
@@ -240,9 +243,9 @@ export default function ProvinceMap({
                         setHoveredProvince(normName);
                         const label =
                           value != null
-                            ? colorBy === "count"
-                              ? `${rawName}\n${value} ${t("map.projects")}`
-                              : `${rawName}\n${value.toFixed(0)} ${t("map.mw")}`
+                            ? metricMeta.unit
+                              ? `${rawName}\n${value.toFixed(0)} ${metricMeta.unit}`
+                              : `${rawName}\n${value} ${t("map.projects")}`
                             : `${rawName}\n${t("map.noData")}`;
                         setTooltip({ visible: true, x: e.clientX, y: e.clientY, content: label });
                       }}
@@ -299,6 +302,40 @@ export default function ProvinceMap({
           style={{ left: tooltip.x + 12, top: tooltip.y - 8 }}
         >
           {tooltip.content}
+        </div>
+      )}
+
+      {/* 图例（与世界图同款：分箱色块 + 无数据说明，标题/单位随当前度量）。
+          省级视图底部右侧另有"无省级信息"按钮，故整体上抬一行高度，窄屏也不会与之横向相撞。 */}
+      {bins.length > 0 && (
+        <div className="absolute bottom-16 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-2.5
+                        shadow-sm border border-slate-100 text-xs">
+          <div className="text-slate-500 mb-1.5 font-medium">
+            {t(metricMeta.labelKey)}
+          </div>
+          <div className="flex flex-col gap-1.5">
+            {bins.map((bin) => (
+              <div key={bin.label} className="flex items-center gap-2">
+                <div
+                  className="w-7 h-3 rounded-sm flex-shrink-0"
+                  style={{ backgroundColor: bin.color }}
+                />
+                <span className="text-slate-500 leading-none" style={{ fontSize: "10px" }}>
+                  {bin.label}
+                </span>
+              </div>
+            ))}
+            {/* 无数据说明项：与数据分档用细分隔线隔开 */}
+            <div className="flex items-center gap-2 mt-0.5 pt-1.5 border-t border-slate-100">
+              <div
+                className="w-7 h-3 rounded-sm flex-shrink-0"
+                style={{ backgroundColor: EMPTY_COLOR }}
+              />
+              <span className="text-slate-500 leading-none" style={{ fontSize: "10px" }}>
+                {t("map.noData")}
+              </span>
+            </div>
+          </div>
         </div>
       )}
 

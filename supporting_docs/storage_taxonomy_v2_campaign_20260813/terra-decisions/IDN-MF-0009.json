@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-MF-0009",
+  "package_sha256": "7b2e17c1c950211633c475076fcc2654c9fdc9d7a01f58f670bd2b6dcf43d560",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78824.html",
+        "surface": "body",
+        "quote": "包括赛轮印尼工厂配电安装、印尼锋盛工程公司印尼莫罗瓦利工业园区码头规划区储罐工程施工项目、印尼⻓基工程有限公司矿热炉主体设备及非标件、钢结构、设备管道安装、瓦片安装维保施工项目、越南贵州轮胎年产600万条半钢子午线轮胎智能制造项目。\n项目涵盖多个工业领域，涉及电力配套、工业设施建设、设备安装及维护等，充分体现了中建四局在复杂工程实施、技术创新及项目管理方面的实力和经验。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-MF-0009-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78824.html",
+          "surface": "body",
+          "quote": "包括赛轮印尼工厂配电安装、印尼锋盛工程公司印尼莫罗瓦利工业园区码头规划区储罐工程施工项目、印尼⻓基工程有限公司矿热炉主体设备及非标件、钢结构、设备管道安装、瓦片安装维保施工项目、越南贵州轮胎年产600万条半钢子午线轮胎智能制造项目。\n项目涵盖多个工业领域，涉及电力配套、工业设施建设、设备安装及维护等，充分体现了中建四局在复杂工程实施、技术创新及项目管理方面的实力和经验。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SEN-HB-0005",
+  "package_sha256": "ff22ce919229636cb43798c1989140539519c26daace03aadfd5f0ff551821eb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 30,
+    "storage_energy_mwh": 90,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95250.html",
+        "surface": "title",
+        "quote": "正式开工！塞内加尔光储电站项目迈入建设新阶段"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95250.html",
+        "surface": "body",
+        "quote": "近日，通用技术国际推进的塞内加尔林格尔50MW+30MW/90MWh光储电站项目，在塞内加尔林格尔省瓦尔科赫市项目现场举行开工仪式，标志着项目正式迈入实质性建设阶段。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SEN-HB-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 30,
+      "storage_energy_mwh": 90,
+      "storage_power_mw_raw": "30MW",
+      "storage_energy_mwh_raw": "90MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95250.html",
+          "surface": "title",
+          "quote": "正式开工！塞内加尔光储电站项目迈入建设新阶段"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95250.html",
+          "surface": "body",
+          "quote": "近日，通用技术国际推进的塞内加尔林格尔50MW+30MW/90MWh光储电站项目，在塞内加尔林格尔省瓦尔科赫市项目现场举行开工仪式，标志着项目正式迈入实质性建设阶段。"
+        }
+      ]
+    }
+  ]
+}

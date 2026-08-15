@@ -37,6 +37,9 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
             ("official_website_links", []),
             ("non_official_website_links", []),
             ("stage_events", []),
+            ("generation_sources", []),
+            ("technology_tags", []),
+            ("technology_tags_en", []),
         ]:
             raw = row.get(json_field)
             if raw:

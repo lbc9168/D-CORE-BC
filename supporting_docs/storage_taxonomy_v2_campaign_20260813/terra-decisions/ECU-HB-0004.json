@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ECU-HB-0004",
+  "package_sha256": "a1209c99ce3f2b864c245ce03d85661be788e563f7dc20066f5581975ccfea0b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/96036.html",
+        "surface": "title",
+        "quote": "中国电建承建的厄瓜多尔瓜亚萨明博物馆光储捐赠项目正式投运"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/96036.html",
+        "surface": "body",
+        "quote": "近日，由中国驻厄瓜多尔大使馆牵头并参与捐赠、中厄企业共同支持的瓜亚萨明博物馆光储一体化示范项目举行发电仪式。中国驻厄瓜多尔大使孙向阳、厄政商文化界人士及中资企业代表等200余人出席活动。伴随着亮灯仪式启动，由中方联合捐赠、中国电建承建、搭载华为智能储能系统的光伏发电系统宣告正式投运。\n孙向阳大使在致辞中表示，为表达对厄文化事业的支持，并向瓜亚萨明基金会为促进"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ECU-HB-0004-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/96036.html",
+          "surface": "title",
+          "quote": "中国电建承建的厄瓜多尔瓜亚萨明博物馆光储捐赠项目正式投运"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/96036.html",
+          "surface": "body",
+          "quote": "近日，由中国驻厄瓜多尔大使馆牵头并参与捐赠、中厄企业共同支持的瓜亚萨明博物馆光储一体化示范项目举行发电仪式。中国驻厄瓜多尔大使孙向阳、厄政商文化界人士及中资企业代表等200余人出席活动。伴随着亮灯仪式启动，由中方联合捐赠、中国电建承建、搭载华为智能储能系统的光伏发电系统宣告正式投运。\n孙向阳大使在致辞中表示，为表达对厄文化事业的支持，并向瓜亚萨明基金会为促进"
+        }
+      ]
+    }
+  ]
+}

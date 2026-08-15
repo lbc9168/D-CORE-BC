@@ -5,6 +5,7 @@ import React, {
   useEffect,
   useMemo,
   useCallback,
+  useRef,
 } from "react";
 import type {
   Project,
@@ -13,11 +14,18 @@ import type {
   StatTimeline,
   FilterState,
   VizGroup,
+  MetricKey,
+  TxProject,
+  MfProject,
+  TxMfProject,
+  Entity,
 } from "@/types";
 import { ISO3_TO_REGION } from "@/utils/continentMapping";
 import { getDevStatus } from "@/utils/devStatus";
-import { hasCapacity } from "@/utils/capacityPolicy";
 import { isExcludedCategory, isHiddenCategory } from "@/utils/enums";
+import { hasCapacity } from "@/utils/capacityPolicy";
+import { metricValue, type MetricRow } from "@/utils/metrics";
+import { BRI_ISO3, LDC_ISO3 } from "@/utils/countryMeta";
 
 // ── 数据加载 ──────────────────────────────────────────────────────────────────
 const EXCLUDED_ISO3 = new Set(["CHN", "HKG", "MAC", "TWN"]);
@@ -91,6 +99,8 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
       if (p.last_event_year < start || p.first_event_year > end) return false;
     }
     if (f.categories.length > 0 && !f.categories.includes(p.category)) return false;
+    // 项目形态子类筛选：当前仅光伏集中式/分布式。
+    if (f.subcategories.length > 0 && !f.subcategories.includes(p.subcategory ?? "")) return false;
     // 按状态筛选：状态取范围结束年（end）的快照
     if (f.groups.length > 0) {
       const g = statusGroupAt(p, f.yearRange ? f.yearRange[1] : null);
@@ -99,6 +109,56 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
     if (f.entities.length > 0 && !f.entities.includes(p.primary_entity)) return false;
     if (f.briFilter.length === 1 && p.bri_country !== f.briFilter[0]) return false;
     if (f.ldcFilter.length > 0 && !f.ldcFilter.includes(p.dev_status ?? "Developing")) return false;
+    if (f.soeFilter === "soe" && p.has_soe !== 1) return false;
+    if (f.soeFilter === "non_soe" && p.has_soe === 1) return false;
+    if (f.regionFilter) {
+      const region = ISO3_TO_REGION[p.country_iso ?? ""];
+      if (!region || region.continent !== f.regionFilter.continent) return false;
+      if (f.regionFilter.subregion && region.subregion !== f.regionFilter.subregion) return false;
+    }
+    return true;
+  });
+}
+
+// ── TX/MF 专表（tx_flat/mf_flat 与 Project 结构不同，不走 baseline policy）────────
+
+/**
+ * 原始行 → 补齐派生字段（kind / bri / ldc / dev_status / has_soe）。
+ * 基线口径与主表一致：剔除中港澳台 + 终态事件年早于 BASELINE_YEAR（专表 event_year
+ * 即"最新事件年"，同构于主表 last_event_year < 2022 的排除）。
+ */
+function enrichTxMf<K extends "tx" | "mf">(
+  rows: Array<Record<string, unknown>>,
+  kind: K,
+): Array<K extends "tx" ? TxProject : MfProject> {
+  return rows
+    .filter((r) => !EXCLUDED_ISO3.has(String(r.country_iso ?? "").toUpperCase()))
+    .filter((r) => typeof r.event_year === "number" && r.event_year >= BASELINE_YEAR)
+    .map((r) => {
+      const iso = String(r.country_iso ?? "").toUpperCase();
+      const entities = (r.all_entities ?? []) as Entity[];
+      const ldc = LDC_ISO3.has(iso) ? "Yes" : "No";
+      return {
+        ...r,
+        kind,
+        bri_country: BRI_ISO3.has(iso) ? "Yes" : "No",
+        ldc,
+        dev_status: getDevStatus(ldc, iso),
+        has_soe: entities.some((e) => e.is_central_soe === 1) ? 1 : 0,
+      } as unknown as K extends "tx" ? TxProject : MfProject;
+    });
+}
+
+/** txmf 域过滤：年份为单点包含（专表只有终态 event_year，无时间线区间） */
+function applyTxMfFilter(rows: TxMfProject[], f: FilterState): TxMfProject[] {
+  return rows.filter((p) => {
+    if (f.txmfKind !== "all" && p.kind !== f.txmfKind) return false;
+    if (f.yearRange != null) {
+      if (p.event_year == null) return false;
+      if (p.event_year < f.yearRange[0] || p.event_year > f.yearRange[1]) return false;
+    }
+    if (f.briFilter.length === 1 && p.bri_country !== f.briFilter[0]) return false;
+    if (f.ldcFilter.length > 0 && !f.ldcFilter.includes(p.dev_status)) return false;
     if (f.soeFilter === "soe" && p.has_soe !== 1) return false;
     if (f.soeFilter === "non_soe" && p.has_soe === 1) return false;
     if (f.regionFilter) {
@@ -128,6 +188,13 @@ interface DataContextValue {
   filteredProjects: Project[];
   statusGroupOf: (p: Project) => VizGroup | null;
 
+  // TX/MF 专表（懒加载：首次调用 ensureTxMfLoaded 时才 fetch）
+  txProjects: TxProject[];
+  mfProjects: MfProject[];
+  txmfLoading: boolean;
+  ensureTxMfLoaded: () => void;
+  filteredTxMf: TxMfProject[];
+
   // 可用选项（来自数据）
   availableYears: number[];
   availableEntities: string[];
@@ -145,12 +212,14 @@ interface DataContextValue {
 const DEFAULT_FILTER: FilterState = {
   yearRange: null,
   categories: [],
+  subcategories: [],
   groups: [],
   entities: [],
   briFilter: [],
   ldcFilter: [],
   soeFilter: "all",
   regionFilter: null,
+  txmfKind: "all",
 };
 
 const DataContext = createContext<DataContextValue | null>(null);
@@ -162,6 +231,33 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [filter, setFilter] = useState<FilterState>(DEFAULT_FILTER);
+
+  // TX/MF 专表懒加载状态（ref 防重复 fetch；失败允许下次重试）
+  const [txProjects, setTxProjects] = useState<TxProject[]>([]);
+  const [mfProjects, setMfProjects] = useState<MfProject[]>([]);
+  const [txmfLoading, setTxmfLoading] = useState(false);
+  const txmfRequested = useRef(false);
+
+  const ensureTxMfLoaded = useCallback(() => {
+    if (txmfRequested.current) return;
+    txmfRequested.current = true;
+    setTxmfLoading(true);
+    const base = import.meta.env.BASE_URL;
+    Promise.all([
+      fetchJson<Array<Record<string, unknown>>>(`${base}data/tx_flat.json`),
+      fetchJson<Array<Record<string, unknown>>>(`${base}data/mf_flat.json`),
+    ])
+      .then(([tx, mf]) => {
+        setTxProjects(enrichTxMf(tx, "tx"));
+        setMfProjects(enrichTxMf(mf, "mf"));
+        setTxmfLoading(false);
+      })
+      .catch((e: unknown) => {
+        console.error("[DataContext] tx/mf_flat 加载失败:", e);
+        txmfRequested.current = false; // 允许重试
+        setTxmfLoading(false);
+      });
+  }, []);
 
   useEffect(() => {
     const base = import.meta.env.BASE_URL;
@@ -197,6 +293,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     [policyProjects, filter],
   );
 
+  const filteredTxMf = useMemo(
+    () => applyTxMfFilter([...txProjects, ...mfProjects], filter),
+    [txProjects, mfProjects, filter],
+  );
+
   const availableYears = useMemo(() => {
     if (!policyProjects.length) return [];
     const years = new Set<number>();
@@ -225,6 +326,11 @@ export function DataProvider({ children }: { children: React.ReactNode }) {
     resetFilter,
     filteredProjects,
     statusGroupOf: (p: Project) => statusGroupAt(p, filter.yearRange ? filter.yearRange[1] : null),
+    txProjects,
+    mfProjects,
+    txmfLoading,
+    ensureTxMfLoaded,
+    filteredTxMf,
     availableYears,
     availableEntities,
     lastUpdated: raw?.lastUpdated ?? "",
@@ -241,24 +347,20 @@ export function useData(): DataContextValue {
   return ctx;
 }
 
-/** 按 country_iso 聚合过滤后项目 → {iso: {count, capacity}} */
+/** 按 country_iso 聚合行 → {iso: 度量值}；度量语义（含 capacity 的 hasCapacity 守卫）收口在 metrics.ts */
 export function useCountryStats(
-  filteredProjects: Project[],
-  colorBy: "count" | "capacity",
+  rows: Array<{ country_iso: string } & MetricRow>,
+  metric: MetricKey,
 ): Map<string, number> {
   return useMemo(() => {
     const map = new Map<string, number>();
-    for (const p of filteredProjects) {
+    for (const p of rows) {
       const iso = p.country_iso;
       if (!iso) continue;
-      if (colorBy === "count") {
-        map.set(iso, (map.get(iso) ?? 0) + 1);
-      } else {
-        // 储能/输变电建设单位非 MW，装机容量统计时排除
-        if (!hasCapacity(p.category)) continue;
-        map.set(iso, (map.get(iso) ?? 0) + (p.capacity_mw ?? 0));
-      }
+      const v = metricValue(metric, p);
+      if (v == null) continue;
+      map.set(iso, (map.get(iso) ?? 0) + v);
     }
     return map;
-  }, [filteredProjects, colorBy]);
+  }, [rows, metric]);
 }

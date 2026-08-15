@@ -1,0 +1,33 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中建五局",
+      "role": "参建方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "500MW",
+    "Capacity Details": "",
+    "Category": "光伏",
+    "Country": "乌兹别克斯坦",
+    "Energy Composition Evidence": "吉扎克500MW光伏项目",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "吉扎克",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "乌兹别克斯坦吉扎克500MW光伏项目",
+    "Project Name (EN)": "Jizzakh 500MW Solar PV Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

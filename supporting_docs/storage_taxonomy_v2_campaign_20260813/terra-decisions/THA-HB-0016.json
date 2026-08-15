@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0016",
+  "package_sha256": "56b7ff90bea67a2bf9cc8dd4e367a8cbb215dea9d550a890b5e82366de768662",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/15117.html",
+        "surface": "body",
+        "quote": "生物质发电是可再生能源发电的一种，是目前生物质能应用方式中最普遍、最有效的方法之一。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0016-01",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/15117.html",
+          "surface": "body",
+          "quote": "生物质发电是可再生能源发电的一种，是目前生物质能应用方式中最普遍、最有效的方法之一。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+{
+  "candidate_id": "terra-provider-17413-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 17413,
+  "article_sha256": "e24598116b8c73d190632ba6713210124cfe32affdd2e2bb87875b46ef1f10b8",
+  "article_status": {
+    "value_state": "extracted",
+    "value": "valid_project",
+    "evidence": "公司为该项目中标人",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_summary": {
+        "value_state": "extracted",
+        "value": "中国企业福建永福电力设计股份有限公司在菲律宾承担维塞亚斯群岛变电站升级改造项目EPC总承包。项目包含1座230kV和2座138kV变电站扩建改造，处于签约阶段。",
+        "evidence": "本公司作为项目总承包方总体负责项目全过程执行",
+        "confidence": 0.98
+      },
+      "project_name": {
+        "value_state": "extracted",
+        "value": "菲律宾维塞亚斯群岛变电站升级改造项目",
+        "evidence": "菲律宾维塞亚斯群岛变电站升级改造",
+        "confidence": 0.99
+      },
+      "category": {
+        "value_state": "extracted",
+        "value": "输变电建设",
+        "evidence": "1 座 230kV 变电站扩建改造，2 座 138kV 变电站扩建改造",
+        "confidence": 0.99
+      },
+      "subcategory_raw_fact": {
+        "value_state": "extracted",
+        "value": "变电站扩建改造",
+        "evidence": "变电站扩建改造",
+        "confidence": 0.99
+      },
+      "generation_sources": {
+        "value_state": "not_applicable",
+        "value": [],
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_status": {
+        "value_state": "extracted",
+        "value": "not_mentioned",
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_power_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "project_stage": {
+        "value_state": "extracted",
+        "value": "签约",
+        "evidence": "1.签署时间：2021 年 12 月 10 日",
+        "confidence": 0.99
+      },
+      "country": {
+        "value_state": "extracted",
+        "value": "菲律宾",
+        "evidence": "菲律宾维塞亚斯群岛",
+        "confidence": 0.99
+      },
+      "location": {
+        "value_state": "extracted",
+        "value": "维塞亚斯群岛",
+        "evidence": "维塞亚斯群岛",
+        "confidence": 0.99
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98
+      },
+      "financing_mode": {
+        "value_state": "extracted",
+        "value": "其他",
+        "evidence": "资金来源：企业自筹资金",
+        "confidence": 0.99
+      },
+      "project_developer": {
+        "value_state": "extracted",
+        "value": "菲律宾国家电网",
+        "evidence": "菲律宾国家电网（甲方）",
+        "confidence": 0.99
+      },
+      "planned_start_date": {
+        "value_state": "unknown",
+        "value": null,
+        "evidence": "实际开工日期以发包方书面批准的开工报告为准",
+        "confidence": 0.99
+      },
+      "planned_complete_date": {
+        "value_state": "unknown",
+        "value": null,
+        "evidence": "从合同签订且承包方收到发包方书面批准的开工报告\n之日起 510 个日历日完工",
+        "confidence": 0.99
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "extracted",
+            "value": "福建永福电力设计股份有限公司",
+            "evidence": "福建永福电力设计股份有限公司",
+            "confidence": 0.99
+          },
+          "role": {
+            "value_state": "extracted",
+            "value": "EPC总承包",
+            "evidence": "本公司作为项目总承包方总体负责项目全过程执行",
+            "confidence": 0.99
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "菲律宾维塞亚斯群岛三座变电站扩建改造EPC项目",
+      "is_power_generation_plant": false,
+      "reasoning": "第一步命中输变电/电网工程；第二步明确点名中国企业福建永福电力设计股份有限公司为EPC项目中标人和总承包方，故为valid_project。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "菲律宾维塞亚斯群岛变电站升级改造项目",
+            "Project Name (EN)": "Philippines Visayas Substation Upgrade Project",
+            "Country": "菲律宾",
+            "Location(State)": "维塞亚斯群岛",
+            "Category": "输变电建设",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "",
+            "Capacity (MW)": "",
+            "Capacity Details": "1 座 230kV 变电站扩建改造，2 座 138kV 变电站扩建改造",
+            "Project Stage": "签约",
+            "Project Developer": "菲律宾国家电网",
+            "Project Developer Evidence": "菲律宾国家电网（甲方）\n福建永福电力设计股份有限公司（乙方）",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "福建永福电力设计股份有限公司",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "EPC总承包",
+            "Subcontract Amount (Million USD)": "19.443",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "合同总金额\n为\n42,942,555.82 美元（最终以结算金额为准）",
+        "Contract Amount (Million USD)": "42.94255582",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "其他",
+        "Financing Model Details": "企业自筹资金",
+        "Additional Remarks": "归属于本公司金额为 19,443,000美元（不含税）"
+      }
+    ],
+    "s5": [
+      {
+        "project_summary": "中国企业福建永福电力设计股份有限公司在菲律宾承担维塞亚斯群岛变电站升级改造项目EPC总承包。项目包含1座230kV和2座138kV变电站扩建改造，处于签约阶段。",
+        "corrections": []
+      }
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/17413/base-manifest.json",
+    "dynamic": "data/runs/17413/dynamic-manifest.json",
+    "working_result": "data/runs/17413/provider-working.json"
+  }
+}

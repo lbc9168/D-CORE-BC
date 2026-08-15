@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NGA-HB-0002",
+  "package_sha256": "2d20a142a65aafd70707f0d938e55cd5b80b6ec0cc39a06aee36fccff945843c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92295.html",
+        "surface": "title",
+        "quote": "中节能太阳能镇江公司成功签约尼日利亚医院光储项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92295.html",
+        "surface": "body",
+        "quote": "镇江公司与尼日利亚建筑企业Ciba Construction limited.正式签署“OJO GENERAL HOSPITAL 1MW光伏储能项目”合同。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NGA-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92295.html",
+          "surface": "title",
+          "quote": "中节能太阳能镇江公司成功签约尼日利亚医院光储项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92295.html",
+          "surface": "body",
+          "quote": "镇江公司与尼日利亚建筑企业Ciba Construction limited.正式签署“OJO GENERAL HOSPITAL 1MW光伏储能项目”合同。"
+        }
+      ]
+    }
+  ]
+}

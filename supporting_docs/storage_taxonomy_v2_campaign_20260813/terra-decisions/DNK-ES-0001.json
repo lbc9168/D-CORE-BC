@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DNK-ES-0001",
+  "package_sha256": "3d4dfa4d24fe2d05b23592cd28fe90cfbb415464199ccdb37e8227b8e2146722",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 50,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89169.html",
+        "surface": "title",
+        "quote": "中建德成与丹麦公司签订 2.5GWh和50MWh储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89169.html",
+        "surface": "body",
+        "quote": "2025年10月20日中建德成（河南）实业发展有限公司（以下简称“中建德成”）与丹麦DRSOLAR Denmark ApS、NORLA公司正式签署2.5GWh、50MWh 储能系统项目合作协议。此次合作标志着双方在新能源与储能领域的深度协作迈出了坚实一步，也代表着中建德成在欧洲储能市场取得了新的战略突破。\n本项目规划总储能容量为 2.5GWh和50MWh，将采用高性能磷酸铁锂电池系统与智能能量管理系统（EMS）相结合的技术架构。项目建成后将主要应用于丹"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DNK-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 50,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "50MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89169.html",
+          "surface": "title",
+          "quote": "中建德成与丹麦公司签订 2.5GWh和50MWh储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89169.html",
+          "surface": "body",
+          "quote": "2025年10月20日中建德成（河南）实业发展有限公司（以下简称“中建德成”）与丹麦DRSOLAR Denmark ApS、NORLA公司正式签署2.5GWh、50MWh 储能系统项目合作协议。此次合作标志着双方在新能源与储能领域的深度协作迈出了坚实一步，也代表着中建德成在欧洲储能市场取得了新的战略突破。\n本项目规划总储能容量为 2.5GWh和50MWh，将采用高性能磷酸铁锂电池系统与智能能量管理系统（EMS）相结合的技术架构。项目建成后将主要应用于丹"
+        }
+      ]
+    }
+  ]
+}

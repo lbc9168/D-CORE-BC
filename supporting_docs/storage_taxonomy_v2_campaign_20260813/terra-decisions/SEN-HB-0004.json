@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SEN-HB-0004",
+  "package_sha256": "90f85438ce7c09a95e5dab493a92f8e6c11dd1c76b95b7e336ead9215cf093d5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1.5,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/8902.html",
+        "surface": "body",
+        "quote": "江西电建设与SOLEKTRA INTERNATIONAL公司在塞内加尔首都达喀尔成功签约总容量约为1.5MW光伏+储能微电网新能源项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/8902.html",
+        "surface": "body",
+        "quote": "该项目位于达喀尔市Diamniadio工业园内，项目由直流侧1.5MW光伏阵区配备200KW的柴油发电为主要动力能源单元供给园区办公生产，采用低压分散式接入，同时接入124KWH锂电池组用于调节电能质量。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SEN-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1.5,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1.5MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/8902.html",
+          "surface": "body",
+          "quote": "江西电建设与SOLEKTRA INTERNATIONAL公司在塞内加尔首都达喀尔成功签约总容量约为1.5MW光伏+储能微电网新能源项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/8902.html",
+          "surface": "body",
+          "quote": "该项目位于达喀尔市Diamniadio工业园内，项目由直流侧1.5MW光伏阵区配备200KW的柴油发电为主要动力能源单元供给园区办公生产，采用低压分散式接入，同时接入124KWH锂电池组用于调节电能质量。"
+        }
+      ]
+    }
+  ]
+}

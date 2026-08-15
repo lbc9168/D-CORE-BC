@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KWT-HB-0001",
+  "package_sha256": "a88127d28a0d33edfa6d48bb20edd0e20344b3ea5737a2304c9f143ad9efe79e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92645.html",
+        "surface": "title",
+        "quote": "总投资超41亿美元！山东电建牵头EPC，科威特一大型水电及海水淡化项目启动"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54949.html",
+        "surface": "title",
+        "quote": "中国电力国际控股入围科威特大项目短名单"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KWT-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92645.html",
+          "surface": "title",
+          "quote": "总投资超41亿美元！山东电建牵头EPC，科威特一大型水电及海水淡化项目启动"
+        }
+      ]
+    },
+    {
+      "event_id": "KWT-HB-0001-02",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54949.html",
+          "surface": "title",
+          "quote": "中国电力国际控股入围科威特大项目短名单"
+        }
+      ]
+    }
+  ]
+}

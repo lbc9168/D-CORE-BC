@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-HB-0022",
+  "package_sha256": "b27319dad2f73872fa974e4c7cbfebfbbf9de9a99a15d25278a3521c6368d8ba",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 281,
+    "storage_energy_mwh": 843,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95569.html",
+        "surface": "title",
+        "quote": "国轩高科承建澳洲最大光储直流耦合项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95569.html",
+        "surface": "body",
+        "quote": "近日，由国轩高科承建的澳洲Lower Wonga光储一体化项目正式开工。该项目储能规模达281MW/843MWh，是澳洲目前规模最大的光储直流耦合项目之一，预计2028年底正式并网投运，这标志着国轩高科“中国技术+本地落地”出海模式在高端市场取得关键突破，全链条储能系统能力获得国际巨头认可。\nLower Wonga光储一体化项目签"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-HB-0022-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 281,
+      "storage_energy_mwh": 843,
+      "storage_power_mw_raw": "281MW",
+      "storage_energy_mwh_raw": "843MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95569.html",
+          "surface": "title",
+          "quote": "国轩高科承建澳洲最大光储直流耦合项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95569.html",
+          "surface": "body",
+          "quote": "近日，由国轩高科承建的澳洲Lower Wonga光储一体化项目正式开工。该项目储能规模达281MW/843MWh，是澳洲目前规模最大的光储直流耦合项目之一，预计2028年底正式并网投运，这标志着国轩高科“中国技术+本地落地”出海模式在高端市场取得关键突破，全链条储能系统能力获得国际巨头认可。\nLower Wonga光储一体化项目签"
+        }
+      ]
+    }
+  ]
+}

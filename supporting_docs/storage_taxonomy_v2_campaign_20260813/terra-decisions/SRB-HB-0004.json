@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SRB-HB-0004",
+  "package_sha256": "9539be262efb362a12fe0319238ee28d805d0a4363ea8ade3b350ef5db71d50d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/53024.html",
+        "surface": "title",
+        "quote": "上海风领新能源有限公司和紫金矿业集团拟在塞尔维亚投资1.5GW风光制氢项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/53024.html",
+        "surface": "body",
+        "quote": "该计划投资约20亿欧元，用于开发和建设太阳能和风能混合发电厂的基础设施，氢气生产的储能和氢燃料能源生产技术。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SRB-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/53024.html",
+          "surface": "title",
+          "quote": "上海风领新能源有限公司和紫金矿业集团拟在塞尔维亚投资1.5GW风光制氢项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/53024.html",
+          "surface": "body",
+          "quote": "该计划投资约20亿欧元，用于开发和建设太阳能和风能混合发电厂的基础设施，氢气生产的储能和氢燃料能源生产技术。"
+        }
+      ]
+    }
+  ]
+}

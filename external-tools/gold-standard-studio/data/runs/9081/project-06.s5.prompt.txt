@@ -1,0 +1,47 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "尼泊尔普拉绍尼-比尔根杰132千伏地下输电线路项目",
+    "Project Name (EN)": "Prasouni-Birgunj 132kV Underground Transmission Line",
+    "Country": "尼泊尔",
+    "Location(State)": "普拉绍尼-比尔根杰",
+    "Category": "输变电建设",
+    "Generation Sources": [],
+    "Storage Status": "not_mentioned",
+    "Storage Power": "",
+    "Storage Energy": "",
+    "Energy Composition Evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+    "Capacity (MW)": "",
+    "Capacity Details": "132千伏",
+    "Project Stage": "中标",
+    "Project Developer": "尼泊尔国家电力局",
+    "Project Developer Evidence": "尼泊尔国家电力局",
+    "(Planned) Start Date": "",
+    "(Planned) Complete Date": ""
+  },
+  "chinese_entities": [
+    {
+      "entity_name": "许继电气",
+      "role": "中标方"
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

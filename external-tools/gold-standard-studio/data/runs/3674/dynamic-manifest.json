@@ -1,0 +1,57 @@
+{
+  "article_id": 3674,
+  "article_sha256": "ae08f4b1f406a3d67a14be4151d6be3e2d0fe4cf2fb5f124b9cc7568caddf666",
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "projects": [
+    {
+      "project_index": 0,
+      "project_name": "保加利亚200MWh储能示范项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\project-01.s34.prompt.txt",
+        "sha256": "6abd32b0da7fcac825c004db500fcd642abc5762a7bc369f68ec73c361e1c892"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\project-01.s5.prompt.txt",
+        "sha256": "e365fd9c1d315bb2740d9ddab374443fbcbf2929272c99cdd0b30ea8beba5089"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\project-01.pre-s5.json",
+        "sha256": "618cdfc817cb65dfd1730339f04e809257a670f0a2fa73fe3ffcc1bc7baf2da5"
+      }
+    },
+    {
+      "project_index": 1,
+      "project_name": "保加利亚20MWh储能项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\project-02.s34.prompt.txt",
+        "sha256": "5c12c5474a3fe2e511ddb08fd947df720997cd34fa3fb0ad41c842f06b6bceec"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\project-02.s5.prompt.txt",
+        "sha256": "6fb932fcab96373ba01ad43aee2bdd34a480a5e2ca6f9ff6b73c3766a6a6234c"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\project-02.pre-s5.json",
+        "sha256": "537d26ff2f05fc92c71567a816308a58d9c4744a8cdedba25eefcf0d33586147"
+      }
+    }
+  ],
+  "working_result": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\3674\\provider-working.json"
+}

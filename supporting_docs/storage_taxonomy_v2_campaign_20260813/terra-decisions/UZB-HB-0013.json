@@ -1,0 +1,128 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0013",
+  "package_sha256": "bfdb40af9c3b302029f04ae19a6312193c2d8914d0f5a995e8e8783257da120e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1500,
+    "storage_energy_mwh": 300,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+        "surface": "body",
+        "quote": "ACWA Power还与由国际领先银行及股权伙伴组成的银团签署了18亿美元的项目融资协议，用于开发乌兹别克斯坦迄今最大太阳能项目--撒马尔罕光伏及储能项目。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+        "surface": "body",
+        "quote": "项目采用BOOT模式，包含总装机1500兆瓦风电及300兆瓦时以上的储能系统（BESS），分布于三座相邻风电场，并配套1,444公里500千伏输电线路、三座新建开关站及两座现有站点升级。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+        "surface": "body",
+        "quote": "为进一步提升南部非洲可持续电力可用性，ACWA Power与Chariot Limited签署备忘录，共同开发面向南部非洲电力联营体（SAPP）国家的公用事业级能源平台，聚焦可再生电力、电池储能、燃气发电及电力交易，支持区域能源安全与工业发展。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+        "surface": "body",
+        "quote": "在乌兹别克斯坦，ACWA Power就卡拉卡尔帕克斯坦共和国昆格拉德（Kungrad）123风电及储能项目签署了1亿美元的绿色股权过桥融资协议。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88337.html",
+        "surface": "title",
+        "quote": "L&T获得乌兹别克斯坦1吉瓦萨扎甘1号和2号太阳能电站EPC合同"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88337.html",
+        "surface": "body",
+        "quote": "拉森特博洛公司（L&T）获授乌兹别克斯坦萨扎甘1号和2号太阳能及电池储能系统项目的工程、采购和施工合同。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88337.html",
+        "surface": "body",
+        "quote": "ACWA电力公司与乌兹别克斯坦国家电网股份公司签署了为期25年的购电协议，将开发/建设/运营一座500兆瓦光伏电站，配套334兆瓦电池储能系统及75公里双回路单塔架220千伏架空输电线路。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0013-01",
+      "generation_sources": [
+        "光伏",
+        "风电",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1500,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "1500兆瓦",
+      "storage_energy_mwh_raw": "300兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+          "surface": "body",
+          "quote": "ACWA Power还与由国际领先银行及股权伙伴组成的银团签署了18亿美元的项目融资协议，用于开发乌兹别克斯坦迄今最大太阳能项目--撒马尔罕光伏及储能项目。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+          "surface": "body",
+          "quote": "项目采用BOOT模式，包含总装机1500兆瓦风电及300兆瓦时以上的储能系统（BESS），分布于三座相邻风电场，并配套1,444公里500千伏输电线路、三座新建开关站及两座现有站点升级。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+          "surface": "body",
+          "quote": "为进一步提升南部非洲可持续电力可用性，ACWA Power与Chariot Limited签署备忘录，共同开发面向南部非洲电力联营体（SAPP）国家的公用事业级能源平台，聚焦可再生电力、电池储能、燃气发电及电力交易，支持区域能源安全与工业发展。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89544.html",
+          "surface": "body",
+          "quote": "在乌兹别克斯坦，ACWA Power就卡拉卡尔帕克斯坦共和国昆格拉德（Kungrad）123风电及储能项目签署了1亿美元的绿色股权过桥融资协议。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0013-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 334,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "334兆瓦",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88337.html",
+          "surface": "title",
+          "quote": "L&T获得乌兹别克斯坦1吉瓦萨扎甘1号和2号太阳能电站EPC合同"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88337.html",
+          "surface": "body",
+          "quote": "拉森特博洛公司（L&T）获授乌兹别克斯坦萨扎甘1号和2号太阳能及电池储能系统项目的工程、采购和施工合同。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88337.html",
+          "surface": "body",
+          "quote": "ACWA电力公司与乌兹别克斯坦国家电网股份公司签署了为期25年的购电协议，将开发/建设/运营一座500兆瓦光伏电站，配套334兆瓦电池储能系统及75公里双回路单塔架220千伏架空输电线路。"
+        }
+      ]
+    }
+  ]
+}

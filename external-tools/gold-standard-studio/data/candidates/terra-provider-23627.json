@@ -1,0 +1,214 @@
+{
+  "candidate_id": "terra-provider-23627",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 23627,
+  "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "Maoneng and CHINT have announced their partnership at an introduction ceremony recently at the SNEC expo hosted in Shanghai by signing a term sheet to acquire and co-develop utility-scale solar projects in Australia.",
+    "confidence": 0.95
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 1.0
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "extracted",
+        "value": "澳大利亚至少150MWac公用事业规模光伏项目管线",
+        "evidence": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+        "confidence": 0.9
+      },
+      "category": {
+        "value_state": "extracted",
+        "value": "光伏",
+        "evidence": "acquire and co-develop utility-scale solar projects in Australia",
+        "confidence": 0.98
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "utility-scale solar projects",
+        "evidence": "utility-scale solar projects",
+        "confidence": 1.0
+      },
+      "generation_sources": {
+        "value_state": "extracted",
+        "value": ["光伏"],
+        "evidence": "utility-scale solar projects",
+        "confidence": 0.98
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.95
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.95
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.95
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": "at least 150MWac",
+        "evidence": "at least 150MWac",
+        "confidence": 1.0
+      },
+      "project_stage": {
+        "value_state": "extracted",
+        "value": "签约",
+        "evidence": "signing a term sheet",
+        "confidence": 0.9
+      },
+      "country": {
+        "value_state": "extracted",
+        "value": "澳大利亚",
+        "evidence": "in Australia",
+        "confidence": 1.0
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.95
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.9
+      },
+      "financing_mode": {
+        "value_state": "unknown",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.8
+      },
+      "project_developer": {
+        "value_state": "extracted",
+        "value": ["CHINT", "Maoneng"],
+        "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia",
+        "confidence": 0.95
+      },
+      "chinese_entities": [
+        {
+          "name": {
+            "value_state": "explicit",
+            "value": "CHINT",
+            "evidence": "CHINT",
+            "confidence": 1.0
+          },
+          "role": {
+            "value_state": "extracted",
+            "value": "股权投资方",
+            "evidence": "with CHINT taking a majority 60% shareholding",
+            "confidence": 1.0
+          },
+          "ownership": {
+            "value_state": "explicit",
+            "value": "60% shareholding",
+            "evidence": "60% shareholding",
+            "confidence": 1.0
+          }
+        }
+      ],
+      "project_summary": {
+        "value_state": "extracted",
+        "value": "CHINT与Maoneng签署条款清单，拟在澳大利亚收购和共同开发公用事业规模光伏项目。该合资项目管线计划2019年达到至少150MWac，CHINT拟持有合资公司60%股权。",
+        "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia；The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.；with CHINT taking a majority 60% shareholding",
+        "confidence": 0.95
+      }
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": "gold_standard_studio.prompt_pack",
+    "base_manifest": "data/runs/23627/base-manifest.json",
+    "dynamic_manifest": "data/runs/23627/dynamic-manifest.json",
+    "rendered_prompts": [
+      "data/runs/23627/s1.prompt.txt",
+      "data/runs/23627/s2.prompt.txt",
+      "data/runs/23627/project-01.s34.prompt.txt",
+      "data/runs/23627/project-01.s5.prompt.txt"
+    ]
+  },
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "正泰与茂能拟在澳大利亚合作开发光伏项目",
+      "is_power_generation_plant": true,
+      "reasoning": "有中企参与光伏合作，但仅为项目管线与term sheet，未指向具体工程。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "一般合作",
+            "Project Name": "澳大利亚至少150MWac公用事业规模光伏项目管线",
+            "Project Name (EN)": "Australia utility-scale solar project pipeline",
+            "Country": "澳大利亚",
+            "Location(State)": "",
+            "Category": "光伏",
+            "Generation Sources": ["光伏"],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "acquire and co-develop utility-scale solar projects in Australia",
+            "Capacity (MW)": "at least 150MWac",
+            "Capacity Details": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+            "Project Stage": "签约",
+            "Project Developer": "CHINT;Maoneng",
+            "Project Developer Evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "CHINT",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "股权投资方",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": "projects with an enterprise value between $60m-$200m"
+      }
+    ],
+    "s5": [
+      {
+        "project_summary": "CHINT与Maoneng签署条款清单，拟在澳大利亚收购和共同开发公用事业规模光伏项目。该合资项目管线计划2019年达到至少150MWac，CHINT拟持有合资公司60%股权。",
+        "corrections": []
+      }
+    ]
+  }
+}

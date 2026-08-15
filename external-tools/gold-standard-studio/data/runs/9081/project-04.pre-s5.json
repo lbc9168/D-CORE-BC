@@ -1,0 +1,30 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "许继集团",
+      "role": "中标方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "",
+    "Category": "综合能源",
+    "Country": "圭亚那",
+    "Energy Composition Evidence": "以联合体中标圭亚那光储",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "圭亚那光储项目",
+    "Project Name (EN)": "Guyana Solar PV and Energy Storage Project",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  }
+}

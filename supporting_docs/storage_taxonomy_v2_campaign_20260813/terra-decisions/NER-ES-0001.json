@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NER-ES-0001",
+  "package_sha256": "a10230a0b884dbe0c7caaa24b1cd64360858b8ffdb35e08830da4f97e51f6e44",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 20,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/75480.html",
+        "surface": "title",
+        "quote": "中腾微网再次斩获尼日尔20MWh储能电站项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NER-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 20,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "20MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/75480.html",
+          "surface": "title",
+          "quote": "中腾微网再次斩获尼日尔20MWh储能电站项目"
+        }
+      ]
+    }
+  ]
+}

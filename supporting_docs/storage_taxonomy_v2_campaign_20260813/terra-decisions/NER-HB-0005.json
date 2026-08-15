@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NER-HB-0005",
+  "package_sha256": "a5ea13ef41db2ab069d91a95ca0cce9e0c688f461fd75ec9ac120b24e60b1c7a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/15005.html",
+        "surface": "body",
+        "quote": "项目位于距离首都1200公里的阿加德兹大区提米亚、迪尔库和比尔玛等5座城镇，未来将拓展至17座城镇，工程内容包括2876kWc光伏发电系统和4345kWh的储能系统以及相关附属设施的设计、供货和安装。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/15005.html",
+        "surface": "title",
+        "quote": "葛洲坝签署尼日尔阿加德兹柴光互补储能电站现汇项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NER-HB-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/15005.html",
+          "surface": "body",
+          "quote": "项目位于距离首都1200公里的阿加德兹大区提米亚、迪尔库和比尔玛等5座城镇，未来将拓展至17座城镇，工程内容包括2876kWc光伏发电系统和4345kWh的储能系统以及相关附属设施的设计、供货和安装。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/15005.html",
+          "surface": "title",
+          "quote": "葛洲坝签署尼日尔阿加德兹柴光互补储能电站现汇项目"
+        }
+      ]
+    }
+  ]
+}

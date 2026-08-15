@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SUR-HB-0011",
+  "package_sha256": "8e827ab00fac0eb166a8e4f6dd0abf6c40c615f34e67dfa7892c150396b5b005",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 2.6,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/11053.html",
+        "surface": "title",
+        "quote": "中企将助建苏里南微电网光伏项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/11053.html",
+        "surface": "body",
+        "quote": "该项目将由水电国际委托江西电建公司负责实施工作。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/11053.html",
+        "surface": "body",
+        "quote": "此次签约的一期项目范围包括胡亚巴和皮金斯莱两村650千瓦光伏、2.6兆瓦时储能和改造升级两村现有配电网络的设计、采购、施工工程。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SUR-HB-0011-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 2.6,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "2.6兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/11053.html",
+          "surface": "title",
+          "quote": "中企将助建苏里南微电网光伏项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/11053.html",
+          "surface": "body",
+          "quote": "该项目将由水电国际委托江西电建公司负责实施工作。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/11053.html",
+          "surface": "body",
+          "quote": "此次签约的一期项目范围包括胡亚巴和皮金斯莱两村650千瓦光伏、2.6兆瓦时储能和改造升级两村现有配电网络的设计、采购、施工工程。"
+        }
+      ]
+    }
+  ]
+}

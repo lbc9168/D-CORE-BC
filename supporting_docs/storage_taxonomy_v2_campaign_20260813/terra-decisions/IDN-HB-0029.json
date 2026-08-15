@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0029",
+  "package_sha256": "d7c956ea8515954c2e2e8a9836fa2708a47642a8d4f802f1675aa4a2ba96e235",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 50,
+    "storage_energy_mwh": 14,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62089.html",
+        "surface": "title",
+        "quote": "中国能建山西院签署新加坡裕廊岛JTC117兆瓦光伏项目、印度尼西亚IKN50兆瓦光伏和14兆瓦时储能项目EPC总承包合同"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62089.html",
+        "surface": "body",
+        "quote": "会谈后，中国能建山西院与胜科集团签署新加坡裕廊岛JTC117兆瓦光伏项目、印度尼西亚IKN50兆瓦光伏和14兆瓦时储能项目EPC总承包合同。\n胜科集团新加坡及东南亚首席执行官高接强，树人咨询公司合伙人张超，双方有关单位、相关部门负责人参加会谈。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0029-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 50,
+      "storage_energy_mwh": 14,
+      "storage_power_mw_raw": "50兆瓦",
+      "storage_energy_mwh_raw": "14兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62089.html",
+          "surface": "title",
+          "quote": "中国能建山西院签署新加坡裕廊岛JTC117兆瓦光伏项目、印度尼西亚IKN50兆瓦光伏和14兆瓦时储能项目EPC总承包合同"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62089.html",
+          "surface": "body",
+          "quote": "会谈后，中国能建山西院与胜科集团签署新加坡裕廊岛JTC117兆瓦光伏项目、印度尼西亚IKN50兆瓦光伏和14兆瓦时储能项目EPC总承包合同。\n胜科集团新加坡及东南亚首席执行官高接强，树人咨询公司合伙人张超，双方有关单位、相关部门负责人参加会谈。"
+        }
+      ]
+    }
+  ]
+}

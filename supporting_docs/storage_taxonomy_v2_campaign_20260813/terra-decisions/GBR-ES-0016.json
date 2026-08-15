@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GBR-ES-0016",
+  "package_sha256": "9a8b78253284026bb50638fcd34dc6f6f94d8b7e89054b96517935afb1a02248",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 56.5,
+    "storage_energy_mwh": 113,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/55179.html",
+        "surface": "title",
+        "quote": "阿特斯与国际能源巨头ENGIE联手打造226MWh英国储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/55179.html",
+        "surface": "body",
+        "quote": "阿特斯阳光电力集团股份有限公司(股票简称：阿特斯，股票代码：688472.SH)旗下储能子公司e-STORAGE（简称“阿特斯储能”）将向国际能源巨头ENGIE交付226兆瓦时一站式交钥匙储能系统解决方案。\n阿特斯携手ENGIE\n阿特斯储能（e-STORAGE）将在英国苏格兰的凯司金(Cathkin)和布罗克斯本（Broxburn）地区分别建设两个储能项目，每个项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GBR-ES-0016-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 56.5,
+      "storage_energy_mwh": 113,
+      "storage_power_mw_raw": "56.5兆瓦",
+      "storage_energy_mwh_raw": "113兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/55179.html",
+          "surface": "title",
+          "quote": "阿特斯与国际能源巨头ENGIE联手打造226MWh英国储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/55179.html",
+          "surface": "body",
+          "quote": "阿特斯阳光电力集团股份有限公司(股票简称：阿特斯，股票代码：688472.SH)旗下储能子公司e-STORAGE（简称“阿特斯储能”）将向国际能源巨头ENGIE交付226兆瓦时一站式交钥匙储能系统解决方案。\n阿特斯携手ENGIE\n阿特斯储能（e-STORAGE）将在英国苏格兰的凯司金(Cathkin)和布罗克斯本（Broxburn）地区分别建设两个储能项目，每个项目"
+        }
+      ]
+    }
+  ]
+}

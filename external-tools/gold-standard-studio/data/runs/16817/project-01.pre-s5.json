@@ -1,0 +1,31 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国华能集团",
+      "role": "投资方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "2021-06-01",
+    "(Planned) Start Date": "2019-12-01",
+    "Capacity (MW)": "99.8兆瓦",
+    "Capacity Details": "99.8兆瓦时",
+    "Category": "储能",
+    "Country": "英国",
+    "Energy Composition Evidence": "规划装机容量为99.8兆瓦，总能量密度为99.8兆瓦时",
+    "Generation Sources": [],
+    "Location(State)": "威尔特郡门迪镇",
+    "Project Developer": "中国华能集团",
+    "Project Developer Evidence": "中国华能集团位于英国",
+    "Project Name": "英国威尔特郡门迪99.8兆瓦/99.8兆瓦时电池储能项目",
+    "Project Name (EN)": "Mendi 99.8MW/99.8MWh Battery Energy Storage Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "99.8兆瓦时",
+    "Storage Power": "99.8兆瓦",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,20 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "中国能建浙江火电",
+      "Type of involvement of Chinese Entities": "EPC总承包方"
+    },
+    {
+      "Implementing Chinese Entity": "中国能建国际集团",
+      "Type of involvement of Chinese Entities": "联合体成员"
+    },
+    {
+      "Implementing Chinese Entity": "中国能建西南院",
+      "Type of involvement of Chinese Entities": "联合体成员"
+    }
+  ],
+  "common_info": {
+    "Category": "储能",
+    "Project Name": "埃及本班Nefertiti 1000兆瓦时储能项目"
+  }
+}

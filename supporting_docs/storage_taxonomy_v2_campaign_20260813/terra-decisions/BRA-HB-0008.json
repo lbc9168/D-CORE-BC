@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRA-HB-0008",
+  "package_sha256": "44b2820b564915feb22db80551447d299ce963c757b1c95a06a8b75b929615aa",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62914.html",
+        "surface": "title",
+        "quote": "刚刚，5家中企签约中东10万吨绿氢项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRA-HB-0008-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62914.html",
+          "surface": "title",
+          "quote": "刚刚，5家中企签约中东10万吨绿氢项目"
+        }
+      ]
+    }
+  ]
+}

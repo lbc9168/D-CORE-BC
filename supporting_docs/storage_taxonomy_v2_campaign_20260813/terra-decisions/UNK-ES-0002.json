@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UNK-ES-0002",
+  "package_sha256": "e612cbed458850e4279d8dd2c0e537b47c97fbfa932b584893d69bb90eb5aa10",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 90,
+    "storage_energy_mwh": 180,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85870.html",
+        "surface": "title",
+        "quote": "90MW/180MWh首批项目签约 | 天合储能东欧GWh布局正式启航"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UNK-ES-0002-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 90,
+      "storage_energy_mwh": 180,
+      "storage_power_mw_raw": "90MW",
+      "storage_energy_mwh_raw": "180MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85870.html",
+          "surface": "title",
+          "quote": "90MW/180MWh首批项目签约 | 天合储能东欧GWh布局正式启航"
+        }
+      ]
+    }
+  ]
+}

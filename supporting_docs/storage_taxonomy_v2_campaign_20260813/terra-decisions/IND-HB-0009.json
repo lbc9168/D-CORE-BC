@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IND-HB-0009",
+  "package_sha256": "1de185b5142c5c582b91240aa8a6953ed97b032335c05fdcca2416d9e28069b7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/29169.html",
+        "surface": "title",
+        "quote": "中钢国际为印度Jindal Saw打造绿色环保清洁焦炉项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IND-HB-0009-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/29169.html",
+          "surface": "title",
+          "quote": "中钢国际为印度Jindal Saw打造绿色环保清洁焦炉项目"
+        }
+      ]
+    }
+  ]
+}

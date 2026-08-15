@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0001",
+  "package_sha256": "ae73bcbb9ecdb51d38caf7fcef9e0c1249c42727177e46bd652520559b75188d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 800,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+        "surface": "body",
+        "quote": "他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了开工仪式，目前项目建设工作稳步推进。卡拉干达500MW风电配储项目核心协议谈判进展顺利，项目开发工作已取得阶段性成果。\n松加特副部长对中国能建积极参与哈萨克斯坦绿色能源转型表示欢迎，并肯定了海投公司在推动800MW新能源项目上的成果和贡献"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+        "surface": "body",
+        "quote": "2月6日，中国能建国际集团党委常委、高级副总裁，海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动，推动中哈政府间框架下新能源重点项目落地，并签署哈萨克斯坦卡拉干达风电配储项目购电协议。\n签约现场\n林晓丹拜会了哈萨克斯坦能源部副部长松加特，并感谢哈能源部长期以来给予中国能建及海投公司的帮助与支持。他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了开工"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 800,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "800MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+          "surface": "body",
+          "quote": "他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了开工仪式，目前项目建设工作稳步推进。卡拉干达500MW风电配储项目核心协议谈判进展顺利，项目开发工作已取得阶段性成果。\n松加特副部长对中国能建积极参与哈萨克斯坦绿色能源转型表示欢迎，并肯定了海投公司在推动800MW新能源项目上的成果和贡献"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+          "surface": "body",
+          "quote": "2月6日，中国能建国际集团党委常委、高级副总裁，海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动，推动中哈政府间框架下新能源重点项目落地，并签署哈萨克斯坦卡拉干达风电配储项目购电协议。\n签约现场\n林晓丹拜会了哈萨克斯坦能源部副部长松加特，并感谢哈能源部长期以来给予中国能建及海投公司的帮助与支持。他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了开工"
+        }
+      ]
+    }
+  ]
+}

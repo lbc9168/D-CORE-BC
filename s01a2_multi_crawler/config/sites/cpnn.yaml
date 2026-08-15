@@ -1,0 +1,14 @@
+# 中国能源新闻网·国际频道（中电传媒，官方媒体，可引用性好）
+# 分页是 index_{n-1}.html 偏移，当前框架的 {n} 模板不支持减法；单页列表足够覆盖增量窗口，故只抓首页
+name: cpnn
+label: 中国能源新闻网·国际
+tier: 2
+parser: html_list
+listing_urls:
+  - https://www.cpnn.com.cn/news/gj/
+max_pages: 1
+article_url_pattern: 'cpnn\.com\.cn/news/gj/\d{6}/t\d+_\d+\.html'
+article:
+  content_selectors: ['.article-content', '.TRS_Editor', '#zoom', '.cpnnlist_l']
+  title_strip: '--中国能源新闻网$'
+rate_limit_seconds: 3.0

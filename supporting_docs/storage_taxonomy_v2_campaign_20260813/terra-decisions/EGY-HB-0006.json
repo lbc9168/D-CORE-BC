@@ -1,0 +1,167 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-HB-0006",
+  "package_sha256": "17b3e9c022fa58c9baa1efb2fecd2dd1ea063a31c6ea73c20fa7af8ec8620de7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "event evidence contains differing storage capacity values",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1000,
+    "storage_energy_mwh": 600,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82486.html",
+        "surface": "title",
+        "quote": "中远海运工程物流事业部中标中能建西南院埃及阿比杜斯二期光储EPC项目物流服务"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82486.html",
+        "surface": "body",
+        "quote": "埃及阿比杜斯二期光储EPC项目物流服务。\n该项目中标是\n工程物流事业部与西南大区\n深度协同、优势互补\n的成果，充分彰显了事业部工程物流项目运作经验与大区属地化营销能力融合的强大效能。\nTHE BELT AND ROAD\n阿比杜斯二期光储EPC项目\n由中国能建施工建设，占地20平方公里，预计2026年"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78197.html",
+        "surface": "title",
+        "quote": "非洲最大光储项目开工，1.25GW DeepBlue 4.0 Pro组件来了！"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78197.html",
+        "surface": "body",
+        "quote": "如今，现代埃及正以新的方式向太阳“致敬”，通过建设一个举世瞩目的光储“奇观”，为国家发展和人民生活带来福祉。而这一“奇观”，就是非洲当前最大的光储项目“Abydos二期1GW+600MWh”项目。\n1月14日，晶澳科技与中国能建正式签署组件采购协议，旨在为“Abydos二期1GW+600MWh”项目提供全部高效n型光伏组件。\n如今该项目已正式开工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76240.html",
+        "surface": "title",
+        "quote": "中国能建总承包埃及本班1GW光伏+600MWh储能项目开工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76240.html",
+        "surface": "body",
+        "quote": "埃及最大光储一体化电站——本班1GW光伏+600MWh储能项目\n开工仪式在阿斯旺举行。埃及总理穆斯塔法·马德布利出席并致辞。\n埃及电力和可再生能源部部长马哈茂德·伊斯马特、计划和经济发展部部长赫拉·萨伊德、石油和矿产资源部部长巴达维、投资和国际合作部部长拉尼娅•马沙特，中国驻埃及使馆公使张涛"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76225.html",
+        "surface": "title",
+        "quote": "总理见证 埃及最大光储一体化电站开工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76225.html",
+        "surface": "body",
+        "quote": "埃及最大光储一体化电站——本班1GW光伏+600MWh储能项目开工仪式、康翁波500MW光伏电站并网启动仪式\n同时举行。埃及总理穆斯塔法·马德布利出席并致辞。\n仪式现场\n马德布利对项目开工表示祝贺，对中国能建为埃及绿色可持续发展作出的突出贡献表示感谢。他表示，该项目是埃及实施清洁能源行动计划"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77516.html",
+        "surface": "title",
+        "quote": "晶澳科技与中国能建签署1.25GW组件采购协议，独家供货非洲最大光储项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77516.html",
+        "surface": "body",
+        "quote": "1月14日，在2025年全球首场大型光伏展会“2025世界未来能源峰会（WFES 2025）”举办期间，晶澳科技与中国能建正式签署1.25GW组件采购协议，旨在为非洲最大光储项目“康翁波（Kom Ombo Abydos）二期1GW+600MWh”项目提供全部高效n型光伏组件。\nAMEA Power董事会主席Hussain Alnowais，AMEA Power CTO Mahabir Sharma和CIO Aqueel Bohra，中国能建国际集团埃"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-HB-0006-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 3000000,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "3000GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82486.html",
+          "surface": "title",
+          "quote": "中远海运工程物流事业部中标中能建西南院埃及阿比杜斯二期光储EPC项目物流服务"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82486.html",
+          "surface": "body",
+          "quote": "埃及阿比杜斯二期光储EPC项目物流服务。\n该项目中标是\n工程物流事业部与西南大区\n深度协同、优势互补\n的成果，充分彰显了事业部工程物流项目运作经验与大区属地化营销能力融合的强大效能。\nTHE BELT AND ROAD\n阿比杜斯二期光储EPC项目\n由中国能建施工建设，占地20平方公里，预计2026年"
+        }
+      ]
+    },
+    {
+      "event_id": "EGY-HB-0006-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": 600,
+      "storage_power_mw_raw": "1GW",
+      "storage_energy_mwh_raw": "600MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78197.html",
+          "surface": "title",
+          "quote": "非洲最大光储项目开工，1.25GW DeepBlue 4.0 Pro组件来了！"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78197.html",
+          "surface": "body",
+          "quote": "如今，现代埃及正以新的方式向太阳“致敬”，通过建设一个举世瞩目的光储“奇观”，为国家发展和人民生活带来福祉。而这一“奇观”，就是非洲当前最大的光储项目“Abydos二期1GW+600MWh”项目。\n1月14日，晶澳科技与中国能建正式签署组件采购协议，旨在为“Abydos二期1GW+600MWh”项目提供全部高效n型光伏组件。\n如今该项目已正式开工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76240.html",
+          "surface": "title",
+          "quote": "中国能建总承包埃及本班1GW光伏+600MWh储能项目开工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76240.html",
+          "surface": "body",
+          "quote": "埃及最大光储一体化电站——本班1GW光伏+600MWh储能项目\n开工仪式在阿斯旺举行。埃及总理穆斯塔法·马德布利出席并致辞。\n埃及电力和可再生能源部部长马哈茂德·伊斯马特、计划和经济发展部部长赫拉·萨伊德、石油和矿产资源部部长巴达维、投资和国际合作部部长拉尼娅•马沙特，中国驻埃及使馆公使张涛"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76225.html",
+          "surface": "title",
+          "quote": "总理见证 埃及最大光储一体化电站开工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76225.html",
+          "surface": "body",
+          "quote": "埃及最大光储一体化电站——本班1GW光伏+600MWh储能项目开工仪式、康翁波500MW光伏电站并网启动仪式\n同时举行。埃及总理穆斯塔法·马德布利出席并致辞。\n仪式现场\n马德布利对项目开工表示祝贺，对中国能建为埃及绿色可持续发展作出的突出贡献表示感谢。他表示，该项目是埃及实施清洁能源行动计划"
+        }
+      ]
+    },
+    {
+      "event_id": "EGY-HB-0006-03",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": 600,
+      "storage_power_mw_raw": "1GW",
+      "storage_energy_mwh_raw": "600MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77516.html",
+          "surface": "title",
+          "quote": "晶澳科技与中国能建签署1.25GW组件采购协议，独家供货非洲最大光储项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77516.html",
+          "surface": "body",
+          "quote": "1月14日，在2025年全球首场大型光伏展会“2025世界未来能源峰会（WFES 2025）”举办期间，晶澳科技与中国能建正式签署1.25GW组件采购协议，旨在为非洲最大光储项目“康翁波（Kom Ombo Abydos）二期1GW+600MWh”项目提供全部高效n型光伏组件。\nAMEA Power董事会主席Hussain Alnowais，AMEA Power CTO Mahabir Sharma和CIO Aqueel Bohra，中国能建国际集团埃"
+        }
+      ]
+    }
+  ]
+}

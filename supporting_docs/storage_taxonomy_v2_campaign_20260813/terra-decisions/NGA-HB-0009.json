@@ -1,0 +1,59 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NGA-HB-0009",
+  "package_sha256": "d2d1cc1e428b70883d83735ac6d92af17b8bc1f498abcde1f28e18065b34e379",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原光储子类未找到明确项目储能证据；能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "unclear",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": "集中式",
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/75357.html",
+        "surface": "title",
+        "quote": "中土集团与尼日利亚包奇州政府签署30兆瓦太阳能发电项目协议"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/75357.html",
+        "surface": "body",
+        "quote": "中土称“该项目包括安装集中式光伏组件、储能系统、建设新的能源控制中心、开发输电线路和配电设施。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NGA-HB-0009-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "unclear",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/75357.html",
+          "surface": "title",
+          "quote": "中土集团与尼日利亚包奇州政府签署30兆瓦太阳能发电项目协议"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/75357.html",
+          "surface": "body",
+          "quote": "中土称“该项目包括安装集中式光伏组件、储能系统、建设新的能源控制中心、开发输电线路和配电设施。"
+        }
+      ]
+    }
+  ]
+}

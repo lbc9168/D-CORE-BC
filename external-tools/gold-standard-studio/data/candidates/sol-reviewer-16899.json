@@ -1,0 +1,37 @@
+{
+  "candidate_id": "sol-reviewer-16899-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 16899,
+  "article_sha256": "deecc3ca6273cc57dd9261a934cc462ef3f4a3460fea5ccdc0f3e55587d81a11",
+  "parent_candidate_id": "terra-provider-16899-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "Huawei Digital Power has signed a cooperation agreement with Meinergy Technology to develop a 1GW solar PV plant and 500MWh energy storage system in Ghana.", "confidence": 0.99, "verdict": "ok", "reviewer_note": "具名中方参与的具体光储项目。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [
+    {
+      "project_name": {"value_state": "derived_from_explicit", "value": "加纳1GW光伏及500MWh储能项目", "evidence": "a 1GW solar PV plant and 500MWh energy storage system in Ghana", "confidence": 0.99, "verdict": "ok", "reviewer_note": "由容量、技术和国家组合命名。"},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "solar PV plant and 500MWh energy storage system", "confidence": 0.98, "verdict": "ok", "reviewer_note": "光伏与储能并列的确定性taxonomy映射。"},
+      "subcategory_raw_fact": {"value_state": "present", "value": "solar PV plant and energy storage system", "evidence": "solar PV plant and 500MWh energy storage system", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "Provider遗漏明确原始子类型。"},
+      "generation_sources": {"value_state": "present", "value": ["光伏"], "evidence": "1GW solar PV plant", "confidence": 0.99, "verdict": "ok", "reviewer_note": "光伏明确。"},
+      "storage_status": {"value_state": "present", "value": "confirmed", "evidence": "500MWh energy storage system", "confidence": 0.99, "verdict": "ok", "reviewer_note": "储能系统和能量均明确。"},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "500MWh是能量，不是功率。"},
+      "storage_energy_mwh": {"value_state": "present", "value": "500MWh", "evidence": "500MWh energy storage system", "confidence": 0.99, "verdict": "ok", "reviewer_note": "储能能量明确。"},
+      "generation_capacity_mw": {"value_state": "present", "value": "1GW", "evidence": "1GW solar PV plant", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "Provider漏填正文明确的光伏容量。"},
+      "project_stage": {"value_state": "present", "value": "合作开发协议已签署", "evidence": "has signed a cooperation agreement with Meinergy Technology to develop", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "精确限定为合作开发协议。"},
+      "country": {"value_state": "present", "value": "加纳", "evidence": "in Ghana", "confidence": 0.99, "verdict": "ok", "reviewer_note": "国家明确。"},
+      "location": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "正文未给更细地点。"},
+      "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+      "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+      "project_developer": {"value_state": "present", "value": "Meinergy Technology", "evidence": "The energy developer Meinergy", "confidence": 0.99, "verdict": "ok", "reviewer_note": "开发商身份明确。"},
+      "chinese_entities": [
+        {"entity_name": {"value_state": "present", "value": "Huawei Digital Power", "evidence": "Huawei Digital Power", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "改用正文可定位名称。"}, "role": {"value_state": "present", "value": "合作开发方", "evidence": "has signed a cooperation agreement with Meinergy Technology to develop", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "较泛称合作方更精确。"}}
+      ]
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"},
+    "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"},
+    "prompt": {"path": "data/runs/16899/reviewer.prompt.txt", "sha256": "1c57ec59cf5d2fdecf7c4529726961a5748c6bfbc6f41ad6ac3227932617dd54"},
+    "provider_sha256": "20469e3eca26b81321dd3c13aff062876c71300956f9cffe6d114748589c4014"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "candidate_id": "sol-reviewer-3215-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 3215,
+  "article_sha256": "ae68c8f9c8c5c4145d2faedaa91b11cc7fe790a6ff4aafadf23a5ef78773efdb",
+  "parent_candidate_id": "terra-provider-3215-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "no_chinese_participation",
+    "evidence": "最终Rosatom的提案被认为最具优势。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/3215/reviewer.prompt.txt",
+      "sha256": "6566cbdf523de0a198203c55d235552104f95a0bca9b1d53e6076cd1de8eef6a"
+    },
+    "reviewer_manifest": "data/runs/3215/reviewer-manifest.json",
+    "provider_sha256": "375b179f14640a6f3a04c897b52c199185928582d99a49d41b0cc77e8da4b869"
+  }
+}

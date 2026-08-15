@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0043",
+  "package_sha256": "e2e5383cf4636ec6887a716d276d7a9fcf86e7f04f45c1ce4542c63b8dbd684e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/23935.html",
+        "surface": "body",
+        "quote": "项目建成后，园区内的光伏发电站装机容量将达到1.5GW，同时光伏电站也将与当地农牧产业相互结合，帮助当地改善土地质量增加作物产量。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0043-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/23935.html",
+          "surface": "body",
+          "quote": "项目建成后，园区内的光伏发电站装机容量将达到1.5GW，同时光伏电站也将与当地农牧产业相互结合，帮助当地改善土地质量增加作物产量。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DEU-ES-0005",
+  "package_sha256": "0de02f75c0a0b2d1ab20ceec0e011e80239383a499c6430b030088ea0bd963ee",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 40,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93373.html",
+        "surface": "body",
+        "quote": "该项目采用光伏配储模式，旨在缓解电网压力并提升电站收益。凭借卓越的系统集成能力与本地化运维能力，公司已赢得德国配电网运营商客户的高度认可。\n此前，海博思创与德国LEAG清洁能源有限公司签署了容量规模高达1.6GWh的大型储能项目订单，标志着公司在欧洲乃至全球超大型储能项目领域迈出关键一步。\n波"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93373.html",
+        "surface": "body",
+        "quote": "在全球能源转型纵深推进之际，海博思创凭借领先的系统集成能力与丰富的项目交付经验，在欧洲储能市场取得一系列重要突破。\n从波罗的海之畔到多瑙河之滨，从德国核心工业区到中东欧新兴市场，在多个区域斩获关键订单，业务版图已拓展至15个国家，以硬核技术产品与全栈式服务能力，持续赋能欧洲构建绿色、韧性的能源体系。\n德国市场\n深化战略合作，全栈服务能力获权威认可\n在德国，海博思创的全"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DEU-ES-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 40,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "40MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93373.html",
+          "surface": "body",
+          "quote": "该项目采用光伏配储模式，旨在缓解电网压力并提升电站收益。凭借卓越的系统集成能力与本地化运维能力，公司已赢得德国配电网运营商客户的高度认可。\n此前，海博思创与德国LEAG清洁能源有限公司签署了容量规模高达1.6GWh的大型储能项目订单，标志着公司在欧洲乃至全球超大型储能项目领域迈出关键一步。\n波"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93373.html",
+          "surface": "body",
+          "quote": "在全球能源转型纵深推进之际，海博思创凭借领先的系统集成能力与丰富的项目交付经验，在欧洲储能市场取得一系列重要突破。\n从波罗的海之畔到多瑙河之滨，从德国核心工业区到中东欧新兴市场，在多个区域斩获关键订单，业务版图已拓展至15个国家，以硬核技术产品与全栈式服务能力，持续赋能欧洲构建绿色、韧性的能源体系。\n德国市场\n深化战略合作，全栈服务能力获权威认可\n在德国，海博思创的全"
+        }
+      ]
+    }
+  ]
+}

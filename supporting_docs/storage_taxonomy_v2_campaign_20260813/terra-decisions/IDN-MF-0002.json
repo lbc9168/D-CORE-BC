@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-MF-0002",
+  "package_sha256": "0061c96752e0da5cab934937d276a0e78fb69711fe05ed3d4e62d3796d532c5d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84714.html",
+        "surface": "body",
+        "quote": "其中，卡拉旺电池工厂一期产能规划6.9GWh，将依托AI、5G、数字孪生等前沿技术，按宁德时代灯塔工厂标准建设，生产高品质电池产品，加速印尼及全球电动出行与能源转型进程。\n李平指出，项目整合了从矿产到电池材料，再到电池制造与回收等关键环节，打通了电池全生命周期产业链，“项目将为印尼净零碳排的绿色经济"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-MF-0002-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84714.html",
+          "surface": "body",
+          "quote": "其中，卡拉旺电池工厂一期产能规划6.9GWh，将依托AI、5G、数字孪生等前沿技术，按宁德时代灯塔工厂标准建设，生产高品质电池产品，加速印尼及全球电动出行与能源转型进程。\n李平指出，项目整合了从矿产到电池材料，再到电池制造与回收等关键环节，打通了电池全生命周期产业链，“项目将为印尼净零碳排的绿色经济"
+        }
+      ]
+    }
+  ]
+}

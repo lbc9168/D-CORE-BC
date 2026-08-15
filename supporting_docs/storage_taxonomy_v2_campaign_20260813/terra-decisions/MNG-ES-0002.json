@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MNG-ES-0002",
+  "package_sha256": "3faf8810e851f56f8820bd687b2b10dfdd756af363512e719bd1e2e47f1bd115",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 80,
+    "storage_energy_mwh": 200,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/31052.html",
+        "surface": "body",
+        "quote": "“80MW/200MWh储能电站EPC项目” 举行奠基仪式"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MNG-ES-0002-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 80,
+      "storage_energy_mwh": 200,
+      "storage_power_mw_raw": "80MW",
+      "storage_energy_mwh_raw": "200MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/31052.html",
+          "surface": "body",
+          "quote": "“80MW/200MWh储能电站EPC项目” 举行奠基仪式"
+        }
+      ]
+    }
+  ]
+}

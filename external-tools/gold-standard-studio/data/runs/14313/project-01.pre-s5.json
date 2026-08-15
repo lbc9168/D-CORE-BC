@@ -1,0 +1,28 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程江苏院",
+      "role": "承包商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "全线长度27.5千米",
+    "Category": "输变电建设",
+    "Country": "菲律宾",
+    "Energy Composition Evidence": "AURORA-LALA 138千伏输电线路",
+    "Generation Sources": [],
+    "Location(State)": "棉兰老岛",
+    "Project Developer": "菲律宾国际电网公司",
+    "Project Developer Evidence": "菲律宾国际电网公司（NGCP）",
+    "Project Name": "菲律宾AURORA-LALA 138千伏输电线路项目",
+    "Project Name (EN)": "AURORA-LALA 138kV Transmission Line",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

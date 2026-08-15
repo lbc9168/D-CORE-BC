@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NGA-HB-0007",
+  "package_sha256": "49f3733fbee0994e59c62b767dea70bab8a78e1584819abdc9553368397ff6e8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77038.html",
+        "surface": "body",
+        "quote": "近日，尼日利亚大学及教学医院柴光储总承包项目完成72小时试运行，获得业主监理签发的完工证书。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NGA-HB-0007-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77038.html",
+          "surface": "body",
+          "quote": "近日，尼日利亚大学及教学医院柴光储总承包项目完成72小时试运行，获得业主监理签发的完工证书。"
+        }
+      ]
+    }
+  ]
+}

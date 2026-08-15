@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SGP-ES-0001",
+  "package_sha256": "283b730bd056bf44c3f9a4420bfe8285faaef86b655340111ad1f4ba4b2560fe",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 200,
+    "storage_energy_mwh": 200,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78156.html",
+        "surface": "body",
+        "quote": "该项目位于日本南部高知县，项目规模为40兆瓦/120兆瓦时，拟采用最新技术电化学储能系统，工作内容包含储能系统及输电线路总包工作。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/29526.html",
+        "surface": "body",
+        "quote": "项目总规划容量为200兆瓦/200兆瓦时，拟分为两个厂址进行建设。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SGP-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 40,
+      "storage_energy_mwh": 120,
+      "storage_power_mw_raw": "40兆瓦",
+      "storage_energy_mwh_raw": "120兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78156.html",
+          "surface": "body",
+          "quote": "该项目位于日本南部高知县，项目规模为40兆瓦/120兆瓦时，拟采用最新技术电化学储能系统，工作内容包含储能系统及输电线路总包工作。"
+        }
+      ]
+    },
+    {
+      "event_id": "SGP-ES-0001-02",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 200,
+      "storage_energy_mwh": 200,
+      "storage_power_mw_raw": "200兆瓦",
+      "storage_energy_mwh_raw": "200兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/29526.html",
+          "surface": "body",
+          "quote": "项目总规划容量为200兆瓦/200兆瓦时，拟分为两个厂址进行建设。"
+        }
+      ]
+    }
+  ]
+}

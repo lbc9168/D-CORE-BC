@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KIR-HB-0001",
+  "package_sha256": "6ead8c0efd75b46c578777a2923f0218c218c9a7d5a6766813b9c5a6e19b660c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/65185.html",
+        "surface": "title",
+        "quote": "中腾微网基里巴斯光储电站项目动工仪式顺利举行"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/65185.html",
+        "surface": "body",
+        "quote": "4月27日，中腾微网在南太平洋的基里巴斯光储微电网项目动工仪式于该国首都南塔拉瓦顺利举行。该仪式是由基里巴斯政府、亚洲开发银行及其他发展伙伴共同举办的，动工仪式的举行标志着基里巴斯最大的太阳能微电网建设工作正式迈出了第一步。\n此次项目动工仪式由基里巴斯基础设施和可持续能源部长Willie Tokataake主持。基里巴斯总"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KIR-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/65185.html",
+          "surface": "title",
+          "quote": "中腾微网基里巴斯光储电站项目动工仪式顺利举行"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/65185.html",
+          "surface": "body",
+          "quote": "4月27日，中腾微网在南太平洋的基里巴斯光储微电网项目动工仪式于该国首都南塔拉瓦顺利举行。该仪式是由基里巴斯政府、亚洲开发银行及其他发展伙伴共同举办的，动工仪式的举行标志着基里巴斯最大的太阳能微电网建设工作正式迈出了第一步。\n此次项目动工仪式由基里巴斯基础设施和可持续能源部长Willie Tokataake主持。基里巴斯总"
+        }
+      ]
+    }
+  ]
+}

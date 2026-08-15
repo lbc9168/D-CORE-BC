@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MHL-HB-0001",
+  "package_sha256": "8442b8bbd1fdd0bc22d8b9784fde72c84d317a983b8be5df591d6af3c8092487",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": "分布式",
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/33944.html",
+        "surface": "body",
+        "quote": "当公用电网被切断时，柴油发电机组被激活，光伏系统通过柴油发电机组为负载供电。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/33944.html",
+        "surface": "body",
+        "quote": "储能系统"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MHL-HB-0001-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/33944.html",
+          "surface": "body",
+          "quote": "当公用电网被切断时，柴油发电机组被激活，光伏系统通过柴油发电机组为负载供电。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/33944.html",
+          "surface": "body",
+          "quote": "储能系统"
+        }
+      ]
+    }
+  ]
+}

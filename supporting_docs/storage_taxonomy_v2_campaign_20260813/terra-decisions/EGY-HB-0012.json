@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-HB-0012",
+  "package_sha256": "29c76fa63f36b38874ed664f5c9a0345311613d9fb6549271106bc3049ae4a56",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42279.html",
+        "surface": "body",
+        "quote": "项目位于埃及明亚省东西尼罗区块，为德国DAI公司在埃及塞得港开发的2百万吨绿氨项目配套新能源工程，计划分期建设，一期拟建设350兆瓦光伏电站和160兆瓦风电项目。\n会见摩洛哥工业和贸易部部长\n6月30日，刘壮会见摩洛哥工业和贸易部部长里亚德·梅祖。双方就电力基础设施领域的合作展开充分交流，达成一致意见。\n刘壮会见摩洛哥工业和贸易部部长梅祖\n梅祖对中国能建和中电工程在能源电力及基础设施投资建设领域的专业能力给予充分"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42279.html",
+        "surface": "body",
+        "quote": "项目位于埃及明亚省东西尼罗区块，为德国DAI公司在埃及塞得港开发的2百万吨绿氨项目配套新能源工程，计划分期建设，一期拟建设350兆瓦光伏电站和160兆瓦风电项目。\n会见摩洛哥工业和贸易部部长\n6月30日，刘壮会见摩洛哥工业和贸易部部长里亚德·梅祖。双方就电力基础设施领域的合作展开充分交流，达成一致意见。\n刘壮会见摩洛哥工业和贸易部部长梅祖\n梅祖对中国能建和中电工程在能源电力及基础设施投资建设领域的专业能力给予充分肯定。他表示，摩洛哥"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-HB-0012-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42279.html",
+          "surface": "body",
+          "quote": "项目位于埃及明亚省东西尼罗区块，为德国DAI公司在埃及塞得港开发的2百万吨绿氨项目配套新能源工程，计划分期建设，一期拟建设350兆瓦光伏电站和160兆瓦风电项目。\n会见摩洛哥工业和贸易部部长\n6月30日，刘壮会见摩洛哥工业和贸易部部长里亚德·梅祖。双方就电力基础设施领域的合作展开充分交流，达成一致意见。\n刘壮会见摩洛哥工业和贸易部部长梅祖\n梅祖对中国能建和中电工程在能源电力及基础设施投资建设领域的专业能力给予充分"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42279.html",
+          "surface": "body",
+          "quote": "项目位于埃及明亚省东西尼罗区块，为德国DAI公司在埃及塞得港开发的2百万吨绿氨项目配套新能源工程，计划分期建设，一期拟建设350兆瓦光伏电站和160兆瓦风电项目。\n会见摩洛哥工业和贸易部部长\n6月30日，刘壮会见摩洛哥工业和贸易部部长里亚德·梅祖。双方就电力基础设施领域的合作展开充分交流，达成一致意见。\n刘壮会见摩洛哥工业和贸易部部长梅祖\n梅祖对中国能建和中电工程在能源电力及基础设施投资建设领域的专业能力给予充分肯定。他表示，摩洛哥"
+        }
+      ]
+    }
+  ]
+}

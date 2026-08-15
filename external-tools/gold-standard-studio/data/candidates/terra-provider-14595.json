@@ -1,0 +1,242 @@
+{
+  "candidate_id": "terra-provider-14595-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 14595,
+  "article_sha256": "e3c30f781053533d5db7046361a5b4344d16123a2b09b796da8278ddcb502644",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "valid_project",
+    "evidence": "2022年12月18日，中腾微网（北京）科技有限公司成功中标马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "此次中腾微网中标的26个岛环礁光柴储微电网项目和之前承接的项目同属于马尔代夫政府的外岛可持续能源发展项目（POISED）的一部分",
+    "confidence": 0.99
+  },
+  "projects": [
+    {
+      "project_key": "project_1_maldives_raa_baa_26_islands",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "中腾微网（北京）科技有限公司成功中标马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+        "confidence": 0.99
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "马尔代夫Raa与Baa环礁26岛8MWp光柴储微电网项目",
+        "evidence": "待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh。",
+        "confidence": 0.98
+      },
+      "project_name_en": {
+        "value_state": "derived_from_explicit",
+        "value": "Maldives Raa and Baa Atolls 26-Island 8MWp Solar-Diesel-Storage Microgrid Project",
+        "evidence": "马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+        "confidence": 0.94
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "使光伏系统、柴油发电系统和储能系统有机的结合起来",
+        "confidence": 0.99
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光柴储微电网",
+        "evidence": "26个岛屿的光柴储微电网系统",
+        "confidence": 0.99
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": ["光伏", "火电"],
+        "evidence": "使光伏系统、柴油发电系统和储能系统有机的结合起来",
+        "confidence": 0.99
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh。",
+        "confidence": 0.99
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 12,
+        "raw_value": "12MWh",
+        "evidence": "储能装机量达到12MWh。",
+        "confidence": 0.99
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 8,
+        "raw_value": "8MWp",
+        "evidence": "待26个岛全部完工后总计光伏装机量为8MWp",
+        "confidence": 0.99
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "中标",
+        "evidence": "2022年12月18日，中腾微网（北京）科技有限公司成功中标马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+        "confidence": 0.99
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "马尔代夫",
+        "evidence": "马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+        "confidence": 0.99
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "Raa与Baa环礁26个岛",
+        "evidence": "马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+        "confidence": 0.99
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "中腾微网（北京）科技有限公司",
+            "evidence": "中腾微网（北京）科技有限公司成功中标马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。",
+            "confidence": 0.99
+          },
+          "role": {
+            "value_state": "explicit",
+            "value": "EPC总承包",
+            "evidence": "中腾微网将负责该项目中26个岛屿的光柴储微电网系统的设计和建设",
+            "confidence": 0.98
+          },
+          "equipment_role": {
+            "value_state": "explicit",
+            "value": "主要设备",
+            "evidence": "此次项目采用了中腾微网自主研发的EMS能量管理系统以及SP系列储能产品",
+            "confidence": 0.96
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "explicit",
+        "value": "同一POISED计划下本次打包中标的26个岛合并为一条项目记录。",
+        "evidence": "待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh。",
+        "confidence": 0.99
+      },
+      "project_summary": "中国企业中腾微网（北京）科技有限公司中标马尔代夫Raa与Baa环礁26岛光柴储微电网总承包项目，项目类别为综合能源。项目处于中标阶段，光伏总装机为8MWp，储能为12MWh，柴油发电装机未披露。"
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "中腾微网中标马尔代夫Raa与Baa环礁26岛光柴储微电网项目",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步属于含光伏、柴油发电和储能的微电网发电项目；第二步明确点名中国企业中腾微网中标总承包，因此为 valid_project。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "马尔代夫Raa与Baa环礁26岛8MWp光柴储微电网项目",
+            "Project Name (EN)": "Maldives Raa and Baa Atolls 26-Island 8MWp Solar-Diesel-Storage Microgrid Project",
+            "Country": "马尔代夫",
+            "Location(State)": "Raa与Baa环礁26个岛",
+            "Category": "综合能源",
+            "Generation Sources": ["光伏", "火电"],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "12MWh",
+            "Energy Composition Evidence": "待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh",
+            "Capacity (MW)": "",
+            "Capacity Details": "PV: 8MWp; BESS: 12MWh; 柴油发电装机未提及",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "中腾微网（北京）科技有限公司",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "EPC总承包",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "主要设备",
+            "equipment_items": "EMS能量管理系统、SP系列储能产品",
+            "equipment_supply_scope": "具体项目"
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      }
+    ],
+    "s5": [
+      {
+        "project_summary": "中国企业中腾微网（北京）科技有限公司中标马尔代夫Raa与Baa环礁26岛光柴储微电网总承包项目，项目类别为综合能源。项目处于中标阶段，光伏总装机为8MWp，储能为12MWh，柴油发电装机未披露。",
+        "corrections": []
+      }
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/14595/base-manifest.json",
+    "dynamic": "data/runs/14595/dynamic-manifest.json"
+  }
+}

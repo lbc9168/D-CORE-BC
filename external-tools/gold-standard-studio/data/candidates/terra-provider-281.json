@@ -1,0 +1,674 @@
+{
+  "candidate_id": "terra-provider-281-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 281,
+  "article_sha256": "faf5dd06273c3475ad374bfe81b03e884980506408d6dac48333989632cafc13",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "赞比亚东部省奇帕塔75MW光伏项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "75MW（AC）并网光伏发电项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "75MW（AC）并网光伏发电项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "75MW（AC）并网光伏发电项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "75MW",
+        "evidence": "75MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "中标",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "赞比亚",
+        "evidence": "赞比亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "东部省奇帕塔市",
+        "evidence": "东部省奇帕塔市",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中设集团",
+            "evidence": "中设集团",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "总承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        },
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "机械工业勘察设计研究院有限公司",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "服务商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "吉尔吉斯斯坦乌奇库尔干4x45MW水电站增容改造项目",
+        "evidence": "吉尔吉斯斯坦乌奇库尔干4x45MW水电站增容改造项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "水电",
+        "evidence": "水电",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "水电"
+        ],
+        "evidence": "水电",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "4x45MW水电站增容改造项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "4x45MW水电站增容改造项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "4x45MW水电站增容改造项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "4x45MW",
+        "evidence": "4x45MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "中标",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "吉尔吉斯斯坦",
+        "evidence": "吉尔吉斯斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "乌奇库尔干",
+        "evidence": "乌奇库尔干",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国电力工程有限公司",
+            "evidence": "中国电力工程有限公司",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "总承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        },
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "机械工业勘察设计研究院有限公司",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "服务商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦塔什干生活垃圾焚烧发电项目",
+        "evidence": "乌兹别克斯坦塔什干生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "生物质",
+        "evidence": "生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "生物质"
+        ],
+        "evidence": "生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "生活垃圾焚烧发电项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "拟开发",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦",
+        "evidence": "乌兹别克斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "塔什干市",
+        "evidence": "塔什干市",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "中工国际工程股份有限公司",
+        "evidence": "中工国际工程股份有限公司",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中工国际工程股份有限公司",
+            "evidence": "中工国际工程股份有限公司",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "投资方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        },
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "机械工业勘察设计研究院有限公司",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "服务商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "伊拉克巴士拉B9发电厂一期90MW项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "巴士拉B9发电厂项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "巴士拉B9发电厂项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "巴士拉B9发电厂项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "巴士拉B9发电厂项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "巴士拉B9发电厂项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "90MW",
+        "evidence": "90MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "中标",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "伊拉克",
+        "evidence": "伊拉克",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "巴士拉",
+        "evidence": "巴士拉",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中设集团",
+            "evidence": "中设集团",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "总承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        },
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "机械工业勘察设计研究院有限公司",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "服务商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "机勘院海外四个电力项目中标",
+      "is_power_generation_plant": true,
+      "reasoning": "四个具名发电项目均有中国企业参与。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "赞比亚东部省奇帕塔75MW光伏项目",
+            "Project Name (EN)": "Chipata 75MW Solar PV Project",
+            "Country": "赞比亚",
+            "Location(State)": "东部省奇帕塔市",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "75MW（AC）并网光伏发电项目",
+            "Capacity (MW)": "75MW",
+            "Capacity Details": "直流侧装机容量102.9MWp",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "吉尔吉斯斯坦乌奇库尔干4x45MW水电站增容改造项目",
+            "Project Name (EN)": "Uch-Kurgan 4x45MW Hydropower Plant Uprating Project",
+            "Country": "吉尔吉斯斯坦",
+            "Location(State)": "乌奇库尔干",
+            "Category": "水电",
+            "Generation Sources": [
+              "水电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "4x45MW水电站增容改造项目",
+            "Capacity (MW)": "4x45MW",
+            "Capacity Details": "原有4x45兆瓦机组增容至4x56兆瓦",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "乌兹别克斯坦塔什干生活垃圾焚烧发电项目",
+            "Project Name (EN)": "Tashkent Municipal Solid Waste Incineration Power Project",
+            "Country": "乌兹别克斯坦",
+            "Location(State)": "塔什干市",
+            "Category": "生物质",
+            "Generation Sources": [
+              "生物质"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "生活垃圾焚烧发电项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "日处理垃圾2,500吨",
+            "Project Stage": "拟开发",
+            "Project Developer": "中工国际工程股份有限公司",
+            "Project Developer Evidence": "由中工国际工程股份有限公司（CAMCE）投资、建设及运营",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "伊拉克巴士拉B9发电厂一期90MW项目",
+            "Project Name (EN)": "Basra B9 Power Plant Phase I 90MW Project",
+            "Country": "伊拉克",
+            "Location(State)": "巴士拉",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "巴士拉B9发电厂项目",
+            "Capacity (MW)": "90MW",
+            "Capacity Details": "一期设计发电量为90MW",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中设集团",
+            "role": "总承包商"
+          },
+          {
+            "entity_name": "机械工业勘察设计研究院有限公司",
+            "role": "服务商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国电力工程有限公司",
+            "role": "总承包商"
+          },
+          {
+            "entity_name": "机械工业勘察设计研究院有限公司",
+            "role": "服务商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中工国际工程股份有限公司",
+            "role": "投资方"
+          },
+          {
+            "entity_name": "机械工业勘察设计研究院有限公司",
+            "role": "服务商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中设集团",
+            "role": "总承包商"
+          },
+          {
+            "entity_name": "机械工业勘察设计研究院有限公司",
+            "role": "服务商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {},
+      {},
+      {},
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/281/base-manifest.json",
+    "dynamic": "data/runs/281/dynamic-manifest.json",
+    "working_result": "data/runs/281/provider-working.json"
+  }
+}

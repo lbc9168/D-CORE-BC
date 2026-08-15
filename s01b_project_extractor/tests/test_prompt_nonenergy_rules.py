@@ -21,7 +21,8 @@ def test_s1_hydrogen_rule():
 
 def test_s2_hybrid_requires_generation_subitems():
     p = build_s2_prompt("t", "c", "2026-01-01")
-    assert "每个子项都必须是发电/储能类别且以 MW/MWh 计" in p
+    assert "储能不是发电源" in p
+    assert "只有两种及以上非备用发电源组合才归「综合能源」" in p
 
 
 def test_s2_hydrogen_classified_by_source():

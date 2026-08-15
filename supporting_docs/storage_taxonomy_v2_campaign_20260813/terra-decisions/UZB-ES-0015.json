@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-ES-0015",
+  "package_sha256": "dbab12d7f65daa0ddf08ba0c7b841b3263dbabdfcbd302f0ed6e7722e37c851b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 150,
+    "storage_energy_mwh": 300,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/96059.html",
+        "surface": "body",
+        "quote": "近日，东方国际与阿联酋知名电力开发商AMEA Power签署乌兹别克斯坦赛莱斯特150MW/300MWh储能项目EPC总承包合同。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-ES-0015-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/96059.html",
+          "surface": "body",
+          "quote": "近日，东方国际与阿联酋知名电力开发商AMEA Power签署乌兹别克斯坦赛莱斯特150MW/300MWh储能项目EPC总承包合同。"
+        }
+      ]
+    }
+  ]
+}

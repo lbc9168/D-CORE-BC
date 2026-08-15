@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0018",
+  "package_sha256": "9a818f3d03c0cade68c1343b42c92c48787c9e8b947bcb5b1a3560e6c421dd52",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81284.html",
+        "surface": "body",
+        "quote": "乌兹别克斯坦吉扎克州光伏发电项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0018-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81284.html",
+          "surface": "body",
+          "quote": "乌兹别克斯坦吉扎克州光伏发电项目"
+        }
+      ]
+    }
+  ]
+}

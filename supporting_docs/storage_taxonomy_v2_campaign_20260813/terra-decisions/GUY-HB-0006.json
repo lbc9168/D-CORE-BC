@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GUY-HB-0006",
+  "package_sha256": "c9f3f909efbd007cfc1535f6fcf275e790a478f6d2199c275f4a8b8d5b084d0e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 15,
+    "storage_energy_mwh": 10,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50825.html",
+        "surface": "body",
+        "quote": "项目拟建容量为15兆瓦光伏和10兆瓦时电化学储能系统，江苏电建一公司负责执行该项目在交钥匙基础上的所有工作和服务。\n项目建成后，将极大缓解当地矿山企业的用电成本，帮助矿山企业迅速扩大产能，同时提高矿产企业用电的稳定性，为提升矿产企业经济效益和提振当地工业经济发展提供有力支撑。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GUY-HB-0006-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 15,
+      "storage_energy_mwh": 10,
+      "storage_power_mw_raw": "15兆瓦",
+      "storage_energy_mwh_raw": "10兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50825.html",
+          "surface": "body",
+          "quote": "项目拟建容量为15兆瓦光伏和10兆瓦时电化学储能系统，江苏电建一公司负责执行该项目在交钥匙基础上的所有工作和服务。\n项目建成后，将极大缓解当地矿山企业的用电成本，帮助矿山企业迅速扩大产能，同时提高矿产企业用电的稳定性，为提升矿产企业经济效益和提振当地工业经济发展提供有力支撑。"
+        }
+      ]
+    }
+  ]
+}

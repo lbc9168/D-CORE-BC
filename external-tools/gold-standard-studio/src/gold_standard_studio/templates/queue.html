@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Golden Standard 复核队列</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="eyebrow">GOLDEN STANDARD · PILOT + STAGE 4E</span><h1>复核队列</h1></div>
+    <div class="queue-progress"><strong>{{ queue.confirmed }} / {{ queue.total }}</strong><span>篇已确认 · {{ queue.started }} 篇已开始</span></div>
+  </header>
+  <main class="queue-page">
+    <section class="queue-intro panel">
+      <div><span class="eyebrow">分层扩展</span><h2>50 篇真实样本</h2></div>
+      <p>包含 10 篇真实样本 Pilot 与 Stage 4E 新增 40 篇；development {{ queue.development }}、challenge {{ queue.challenge }}、blind {{ queue.blind }}。历史数据库信号不是 Gold，不记录复核耗时。</p>
+    </section>
+    {% for group in queue.groups %}
+    <section class="queue-list" data-group="{{ group['key'] }}">
+      <div class="queue-intro panel"><div><span class="eyebrow">{{ group['label'] }}</span><h2>{{ group['items'] | length }} 篇</h2></div><p>{% if group['key'] == "pilot" %}候选可见的 development 起点，永久不进入 blind。{% elif group['key'] == "stage4e-challenge" %}固定困难集，不等同于 blind；同样显示 Terra/Sol 辅助候选，最终值只由人工确认。{% else %}用于口径形成、错误分析和后续迭代。{% endif %}</p></div>
+      {% for item in group['items'] %}
+      <a class="queue-card state-{{ item.state }}" href="/review/{{ item.article_id }}">
+        <div class="queue-rank">{{ loop.index }}</div>
+        <div class="queue-main">
+          <div class="queue-tags"><span>#{{ item.article_id }}</span><span>{{ item.split }}</span><span>{{ item.kind }}</span><span>难度 {{ item.difficulty }}</span></div>
+          <h2>{{ item.title }}</h2>
+          <div class="queue-meta">{{ item.publish_date }} · 候选：{{ item.candidate_roles | join(' → ') if item.candidate_roles else '待生成' }}</div>
+        </div>
+        <div class="queue-state">{% if item.state == 'confirmed' %}已确认{% elif item.state == 'draft' %}草稿中{% else %}未开始{% endif %}<span>进入复核 →</span></div>
+      </a>
+      {% endfor %}
+    </section>
+    {% endfor %}
+  </main>
+</body>
+</html>

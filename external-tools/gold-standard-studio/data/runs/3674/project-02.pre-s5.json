@@ -1,0 +1,31 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "思格新能源",
+      "role": "系统供应商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "20 MWh",
+    "Category": "储能",
+    "Country": "保加利亚",
+    "Energy Composition Evidence": "20 MWh 储能项目合作协议",
+    "Generation Sources": [],
+    "Location(State)": "",
+    "Project Developer": "Debar Solar",
+    "Project Developer Evidence": "与保加利亚合作伙伴 Debar Solar",
+    "Project Name": "保加利亚20MWh储能项目",
+    "Project Name (EN)": "Bulgaria 20MWh Energy Storage Project",
+    "Project Stage": "签约",
+    "Record Type": "具体项目",
+    "Storage Energy": "20 MWh",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,118 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ARE-HB-0010",
+  "package_sha256": "c58e34d9a05e48aa2cdef69ba9bdfb409231dc5be654997a1a58bd522eed37dc",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/38852.html",
+        "surface": "body",
+        "quote": "近日，CPECC第一建设公司陆续获得阿联酋迪拜950兆瓦光热光伏电站项目PT2、PT3电伴热的施工及配合调试，PT3工艺、容器及设备类的防腐保温作业，CT和PT1的尾相消缺工作，变电所等单项工程，这是第一建设公司践行“干好在建项目就是最好的市场开发”理念的又一次成功实践。\n迪拜950兆瓦光热光伏电站项目是世界上最大的光热光伏综合性电站项目，也"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/30674.html",
+        "surface": "body",
+        "quote": "迪拜950兆瓦光热光伏电站项目PT3动力岛油盐区安装工程合同签约仪式\n。该项目是世界最大的光热光伏综合性电站项目，也是CPECC总部在海外签署的首个规模化新能源安装项目。\n迪拜950兆瓦光热光伏电站项目\n，由迪拜水电局、沙特电力ACWA公司和中国丝路基金共同投资，上海电气集团作为EPC总承包商总体承建"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/15841.html",
+        "surface": "title",
+        "quote": "湖南火电中标迪拜950兆瓦光热光伏混合型电站项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/7281.html",
+        "surface": "body",
+        "quote": "近日，迪拜水电局（Dewa）与沙特Acwa公司达成协议，将联手将迪拜酋长国首个CSP项目原计划装机量700 MW提升至950 MW，提升的这部分装机量将来自于光伏太阳能板，电价2.4美分/kWh，为全球最低之一。迪拜水电局公告中称，提升装机量需要增加投资，原计划的38亿美元投资需要增加至44亿美元。\n去年9月沙特Acwa公司中标成为迪拜CSP项目的主开发商，中国公司上海电气则中标了该项目的EPC合同。Acwa和上海电气的联合体报价7.3美"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ARE-HB-0010-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/38852.html",
+          "surface": "body",
+          "quote": "近日，CPECC第一建设公司陆续获得阿联酋迪拜950兆瓦光热光伏电站项目PT2、PT3电伴热的施工及配合调试，PT3工艺、容器及设备类的防腐保温作业，CT和PT1的尾相消缺工作，变电所等单项工程，这是第一建设公司践行“干好在建项目就是最好的市场开发”理念的又一次成功实践。\n迪拜950兆瓦光热光伏电站项目是世界上最大的光热光伏综合性电站项目，也"
+        }
+      ]
+    },
+    {
+      "event_id": "ARE-HB-0010-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/30674.html",
+          "surface": "body",
+          "quote": "迪拜950兆瓦光热光伏电站项目PT3动力岛油盐区安装工程合同签约仪式\n。该项目是世界最大的光热光伏综合性电站项目，也是CPECC总部在海外签署的首个规模化新能源安装项目。\n迪拜950兆瓦光热光伏电站项目\n，由迪拜水电局、沙特电力ACWA公司和中国丝路基金共同投资，上海电气集团作为EPC总承包商总体承建"
+        }
+      ]
+    },
+    {
+      "event_id": "ARE-HB-0010-03",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/15841.html",
+          "surface": "title",
+          "quote": "湖南火电中标迪拜950兆瓦光热光伏混合型电站项目"
+        }
+      ]
+    },
+    {
+      "event_id": "ARE-HB-0010-04",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/7281.html",
+          "surface": "body",
+          "quote": "近日，迪拜水电局（Dewa）与沙特Acwa公司达成协议，将联手将迪拜酋长国首个CSP项目原计划装机量700 MW提升至950 MW，提升的这部分装机量将来自于光伏太阳能板，电价2.4美分/kWh，为全球最低之一。迪拜水电局公告中称，提升装机量需要增加投资，原计划的38亿美元投资需要增加至44亿美元。\n去年9月沙特Acwa公司中标成为迪拜CSP项目的主开发商，中国公司上海电气则中标了该项目的EPC合同。Acwa和上海电气的联合体报价7.3美"
+        }
+      ]
+    }
+  ]
+}

@@ -114,3 +114,26 @@ def test_score_article_status_wrong_skips_projects():
 def test_score_article_gold_irrelevant_not_scored():
     r = m.score_article({"status":"irrelevant","projects":[]}, {"status":"irrelevant","projects":[]})
     assert r["status_correct"] is True and r["scored"] is False
+
+def test_taxonomy_metrics_only_count_explicitly_labeled_gold_fields():
+    gold = {"status": "valid", "projects": [{
+        **_alpha_gold(), "generation_sources": ["光伏"], "storage_status": "confirmed",
+        "storage_power_mw": 50, "storage_energy_mwh": 100,
+    }]}
+    pred = {"status": "valid", "projects": [{
+        **_alpha_gold(), "generation_sources": ["光伏", "风电"], "storage_status": "confirmed",
+        "storage_power_mw": 51, "storage_energy_mwh": 106, "proposed_category": "综合能源",
+    }]}
+    taxonomy = m.score_article(pred, gold)["taxonomy"]
+    assert taxonomy["generation_sources"] == (1, 2, 1)
+    assert taxonomy["storage_status"] == (1, 1)
+    assert taxonomy["storage_power_mw"] == (1, 1)
+    assert taxonomy["storage_energy_mwh"] == (0, 1)
+    assert taxonomy["proposed_category"] == (0, 1)
+
+def test_unlabeled_gold_project_does_not_enter_taxonomy_denominators():
+    gold = {"status": "valid", "projects": [_alpha_gold()]}
+    pred = {"status": "valid", "projects": [{**_alpha_gold(), "generation_sources": ["光伏"]}]}
+    taxonomy = m.score_article(pred, gold)["taxonomy"]
+    assert taxonomy["generation_sources"] == (0, 0, 0)
+    assert taxonomy["storage_status"] == (0, 0)

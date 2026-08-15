@@ -1,0 +1,182 @@
+{
+  "candidate_id": "terra-provider-25106-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 25106,
+  "article_sha256": "e23fc2f2a563ea1e9e25577f82d0a6fa97690ba7d282ac016739cf544f4f1610",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "越南富安257MW光伏项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "257MW",
+        "evidence": "257MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "签约",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "uncertain",
+        "value": "越南",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "location": {
+        "value_state": "uncertain",
+        "value": "富安",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "B. GRIMM",
+        "evidence": "B. GRIMM",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "晶澳太阳能",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设备供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "越南富安257MW光伏电站组件供应",
+      "is_power_generation_plant": true,
+      "reasoning": "具名光伏电站且晶澳供应组件。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "设备订单",
+            "Project Name": "越南富安257MW光伏项目",
+            "Project Name (EN)": "Phu Yen 257MW Solar PV Plant",
+            "Country": "越南",
+            "Location(State)": "富安",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "257MW plant in Phu Yen, Vietnam",
+            "Capacity (MW)": "257MW",
+            "Capacity Details": "",
+            "Project Stage": "签约",
+            "Project Developer": "B. GRIMM",
+            "Project Developer Evidence": "developed by B. GRIMM",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "晶澳太阳能",
+            "role": "设备供应商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/25106/base-manifest.json",
+    "dynamic": "data/runs/25106/dynamic-manifest.json",
+    "working_result": "data/runs/25106/provider-working.json"
+  }
+}

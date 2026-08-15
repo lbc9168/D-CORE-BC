@@ -1,0 +1,1557 @@
+{
+  "candidate_id": "sol-reviewer-1533-pilot-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 1533,
+  "article_sha256": "cc6e6cd84dc3e801256d6f533d81821dbb2440eb07bcf337165c055746e9669d",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "valid_project",
+    "evidence": "三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+  },
+  "projects": [
+    {
+      "project_key": "project_1_romania_dobresti",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "已完成罗马尼亚光储项目的收购工作",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "罗马尼亚Dolj县Dobrești 95MWp光伏+218MWh储能项目",
+        "evidence": "该项目位于罗马尼亚Dolj县的Dobrești",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光储一体化项目",
+        "evidence": "光储一体化项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "配套的218MWh储能设施",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 218,
+        "raw_value": "218MWh",
+        "evidence": "配套的218MWh储能设施",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 95,
+        "raw_value": "95MWp",
+        "evidence": "一座95MWp的光伏电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "收购",
+        "evidence": "已完成罗马尼亚光储项目的收购工作",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "罗马尼亚",
+        "evidence": "该项目位于罗马尼亚Dolj县的Dobrești",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "Dolj县Dobrești",
+        "evidence": "该项目位于罗马尼亚Dolj县的Dobrești",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "收购交易方式不等于项目融资模式。"
+      },
+      "project_developer": {
+        "value_state": "needs_adjudication",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "收购方不自动等于开发商。"
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "derived_from_explicit",
+            "value": "股权投资方",
+            "evidence": "已完成罗马尼亚光储项目的收购工作",
+            "confidence": 0.96,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "文章主项目，与后文分国别列举的历史项目分别记录。",
+        "evidence": "近年来，三一集团加速布局境外可再生能源市场，电力项目多点开花。",
+        "confidence": 0.96,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一硅能在罗马尼亚参与Dolj县Dobrești光储项目股权收购。项目包括95MWp光伏电站和218MWh储能设施，目前处于收购完成、准备建设阶段。",
+      "review_notes": []
+    },
+    {
+      "project_key": "project_2_zambia_rida",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "瑞达矿山光储微网项目动工",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "赞比亚瑞达矿业30MW光储柴微网项目",
+        "evidence": "瑞达矿业30MW光伏+60MWh储能项目",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "光伏+储能+柴发",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光储柴微网",
+        "evidence": "瑞达矿业二期光储柴微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏",
+          "火电"
+        ],
+        "evidence": "光伏+储能+柴发",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "瑞达矿业30MW光伏+60MWh储能项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 60,
+        "raw_value": "60MWh",
+        "evidence": "瑞达矿业30MW光伏+60MWh储能项目",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 30,
+        "raw_value": "30MW",
+        "evidence": "瑞达矿业30MW光伏+60MWh储能项目",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "投入运营",
+        "evidence": "瑞达矿业二期光储柴微网项目并网发电",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "赞比亚",
+        "evidence": "在赞比亚",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_start_date": {
+        "value_state": "explicit",
+        "value": "2024-10",
+        "evidence": "2024年10月，瑞达矿山光储微网项目动工",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "原文只支持该日期精度，不补成月初。"
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一硅能在海外“光伏+储能+柴发”微电网发电领域的首次尝试",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "needs_adjudication",
+            "value": null,
+            "evidence": "",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "区域总述不足以逐项目确认具体角色。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "瑞达矿业一期和二期按同一矿业项目分期合并为一条。",
+        "evidence": "瑞达矿业二期光储柴微网项目并网发电",
+        "confidence": 0.94,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_summary": "三一硅能在赞比亚参与瑞达矿业光储柴微网项目。项目包含30MW光伏和60MWh储能，文中一期及二期均已并网。",
+      "review_notes": [
+        "瑞达一期、二期合并合理。"
+      ]
+    },
+    {
+      "project_key": "project_3_zambia_qiaowa",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "乔瓦矿山光储微网项目开工（已并网）",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "赞比亚乔瓦矿山光储微网项目",
+        "evidence": "乔瓦矿山光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "乔瓦矿山光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光储微网",
+        "evidence": "乔瓦矿山光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "乔瓦矿山光储微网项目",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "乔瓦矿山光储微网项目",
+        "confidence": 0.97,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "投入运营",
+        "evidence": "乔瓦矿山光储微网项目开工（已并网）",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "赞比亚",
+        "evidence": "在赞比亚",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_start_date": {
+        "value_state": "explicit",
+        "value": "2025-03",
+        "evidence": "2025年3月，乔瓦矿山光储微网项目开工",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "原文只支持该日期精度，不补成月初。"
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一硅能凭借集团积累的矿业业主资源",
+            "confidence": 0.98,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "needs_adjudication",
+            "value": null,
+            "evidence": "",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "区域总述不足以逐项目确认具体角色。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "乔瓦矿山光储微网为发电项目；后文乔瓦矿山换电站不属于发电项目，未合并录入。",
+        "evidence": "乔瓦矿山换电站项目开工",
+        "confidence": 0.96,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一硅能在赞比亚参与乔瓦矿山光储微网项目。项目于2025年3月开工，文中说明已并网。",
+      "review_notes": [
+        "乔瓦换电站正确排除。"
+      ]
+    },
+    {
+      "project_key": "project_4_zambia_jiahang",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "赞比亚佳航矿业10MW光伏+33MWh储能微网项目",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光储微网",
+        "evidence": "光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "佳航矿业10MW/33MWh光储微网项目",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 33,
+        "raw_value": "33MWh",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 10,
+        "raw_value": "10MW",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "投入运营",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "赞比亚",
+        "evidence": "在赞比亚",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_start_date": {
+        "value_state": "explicit",
+        "value": "2025-05",
+        "evidence": "2025年5月，佳航矿业10MW/33MWh光储微网项目开工",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "原文只支持该日期精度，不补成月初。"
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一硅能凭借集团积累的矿业业主资源",
+            "confidence": 0.98,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "needs_adjudication",
+            "value": null,
+            "evidence": "",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "区域总述不足以逐项目确认具体角色。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立具名矿山微网项目。",
+        "evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一硅能在赞比亚参与佳航矿业光储微网项目。项目包含10MW光伏和33MWh储能，于2025年5月开工并已并网。",
+      "review_notes": []
+    },
+    {
+      "project_key": "project_5_guinea_shengtu",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "几内亚圣图矿区3MW光伏+9Wh储能微电网项目",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光伏+储能微电网",
+        "evidence": "光伏+9Wh储能微电网",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 0.000009,
+        "raw_value": "9Wh",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.82,
+        "verdict": "ok",
+        "reviewer_note": "原文确为9Wh，不擅改9MWh。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 3,
+        "raw_value": "3MW",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "投入运营",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "几内亚",
+        "evidence": "在几内亚",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "圣图矿区",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_complete_date": {
+        "value_state": "explicit",
+        "value": "2025-08",
+        "evidence": "2025年8月，圣图矿区3MW光伏+9Wh储能微电网项目投运",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "原文只支持该日期精度，不补成月初。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一硅能复制赞比亚的经验，并且已经初显成效",
+            "confidence": 0.97,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "needs_adjudication",
+            "value": null,
+            "evidence": "",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "区域总述不足以逐项目确认具体角色。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立具名矿区微网项目；原文9Wh按原文保留，不擅自改为9MWh。",
+        "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一硅能在几内亚参与圣图矿区光储微电网项目。项目包含3MW光伏及原文所述9Wh储能，于2025年8月投运。",
+      "review_notes": [
+        "9Wh按原文保留并规范化为0.000009MWh。"
+      ]
+    },
+    {
+      "project_key": "project_6_guinea_mixiyang",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "几内亚米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光伏+储能微电网",
+        "evidence": "光伏+6MWh储能微电网",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 6,
+        "raw_value": "6MWh",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 2,
+        "raw_value": "2MW",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "投入运营",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "几内亚",
+        "evidence": "在几内亚",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "米希扬矿区",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_complete_date": {
+        "value_state": "explicit",
+        "value": "2025-09",
+        "evidence": "2025年9月，米希扬矿区2MW光伏+6MWh储能微电网项目投运",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "原文只支持该日期精度，不补成月初。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一硅能复制赞比亚的经验，并且已经初显成效",
+            "confidence": 0.97,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "needs_adjudication",
+            "value": null,
+            "evidence": "",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "区域总述不足以逐项目确认具体角色。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立具名矿区微网项目。",
+        "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一硅能在几内亚参与米希扬矿区光储微电网项目。项目包含2MW光伏和6MWh储能，于2025年9月投运。",
+      "review_notes": []
+    },
+    {
+      "project_key": "project_7_mongolia_darkhan",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "蒙古国达尔汗5MW光伏+4MWh储能电站项目",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "综合能源",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "光储电站",
+        "evidence": "光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.95,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 4,
+        "raw_value": "4MWh",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 5,
+        "raw_value": "5MW",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_stage": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "“参建”不是明确的项目阶段。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "蒙古国",
+        "evidence": "是蒙古国首个具备绿电出口潜力的示范项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "达尔汗",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_complete_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一硅能",
+            "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "explicit",
+            "value": "设计/施工服务方",
+            "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站",
+            "confidence": 0.94,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立具名光储电站。",
+        "evidence": "达尔汗5MW+4MWh光储电站",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一硅能在蒙古国参建达尔汗光储电站。项目包含5MW光伏和4MWh储能，正文未明确给出更具体的建设阶段。",
+      "review_notes": []
+    },
+    {
+      "project_key": "project_8_serbia_wind",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "收购168MW风电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "塞尔维亚168MW风电项目",
+        "evidence": "收购168MW风电项目",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "category": {
+        "value_state": "explicit",
+        "value": "风电",
+        "evidence": "收购168MW风电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "集中式风电",
+        "evidence": "布局集中式风电领域",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_sources": {
+        "value_state": "explicit",
+        "value": [
+          "风电"
+        ],
+        "evidence": "收购168MW风电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": "not_mentioned",
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "explicit",
+        "value": 168,
+        "raw_value": "168MW",
+        "evidence": "收购168MW风电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "168MW是装机；480GWh是年发电量。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "收购",
+        "evidence": "收购168MW风电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "塞尔维亚",
+        "evidence": "在塞尔维亚",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "收购、PPA和CfD不足以证明融资结构。"
+      },
+      "project_developer": {
+        "value_state": "needs_adjudication",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "收购方不自动等于开发商。"
+      },
+      "planned_start_date": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+      },
+      "planned_complete_date": {
+        "value_state": "explicit",
+        "value": "2028",
+        "evidence": "2028年投运后，年发电量预计为480GWh",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "原文只支持该日期精度，不补成月初。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "三一重能",
+            "evidence": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "role": {
+            "value_state": "derived_from_explicit",
+            "value": "股权投资方",
+            "evidence": "收购168MW风电项目",
+            "confidence": 0.97,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "固定正文支持该字段；未超出原文证据。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立风电项目；28GW在手订单、海上风电装备公司和480GWh年发电量不另拆项目或容量。",
+        "evidence": "截至2025年6月底，其在手订单已经超过28GW",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "项目关系是由正文事实推导。"
+      },
+      "project_summary": "三一重能在塞尔维亚收购168MW风电项目。项目已签署15年PPA和CfD，计划于2028年投运。",
+      "review_notes": [
+        "480GWh年发电量和28GW订单均不作为容量。"
+      ]
+    }
+  ],
+  "prompt_manifest": {
+    "reviewer_manifest": "data/runs/1533/reviewer-manifest.json",
+    "reviewer_prompt": "data/runs/1533/reviewer.prompt.txt",
+    "reviewer_prompt_sha256": "ad513c008a9dd7a2eac3b0f3f9e2aa20633ee6ca3d8032bcecd43b4b78e06b84",
+    "parent_candidate_id": "terra-provider-1533-pilot-v1",
+    "parent_candidate_sha256": "cd6cc3b222ae355d3d92fbc828015dd3860e2a85e10afb18c8492365596bcf2d"
+  },
+  "parent_candidate_id": "terra-provider-1533-pilot-v1",
+  "verdict_summary": {
+    "overall_verdict": "pass_with_corrections",
+    "article_status_correct": true,
+    "project_count_correct": true,
+    "reviewed_project_count": 8,
+    "critical_field_corrections": 15,
+    "summary": "8个项目有正文支持；修正融资、开发商、角色、日期精度和蒙古阶段。"
+  },
+  "warnings": [
+    "历史回顾中的具体项目保留。",
+    "9Wh严格保留。",
+    "480GWh和28GW均不作项目容量。",
+    "换电站和企业战略不另作项目。"
+  ]
+}

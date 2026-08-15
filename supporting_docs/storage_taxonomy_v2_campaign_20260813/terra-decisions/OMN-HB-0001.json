@@ -1,0 +1,117 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "OMN-HB-0001",
+  "package_sha256": "357a5333a107271490a14f1752829349fadc9cba28f743e6badf5112396fd9cf",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 150,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90478.html",
+        "surface": "title",
+        "quote": "开工！阿曼伊布里三期光储项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92010.html",
+        "surface": "body",
+        "quote": "当地时间1月18日，由Masdar开发，中电工程国际公司联合华东院、湖南火电组成联营体承担EPC总承包建设的阿曼伊布里三期700MW光伏+150MWh储能电站项目现场桩基工程正式开工，标志着项目光伏区工程安装建设全面启动。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92010.html",
+        "surface": "body",
+        "quote": "项目位于马斯喀特以西约300公里，占地面积约900公顷，采用地面跟踪式光伏技术，装机容量700MWdc/500MWac，配套150MWh（4小时）储能系统，建成后将通过33/400kV升压站接入阿曼输电公司（OETC）400kV电网，进一步优化区域能源结构、提升电网稳定性与调峰能力。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90410.html",
+        "surface": "title",
+        "quote": "中国能建签约阿曼光伏+储能项目！"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90379.html",
+        "surface": "body",
+        "quote": "会后，由中电工程国际公司、华东院、湖南火电组成的中国能建EPC项目联营体与项目各股东方Masdar、OQ、KOMIPO、Al Khadra举行了阿曼伊布里三期700MWp光伏+150MWh储能电站项目EPC合同签约仪式，标志着双方在清洁能源领域的战略合作迈上新台阶。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90379.html",
+        "surface": "body",
+        "quote": "项目位于阿曼西北Dhahirah地区Ibri市，占地面积约900公顷，采用地面跟踪式光伏技术，装机容量为700MWdc/500MWac，并配套建设150MWh（4小时）储能系统，计划于2026年11月4日实现商业运行。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "OMN-HB-0001-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 150,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "150MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90478.html",
+          "surface": "title",
+          "quote": "开工！阿曼伊布里三期光储项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92010.html",
+          "surface": "body",
+          "quote": "当地时间1月18日，由Masdar开发，中电工程国际公司联合华东院、湖南火电组成联营体承担EPC总承包建设的阿曼伊布里三期700MW光伏+150MWh储能电站项目现场桩基工程正式开工，标志着项目光伏区工程安装建设全面启动。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92010.html",
+          "surface": "body",
+          "quote": "项目位于马斯喀特以西约300公里，占地面积约900公顷，采用地面跟踪式光伏技术，装机容量700MWdc/500MWac，配套150MWh（4小时）储能系统，建成后将通过33/400kV升压站接入阿曼输电公司（OETC）400kV电网，进一步优化区域能源结构、提升电网稳定性与调峰能力。"
+        }
+      ]
+    },
+    {
+      "event_id": "OMN-HB-0001-02",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 150,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "150MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90410.html",
+          "surface": "title",
+          "quote": "中国能建签约阿曼光伏+储能项目！"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90379.html",
+          "surface": "body",
+          "quote": "会后，由中电工程国际公司、华东院、湖南火电组成的中国能建EPC项目联营体与项目各股东方Masdar、OQ、KOMIPO、Al Khadra举行了阿曼伊布里三期700MWp光伏+150MWh储能电站项目EPC合同签约仪式，标志着双方在清洁能源领域的战略合作迈上新台阶。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90379.html",
+          "surface": "body",
+          "quote": "项目位于阿曼西北Dhahirah地区Ibri市，占地面积约900公顷，采用地面跟踪式光伏技术，装机容量为700MWdc/500MWac，并配套建设150MWh（4小时）储能系统，计划于2026年11月4日实现商业运行。"
+        }
+      ]
+    }
+  ]
+}

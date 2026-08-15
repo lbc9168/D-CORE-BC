@@ -1,0 +1,31 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "TCL中环",
+      "role": "投资方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "",
+    "Category": "新能源制造业",
+    "Country": "沙特阿拉伯",
+    "Energy Composition Evidence": "在沙特投资建设光伏晶体晶片工厂项目",
+    "Generation Sources": [],
+    "Location(State)": "",
+    "Project Developer": "TCL中环;Vision Industries Company",
+    "Project Developer Evidence": "TCL中环宣布与沙特Vision Industries Company签约",
+    "Project Name": "沙特阿拉伯光伏晶体晶片工厂项目",
+    "Project Name (EN)": "Saudi Arabia PV Crystal and Wafer Factory Project",
+    "Project Stage": "签约",
+    "Record Type": "一般合作",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

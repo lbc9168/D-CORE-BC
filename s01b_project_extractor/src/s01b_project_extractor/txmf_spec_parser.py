@@ -158,6 +158,23 @@ def parse_tx_event(
     }
 
 
+def parse_tx_atomic(
+    voltage_kv_raw: Optional[str],
+    line_length_km_raw: Optional[str],
+    transmission_capacity_mw_raw: Optional[str],
+) -> dict:
+    """分别解析三条 TX 原子证据，保证 kV、km 与 MW/MVA 三列互不借值。"""
+    voltage_text = _clean(voltage_kv_raw)
+    length_text = _clean(line_length_km_raw)
+    capacity_text = _clean(transmission_capacity_mw_raw)
+    return {
+        "voltage_kv": _parse_voltage(voltage_text),
+        "line_length_km": _parse_length(length_text),
+        "transmission_capacity_mw": _parse_transmission_capacity(capacity_text),
+        "miss": not any((voltage_text, length_text, capacity_text)),
+    }
+
+
 # ══════════════════════════════════════════════════════════════════
 # MF：production_capacity_value + production_capacity_unit
 # ══════════════════════════════════════════════════════════════════
@@ -281,6 +298,48 @@ def parse_mf_event(
                 "miss_reason": "powerplant_only",
             }
 
+    return {
+        "production_capacity_value": None,
+        "production_capacity_unit": None,
+        "miss": True,
+        "miss_reason": "no_signal",
+    }
+
+
+def parse_mf_atomic(production_capacity_raw: Optional[str]) -> dict:
+    """解析单条 MF 原子产能证据；多种不同产能时保守留空并保留 raw。"""
+    text = _clean(production_capacity_raw)
+    if not text:
+        return {
+            "production_capacity_value": None,
+            "production_capacity_unit": None,
+            "miss": True,
+            "miss_reason": "no_signal",
+        }
+    phrases = _find_standard_phrases(text)
+    distinct = {(round(value, 6), unit) for value, unit in phrases}
+    if len(distinct) > 1:
+        return {
+            "production_capacity_value": None,
+            "production_capacity_unit": None,
+            "miss": True,
+            "miss_reason": "multi_value",
+        }
+    if len(distinct) == 1:
+        value, unit = distinct.pop()
+        return {
+            "production_capacity_value": value,
+            "production_capacity_unit": unit,
+            "miss": False,
+            "miss_reason": None,
+        }
+    if _JIANSHU_RE.search(text):
+        return {
+            "production_capacity_value": None,
+            "production_capacity_unit": "Unknown",
+            "miss": False,
+            "miss_reason": None,
+        }
     return {
         "production_capacity_value": None,
         "production_capacity_unit": None,

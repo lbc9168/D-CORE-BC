@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-HB-0020",
+  "package_sha256": "c029057aa58207b89f4cc62565df1928abe7e64e189415640bb7ceff315c34e0",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/96061.html",
+        "surface": "title",
+        "quote": "常州大唐光伏签约澳洲企业，落地 Green Park 光伏产业园"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/96061.html",
+        "surface": "body",
+        "quote": "作为江苏本土专精特新高新技术企业，常州大唐光伏深耕光伏全产业链多年，业务覆盖光伏组件研发、电站投资建设、储能系统、多能互补综合能源服务，手握 40 余项光伏核心专利，具备从项目设计、施工到后期智能化运维全链条落地实力。多年来，公司立足常州、辐射全国，凭借稳定技术与项目落地经验，持续向海内外输出高品质清洁能源解决方案。\n澳方合作企业CLAIRELEIGH MOSMAN PTY LIMIT"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-HB-0020-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/96061.html",
+          "surface": "title",
+          "quote": "常州大唐光伏签约澳洲企业，落地 Green Park 光伏产业园"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/96061.html",
+          "surface": "body",
+          "quote": "作为江苏本土专精特新高新技术企业，常州大唐光伏深耕光伏全产业链多年，业务覆盖光伏组件研发、电站投资建设、储能系统、多能互补综合能源服务，手握 40 余项光伏核心专利，具备从项目设计、施工到后期智能化运维全链条落地实力。多年来，公司立足常州、辐射全国，凭借稳定技术与项目落地经验，持续向海内外输出高品质清洁能源解决方案。\n澳方合作企业CLAIRELEIGH MOSMAN PTY LIMIT"
+        }
+      ]
+    }
+  ]
+}

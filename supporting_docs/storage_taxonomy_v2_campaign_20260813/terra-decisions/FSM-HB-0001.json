@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "FSM-HB-0001",
+  "package_sha256": "9e92b3366d0f38abb4a792857f0e823271e2bd5a48b264dfea9890465569cdc6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/43515.html",
+        "surface": "body",
+        "quote": "此次为密克罗尼西亚三镇搭建的微电网系统，将会包含太阳能发电系统、柴油发电系统和储能系统等几个模块，并针对“Chuuk”地区独特的地理特征和气候条件进行定制化设计。这种定制化的创新解决方案将帮助该地区进一步减少化石燃料的依赖，减少碳排放量，为该地区未来可持续性绿色发展铺平道路。\n安全稳定\n密克罗尼西亚Chuuk州新能源微电网项目通过为"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/43515.html",
+        "surface": "body",
+        "quote": "此次为密克罗尼西亚三镇搭建的微电网系统，将会包含太阳能发电系统、柴油发电系统和储能系统等几个模块，并针对“Chuuk”地区独特的地理特征和气候条件进行定制化设计。这种定制化的创新解决方案将帮助该地区进一步减少化石燃料的依赖，减少碳排放量，为该地区未来可持续性绿色发展铺平道路。\n安全稳定\n密克罗尼西亚Chuuk州新能源微电网项目通过为当地提供清洁且实惠"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/43515.html",
+        "surface": "body",
+        "quote": "此次为密克罗尼西亚三镇搭建的微电网系统，将会包含太阳能发电系统、柴油发电系统和储能系统等几个模块，并针对“Chuuk”地区独特的地理特征和气候条件进行定制化设计。这种定制化的创新解决方案将帮助该地区进一步减少化石燃料的依赖，减少碳排放量，为该地区未来可持续性绿色发展铺平道路。\n安全稳定\n密克罗尼西亚Chuuk州新能源微电网项目通过为当地提供清洁且实惠的电力供应"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "FSM-HB-0001-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/43515.html",
+          "surface": "body",
+          "quote": "此次为密克罗尼西亚三镇搭建的微电网系统，将会包含太阳能发电系统、柴油发电系统和储能系统等几个模块，并针对“Chuuk”地区独特的地理特征和气候条件进行定制化设计。这种定制化的创新解决方案将帮助该地区进一步减少化石燃料的依赖，减少碳排放量，为该地区未来可持续性绿色发展铺平道路。\n安全稳定\n密克罗尼西亚Chuuk州新能源微电网项目通过为"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/43515.html",
+          "surface": "body",
+          "quote": "此次为密克罗尼西亚三镇搭建的微电网系统，将会包含太阳能发电系统、柴油发电系统和储能系统等几个模块，并针对“Chuuk”地区独特的地理特征和气候条件进行定制化设计。这种定制化的创新解决方案将帮助该地区进一步减少化石燃料的依赖，减少碳排放量，为该地区未来可持续性绿色发展铺平道路。\n安全稳定\n密克罗尼西亚Chuuk州新能源微电网项目通过为当地提供清洁且实惠"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/43515.html",
+          "surface": "body",
+          "quote": "此次为密克罗尼西亚三镇搭建的微电网系统，将会包含太阳能发电系统、柴油发电系统和储能系统等几个模块，并针对“Chuuk”地区独特的地理特征和气候条件进行定制化设计。这种定制化的创新解决方案将帮助该地区进一步减少化石燃料的依赖，减少碳排放量，为该地区未来可持续性绿色发展铺平道路。\n安全稳定\n密克罗尼西亚Chuuk州新能源微电网项目通过为当地提供清洁且实惠的电力供应"
+        }
+      ]
+    }
+  ]
+}

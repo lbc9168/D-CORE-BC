@@ -1,0 +1,165 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-PV-0005",
+  "package_sha256": "dc9f3e89aee6841eb46936ad4c202cbe5bee9699418fd2a6bda91a2fccad9657",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 89.44,
+    "storage_energy_mwh": 500,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88958.html",
+        "surface": "title",
+        "quote": "乌兹别克斯坦纳沃伊光伏项目开工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88958.html",
+        "surface": "body",
+        "quote": "项目整体建设规模包含1座360MW（直流侧）光伏电站和89.44MW/89.44MWh储能系统，我方独立承担120MW光伏电站施工任务。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/40747.html",
+        "surface": "title",
+        "quote": "阿联酋Masdar开发乌兹别克斯坦光伏/风电及储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/63116.html",
+        "surface": "body",
+        "quote": "该项目是乌兹别克斯坦合同额最大的单体联合循环电站，位于乌兹别克斯坦南部苏尔汗河州铁尔梅兹市以北12公里处，项目配置两台9000HL燃气轮机，两台余热锅炉，一台蒸汽轮机，一套风冷式凝汽器以及500kV/220kV升压站，净输出功率约1600MW，机组将于2027年进入商业运行。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/40747.html",
+        "surface": "body",
+        "quote": "签署协议，将在乌兹别克斯坦境内的多个地点开发总计超过2GW的光伏和风能项目，以及500兆瓦时的储能项目。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/22092.html",
+        "surface": "title",
+        "quote": "山东三建乌兹别克斯坦纳沃伊光伏项目倒送电一次成功"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/17329.html",
+        "surface": "title",
+        "quote": "乌兹别克斯坦计划在十年内建成总装机容量5000兆瓦的光伏电站"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/17329.html",
+        "surface": "body",
+        "quote": "除光伏电站项目外，阿联酋马斯达尔公司还将在纳沃伊州设计、融资、建设并运营装机容量500兆瓦的风力发电站，计划2021年底动工，2023年4月实现一期装机容量250兆瓦电站投入运营，2024年底实现全部运营。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-PV-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 89.44,
+      "storage_energy_mwh": 89.44,
+      "storage_power_mw_raw": "89.44MW",
+      "storage_energy_mwh_raw": "89.44MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88958.html",
+          "surface": "title",
+          "quote": "乌兹别克斯坦纳沃伊光伏项目开工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88958.html",
+          "surface": "body",
+          "quote": "项目整体建设规模包含1座360MW（直流侧）光伏电站和89.44MW/89.44MWh储能系统，我方独立承担120MW光伏电站施工任务。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-PV-0005-02",
+      "generation_sources": [
+        "光伏",
+        "风电",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 500,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "500兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/40747.html",
+          "surface": "title",
+          "quote": "阿联酋Masdar开发乌兹别克斯坦光伏/风电及储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/63116.html",
+          "surface": "body",
+          "quote": "该项目是乌兹别克斯坦合同额最大的单体联合循环电站，位于乌兹别克斯坦南部苏尔汗河州铁尔梅兹市以北12公里处，项目配置两台9000HL燃气轮机，两台余热锅炉，一台蒸汽轮机，一套风冷式凝汽器以及500kV/220kV升压站，净输出功率约1600MW，机组将于2027年进入商业运行。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/40747.html",
+          "surface": "body",
+          "quote": "签署协议，将在乌兹别克斯坦境内的多个地点开发总计超过2GW的光伏和风能项目，以及500兆瓦时的储能项目。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-PV-0005-03",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/22092.html",
+          "surface": "title",
+          "quote": "山东三建乌兹别克斯坦纳沃伊光伏项目倒送电一次成功"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-PV-0005-04",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/17329.html",
+          "surface": "title",
+          "quote": "乌兹别克斯坦计划在十年内建成总装机容量5000兆瓦的光伏电站"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/17329.html",
+          "surface": "body",
+          "quote": "除光伏电站项目外，阿联酋马斯达尔公司还将在纳沃伊州设计、融资、建设并运营装机容量500兆瓦的风力发电站，计划2021年底动工，2023年4月实现一期装机容量250兆瓦电站投入运营，2024年底实现全部运营。"
+        }
+      ]
+    }
+  ]
+}

@@ -40,3 +40,12 @@ def test_load_accepts_chinese_unnamed(tmp_path):
     from eval import gold_loader
     recs = gold_loader.load(p)
     assert recs[0]["status"] == "chinese_unnamed"
+
+def test_load_accepts_optional_taxonomy_labels_without_breaking_old_gold(tmp_path):
+    p = _write(tmp_path, [
+        '{"source_link":"http://a","status":"valid","projects":[{"project_name":"A","category":"光伏","generation_sources":["光伏"],"storage_status":"confirmed","storage_power_mw":50,"storage_energy_mwh":100}]}',
+        '{"source_link":"http://b","status":"valid","projects":[{"project_name":"B","category":"风电"}]}',
+    ])
+    recs = gold_loader.load(p)
+    assert recs[0]["projects"][0]["generation_sources"] == ["光伏"]
+    assert recs[1]["projects"][0]["generation_sources"] is None

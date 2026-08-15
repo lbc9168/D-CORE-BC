@@ -1,0 +1,38 @@
+{
+  "candidate_id": "terra-provider-23627-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 23627,
+  "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "other_non_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "uncertain",
+    "value": "仅有项目管线或非项目文章",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "正泰与茂能拟在澳大利亚合作开发光伏项目",
+      "is_power_generation_plant": true,
+      "reasoning": "有中企参与光伏合作，但仅为项目管线与term sheet，未指向具体工程。"
+    },
+    "s2": {
+      "projects": []
+    },
+    "s34": [],
+    "s5": []
+  },
+  "prompt_manifest": {
+    "base": "data/runs/23627/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/23627/provider-working.json"
+  }
+}

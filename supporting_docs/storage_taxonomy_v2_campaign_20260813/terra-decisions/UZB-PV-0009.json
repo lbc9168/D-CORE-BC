@@ -1,0 +1,129 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-PV-0009",
+  "package_sha256": "00444a266bc66a8b38f2fb8beaa7911b03756dd8a4efd48b01b7832cfc7c93ec",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 200,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81591.html",
+        "surface": "title",
+        "quote": "完工移交！乌兹塔什干光储一期光伏项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81591.html",
+        "surface": "body",
+        "quote": "当地时间4月15日，中国能建国际集团、浙江火电、中电工程安徽院总承包建设的乌兹别克斯坦塔什干光储一期200MW光伏项目取得业主颁发的TOC证书，标志着光伏电站正式移交进入质保运维阶段。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81562.html",
+        "surface": "title",
+        "quote": "乌兹塔什干光储二期光伏项目完工移交"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81591.html",
+        "surface": "body",
+        "quote": "塔什干光储项目是ACWA Power与乌兹别克斯坦能源部的IPP项目，包含一期200MW光伏、二期500MW/h储能。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/64325.html",
+        "surface": "title",
+        "quote": "乌兹塔什干光储项目迎来里程碑：中国西电助力实现一次倒送电成功"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42523.html",
+        "surface": "title",
+        "quote": "乌兹别克斯坦塔什干光储项目一期200MW光伏项目启动会顺利召开"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-PV-0009-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 200,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "200MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81591.html",
+          "surface": "title",
+          "quote": "完工移交！乌兹塔什干光储一期光伏项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81591.html",
+          "surface": "body",
+          "quote": "当地时间4月15日，中国能建国际集团、浙江火电、中电工程安徽院总承包建设的乌兹别克斯坦塔什干光储一期200MW光伏项目取得业主颁发的TOC证书，标志着光伏电站正式移交进入质保运维阶段。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81562.html",
+          "surface": "title",
+          "quote": "乌兹塔什干光储二期光伏项目完工移交"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81591.html",
+          "surface": "body",
+          "quote": "塔什干光储项目是ACWA Power与乌兹别克斯坦能源部的IPP项目，包含一期200MW光伏、二期500MW/h储能。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-PV-0009-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/64325.html",
+          "surface": "title",
+          "quote": "乌兹塔什干光储项目迎来里程碑：中国西电助力实现一次倒送电成功"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-PV-0009-03",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42523.html",
+          "surface": "title",
+          "quote": "乌兹别克斯坦塔什干光储项目一期200MW光伏项目启动会顺利召开"
+        }
+      ]
+    }
+  ]
+}

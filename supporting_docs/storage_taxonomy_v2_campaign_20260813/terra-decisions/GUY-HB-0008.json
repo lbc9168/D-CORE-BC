@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GUY-HB-0008",
+  "package_sha256": "e16195704f81e6385b8b1b5e603d17033d345e41466da2c765dd47cd948b03dd",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94137.html",
+        "surface": "title",
+        "quote": "陕建安装集团一海外光储项目竣工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94137.html",
+        "surface": "body",
+        "quote": "4月8日，陕建安装集团承建的圭亚那奥罗拉金矿光储扩容项目举行竣工仪式，中国驻圭亚那大使杨扬与圭亚那总理菲利普斯共同出席并讲话。\n杨大使表示，绿水青山就是金山银山，现代化矿山既要能创造财富，也要能节约能源、保护环境、惠及百姓。项目落成是中圭两国在新型清洁能源与传统矿业领域融合发展合作的又一重要成果，体现出双方推动绿色低碳发展的共"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GUY-HB-0008-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94137.html",
+          "surface": "title",
+          "quote": "陕建安装集团一海外光储项目竣工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94137.html",
+          "surface": "body",
+          "quote": "4月8日，陕建安装集团承建的圭亚那奥罗拉金矿光储扩容项目举行竣工仪式，中国驻圭亚那大使杨扬与圭亚那总理菲利普斯共同出席并讲话。\n杨大使表示，绿水青山就是金山银山，现代化矿山既要能创造财富，也要能节约能源、保护环境、惠及百姓。项目落成是中圭两国在新型清洁能源与传统矿业领域融合发展合作的又一重要成果，体现出双方推动绿色低碳发展的共"
+        }
+      ]
+    }
+  ]
+}

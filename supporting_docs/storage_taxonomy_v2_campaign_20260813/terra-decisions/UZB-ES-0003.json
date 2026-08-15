@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-ES-0003",
+  "package_sha256": "57733415350aff81eef4dec1196fc8ae2f20202aee3a4fbf629b6d0408c864a5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 100,
+    "storage_energy_mwh": 200,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88293.html",
+        "surface": "body",
+        "quote": "当地时间9月30日14时28分，纳曼干州奥比100MW/200MWh储能项目现场，随着首方混凝土缓缓注入储能电池舱基础，该项目正式从基础施工阶段迈入主体建设阶段，成为乌兹三期储能项目群中首个突破关键建设节点的项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 100,
+      "storage_energy_mwh": 200,
+      "storage_power_mw_raw": "100MW",
+      "storage_energy_mwh_raw": "200MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88293.html",
+          "surface": "body",
+          "quote": "当地时间9月30日14时28分，纳曼干州奥比100MW/200MWh储能项目现场，随着首方混凝土缓缓注入储能电池舱基础，该项目正式从基础施工阶段迈入主体建设阶段，成为乌兹三期储能项目群中首个突破关键建设节点的项目。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COD-HB-0008",
+  "package_sha256": "6c8bfe17edf98e98dfa292ebfb95346bd69209c602d94d76ddbb33a1e1e070da",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 60,
+    "storage_energy_mwh": 120,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80361.html",
+        "surface": "body",
+        "quote": "本项目通过对厂内供电系统进行全面改造及智能微网控制升级，打造出柴+储智能构网型供电系统（储能规模60MW/120MWH），有效满足厂区应急供电、保障性供电等运行要求；同时远期可进一步利用厂区周边资源，投建风、光新能源发电系统，实现全时离网运行，切实保障厂区安全稳定供电的同时大幅降低生产成本、提升项目收益，开辟非洲矿区供能新模式。\n此次中标是公司继赞比亚42所中学光储微网"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80223.html",
+        "surface": "body",
+        "quote": "本次中标将为中国能建创造在非综合能源微电网及构网型储能领域竞争优势，也为“国际再出发”战略奠定坚实基础。\n该微电网EPC项目通过对厂内供电系统进行全面改造及智能微网控制升级，打造出柴+储智能构网型供电系统（储能规模60兆瓦/120兆瓦时），有效满足厂区应急供电、保障性供电等运行要求。远期可进一步利用厂区周边资源，投建风、光新能源发电"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COD-HB-0008-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 60,
+      "storage_energy_mwh": 120,
+      "storage_power_mw_raw": "60MW",
+      "storage_energy_mwh_raw": "120MWH",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80361.html",
+          "surface": "body",
+          "quote": "本项目通过对厂内供电系统进行全面改造及智能微网控制升级，打造出柴+储智能构网型供电系统（储能规模60MW/120MWH），有效满足厂区应急供电、保障性供电等运行要求；同时远期可进一步利用厂区周边资源，投建风、光新能源发电系统，实现全时离网运行，切实保障厂区安全稳定供电的同时大幅降低生产成本、提升项目收益，开辟非洲矿区供能新模式。\n此次中标是公司继赞比亚42所中学光储微网"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80223.html",
+          "surface": "body",
+          "quote": "本次中标将为中国能建创造在非综合能源微电网及构网型储能领域竞争优势，也为“国际再出发”战略奠定坚实基础。\n该微电网EPC项目通过对厂内供电系统进行全面改造及智能微网控制升级，打造出柴+储智能构网型供电系统（储能规模60兆瓦/120兆瓦时），有效满足厂区应急供电、保障性供电等运行要求。远期可进一步利用厂区周边资源，投建风、光新能源发电"
+        }
+      ]
+    }
+  ]
+}

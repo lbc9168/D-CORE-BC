@@ -1,34 +1,60 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Download, FileSpreadsheet, AlertCircle, X } from "lucide-react";
 import { useData } from "@/contexts/DataContext";
+import { useDomain } from "@/contexts/DomainContext";
 import { useLang } from "@/contexts/LanguageContext";
-import type { Project } from "@/types";
-import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
+import type { Project, TxMfProject } from "@/types";
+import { CATEGORIES, STAGES, STAGE_COLORS, VIZ_GROUPS } from "@/types";
+import { stageToGroup } from "@/utils/enums";
 import FilterBar from "@/components/filters/FilterBar";
+import DomainSwitcher from "@/components/filters/DomainSwitcher";
 import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
+import { txmfScaleLabel } from "@/components/projects/TxMfProjectList";
+import { TX_CATEGORY_KEY, MF_CATEGORY_KEY } from "@/utils/domains";
 import { formatCountryName } from "@/utils/display";
 import { downloadCSV } from "@/utils/csvExport";
 import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
+import TechnologyTagBadges from "@/components/projects/TechnologyTagBadges";
 
 const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT as string | undefined;
 
 const PAGE_SIZE = 50;
 
-export default function TablePage() {
-  const { filteredProjects, loading, error } = useData();
-  const { t, T } = useLang();
+/** txmf 表可排序键 → 取值器（专表 union 无法直接按 keyof 索引） */
+const TXMF_SORT_GETTERS: Record<string, (p: TxMfProject) => string | number | null> = {
+  project_id: (p) => p.project_id,
+  country: (p) => p.country_en || p.country,
+  event_year: (p) => p.event_year,
+};
 
-  const [colorBy, setColorBy] = useState<"count" | "capacity">("count");
+export default function TablePage() {
+  const { filteredProjects, filteredTxMf, allProjects, txProjects, mfProjects, loading, error } = useData();
+  const { domain } = useDomain();
+  const { t, T } = useLang();
+  const isTxMf = domain === "txmf";
+
+  // 下载恒为全量单文件，与当前筛选/域无关 → 弹窗显示文件里的项目总数（发电 + 输变电·制造业）
+  const csvProjectCount = allProjects.length + txProjects.length + mfProjects.length;
+
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
-  const [sortKey, setSortKey] = useState<keyof Project>("display_order");
+  const [sortKey, setSortKey] = useState<string>("display_order");
   const [sortAsc, setSortAsc] = useState(true);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | TxMfProject | null>(null);
   const [showSurvey, setShowSurvey] = useState(false);
   const [downloadFailed, setDownloadFailed] = useState(false);
 
-  // 搜索
-  const searched = useMemo(() => {
+  // 切域重置搜索/分页/排序/选中（两套表列组不同，状态不跨域携带）
+  useEffect(() => {
+    setSearch("");
+    setPage(0);
+    setSortKey(isTxMf ? "project_id" : "display_order");
+    setSortAsc(true);
+    setSelectedProject(null);
+  }, [domain, isTxMf]);
+
+  // 搜索（主表）
+  const searchedMain = useMemo(() => {
     if (!search.trim()) return filteredProjects;
     const q = search.toLowerCase();
     return filteredProjects.filter(
@@ -43,23 +69,54 @@ export default function TablePage() {
     );
   }, [filteredProjects, search]);
 
-  // 排序
-  const sorted = useMemo(() => {
-    return [...searched].sort((a, b) => {
-      const av = a[sortKey] as string | number | null;
-      const bv = b[sortKey] as string | number | null;
+  // 搜索（txmf 专表：名称/国家/参与实体）
+  const searchedTxMf = useMemo(() => {
+    if (!search.trim()) return filteredTxMf;
+    const q = search.toLowerCase();
+    return filteredTxMf.filter(
+      (p) =>
+        p.project_name?.toLowerCase().includes(q) ||
+        p.project_name_en?.toLowerCase().includes(q) ||
+        p.country?.toLowerCase().includes(q) ||
+        (p.country_en ?? "").toLowerCase().includes(q) ||
+        p.all_entities?.some((e) => (e.name_en || e.name || "").toLowerCase().includes(q)),
+    );
+  }, [filteredTxMf, search]);
+
+  // 排序（主表）
+  const sortedMain = useMemo(() => {
+    const key = sortKey as keyof Project;
+    return [...searchedMain].sort((a, b) => {
+      const av = a[key] as string | number | null;
+      const bv = b[key] as string | number | null;
       if (av == null && bv == null) return 0;
       if (av == null) return 1;
       if (bv == null) return -1;
       const cmp = av < bv ? -1 : av > bv ? 1 : 0;
       return sortAsc ? cmp : -cmp;
     });
-  }, [searched, sortKey, sortAsc]);
+  }, [searchedMain, sortKey, sortAsc]);
 
-  const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
-  const pageData = sorted.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  // 排序（txmf 专表）
+  const sortedTxMf = useMemo(() => {
+    const get = TXMF_SORT_GETTERS[sortKey] ?? TXMF_SORT_GETTERS.project_id;
+    return [...searchedTxMf].sort((a, b) => {
+      const av = get(a);
+      const bv = get(b);
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;
+      if (bv == null) return -1;
+      const cmp = av < bv ? -1 : av > bv ? 1 : 0;
+      return sortAsc ? cmp : -cmp;
+    });
+  }, [searchedTxMf, sortKey, sortAsc]);
 
-  const handleSort = (key: keyof Project) => {
+  const totalCount = isTxMf ? sortedTxMf.length : sortedMain.length;
+  const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+  const pageMain = sortedMain.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+  const pageTxMf = sortedTxMf.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
+
+  const handleSort = (key: string) => {
     if (key === sortKey) setSortAsc((v) => !v);
     else { setSortKey(key); setSortAsc(false); }
     setPage(0);
@@ -92,7 +149,7 @@ export default function TablePage() {
     if (SURVEY_ENDPOINT) {
       const payload = new FormData();
       Object.entries(data).forEach(([k, v]) => payload.append(k, v));
-      payload.append("record_count", String(sorted.length));
+      payload.append("record_count", String(csvProjectCount));
       payload.append("submitted_at", new Date().toISOString());
       fetch(SURVEY_ENDPOINT, { method: "POST", body: payload, mode: "no-cors" }).catch(() => {});
     }
@@ -100,7 +157,7 @@ export default function TablePage() {
     setShowSurvey(false);
   };
 
-  const SortBtn = ({ k, label }: { k: keyof Project; label: string }) => (
+  const SortBtn = ({ k, label }: { k: string; label: string }) => (
     <button
       onClick={() => handleSort(k)}
       className="flex items-center gap-0.5 hover:text-brand-600 transition-colors"
@@ -133,7 +190,9 @@ export default function TablePage() {
     <div className="flex flex-1 overflow-hidden">
       {/* 主表格区域 */}
       <div className="flex flex-col flex-1 overflow-hidden">
-        <FilterBar colorBy={colorBy} onColorByChange={setColorBy} />
+        {/* 视角条（数据域切换；Table 页不消费地图度量，隐藏度量胶囊） */}
+        <DomainSwitcher showMetrics={false} />
+        <FilterBar />
 
         {/* 工具栏 */}
         <div className="flex items-center gap-3 px-4 py-2.5 bg-white border-b border-slate-100 flex-shrink-0">
@@ -149,7 +208,7 @@ export default function TablePage() {
             />
           </div>
           <span className="text-xs text-slate-400 ml-auto">
-            {t("table.total", { count: sorted.length })}
+            {t("table.total", { count: totalCount })}
           </span>
           <button
             onClick={handleDownloadClick}
@@ -169,9 +228,10 @@ export default function TablePage() {
           </a>
         </div>
 
-        {/* 表格 */}
+        {/* 表格（按域两套列组：发电主表 / 输变电·制造业专表） */}
         <div className="flex-1 overflow-hidden p-3">
           <div className="card h-full overflow-auto">
+          {!isTxMf ? (
           <table className="w-full text-xs border-collapse">
             <thead className="sticky top-0 bg-slate-50/95 backdrop-blur z-10">
               <tr className="border-b border-slate-200">
@@ -208,14 +268,14 @@ export default function TablePage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              {pageData.length === 0 ? (
+              {pageMain.length === 0 ? (
                 <tr>
                   <td colSpan={10} className="py-12 text-center text-slate-400">
                     {t("table.empty")}
                   </td>
                 </tr>
               ) : (
-                pageData.map((p) => {
+                pageMain.map((p) => {
                   const cat = CATEGORIES[p.category];
                   const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
                   const name = p.project_name_en || p.project_name;
@@ -262,6 +322,19 @@ export default function TablePage() {
                             {p.category_en || p.category}
                           </span>
                         ) : null}
+                        {p.subcategory_en && (
+                          <span
+                            className="badge border bg-white ml-1"
+                            style={{
+                              color: cat?.color ?? "#64748B",
+                              borderColor: (cat?.color ?? "#64748B") + "66",
+                              fontSize: "10px",
+                            }}
+                          >
+                            {p.subcategory_en}
+                          </span>
+                        )}
+                        <TechnologyTagBadges project={p} compact className="ml-1" />
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600 whitespace-nowrap">
                         {p.capacity_mw?.toFixed(0) ?? "—"}
@@ -296,6 +369,123 @@ export default function TablePage() {
               )}
             </tbody>
           </table>
+          ) : (
+          <table className="w-full text-xs border-collapse">
+            <thead className="sticky top-0 bg-slate-50/95 backdrop-blur z-10">
+              <tr className="border-b border-slate-200">
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  <SortBtn k="project_id" label={col["id"] ?? "ID"} />
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 min-w-48">
+                  {col.name || "Project Name"}
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  <SortBtn k="country" label={col.country || "Country"} />
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  {col.province || "Province"}
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  {col.category || "Category"}
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  {col.specs || "Specs"}
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  {col.stage || "Stage"}
+                </th>
+                <th className="text-right px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  <SortBtn k="event_year" label={col.year || "Year"} />
+                </th>
+                <th className="text-left px-3 py-2.5 font-medium text-slate-500 min-w-32">
+                  {col.entity || "Chinese Entity"}
+                </th>
+                <th className="text-center px-3 py-2.5 font-medium text-slate-500 whitespace-nowrap">
+                  Central SOE
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {pageTxMf.length === 0 ? (
+                <tr>
+                  <td colSpan={10} className="py-12 text-center text-slate-400">
+                    {t("table.empty")}
+                  </td>
+                </tr>
+              ) : (
+                pageTxMf.map((p) => {
+                  const cat = CATEGORIES[p.kind === "tx" ? TX_CATEGORY_KEY : MF_CATEGORY_KEY];
+                  const grp = stageToGroup(p.latest_stage);
+                  const grpMeta = grp ? VIZ_GROUPS[grp] : null;
+                  const stageColor = grpMeta?.color ?? "#94a3b8";
+                  const name = p.project_name_en || p.project_name;
+                  const firstEntity = p.all_entities?.[0];
+                  const isSelected = selectedProject?.project_id === p.project_id;
+
+                  return (
+                    <tr
+                      key={p.project_id}
+                      className={`hover:bg-slate-50 cursor-pointer transition-colors ${
+                        isSelected ? "bg-brand-50" : ""
+                      }`}
+                      onClick={() => setSelectedProject(p)}
+                    >
+                      <td className="px-3 py-2 text-slate-400 font-mono whitespace-nowrap">
+                        {p.project_id}
+                      </td>
+                      <td className="px-3 py-2 text-slate-800 line-clamp-2 max-w-xs">{name}</td>
+                      <td className="px-3 py-2 text-slate-600 whitespace-nowrap">
+                        {formatCountryName(p.country, p.country_iso, "en")}
+                      </td>
+                      <td className="px-3 py-2 text-slate-500 whitespace-nowrap">
+                        {p.province ?? "—"}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        {cat && (
+                          <span
+                            className="badge text-white"
+                            style={{ backgroundColor: cat.color, fontSize: "10px" }}
+                          >
+                            {cat.en}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-3 py-2 text-slate-600 whitespace-nowrap">
+                        {txmfScaleLabel(p) ?? "—"}
+                      </td>
+                      <td className="px-3 py-2 whitespace-nowrap">
+                        <span
+                          className="badge"
+                          style={{
+                            backgroundColor: stageColor + "20",
+                            color: stageColor,
+                            fontSize: "10px",
+                          }}
+                        >
+                          {grpMeta?.en ?? "—"}
+                        </span>
+                      </td>
+                      <td className="px-3 py-2 text-right text-slate-600">{p.event_year}</td>
+                      <td className="px-3 py-2 text-slate-600 max-w-xs truncate">
+                        {firstEntity ? firstEntity.name_en || firstEntity.name : "—"}
+                      </td>
+                      <td className="px-3 py-2 text-center">
+                        {p.has_soe === 1 ? (
+                          <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-semibold
+                                           bg-amber-100 text-amber-700 leading-none">
+                            ✓
+                          </span>
+                        ) : (
+                          <span className="text-slate-300">—</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+          )}
           </div>
         </div>
 
@@ -333,7 +523,7 @@ export default function TablePage() {
       {/* 下载问卷弹窗 */}
       {showSurvey && (
         <DownloadSurveyModal
-          rowCount={sorted.length}
+          rowCount={csvProjectCount}
           onConfirm={handleSurveyConfirm}
           onClose={() => setShowSurvey(false)}
         />

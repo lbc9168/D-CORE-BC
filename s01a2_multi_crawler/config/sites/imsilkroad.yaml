@@ -1,0 +1,16 @@
+# 新华丝路：标签聚合页（服务端渲染，?page=N）；标签=光伏/风电/储能
+name: imsilkroad
+label: 新华丝路·能源标签
+parser: html_list
+listing_urls:
+  - https://www.imsilkroad.com/tags/%E5%85%89%E4%BC%8F  # 光伏
+  - https://www.imsilkroad.com/tags/%E9%A3%8E%E7%94%B5  # 风电
+  - https://www.imsilkroad.com/tags/%E5%82%A8%E8%83%BD  # 储能
+page_param: '?page={n}'
+max_pages: 2
+article_url_pattern: 'imsilkroad\.com/news/p/\d+\.html'
+article:
+  content_selectors: ['.essayDetails', '#article']
+  title_source: title_tag  # og:title 是全站写死的宣传语，<title> 才是文章标题
+  title_strip: '-新华丝路$'
+rate_limit_seconds: 3.0

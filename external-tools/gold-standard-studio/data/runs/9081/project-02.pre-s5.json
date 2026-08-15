@@ -1,0 +1,28 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国西电",
+      "role": "承包商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "275千伏",
+    "Category": "输变电建设",
+    "Country": "马来西亚",
+    "Energy Composition Evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+    "Generation Sources": [],
+    "Location(State)": "砂拉越古晋",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "马来西亚砂拉越古晋KNR275千伏输电线项目",
+    "Project Name (EN)": "Kuching KNR 275kV Transmission Line Project",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

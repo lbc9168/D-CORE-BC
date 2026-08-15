@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COD-PV-0003",
+  "package_sha256": "21fb55b2233c26d721c1c19fdfca5b360ae3612786af2f9fd40a6028e7fe3562",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 0.8,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/40214.html",
+        "surface": "title",
+        "quote": "中海外中非公司中标刚果（金）三个光伏电站建设项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/40214.html",
+        "surface": "body",
+        "quote": "这次中标的三个太阳能光伏电站项目分别位于刚果（金）的开赛省和东开赛省，项目建设内容主要包括800KWp光伏发电场和800kwh储能系统以及电站相关配套设施等。项目建成投产后，可有效缓解当地用电压力，进一步满足刚果（金）开赛地区居民及企业对电力的需求，激发当地经济社会发展新动力。\n?与业主方商谈技术方案\n2022年以来，中海外中非公司紧密贴合“第二曲线”发展目标，在高质量推进刚果（金）卡莫尼亚太阳能电站项目建"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COD-PV-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 0.8,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "800kwh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/40214.html",
+          "surface": "title",
+          "quote": "中海外中非公司中标刚果（金）三个光伏电站建设项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/40214.html",
+          "surface": "body",
+          "quote": "这次中标的三个太阳能光伏电站项目分别位于刚果（金）的开赛省和东开赛省，项目建设内容主要包括800KWp光伏发电场和800kwh储能系统以及电站相关配套设施等。项目建成投产后，可有效缓解当地用电压力，进一步满足刚果（金）开赛地区居民及企业对电力的需求，激发当地经济社会发展新动力。\n?与业主方商谈技术方案\n2022年以来，中海外中非公司紧密贴合“第二曲线”发展目标，在高质量推进刚果（金）卡莫尼亚太阳能电站项目建"
+        }
+      ]
+    }
+  ]
+}

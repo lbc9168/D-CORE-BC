@@ -1,0 +1,182 @@
+{
+  "candidate_id": "terra-provider-232-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 232,
+  "article_sha256": "d12c5ad3990eabdb15418683a003408c0faeae710409a741983bc118849509a5",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦吉扎克500MW光伏项目",
+        "evidence": "乌兹别克斯坦吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "500MW",
+        "evidence": "500MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦",
+        "evidence": "乌兹别克斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "吉扎克",
+        "evidence": "吉扎克",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中建五局",
+            "evidence": "中建五局",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "参建方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "乌兹别克斯坦吉扎克500MW光伏项目全容量并网",
+      "is_power_generation_plant": true,
+      "reasoning": "具名光伏电站并网且中建五局参建。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "乌兹别克斯坦吉扎克500MW光伏项目",
+            "Project Name (EN)": "Jizzakh 500MW Solar PV Project",
+            "Country": "乌兹别克斯坦",
+            "Location(State)": "吉扎克",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "吉扎克500MW光伏项目",
+            "Capacity (MW)": "500MW",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中建五局",
+            "role": "参建方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/232/base-manifest.json",
+    "dynamic": "data/runs/232/dynamic-manifest.json",
+    "working_result": "data/runs/232/provider-working.json"
+  }
+}

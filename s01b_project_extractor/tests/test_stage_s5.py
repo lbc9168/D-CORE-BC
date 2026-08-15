@@ -25,6 +25,15 @@ def test_apply_s5_ignores_low_conf_or_bad_enum():
     assert p["common_info"]["Project Stage"] == "投入运营"
 
 
+def test_apply_s5_never_overrides_deterministic_category():
+    """S5 即使给出高置信合法类别也不得覆盖 energy_taxonomy_v2 的结果。"""
+    p = {"common_info": {"Category": "光伏"}}
+    apply_s5(p, {"corrections": [
+        {"field": "category", "suggested_value": "综合能源", "confidence": 0.99},
+    ]})
+    assert p["common_info"]["Category"] == "光伏"
+
+
 def test_apply_s5_ignores_non_numeric_confidence():
     """confidence 为非数值字符串时应跳过纠偏（不崩溃）。"""
     p = {"common_info": {"Project Stage": "在建"}}

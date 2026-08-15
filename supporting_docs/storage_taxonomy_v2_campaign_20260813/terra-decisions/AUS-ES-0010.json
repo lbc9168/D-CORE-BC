@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-ES-0010",
+  "package_sha256": "61459ad0ba917c8656c799d9966e050e73db6fc05719cebf1dfc35e4d695c3fb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 5,
+    "storage_energy_mwh": 1600,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/73534.html",
+        "surface": "title",
+        "quote": "欣旺达储能与Gryphon Energy签订合作协议"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/73534.html",
+        "surface": "body",
+        "quote": "10月23日，深圳市欣旺达能源科技有限公司（以下简称“欣旺达储能”）与Gryphon Energy Pty Ltd.（以下简称“Gryphon Energy”）在All Energy Australia 2024 现场签署合作协议。Gryphon Energy董事Rob Mailler，欣旺达储能全球业务总经理袁如出席签约仪式并代表双方签约。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-ES-0010-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 5,
+      "storage_energy_mwh": 1600,
+      "storage_power_mw_raw": "5MW",
+      "storage_energy_mwh_raw": "1.6GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/73534.html",
+          "surface": "title",
+          "quote": "欣旺达储能与Gryphon Energy签订合作协议"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/73534.html",
+          "surface": "body",
+          "quote": "10月23日，深圳市欣旺达能源科技有限公司（以下简称“欣旺达储能”）与Gryphon Energy Pty Ltd.（以下简称“Gryphon Energy”）在All Energy Australia 2024 现场签署合作协议。Gryphon Energy董事Rob Mailler，欣旺达储能全球业务总经理袁如出席签约仪式并代表双方签约。"
+        }
+      ]
+    }
+  ]
+}

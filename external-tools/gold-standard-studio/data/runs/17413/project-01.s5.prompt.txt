@@ -1,0 +1,60 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "project_summary": "",
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "菲律宾维塞亚斯群岛变电站升级改造项目",
+    "Project Name (EN)": "Philippines Visayas Substation Upgrade Project",
+    "Country": "菲律宾",
+    "Location(State)": "维塞亚斯群岛",
+    "Category": "输变电建设",
+    "Generation Sources": [],
+    "Storage Status": "not_mentioned",
+    "Storage Power": "",
+    "Storage Energy": "",
+    "Energy Composition Evidence": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "1 座 230kV 变电站扩建改造，2 座 138kV 变电站扩建改造",
+    "Project Stage": "签约",
+    "Project Developer": "菲律宾国家电网",
+    "Project Developer Evidence": "菲律宾国家电网（甲方）\n福建永福电力设计股份有限公司（乙方）",
+    "(Planned) Start Date": "",
+    "(Planned) Complete Date": "",
+    "Contract Amount Raw": "合同总金额\n为\n42,942,555.82 美元（最终以结算金额为准）",
+    "Contract Amount (Million USD)": "42.94255582",
+    "Financing Model": "其他",
+    "Financing Model Details": "企业自筹资金",
+    "Additional Remarks": "归属于本公司金额为 19,443,000美元（不含税）"
+  },
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "福建永福电力设计股份有限公司",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "EPC总承包",
+      "Subcontract Amount (Million USD)": "19.443",
+      "equipment_role": "未提及",
+      "equipment_items": "",
+      "equipment_supply_scope": ""
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

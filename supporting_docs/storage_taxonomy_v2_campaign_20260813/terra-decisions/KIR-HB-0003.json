@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KIR-HB-0003",
+  "package_sha256": "38eb8726b3458969a8b28faa50b7e46444428cd5d320f0c7c3bc95c65c9e0e50",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 2.2,
+    "storage_energy_mwh": 13,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32243.html",
+        "surface": "title",
+        "quote": "中腾微网顺利中标基里巴斯南塔拉瓦太阳能光储电站项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32243.html",
+        "surface": "body",
+        "quote": "基里巴斯南塔拉瓦太阳能光储电站项目\n，负责该项目的光伏和储能系统设计、供货、安装调试以及后续的运维服务工作。\n基里巴斯共和国是地处太平洋上的岛国，全国由33个大小岛屿组成，拥有世界最大的海洋保护区。该国地跨赤道、横越国际日期变更线，同时又地跨南北纬和东西经，是世界上唯一横跨东西南北四个半球的国家。同时，该"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KIR-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 2.2,
+      "storage_energy_mwh": 13,
+      "storage_power_mw_raw": "2.2MW",
+      "storage_energy_mwh_raw": "13MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32243.html",
+          "surface": "title",
+          "quote": "中腾微网顺利中标基里巴斯南塔拉瓦太阳能光储电站项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32243.html",
+          "surface": "body",
+          "quote": "基里巴斯南塔拉瓦太阳能光储电站项目\n，负责该项目的光伏和储能系统设计、供货、安装调试以及后续的运维服务工作。\n基里巴斯共和国是地处太平洋上的岛国，全国由33个大小岛屿组成，拥有世界最大的海洋保护区。该国地跨赤道、横越国际日期变更线，同时又地跨南北纬和东西经，是世界上唯一横跨东西南北四个半球的国家。同时，该"
+        }
+      ]
+    }
+  ]
+}

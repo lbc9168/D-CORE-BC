@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-WD-0014",
+  "package_sha256": "d7acc924f9bdc4e590083ac1310b943360ca67375b356cc38448642ac42cd6d7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；原单一发电类别文章出现多种新能源，可能混入多个项目",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 100,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49704.html",
+        "surface": "body",
+        "quote": "乌能源部将以吉扎克风电项目合作为基础，在风电开发建设、电网升级改造、风光一体化等方面与中方企业开展务实合作，并在专业电站技术人员培训等方面持续深化交流。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/63040.html",
+        "surface": "title",
+        "quote": "沙特ACWA Power+乌兹别克国网签署Nukus 2 200MW风电项目25年 PPA,金额2.627亿美元"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/63040.html",
+        "surface": "body",
+        "quote": "造一处装机容量200MW的风电场，同时，在Beruniy和Karauzak两地建造100MW容量的储能系统。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-WD-0014-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 100,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "100MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49704.html",
+          "surface": "body",
+          "quote": "乌能源部将以吉扎克风电项目合作为基础，在风电开发建设、电网升级改造、风光一体化等方面与中方企业开展务实合作，并在专业电站技术人员培训等方面持续深化交流。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/63040.html",
+          "surface": "title",
+          "quote": "沙特ACWA Power+乌兹别克国网签署Nukus 2 200MW风电项目25年 PPA,金额2.627亿美元"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/63040.html",
+          "surface": "body",
+          "quote": "造一处装机容量200MW的风电场，同时，在Beruniy和Karauzak两地建造100MW容量的储能系统。"
+        }
+      ]
+    }
+  ]
+}

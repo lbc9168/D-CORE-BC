@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AGO-HB-0004",
+  "package_sha256": "d4911d97d05350bde3263532a35ef3974b72caf94b60e4f4c1d8c06956edc25a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "火电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/24354.html",
+        "surface": "body",
+        "quote": "安哥拉柴光互补项目的最后三个电站(LUENA、SAURIMO、KUITO电站)完成最终移交\n，标志着安哥拉柴光互补项目实现圆满收官。\n“\n安哥拉柴光互补项目包括8座柴光互补电站和3座20MW柴油机电站，\n覆盖安哥拉9省11市，是东方电气在非洲大陆执行的首个EPC项目。\n自2017年6月合同"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/24354.html",
+        "surface": "title",
+        "quote": "安哥拉项目3座柴油机电站获得“最终移交证书”"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AGO-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/24354.html",
+          "surface": "body",
+          "quote": "安哥拉柴光互补项目的最后三个电站(LUENA、SAURIMO、KUITO电站)完成最终移交\n，标志着安哥拉柴光互补项目实现圆满收官。\n“\n安哥拉柴光互补项目包括8座柴光互补电站和3座20MW柴油机电站，\n覆盖安哥拉9省11市，是东方电气在非洲大陆执行的首个EPC项目。\n自2017年6月合同"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/24354.html",
+          "surface": "title",
+          "quote": "安哥拉项目3座柴油机电站获得“最终移交证书”"
+        }
+      ]
+    }
+  ]
+}

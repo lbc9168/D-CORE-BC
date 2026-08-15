@@ -1,0 +1,92 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KIR-HB-0002",
+  "package_sha256": "92e04d35b7c4821eb478a688285f2558a3a6726a38b60499360a1e0a6c648bc9",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "storage wording appears in an article but the package target description does not tie it conclusively to this project",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "unclear",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/57084.html",
+        "surface": "body",
+        "quote": "“光伏+直饮水”综合智慧能源项目移交仪式，在基里巴斯首都塔拉瓦Tungaru中心医院举行。基里巴斯健康与医疗服务部助理秘书长Tiina Raj、中心医院重大项目主管，国家电投中电国际、山东院等参加仪式。Tiina与中方代表共同饮用第一批“零碳”直饮水。\nTiina指出，该项目有效解决了"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/57084.html",
+        "surface": "body",
+        "quote": "除直饮水供给外，项目配套的光储系统也将为医院提供电力支持，保障医院的正常运行。这对于基里巴斯来说，是一项创新性造福于民的举措。\n自开工以来，山东院总承包项目部克服施工资源短缺、极端天气多发等不利因素，超前策划、精心组织，实行“下沉式”管理，快速有效将中方设计方案与属地化施工模式高度融合，协调施工单位保质保量开"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/57050.html",
+        "surface": "body",
+        "quote": "除了提供急需的饮用水外，项目配套的光储系统也会为医院内的供电保障提供帮助，维持医院的正常运行。\n该项目自11月23日开工建设以来，由中电国际和山东院组成的前方团队积极克服施工资源短缺、极端天气多发等不利因素影响，协调施工单位保质保量开展项目建设，实现如期移交，以实际行动造福当地社会，展现国家电投的责任与担当，为两国人"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/53984.html",
+        "surface": "title",
+        "quote": "中电国际基里巴斯“光伏+直饮水”综合智慧能源项目开工建设"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KIR-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "unclear",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/57084.html",
+          "surface": "body",
+          "quote": "“光伏+直饮水”综合智慧能源项目移交仪式，在基里巴斯首都塔拉瓦Tungaru中心医院举行。基里巴斯健康与医疗服务部助理秘书长Tiina Raj、中心医院重大项目主管，国家电投中电国际、山东院等参加仪式。Tiina与中方代表共同饮用第一批“零碳”直饮水。\nTiina指出，该项目有效解决了"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/57084.html",
+          "surface": "body",
+          "quote": "除直饮水供给外，项目配套的光储系统也将为医院提供电力支持，保障医院的正常运行。这对于基里巴斯来说，是一项创新性造福于民的举措。\n自开工以来，山东院总承包项目部克服施工资源短缺、极端天气多发等不利因素，超前策划、精心组织，实行“下沉式”管理，快速有效将中方设计方案与属地化施工模式高度融合，协调施工单位保质保量开"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/57050.html",
+          "surface": "body",
+          "quote": "除了提供急需的饮用水外，项目配套的光储系统也会为医院内的供电保障提供帮助，维持医院的正常运行。\n该项目自11月23日开工建设以来，由中电国际和山东院组成的前方团队积极克服施工资源短缺、极端天气多发等不利因素影响，协调施工单位保质保量开展项目建设，实现如期移交，以实际行动造福当地社会，展现国家电投的责任与担当，为两国人"
+        }
+      ]
+    },
+    {
+      "event_id": "KIR-HB-0002-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/53984.html",
+          "surface": "title",
+          "quote": "中电国际基里巴斯“光伏+直饮水”综合智慧能源项目开工建设"
+        }
+      ]
+    }
+  ]
+}

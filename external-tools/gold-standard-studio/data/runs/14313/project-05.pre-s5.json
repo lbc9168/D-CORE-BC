@@ -1,0 +1,30 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程中南院",
+      "role": "设计方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "1×330兆瓦",
+    "Capacity Details": "",
+    "Category": "火电",
+    "Country": "巴基斯坦",
+    "Energy Composition Evidence": "TEL1×330兆瓦坑口燃煤电站",
+    "Generation Sources": [
+      "火电"
+    ],
+    "Location(State)": "信德省塔尔煤田矿区",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站",
+    "Project Name (EN)": "Thar Block II Phase II TEL 1x330MW Coal Power Plant",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

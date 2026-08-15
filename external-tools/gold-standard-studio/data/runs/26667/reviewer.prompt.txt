@@ -1,0 +1,198 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：吉扎克500兆瓦光伏项目一期工程成功转入商业运营
+发布日期：2026-04-05 12:56:57
+来源：https://news.goalfore.cn/topstories/detail/93961.html
+正文：
+3月31日，华电海投乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）正式转入商业运营，标志着中国华电海外最大的新能源单体工程顺利完成从建设到商运的关键跨越，开启稳定发电、服务当地的新征程。
+自开工建设以来，项目团队紧密协同设计、施工、设备及监理各方，克服了诸多技术与环境挑战，确保了工程高质量推进，为项目分阶段完成验收、实现全容量商业运营奠定了坚实基础。
+独立工程师验收报告显示，项目一期性能测试圆满完成，各项指标均满足设计要求，具备正式商业运营条件。这不仅是对项目建设质量与工程技术的高度认可，更为电站未来25年持续可靠运行提供有力保障，该项目将源源不断为乌兹别克斯坦输送清洁电力，助力当地能源结构优化。
+未来，项目团队将以“饱满热情”之势，全力推进后续工作，加强运营管理，探索更多合作模式，持续在保障能源安全、促进节能减排、带动地方就业与经济发展等方面发挥综合效益，让该项目成为中乌能源合作典范和乌兹别克斯坦新能源产业的一张亮丽名片。
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-26667-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 26667,
+  "article_sha256": "0bb141fe8517f72f1508dd58b542b2496ed59f17b0932074d18d75e8cb35ef0e",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期300兆瓦",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "300兆瓦",
+        "evidence": "300兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦",
+        "evidence": "乌兹别克斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "吉扎克",
+        "evidence": "吉扎克",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "中国华电",
+        "evidence": "中国华电",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国华电",
+            "evidence": "中国华电",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "投资方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "乌兹别克斯坦吉扎克500兆瓦光伏电站一期商业运营",
+      "is_power_generation_plant": true,
+      "reasoning": "具名光伏电站且华电海投运营。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期300兆瓦",
+            "Project Name (EN)": "Jizzakh 500MW Solar PV Plant Phase I 300MW",
+            "Country": "乌兹别克斯坦",
+            "Location(State)": "吉扎克",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）",
+            "Capacity (MW)": "300兆瓦",
+            "Capacity Details": "项目总规模500兆瓦",
+            "Project Stage": "投入运营",
+            "Project Developer": "中国华电",
+            "Project Developer Evidence": "华电海投乌兹别克斯坦吉扎克",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": "2026-03-31"
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国华电",
+            "role": "投资方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/26667/base-manifest.json",
+    "dynamic": "data/runs/26667/dynamic-manifest.json",
+    "working_result": "data/runs/26667/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

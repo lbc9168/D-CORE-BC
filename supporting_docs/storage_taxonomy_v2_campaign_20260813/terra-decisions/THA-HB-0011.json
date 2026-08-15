@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0011",
+  "package_sha256": "a0d76f39505ebd6f01e72864298de82b67e3886ad192a308ecca71aefae53034",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32851.html",
+        "surface": "title",
+        "quote": "中工环境签约​泰国TPIPP宋卡垃圾处理电站项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0011-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32851.html",
+          "surface": "title",
+          "quote": "中工环境签约​泰国TPIPP宋卡垃圾处理电站项目"
+        }
+      ]
+    }
+  ]
+}

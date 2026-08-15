@@ -10,17 +10,17 @@ export interface ColorBin {
   label: string;
 }
 
-function formatValue(value: number, colorBy: "count" | "capacity"): string {
+/** 数值 + 单位后缀（unit 为空串 = 纯计数，不带单位） */
+function formatValue(value: number, unit: string): string {
   const rounded = Math.round(value);
-  if (colorBy === "capacity") return `${rounded.toLocaleString()} MW`;
-  return rounded.toLocaleString();
+  return unit ? `${rounded.toLocaleString()} ${unit}` : rounded.toLocaleString();
 }
 
 /**
  * 用第二大值估算“易读步长”，并构造 3 档离散分箱。
- * 第三档为开区间（> 2 * binSize）。
+ * 第三档为开区间（> 2 * binSize）。unit 只影响图例文案（"MW"/"MWh"/""）。
  */
-export function buildColorBins(values: number[], colorBy: "count" | "capacity"): ColorBin[] {
+export function buildColorBins(values: number[], unit: string): ColorBin[] {
   const validValues = values
     .filter((value) => Number.isFinite(value) && value > 0)
     .sort((a, b) => b - a);
@@ -40,15 +40,15 @@ export function buildColorBins(values: number[], colorBy: "count" | "capacity"):
     if (idx === 0) {
       min = 1;
       upper = binSize;
-      label = `${formatValue(min, colorBy)} - ${formatValue(upper, colorBy)}`;
+      label = `${formatValue(min, unit)} - ${formatValue(upper, unit)}`;
     } else if (idx === 1) {
       min = binSize + 1;
       upper = binSize * 2;
-      label = `${formatValue(min, colorBy)} - ${formatValue(upper, colorBy)}`;
+      label = `${formatValue(min, unit)} - ${formatValue(upper, unit)}`;
     } else {
       min = binSize * 2 + 1;
       upper = undefined;
-      label = `> ${formatValue(binSize * 2, colorBy)}`;
+      label = `> ${formatValue(binSize * 2, unit)}`;
     }
 
     return {

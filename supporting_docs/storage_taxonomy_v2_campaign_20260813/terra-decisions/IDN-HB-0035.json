@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0035",
+  "package_sha256": "386ac1d038bb7aa73e07c3a4f42dcdf75493223ba7cfc2da4a07c8ba95495517",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/31138.html",
+        "surface": "title",
+        "quote": "“一带一路”看央企，一大批中国标准基础设施项目在海外加速落地！"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0035-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/31138.html",
+          "surface": "title",
+          "quote": "“一带一路”看央企，一大批中国标准基础设施项目在海外加速落地！"
+        }
+      ]
+    }
+  ]
+}

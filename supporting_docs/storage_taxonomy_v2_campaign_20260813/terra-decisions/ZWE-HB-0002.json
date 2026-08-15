@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZWE-HB-0002",
+  "package_sha256": "409d554dd6d6e11f0c42dd9334d36b40da6b6d97670b0c2c5d88ccf5e5978156",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 45,
+    "proposed_category": "光伏",
+    "proposed_subcategory": "分布式",
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+        "surface": "body",
+        "quote": "光储耦合构网，定制非洲工业用电方案"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+        "surface": "body",
+        "quote": "海博思创与希腊客户正式签署45MWh电网侧独立储能电站项目合作"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZWE-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 45,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "45MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+          "surface": "body",
+          "quote": "光储耦合构网，定制非洲工业用电方案"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89601.html",
+          "surface": "body",
+          "quote": "海博思创与希腊客户正式签署45MWh电网侧独立储能电站项目合作"
+        }
+      ]
+    }
+  ]
+}

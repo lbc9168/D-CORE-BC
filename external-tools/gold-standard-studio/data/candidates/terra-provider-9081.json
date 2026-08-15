@@ -1,0 +1,1257 @@
+{
+  "candidate_id": "terra-provider-9081-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 9081,
+  "article_sha256": "4bd7c40998abe1f4a86b14fb7be5f96247b91c344290cf89cb048c8a230545bd",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "土耳其阿库尤核电站550千伏GIS供货项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "核电",
+        "evidence": "核电",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "核电"
+        ],
+        "evidence": "核电",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "土耳其阿库尤核电站550千伏GIS项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "土耳其阿库尤核电站550千伏GIS项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "土耳其阿库尤核电站550千伏GIS项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "土耳其阿库尤核电站550千伏GIS项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "土耳其",
+        "evidence": "土耳其",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "阿库尤",
+        "evidence": "阿库尤",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国西电",
+            "evidence": "中国西电",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "马来西亚砂拉越古晋KNR275千伏输电线项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "输变电建设",
+        "evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "马来西亚",
+        "evidence": "马来西亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "砂拉越古晋",
+        "evidence": "砂拉越古晋",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国西电",
+            "evidence": "中国西电",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "孟加拉MRSML钢厂230千伏变电站总包项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "输变电建设",
+        "evidence": "MRSML钢厂230千伏变电站总包项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "MRSML钢厂230千伏变电站总包项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "MRSML钢厂230千伏变电站总包项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "MRSML钢厂230千伏变电站总包项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "MRSML钢厂230千伏变电站总包项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "MRSML钢厂230千伏变电站总包项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "uncertain",
+        "value": "孟加拉国",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国西电",
+            "evidence": "中国西电",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "总承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "圭亚那光储项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "以联合体中标圭亚那光储",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "以联合体中标圭亚那光储",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "以联合体中标圭亚那光储",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "以联合体中标圭亚那光储",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "以联合体中标圭亚那光储",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "圭亚那",
+        "evidence": "圭亚那",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "许继集团",
+            "evidence": "许继集团",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "中标方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "塔吉克斯坦风光储项目",
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "风电",
+          "光伏"
+        ],
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "塔吉克斯坦风光储项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "塔吉克斯坦",
+        "evidence": "塔吉克斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "许继集团",
+            "evidence": "许继集团",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "中标方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "尼泊尔普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "evidence": "尼泊尔普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "输变电建设",
+        "evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "尼泊尔",
+        "evidence": "尼泊尔",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "普拉绍尼-比尔根杰",
+        "evidence": "普拉绍尼-比尔根杰",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "尼泊尔国家电力局",
+        "evidence": "尼泊尔国家电力局",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "许继电气",
+            "evidence": "许继电气",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "中标方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "澳大利亚光伏电站储能配套变压器供货项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "澳洲光伏电站储能配套两台275千伏/250兆伏安变压器供货项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "澳洲光伏电站储能配套两台275千伏/250兆伏安变压器供货项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "澳洲光伏电站储能配套两台275千伏/250兆伏安变压器供货项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "澳洲光伏电站储能配套两台275千伏/250兆伏安变压器供货项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "澳洲光伏电站储能配套两台275千伏/250兆伏安变压器供货项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "uncertain",
+        "value": "澳大利亚",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "山东电工电气",
+            "evidence": "山东电工电气",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "乌干达132千伏和220千伏输电线路项目",
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "输变电建设",
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "乌干达132千伏和220千伏输电线路项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "乌干达",
+        "evidence": "乌干达",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "山东电工电气",
+            "evidence": "山东电工电气",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "中标方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "刚果民主共和国三期发电厂变压器供货项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "刚果金三期发电厂变压器项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "刚果金三期发电厂变压器项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "刚果金三期发电厂变压器项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "刚果金三期发电厂变压器项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "刚果金三期发电厂变压器项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "刚果金三期发电厂变压器项目",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "uncertain",
+        "value": "刚果民主共和国",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "山东电工电气",
+            "evidence": "山东电工电气",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "中国电气装备海外多个电力工程中标",
+      "is_power_generation_plant": true,
+      "reasoning": "文章列有具名核电、输电及光储工程，中企中标。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "common_info": {
+            "Record Type": "设备订单",
+            "Project Name": "土耳其阿库尤核电站550千伏GIS供货项目",
+            "Project Name (EN)": "Akkuyu Nuclear Power Plant 550kV GIS Supply Project",
+            "Country": "土耳其",
+            "Location(State)": "阿库尤",
+            "Category": "核电",
+            "Generation Sources": [
+              "核电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "土耳其阿库尤核电站550千伏GIS项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "550千伏GIS",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "马来西亚砂拉越古晋KNR275千伏输电线项目",
+            "Project Name (EN)": "Kuching KNR 275kV Transmission Line Project",
+            "Country": "马来西亚",
+            "Location(State)": "砂拉越古晋",
+            "Category": "输变电建设",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "砂拉越古晋电网加固（KNR）275千伏输电线项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "275千伏",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "孟加拉MRSML钢厂230千伏变电站总包项目",
+            "Project Name (EN)": "Bangladesh MRSML Steel Plant 230kV Substation EPC Project",
+            "Country": "孟加拉国",
+            "Location(State)": "",
+            "Category": "输变电建设",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "MRSML钢厂230千伏变电站总包项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "230千伏",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "圭亚那光储项目",
+            "Project Name (EN)": "Guyana Solar PV and Energy Storage Project",
+            "Country": "圭亚那",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "以联合体中标圭亚那光储",
+            "Capacity (MW)": "",
+            "Capacity Details": "",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "塔吉克斯坦风光储项目",
+            "Project Name (EN)": "Tajikistan Wind Solar PV and Energy Storage Project",
+            "Country": "塔吉克斯坦",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "风电",
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "塔吉克斯坦风光储项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "尼泊尔普拉绍尼-比尔根杰132千伏地下输电线路项目",
+            "Project Name (EN)": "Prasouni-Birgunj 132kV Underground Transmission Line",
+            "Country": "尼泊尔",
+            "Location(State)": "普拉绍尼-比尔根杰",
+            "Category": "输变电建设",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "普拉绍尼-比尔根杰132千伏地下输电线路项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "132千伏",
+            "Project Stage": "中标",
+            "Project Developer": "尼泊尔国家电力局",
+            "Project Developer Evidence": "尼泊尔国家电力局",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "设备订单",
+            "Project Name": "澳大利亚光伏电站储能配套变压器供货项目",
+            "Project Name (EN)": "Australia Solar PV Plant Storage Ancillary Transformer Supply Project",
+            "Country": "澳大利亚",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "澳洲光伏电站储能配套两台275千伏/250兆伏安变压器供货项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "两台275千伏/250兆伏安变压器",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "乌干达132千伏和220千伏输电线路项目",
+            "Project Name (EN)": "Uganda 132kV and 220kV Transmission Line Project",
+            "Country": "乌干达",
+            "Location(State)": "",
+            "Category": "输变电建设",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "乌干达132千伏和220千伏输电线路项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "132千伏和220千伏",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "设备订单",
+            "Project Name": "刚果民主共和国三期发电厂变压器供货项目",
+            "Project Name (EN)": "DR Congo Phase III Power Plant Transformer Supply Project",
+            "Country": "刚果民主共和国",
+            "Location(State)": "",
+            "Category": "火电",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "刚果金三期发电厂变压器项目",
+            "Capacity (MW)": "",
+            "Capacity Details": "3台33千伏30兆伏安变压器",
+            "Project Stage": "中标",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国西电",
+            "role": "供应商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国西电",
+            "role": "承包商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国西电",
+            "role": "总承包商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "许继集团",
+            "role": "中标方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "许继集团",
+            "role": "中标方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "许继电气",
+            "role": "中标方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "山东电工电气",
+            "role": "供应商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "山东电工电气",
+            "role": "中标方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "山东电工电气",
+            "role": "供应商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/9081/base-manifest.json",
+    "dynamic": "data/runs/9081/dynamic-manifest.json",
+    "working_result": "data/runs/9081/provider-working.json"
+  }
+}

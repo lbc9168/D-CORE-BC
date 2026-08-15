@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "HUN-MF-0005",
+  "package_sha256": "60c3f8f77efe3a5b081b596aa31ba3023e773b3db9b4530624236b1f4de69b5b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/31371.html",
+        "surface": "body",
+        "quote": "按照规划，宁德时代的匈牙利项目用地面积约221万平方米，将建设100GWh动力电池系统生产线，总建设期预计不超过64个月，其中首栋厂房在获得相关审批后将于2022年内开工建设。\n“公司本次投资建设生产基地事项符合公司全球战略发展规划，将进一步完善公司海外产能布局，满足公司未来业务发展和海外市场拓展的需要，对促进公司长期稳定发展具有重要意义。本项目投资建设将增加公司资本开"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "HUN-MF-0005-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/31371.html",
+          "surface": "body",
+          "quote": "按照规划，宁德时代的匈牙利项目用地面积约221万平方米，将建设100GWh动力电池系统生产线，总建设期预计不超过64个月，其中首栋厂房在获得相关审批后将于2022年内开工建设。\n“公司本次投资建设生产基地事项符合公司全球战略发展规划，将进一步完善公司海外产能布局，满足公司未来业务发展和海外市场拓展的需要，对促进公司长期稳定发展具有重要意义。本项目投资建设将增加公司资本开"
+        }
+      ]
+    }
+  ]
+}

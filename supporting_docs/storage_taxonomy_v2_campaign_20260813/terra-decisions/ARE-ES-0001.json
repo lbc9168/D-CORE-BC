@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ARE-ES-0001",
+  "package_sha256": "28bbaee46184d931c9c37ee4a65aba592547f16ecdedc206f787a20b7905a552",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88247.html",
+        "surface": "title",
+        "quote": "东方国际签约阿联酋公开竞标最大电网侧储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88247.html",
+        "surface": "body",
+        "quote": "宜和阿联酋伊蒂哈德水电公司首席执行官优素福·阿里的共同见证下，东方国际党委书记、董事长陈强与阿联酋公用设施开发公司首席执行官默罕默德·谢赫在阿联酋能源部正式签署阿联酋BESS1电池储能项目EPC总承包合同。该合同的成功签署，标志着东方国际正式进入阿联酋市场，为公司“绿色转型、效益优先”经营方针增添了最新落地成果。\n签约前，罗乾宜一行拜访了阿联酋伊蒂哈德水电公司和阿联酋公用设施开发公司。会谈中，罗乾宜首先感谢对方长期以来给予东方电气集团的支持，介绍了东方电气集团"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ARE-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88247.html",
+          "surface": "title",
+          "quote": "东方国际签约阿联酋公开竞标最大电网侧储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88247.html",
+          "surface": "body",
+          "quote": "宜和阿联酋伊蒂哈德水电公司首席执行官优素福·阿里的共同见证下，东方国际党委书记、董事长陈强与阿联酋公用设施开发公司首席执行官默罕默德·谢赫在阿联酋能源部正式签署阿联酋BESS1电池储能项目EPC总承包合同。该合同的成功签署，标志着东方国际正式进入阿联酋市场，为公司“绿色转型、效益优先”经营方针增添了最新落地成果。\n签约前，罗乾宜一行拜访了阿联酋伊蒂哈德水电公司和阿联酋公用设施开发公司。会谈中，罗乾宜首先感谢对方长期以来给予东方电气集团的支持，介绍了东方电气集团"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MYS-MF-0003",
+  "package_sha256": "56b3f25eb232b1805f2bb614b842c5dcc23d1745b78b03befb2675880fcd512a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81037.html",
+        "surface": "title",
+        "quote": "首季中标34亿+！中建安装跑出海外发展“加速度”"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MYS-MF-0003-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81037.html",
+          "surface": "title",
+          "quote": "首季中标34亿+！中建安装跑出海外发展“加速度”"
+        }
+      ]
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 Phase 4：S1 相关性门（非 valid 短路）→ S2 项目识别（防过度拆分）→ 逐项目 S4 实体抽取 → S3 金融信息 → S5 摘要+枚举自检。"""
 import logging
 import os
+import json
 from typing import Any
 import bri_enums as enums
 
@@ -72,6 +73,10 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
         ci = proj.get("common_info", {}) or {}
         pname = ci.get("Project Name", "") or ci.get("Project Name (EN)", "")
         cat = ci.get("Category", "")
+        try:
+            tags = tuple(json.loads(ci.get("technology_tags_json", "[]") or "[]"))
+        except (TypeError, ValueError, json.JSONDecodeError):
+            tags = ()
         run_s3_separately = True
         if is_unnamed:
             # unnamed：不调 S4，直接放占位实体（S3 仍单独跑）
@@ -82,7 +87,8 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
             # ── S34 合并：一次调用同出 chinese_entities + 金融字段，跳过单独 S3 ──
             from s01b_project_extractor.stages.s34_entity_finance import run_s34, validate_s34
             combined = _run_stage_with_retry(
-                lambda pn=pname, c=cat: run_s34(title, content, pn, c, llm=llm),
+                lambda pn=pname, c=cat, ts=tags: run_s34(
+                    title, content, pn, c, llm=llm, technology_tags=ts),
                 validate_s34, stage="s34", max_attempts=2,
             )
             proj["chinese_entities"] = (combined or {}).get("chinese_entities") or []
@@ -92,7 +98,8 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
             run_s3_separately = False
         else:
             ents = _run_stage_with_retry(
-                lambda pn=pname, c=cat: run_s4(title, content, pn, c, llm=llm),
+                lambda pn=pname, c=cat, ts=tags: run_s4(
+                    title, content, pn, c, llm=llm, technology_tags=ts),
                 validate_s4, stage="s4", max_attempts=2,
             )
             proj["chinese_entities"] = ents or []

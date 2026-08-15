@@ -1,0 +1,106 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-WD-0022",
+  "package_sha256": "4f896baa45aa989b3ca17db3fe01189cd6f4ca1f30c09938403f6790568f4d46",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；原单一发电类别文章出现多种新能源，可能混入多个项目",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 100,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/53971.html",
+        "surface": "body",
+        "quote": "此外，ACWA公司还签署协议，将在塔什干（Tashkent）及撒马尔罕（Samarkand）地区建造2处光伏电站以及储能设施。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/53971.html",
+        "surface": "title",
+        "quote": "沙特ACWA中标乌兹别克斯坦200MW风电项目, 4.09美分/每千瓦时(含储能部分)"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/53971.html",
+        "surface": "body",
+        "quote": "造一处装机容量200MW的风电场，同时，在Beruniy和Karauzak两地建造100MW容量的储能系统。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/40425.html",
+        "surface": "title",
+        "quote": "乌兹别克斯坦200MW风电项目公布预审名单"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/40425.html",
+        "surface": "body",
+        "quote": "储能"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-WD-0022-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 100,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "100MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/53971.html",
+          "surface": "body",
+          "quote": "此外，ACWA公司还签署协议，将在塔什干（Tashkent）及撒马尔罕（Samarkand）地区建造2处光伏电站以及储能设施。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/53971.html",
+          "surface": "title",
+          "quote": "沙特ACWA中标乌兹别克斯坦200MW风电项目, 4.09美分/每千瓦时(含储能部分)"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/53971.html",
+          "surface": "body",
+          "quote": "造一处装机容量200MW的风电场，同时，在Beruniy和Karauzak两地建造100MW容量的储能系统。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-WD-0022-02",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "unclear",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/40425.html",
+          "surface": "title",
+          "quote": "乌兹别克斯坦200MW风电项目公布预审名单"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/40425.html",
+          "surface": "body",
+          "quote": "储能"
+        }
+      ]
+    }
+  ]
+}

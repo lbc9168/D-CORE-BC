@@ -2,6 +2,7 @@ import { lazy } from "react";
 import { HashRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { DataProvider } from "@/contexts/DataContext";
+import { DomainProvider } from "@/contexts/DomainContext";
 import Layout from "@/components/layout/Layout";
 import MapPage from "@/pages/MapPage";
 
@@ -17,16 +18,19 @@ export default function App() {
     <LanguageProvider>
       <DataProvider>
         <HashRouter>
-          <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<MapPage />} />
-              <Route path="overview" element={<OverviewPage />} />
-              <Route path="table" element={<TablePage />} />
-              <Route path="reports" element={<ReportsPage />} />
-              <Route path="updates" element={<UpdatesPage />} />
-              <Route path="about" element={<AboutPage />} />
-            </Route>
-          </Routes>
+          {/* DomainProvider 需要 Router（useSearchParams）与 DataProvider（setFilter/ensureTxMfLoaded） */}
+          <DomainProvider>
+            <Routes>
+              <Route path="/" element={<Layout />}>
+                <Route index element={<MapPage />} />
+                <Route path="overview" element={<OverviewPage />} />
+                <Route path="table" element={<TablePage />} />
+                <Route path="reports" element={<ReportsPage />} />
+                <Route path="updates" element={<UpdatesPage />} />
+                <Route path="about" element={<AboutPage />} />
+              </Route>
+            </Routes>
+          </DomainProvider>
         </HashRouter>
       </DataProvider>
     </LanguageProvider>

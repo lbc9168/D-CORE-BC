@@ -1,0 +1,24 @@
+{
+  "candidate_id": "sol-reviewer-232-stage4e-v1", "execution_role": "reviewer", "model": "gpt-5.6-sol", "article_id": 232,
+  "article_sha256": "d12c5ad3990eabdb15418683a003408c0faeae710409a741983bc118849509a5", "parent_candidate_id": "terra-provider-232-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "由中建五局参建的\n乌兹别克斯坦吉扎克500MW光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "具体项目与中方参与明确。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [{
+    "project_name": {"value_state": "present", "value": "乌兹别克斯坦吉扎克500MW光伏项目", "evidence": "乌兹别克斯坦吉扎克500MW光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "正文逐字名称。"},
+    "category": {"value_state": "derived_from_explicit", "value": "光伏", "evidence": "吉扎克500MW光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "确定性分类。"},
+    "subcategory_raw_fact": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未给更细技术子类。"},
+    "generation_sources": {"value_state": "present", "value": ["光伏"], "evidence": "吉扎克500MW光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "光伏明确。"},
+    "storage_status": {"value_state": "not_mentioned", "value": "not_mentioned", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提储能。"},
+    "storage_power_mw": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提及。"},
+    "storage_energy_mwh": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提及。"},
+    "generation_capacity_mw": {"value_state": "present", "value": "500MW", "evidence": "吉扎克500MW光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "容量明确。"},
+    "project_stage": {"value_state": "present", "value": "全容量并网发电", "evidence": "正式实现\n全容量并网发电", "confidence": 0.99, "verdict": "ok", "reviewer_note": "使用原文精确阶段。"},
+    "country": {"value_state": "present", "value": "乌兹别克斯坦", "evidence": "乌兹别克斯坦吉扎克500MW光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "国家明确。"},
+    "location": {"value_state": "present", "value": "吉扎克", "evidence": "吉扎克光伏项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "地点明确。"},
+    "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "project_developer": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "正文未明确开发商。"},
+    "chinese_entities": [{"entity_name": {"value_state": "present", "value": "中建五局", "evidence": "由中建五局参建", "confidence": 0.99, "verdict": "ok", "reviewer_note": "企业明确。"}, "role": {"value_state": "present", "value": "参建方", "evidence": "由中建五局参建", "confidence": 0.99, "verdict": "ok", "reviewer_note": "角色逐字明确。"}}]
+  }],
+  "prompt_manifest": {"renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"}, "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"}, "prompt": {"path": "data/runs/232/reviewer.prompt.txt", "sha256": "bf30d4c285b2c435d0542150762cd5b9a4b30ef4adf270a4451fbc6d0da4e41c"}, "provider_sha256": "c8b7aad61075ea6407a18f5512c47030511fc30c31eba746d61e00389d8ff3ca"}
+}

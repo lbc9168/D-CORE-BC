@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BGD-HB-0006",
+  "package_sha256": "487d649d16747e8a22adc41782d8deef2a9c9d68b5284d6cc77e5f8ac87ff2e8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/15036.html",
+        "surface": "body",
+        "quote": "Bangladesh-China Power Company Ltd (Renewable)共同开发孟加拉境内500MW光伏和风电项目。合资公司的法定资本为1000亿塔卡，实收资本为16亿塔卡，NWPGCL和CMC将投资等量的资本。\n根据计划，BCPCL可再生能源公司将开发3座太阳能发电厂和1座风电厂项目，分别是\nPabna 60MW光伏、Sirajganj 100MW光伏、amuna 125MW 光"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/15036.html",
+        "surface": "body",
+        "quote": "Bangladesh-China Power Company Ltd (Renewable)共同开发孟加拉境内500MW光伏和风电项目。合资公司的法定资本为1000亿塔卡，实收资本为16亿塔卡，NWPGCL和CMC将投资等量的资本。\n根据计划，BCPCL可再生能源公司将开发3座太阳能发电厂和1座风电厂项目，分别是\nPabna 60MW光伏、Sirajganj 100MW光伏、amuna 125MW 光伏和P"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BGD-HB-0006-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/15036.html",
+          "surface": "body",
+          "quote": "Bangladesh-China Power Company Ltd (Renewable)共同开发孟加拉境内500MW光伏和风电项目。合资公司的法定资本为1000亿塔卡，实收资本为16亿塔卡，NWPGCL和CMC将投资等量的资本。\n根据计划，BCPCL可再生能源公司将开发3座太阳能发电厂和1座风电厂项目，分别是\nPabna 60MW光伏、Sirajganj 100MW光伏、amuna 125MW 光"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/15036.html",
+          "surface": "body",
+          "quote": "Bangladesh-China Power Company Ltd (Renewable)共同开发孟加拉境内500MW光伏和风电项目。合资公司的法定资本为1000亿塔卡，实收资本为16亿塔卡，NWPGCL和CMC将投资等量的资本。\n根据计划，BCPCL可再生能源公司将开发3座太阳能发电厂和1座风电厂项目，分别是\nPabna 60MW光伏、Sirajganj 100MW光伏、amuna 125MW 光伏和P"
+        }
+      ]
+    }
+  ]
+}

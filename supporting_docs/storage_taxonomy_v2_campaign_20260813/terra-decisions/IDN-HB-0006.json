@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0006",
+  "package_sha256": "d4ecf6312d4b2b1ca01de5e4525c13d898e3cdc0f22a2508ee7900f4a906e16a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 900,
+    "storage_energy_mwh": 1200,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89564.html",
+        "surface": "body",
+        "quote": "总部位于新加坡的ERA公司与中国核工业集团公司旗下子公司中核新能源（CREI）签署框架协议，将联合投资开发印尼廖内群岛的一个900MW太阳能电站及1.2GWh电池储能系统（BESS）项目。\n根据协议，CREI将主导项目发电侧的投资、建设与运营工作，ERA则负责输电环节及电力消纳协调。该项目预计于2029年完工。\n此项目是ERA“新印可再生能源计划”下的首个项目。此前，ERA已入选新加坡能源市场管理局（EMA）授予的“"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89564.html",
+        "surface": "title",
+        "quote": "新加坡和中国在印尼联合开发储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89564.html",
+        "surface": "body",
+        "quote": "总部位于新加坡的ERA公司与中国核工业集团公司旗下子公司中核新能源（CREI）签署框架协议，将联合投资开发印尼廖内群岛的一个900MW太阳能电站及1.2GWh电池储能系统（BESS）项目。\n根据协议，CREI将主导项目发电侧的投资、建设与运营工作，ERA则负责输电环节及电力消纳协调。该项目预计于2029年完工。\n此项目是ERA“新印可再生能源计划”下的首个项目。此前，ERA已入选新加坡能源市场管理局（EMA）授予的“清洁电力进口有条件许可”名"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0006-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 900,
+      "storage_energy_mwh": 1200,
+      "storage_power_mw_raw": "900MW",
+      "storage_energy_mwh_raw": "1.2GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89564.html",
+          "surface": "body",
+          "quote": "总部位于新加坡的ERA公司与中国核工业集团公司旗下子公司中核新能源（CREI）签署框架协议，将联合投资开发印尼廖内群岛的一个900MW太阳能电站及1.2GWh电池储能系统（BESS）项目。\n根据协议，CREI将主导项目发电侧的投资、建设与运营工作，ERA则负责输电环节及电力消纳协调。该项目预计于2029年完工。\n此项目是ERA“新印可再生能源计划”下的首个项目。此前，ERA已入选新加坡能源市场管理局（EMA）授予的“"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89564.html",
+          "surface": "title",
+          "quote": "新加坡和中国在印尼联合开发储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89564.html",
+          "surface": "body",
+          "quote": "总部位于新加坡的ERA公司与中国核工业集团公司旗下子公司中核新能源（CREI）签署框架协议，将联合投资开发印尼廖内群岛的一个900MW太阳能电站及1.2GWh电池储能系统（BESS）项目。\n根据协议，CREI将主导项目发电侧的投资、建设与运营工作，ERA则负责输电环节及电力消纳协调。该项目预计于2029年完工。\n此项目是ERA“新印可再生能源计划”下的首个项目。此前，ERA已入选新加坡能源市场管理局（EMA）授予的“清洁电力进口有条件许可”名"
+        }
+      ]
+    }
+  ]
+}

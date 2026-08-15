@@ -1,0 +1,255 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：中建五局乌兹别克斯坦超大体量光伏全容量并网！
+发布日期：2026-02-02 10:58:04
+来源：https://news.goalfore.cn/topstories/detail/92407.html
+正文：
+近期，由中建五局参建的
+乌兹别克斯坦吉扎克500MW光伏项目
+正式实现
+全容量并网发电
+近百万块光伏板，点亮中亚戈壁
+将源源不断的清洁电能汇入当地电网
+为乌兹注入绿色动能
+▲吉扎克光伏项目航拍
+作为乌兹目前
+体量最大
+的光伏项目之一，吉扎克光伏项目总占地面积达
+1083.2万平方米
+，全容量投产后，在25年运行期内预计年平均上网电量可超
+11亿千瓦时
+，每年可节约标煤
+34.17万吨
+、减排二氧化碳
+93.63万吨
+，将极大缓解周边地区用电压力，为乌兹绿色低碳发展提供坚实的能源支撑。
+▲吉扎克光伏项目效果图
+面对施工面积广、多工序同步推进带来的机械与人力短缺难题，项目团队创新管理模式，以科学统筹破解建设瓶颈。紧扣甲供材到场节奏，精准排布施工工序，协同建立健全机械资源库及属地工人资源库，实现资源的高效调配与协同作业。针对当地“夏酷暑、冬严寒”的极端气候，项目推行“错峰施工+弹性作业”模式，确保全年施工不断档、质量进度双受控。
+▲项目“错峰”安装变压器
+仅用8个月，项目就高质量完成
+15.18万根
+桩基施工、
+97.6万块
+光伏板安装、
+1741台逆变器
+精准就位以及
+3643公里
+低压直流电缆铺设等关键任务，真正实现
+“当年开工、当年交付”
+，彰显了中国建造的硬核实力。
+▲开展前期打桩
+为保障电站长期稳定运行，项目团队因地制宜引入多项智能化技术。针对当地风沙大、降雪多且积雪不易融化的特点，项目配备
+智能清扫机器人与自动跟踪支架
+，实现光伏组件自动清扫与角度自适应调节，有效提升发电效率，确保电站在复杂气候条件下全天候稳定运行，让每一缕阳光都能转化为可靠的清洁能源。
+▲雪后的吉扎克光伏项目
+此外，项目还配备
+多类型智能监测传感器
+，可实时监测光伏组件温度、电流、清洁度等关键参数，实现设备健康状态动态感知、故障提前预警，运维人员足不出户，即可全面掌控
+超90万块光伏板
+的运行状态，织就一张高效、精准、全天候的
+智能运维防护网
+。
+▲光伏清洁机器人
+长期以来，乌兹能源结构高度依赖天然气，可再生能源发展需求迫切。吉扎克光伏项目的成功并网，不仅是中乌两国践行绿色发展理念、深化能源合作的生动实践，更是“一带一路”倡议下，中国企业助力中亚国家实现能源转型的标志性成果。
+项目建设期间，中建五局坚持属地化运营，累计为当地创造超
+1000个
+就业岗位，并
+通过中外师徒结对、岗位实操演练等培训模式，为当
+地培养了一批新能源建设领域的技术人才
+，实现了工程建设与民生发展的双赢。
+目前，五局已累积在乌兹
+承建超
+2000万平方米
+新能源工程
+年均发电量超
+1100兆瓦
+惠及4.5万户家庭
+▲中建五局在乌兹别克斯坦承建的光伏项目
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-232-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 232,
+  "article_sha256": "d12c5ad3990eabdb15418683a003408c0faeae710409a741983bc118849509a5",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦吉扎克500MW光伏项目",
+        "evidence": "乌兹别克斯坦吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉扎克500MW光伏项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "500MW",
+        "evidence": "500MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "乌兹别克斯坦",
+        "evidence": "乌兹别克斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "吉扎克",
+        "evidence": "吉扎克",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中建五局",
+            "evidence": "中建五局",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "参建方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "乌兹别克斯坦吉扎克500MW光伏项目全容量并网",
+      "is_power_generation_plant": true,
+      "reasoning": "具名光伏电站并网且中建五局参建。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "乌兹别克斯坦吉扎克500MW光伏项目",
+            "Project Name (EN)": "Jizzakh 500MW Solar PV Project",
+            "Country": "乌兹别克斯坦",
+            "Location(State)": "吉扎克",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "吉扎克500MW光伏项目",
+            "Capacity (MW)": "500MW",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中建五局",
+            "role": "参建方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/232/base-manifest.json",
+    "dynamic": "data/runs/232/dynamic-manifest.json",
+    "working_result": "data/runs/232/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

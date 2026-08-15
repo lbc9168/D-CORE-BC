@@ -1,0 +1,11 @@
+{
+  "s1_output": {
+    "status": "no_chinese_participation",
+    "project_subject": "越南广平省Quang Trach 1与Quang Trach 2煤电项目",
+    "is_power_generation_plant": true,
+    "reasoning": "第一步属于煤电发电项目；第二步所列业主、承包商和融资方均为越南、日本或韩国主体，正文未出现中国企业参与，因此为 no_chinese_participation。"
+  },
+  "s2_output": null,
+  "s34_outputs": [],
+  "s5_outputs": []
+}

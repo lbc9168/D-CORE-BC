@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0010",
+  "package_sha256": "d9a3de70ad11e4736a93efec04c493c2b2dae5471dd1b9d4d22d7fa8b7f29ce4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 2000,
+    "storage_energy_mwh": 2200,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85407.html",
+        "surface": "title",
+        "quote": "宁德时代斩获东南亚最大光储项目2.2GWh储能大单"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85407.html",
+        "surface": "body",
+        "quote": "继阿联酋19GWh项目、澳大利亚24GWh长时储能订单后，全球新能源巨头宁德时代今年斩获的又一笔超大单，加速编织覆盖增量市场的全球储能巨网。\n7月17日，全球动力电池龙头宁德时代与新加坡可再生能源开发商Vanda RE正式签署框架供应协议，将为印度尼西亚廖内群岛的大型光储项目提供高达2.2GWh的电池储能系统（BESS）。\n这一"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0010-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 2000,
+      "storage_energy_mwh": 2200,
+      "storage_power_mw_raw": "2GW",
+      "storage_energy_mwh_raw": "2.2GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85407.html",
+          "surface": "title",
+          "quote": "宁德时代斩获东南亚最大光储项目2.2GWh储能大单"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85407.html",
+          "surface": "body",
+          "quote": "继阿联酋19GWh项目、澳大利亚24GWh长时储能订单后，全球新能源巨头宁德时代今年斩获的又一笔超大单，加速编织覆盖增量市场的全球储能巨网。\n7月17日，全球动力电池龙头宁德时代与新加坡可再生能源开发商Vanda RE正式签署框架供应协议，将为印度尼西亚廖内群岛的大型光储项目提供高达2.2GWh的电池储能系统（BESS）。\n这一"
+        }
+      ]
+    }
+  ]
+}

@@ -52,3 +52,40 @@ def test_mf_production_unit_values():
     """mf_production_unit 恰好 4 值，且 bri_enums 访问器与 JSON 一致（阶段3 任务3.1）。"""
     assert RAW["mf_production_unit"]["values"] == ["GW/年", "GWh/年", "万吨/年", "Unknown"]
     assert e.mf_production_units() == RAW["mf_production_unit"]["values"]
+
+
+def test_subcategory_parents_are_valid_categories():
+    """subcategory 每个父类必须是合法 category 键，且 _default ∈ values。"""
+    for parent in e.subcategory_parents():
+        assert parent in RAW["category"], f"subcategory 父类 {parent} 不是合法 category"
+        sec = RAW["subcategory"][parent]
+        assert sec["_default"] in sec["values"], f"{parent} 的 _default 不在 values 中"
+
+
+def test_subcategory_accessors_match_json():
+    """subcategory 访问器与 JSON 一致；无子类定义的类别返回空。"""
+    for parent in e.subcategory_parents():
+        sec = RAW["subcategory"][parent]
+        assert e.subcategories(parent) == list(sec["values"].keys())
+        assert e.subcategory_default(parent) == sec["_default"]
+        for sub, meta in sec["values"].items():
+            assert e.subcategory_en(parent, sub) == meta["en"]
+    assert e.subcategories("风电") == []
+    assert e.subcategory_default("风电") is None
+
+
+def test_effective_subcategory_default_rendering():
+    """effective_subcategory：NULL 渲染父类默认，非空原样返回，无定义类别返回 None。"""
+    for parent in e.subcategory_parents():
+        assert e.effective_subcategory(parent, None) == e.subcategory_default(parent)
+        for sub in e.subcategories(parent):
+            assert e.effective_subcategory(parent, sub) == sub
+    assert e.effective_subcategory("风电", None) is None
+
+
+def test_storage_metrics_flag():
+    """储能类别带 storage_metrics 标志（导出层保留 storage_* 的依据），其余类别为 False。"""
+    assert e.has_storage_metrics("储能") is True
+    assert e.has_storage_metrics("输变电建设") is False
+    assert e.has_storage_metrics("新能源制造业") is False
+    assert e.has_storage_metrics("光伏") is False

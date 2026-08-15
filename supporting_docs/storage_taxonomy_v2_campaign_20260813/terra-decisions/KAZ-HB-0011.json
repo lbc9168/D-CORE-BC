@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0011",
+  "package_sha256": "894b9d25d95b39b410c01b444103564a6251aa804be046642197671dcd84cc9b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/67962.html",
+        "surface": "body",
+        "quote": "会议期间，王海怀与斯克利亚尔、扎库波夫共同见证了中水对外与萨姆鲁克能源股份公司首个抽水蓄能电站及可再生能源领域项目合作协议签署。\n会前，王海怀与任鸿斌进行会谈，对中国贸促会一直以来给予的大力支持表示感谢，愿继续积极参与中国贸促会、国际商会举办的各类重大活动，推动落实全球发展倡议，带动中国标准、中国技术走向世界。任鸿斌对中交集团近年来在海外取得的成绩表示赞许，希望中交集"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0011-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/67962.html",
+          "surface": "body",
+          "quote": "会议期间，王海怀与斯克利亚尔、扎库波夫共同见证了中水对外与萨姆鲁克能源股份公司首个抽水蓄能电站及可再生能源领域项目合作协议签署。\n会前，王海怀与任鸿斌进行会谈，对中国贸促会一直以来给予的大力支持表示感谢，愿继续积极参与中国贸促会、国际商会举办的各类重大活动，推动落实全球发展倡议，带动中国标准、中国技术走向世界。任鸿斌对中交集团近年来在海外取得的成绩表示赞许，希望中交集"
+        }
+      ]
+    }
+  ]
+}

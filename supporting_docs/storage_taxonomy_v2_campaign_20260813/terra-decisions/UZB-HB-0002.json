@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0002",
+  "package_sha256": "be3c31b760555745205c72564088076ef4bdc57c31541445d5feb91a77991774",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 75,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91871.html",
+        "surface": "title",
+        "quote": "东方电气签约乌兹别克斯坦最大山地光储一体化项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91871.html",
+        "surface": "body",
+        "quote": "项目采用“光储一体化”设计，规划建设300兆瓦光伏系统，并配套75兆瓦时储能系统。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 75,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "75兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91871.html",
+          "surface": "title",
+          "quote": "东方电气签约乌兹别克斯坦最大山地光储一体化项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91871.html",
+          "surface": "body",
+          "quote": "项目采用“光储一体化”设计，规划建设300兆瓦光伏系统，并配套75兆瓦时储能系统。"
+        }
+      ]
+    }
+  ]
+}

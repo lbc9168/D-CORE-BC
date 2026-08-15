@@ -1,0 +1,38 @@
+{
+  "candidate_id": "sol-reviewer-25106-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 25106,
+  "article_sha256": "e23fc2f2a563ea1e9e25577f82d0a6fa97690ba7d282ac016739cf544f4f1610",
+  "parent_candidate_id": "terra-provider-25106-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "JA Solar has entered into an agreement with Shanxi Electric Power Engineering (SEPEC) to supply high-efficiency mono PERC PV modules for a 257MW plant in Phu Yen, Vietnam.", "confidence": 0.99, "verdict": "ok", "reviewer_note": "具体光伏电站及两家中方参与者均具名。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [
+    {
+      "project_name": {"value_state": "derived_from_explicit", "value": "越南富安257MW光伏电站", "evidence": "257MW plant in Phu Yen, Vietnam", "confidence": 0.98, "verdict": "ok", "reviewer_note": "由正文地点、容量和电站类型组合命名。"},
+      "category": {"value_state": "derived_from_explicit", "value": "光伏", "evidence": "mono PERC PV modules for a 257MW plant", "confidence": 0.99, "verdict": "ok", "reviewer_note": "PV电站归入光伏。"},
+      "subcategory_raw_fact": {"value_state": "present", "value": "mono PERC PV", "evidence": "high-efficiency mono PERC PV modules", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "Provider遗漏了正文明确的组件技术事实。"},
+      "generation_sources": {"value_state": "derived_from_explicit", "value": ["光伏"], "evidence": "PV modules for a 257MW plant", "confidence": 0.99, "verdict": "ok", "reviewer_note": "由PV明确确定。"},
+      "storage_status": {"value_state": "not_mentioned", "value": "not_mentioned", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "正文未提储能，不能以光伏句子作为缺失事实证据。"},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提及。"},
+      "storage_energy_mwh": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提及。"},
+      "generation_capacity_mw": {"value_state": "present", "value": "257MW", "evidence": "257MW plant", "confidence": 0.99, "verdict": "ok", "reviewer_note": "电站容量明确。"},
+      "project_stage": {"value_state": "present", "value": "组件供应协议已签署", "evidence": "JA Solar has entered into an agreement with Shanxi Electric Power Engineering (SEPEC) to supply high-efficiency mono PERC PV modules", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "仅能确认组件供应协议签署，不能泛化为整个项目的签约阶段。"},
+      "country": {"value_state": "present", "value": "越南", "evidence": "Phu Yen, Vietnam", "confidence": 0.99, "verdict": "ok", "reviewer_note": "国家明确。"},
+      "location": {"value_state": "present", "value": "Phu Yen", "evidence": "Phu Yen, Vietnam", "confidence": 0.99, "verdict": "ok", "reviewer_note": "保留正文原名。"},
+      "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+      "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+      "project_developer": {"value_state": "present", "value": "B. GRIMM", "evidence": "developed by B. GRIMM", "confidence": 0.99, "verdict": "ok", "reviewer_note": "开发商明确。"},
+      "chinese_entities": [
+        {"entity_name": {"value_state": "present", "value": "JA Solar", "evidence": "JA Solar has entered into an agreement", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "改用正文可直接定位的英文名。"}, "role": {"value_state": "present", "value": "光伏组件供应商", "evidence": "to supply high-efficiency mono PERC PV modules", "confidence": 0.99, "verdict": "ok", "reviewer_note": "供应角色明确。"}},
+        {"entity_name": {"value_state": "present", "value": "Shanxi Electric Power Engineering (SEPEC)", "evidence": "Shanxi Electric Power Engineering (SEPEC)", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "Provider漏掉第二家中方。"}, "role": {"value_state": "present", "value": "工程承包商", "evidence": "The installation, contracted by SEPEC", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "正文明确SEPEC承包该工程。"}}
+      ]
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"},
+    "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"},
+    "prompt": {"path": "data/runs/25106/reviewer.prompt.txt", "sha256": "8b01bdd04af39661bd81442fd1417e835fb79914dcb74f4bb7f0d6bc91579145"},
+    "provider_sha256": "03b99ee8d35f284517210184525d3018a53c1bcbd64904db03a36e33e0359cce"
+  }
+}

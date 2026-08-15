@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-PV-0005",
+  "package_sha256": "49424797808298b1219191d4b1dc83139ea2d28ae58cc205539f00d0c13bf2d0",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 75,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82531.html",
+        "surface": "title",
+        "quote": "海外首单，中设国联成功签约西澳大利亚新建太阳能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82531.html",
+        "surface": "body",
+        "quote": "项目拟配置50%、2h储能，所发电量的50%上网进行市场化交易，另外50%电量则通过签署PPA的方式售电给周边高能耗用户。\n接下来，三方将通过成立合资企业的方式推进项目实施，充分发挥各自在技术、资源和市场等方面的优势，紧密协作，致力于将 Binningup 光伏项目打造成为西澳地区集高效发电、智能运维、绿"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-PV-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 75,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "75MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82531.html",
+          "surface": "title",
+          "quote": "海外首单，中设国联成功签约西澳大利亚新建太阳能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82531.html",
+          "surface": "body",
+          "quote": "项目拟配置50%、2h储能，所发电量的50%上网进行市场化交易，另外50%电量则通过签署PPA的方式售电给周边高能耗用户。\n接下来，三方将通过成立合资企业的方式推进项目实施，充分发挥各自在技术、资源和市场等方面的优势，紧密协作，致力于将 Binningup 光伏项目打造成为西澳地区集高效发电、智能运维、绿"
+        }
+      ]
+    }
+  ]
+}

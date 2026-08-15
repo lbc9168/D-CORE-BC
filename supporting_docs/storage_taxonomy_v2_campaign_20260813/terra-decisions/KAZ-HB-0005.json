@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0005",
+  "package_sha256": "ef41f072114d257b4776a47ee6defa533e1d777762fb48000e9ee8e8f5c2fc44",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89655.html",
+        "surface": "title",
+        "quote": "1500+1000t/d！中企将在哈萨克斯坦投建两座垃圾焚烧厂"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0005-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89655.html",
+          "surface": "title",
+          "quote": "1500+1000t/d！中企将在哈萨克斯坦投建两座垃圾焚烧厂"
+        }
+      ]
+    }
+  ]
+}

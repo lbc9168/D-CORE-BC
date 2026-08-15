@@ -1,0 +1,41 @@
+{
+  "candidate_id": "sol-reviewer-465-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 465,
+  "article_sha256": "d60a972c9e92e8add25b878e7b347a2151bf632efb505db86c12e94247702c92",
+  "parent_candidate_id": "terra-provider-465-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "chinese_unnamed_participation",
+    "evidence": "深化中刚矿业能源合作。",
+    "confidence": 0.8,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/465/reviewer.prompt.txt",
+      "sha256": "eec3aeab11fdcdc673a8a9e38a63cb114fa485e1929a055b29e8a0faed365149"
+    },
+    "reviewer_manifest": "data/runs/465/reviewer-manifest.json",
+    "provider_sha256": "5ebaa9e9edb7d2029c71da711ba02d487d8e8e4edf8c822771d39e5e72275c2f"
+  }
+}

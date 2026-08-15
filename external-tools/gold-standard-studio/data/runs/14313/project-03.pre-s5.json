@@ -1,0 +1,30 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程西北院",
+      "role": "设计方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "2台630兆瓦",
+    "Capacity Details": "",
+    "Category": "火电",
+    "Country": "伊拉克",
+    "Energy Composition Evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+    "Generation Sources": [
+      "火电"
+    ],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "伊拉克萨拉哈丁2台630兆瓦燃油气电站",
+    "Project Name (EN)": "Salahaddin 2x630MW Oil and Gas Power Plant",
+    "Project Stage": "在建",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

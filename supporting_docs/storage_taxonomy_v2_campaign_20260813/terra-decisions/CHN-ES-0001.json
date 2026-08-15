@@ -1,0 +1,75 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHN-ES-0001",
+  "package_sha256": "3a9896f78a190ae2daaf6d7efabf6e2b0bf7359ec0d34dc57bf1d8237750f861",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 200,
+    "storage_energy_mwh": 400,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88825.html",
+        "surface": "title",
+        "quote": "上能电气护航200MW/400MWh储能电站正式并网"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88825.html",
+        "surface": "body",
+        "quote": "云南省德宏州200MW/400MWh储能电站\n成功实现全容量并网。此项目不仅是\n中缅电力互联互通的战略枢纽\n，更作为\n“一带一路”能源合作的典范之作，坚实保障了区域电网稳定\n、树立了清洁能源协同开发与高效利用的行业新标杆。\n匠心臻品，彰显硬实力\n此项目位于德宏州瑞丽市工业园区，上能电气配合南都电源为项目提供\n40套5M"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86899.html",
+        "surface": "title",
+        "quote": "云南德宏首座共享储能电站并网 助力构建中缅两国电网一体化"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86899.html",
+        "surface": "body",
+        "quote": "日前，云南省德宏州首座200MW/400MWh共享储能项目并网投运。该项目是连接中缅电网输送的重要电力保障项目之一，为中缅电网一体化及可再生能源发展，提供了有力支撑。南都电源为项目提供了全系统储能及集成设备。\n该储能电站位于德宏州瑞丽市。南都电源在项目中提供的Center L Plus 5MWh+液冷储能系统，具备高安全、长寿命、高"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHN-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 200,
+      "storage_energy_mwh": 400,
+      "storage_power_mw_raw": "200MW",
+      "storage_energy_mwh_raw": "400MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88825.html",
+          "surface": "title",
+          "quote": "上能电气护航200MW/400MWh储能电站正式并网"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88825.html",
+          "surface": "body",
+          "quote": "云南省德宏州200MW/400MWh储能电站\n成功实现全容量并网。此项目不仅是\n中缅电力互联互通的战略枢纽\n，更作为\n“一带一路”能源合作的典范之作，坚实保障了区域电网稳定\n、树立了清洁能源协同开发与高效利用的行业新标杆。\n匠心臻品，彰显硬实力\n此项目位于德宏州瑞丽市工业园区，上能电气配合南都电源为项目提供\n40套5M"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86899.html",
+          "surface": "title",
+          "quote": "云南德宏首座共享储能电站并网 助力构建中缅两国电网一体化"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86899.html",
+          "surface": "body",
+          "quote": "日前，云南省德宏州首座200MW/400MWh共享储能项目并网投运。该项目是连接中缅电网输送的重要电力保障项目之一，为中缅电网一体化及可再生能源发展，提供了有力支撑。南都电源为项目提供了全系统储能及集成设备。\n该储能电站位于德宏州瑞丽市。南都电源在项目中提供的Center L Plus 5MWh+液冷储能系统，具备高安全、长寿命、高"
+        }
+      ]
+    }
+  ]
+}

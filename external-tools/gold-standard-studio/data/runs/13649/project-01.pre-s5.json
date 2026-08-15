@@ -1,0 +1,41 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "PowerChina Resources",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "股权投资方",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Additional Remarks": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+    "Capacity (MW)": "300 MW",
+    "Capacity Details": "",
+    "Category": "风电",
+    "Country": "塞尔维亚",
+    "Energy Composition Evidence": "300 MW wind power project",
+    "Financing Model": "股权融资",
+    "Financing Model Details": "PowerChina Resources收购项目51%股权，CWP Europe保留其余股权",
+    "Generation Sources": [
+      "风电"
+    ],
+    "Location(State)": "潘切沃",
+    "Project Developer": "PowerChina Resources;CWP Europe",
+    "Project Developer Evidence": "The Chinese company is acquiring 51% of the project while the remainder stays in ownership of CWP Europe",
+    "Project Name": "塞尔维亚潘切沃300 MW Vetrozelena风电项目",
+    "Project Name (EN)": "Serbia Pančevo 300 MW Vetrozelena Wind Power Project",
+    "Project Stage": "收购",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PAK-HB-0007",
+  "package_sha256": "519b5b84d33bc80a9d67bfb1ef739e581f684de448bd5f3b129b64a37c30ad26",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/9155.html",
+        "surface": "title",
+        "quote": "中企获巴基斯坦炼化EPC合同"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PAK-HB-0007-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/9155.html",
+          "surface": "title",
+          "quote": "中企获巴基斯坦炼化EPC合同"
+        }
+      ]
+    }
+  ]
+}

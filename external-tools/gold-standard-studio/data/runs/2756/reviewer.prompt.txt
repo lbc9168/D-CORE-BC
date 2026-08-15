@@ -1,0 +1,25 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：陕西泰尔中标西北电力建设工程有限公司坦桑尼亚Kigoma-Nyakanazi SEAN变电站柴油发电机采购项目
+发布日期：2025-07-19 22:36:04
+来源：https://news.goalfore.cn/topstories/detail/85351.html
+正文：
+近日，陕西泰尔电力设备有限公司依托深厚的技术积淀与丰富的海外EPC项目经验，
+成功斩获中国能源建设集团西北电力建设工程有限公司坦桑尼亚Kigoma-Nyakanazi SEAN变电站柴油发电机采购项目
+，将为该“一带一路”标志性工程提供核心柴油发电机组应急电源设备
+。此中标成果不仅标志着泰尔电力在海外市场的战略布局实现了关键进阶，更以坚实技术实力彰显了泰尔电力在海外电力设备供应领域的核心竞争力。
+坦桑尼亚Kigoma-Nyakanazi SEAN变电站项目是坦桑尼亚政府 “2025 愿景” 重点工程，由韩国Sean Hyosung Consortium 总承包，西北电建担任核心 EPC 分包商。
+项目总投资约 1.86 亿美元，涵盖扩建 400/220kV Nyakanazi变电站和新建400/132/33kV Kigoma变电站，配套建设280公里400kV输电线路，形成覆盖坦桑尼亚西北部的骨干电网。
+项目建成后将大幅提升区域供电稳定性，解决Kigoma等地区长期电力短缺问题，使Kigoma地区电气化率从16.2%提升至20%，直接惠及超200万居民，并为刚果（金）、布隆迪等邻国跨境供电提供枢纽支持，推动东非电力互联。同时，
+项目预计创造超500个就业岗位，带动输变电设备、建材等产业链协同发展，拉动区域经济产值超2亿美元。
+作为坦桑尼亚西北电网的核心节点，未来将与乌干达卡鲁玛水电站、埃塞俄比亚复兴大坝输电项目等形成联动，
+构建东非跨国电力网络，推动区域能源资源优化配置。
+泰尔电力参与坦桑尼亚Kigoma-Nyakanazi SEAN变电站柴油发电机采购项目，既是企业深耕海外电力市场的实力印证，更是以技术赋能国际能源合作的生动实践
+。从设备供应到运维保障，泰尔电力将以可靠的技术支撑至项目落地，与各方协同推进技术创新、绿色转型与区域协作。此次合作为起点，持续以专业力量参与全球能源建设，助力构建更加多元、绿色的能源体系。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-2756-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":2756,"article_sha256":"2b55bbc4f9a6b6f41f614711125fa704d43188162c4b493c04eca15bd9e8af07","article_status":{"value_state":"present","value":"valid_project","evidence":"陕西泰尔电力设备有限公司"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"坦桑尼亚Kigoma-Nyakanazi SEAN变电站项目","evidence":"Kigoma-Nyakanazi SEAN变电站项目"},"category":{"value_state":"present","value":"输变电建设","evidence":"变电站"},"subcategory_raw_fact":{"value_state":"present","value":"输电线路","evidence":"输电线路"},"generation_sources":{"value_state":"not_applicable","value":[]},"storage_status":{"value_state":"not_applicable","value":null},"storage_power_mw":{"value_state":"not_applicable","value":null},"storage_energy_mwh":{"value_state":"not_applicable","value":null},"generation_capacity_mw":{"value_state":"not_applicable","value":null},"project_stage":{"value_state":"present","value":"中标","evidence":"成功斩获"},"country":{"value_state":"present","value":"坦桑尼亚","evidence":"坦桑尼亚"},"location":{"value_state":"present","value":"Kigoma-Nyakanazi","evidence":"Kigoma-Nyakanazi"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"not_mentioned","value":null},"chinese_entities":[{"entity":{"value_state":"present","value":"陕西泰尔电力设备有限公司","evidence":"陕西泰尔电力设备有限公司"},"role":{"value_state":"present","value":"设备供应","evidence":"柴油发电机组"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/2756/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

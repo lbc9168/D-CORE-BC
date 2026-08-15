@@ -1,0 +1,4259 @@
+[
+  {
+    "project_id": "EGY-MF-0001",
+    "project_name": "埃及博达新能5GW光伏制造基地",
+    "project_name_en": "Boda New Energy Egypt 5GW PV Manufacturing Base",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "无锡博达新能科技有限公司",
+        "name_en": "Wuxi Boda New Energy Technology Co., Ltd.",
+        "subsidiary": "博达新能",
+        "subsidiary_en": "Bada New Energy",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0002",
+    "project_name": "埃及5吉瓦太阳能电池及光伏组件产业园项目",
+    "project_name_en": "Egypt 5 GW Solar Cell and PV Module Industrial Park Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "苏州协鑫智慧能源有限公司",
+        "name_en": "Suzhou GCL Smart Energy Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 0
+      },
+      {
+        "name": "协鑫集团有限公司",
+        "name_en": "Xinyi Group Co., Ltd.",
+        "subsidiary": "协鑫集团",
+        "subsidiary_en": "GCL",
+        "involvement_type": "Unknown",
+        "involvement_type_en": "Unknown",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "SAU-MF-0002",
+    "project_name": "沙特信义玻璃工厂项目",
+    "project_name_en": "Saudi Xinyi Glass Factory Project",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国电力建设集团有限公司",
+        "name_en": "PowerChina",
+        "subsidiary": "电建绿洲公司",
+        "subsidiary_en": "Power Construction Corporation of China Oasis Company",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "USA-MF-0001",
+    "project_name": "美国德州贝敦20万吨/年电解液工厂",
+    "project_name_en": "Baytown, Texas 200,000 tons/year Electrolyte Plant",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "广州天赐高新材料股份有限公司",
+        "name_en": "Guangzhou Tinci Materials Technology Co., Ltd.",
+        "subsidiary": "天赐材料",
+        "subsidiary_en": "Tinci Materials Technology Co., Ltd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "SVK-MF-0001",
+    "project_name": "斯洛伐克苏拉尼20GWh电池工厂",
+    "project_name_en": "Slovakia Surany 20GWh Battery Factory",
+    "country": "斯洛伐克",
+    "country_en": "Slovakia",
+    "country_iso": "SVK",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "NGA-MF-0001",
+    "project_name": "尼日利亚1吉瓦太阳能电池板工厂项目",
+    "project_name_en": "Nigeria 1 GW Solar Panel Factory Project",
+    "country": "尼日利亚",
+    "country_en": "Nigeria",
+    "country_iso": "NGA",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "隆基绿能科技股份有限公司",
+        "name_en": "LONGi Green Energy Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 1.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "GBR-MF-0001",
+    "project_name": "英国风电机组制造基地项目",
+    "project_name_en": "UK Wind Turbine Manufacturing Base Project",
+    "country": "英国",
+    "country_en": "United Kingdom",
+    "country_iso": "GBR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "明阳智慧能源集团股份公司",
+        "name_en": "MySE Smart Energy Group Co., Ltd.",
+        "subsidiary": "明阳智慧能源集团",
+        "subsidiary_en": "MingYang",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "AZE-MF-0001",
+    "project_name": "阿塞拜疆阿拉特自由经济区一期电池项目",
+    "project_name_en": "Azerbaijan Alat Free Economic Zone Phase I Battery Project",
+    "country": "阿塞拜疆",
+    "country_en": "Azerbaijan",
+    "country_iso": "AZE",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国机械设备工程股份有限公司",
+        "name_en": "China Machinery Engineering Corporation (CMEC)",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      },
+      {
+        "name": "四川和光同程光伏科技有限公司",
+        "name_en": "Sichuan Hegongtongcheng Photovoltaic Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "Unknown",
+        "involvement_type_en": "Unknown",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0003",
+    "project_name": "沙特6GW高效异质结组件生产基地项目",
+    "project_name_en": "Saudi Arabia 6GW High-Efficiency Heterojunction Module Production Base Project",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "鸿钧新能源有限公司",
+        "name_en": "Hongjun New Energy Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 6.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "VNM-MF-0001",
+    "project_name": "越南北江省锂电池产业园项目",
+    "project_name_en": "Vietnam Bac Giang Province Lithium Battery Industrial Park Project",
+    "country": "越南",
+    "country_en": "Vietnam",
+    "country_iso": "VNM",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国电力工程顾问集团有限公司",
+        "name_en": "CPECC",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0001",
+    "project_name": "印尼宏发电子高端继电器研发制造基地项目",
+    "project_name_en": "Indonesia Hongfa Electronics High-end Relay R&D and Manufacturing Base Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国电力工程顾问集团有限公司",
+        "name_en": "CPECC",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "TUR-MF-0001",
+    "project_name": "土耳其正泰1GW高效晶硅组件项目",
+    "project_name_en": "Turkey CHINT 1GW High-efficiency Crystalline Silicon Module Project",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国电力工程顾问集团有限公司",
+        "name_en": "CPECC",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 1.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "IND-MF-0001",
+    "project_name": "印度古吉拉特邦远景能源叶片工厂",
+    "project_name_en": "Envision Energy Gujarat Blade Factory",
+    "country": "印度",
+    "country_en": "India",
+    "country_iso": "IND",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "远景科技集团有限公司",
+        "name_en": "Envision Group Co., Ltd.",
+        "subsidiary": "远景能源",
+        "subsidiary_en": "Envision",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "BRA-MF-0001",
+    "project_name": "巴西可持续航空燃料项目",
+    "project_name_en": "Brazil Sustainable Aviation Fuel Project",
+    "country": "巴西",
+    "country_en": "Brazil",
+    "country_iso": "BRA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "远景科技集团有限公司",
+        "name_en": "Envision Group Co., Ltd.",
+        "subsidiary": "远景能源",
+        "subsidiary_en": "Envision",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0004",
+    "project_name": "埃及苏赫奈工业区2GW光伏电池及组件与1GWh储能制造项目",
+    "project_name_en": "Egypt Suez Canal Economic Zone 2GW PV Battery and Module Manufacturing and 1GWh Energy Storage Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "尚锐光能",
+        "name_en": "Shangrui Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 0
+      },
+      {
+        "name": "晶澳太阳能科技股份有限公司",
+        "name_en": "JA Solar Holdings Co., Ltd.",
+        "subsidiary": "晶澳太阳能科技有限公司",
+        "subsidiary_en": "JA Solar Holdings Co., Ltd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "TUR-MF-0002",
+    "project_name": "土耳其迪兹杰市2GW太阳能电池及硅片生产项目",
+    "project_name_en": "Turkey Duzce 2GW Solar Cell and Wafer Production Project",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "南京奥特净化工程有限公司",
+        "name_en": "Nanjing Out Clean Engineering Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "DZA-MF-0001",
+    "project_name": "阿尔及利亚太阳能玻璃项目",
+    "project_name_en": "Algeria Solar Glass Project",
+    "country": "阿尔及利亚",
+    "country_en": "Algeria",
+    "country_iso": "DZA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "株洲旗滨集团股份有限公司",
+        "name_en": "Zhuzhou Kibing Group Co., Ltd.",
+        "subsidiary": "旗滨集团",
+        "subsidiary_en": "Qibin Group",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0005",
+    "project_name": "埃及苏伊士太阳能玻璃厂项目",
+    "project_name_en": "Egypt Suez Solar Glass Plant Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "株洲旗滨集团股份有限公司",
+        "name_en": "Zhuzhou Kibing Group Co., Ltd.",
+        "subsidiary": "旗滨集团",
+        "subsidiary_en": "Qibin Group",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0001",
+    "project_name": "摩洛哥中伟股份三元前驱体产能工厂",
+    "project_name_en": "Morocco CNGR Advanced Material Precursor Production Plant",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中伟新材料股份有限公司",
+        "name_en": "GEM Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "中国出口信用保险公司",
+        "name_en": "Sinosure",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "融资方",
+        "involvement_type_en": "Financier",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0002",
+    "project_name": "印度尼西亚镍资源和电池产业链项目",
+    "project_name_en": "Indonesia Nickel Resources and Battery Industry Chain Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "普勤时代",
+        "name_en": "Prosperous Era",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 6.9,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "IDN-MF-0003",
+    "project_name": "印尼动力电池一体化生态系统项目",
+    "project_name_en": "Indonesia Integrated Electric Vehicle Battery Ecosystem Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第四工程局有限公司",
+        "subsidiary_en": "China Construction Fourth Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      },
+      {
+        "name": "宁波普勤时代有限公司",
+        "name_en": "Ningbo P.T.S. Times Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0004",
+    "project_name": "印尼1.6吉瓦光伏组件制造基地项目",
+    "project_name_en": "Indonesia 1.6 GW PV Module Manufacturing Base Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "隆基绿能科技股份有限公司",
+        "name_en": "LONGi Green Energy Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 1.6,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "THA-MF-0001",
+    "project_name": "泰跃科技（泰国）大城厂区一期项目",
+    "project_name_en": "Taiyue Technology (Thailand) Ayutthaya Plant Phase I Project",
+    "country": "泰国",
+    "country_en": "Thailand",
+    "country_iso": "THA",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "泰跃科技",
+        "name_en": "Taiyue Technology",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "TUR-MF-0003",
+    "project_name": "土耳其5GW高效光伏电池生产基地",
+    "project_name_en": "Turkey 5GW High-Efficiency Solar Cell Production Base",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "捷泰新能源投资(香港)有限公司",
+        "name_en": "Jietai New Energy Investment (Hong Kong) Limited",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "MYS-MF-0001",
+    "project_name": "马来西亚海四达2.5GWh圆柱形动力电池生产基地项目",
+    "project_name_en": "Hithium Malaysia 2.5GWh Cylindrical Power Battery Production Base Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "江苏海四达",
+        "name_en": "Jiangsu Haisida",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      },
+      {
+        "name": "江苏海四达电源有限公司",
+        "name_en": "Jiangsu Haisida Power Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.5,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "CHL-MF-0001",
+    "project_name": "智利比亚迪锂正极材料工厂项目",
+    "project_name_en": "BYD Lithium Cathode Material Plant Project in Chile",
+    "country": "智利",
+    "country_en": "Chile",
+    "country_iso": "CHL",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "比亚迪股份有限公司",
+        "name_en": "BYD Company Limited",
+        "subsidiary": "比亚迪",
+        "subsidiary_en": "BYD",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "CHL-MF-0002",
+    "project_name": "智利青山控股LFP工厂项目",
+    "project_name_en": "Tsingshan Holdings LFP Plant Project in Chile",
+    "country": "智利",
+    "country_en": "Chile",
+    "country_iso": "CHL",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "永清科技",
+        "name_en": "Yongqing Technology",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 12.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "MYS-MF-0002",
+    "project_name": "马来西亚雪莱莪州天鹏电源圆柱电池工厂",
+    "project_name_en": "Tianneng Power Malaysia Selangor Cylindrical Battery Factory",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "江苏蔚蓝锂芯股份有限公司",
+        "name_en": "Jiangsu Bluesky Lithium Battery Co., Ltd.",
+        "subsidiary": "天鹏电源",
+        "subsidiary_en": "Tianpeng Power",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "POL-MF-0001",
+    "project_name": "波兰年产2.5万吨正极材料生产基地项目",
+    "project_name_en": "Poland 25,000 tons/year Cathode Material Production Base Project",
+    "country": "波兰",
+    "country_en": "Poland",
+    "country_iso": "POL",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "湖北容百锂电材料有限公司",
+        "name_en": "Hubei Rongbai Lithium Battery Materials Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.5,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "FRA-MF-0001",
+    "project_name": "法国曼德乌尔3GW太阳能组件工厂及5GW电池制造厂",
+    "project_name_en": "France Manduel 3GW Solar Module Assembly Plant and 5GW Battery Cell Manufacturing Plant",
+    "country": "法国",
+    "country_en": "France",
+    "country_iso": "FRA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "DAS Solar",
+        "name_en": "DAS Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "BRA-MF-0002",
+    "project_name": "巴西玲珑轮胎生产及光伏发电项目",
+    "project_name_en": "Linglong Tire Brazil Production and PV Project",
+    "country": "巴西",
+    "country_en": "Brazil",
+    "country_iso": "BRA",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "山东玲珑轮胎股份有限公司",
+        "name_en": "Shandong Linglong Tire Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "VNM-MF-0002",
+    "project_name": "越南年产600万条半钢子午线轮胎智能制造厂房项目",
+    "project_name_en": "Vietnam 6 Million Semi-Steel Radial Tires Smart Manufacturing Plant Project",
+    "country": "越南",
+    "country_en": "Vietnam",
+    "country_iso": "VNM",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第五工程局有限公司",
+        "subsidiary_en": "China Construction Fifth Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "THA-MF-0002",
+    "project_name": "泰国阳光电源新工厂二期施工总承包工程",
+    "project_name_en": "Sungrow Thailand New Factory Phase II EPC Project",
+    "country": "泰国",
+    "country_en": "Thailand",
+    "country_iso": "THA",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "阳光电源股份有限公司",
+        "name_en": "Sungrow",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0003",
+    "project_name": "马来西亚居林工厂项目",
+    "project_name_en": "Julin Factory Project in Malaysia",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "江苏海四达",
+        "name_en": "Jiangsu Haisida",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "TUR-MF-0004",
+    "project_name": "土耳其正泰新能太阳能电池工厂",
+    "project_name_en": "Trina Solar Turkey Solar Cell Factory",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "正泰集团股份有限公司",
+        "name_en": "CHINT Group Corporation",
+        "subsidiary": "浙江正泰新能源开发有限公司",
+        "subsidiary_en": "CHINT New Energy",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0007",
+    "project_name": "埃及苏伊士运河经济区7亿美元太阳能光伏玻璃生产基地项目",
+    "project_name_en": "Egypt Suez Canal Economic Zone 700 Million USD Solar PV Glass Production Base Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "信义玻璃",
+        "name_en": "Xinyi Glass",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "KAZ-MF-0001",
+    "project_name": "哈萨克斯坦智能风机及智慧储能系统生产基地项目",
+    "project_name_en": "Kazakhstan Smart Wind Turbine and Smart Energy Storage System Production Base Project",
+    "country": "哈萨克斯坦",
+    "country_en": "Kazakhstan",
+    "country_iso": "KAZ",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国二十冶集团",
+        "name_en": "China Metallurgical Construction Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0008",
+    "project_name": "埃及4.5万吨/年工业硅项目",
+    "project_name_en": "Egypt 45,000 Ton/Year Industrial Silicon Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国化学工程集团有限公司",
+        "name_en": "CNCEC",
+        "subsidiary": "中国化学工程股份有限公司",
+        "subsidiary_en": "China National Chemical Engineering Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 4.5,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "MYS-MF-0004",
+    "project_name": "马来西亚吉隆坡6.5万吨光伏铝部件项目一期厂房",
+    "project_name_en": "Malaysia Kuala Lumpur 65,000 tons PV Aluminum Parts Project Phase I Factory",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 6.5,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "IDN-MF-0005",
+    "project_name": "印度尼西亚DKV印刷公司厂房项目",
+    "project_name_en": "Indonesia DKV Printing Company Factory EPC Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0006",
+    "project_name": "滁州韩上电器印尼VOK智能制造项目",
+    "project_name_en": "Chuzhou Hanshang Electric Indonesia VOK Smart Manufacturing Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0007",
+    "project_name": "印尼蜀汉包装科技有限公司一期工程",
+    "project_name_en": "Indonesia Shuhan Packaging Technology Co., Ltd. Phase I Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0008",
+    "project_name": "印尼某食品加工厂项目",
+    "project_name_en": "Indonesia Food Processing Plant Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "PRT-MF-0001",
+    "project_name": "葡萄牙锡尼什20亿欧元锂电池工厂",
+    "project_name_en": "Portugal Sines 2 Billion Euro Lithium Battery Factory",
+    "country": "葡萄牙",
+    "country_en": "Portugal",
+    "country_iso": "PRT",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中创新航",
+        "name_en": "CALB",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 15.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "MYS-MF-0005",
+    "project_name": "马来西亚亿纬锂能圆柱电池工厂",
+    "project_name_en": "EVE Energy Malaysia Cylindrical Battery Factory",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "惠州亿纬锂能股份有限公司",
+        "name_en": "EVE Energy Co., Ltd.",
+        "subsidiary": "亿纬锂能马来西亚有限公司",
+        "subsidiary_en": "EVE Energy Malaysia Sdn. Bhd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "亿纬锂能马来西亚储能公司",
+        "name_en": "EVE Energy Malaysia Energy Storage Company",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0006",
+    "project_name": "马来西亚亿纬锂能储能电池及消费类电池制造项目",
+    "project_name_en": "EVE Energy Malaysia Energy Storage and Consumer Battery Manufacturing Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "亿纬马来西亚",
+        "name_en": "EVE Energy Malaysia",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "惠州亿纬锂能股份有限公司",
+        "name_en": "EVE Energy Co., Ltd.",
+        "subsidiary": "亿纬锂能马来西亚有限公司",
+        "subsidiary_en": "EVE Energy Malaysia Sdn. Bhd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0009",
+    "project_name": "印尼大雅加达区某新能源电池厂房项目",
+    "project_name_en": "Indonesia Greater Jakarta Area New Energy Battery Factory Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第四工程局有限公司",
+        "subsidiary_en": "China Construction Fourth Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 15.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "ARG-MF-0001",
+    "project_name": "阿根廷Mariana盐湖锂项目",
+    "project_name_en": "Argentina Mariana Salt Lake Lithium Project",
+    "country": "阿根廷",
+    "country_en": "Argentina",
+    "country_iso": "ARG",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "江西赣锋锂业集团股份有限公司",
+        "name_en": "Jiangxi Ganfeng Lithium Group Co., Ltd.",
+        "subsidiary": "赣锋锂业",
+        "subsidiary_en": "Ganfeng Lithium Co., Ltd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "IDN-MF-0010",
+    "project_name": "印尼红狮集团多晶硅一体化项目",
+    "project_name_en": "Indonesia Hongshi Group Polysilicon Integrated Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "红狮集团",
+        "name_en": "Hongshi Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0011",
+    "project_name": "印尼富士智能工业厂房项目",
+    "project_name_en": "Indonesia Fuji Smart Industrial Plant Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "湖南建设投资集团有限责任公司",
+        "name_en": "Hunan Construction Investment Group Co., Ltd.",
+        "subsidiary": "湖南建投水利",
+        "subsidiary_en": "HNJT Water Conservancy",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0002",
+    "project_name": "摩洛哥20GWh锂电池生产基地项目",
+    "project_name_en": "Morocco 20GWh Lithium Battery Production Base Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "SVK-MF-0002",
+    "project_name": "斯洛伐克20GWh锂电池生产基地项目",
+    "project_name_en": "Slovakia 20GWh Lithium Battery Production Base Project",
+    "country": "斯洛伐克",
+    "country_en": "Slovakia",
+    "country_iso": "SVK",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "EGY-MF-0009",
+    "project_name": "埃及2GW太阳能电池和3GW太阳能组件生产项目",
+    "project_name_en": "Egypt 2GW Solar Cell and 3GW Solar Module Production Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "EliTe Solar",
+        "name_en": "EliTe Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "中非泰达投资股份有限公司",
+        "name_en": "China Africa TEDA Investment Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "Unknown",
+        "involvement_type_en": "Unknown",
+        "is_central_soe": 0
+      },
+      {
+        "name": "EliTe Solar 博达新能",
+        "name_en": "EliTe Solar Poda New Energy",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "MYS-MF-0007",
+    "project_name": "马来西亚亿纬马来西亚二期施工总承包项目",
+    "project_name_en": "EVE Energy Malaysia Phase II EPC Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑股份有限公司",
+        "subsidiary_en": "China State Construction Engineering Corporation Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "OMN-MF-0001",
+    "project_name": "阿曼苏哈尔自由区10万吨/年多晶硅项目",
+    "project_name_en": "Oman Sohar Freezone 100,000 Ton/Year Polysilicon Project",
+    "country": "阿曼",
+    "country_en": "Oman",
+    "country_iso": "OMN",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国能源建设集团有限公司",
+        "name_en": "CEEC",
+        "subsidiary": "中国能源建设集团山西电力勘测设计院有限公司",
+        "subsidiary_en": "China Energy Engineering Group Shanxi Electric Power Survey and Design Institute Co., Ltd.",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      },
+      {
+        "name": "江苏双良新能源装备有限公司",
+        "name_en": "Jiangsu Shuangliang New Energy Equipment Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 10.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "KAZ-MF-0003",
+    "project_name": "哈萨克斯坦江布尔州风电设备厂区项目",
+    "project_name_en": "Kazakhstan Zhambyl Wind Equipment Manufacturing Plant Project",
+    "country": "哈萨克斯坦",
+    "country_en": "Kazakhstan",
+    "country_iso": "KAZ",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "三一集团有限公司",
+        "name_en": "SANY",
+        "subsidiary": "三一重能股份有限公司",
+        "subsidiary_en": "Sany Renewable Energy Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 6.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "AGO-MF-0002",
+    "project_name": "安哥拉18万吨冶金硅和15万吨多晶硅项目",
+    "project_name_en": "Angola 180,000 tons Metallurgical Silicon and 150,000 tons Polysilicon Project",
+    "country": "安哥拉",
+    "country_en": "Angola",
+    "country_iso": "AGO",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "青海丽豪清能股份有限公司",
+        "name_en": "Qinghai LiHao Clean Energy Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0003",
+    "project_name": "摩洛哥国轩高科电动汽车电池工厂项目",
+    "project_name_en": "Gotion High-Tech EV Battery Plant Project (Morocco)",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 100.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "IDN-MF-0012",
+    "project_name": "印尼西爪哇省15吉瓦时电池制造项目",
+    "project_name_en": "Indonesia West Java 15 GWh Battery Manufacturing Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "宁德时代新能源科技股份有限公司",
+        "name_en": "CATL",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 15.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "AGO-MF-0003",
+    "project_name": "安哥拉多晶硅项目",
+    "project_name_en": "Angola Polysilicon Project",
+    "country": "安哥拉",
+    "country_en": "Angola",
+    "country_iso": "AGO",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "青海丽豪清能股份有限公司",
+        "name_en": "Qinghai LiHao Clean Energy Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0004",
+    "project_name": "沙特阿拉伯5GWh电池储能系统工厂",
+    "project_name_en": "Saudi Arabia 5GWh Battery Energy Storage System (BESS) Factory",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "厦门海辰储能科技股份有限公司",
+        "name_en": "Xiamen Hithium Energy Technology Co., Ltd.",
+        "subsidiary": "海辰储能",
+        "subsidiary_en": "Hithium",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "SAU-MF-0005",
+    "project_name": "沙特阿拉伯吉达5吉瓦太阳能工厂一期项目",
+    "project_name_en": "Jeddah 5GW Solar Tracker Manufacturing Plant Phase I",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国能源建设集团有限公司",
+        "name_en": "CEEC",
+        "subsidiary": "中能建建筑集团有限公司",
+        "subsidiary_en": "CEEC Construction Group Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      },
+      {
+        "name": "江苏中信博新能源科技股份有限公司",
+        "name_en": "Jiangsu CITIC Bore New Energy Technology Co., Ltd.",
+        "subsidiary": "中信博",
+        "subsidiary_en": "Arctech",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "USA-MF-0002",
+    "project_name": "美国肯塔基州7.12亿美元储能电池工厂",
+    "project_name_en": "USA Kentucky $712 Million Energy Storage Battery Factory",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "谢尔比维尔电池制造公司",
+        "name_en": "Shelbyville Battery Manufacturing Company",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "USA-MF-0003",
+    "project_name": "万润新能美国新能源正极材料及其产业化研发中心项目",
+    "project_name_en": "Wanrun New Energy Cathode Material and Industrialization R&D Center Project in USA",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "湖北万润新材供应链管理有限责任公司",
+        "name_en": "Hubei Wanrun New Material Supply Chain Management Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "USA-MF-0004",
+    "project_name": "美国天合光能太阳能光伏组件制造工厂",
+    "project_name_en": "Trina Solar PV Module Manufacturing Plant in USA",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "天合光能股份有限公司",
+        "name_en": "Trina Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "渣打集团",
+        "name_en": "Standard Chartered Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "融资方",
+        "involvement_type_en": "Financier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SRB-MF-0001",
+    "project_name": "塞尔维亚玲珑轮胎扩建项目",
+    "project_name_en": "Shandong Linglong Tire Serbia Expansion Project",
+    "country": "塞尔维亚",
+    "country_en": "Serbia",
+    "country_iso": "SRB",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "山东玲珑轮胎股份有限公司",
+        "name_en": "Shandong Linglong Tire Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "AUS-MF-0001",
+    "project_name": "澳大利亚光伏组件循环利用技术及应用中心项目",
+    "project_name_en": "Australia Photovoltaic Module Recycling Technology and Application Center Project",
+    "country": "澳大利亚",
+    "country_en": "Australia",
+    "country_iso": "AUS",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "平湖海优威应用材料有限公司",
+        "name_en": "Pinghu HUIXIN Applied Materials Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "OMN-MF-0002",
+    "project_name": "阿曼5吉瓦高效电池生产基地项目",
+    "project_name_en": "Oman 5GW High-Efficiency Battery Production Base Project",
+    "country": "阿曼苏丹国",
+    "country_en": "Oman",
+    "country_iso": "OMN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "海南钧达新能源科技股份有限公司",
+        "name_en": "Hainan Junda New Energy Technology Co., Ltd.",
+        "subsidiary": "钧达股份",
+        "subsidiary_en": "JunDa Shares Company Limited",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "IDN-MF-0013",
+    "project_name": "印尼标准能源STD 3GW拉晶+3GW切片项目",
+    "project_name_en": "Indonesia STD 3GW Pulling + 3GW Slicing Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中建八局海外公司印度尼西亚公司",
+        "name_en": "China Construction Eighth Engineering Division Corp., Ltd. Indonesia Branch",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 3.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "THA-MF-0003",
+    "project_name": "比亚迪汽车泰国工厂项目",
+    "project_name_en": "BYD Automotive Thailand Factory Project",
+    "country": "泰国",
+    "country_en": "Thailand",
+    "country_iso": "THA",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国机械工业集团有限公司",
+        "name_en": "Sinomach",
+        "subsidiary": "中国汽车工业工程有限公司",
+        "subsidiary_en": "China Automotive Engineering Corporation",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0006",
+    "project_name": "沙特20吉瓦光伏晶体晶片生产工厂",
+    "project_name_en": "Saudi Arabia 20GW PV Wafer Production Plant",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "TCL中环新能源科技股份有限公司",
+        "name_en": "TCL Zhonghuan",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "SAU-MF-0007",
+    "project_name": "沙特阿拉伯10GW光伏电池及组件制造基地项目",
+    "project_name_en": "Saudi Arabia 10GW PV Cell and Module Manufacturing Base Project",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "晶科中东",
+        "name_en": "Jinko Middle East",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "晶科能源股份有限公司",
+        "name_en": "JinkoSolar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 10.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "SAU-MF-0008",
+    "project_name": "沙特阿拉伯远景科技风电制造基地",
+    "project_name_en": "Envision Energy Wind Turbine Manufacturing Base in Saudi Arabia",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "远景科技集团有限公司",
+        "name_en": "Envision Group Co., Ltd.",
+        "subsidiary": "远景科技集团",
+        "subsidiary_en": "Envision",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 4.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "ESP-MF-0004",
+    "project_name": "西班牙远景动力LFP电池超级工厂",
+    "project_name_en": "Envision AESC Spain LFP Battery Gigafactory",
+    "country": "西班牙",
+    "country_en": "Spain",
+    "country_iso": "ESP",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "远景动力",
+        "name_en": "Envision Power",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "远景科技集团有限公司",
+        "name_en": "Envision Group Co., Ltd.",
+        "subsidiary": "远景科技集团",
+        "subsidiary_en": "Envision",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "ESP-MF-0005",
+    "project_name": "西班牙湖南裕能锂电池正极材料项目",
+    "project_name_en": "Hunan YuNeng Spain Lithium Battery Cathode Material Project",
+    "country": "西班牙",
+    "country_en": "Spain",
+    "country_iso": "ESP",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "湖南裕能",
+        "name_en": "Hunan YuNeng",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "IDN-MF-0014",
+    "project_name": "印尼廖内省食品加工产业园项目",
+    "project_name_en": "Riau Province Food Processing Industrial Park Project (Indonesia)",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国五矿集团有限公司",
+        "name_en": "China Minmetals",
+        "subsidiary": "上海宝冶",
+        "subsidiary_en": "Shanghai Baoye",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SRB-MF-0002",
+    "project_name": "塞尔维亚伊尼贾8.7亿欧元电池厂项目",
+    "project_name_en": "Serbia Inđija 870 Million Euro Battery Plant Project",
+    "country": "塞尔维亚",
+    "country_en": "Serbia",
+    "country_iso": "SRB",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "敏实集团",
+        "name_en": "Minsheng Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SVK-MF-0003",
+    "project_name": "斯洛伐克2.14亿欧元电池工厂项目",
+    "project_name_en": "Slovakia 214 Million Euro Battery Factory Project",
+    "country": "斯洛伐克",
+    "country_en": "Slovakia",
+    "country_iso": "SVK",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "OMN-MF-0003",
+    "project_name": "阿曼10GW光伏电池制造厂项目",
+    "project_name_en": "Oman 10GW PV Cell Manufacturing Plant Project",
+    "country": "阿曼",
+    "country_en": "Oman",
+    "country_iso": "OMN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "捷泰科技",
+        "name_en": "Jietai Technology",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 10.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "ARE-MF-0001",
+    "project_name": "阿联酋颗粒硅项目",
+    "project_name_en": "UAE Polysilicon Project",
+    "country": "阿联酋",
+    "country_en": "United Arab Emirates",
+    "country_iso": "ARE",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "协鑫科技（苏州）有限公司",
+        "name_en": "Xinyi Solar (Suzhou) Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      },
+      {
+        "name": "协鑫科技(苏州)有限公司",
+        "name_en": "Xinyi Solar Holdings Limited",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "ARE-MF-0002",
+    "project_name": "中阿（联酋）产能合作示范园光伏全产业链项目",
+    "project_name_en": "China-UAE Industrial Capacity Cooperation Demonstration Park Integrated PV Project",
+    "country": "阿联酋",
+    "country_en": "United Arab Emirates",
+    "country_iso": "ARE",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "天合光能股份有限公司",
+        "name_en": "Trina Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0009",
+    "project_name": "沙特光伏产业链项目",
+    "project_name_en": "Saudi Arabia PV Industry Chain Project",
+    "country": "沙特",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "TCL中环新能源科技股份有限公司",
+        "name_en": "TCL Zhonghuan",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "SAU-MF-0010",
+    "project_name": "沙特光伏支架项目",
+    "project_name_en": "Saudi Arabia PV Bracket Project",
+    "country": "沙特",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "江苏中信博新能源科技股份有限公司",
+        "name_en": "Jiangsu CITIC Bore New Energy Technology Co., Ltd.",
+        "subsidiary": "中信博",
+        "subsidiary_en": "Arctech",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 3.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "GBR-MF-0002",
+    "project_name": "英国高压直流电缆工厂项目",
+    "project_name_en": "UK High Voltage Direct Current Cable Factory Project",
+    "country": "英国",
+    "country_en": "United Kingdom",
+    "country_iso": "GBR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "宁波东方电缆股份有限公司",
+        "name_en": "NINGBO ORIENTAL CABLE CO.,LTD.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0004",
+    "project_name": "摩洛哥海亮（摩洛哥）新材料科技工业园",
+    "project_name_en": "Huarun (Morocco) New Material Technology Industrial Park",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "浙江海亮股份有限公司",
+        "name_en": "Zhejiang Hailiang Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0008",
+    "project_name": "马来西亚吉打州亿纬锂能工厂项目",
+    "project_name_en": "Malaysia Kedah Kulim Hi-Tech Park EVE Energy Factory Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中建西部建设",
+        "subsidiary_en": "China Construction Western Construction Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0015",
+    "project_name": "印度尼西亚爪哇岛贝特瑞锂电池负极厂项目",
+    "project_name_en": "Indonesia Java Semarang Kendal Industrial Park BTR Lithium Battery Anode Material Plant Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中建西部建设",
+        "subsidiary_en": "China Construction Western Construction Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "HUN-MF-0001",
+    "project_name": "匈牙利德布勒森100GWh电池工厂",
+    "project_name_en": "Hungary Debrecen 100GWh Battery Factory",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "宁德时代新能源科技股份有限公司",
+        "name_en": "CATL",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 100.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "HUN-MF-0002",
+    "project_name": "匈牙利塞格德乘用车工厂",
+    "project_name_en": "Hungary Szeged Passenger Vehicle Factory",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "比亚迪股份有限公司",
+        "name_en": "BYD Company Limited",
+        "subsidiary": "比亚迪",
+        "subsidiary_en": "BYD",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0009",
+    "project_name": "马来西亚吉打州居林市亿纬动力电池生产项目",
+    "project_name_en": "EVE Energy Malaysia Phase 1 Project (Kedah, Malaysia)",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国建筑安装企业集团有限公司",
+        "name_en": "China Construction Installation Enterprise Group Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 20.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "MEX-MF-0001",
+    "project_name": "墨西哥比亚迪电动汽车制造厂",
+    "project_name_en": "BYD Electric Vehicle Manufacturing Plant (Mexico)",
+    "country": "墨西哥",
+    "country_en": "Mexico",
+    "country_iso": "MEX",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "比亚迪股份有限公司",
+        "name_en": "BYD Company Limited",
+        "subsidiary": "比亚迪",
+        "subsidiary_en": "BYD",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 0.1,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "VNM-MF-0003",
+    "project_name": "越南海河光伏电池技术一体化项目",
+    "project_name_en": "Jinko Solar Vietnam Hai Ha PV Cell Technology Integration Project",
+    "country": "越南",
+    "country_en": "Vietnam",
+    "country_iso": "VNM",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国建筑（东南亚）有限公司",
+        "name_en": "China Construction (Southeast Asia) Limited",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0005",
+    "project_name": "摩洛哥艾郎兆瓦级风电叶片工厂项目",
+    "project_name_en": "Ailong Morocco Megawatt Wind Turbine Blade Factory Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "艾郎科技股份有限公司",
+        "name_en": "Ailong Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0006",
+    "project_name": "摩洛哥5万吨锂电池正极材料项目",
+    "project_name_en": "Morocco 50,000 tons/year Lithium Battery Cathode Material Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "贝特瑞（江苏）新材料科技有限公司",
+        "name_en": "BR Battery Technology (Jiangsu) Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "IDN-MF-0017",
+    "project_name": "印度尼西亚金光集团OKI MEIA第四包安装项目",
+    "project_name_en": "Indonesia OKI MEIA Package IV Installation Project (APP Group)",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "中国能源建设集团有限公司",
+        "name_en": "CEEC",
+        "subsidiary": "中国能源建设集团东北电力第三工程有限公司",
+        "subsidiary_en": "China Energy Engineering Group Northeast Electric Power Third Engineering Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "BOL-MF-0001",
+    "project_name": "玻利维亚乌尤尼碳酸锂工厂项目",
+    "project_name_en": "Bolivia Uyuni Lithium Carbonate Plant Project",
+    "country": "玻利维亚",
+    "country_en": "Bolivia",
+    "country_iso": "BOL",
+    "province": null,
+    "latest_stage": "竣工",
+    "latest_stage_en": "Completed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国机械设备工程股份有限公司",
+        "name_en": "China Machinery Engineering Corporation (CMEC)",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0010",
+    "project_name": "马来西亚隆基新建组件项目",
+    "project_name_en": "Malaysia LONGi New Component Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国建筑安装股份有限公司",
+        "name_en": "China Construction Installation Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "中建安装国际公司",
+        "name_en": "China Construction Installation International Company",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 2.8,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "USA-MF-0005",
+    "project_name": "美国印第安纳州5GW太阳能电池工厂",
+    "project_name_en": "Indiana 5GW Solar Cell Factory",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "阿特斯阳光电力集团股份有限公司",
+        "name_en": "Canadian Solar Inc.",
+        "subsidiary": "阿特斯阳光电力集团",
+        "subsidiary_en": "Canadian Solar",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "MEX-MF-0002",
+    "project_name": "墨西哥伊戈尔新能源产品生产基地",
+    "project_name_en": "Eaglerise Mexico New Energy Product Production Base",
+    "country": "墨西哥",
+    "country_en": "Mexico",
+    "country_iso": "MEX",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "Eaglerise E&E (USA), Inc.",
+        "name_en": "Eaglerise E&E (USA); Inc.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "THA-MF-0004",
+    "project_name": "泰国罗勇府长安汽车电动汽车工厂",
+    "project_name_en": "Changan Automobile EV Plant (Rayong Province, Thailand)",
+    "country": "泰国",
+    "country_en": "Thailand",
+    "country_iso": "THA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "长安汽车",
+        "name_en": "Changan Automobile",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IND-MF-0004",
+    "project_name": "印度200MW光伏电池片生产线项目",
+    "project_name_en": "India 200MW PV Cell Production Line Project",
+    "country": "印度",
+    "country_en": "India",
+    "country_iso": "IND",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国电子科技集团有限公司",
+        "name_en": "CETC",
+        "subsidiary": "湖南红太阳新能源科技有限公司",
+        "subsidiary_en": "Hunan Red Sun New Energy Science and Technology Co., Ltd.",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 0.2,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "KOR-MF-0001",
+    "project_name": "韩国600MW全自动组件生产线项目",
+    "project_name_en": "South Korea 600MW Fully Automatic Component Production Line Project",
+    "country": "韩国",
+    "country_en": "South Korea",
+    "country_iso": "KOR",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国电子科技集团有限公司",
+        "name_en": "CETC",
+        "subsidiary": "湖南红太阳新能源科技有限公司",
+        "subsidiary_en": "Hunan Red Sun New Energy Science and Technology Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 0.6,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "MYS-MF-0011",
+    "project_name": "马来西亚双文丹组件工厂",
+    "project_name_en": "Malaysia Shuang Wen Dan Component Factory",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "隆基绿能科技股份有限公司",
+        "name_en": "LONGi Green Energy Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0012",
+    "project_name": "马来西亚霹雳州太阳能电池封装膜制造厂",
+    "project_name_en": "Malaysia Perak Solar Cell Encapsulant Film Manufacturing Plant",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "浙江祥邦（马来西亚）有限公司",
+        "name_en": "Zhejiang Xiangbang (Malaysia) Sdn. Bhd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0018",
+    "project_name": "印度尼西亚光伏电池和组件生产基地项目",
+    "project_name_en": "Indonesia PV Cell and Module Production Base Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "天合光能股份有限公司",
+        "name_en": "Trina Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "CHL-MF-0003",
+    "project_name": "智利青山集团正极材料工厂项目",
+    "project_name_en": "Chile Qingshan Group Cathode Material Factory Project",
+    "country": "智利",
+    "country_en": "Chile",
+    "country_iso": "CHL",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "永青科技",
+        "name_en": "Yongqing Technology",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 12.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "ARE-MF-0003",
+    "project_name": "阿联酋天合光能垂直一体化大基地项目",
+    "project_name_en": "Trina Solar UAE Vertical Integration Base Project",
+    "country": "阿联酋",
+    "country_en": "United Arab Emirates",
+    "country_iso": "ARE",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "天合光能股份有限公司",
+        "name_en": "Trina Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      },
+      {
+        "name": "江苏省海外合作投资有限公司",
+        "name_en": "Jiangsu Overseas Investments Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "USA-MF-0006",
+    "project_name": "美国伊利诺伊州锂电池生产项目",
+    "project_name_en": "US Illinois Lithium Battery Production Project",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "美国国轩",
+        "name_en": "Gotion High-Tech Co., Ltd. (USA)",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 10.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "VNM-MF-0004",
+    "project_name": "越南天合光能6.5GW单晶硅片工厂项目",
+    "project_name_en": "Trina Solar Vietnam 6.5GW Monocrystalline Silicon Wafer Factory Project",
+    "country": "越南",
+    "country_en": "Vietnam",
+    "country_iso": "VNM",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "天合光能股份有限公司",
+        "name_en": "Trina Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "中国信保江苏分公司",
+        "name_en": "Sinosure Jiangsu Branch",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "融资方",
+        "involvement_type_en": "Financier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 6.5,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "IDN-MF-0020",
+    "project_name": "印尼前驱体及HPAL镍工程项目",
+    "project_name_en": "Indonesia Precursor and HPAL Nickel Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "浙江华友钴业股份有限公司",
+        "name_en": "Huayou Cobalt Co., Ltd.",
+        "subsidiary": "浙江华友钴业有限公司",
+        "subsidiary_en": "Zhejiang Huayou Cobalt Co., Ltd.",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "LAO-MF-0001",
+    "project_name": "老挝万象赛色塔综合开发区中润光能5GW高效光伏电池项目",
+    "project_name_en": "Laos Vientiane Saysettha Economic Zone Zhongrun Guangneng 5GW High-efficiency Solar Cell Project",
+    "country": "老挝",
+    "country_en": "Laos",
+    "country_iso": "LAO",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中润光能",
+        "name_en": "Zhongrun Solar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 5.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "USA-MF-0007",
+    "project_name": "美国伊利诺伊州20亿美元电动汽车锂电池制造工厂",
+    "project_name_en": "USA Illinois $2 Billion EV Lithium Battery Manufacturing Plant",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 10.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "USA-MF-0008",
+    "project_name": "美国密歇根州24亿美元电池材料工厂",
+    "project_name_en": "USA Michigan $2.4 Billion Battery Materials Plant",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "国轩高科股份有限公司",
+        "name_en": "Gotion",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0012",
+    "project_name": "沙特协鑫12万吨/年硅料工厂项目",
+    "project_name_en": "Xinxin 120,000 tons/year Polysilicon Plant Project in Saudi Arabia",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "协鑫",
+        "name_en": "Xinsheng Energy Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 12.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "GBR-MF-0003",
+    "project_name": "欧洲2亿欧元光伏组件厂及光储一体化电站项目",
+    "project_name_en": "Europe 200 Million Euro PV Module Factory and Solar-Storage Integrated Power Station Project",
+    "country": "英国",
+    "country_en": "United Kingdom",
+    "country_iso": "GBR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中建材浚鑫科技",
+        "name_en": "CMEC JINXIN TECHNOLOGY",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "USA-MF-0009",
+    "project_name": "美国新墨西哥州3GW光伏组件制造项目",
+    "project_name_en": "USA New Mexico 3GW Solar PV Module Manufacturing Project",
+    "country": "美国",
+    "country_en": "United States",
+    "country_iso": "USA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "TCL中环新能源科技股份有限公司",
+        "name_en": "TCL Zhonghuan",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 3.0,
+    "production_capacity_unit": "GW/年"
+  },
+  {
+    "project_id": "IDN-MF-0022",
+    "project_name": "印尼旭阳伟山煤焦堆场建筑安装工程",
+    "project_name_en": "Indonesia Xuyang Weishan Coking Coal Yard Civil and Installation Engineering",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国机械工业第五建设有限公司",
+        "name_en": "China National Fifth Construction Corporation",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0013",
+    "project_name": "马来西亚蔚蓝锂芯10GWh锂电池制造项目",
+    "project_name_en": "Malaysia 10GWh Cylindrical Lithium Battery Manufacturing Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "蔚蓝锂芯",
+        "name_en": "Blue Lithium Core",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 10.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "TUR-MF-0005",
+    "project_name": "土耳其SISECAM日熔化量800吨超白光伏玻璃生产线项目",
+    "project_name_en": "Turkey SISECAM 800-ton/day Ultra-White Photovoltaic Glass Production Line Project",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国建材工程集团",
+        "name_en": "China Building Material Engineering Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0013",
+    "project_name": "沙特绿色低碳厚板工厂",
+    "project_name_en": "Saudi Green Low-Carbon Plate Factory",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "宝钢股份",
+        "name_en": "Baosteel Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0014",
+    "project_name": "马来西亚砂捞越州硅基新材料一体化项目",
+    "project_name_en": "Malaysia Sarawak Silicon-based New Materials Integrated Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国机械设备工程股份有限公司",
+        "name_en": "China Machinery Engineering Corporation (CMEC)",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0023",
+    "project_name": "印尼青美邦镍资源工程设计项目",
+    "project_name_en": "Indonesia Qingmei Bang Nickel Resource Engineering Design Project",
+    "country": "印尼",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国机械设备工程股份有限公司",
+        "name_en": "China Machinery Engineering Corporation (CMEC)",
+        "subsidiary": "机械工业第六设计研究院有限公司",
+        "subsidiary_en": "No.6 Design and Research Institute of Machinery Industry Co., Ltd.",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0024",
+    "project_name": "印尼三宝垄联塑二期厂房项目",
+    "project_name_en": "Indonesia Semarang Lesso Phase II Factory Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IND-MF-0005",
+    "project_name": "印度77万吨/年烧碱工程",
+    "project_name_en": "India 770,000 TPA Caustic Soda Project",
+    "country": "印度",
+    "country_en": "India",
+    "country_iso": "IND",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2023,
+    "all_entities": [
+      {
+        "name": "蓝星北化机",
+        "name_en": "Bluestar Beijing Research & Design Institute of Chemical Machinery",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 77.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "IDN-MF-0025",
+    "project_name": "印尼盛拓锂能年产5万吨氢氧化锂联产1万吨碳酸锂项目",
+    "project_name_en": "Indonesia Sheng Tuo Lithium Energy 50,000 TPA Lithium Hydroxide and 10,000 TPA Lithium Carbonate Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "中国化学工程集团有限公司",
+        "name_en": "CNCEC",
+        "subsidiary": "中国化学工程第六建设有限公司",
+        "subsidiary_en": "China National Chemical Engineering No.6 Construction Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      },
+      {
+        "name": "盛新国际",
+        "name_en": "Shengxin International",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "TUR-MF-0006",
+    "project_name": "土耳其及北非新能源玻璃生产线项目",
+    "project_name_en": "Turkey and North Africa New Energy Glass Production Line Projects",
+    "country": "土耳其, 北非",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "中国建材国际工程集团",
+        "name_en": "China Building Material International Engineering Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IND-MF-0006",
+    "project_name": "印度三万吨多晶硅项目",
+    "project_name_en": "India 30,000 TPA Polysilicon Project",
+    "country": "印度",
+    "country_en": "India",
+    "country_iso": "IND",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "中国恩菲",
+        "name_en": "China ENFI Engineering Corporation",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 3.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "HUN-MF-0003",
+    "project_name": "匈牙利时代新能源电池产业基地项目",
+    "project_name_en": "CATL Hungary New Energy Battery Industrial Base Project",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "宁德时代新能源科技股份有限公司",
+        "name_en": "CATL",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 100.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "HUN-MF-0004",
+    "project_name": "匈牙利德布勒森湿法锂电池隔离膜生产线及配套工厂",
+    "project_name_en": "Hungary Debrecen Wet Lithium Battery Separator Production Line and Supporting Factory",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "恩捷股份",
+        "name_en": "ENVISION GROUP CO., LTD.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "HUN-MF-0005",
+    "project_name": "匈牙利动力电池制造厂项目",
+    "project_name_en": "Hungary Power Battery Manufacturing Plant Project",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "惠州亿纬锂能股份有限公司",
+        "name_en": "EVE Energy Co., Ltd.",
+        "subsidiary": "亿纬锂能",
+        "subsidiary_en": "EVE",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "CAN-MF-0002",
+    "project_name": "加拿大阿尔伯塔省35万吨/年黑颗粒工厂项目",
+    "project_name_en": "Canada Alberta 350,000 tons/year Black Pellet Plant Project",
+    "country": "加拿大",
+    "country_en": "Canada",
+    "country_iso": "CAN",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "中国电力工程顾问集团有限公司",
+        "name_en": "CPECC",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设计/施工服务方",
+        "involvement_type_en": "Design/Construction Service",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 35.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "TUR-MF-0007",
+    "project_name": "土耳其宗古达克PM6造纸厂项目",
+    "project_name_en": "Turkey Zonguldak PM6 Paper Mill Project",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "中国能源建设集团有限公司",
+        "name_en": "CEEC",
+        "subsidiary": "中能建建筑集团有限公司",
+        "subsidiary_en": "CEEC Construction Group Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 70.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "ARG-MF-0003",
+    "project_name": "阿根廷盐湖提锂及配套电站项目",
+    "project_name_en": "Argentina Salt Lake Lithium Extraction and Supporting Power Station Project",
+    "country": "阿根廷",
+    "country_en": "Argentina",
+    "country_iso": "ARG",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "中国能源建设集团有限公司",
+        "name_en": "CEEC",
+        "subsidiary": "中国能建国际集团",
+        "subsidiary_en": "Energy China International",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0015",
+    "project_name": "马来西亚沙巴州光伏玻璃生产线项目",
+    "project_name_en": "Malaysia Sabah Solar Glass Production Line Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "郴州旗滨光伏光电玻璃有限公司",
+        "name_en": "Chinzhou Qibin Solar Photovoltaic Photothermal Glass Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IRQ-MF-0001",
+    "project_name": "伊拉克安巴尔省20亿美元磷肥项目",
+    "project_name_en": "Iraq Anbar Province 2 Billion USD Phosphate Fertilizer Project",
+    "country": "伊拉克",
+    "country_en": "Iraq",
+    "country_iso": "IRQ",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国化学工程集团有限公司",
+        "name_en": "CNCEC",
+        "subsidiary": "中国化学工程股份有限公司",
+        "subsidiary_en": "China National Chemical Engineering Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "UZB-MF-0002",
+    "project_name": "乌兹别克斯坦纳沃伊氮肥厂绿能低碳项目",
+    "project_name_en": "Uzbekistan Navoi Nitrogen Fertilizer Plant Green and Low-Carbon Project",
+    "country": "乌兹别克斯坦",
+    "country_en": "Uzbekistan",
+    "country_iso": "UZB",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建材集团有限公司",
+        "name_en": "China National Building Material Group Co., Ltd.",
+        "subsidiary": "中国中材节能股份有限公司",
+        "subsidiary_en": "Sinoma Energy Conservation",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0007",
+    "project_name": "摩洛哥埃尔加迪达磷酸盐项目",
+    "project_name_en": "Morocco El Jadida Phosphate Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑第三工程局有限公司",
+        "subsidiary_en": "China Construction Third Engineering Bureau Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0011",
+    "project_name": "埃及磷肥工业园区项目",
+    "project_name_en": "Egypt Phosphate Fertilizer Industrial Park Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2025,
+    "all_entities": [
+      {
+        "name": "亚钾国际",
+        "name_en": "Asia Pacific Potash Corporation",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 1000.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "HUN-MF-0006",
+    "project_name": "匈牙利德布勒森恩捷股份锂电池隔离膜生产线二期项目",
+    "project_name_en": "Hungary Debrecen Enjie Lithium Battery Separator Film Production Line Phase II Project",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "恩捷股份",
+        "name_en": "ENVISION GROUP CO., LTD.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "HUN-MF-0007",
+    "project_name": "匈牙利德布勒森亿纬锂能动力电池厂项目",
+    "project_name_en": "Hungary Debrecen EVE Energy Cylindrical Power Battery Plant Project",
+    "country": "匈牙利",
+    "country_en": "Hungary",
+    "country_iso": "HUN",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "惠州亿纬锂能股份有限公司",
+        "name_en": "EVE Energy Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "中国出口信用保险公司",
+        "name_en": "Sinosure",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "融资方",
+        "involvement_type_en": "Financier",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 30.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "MAR-MF-0008",
+    "project_name": "摩洛哥海亮铜箔工厂项目",
+    "project_name_en": "Morocco Hailiang Copper Foil Factory Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "海亮",
+        "name_en": "Hailiang",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0009",
+    "project_name": "摩洛哥新松阳极材料工厂项目",
+    "project_name_en": "Morocco Elemake Anode Material Factory Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "新松",
+        "name_en": "SIASUN",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MAR-MF-0010",
+    "project_name": "摩洛哥BTR新材料阴极材料工厂项目",
+    "project_name_en": "Morocco BTR New Material Cathode Material Factory Project",
+    "country": "摩洛哥",
+    "country_en": "Morocco",
+    "country_iso": "MAR",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2024,
+    "all_entities": [
+      {
+        "name": "BTR新材料集团",
+        "name_en": "BTR New Material Group",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0016",
+    "project_name": "马来西亚圆柱锂电池制造项目",
+    "project_name_en": "Malaysia Cylindrical Lithium Battery Manufacturing Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2022,
+    "all_entities": [
+      {
+        "name": "惠州亿纬锂能股份有限公司",
+        "name_en": "EVE Energy Co., Ltd.",
+        "subsidiary": "亿纬锂能马来西亚有限公司",
+        "subsidiary_en": "EVE Energy Malaysia Sdn. Bhd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "蔚蓝锂芯",
+        "name_en": "Blue Lithium Core",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "BRA-MF-0003",
+    "project_name": "巴西年产260套风电叶片制造基地项目",
+    "project_name_en": "Brazil 260 Sets/Year Wind Turbine Blade Manufacturing Base Project",
+    "country": "巴西",
+    "country_en": "Brazil",
+    "country_iso": "BRA",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2021,
+    "all_entities": [
+      {
+        "name": "中国建材集团有限公司",
+        "name_en": "China National Building Material Group Co., Ltd.",
+        "subsidiary": "中材海外工程有限公司",
+        "subsidiary_en": "Sinoma Overseas Engineering Co., Ltd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "CHN-MF-0001",
+    "project_name": "中国-冰岛二氧化碳捕集利用—绿色甲醇—新能源材料产业链项目",
+    "project_name_en": "China-Iceland CO2 Capture Utilization - Green Methanol - New Energy Material Industrial Chain Project",
+    "country": "中国",
+    "country_en": "China",
+    "country_iso": "CHN",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2021,
+    "all_entities": [
+      {
+        "name": "斯尔邦石化",
+        "name_en": "Surben Petrochemical",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "ARG-MF-0004",
+    "project_name": "阿根廷SDLA项目",
+    "project_name_en": "Argentina SDLA Project",
+    "country": "阿根廷",
+    "country_en": "Argentina",
+    "country_iso": "ARG",
+    "province": null,
+    "latest_stage": "投入运营",
+    "latest_stage_en": "Operational",
+    "event_year": 2021,
+    "all_entities": [
+      {
+        "name": "盛威国际",
+        "name_en": "Shenghui International",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "VNM-MF-0005",
+    "project_name": "越南广宁省晶科能源硅片和电池工厂",
+    "project_name_en": "Jinko Solar Vietnam Silicon Wafer and Battery Cell Factory Project (Quang Ninh Province)",
+    "country": "越南",
+    "country_en": "Vietnam",
+    "country_iso": "VNM",
+    "province": null,
+    "latest_stage": "在建",
+    "latest_stage_en": "Under Construction",
+    "event_year": 2021,
+    "all_entities": [
+      {
+        "name": "晶科能源股份有限公司",
+        "name_en": "JinkoSolar",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0012",
+    "project_name": "埃及美的洗碗机工厂施工总承包项目",
+    "project_name_en": "Midea Dishwasher Egypt Factory EPC Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "开工",
+    "latest_stage_en": "Construction Started",
+    "event_year": 2021,
+    "all_entities": [
+      {
+        "name": "中国建筑埃及分公司",
+        "name_en": "China State Construction Egypt Branch",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "TUR-MF-0008",
+    "project_name": "土耳其安卡拉500MW光伏产业园",
+    "project_name_en": "Turkey Ankara 500MW Solar PV Industrial Park",
+    "country": "土耳其",
+    "country_en": "Türkiye",
+    "country_iso": "TUR",
+    "province": null,
+    "latest_stage": "竣工",
+    "latest_stage_en": "Completed",
+    "event_year": 2020,
+    "all_entities": [
+      {
+        "name": "中国中电科电子装备集团有限公司",
+        "name_en": "China Electronics Technology Group Corporation (CETC) Electronic Equipment Group Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IRN-MF-0001",
+    "project_name": "伊朗300MW组件生产项目、20MW光伏电站项目、50MW光伏电站项目",
+    "project_name_en": "Iran 300MW Component Production Project, 20MW PV Power Plant Project, 50MW PV Power Plant Project",
+    "country": "伊朗",
+    "country_en": "Iran",
+    "country_iso": "IRN",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2018,
+    "all_entities": [
+      {
+        "name": "江南集成",
+        "name_en": "Jiangnan Integrated",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      },
+      {
+        "name": "中国电力建设集团有限公司",
+        "name_en": "PowerChina",
+        "subsidiary": "中国电建集团湖北工程有限公司",
+        "subsidiary_en": "Hubei Engineering Corporation Limited of PowerChina",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0029",
+    "project_name": "印尼保利管道生产基地项目",
+    "project_name_en": "Indonesia Poly Pipe Production Base Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中国建筑国际集团有限公司",
+        "subsidiary_en": "China State Construction Engineering Corporation Limited",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0030",
+    "project_name": "印尼锂源三期年产12万吨LFP施工总承包项目",
+    "project_name_en": "Indonesia Liyuan Phase III 120,000 tons/year LFP EPC Project",
+    "country": "印度尼西亚",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中建安装",
+        "subsidiary_en": "China Construction Installation Corporation",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": 12.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "THA-MF-0005",
+    "project_name": "泰国巴真府金像电子泰国基地新建工厂二期施工总承包项目",
+    "project_name_en": "Thailand Prachinburi Kingboard Electric Thailand Base New Factory Phase II EPC Project",
+    "country": "泰国",
+    "country_en": "Thailand",
+    "country_iso": "THA",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "中国建筑集团有限公司",
+        "name_en": "CSCEC",
+        "subsidiary": "中建安装",
+        "subsidiary_en": "China Construction Installation Corporation",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "IDN-MF-0031",
+    "project_name": "印尼东加里曼丹省邦唐30万吨/年纯碱项目",
+    "project_name_en": "Indonesia Bontang PKT 300,000 TPA Soda Ash Project",
+    "country": "印尼",
+    "country_en": "Indonesia",
+    "country_iso": "IDN",
+    "province": null,
+    "latest_stage": "Unknown",
+    "latest_stage_en": "Unknown",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "中建钢构有限公司",
+        "name_en": "China State Construction Steel Structure Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "设备供应商",
+        "involvement_type_en": "Equipment Supplier",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 30.0,
+    "production_capacity_unit": "万吨/年"
+  },
+  {
+    "project_id": "ESP-MF-0009",
+    "project_name": "西班牙纳瓦拉4亿欧元储能电池及系统制造工厂",
+    "project_name_en": "Spain Navarre 400 Million Euro Energy Storage Battery and System Manufacturing Plant",
+    "country": "西班牙",
+    "country_en": "Spain",
+    "country_iso": "ESP",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "厦门海辰储能科技股份有限公司",
+        "name_en": "Xiamen Hithium Energy Technology Co., Ltd.",
+        "subsidiary": "海辰储能",
+        "subsidiary_en": "Hithium",
+        "involvement_type": "投融资+EPC",
+        "involvement_type_en": "Investment + EPC",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "MYS-MF-0017",
+    "project_name": "马来西亚吉隆坡理士国际极板工厂项目",
+    "project_name_en": "Malaysia Kuala Lumpur Narada International Battery Plate Factory Project",
+    "country": "马来西亚",
+    "country_en": "Malaysia",
+    "country_iso": "MYS",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "洲际建设（马来西亚）有限公司",
+        "name_en": "InterContinental Construction (Malaysia) Sdn. Bhd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "EGY-MF-0013",
+    "project_name": "埃及苏伊士运河经济区风电制造工厂项目",
+    "project_name_en": "Egypt Suez Canal Economic Zone Wind Turbine Manufacturing Plant Project",
+    "country": "埃及",
+    "country_en": "Egypt",
+    "country_iso": "EGY",
+    "province": null,
+    "latest_stage": "拟开发",
+    "latest_stage_en": "Planned",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "三一集团有限公司",
+        "name_en": "SANY",
+        "subsidiary": "三一重能股份有限公司",
+        "subsidiary_en": "Sany Renewable Energy Co., Ltd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "OMN-MF-0004",
+    "project_name": "阿曼Mawarid风机制造工厂EPC项目",
+    "project_name_en": "Oman Mawarid Wind Turbine Manufacturing Plant EPC Project",
+    "country": "阿曼",
+    "country_en": "Oman",
+    "country_iso": "OMN",
+    "province": null,
+    "latest_stage": "中标",
+    "latest_stage_en": "Awarded",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "中国能源建设集团有限公司",
+        "name_en": "CEEC",
+        "subsidiary": "中国能源建设集团山西省电力勘测设计院有限公司",
+        "subsidiary_en": "CEEC Shanxi Electric Power Survey and Design Institute Co., Ltd.",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "SAU-MF-0014",
+    "project_name": "沙特阿拉伯18吉瓦时储能系统制造厂项目",
+    "project_name_en": "Saudi Arabia 18 GWh Energy Storage System Manufacturing Plant Project",
+    "country": "沙特阿拉伯",
+    "country_en": "Saudi Arabia",
+    "country_iso": "SAU",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "上海卓阳储能科技有限公司",
+        "name_en": "Shanghai Zhuoyang Energy Storage Technology Co., Ltd.",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": 18.0,
+    "production_capacity_unit": "GWh/年"
+  },
+  {
+    "project_id": "BRA-MF-0004",
+    "project_name": "巴西第三氮肥厂（UFN-III）项目6、8、10标段",
+    "project_name_en": "Brazil Third Nitrogen Fertilizer Plant (UFN-III) Project Sections 6, 8, 10",
+    "country": "巴西",
+    "country_en": "Brazil",
+    "country_iso": "BRA",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "中国电力建设集团有限公司",
+        "name_en": "PowerChina",
+        "subsidiary": "",
+        "subsidiary_en": "",
+        "involvement_type": "EPC总承包",
+        "involvement_type_en": "EPC General Contractor",
+        "is_central_soe": 1
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  },
+  {
+    "project_id": "THA-MF-0006",
+    "project_name": "泰国天赐材料EA集团锂电池电解液生产项目",
+    "project_name_en": "Thailand Tinci Materials EA Group Lithium Battery Electrolyte Production Project",
+    "country": "泰国",
+    "country_en": "Thailand",
+    "country_iso": "THA",
+    "province": null,
+    "latest_stage": "签约",
+    "latest_stage_en": "Signed",
+    "event_year": 2026,
+    "all_entities": [
+      {
+        "name": "广州天赐高新材料股份有限公司",
+        "name_en": "Guangzhou Tinci Materials Technology Co., Ltd.",
+        "subsidiary": "天赐材料",
+        "subsidiary_en": "Tinci Materials Technology Co., Ltd.",
+        "involvement_type": "股权投资方",
+        "involvement_type_en": "Equity Investor",
+        "is_central_soe": 0
+      }
+    ],
+    "production_capacity_value": null,
+    "production_capacity_unit": null
+  }
+]

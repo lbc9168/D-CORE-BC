@@ -1,0 +1,165 @@
+{
+  "article_status": "valid",
+  "last_evidence": "",
+  "non_project_reason": null,
+  "projects": [
+    {
+      "fields": {
+        "category": {
+          "confidence": 0.98,
+          "evidence": "acquire and co-develop utility-scale solar projects in Australia",
+          "review_action": "unreviewed",
+          "value": "光伏",
+          "value_state": "present"
+        },
+        "country": {
+          "confidence": 1.0,
+          "evidence": "in Australia",
+          "review_action": "unreviewed",
+          "value": "澳大利亚",
+          "value_state": "present"
+        },
+        "entities": {
+          "confidence": null,
+          "evidence": "CHINT",
+          "review_action": "unreviewed",
+          "value": [
+            {
+              "name": "CHINT",
+              "role": "股权投资方"
+            }
+          ],
+          "value_state": "present"
+        },
+        "financing_mode": {
+          "confidence": 0.8,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "uncertain"
+        },
+        "generation_capacity_mw": {
+          "confidence": 1.0,
+          "evidence": "at least 150MWac",
+          "review_action": "unreviewed",
+          "value": "at least 150MWac",
+          "value_state": "present"
+        },
+        "generation_sources": {
+          "confidence": 0.98,
+          "evidence": "utility-scale solar projects",
+          "review_action": "unreviewed",
+          "value": [
+            "光伏"
+          ],
+          "value_state": "present"
+        },
+        "investment": {
+          "confidence": 0.9,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "location": {
+          "confidence": 0.95,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "normalized_entities": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": [
+            {
+              "canonical_entity": "正泰集团股份有限公司",
+              "mentioned_name": "正泰集团股份有限公司",
+              "parent_company": "正泰集团股份有限公司",
+              "role": "股权投资方"
+            }
+          ],
+          "value_state": "present"
+        },
+        "normalized_location": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "planned_complete_date": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "planned_start_date": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "project_developer": {
+          "confidence": 0.95,
+          "evidence": "signing a term sheet to acquire and co-develop utility-scale solar projects in Australia",
+          "review_action": "unreviewed",
+          "value": [
+            "CHINT",
+            "Maoneng"
+          ],
+          "value_state": "present"
+        },
+        "project_name": {
+          "confidence": 0.9,
+          "evidence": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+          "review_action": "unreviewed",
+          "value": "澳大利亚至少150MWac公用事业规模光伏项目管线",
+          "value_state": "present"
+        },
+        "project_stage": {
+          "confidence": 0.9,
+          "evidence": "signing a term sheet",
+          "review_action": "unreviewed",
+          "value": "签约",
+          "value_state": "present"
+        },
+        "storage_energy_mwh": {
+          "confidence": 0.95,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "storage_power_mw": {
+          "confidence": 0.95,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "storage_status": {
+          "confidence": 0.95,
+          "evidence": "",
+          "review_action": "unreviewed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "subcategory": {
+          "confidence": 1.0,
+          "evidence": "utility-scale solar projects",
+          "review_action": "unreviewed",
+          "value": "utility-scale solar projects",
+          "value_state": "present"
+        }
+      },
+      "gold_project_id": "P01",
+      "project_name": "澳大利亚至少150MWac公用事业规模光伏项目管线",
+      "relation_note": "文章内独立项目"
+    }
+  ],
+  "scroll_y": 0
+}

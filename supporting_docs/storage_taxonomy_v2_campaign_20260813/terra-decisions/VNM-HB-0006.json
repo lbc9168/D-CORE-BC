@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "VNM-HB-0006",
+  "package_sha256": "98aeda458c3f463dcf5ca1d7f796b00d73cd73387e513e862e518766590c7f6a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76943.html",
+        "surface": "title",
+        "quote": "葛洲坝希望在越南芹苴市投资 5000 多万美元建设垃圾发电厂"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "VNM-HB-0006-01",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76943.html",
+          "surface": "title",
+          "quote": "葛洲坝希望在越南芹苴市投资 5000 多万美元建设垃圾发电厂"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-MF-0006",
+  "package_sha256": "a3efd51c70b9f9993260b9d1db848aa2cf1f9748fff6696339137b129ebe57db",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95584.html",
+        "surface": "title",
+        "quote": "天赐材料泰国EA集团合作正式落地！深耕东南亚，全球布局再添新支点"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-MF-0006-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95584.html",
+          "surface": "title",
+          "quote": "天赐材料泰国EA集团合作正式落地！深耕东南亚，全球布局再添新支点"
+        }
+      ]
+    }
+  ]
+}
