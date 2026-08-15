@@ -6,6 +6,13 @@
 
 - 项目当前状态在 `docs/status` 中。
 
+## 被忽略数据库与 Worktree 规则
+
+- Git 合并不会携带被 `.gitignore` 排除的 SQLite；数据库改动必须同时保留可提交的迁移、决策工件和测试，禁止只把结果留在某个 worktree 的数据库文件里。
+- 删除任何含数据库的 worktree 前，必须运行 `scripts/database_worktree_guard.py audit` 对比该库与稳定库；结果不一致时禁止删除，直到已重放到稳定库或已保留可验证的恢复副本与工件。
+- 稳定库更新必须使用 `scripts/database_worktree_guard.py promote` 或等价的“备份→隔离验证→事务写入→回读验收”流程，并同步更新 `supporting_docs/database_state.json`。
+- s03 导出和网页发布前必须通过数据库状态清单校验；`scripts/regenerate_exports_offline.py` 默认执行该门禁。
+
 ## 文档与日志规则
 
 文档分两类，职责严格分开，不得混写。

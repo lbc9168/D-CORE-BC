@@ -2,11 +2,12 @@
 
 > 目的：每次更新一次性、可靠地把网站发上线，避免"下载 CSV 404 / 数据缺失"那类漏文件问题。
 
-## 部署目标（已确认，两处都要发）
-1. **公司服务器（主站，2026-07-21 起）**：<https://d-core.iigf.com.cn>，阿里云 `39.104.17.72`，nginx `alias /home/app/ydyl/dist/`。流程见下方「部署目标 2」。
-2. **GitHub Pages（镜像）**：仓库 `lbc9168/BRI_RE_Database`，源 = **`gh-pages` 分支根目录**（path `/`）。
+## 当前部署目标
+
+1. **GitHub Pages**：仓库 `lbc9168/BRI_RE_Database`，源 = **`gh-pages` 分支根目录**（path `/`）。
    - **线上地址**：<https://lbc9168.github.io/BRI_RE_Database/>
    - vite `base: "./"`（相对路径），子路径 `/BRI_RE_Database/` 下正常工作。
+2. **公司 IGF 服务器**：暂不更新；待数据库与网页稳定后再恢复。下方保留历史流程供届时复核，当前发布不得执行。
 
 ## ⚠️ 不要用 `npm run deploy`（当前是坏的）
 `package.json` 里的 `npm run deploy`（`gh-pages -d dist`）目前**行为异常**：它不发布 `dist/`，而是把 `.gitignore` + 几个空 `.gitkeep` 推上去 → 线上缺 `index.html`/`data/` → **下载 404**。清缓存也没用。**改用下面第④步的 git 手动发布**，可靠且确定。（想以后恢复一条命令，再单独排查修 gh-pages 工具。）
@@ -14,6 +15,16 @@
 ---
 
 ## 部署步骤
+
+### ⓪ 数据库状态门禁
+
+```bash
+python scripts/database_worktree_guard.py verify \
+  --db s02a_duplicate_merger/data/db/bri_re_database.db \
+  --manifest supporting_docs/database_state.json
+```
+
+校验失败时禁止重新导出或发布；物理文件 SHA 会受 SQLite 页布局影响，发布合同以逻辑 SHA、schema、行数、taxonomy 统计、integrity 和 FK 为准。
 
 ### ① （数据有更新时）重新导出数据
 > 数据没变可跳过。`run_export` 需当前主数据库，应在**主数据库所在工作区**跑。
@@ -63,7 +74,9 @@ curl -s "https://lbc9168.github.io/BRI_RE_Database/" | grep -oE 'assets/index-[A
 
 ---
 
-## 部署目标 2：公司服务器（d-core.iigf.com.cn）
+## 暂停流程：公司服务器（d-core.iigf.com.cn）
+
+> 当前不得执行；仅作为恢复 IGF 发布时的历史参考。
 
 前提：本地 `~/.ssh/shipyard.pem` 密钥（**私钥绝不进 git**）；②③步的 dist 已构建并自检。
 

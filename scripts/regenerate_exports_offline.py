@@ -16,8 +16,10 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() in {"gbk", "cp936", "cp95
 
 WORKSPACE = Path(__file__).resolve().parents[1]
 S03_ROOT = WORKSPACE / "s03_data_exporter"
+sys.path.insert(0, str(WORKSPACE / "scripts"))
 sys.path.insert(0, str(S03_ROOT / "src"))
 
+from database_worktree_guard import verify_database  # noqa: E402
 from s03_data_exporter import events_exporter, flat_builder  # noqa: E402
 from s03_data_exporter.flat_builder import build_flat, build_mf_flat, build_tx_flat  # noqa: E402
 from s03_data_exporter.json_exporter import export_json  # noqa: E402
@@ -77,8 +79,11 @@ def regenerate(
     output_dir: Path,
     public_dir: Path,
     province_seed_db: Path | None = None,
+    state_manifest: Path | None = None,
 ) -> dict[str, int]:
     """Rebuild flat tables, JSON, CSV, and XLSX without making any model or network call."""
+    if state_manifest is not None:
+        verify_database(main_db, state_manifest)
     export_db = output_dir / "bri_re_export.db"
     province_map = _resolve_province_map(export_db, province_seed_db)
     project_count = build_flat(main_db, export_db, province_map)
@@ -126,6 +131,12 @@ def main() -> None:
         type=Path,
         help="可选：从另一工作区的既有 bri_re_export.db 补回已审 province 映射",
     )
+    parser.add_argument(
+        "--database-state",
+        type=Path,
+        default=WORKSPACE / "supporting_docs" / "database_state.json",
+        help="导出前必须匹配的稳定数据库逻辑状态清单",
+    )
     args = parser.parse_args()
     province_seed_db = args.province_seed_db.resolve() if args.province_seed_db else None
     print(
@@ -134,6 +145,7 @@ def main() -> None:
             args.output.resolve(),
             args.public.resolve(),
             province_seed_db,
+            args.database_state.resolve(),
         )
     )
 
