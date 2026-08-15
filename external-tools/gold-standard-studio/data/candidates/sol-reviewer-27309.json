@@ -1,0 +1,43 @@
+{
+  "candidate_id": "sol-reviewer-27309-pilot-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 27309,
+  "article_sha256": "16106940161cae1384d7fe4f630aeb4afc1dc33ce27c18f22c39f7370ec34d99",
+  "parent_candidate_id": "terra-provider-27309-pilot-v1",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "irrelevant",
+    "evidence": "Ewoyaa Lithium Project 是极具价值的硬岩锂资产",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "正文主体是锂矿公司股权收购、锂矿项目和矿权，不属于发电、储能、输变电或新能源装备制造项目。"
+  },
+  "non_project_reason": {
+    "value_state": "explicit",
+    "value": "锂矿开采与矿权收购，属于矿业非发电环节",
+    "evidence": "这也是加纳首个即将投产的锂矿项目",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "“新能源材料”“电动汽车与储能市场”只是产业用途背景，不能把硬岩锂矿转成能源项目。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "reviewer_manifest": "data/runs/27309/reviewer-manifest.json",
+    "reviewer_prompt": "data/runs/27309/reviewer.prompt.txt",
+    "reviewer_prompt_sha256": "c308f1ac37147a8e4d604483b52b56f2cd483e02dce7da9f6bc6b0904d297de8",
+    "parent_candidate_id": "terra-provider-27309-pilot-v1",
+    "parent_candidate_sha256": "f474e311d283e988758be5c58a58801a3d9c9f46479bc10825e3b6910e7e982b"
+  },
+  "verdict_summary": {
+    "overall_verdict": "pass",
+    "article_status_correct": true,
+    "project_count_correct": true,
+    "reviewed_project_count": 0,
+    "critical_field_corrections": 0,
+    "summary": "S1应在矿业非发电环节短路，projects为空。"
+  },
+  "warnings": [
+    "不得因正文提到新能源材料、电动汽车或储能市场增长而把锂矿资产收购纳入发电项目。"
+  ]
+}

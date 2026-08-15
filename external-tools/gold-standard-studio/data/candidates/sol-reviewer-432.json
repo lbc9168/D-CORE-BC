@@ -1,0 +1,197 @@
+{
+  "candidate_id": "sol-reviewer-432-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 432,
+  "article_sha256": "f2c66482adeb8c4762d06f31b78299ced1ade3ef178838be1070053396af0ee0",
+  "parent_candidate_id": "terra-provider-432-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "本项目由中国电建四川院承建。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "智利查鲁阿-奇廉和蒙特里克-柯查佳66千伏线路扩容项目",
+        "evidence": "查鲁阿-奇廉和蒙特里克-柯查佳66千伏线路扩容EPC总承包项目合同",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "输变电建设",
+        "evidence": "66千伏线路扩容",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_sources": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 将缺失状态写成 present；原文没有储能事实。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "该字段对本项目不适用。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签订智利马乌莱（Ñuble）大区查鲁阿-奇廉和蒙特里克-柯查佳66千伏线路扩容EPC总承包项目合同。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "智利",
+        "evidence": "智利马乌莱",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "马乌莱（Ñuble）大区",
+        "evidence": "智利马乌莱（Ñuble）大区",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国电建智利分公司",
+            "evidence": "中国电建智利分公司签订智利马乌莱（Ñuble）大区",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "Provider 遗漏原文明示的合同签署主体中国电建智利分公司。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "中国电建智利分公司签订智利马乌莱（Ñuble）大区",
+            "confidence": 0.96,
+            "verdict": "wrong",
+            "reviewer_note": "Provider 遗漏原文明示的 EPC 总承包合同签署主体中国电建智利分公司。"
+          }
+        },
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国电建四川院",
+            "evidence": "本项目由中国电建四川院承建。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "66千伏线路扩容EPC总承包项目合同",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/432/reviewer.prompt.txt",
+      "sha256": "af00ebbdba2b5aa726962144bd844acbf5fbd8b4ac4fa125a6600fbe0bcdc0ab"
+    },
+    "reviewer_manifest": "data/runs/432/reviewer-manifest.json",
+    "provider_sha256": "ef9ffb0d0b27c5d7ef7081443a81def72350f07ef4d63a16793ca4755969d0b4"
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "candidate_id": "sol-reviewer-260-stage4e-v1", "execution_role": "reviewer", "model": "gpt-5.6-sol", "article_id": 260,
+  "article_sha256": "40b114bd5df4b23368583981ab289888182a2c9eb591d26d1d532ed5f5ad8688", "parent_candidate_id": "terra-provider-260-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "镇江公司与尼日利亚建筑企业Ciba Construction limited.正式签署“OJO GENERAL HOSPITAL 1MW光伏储能项目”合同", "confidence": 0.99, "verdict": "ok", "reviewer_note": "具体光储项目及中方履约内容明确。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [{
+    "project_name": {"value_state": "derived_from_explicit", "value": "尼日利亚拉各斯州OJO医院1MW光伏储能项目", "evidence": "OJO GENERAL HOSPITAL 1MW光伏储能项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "地点由下一句明确。"},
+    "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "集光伏、储能、智能控制与数字化运维于一体的智慧能源解决方案", "confidence": 0.99, "verdict": "ok", "reviewer_note": "光储一体化项目。"},
+    "subcategory_raw_fact": {"value_state": "present", "value": "光储融合+数字平台", "evidence": "光储融合+数字平台", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "Provider遗漏原文子类型。"},
+    "generation_sources": {"value_state": "present", "value": ["光伏"], "evidence": "集光伏、储能、智能控制", "confidence": 0.99, "verdict": "ok", "reviewer_note": "光伏明确。"},
+    "storage_status": {"value_state": "present", "value": "confirmed", "evidence": "集光伏、储能、智能控制", "confidence": 0.99, "verdict": "ok", "reviewer_note": "储能为项目组成。"},
+    "storage_power_mw": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "1MW未明确为储能功率。"},
+    "storage_energy_mwh": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未给MWh。"},
+    "generation_capacity_mw": {"value_state": "extracted", "value": "1MW", "evidence": "OJO GENERAL HOSPITAL 1MW光伏储能项目", "confidence": 0.92, "verdict": "ok", "reviewer_note": "标题式项目名给出1MW；储能能量另未披露。"},
+    "project_stage": {"value_state": "present", "value": "合同签署", "evidence": "正式签署“OJO GENERAL HOSPITAL 1MW光伏储能项目”合同", "confidence": 0.99, "verdict": "ok", "reviewer_note": "合同已签署。"},
+    "country": {"value_state": "present", "value": "尼日利亚", "evidence": "尼日利亚拉各斯州OJO医院", "confidence": 0.99, "verdict": "ok", "reviewer_note": "国家明确。"},
+    "location": {"value_state": "present", "value": "拉各斯州OJO医院", "evidence": "尼日利亚拉各斯州OJO医院", "confidence": 0.99, "verdict": "ok", "reviewer_note": "使用完整地点。"},
+    "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "project_developer": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "双方合同关系不足以确定开发商。"},
+    "chinese_entities": [{"entity_name": {"value_state": "present", "value": "镇江公司", "evidence": "镇江公司与尼日利亚建筑企业", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "使用正文可定位名称；完整集团名仅见标题。"}, "role": {"value_state": "present", "value": "智慧能源解决方案提供方", "evidence": "公司将为尼日利亚拉各斯州OJO医院提供一套集光伏、储能、智能控制与数字化运维于一体的智慧能源解决方案", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "正文支持的是方案与全周期服务提供方，不宜笼统标承包商。"}}]
+  }],
+  "prompt_manifest": {"renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"}, "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"}, "prompt": {"path": "data/runs/260/reviewer.prompt.txt", "sha256": "9d427a8b85ef82f5c10625aacde0fcd77f9ec01d647f623dfac798507b1e0949"}, "provider_sha256": "a99bba621f11fcbc9bcb00feb8244a302bf33523d3fe71ecfa793f88667ba392"}
+}

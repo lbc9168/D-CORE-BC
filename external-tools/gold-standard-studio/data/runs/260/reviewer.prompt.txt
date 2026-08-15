@@ -1,0 +1,205 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：中节能太阳能镇江公司成功签约尼日利亚医院光储项目
+发布日期：2026-01-30 09:02:28
+来源：https://news.goalfore.cn/topstories/detail/92295.html
+正文：
+近日，
+镇江公司与尼日利亚建筑企业Ciba Construction limited.正式签署“OJO GENERAL HOSPITAL 1MW光伏储能项目”合同。
+公司将为尼日利亚拉各斯州OJO医院提供一套集光伏、储能、智能控制与数字化运维于一体的智慧能源解决方案。该项目的成功签约，标志着公司海外业务
+实现从单纯产品出口向“系统集成+智慧运营+全周期服务”综合能源解决方案提供商转型的关键突破。
+在全球加速向清洁、智能、韧性能源体系转型的背景下，本项目创新构建了
+“光储融合+数字平台”
+的一体化服务模式，并创新采用
+“设计咨询+核心设备+技术交付+运营支持”
+的全流程服务体系，覆盖从方案设计、设备供应、技术指导到长期运维的能源管理全生命周期，显著提升了能源系统的稳定与安全水平。项目投运后，将有效增强医院供电可靠性与应急保障能力，直接支持当地公共卫生服务提质增效，并对周边社区用电稳定性产生积极辐射作用。该项目不仅助力区域能源结构优化与绿色发展，也为当地经济社会可持续发展和清洁能源产业链培育注入新动力。
+全域创新、韧性生长、共生智慧、价值重构。
+镇江公司将以本项目为标杆，持续深化在全球市场，尤其是新兴市场的战略布局。通过输出更多融合绿色能源与数字智能的一体化解决方案，积极助力合作伙伴实现能源结构的清洁化、智能化转型，共同推动全球碳中和目标的实现，让稳定、经济、可持续的智慧能源惠及更多地区。
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-260-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 260,
+  "article_sha256": "40b114bd5df4b23368583981ab289888182a2c9eb591d26d1d532ed5f5ad8688",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "尼日利亚拉各斯州OJO医院1MW光伏储能项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "综合能源",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "一套集光伏、储能、智能控制",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "一套集光伏、储能、智能控制",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "一套集光伏、储能、智能控制",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "1MW",
+        "evidence": "1MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签约",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "尼日利亚",
+        "evidence": "尼日利亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "拉各斯州",
+        "evidence": "拉各斯州",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "中节能太阳能镇江公司",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "尼日利亚OJO医院1MW光伏储能项目签约",
+      "is_power_generation_plant": true,
+      "reasoning": "医院配套自建光储发电项目且中节能太阳能镇江公司签约。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "尼日利亚拉各斯州OJO医院1MW光伏储能项目",
+            "Project Name (EN)": "OJO General Hospital 1MW Solar PV and Energy Storage Project",
+            "Country": "尼日利亚",
+            "Location(State)": "拉各斯州",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "一套集光伏、储能、智能控制",
+            "Capacity (MW)": "1MW",
+            "Capacity Details": "",
+            "Project Stage": "签约",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中节能太阳能镇江公司",
+            "role": "承包商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/260/base-manifest.json",
+    "dynamic": "data/runs/260/dynamic-manifest.json",
+    "working_result": "data/runs/260/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

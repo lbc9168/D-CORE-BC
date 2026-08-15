@@ -1,0 +1,60 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "project_summary": "",
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "罗马尼亚Dolj县Dobrești 95MWp光伏+218MWh储能项目",
+    "Project Name (EN)": "Romania Dolj County Dobrești 95MWp Solar PV and 218MWh Energy Storage Project",
+    "Country": "罗马尼亚",
+    "Location(State)": "Dolj县Dobrești",
+    "Category": "综合能源",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Storage Status": "confirmed",
+    "Storage Power": "",
+    "Storage Energy": "218MWh",
+    "Energy Composition Evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施",
+    "Capacity (MW)": "",
+    "Capacity Details": "光伏：95MWp；储能：218MWh",
+    "Project Stage": "收购",
+    "Project Developer": "三一集团",
+    "Project Developer Evidence": "完成了100%的股权转让",
+    "(Planned) Start Date": "",
+    "(Planned) Complete Date": "",
+    "Financing Model": "股权融资",
+    "Financing Model Details": "三一硅能完成项目100%股权转让",
+    "Additional Remarks": "4月签署股权购买协议，10月15日举行股权转让仪式。"
+  },
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "三一硅能",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "股权投资方",
+      "Subcontract Amount (Million USD)": "",
+      "equipment_role": "未提及",
+      "equipment_items": "",
+      "equipment_supply_scope": ""
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

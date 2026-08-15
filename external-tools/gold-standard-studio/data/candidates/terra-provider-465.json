@@ -1,0 +1,33 @@
+{
+  "candidate_id": "terra-provider-465-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 465,
+  "article_sha256": "d60a972c9e92e8add25b878e7b347a2151bf632efb505db86c12e94247702c92",
+  "article_status": {
+    "value_state": "present",
+    "value": "chinese_unnamed_participation",
+    "evidence": "深化中刚矿业能源合作。",
+    "confidence": 0.8
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "chinese_unnamed_participation",
+      "project_subject": "深化中刚矿业能源合作。",
+      "is_power_generation_plant": false,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    }
+  },
+  "prompt_manifest": {
+    "base": "data/runs/465/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/465/provider-working.json"
+  }
+}

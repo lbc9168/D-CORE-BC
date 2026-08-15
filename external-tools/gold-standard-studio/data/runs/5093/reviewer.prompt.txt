@@ -1,0 +1,41 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：江苏龙蟠科技拟在印尼开发建设新能源汽车动力与储能电池正极材料规模化生产项目
+发布日期：2025-01-09 14:09:03
+来源：https://news.goalfore.cn/topstories/detail/77303.html
+正文：
+一、对外投资调整情况概述
+（一）对外投资的基本情况
+公司分别于 2023 年 2 月 24日和 2023 年 3 月 13日召开第四届董事会第一 次会议和 2023 年第三次临时股东大会，审议通过了《关于公司对外投资并成立 项目公司的议案》。龙蟠科技拟通过其下属公司在印度尼西亚爪哇岛中爪哇省三 宝垄市投资设立锂源（印尼），通过锂源（印尼）投资开发建设“新能源汽车动 力与储能电池正极材料规模化生产项目 ”，项目的主要内容为建设 12 万吨磷酸铁 锂正极材料产能，项目总投资约为 2.9 亿美元（约合人民币 20 亿元）。具体内容 详见公司于 2023 年 2 月 25日披露于上海证券交易所网站的《江苏龙蟠科技股份 有限公司关于对外投资并设子公司的公告》（公告编号：2023-025）。
+截至目前，锂源（印尼）已投资建设一期 3 万吨磷酸铁锂正极材料产能，根 据公司战略规划等需要，公司拟调整剩余二期 9 万吨磷酸铁锂正极材料产能项目
+的实施主体。公司拟通过其下属公司在印度尼西亚爪哇岛中爪哇省三宝垄市投资 新设一个二期项目公司，二期项目公司设立时的注册资本为 3,000 亿印尼盾（约 合人民币 1.35 亿元），并由该二期项目公司建设实施二期项目。
+（二）董事会审议情况
+公司于 2025 年 1 月 8 日召开第四届董事会第三十次会议，会议审议通过了 《关于调整对外投资事项的议案》，同意公司对前述投资事项进行调整并提请股 东会授权经营管理层全权办理该投资事项实施一切相关事宜（包括但不限于签署 法律文件等）。该议案尚需提交股东会进行审议。本次对外投资调整事项尚需向 中国及印尼相关政府部门办理审批手续。
+（三）本次交易是否属于关联交易和重大资产重组
+本次对外投资调整不属于关联交易，也不构成《上市公司重大资产重组管理 办法》所规定的重大资产重组。
+二、对外投资调整的基本情况
+本次拟新设的二期项目公司基本情况如下：
+1、公司名称：新设公司名称待定，以登记机关的核准文件为准
+2、企业类型：有限责任公司
+3、注册地点：印度尼西亚爪哇岛中爪哇省三宝垄市
+4、注册资本：300,000,000,000.00 印尼盾，约合人民币 1.35 亿元
+5 、股权结构：
+具体注册信息以印尼登记机关核准登记文件为准。
+除上述调整二期项目的实施主体外，项目总投资金额与投资建设内容未发生 变化。
+三、对外投资调整的原因
+本次对外投资调整是根据公司战略规划和项目实施过程中的实际情况，在保 持对外投资总额不变的情况下，拟调整二期项目的实施主体。二期项目公司成立 后将建设及运营二期项目，有利于更好地结合公司自身发展状况，优化产能布局， 加强项目管理，改善运营体系，扩大公司在海外锂电池正极材料市场的核心竞争 力，符合公司的长远发展规划。
+四、本次对外投资调整的对公司的影响
+本次对外投资调整是基于公司业务发展及战略规划等需要，项目实施的实质 内容未改变，对公司的海外战略布局具有积极的推进作用，符合公司的经营发展 所需及战略规划，不会对公司的日常生产经营活动产生不良影响。此次调整不存 在损害公司及全体股东，特别是中小股东利益的情形，不会对公司的财务状况和 经营成果产生不良影响。
+五、对外投资调整的风险分析
+1 、本次投资的项目地位于印度尼西亚，受当地宏观及行业政策、生产经营 环境等因素影响，存在一定的风险。二期项目公司的设立尚需境外注册地主管部 门登记核准，本次对外投资调整事项尚需向中国及印尼相关政府部门办理审批手 续，能否完成相关审批手续及通过审批的时间存在不确定性。
+2 、二期项目公司尚未设立，相关工作尚未具体开展，存在二期项目公司未 能按计划设立及相关项目运营计划不及预期等风险，且投资运作需要一定周期， 短期内难以形成规模效应，相关事宜存在因受到宏观经济、产业政策、行业周期、 市场环境、国际贸易形势等因素影响导致投资收益不达预期的风险。
+3、二期项目实施后，公司的资产、业务规模将实现进一步增长，随着业务 规模的扩大，公司可能面临核心技术人员和管理人员缺乏的风险；另外现有人员 及各项制度若不能迅速适应业务、资产快速增长的要求， 将直接影响公司的经营 效率和盈利水平。
+4 、受海外车企需求持续放量影响，国内磷酸铁锂产业正在加速出海，市场 竞争也日渐加剧，公司可能面临由于市场竞争带来的市场占有率及盈利能力下降 的风险。
+5 、针对上述可能存在的风险，公司将积极关注行业发展趋势，以不断适应 发展要求和市场变化，建立完善的内部控制体系，积极防范和应对相关风险，维 护股东合法权益。敬请广大投资者理性投资，审慎决策，注意投资风险。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-5093-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":5093,"article_sha256":"5cb36d9000b7f79ed95066bb8b9deb1f005d8dd4669be58f9750cf01076d363d","article_status":{"value_state":"present","value":"valid_project","evidence":"锂源（印尼）"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"印度尼西亚三宝垄磷酸铁锂正极材料生产项目","evidence":"磷酸铁锂正极材料"},"category":{"value_state":"present","value":"新能源制造业","evidence":"储能电池正极材料"},"subcategory_raw_fact":{"value_state":"present","value":"磷酸铁锂正极材料","evidence":"磷酸铁锂正极材料"},"generation_sources":{"value_state":"not_applicable","value":[]},"storage_status":{"value_state":"not_applicable","value":null},"storage_power_mw":{"value_state":"not_applicable","value":null},"storage_energy_mwh":{"value_state":"not_applicable","value":null},"generation_capacity_mw":{"value_state":"not_applicable","value":null},"project_stage":{"value_state":"present","value":"拟开发","evidence":"尚未具体开展"},"country":{"value_state":"present","value":"印度尼西亚","evidence":"印度尼西亚"},"location":{"value_state":"present","value":"三宝垄市","evidence":"三宝垄市"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"present","value":"锂源（印尼）","evidence":"锂源（印尼）"},"chinese_entities":[{"entity":{"value_state":"present","value":"龙蟠科技","evidence":"龙蟠科技"},"role":{"value_state":"present","value":"投资方","evidence":"投资设立"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/5093/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

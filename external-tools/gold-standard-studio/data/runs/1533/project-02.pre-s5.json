@@ -1,0 +1,40 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "三一硅能",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "一体化方案提供商",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "2024-10-01",
+    "Capacity (MW)": "",
+    "Capacity Details": "光伏：30MW；储能：60MWh；含柴发；合并瑞达矿业一期、二期",
+    "Category": "综合能源",
+    "Country": "赞比亚",
+    "Energy Composition Evidence": "瑞达矿业30MW光伏+60MWh储能项目；光伏+储能+柴发",
+    "Financing Model": "Unknown",
+    "Generation Sources": [
+      "光伏",
+      "火电"
+    ],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "赞比亚瑞达矿业30MW光储柴微网项目",
+    "Project Name (EN)": "Zambia Rida Mining 30MW Solar-Storage-Diesel Microgrid Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "60MWh",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,20 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：东方电气签约波黑首个大型储能项目
+发布日期：2026-01-08 09:18:59
+来源：https://news.goalfore.cn/topstories/detail/91592.html
+正文：
+近日，东方电气集团所属东方国际签署波黑比莱恰储能项目合同，标志着波黑首个大型储能项目正式启动。该项目是自2010年以来，东方电气深度参与波黑能源基础设施建设，持续推进水电、光伏和固废发电等项目基础上的又一务实合作成果，将进一步助力波黑能源结构转型升级。
+该项目是波黑境内正在推进的首个大型电源侧储能项目，由东方国际负责设计、供货及调试，采用行业领先的液冷温控技术与柔性均衡充放电技术，构建“设备自诊断-异常自预警-策略自优化”的全生命周期闭环管理机制，为用户提供安全高效的储能解决方案。
+项目建成后，将成为波黑增强电力系统调节能力、保障供电稳定、促进新能源规模化消纳的关键基础设施，为当地新型电力系统的安全稳定运行提供有力支撑。项目还将接入欧洲电网，为分布式可再生能源高比例接入条件下的频率稳定、功率平衡与运行安全提供有效支撑。
+斯坦纳瑞电站
+在波黑能源保供与绿色转型进程中，东方电气坚持以高质量履约推动项目落地见效，先后实施了一批具有代表性的工程项目。2016年8月，斯坦纳瑞电站总承包项目获得移交证书，实现中国大型电站设备进入欧洲和中国工程承包企业在欧洲市场的首个重大突破。2022年10月，比莱恰光伏总承包项目签约，该项目为波黑已完工并网的最大容量集中式光伏项目，每年可向当地提供约1亿度清洁电力。2025年1月9日，优乐高水电站机组全部并网。2025年11月，兹沃尼克铝厂热电联产项目生效，采用“东方造”汽轮发电机组，满足欧盟排放标准。
+比莱恰光伏电站
+未来，东方电气将充分发挥在新能源全产业链的整合优势与丰富的海外项目建设经验，高质量高标准推进项目履约，为波黑应对气候变化、推动能源转型贡献新的“东方”智慧和“东方”方案。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-532-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":532,"article_sha256":"e60767444b193937cdc598fc9893d8bf5f7c13cf8307cacbf8a1a5872df5a78f","article_status":{"value_state":"present","value":"valid_project","evidence":"东方国际签署波黑比莱恰储能项目合同"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"波斯尼亚和黑塞哥维那比莱恰大型储能项目","evidence":"波黑比莱恰储能项目"},"category":{"value_state":"present","value":"储能","evidence":"波黑首个大型储能项目"},"subcategory_raw_fact":{"value_state":"present","value":"电源侧储能","evidence":"首个大型电源侧储能项目"},"generation_sources":{"value_state":"not_applicable","value":[]},"storage_status":{"value_state":"present","value":"confirmed","evidence":"大型电源侧储能项目"},"storage_power_mw":{"value_state":"not_mentioned","value":null},"storage_energy_mwh":{"value_state":"not_mentioned","value":null},"generation_capacity_mw":{"value_state":"not_applicable","value":null},"project_stage":{"value_state":"present","value":"签约","evidence":"签署波黑比莱恰储能项目合同"},"country":{"value_state":"present","value":"波斯尼亚和黑塞哥维那","evidence":"波黑境内"},"location":{"value_state":"present","value":"比莱恰","evidence":"比莱恰储能项目"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"not_mentioned","value":null},"chinese_entities":[{"entity":{"value_state":"present","value":"东方国际","evidence":"由东方国际负责设计、供货及调试"},"role":{"value_state":"present","value":"设计、供货及调试","evidence":"由东方国际负责设计、供货及调试"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{"in_scope":true}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/532/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

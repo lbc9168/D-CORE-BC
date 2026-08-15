@@ -1,0 +1,37 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国电力工程有限公司",
+      "role": "总承包商"
+    },
+    {
+      "entity_name": "机械工业勘察设计研究院有限公司",
+      "role": "服务商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "4x45MW",
+    "Capacity Details": "原有4x45兆瓦机组增容至4x56兆瓦",
+    "Category": "水电",
+    "Country": "吉尔吉斯斯坦",
+    "Energy Composition Evidence": "4x45MW水电站增容改造项目",
+    "Generation Sources": [
+      "水电"
+    ],
+    "Location(State)": "乌奇库尔干",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "吉尔吉斯斯坦乌奇库尔干4x45MW水电站增容改造项目",
+    "Project Name (EN)": "Uch-Kurgan 4x45MW Hydropower Plant Uprating Project",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

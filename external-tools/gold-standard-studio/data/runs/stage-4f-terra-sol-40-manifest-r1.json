@@ -1,0 +1,769 @@
+{
+  "article_count": 40,
+  "cohort": "stage-4e-40-v1",
+  "provider_model": "gpt-5.6-terra",
+  "records": [
+    {
+      "article_id": 23627,
+      "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-23627",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-23627.json",
+        "sha256": "b110950c3f9368c8959d63b20179e811fbbb1fdc48f72a9d3f79b7ac865cf9c6"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-23627",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-23627",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-23627.json",
+        "sha256": "b73f1c7f29e800131f7cef49f3b270599acac1c11a23a21da612b0f85f2ec554"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 25106,
+      "article_sha256": "e23fc2f2a563ea1e9e25577f82d0a6fa97690ba7d282ac016739cf544f4f1610",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-25106-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-25106.json",
+        "sha256": "5aed692016d2494305e33b1f261160184569d0266c8b927f3068db0f28023605"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-25106-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-25106-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-25106.json",
+        "sha256": "450a633e1002fbbdb362e85ac1492e596b82053c7b037f0a78b5f677c7ec9f65"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 16899,
+      "article_sha256": "deecc3ca6273cc57dd9261a934cc462ef3f4a3460fea5ccdc0f3e55587d81a11",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-16899-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-16899.json",
+        "sha256": "68530afc847b8496ee39fdae39d0c9a4f8c919651964febd423f92f50c814e13"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-16899-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-16899-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-16899.json",
+        "sha256": "9019b7e85199d4d2478836d235ed35dc2d984d0fbf3189e54c5f22b9e8b243ea"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 20872,
+      "article_sha256": "ca709cb3b8fd088650ef4b7ce0a22b2d4c5839ae706fe9ddfa1e1f441cfeecf0",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-20872-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-20872.json",
+        "sha256": "c1dad24852ecf7fbb2204bf85d2a18ca9f700e22f5d9dd37dedc1eb1c207a032"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-20872-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-20872-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-20872.json",
+        "sha256": "31f2bdaac92a5a275d09a1bccd83e3f3fd417b7b4f2da9e8f4632b5c95abe788"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 192,
+      "article_sha256": "ff7d2be00a920f6c7a3a708de3c69321ca5a9cc80f7518e22a90dbe94e6a353f",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-192-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-192.json",
+        "sha256": "0127686959462d98d98a4ab11718d6b4fb547ce6dd0262ae7369268c2c26ab0a"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-192-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-192-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-192.json",
+        "sha256": "d5cbb22d8cab058a07b566213d4e5966cabe80580fca53cabd4e866e0510e773"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 260,
+      "article_sha256": "40b114bd5df4b23368583981ab289888182a2c9eb591d26d1d532ed5f5ad8688",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-260-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-260.json",
+        "sha256": "8fbdde5fcfbc290027d3b52fdd668544fb9a5bb3e3f0ca37d8190f1cb3e6e444"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-260-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-260-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-260.json",
+        "sha256": "062f7d04afbf5858a7f2fa7ae8092207b260f88ea179854fb90a4ddb05edc629"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 281,
+      "article_sha256": "faf5dd06273c3475ad374bfe81b03e884980506408d6dac48333989632cafc13",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-281-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-281.json",
+        "sha256": "8fc6592b4f390964ecc6e88038526b8f836f794bae536b59601105f858050452"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-281-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-281-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-281.json",
+        "sha256": "d222affd91bad7876eafa2cd7ea47f5c5bdb3674d4d338d16874338ca48a7fa0"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 166,
+      "article_sha256": "e3b3cf961901edf36af438169b5f5840cbd763f3deb204e8d5cf78ca6f05ea5e",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-166-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-166.json",
+        "sha256": "208aaff81d1c486c95f4eedab1276da9fa43372b7aa274e2a9152047cf7977ea"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-166-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-166-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-166.json",
+        "sha256": "58a559c915ee7b2d29f2c4cca361145ff29b4ac623526550f9c55aec5eb321c4"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 353,
+      "article_sha256": "be070b5fa308192b8248448359cd365bb1ef37d1bddc6ecb3a2c9aa979110afe",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-353-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-353.json",
+        "sha256": "57798ea83cf416c63ba7575f8663b5611fa39a64746e76f41313a4a7cc1fd850"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-353-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-353-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-353.json",
+        "sha256": "a38183664641aea00d2bae06aebb8639235b831ff4a9938841aa355b5ef06650"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 87,
+      "article_sha256": "369a848b25de5d7696ea21e7048e09fd5d984b16167d1684befd35e5e2c89c3a",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-87-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-87.json",
+        "sha256": "bd49fb07b11204a4f8add62dae555a8563b8b3f9fd45f3a5b031310d7a134be8"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-87-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-87-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-87.json",
+        "sha256": "d90d3f88fbdbcebd7333e7494defb5fa1205b013866ae279befe4d69dad2c08e"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 14313,
+      "article_sha256": "e5013d881ca52e15d2590ed16cf23b41f41e33b91e3b53aaeb7a35fb869795ef",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-14313-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-14313.json",
+        "sha256": "345283ce16b3835368742d302719f847ae3ac5a414fbfa2ba83f1eb54e98125f"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-14313-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-14313-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-14313.json",
+        "sha256": "2666aa1d1b569f95360903898753b5c8b15293c40e46aa6bd143c796eb39f40e"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 9081,
+      "article_sha256": "4bd7c40998abe1f4a86b14fb7be5f96247b91c344290cf89cb048c8a230545bd",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-9081-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-9081.json",
+        "sha256": "e01ba82ab9c9278818d8f2faa44bf5bb56980ba54313477a4b9878792c8f7d18"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-9081-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-9081-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-9081.json",
+        "sha256": "2e5a962882f42e0cfe0871823c65b6f7898a286763bb7eddd0c57f5c89bc0414"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 3674,
+      "article_sha256": "ae08f4b1f406a3d67a14be4151d6be3e2d0fe4cf2fb5f124b9cc7568caddf666",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-3674-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-3674.json",
+        "sha256": "dd57ab1aab4de48801e38d7ca879be2c183ba4424d5679cfb089586061815e4a"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-3674-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-3674-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-3674.json",
+        "sha256": "5a62c33d01c90aa04b554273aec5e248aa4d12fa5151aaf501c194152753b535"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 12153,
+      "article_sha256": "eaac2134d2764d3c8a0d2778bd7783ff30b66bbd71db90229416381118601d77",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-12153-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-12153.json",
+        "sha256": "baedcf69a8bc5058e23d381cf63f62551664e2a2222141ef6cc29d7d26a17eca"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-12153-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-12153-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-12153.json",
+        "sha256": "5009b5dcf0b7da40697f211deedd010f5daac6bcf195ec0d53879e79d67a7c7a"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 4604,
+      "article_sha256": "011e9210a3238bcdeae2d545b2835246cda66b3de60774fc78ff8320a62e4111",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-4604-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-4604.json",
+        "sha256": "8b8d9c2f62850aeb0d68b4bc2d5fd9c77505eb0617ce7fde2623b414b9318124"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-4604-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-4604-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-4604.json",
+        "sha256": "4f3daaab413baea6532668c3ac6f1062cd41e4d726c04f29645886ce293cbd9b"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 13911,
+      "article_sha256": "98ed2d72edeb851b64f5d251f4a40befaae9e27354dce357c5649c1b4849b19d",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-13911-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-13911.json",
+        "sha256": "a4fd8cf49b55a526d2faca97b6e806873e6001d61b89e97fcc733cfaaf66b90c"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-13911-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-13911-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-13911.json",
+        "sha256": "0c5015bc75f5aba076c651c37fea31892dc2874b370c4d7c49931f90b367fb61"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 13744,
+      "article_sha256": "a26a6494e6a46f740b48c870db77dd97672975cafe4d23e2a0a2683195a1b428",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-13744-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-13744.json",
+        "sha256": "4dd0170f4d74611192c430c2fd2b8b116cc4f40c6c27f38b46099c1804f6f390"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-13744-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-13744-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-13744.json",
+        "sha256": "25bf2c7371d0362dada23749fc81086b4609337ba5a70553b58fe00ec23754b9"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 16105,
+      "article_sha256": "49005ab1d5a51c814a6728bbb09b0501835dc3d48246c9ae0150893a834a4528",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-16105-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-16105.json",
+        "sha256": "3b31b75d9eb503812cb5fe5edb3c8db374c86ea41fbcb281b515f93c26f54953"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-16105-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-16105-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-16105.json",
+        "sha256": "6210e3a198d604f2ec68f6ce4d081166be230e3a82cd0f40351c3bb6ddfb39e8"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 232,
+      "article_sha256": "d12c5ad3990eabdb15418683a003408c0faeae710409a741983bc118849509a5",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-232-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-232.json",
+        "sha256": "525241a0001c5fbc6de2a47eeca5a4e0837b9b94c9e46cfa0216a3d480d6c322"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-232-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-232-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-232.json",
+        "sha256": "536a8b6816dc8c4df0627f874a59e670cedce53dfbf011718e8679f5c640d208"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 26667,
+      "article_sha256": "0bb141fe8517f72f1508dd58b542b2496ed59f17b0932074d18d75e8cb35ef0e",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-26667-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-26667.json",
+        "sha256": "e561e2557f7202d46fe58416330a9f16ca6e3c9205273f2ac3a96d6b06e45065"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-26667-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-26667-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-26667.json",
+        "sha256": "af2b4e0db6d4dd275b1de908bb43f83d5b12e3db5c05e90e8dfd4ae005d33185"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 16817,
+      "article_sha256": "619782f7e9adc9abf2f9195602473c12622350c46363280424ec7a6b47bce12c",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-16817-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-16817.json",
+        "sha256": "d8dccb4a3933ed1353198024ce50aa5f4234150300757f0de69265783ff66a0c"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-16817-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-16817-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-16817.json",
+        "sha256": "792c8d513f1a70325573261a6400a658dc8dde8a935048433aef11503dc55f2c"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 17408,
+      "article_sha256": "c8da11f0dd8066da4a870e8755d16c0375ef66ded3eda45c659a26ea1c4ec3dc",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-17408-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-17408.json",
+        "sha256": "0ea64dc278d30d7c26d3a2e319a46e4fdb24aad2e891a715996923c2e6660905"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-17408-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-17408-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-17408.json",
+        "sha256": "60df2c557098d6060d2a35cd2a345360baa8647c1d5fe1157faf953d2e02448b"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 4930,
+      "article_sha256": "44ce7743ba9d749b18c5d87ae49d16bacb412fa19fd4c602fc562f232836403f",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-4930-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-4930.json",
+        "sha256": "2a91b909eba9862dfcbd773344c5116c79467afefe8e1a0ac2f6469a35f447f1"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-4930-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-4930-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-4930.json",
+        "sha256": "1376e3843c69679ff2a1d7aa22f08bfabc607b12bcf6ad9d4f0172a6b530902b"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 4952,
+      "article_sha256": "b1e0a15148bbc591f0847eb6125d0cfa8298aa8f1de6e34c0e8b567e0b41bc8d",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-4952-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-4952.json",
+        "sha256": "12cb777e0c133dbf7634a449349d0a8174330988afe76ab39ecb23e3a29080a9"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-4952-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-4952-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-4952.json",
+        "sha256": "bcbae8bf2aa42c30ed46ac29fd156683b5bd101eb9d6b9e132280bcfaad5f767"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 526,
+      "article_sha256": "7e5fb56b572d52e6c773b273982487a2b183362746ea7f8c6dc6fc8240fa628a",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-526-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-526.json",
+        "sha256": "e599ccee0cccf7b4fd43dcd791b7fd18cfcaa46026e152b1e57b68e19888f763"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-526-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-526-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-526.json",
+        "sha256": "896717528d8154b0fc6cf6b17667e81bc4b82f4769dbf77abfb3ed45e8967cec"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 532,
+      "article_sha256": "e60767444b193937cdc598fc9893d8bf5f7c13cf8307cacbf8a1a5872df5a78f",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-532-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-532.json",
+        "sha256": "a8ca0a8c711fe8f33fb91a19257bbeea6b3df0c94cd90e62689c27fa367c348c"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-532-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-532-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-532.json",
+        "sha256": "2155b516f9f5d60e656c07fe3869ce13fd00a6025f3f06819a622b9debcc1d11"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 32,
+      "article_sha256": "ac3ad7fdb9c7a0000d68845c83163fe0dbf674655f42d780541f7558dbb27a85",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-32-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-32.json",
+        "sha256": "7ad5e64b013d600dce7a3d4aa24217b99c28bf96c6628c843b305814381997d1"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-32-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-32-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-32.json",
+        "sha256": "0ac8945daafaa16c3cb232235bb22ce9126d1cdd9c2ca884412f4a58340951fa"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 75,
+      "article_sha256": "eba1c54e950fa61aa2b893ccff79eb9ee9c5c54533916d82d041b2c8ee94a89e",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-75-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-75.json",
+        "sha256": "8ffb47326cd7f48f7a36e4303d9b25dea9647d889a2f019f1d4765f070b3a5ea"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-75-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-75-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-75.json",
+        "sha256": "4dd037f126262c53371e2cc096b138552dd40857590014f9ff842b5d46d1f0f1"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 137,
+      "article_sha256": "714b126e6807f820ff811b99796ca3040aa89774cabee7e32f49ea2f93c1cedc",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-137-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-137.json",
+        "sha256": "55b35f3f9b362b1173e603351f6832b11b026c9ec11f8ed62deeb7a32b3d901e"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-137-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-137-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-137.json",
+        "sha256": "4e5667ad5e2a246302882f61b9a88968dea2536705cedb46d144dfbd0957e807"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 155,
+      "article_sha256": "66b4fce692be1ff2bd0d423ec24638bdf95a8288fdba1b81cdd67cd1cd051668",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-155-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-155.json",
+        "sha256": "9673e882239d6289d3d1abe3888547292b9a12e586952c39fef411d3520b4703"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-155-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-155-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-155.json",
+        "sha256": "a0d6c358ab9ab823ce2a8568323d0d2395a5665dece49dc11f5be0994a686ddb"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 432,
+      "article_sha256": "f2c66482adeb8c4762d06f31b78299ced1ade3ef178838be1070053396af0ee0",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-432-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-432.json",
+        "sha256": "75d511813aabbff16fbd2f268433f732bedd0f77dc1621293bd901195fa03c3d"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-432-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-432-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-432.json",
+        "sha256": "7be0f0d15c4e97707c3192f561a29cd8754e67cda87c437f2045c6e5bfe98ff1"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 465,
+      "article_sha256": "d60a972c9e92e8add25b878e7b347a2151bf632efb505db86c12e94247702c92",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-465-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-465.json",
+        "sha256": "b0f1b65468925ca0f266718942674b69e847e9944c223e4ae8f00478c8feabf6"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-465-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-465-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-465.json",
+        "sha256": "2d25a611eb53a98f547e1ae8e051160d5d06e60205f264022ce6c14c5669c660"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 483,
+      "article_sha256": "11c9f4b0fc4a4674b350fb83587f9033ea97dc3f6c83f29c247e94f11f557398",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-483-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-483.json",
+        "sha256": "d73beaca56a750dba45aec2856a737d8233dab615ea210f7ffeb4ed3c886d46b"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-483-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-483-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-483.json",
+        "sha256": "8f9a237acba8ba49829cb1b1549d2c52cfff78c4ffbf227716d1ec1c2daa0cf7"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 635,
+      "article_sha256": "81d6f0f1129e5f958fc320ee01e9cc419b75df2ba8e81688e7b520ea9e7c92d5",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-635-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-635.json",
+        "sha256": "759a6a160a38c9ed978c4b64fcdaf9edd83dc77a33fc01130628c69b2205b9a6"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-635-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-635-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-635.json",
+        "sha256": "9f19942b1549d179268b7e5c98f9d753b2e3c80326354eaf8591254627079821"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 1380,
+      "article_sha256": "c60762e2b86def896539cdc0c8ecf46caa30e61fb8077898fa5ba8892f63a4ef",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-1380-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-1380.json",
+        "sha256": "0d1014ee0a5466b32e1f695ac70a28671879ca87f9d52652e4a9fb68cd2dfb04"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-1380-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-1380-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-1380.json",
+        "sha256": "2b974b57bcc3cfcf3a1177cb92774a4486cd8dfd85462352dd38a7268c9d46ea"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 3215,
+      "article_sha256": "ae68c8f9c8c5c4145d2faedaa91b11cc7fe790a6ff4aafadf23a5ef78773efdb",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-3215-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-3215.json",
+        "sha256": "0db98586d295ef544cca2590f3798210f200d47c0a6177fc4abb4a83f90a1672"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-3215-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-3215-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-3215.json",
+        "sha256": "f2e076ee9edfa54f423dad89cbdaaa13c75da789936bd0428592e91b44d7a3a6"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 12865,
+      "article_sha256": "ed9705732317ee4736292777e9d566fdce954859e20cf7e7fb2fc1dcdd78b934",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-12865-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-12865.json",
+        "sha256": "960fc829e920f5af045d7b4a1b03c40093e37911a7ebe16f5423f1836de4f911"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-12865-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-12865-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-12865.json",
+        "sha256": "01f4c82728e9aaf17465c8365e3b62f5c14472f7461508fd5d0eb43e32217dc1"
+      },
+      "split": "development"
+    },
+    {
+      "article_id": 5093,
+      "article_sha256": "5cb36d9000b7f79ed95066bb8b9deb1f005d8dd4669be58f9750cf01076d363d",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-5093-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-5093.json",
+        "sha256": "7423eba849c004805527adac4f126d70952094c0b098c060398a069f6fb5fdcb"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-5093-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-5093-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-5093.json",
+        "sha256": "39fab8ce754041097d17fb996e8d196089b1fb27bd52d646b433621fca048c30"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 2756,
+      "article_sha256": "2b55bbc4f9a6b6f41f614711125fa704d43188162c4b493c04eca15bd9e8af07",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-2756-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-2756.json",
+        "sha256": "03e06f390178de8abe7bbbbdb77ad80ec8ff20f152570bb606ea1c7271affe42"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-2756-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-2756-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-2756.json",
+        "sha256": "3010e290d3d0845393171cc99c307512d4e01a2ace3a9e88e72411acddc5c370"
+      },
+      "split": "challenge"
+    },
+    {
+      "article_id": 27434,
+      "article_sha256": "706b26b9db500f243cfce6f540e9bfa73030ec8f534cbb12de877a3fc50b9e64",
+      "cohort": "stage-4e-40-v1",
+      "provider": {
+        "candidate_id": "terra-provider-27434-stage4e-v1",
+        "model": "gpt-5.6-terra",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-27434.json",
+        "sha256": "5e5f544b6a0273a7619ff2441ef904d6d44c9ef28a4577c377f786edec1c1d19"
+      },
+      "reviewer": {
+        "candidate_id": "sol-reviewer-27434-stage4e-v1",
+        "model": "gpt-5.6-sol",
+        "parent_candidate_id": "terra-provider-27434-stage4e-v1",
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\sol-reviewer-27434.json",
+        "sha256": "39b09ab7d51d9ba39577bfdc8e57ffbf355bd1f01c3b987340bac9a506b34565"
+      },
+      "split": "challenge"
+    }
+  ],
+  "reviewer_model": "gpt-5.6-sol",
+  "schema_version": "stage4f-terra-sol-run-v1"
+}

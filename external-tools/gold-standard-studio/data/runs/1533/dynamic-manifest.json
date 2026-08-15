@@ -1,0 +1,153 @@
+{
+  "article_id": 1533,
+  "article_sha256": "cc6e6cd84dc3e801256d6f533d81821dbb2440eb07bcf337165c055746e9669d",
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "projects": [
+    {
+      "project_index": 0,
+      "project_name": "罗马尼亚Dolj县Dobrești 95MWp光伏+218MWh储能项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-01.s34.prompt.txt",
+        "sha256": "fd586586734d5ea88a118c522cb0547ea15e15e7f09467dd6de59afa45d6b1d6"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-01.s5.prompt.txt",
+        "sha256": "cef4208f5dcde60b7b5ab23ebd5f0cc171b2167119f4301493f199763f9c3509"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-01.pre-s5.json",
+        "sha256": "bcad85babce271aee9985481ef5916171fa3fa51146e69c999d13666be366e52"
+      }
+    },
+    {
+      "project_index": 1,
+      "project_name": "赞比亚瑞达矿业30MW光储柴微网项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-02.s34.prompt.txt",
+        "sha256": "415149a2e596589f595da930b4d22415d0b9d0f0ee4ccfa9cb03e0d6273b7c72"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-02.s5.prompt.txt",
+        "sha256": "c147b0e0676f32a0fb23e11f34266dde63875a3250d85a5cb5bc95d55bfdadcd"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-02.pre-s5.json",
+        "sha256": "f8e12aeea61bc2e5f66d87c6023e7a5267b9fe8cdcb06d4cd2e6f622f00a2767"
+      }
+    },
+    {
+      "project_index": 2,
+      "project_name": "赞比亚乔瓦矿山光储微网项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-03.s34.prompt.txt",
+        "sha256": "1420346abe98cfdaca57bc7e2316dc5a76bef3697fb6077c3d19df814c7d2d2a"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-03.s5.prompt.txt",
+        "sha256": "8f5002a03e2807c1750504fc77f886ef400ef51e430197c39f477f126ae6fe07"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-03.pre-s5.json",
+        "sha256": "027c4094430938ba81113007bbd1f2b8e2716c7b2d594630183252e8d8da4297"
+      }
+    },
+    {
+      "project_index": 3,
+      "project_name": "赞比亚佳航矿业10MW光伏+33MWh储能微网项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-04.s34.prompt.txt",
+        "sha256": "9ea64ef8f82919be58d6092a645019c11485d72c2be93240f2931c7afd595a7f"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-04.s5.prompt.txt",
+        "sha256": "607c93c7002ae8c84bccc974ace1a3cb4679fee230adb29b3c33b9e9f24d1d5a"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-04.pre-s5.json",
+        "sha256": "1e5fcc8ac49053e3a1f6b7ca3d9dfa127a488fa8619fca066d0f8317ddd0bad4"
+      }
+    },
+    {
+      "project_index": 4,
+      "project_name": "几内亚圣图矿区3MW光伏+9Wh储能微电网项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-05.s34.prompt.txt",
+        "sha256": "d3da0390a83c45b676628e2fed6d0c7ecf923e8fb0960ce728a33c1a5d995621"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-05.s5.prompt.txt",
+        "sha256": "9b3327547a44592d619a7819e3eb4892df8303f1a7d40383d08877757d8a05e3"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-05.pre-s5.json",
+        "sha256": "835732d69ba8ecdd46c64264ad381a5b1010f3e32678a42678ebd99e9cfb8c52"
+      }
+    },
+    {
+      "project_index": 5,
+      "project_name": "几内亚米希扬矿区2MW光伏+6MWh储能微电网项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-06.s34.prompt.txt",
+        "sha256": "0c1049a4b2794a2391c1af4d73779544f2a160603fc073f33e19bb99ad9745d7"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-06.s5.prompt.txt",
+        "sha256": "e3c76fc56ecbf0c25274468b909cf85dff13904fcbefd7cdd5af0c5a8c85342a"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-06.pre-s5.json",
+        "sha256": "868eb47b315ff5233e396b295245fd790caaafcf524c3f669e6ed910910c1e66"
+      }
+    },
+    {
+      "project_index": 6,
+      "project_name": "蒙古国达尔汗5MW光伏+4MWh储能电站项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-07.s34.prompt.txt",
+        "sha256": "bc0ee8ec6cc402c40b2fb358f4020c5e8c9d5dc16d79a1e35680dd79d35d319c"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-07.s5.prompt.txt",
+        "sha256": "691c46f242ef3e9b6ce864d6e48c51e492cc37467f653a289c524d5c7c5b0eb3"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-07.pre-s5.json",
+        "sha256": "958b2c7fde89bd0df2ff2b9137f0d5dd1df3b9d5fffb891b859d83bfa1a730ab"
+      }
+    },
+    {
+      "project_index": 7,
+      "project_name": "塞尔维亚168MW风电项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-08.s34.prompt.txt",
+        "sha256": "40c30fbbcc28862245ef029e34d89463cac995a9c9483f9b38a99be3ba06759f"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-08.s5.prompt.txt",
+        "sha256": "1c212b10ce441e1ec2e6b5af57605b4f68e61b67b92bd5bb9b31424f9656ec83"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\project-08.pre-s5.json",
+        "sha256": "b81de4f3fde8efea57f5abbf3c93e06c0e3ee24885810fe84e8348d50e280d0b"
+      }
+    }
+  ],
+  "working_result": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\provider-working.json"
+}

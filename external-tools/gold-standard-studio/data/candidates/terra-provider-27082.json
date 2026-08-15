@@ -1,0 +1,34 @@
+{
+  "candidate_id": "terra-provider-27082-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 27082,
+  "article_sha256": "68c79b1a2f8bda342f146e5defb65323bfc4db095f44f7c7d5ca79254ba5e7b6",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "no_chinese_participation",
+    "evidence": "项目在菲律宾吕宋岛北部伊莎贝拉省伊拉甘市，总装机440MWp",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "explicit",
+    "value": "真实光伏项目，但正文披露的开发商、股东及融资银行均非中国企业",
+    "evidence": "股权结构是 TotalEnergies 持65%、 Nextnorth 持35%。",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "菲律宾伊莎贝拉省伊拉甘市440MWp光伏项目的3亿美元商业银行融资",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步命中具体光伏发电项目；第二步正文披露的股东、开发商和贷款银行均为非中国主体，对中国企业仅作泛化评论，未显示其参与本项目，因此为 no_chinese_participation。"
+    }
+  },
+  "prompt_manifest": {
+    "base_manifest": "data/runs/27082/base-manifest.json",
+    "executed_prompts": ["data/runs/27082/s1.prompt.txt"],
+    "short_circuit_after": "s1",
+    "execution_order": ["s1"]
+  }
+}

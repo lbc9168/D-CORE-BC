@@ -1,0 +1,1448 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：中国能建中电工程2022年度国际工程回顾
+发布日期：2023-01-21 15:40:51
+来源：https://news.goalfore.cn/topstories/detail/36050.html
+正文：
+2022
+是实干的一年
+中国能建中电工程
+一批重点工程项目投运
+引领工程创新
+促进工程进步
+走过2022
+站在2023起跑线
+回顾过去一年完成的影响力代表工程
+中电工程人
+砥砺前行
+整装出发
+菲律宾国际电网公司（NGCP）MVIP联网工程中AURORA-LALA 138千伏输电线路
+本线路是MVIP联网工程中最重要的线路之一，也是中国能建中电工程江苏院在菲律宾投运的首条线路工程，线路起于AURORA变电站，止于LALA换流站，全线长度27.5千米，共新建铁塔86基，采用同塔双回架设。项目建成后，实现菲律宾三大地区的主电网互联，极大优化菲律宾全国能源配置，保障电力服务的质量和可靠性，对促进棉兰老岛地区经济发展和提高当地人民生活水平具有重要意义。
+巴基斯坦滨佳胜三期900兆瓦联合循环项目
+中国能建中电工程东北院设计的基斯坦滨佳胜三期900兆瓦联合循环项目位于巴基斯坦卡拉奇市，毗邻滨佳胜港，厂址位于滨佳胜一期厂区内。总装机容量900兆瓦，具备全部燃气或燃油能力，由两套西门子供货的单轴燃机、发电机、汽轮机，及余热锅炉和辅助系统构成。作为当地重点民生项目，滨佳胜三期项目建设受到巴基斯坦社会各界的高度关注，项目建成后将极大缓解当地电力缺口，对推动和深化“一带一路”建设及属地化合作具有重要意义。
+伊拉克萨拉哈丁2台630兆瓦燃油气电站
+由中国能建中电工程西北院设计的伊拉克萨拉哈丁2台630兆瓦燃油气电站位于伊拉克首都巴格达以北186公里处，为2台630兆瓦燃油气机组的交钥匙工程，是目前伊拉克在建的单机容量最大的电站项目。项目建成后将缓解当地电力供应紧张问题，助力伊拉克经济社会发展。
+巴基斯坦吉航1263兆瓦联合循环电站项目
+中国能建中电工程浙江院设计的巴基斯坦吉航1263兆瓦联合循环电站项目位于巴基斯坦旁遮普省Trimmu Barrage (特瑞穆巴瑞)附近的Jhang（彰）地区，是中央企业在海外承建的首个空冷型H级燃机电站项目。项目采用2拖1的方式，主机由西门子供货，新建1套SCC5-8000联合机组，包括2套SGT5-8000H燃气轮发电机组、2套自然循环卧式余热锅炉和1套纯凝式蒸汽轮发电机组，整套机组既可单循环运行，也可以联合循环运行，机组额定功率1263兆瓦，全部采用美标进行设计，工程其联合循环发电净效率超过62%。
+巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站
+中国能建中电工程中南院设计的巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站位于巴基斯坦信德省卡拉奇市东南450公里的塔尔煤田矿区。项目本期建设1台330兆瓦循环流化床燃煤机组，是中南院继巴基斯坦塔尔一期2台330兆瓦燃煤机组后的又一设计项目。项目对巴基斯坦塔尔地区煤炭资源规模化开发利用具有重要意义，建设后将有力缓解巴基斯坦用电紧张，助推当地经济社会发展，为中巴经济走廊合作提供示范和指引。
+土耳其胡努特鲁2×66万千瓦燃煤电厂工程
+中国能建中电工程华东院设计的土耳其胡努特鲁2×66万千瓦燃煤电厂工程位于土耳其阿达纳省尤穆尔塔勒克市，毗邻地中海。项目配置有2台66万千瓦超超临界机组，总装机容量1320兆瓦。同步建设烟气脱硫和SCR脱硝装置，排放将优于欧盟标准和燃机标准。该项目是中国“一带一路”和土耳其“中间走廊”倡议下的重点项目，也是中土两国建交以来中资企业在土耳其金额最大的直接投资项目，总投资约17亿美元。同时，项目主机及主要辅机选用国产设备，中国设备供货率超过90%，实现中国规划、设计、施工、标准、设备、技术、管理和服务的八个“走出去”，带动中国产能输出，是一座中国投资、中国建设、中国管理、中国运营的现代化电厂，在土耳其具有很高的开创性和示范性。两台机组投产后，将是土耳其最先进、清洁、高效、可靠的世界一流燃煤电厂，每年可向土耳其供应电力90亿千瓦时，约占土耳其年发电量的3%。将成为地中海岸一颗璀璨的工业明珠。
+柬埔寨西哈努克港2×350兆瓦燃煤电站
+中国能建中电工程西南院设计的柬埔寨西哈努克港2×350兆瓦燃煤电站项目位于柬埔寨磅逊湾南侧，距首都金边约220公里，是在“一带一路”沿线国家投建的大型能源项目。本项目共两台350兆瓦燃煤机组，作为柬埔寨全国目前规模最大的火力发电项目，项目投运为缓解柬埔寨电力短缺现状，促进柬埔寨经济社会快速发展注入了新的动力。
+伊拉克巴士拉650兆瓦燃机联合循环电站扩建项目
+中国能建中电工程西北院设计的伊拉克巴士拉650兆瓦燃机联合循环电站扩建项目位于伊拉克南部巴士拉省，是中国“一带一路”倡议下的重点项目。该项目是在原有10台9E级燃气轮机的基础上，扩建10台余热锅炉和5台蒸汽轮发电机组及配套附属设备，将巴士拉电站由单循环扩建为联合循环。项目的建设将极大缓解伊拉克南部地区用电紧张问题，有效改善当地重油燃料造成的环境污染状况，提供大量就业机会，改善当地民生，为伊拉克社会经济发展提供强大动力。
+泰国NPS绿湖2×30兆瓦漂浮光伏项目
+中国能建中电工程江苏院总承包的泰国NPS绿湖2×30兆瓦漂浮光伏项目地处泰国巴真武里府304工业园，建设了两片30兆瓦的水上漂浮光伏，直流侧装机总容量60兆瓦，采用组串式方案，同时建设一座22千伏升压站，通过6回架空线路输送至业主变电站。项目建成后，将成为泰国最大的漂浮式光伏项目，预计年发电量9500万度，每年可减少75万吨二氧化碳排放量，给当地带来丰厚的经济效益和环境效益。
+新加坡裕廊岛储能项目
+中国能建中电工程山西院总承包的新加坡裕廊岛储能项目位于新加坡裕廊岛，是新加坡乃至东南亚目前容量最大储能项目。项目总规划容量为200兆瓦/200兆瓦时，分两个站址建设，并新建两座66千伏升压站。项目的投运有助于新加坡裕廊岛构建大规模储能系统运行新模式及战略新兴产业集群，积极推动裕廊岛转型成为新加坡可持续化学能源园区，对新加坡2030减碳目标和清洁能源解决方案构建，具有重要的里程碑意义。
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-14313-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 14313,
+  "article_sha256": "e5013d881ca52e15d2590ed16cf23b41f41e33b91e3b53aaeb7a35fb869795ef",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "菲律宾AURORA-LALA 138千伏输电线路项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "输变电建设",
+        "evidence": "AURORA-LALA 138千伏输电线路",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "AURORA-LALA 138千伏输电线路",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "AURORA-LALA 138千伏输电线路",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "AURORA-LALA 138千伏输电线路",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "AURORA-LALA 138千伏输电线路",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "AURORA-LALA 138千伏输电线路",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "菲律宾",
+        "evidence": "菲律宾",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "棉兰老岛",
+        "evidence": "棉兰老岛",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "菲律宾国际电网公司",
+        "evidence": "菲律宾国际电网公司",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程江苏院",
+            "evidence": "中国能建中电工程江苏院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "巴基斯坦卡拉奇滨佳胜三期900兆瓦联合循环项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "滨佳胜三期900兆瓦联合循环项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "滨佳胜三期900兆瓦联合循环项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "滨佳胜三期900兆瓦联合循环项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "滨佳胜三期900兆瓦联合循环项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "滨佳胜三期900兆瓦联合循环项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "900兆瓦",
+        "evidence": "900兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "巴基斯坦",
+        "evidence": "巴基斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "卡拉奇市",
+        "evidence": "卡拉奇市",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程东北院",
+            "evidence": "中国能建中电工程东北院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "伊拉克萨拉哈丁2台630兆瓦燃油气电站",
+        "evidence": "伊拉克萨拉哈丁2台630兆瓦燃油气电站",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "2台630兆瓦",
+        "evidence": "2台630兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "在建",
+        "evidence": "在建",
+        "confidence": 0.85
+      },
+      "country": {
+        "value_state": "present",
+        "value": "伊拉克",
+        "evidence": "伊拉克",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程西北院",
+            "evidence": "中国能建中电工程西北院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "巴基斯坦吉航1263兆瓦联合循环电站项目",
+        "evidence": "巴基斯坦吉航1263兆瓦联合循环电站项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "吉航1263兆瓦联合循环电站项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "吉航1263兆瓦联合循环电站项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "吉航1263兆瓦联合循环电站项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉航1263兆瓦联合循环电站项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "吉航1263兆瓦联合循环电站项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "1263兆瓦",
+        "evidence": "1263兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "巴基斯坦",
+        "evidence": "巴基斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "uncertain",
+        "value": "旁遮普省Jhang地区",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程浙江院",
+            "evidence": "中国能建中电工程浙江院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站",
+        "evidence": "巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "TEL1×330兆瓦坑口燃煤电站",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "TEL1×330兆瓦坑口燃煤电站",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "TEL1×330兆瓦坑口燃煤电站",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "TEL1×330兆瓦坑口燃煤电站",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "TEL1×330兆瓦坑口燃煤电站",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "1×330兆瓦",
+        "evidence": "1×330兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "巴基斯坦",
+        "evidence": "巴基斯坦",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "uncertain",
+        "value": "信德省塔尔煤田矿区",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程中南院",
+            "evidence": "中国能建中电工程中南院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "土耳其胡努特鲁2×66万千瓦燃煤电厂工程",
+        "evidence": "土耳其胡努特鲁2×66万千瓦燃煤电厂工程",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "胡努特鲁2×66万千瓦燃煤电厂工程",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "胡努特鲁2×66万千瓦燃煤电厂工程",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "胡努特鲁2×66万千瓦燃煤电厂工程",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "胡努特鲁2×66万千瓦燃煤电厂工程",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "胡努特鲁2×66万千瓦燃煤电厂工程",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "2×66万千瓦",
+        "evidence": "2×66万千瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "土耳其",
+        "evidence": "土耳其",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "阿达纳省尤穆尔塔勒克市",
+        "evidence": "阿达纳省尤穆尔塔勒克市",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程华东院",
+            "evidence": "中国能建中电工程华东院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "柬埔寨西哈努克港2×350兆瓦燃煤电站",
+        "evidence": "柬埔寨西哈努克港2×350兆瓦燃煤电站",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "西哈努克港2×350兆瓦燃煤电站",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "西哈努克港2×350兆瓦燃煤电站",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "西哈努克港2×350兆瓦燃煤电站",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "西哈努克港2×350兆瓦燃煤电站",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "西哈努克港2×350兆瓦燃煤电站",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "2×350兆瓦",
+        "evidence": "2×350兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "柬埔寨",
+        "evidence": "柬埔寨",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "磅逊湾",
+        "evidence": "磅逊湾",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程西南院",
+            "evidence": "中国能建中电工程西南院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "伊拉克巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "evidence": "伊拉克巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "火电"
+        ],
+        "evidence": "巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "巴士拉650兆瓦燃机联合循环电站扩建项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "650兆瓦",
+        "evidence": "650兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "伊拉克",
+        "evidence": "伊拉克",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "巴士拉省",
+        "evidence": "巴士拉省",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程西北院",
+            "evidence": "中国能建中电工程西北院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设计方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "present",
+        "value": "泰国NPS绿湖2×30兆瓦漂浮光伏项目",
+        "evidence": "泰国NPS绿湖2×30兆瓦漂浮光伏项目",
+        "confidence": 0.85
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "NPS绿湖2×30兆瓦漂浮光伏项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "NPS绿湖2×30兆瓦漂浮光伏项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "NPS绿湖2×30兆瓦漂浮光伏项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "2×30兆瓦",
+        "evidence": "2×30兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "泰国",
+        "evidence": "泰国",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "巴真武里府304工业园",
+        "evidence": "巴真武里府304工业园",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程江苏院",
+            "evidence": "中国能建中电工程江苏院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "总承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    },
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "新加坡裕廊岛200兆瓦/200兆瓦时储能项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "储能",
+        "evidence": "储能",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [],
+        "evidence": "总规划容量为200兆瓦/200兆瓦时",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "总规划容量为200兆瓦/200兆瓦时",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "200兆瓦",
+        "evidence": "200兆瓦",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "200兆瓦时",
+        "evidence": "200兆瓦时",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "200兆瓦",
+        "evidence": "200兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "新加坡",
+        "evidence": "新加坡",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "裕廊岛",
+        "evidence": "裕廊岛",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "present",
+            "value": "中国能建中电工程山西院",
+            "evidence": "中国能建中电工程山西院",
+            "confidence": 0.85
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "总承包商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "中国能建中电工程2022年度十个国际电力工程回顾",
+      "is_power_generation_plant": true,
+      "reasoning": "文章列出多个具名电力工程，均有中国能建中电工程参与。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "菲律宾AURORA-LALA 138千伏输电线路项目",
+            "Project Name (EN)": "AURORA-LALA 138kV Transmission Line",
+            "Country": "菲律宾",
+            "Location(State)": "棉兰老岛",
+            "Category": "输变电建设",
+            "Generation Sources": [],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "AURORA-LALA 138千伏输电线路",
+            "Capacity (MW)": "",
+            "Capacity Details": "全线长度27.5千米",
+            "Project Stage": "投入运营",
+            "Project Developer": "菲律宾国际电网公司",
+            "Project Developer Evidence": "菲律宾国际电网公司（NGCP）",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "巴基斯坦卡拉奇滨佳胜三期900兆瓦联合循环项目",
+            "Project Name (EN)": "Bin Qasim Phase III 900MW Combined Cycle Project",
+            "Country": "巴基斯坦",
+            "Location(State)": "卡拉奇市",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "滨佳胜三期900兆瓦联合循环项目",
+            "Capacity (MW)": "900兆瓦",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "伊拉克萨拉哈丁2台630兆瓦燃油气电站",
+            "Project Name (EN)": "Salahaddin 2x630MW Oil and Gas Power Plant",
+            "Country": "伊拉克",
+            "Location(State)": "",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "萨拉哈丁2台630兆瓦燃油气电站",
+            "Capacity (MW)": "2台630兆瓦",
+            "Capacity Details": "",
+            "Project Stage": "在建",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "巴基斯坦吉航1263兆瓦联合循环电站项目",
+            "Project Name (EN)": "Jhang 1263MW Combined Cycle Power Plant",
+            "Country": "巴基斯坦",
+            "Location(State)": "旁遮普省Jhang地区",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "吉航1263兆瓦联合循环电站项目",
+            "Capacity (MW)": "1263兆瓦",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站",
+            "Project Name (EN)": "Thar Block II Phase II TEL 1x330MW Coal Power Plant",
+            "Country": "巴基斯坦",
+            "Location(State)": "信德省塔尔煤田矿区",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "TEL1×330兆瓦坑口燃煤电站",
+            "Capacity (MW)": "1×330兆瓦",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "土耳其胡努特鲁2×66万千瓦燃煤电厂工程",
+            "Project Name (EN)": "Hunutlu 2x660MW Coal Power Plant",
+            "Country": "土耳其",
+            "Location(State)": "阿达纳省尤穆尔塔勒克市",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "胡努特鲁2×66万千瓦燃煤电厂工程",
+            "Capacity (MW)": "2×66万千瓦",
+            "Capacity Details": "总装机容量1320兆瓦",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "柬埔寨西哈努克港2×350兆瓦燃煤电站",
+            "Project Name (EN)": "Sihanoukville 2x350MW Coal Power Plant",
+            "Country": "柬埔寨",
+            "Location(State)": "磅逊湾",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "西哈努克港2×350兆瓦燃煤电站",
+            "Capacity (MW)": "2×350兆瓦",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "伊拉克巴士拉650兆瓦燃机联合循环电站扩建项目",
+            "Project Name (EN)": "Basra 650MW Combined Cycle Power Plant Expansion",
+            "Country": "伊拉克",
+            "Location(State)": "巴士拉省",
+            "Category": "火电",
+            "Generation Sources": [
+              "火电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "巴士拉650兆瓦燃机联合循环电站扩建项目",
+            "Capacity (MW)": "650兆瓦",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "泰国NPS绿湖2×30兆瓦漂浮光伏项目",
+            "Project Name (EN)": "NPS Green Lake 2x30MW Floating Solar Project",
+            "Country": "泰国",
+            "Location(State)": "巴真武里府304工业园",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "NPS绿湖2×30兆瓦漂浮光伏项目",
+            "Capacity (MW)": "2×30兆瓦",
+            "Capacity Details": "直流侧装机总容量60兆瓦",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "新加坡裕廊岛200兆瓦/200兆瓦时储能项目",
+            "Project Name (EN)": "Jurong Island 200MW/200MWh Energy Storage Project",
+            "Country": "新加坡",
+            "Location(State)": "裕廊岛",
+            "Category": "储能",
+            "Generation Sources": [],
+            "Storage Status": "confirmed",
+            "Storage Power": "200兆瓦",
+            "Storage Energy": "200兆瓦时",
+            "Energy Composition Evidence": "总规划容量为200兆瓦/200兆瓦时",
+            "Capacity (MW)": "200兆瓦",
+            "Capacity Details": "200兆瓦时",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程江苏院",
+            "role": "承包商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程东北院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程西北院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程浙江院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程中南院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程华东院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程西南院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程西北院",
+            "role": "设计方"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程江苏院",
+            "role": "总承包商"
+          }
+        ]
+      },
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "中国能建中电工程山西院",
+            "role": "总承包商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/14313/base-manifest.json",
+    "dynamic": "data/runs/14313/dynamic-manifest.json",
+    "working_result": "data/runs/14313/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

@@ -1,0 +1,320 @@
+{
+  "candidate_id": "sol-reviewer-155-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 155,
+  "article_sha256": "66b4fce692be1ff2bd0d423ec24638bdf95a8288fdba1b81cdd67cd1cd051668",
+  "parent_candidate_id": "terra-provider-155-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "签署哈萨克斯坦卡拉干达风电配储项目购电协议。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "哈萨克斯坦萨乌兰300MW光伏配储项目",
+        "evidence": "萨乌兰300MW光伏配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "300MW光伏配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "300MW光伏配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "300MW光伏配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "300MW",
+        "evidence": "萨乌兰300MW光伏配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "开工",
+        "evidence": "于2025年12月15日顺利举行了开工仪式",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "哈萨克斯坦",
+        "evidence": "哈萨克斯坦800MW新能源项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "海投公司",
+            "evidence": "海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动",
+            "confidence": 0.98,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "项目开发方",
+            "evidence": "公司在哈萨克斯坦800MW新能源项目进展顺利",
+            "confidence": 0.95,
+            "verdict": "wrong",
+            "reviewer_note": "原文支持海投公司的项目推进/开发角色，但未明确股权投资身份。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    },
+    {
+      "project_id": "provider-02",
+      "project_name": {
+        "value_state": "present",
+        "value": "哈萨克斯坦卡拉干达500MW风电配储项目",
+        "evidence": "卡拉干达500MW风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "500MW风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "风电"
+        ],
+        "evidence": "500MW风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "500MW风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "500MW",
+        "evidence": "卡拉干达500MW风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签署了哈萨克斯坦卡拉干达风电配储项目购电协议",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "哈萨克斯坦",
+        "evidence": "哈萨克斯坦卡拉干达风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "卡拉干达",
+        "evidence": "卡拉干达500MW风电配储项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "海投公司",
+            "evidence": "海投公司党委书记、董事长林晓丹",
+            "confidence": 0.98,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "项目开发方",
+            "evidence": "项目开发工作已取得阶段性成果",
+            "confidence": 0.95,
+            "verdict": "wrong",
+            "reviewer_note": "原文支持海投公司的项目推进/开发角色，但未明确股权投资身份。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/155/reviewer.prompt.txt",
+      "sha256": "27d0beb81f7adb3ec9d23d0ca6fa1a6813af8ce563abf31bcb1d474eb32279a0"
+    },
+    "reviewer_manifest": "data/runs/155/reviewer-manifest.json",
+    "provider_sha256": "77bf6ae2807bfdd92b6111d448300fd1338b83b31ce1e2d5fcddc08aafe02740"
+  }
+}

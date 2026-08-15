@@ -1,0 +1,58 @@
+你是一个能源新闻相关性审核专家。请按下面的【两步决策】判断这篇新闻，只输出三选一结论。**不要提取项目明细。**
+
+文章发布日期：2024-01-10 15:29:02
+文章标题：阿曼500MW光伏项目融资关闭,2025年商运
+文章正文：
+EDF Renewables and Korea Western Power Corporation (KOWEPO) consortium reaches financial close on Manah 1 – 500 MW solar project in Oman
+EDF Renewables-led consortium with KOWEPO financed Manah1, a 500 MW PV project.
+Power Purchase Agreement (PPA) was signed on March 23rd, 2023.
+Plant expected to start commercial operation in the first quarter of 2025.
+The consortium, led by EDF Renewables and Korea Western Power Corporation (KOWEPO), announced today that it has reached financial close on the Manah 1 – a 500-megawatt (MW) solar power plant located in the Sultanate of Oman.
+Following the bid submission in September 2022, the consortium was awarded and signed a 20-year Power Purchase Agreement (PPA) with Oman Power and Water Procurement Company (PWP) on the 23rd of March 2023. Under the terms of the PPA, the consortium shall design, finance, build and operate the plant, which is located in the Al Dakhiliyah Governorate, 175 km South of Muscat. The plant will begin commercial operation in the first quarter of 2025.
+The Manah 1 project is the first for EDF Renewables and KOWEPO in the Sultanate and is part of the consortium’s strategy to support the region’s Net-Zero ambitions, as well as contribute to Oman nation’s Clean Energy Goals, through the diversification of the country’s energy mix aiming at 35-39% of renewable generation by 2040.
+The financing of the project was made possible thanks to the support of global financial institutions and the strategic partnership formed by French and Korean energy leaders to leverage their combined expertise.
+During an official signing ceremony during COP28, the stakeholders signed the financing agreements, a critical step leading to the financial close, which was achieved on the 25th of December 2023. This ceremony was attended by Bruno Bensasson, EDF Group Senior Executive Vice President, Renewable energies and Chief Executive Officer of EDF Renewables; Park Hyung-Deok, President of Western Power Co.; Yoon Hee-Sung, President of Export-Import Bank of Korea; Yang Ki-Mo, Head of KOTRA’s Bank Middle East and North Africa (MENA) regional headquarters; Aymen Koubaa, Regional Head, Energy and Infrastructure Project Finance, Société Générale Middle East, DIFC; Muhammad Al Habsi, Head of Oman’s Muscat Bank UAE office; Eng. Yahya Al Rawahi, Chief Executive Officer of Wadi Noor Solar Power Company SAOC and other distinguished guests.
+The financing of the project will be secured through equity and loan scheme from local and international financial institutions, such as the Export-Import Bank of Korea, European bank Société Générale and Oman Bank Muscat.
+Olivier Bordes, CEO Middle East, EDF Renewables, said: “We would like to thank the Sultanate of Oman authorities, and in particular APSR, Nama Holding and PWP, for their trust in our consortium to execute the Manah 1 – 500MW Solar PV project. Today we are reaching the financial close for this project, which highlights our strong commitment to contribute to Oman’s goal to produce from 35 to 39 percent of its electricity from renewable sources by 2040 and demonstrates EDF Renewables and KOWEPO’s consortium’s continuing support for the Sultanate in reaching its Clean Goals. This first for the consortium large-scale renewable installation in the country is perfectly in line with the EDF Group commitment to triple the renewable energy net capacity in operation worldwide, between 2023 and 2030.”
+Youn Ho Ko, CEO MENA, Korea Western Power, added: “We are very pleased to announce the successful financial close of the Manah 1 solar PV project, and that we are the first Korean company to be awarded a project in Oman. This achievement was possible due to the strong partnership with EDF Renewables and their extensive experience and the unwavering support of Société Générale, KEXIM Bank and Bank Muscat.”
+Once commissioned, the project will power over 50,000 Omani households with clean electricity, while offsetting over 700,000 metric tonnes of CO2 per year.
+Key figures of the project:
+– Households powered: 50,000
+– 700,000 metric tons of CO2 offset/ year
+– Technology:
+* Over 1,000,000 bifacial PVs
+* Single-axis trackers
+(内容截断)
+
+### 两步决策（务必严格按顺序）
+
+**第一步：这篇新闻是否属于以下三类「录入范围」之一？**（含为其招标/拍卖/签约/中标/建设/供货/投融资/并网等任一环节）
+- ① **发电项目（不限燃料/类型）**：光伏、风电、水电、储能、火电、煤电、燃气发电、核电、生物质、地热、综合能源等任何发电厂/电站。
+- ② **新能源制造业**：以产能计的**新能源装备工厂**——光伏组件厂、电池厂、光伏板/多晶硅厂、新能源装备产业园等（判别线索：产出以「GW/年」「万吨/年」计；这类**不发电**但属录入范围，**不要**当成普通工业园区排除掉）。⚠️ 仅限**新能源装备/材料**产能；矿产/化肥/化工品/冶金/建材产品（钾肥、锂盐、氧化铝、甲醇、水泥、钢铁等）的「万吨/年」产能**不属于**新能源制造业，也不在录入范围。
+- ③ **输变电/电网工程**：输电线路、变电站、电网改造、升压站等。
+- 命中①②③任一 → 进第二步。若属于以下情形（**不在范围**）→ 直接 status = "irrelevant"（**与是否有中企无关**）：
+  1. 非发电的基建/民用/用电户：学校、医院、机场、铁路、港口、灌溉、供水管网、住宅、数据中心、（不以产能计的）普通工业园区本身等。例外：「为其配套自建的发电电站」本身进第二步。
+  2. 油气/矿业的非发电环节：油气田开采、炼油炼化、油气管道、LNG 接收/储运站、采矿、冶炼等本身不发电的环节，以及**矿产/化肥/化工/冶金/建材产品的开采、生产与加工本身**（钾肥/钾盐矿、锂矿、铜金矿、氧化铝、甲醇、水泥、钢铁等，即使以「万吨/年」计产能）。例外：燃气电厂、煤电厂、核电厂、垃圾/生物质发电厂等**发电项目**进第二步。
+  3. 仅检修/维护/改造既有设施且无新增装机容量。
+  4. 纯「国家/地区级总量设备供货」且**完全不指向任何具体电站/工程**。例外：连到任一可识别具体电站的供货进第二步（存疑倾向算）。
+  5. 纯评论/综述/榜单，无具体项目节点。
+  6. 纯领导访问/会议/视察且**无任何具体项目节点**。例外：含具体签约/中标/开工/并网节点（有项目名或电站）则进第二步。
+  7. **绿氢/绿氨/电解水制氢项目**：仅当正文明确给出为其供电的**可再生能源发电种类**（光伏/风电/水电等）时才进第二步；只提「绿氢/电解」而无明确能源种类 → irrelevant。
+  8. **批量招标计划/国家能源规划/企业远期目标**：通篇仅描述"某国此轮招标 N 个地块/轮次公告本身"（未指向任何具体可识别电站）、"某国 2030 年达到 X GW 装机目标"式国家规划、或"某公司未来 X 年拟开发 X GW"式战略愿景，**不指向任何可识别单体项目** → irrelevant。⚠️ 若文章同时含具体电站名/中标具体标段，则仍进第二步（招标/中标新闻只要指向具体单体项目即照常收录）。
+- 不确定是否在范围内时，**存疑倾向算**（recall-first，宁可多收再筛）。
+
+**第二步：在这个电力/发电项目中，是否有中国企业参与？**（业主/承包商/设备商/投资方/融资方等任一）
+- 有中企且给出具体公司名 → status = "valid_project"。
+- 明确有中国企业参与（中标/承建/融资/EPC 等）但通篇未给出具体公司名 → status = "chinese_unnamed_participation"。
+- 无中企（正文无任何中国企业，或各环节参与者均非中企）→ status = "no_chinese_participation"。
+- ⚠️ **关键规则**：一篇「确是电力/发电项目、但没有中企参与」的新闻，**必须**判 "no_chinese_participation"，**绝不可**判 "irrelevant"。"irrelevant" 仅用于第一步判定的非电力主题。
+- 注意识别中方企业的简称、曾用名、子公司名（如「中材节能」属中国建材集团）。
+- 例：「该光伏项目由一家中国企业中标承建」（未点名）→ chinese_unnamed_participation；「中国电建中标」（点名）→ valid_project；「设备由中国厂商供应」但无中企主体 → 视具体情况（多为 valid_project 设备供应商或 no_chinese）。
+
+### 输出格式（严格 JSON，仅这些字段）
+{
+  "status": "valid_project | chinese_unnamed_participation | no_chinese_participation | irrelevant",
+  "project_subject": "一句话点明新闻主体（什么项目/什么主体）",
+  "is_power_generation_plant": true | false,
+  "reasoning": "判定理由：第一步命中哪条→irrelevant，或第二步有/无/未具名中企→valid/chinese_unnamed/no_chinese（简短）"
+}

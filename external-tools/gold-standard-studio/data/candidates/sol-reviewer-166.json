@@ -1,0 +1,182 @@
+{
+  "candidate_id": "sol-reviewer-166-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 166,
+  "article_sha256": "e3b3cf961901edf36af438169b5f5840cbd763f3deb204e8d5cf78ca6f05ea5e",
+  "parent_candidate_id": "terra-provider-166-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "由山东电力建设第三工程有限公司（SEPCO-III）牵头的国际EPC联合体承建",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "科威特Az-Zour North第二、三期2700兆瓦联合循环燃气电站项目",
+        "evidence": "Az-Zour North第二、三期独立水电生产商（IWPP）项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "火电",
+        "evidence": "联合循环燃气轮机（CCGT）电厂",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "present",
+        "value": "联合循环燃气轮机（CCGT）",
+        "evidence": "联合循环燃气轮机（CCGT）电厂",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "天然气",
+          "柴油"
+        ],
+        "evidence": "以天然气为主燃料，柴油备用",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "generation_sources 应保留原文燃料事实，而非重复上位类别“火电”。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 将缺失状态写成 present；原文没有储能事实。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "超2,700兆瓦（MW）",
+        "evidence": "净发电能力超2,700兆瓦（MW）",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "正式签署Az-Zour North第二、三期独立水电生产商（IWPP）项目能源转换与购水协议",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "科威特",
+        "evidence": "科威特电力、水务和可再生能源部",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "科威特城以南约100公里的东南海岸线",
+        "evidence": "项目位于科威特城以南约100公里的东南海岸线",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "present",
+        "value": "逾41亿美元",
+        "evidence": "该项目总投资逾41亿美元",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "financing_mode": {
+        "value_state": "present",
+        "value": "BOT",
+        "evidence": "项目采用建设-运营-移交（BOT）模式",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 漏填原文明示的 BOT 模式。"
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "ACWA Power;海湾投资公司（GIC）",
+        "evidence": "ACWA Power与海湾投资公司（GIC）联合体",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "山东电力建设第三工程有限公司（SEPCO-III）",
+            "evidence": "山东电力建设第三工程有限公司（SEPCO-III）",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "牵头的国际EPC联合体承建",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/166/reviewer.prompt.txt",
+      "sha256": "02d28316bfbe405e7fc71a71fc34a128a5e0a3db5753109293b80b9a73b64df1"
+    },
+    "reviewer_manifest": "data/runs/166/reviewer-manifest.json",
+    "provider_sha256": "30a8f4e373a713739c43d896ad9aec6624b95e2e82d393115089eb485b426536"
+  }
+}

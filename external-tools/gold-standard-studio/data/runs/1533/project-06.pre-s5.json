@@ -1,0 +1,39 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "三一硅能",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "一体化方案提供商",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "2025-09-01",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "光伏：2MW；储能：6MWh",
+    "Category": "综合能源",
+    "Country": "几内亚",
+    "Energy Composition Evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运",
+    "Financing Model": "Unknown",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "米希扬矿区",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "几内亚米希扬矿区2MW光伏+6MWh储能微电网项目",
+    "Project Name (EN)": "Guinea Mixiyang Mining Area 2MW Solar PV and 6MWh Energy Storage Microgrid Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "6MWh",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,181 @@
+{
+  "candidate_id": "sol-reviewer-137-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 137,
+  "article_sha256": "714b126e6807f820ff811b99796ca3040aa89774cabee7e32f49ea2f93c1cedc",
+  "parent_candidate_id": "terra-provider-137-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "上海康恒环境股份有限公司正计划在巴格达、巴士拉和尼尼微省开发新的垃圾发电项目。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "伊拉克巴格达Al-Nahrawan垃圾发电项目",
+        "evidence": "Nahrawan项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "生物质",
+        "evidence": "垃圾发电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "生物质"
+        ],
+        "evidence": "垃圾发电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_status": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "wrong",
+        "reviewer_note": "Provider 将缺失状态写成 present；原文没有储能事实。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "needs_adjudication",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.9,
+        "verdict": "ok",
+        "reviewer_note": "原文不足以唯一确定该值，保留待裁定状态。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "计划进入实施阶段",
+        "evidence": "正按计划于今年年中进入实施阶段",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "Nahrawan 项目并非仅为笼统拟开发；原文明确其计划在今年年中进入实施阶段，但尚未说已经进入。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "伊拉克",
+        "evidence": "伊拉克首个垃圾发电项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "巴格达Al-Nahrawan地区",
+        "evidence": "位于巴格达Al-Nahrawan地区",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "present",
+        "value": "5亿美元",
+        "evidence": "Nahrawan项目将涉及5亿美元的投资",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "上海康恒环境股份有限公司",
+        "evidence": "总部位于中国的上海康恒环境股份有限公司",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "上海康恒环境股份有限公司",
+            "evidence": "上海康恒环境股份有限公司",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "项目开发商",
+            "evidence": "此前，该公司已于去年1月获得了伊拉克首个垃圾发电项目",
+            "confidence": 0.96,
+            "verdict": "wrong",
+            "reviewer_note": "原文支持项目开发/获得方身份，但不能据此确认股权投资方身份。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/137/reviewer.prompt.txt",
+      "sha256": "e3a30c3f60eaa56a78f66c27a81c2cbda80d857d248766ebec949ef8cc439474"
+    },
+    "reviewer_manifest": "data/runs/137/reviewer-manifest.json",
+    "provider_sha256": "426db24a4e065f93def0dd957ed04bdd194d93bce061a474d1a8dded2c2114eb"
+  }
+}

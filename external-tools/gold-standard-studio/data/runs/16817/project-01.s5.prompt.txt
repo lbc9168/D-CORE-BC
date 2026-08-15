@@ -1,0 +1,50 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "project_summary": "",
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "英国威尔特郡门迪99.8兆瓦/99.8兆瓦时电池储能项目",
+    "Project Name (EN)": "Mendi 99.8MW/99.8MWh Battery Energy Storage Project",
+    "Country": "英国",
+    "Location(State)": "威尔特郡门迪镇",
+    "Category": "储能",
+    "Generation Sources": [],
+    "Storage Status": "confirmed",
+    "Storage Power": "99.8兆瓦",
+    "Storage Energy": "99.8兆瓦时",
+    "Energy Composition Evidence": "规划装机容量为99.8兆瓦，总能量密度为99.8兆瓦时",
+    "Capacity (MW)": "99.8兆瓦",
+    "Capacity Details": "99.8兆瓦时",
+    "Project Stage": "投入运营",
+    "Project Developer": "中国华能集团",
+    "Project Developer Evidence": "中国华能集团位于英国",
+    "(Planned) Start Date": "2019-12-01",
+    "(Planned) Complete Date": "2021-06-01"
+  },
+  "chinese_entities": [
+    {
+      "entity_name": "中国华能集团",
+      "role": "投资方"
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

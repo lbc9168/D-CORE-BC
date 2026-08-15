@@ -1,0 +1,24 @@
+{
+  "candidate_id": "sol-reviewer-26667-stage4e-v1", "execution_role": "reviewer", "model": "gpt-5.6-sol", "article_id": 26667,
+  "article_sha256": "0bb141fe8517f72f1508dd58b542b2496ed59f17b0932074d18d75e8cb35ef0e", "parent_candidate_id": "terra-provider-26667-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "华电海投乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）正式转入商业运营", "confidence": 0.99, "verdict": "ok", "reviewer_note": "项目、阶段和中方项目主体均明确。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [{
+    "project_name": {"value_state": "derived_from_explicit", "value": "乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期（300兆瓦）", "evidence": "华电海投乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）", "confidence": 0.99, "verdict": "ok", "reviewer_note": "去掉企业前缀后保留原文项目层级。"},
+    "category": {"value_state": "derived_from_explicit", "value": "光伏", "evidence": "光伏电站项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "确定性分类。"},
+    "subcategory_raw_fact": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未给更细技术子类。"},
+    "generation_sources": {"value_state": "present", "value": ["光伏"], "evidence": "光伏电站项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "光伏明确。"},
+    "storage_status": {"value_state": "not_mentioned", "value": "not_mentioned", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提储能。"},
+    "storage_power_mw": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提及。"},
+    "storage_energy_mwh": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "未提及。"},
+    "generation_capacity_mw": {"value_state": "present", "value": "300兆瓦", "evidence": "一期工程（300兆瓦）", "confidence": 0.99, "verdict": "ok", "reviewer_note": "本次转商运的是一期300兆瓦，总项目500兆瓦。"},
+    "project_stage": {"value_state": "present", "value": "商业运营", "evidence": "正式转入商业运营", "confidence": 0.99, "verdict": "ok", "reviewer_note": "阶段明确。"},
+    "country": {"value_state": "present", "value": "乌兹别克斯坦", "evidence": "乌兹别克斯坦吉扎克", "confidence": 0.99, "verdict": "ok", "reviewer_note": "国家明确。"},
+    "location": {"value_state": "present", "value": "吉扎克", "evidence": "吉扎克500兆瓦光伏电站", "confidence": 0.99, "verdict": "ok", "reviewer_note": "地点明确。"},
+    "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "project_developer": {"value_state": "present", "value": "华电海投", "evidence": "华电海投乌兹别克斯坦吉扎克500兆瓦光伏电站项目", "confidence": 0.96, "verdict": "wrong", "reviewer_note": "正文直接以华电海投冠名项目；Provider泛化为中国华电。"},
+    "chinese_entities": [{"entity_name": {"value_state": "present", "value": "华电海投", "evidence": "华电海投乌兹别克斯坦吉扎克500兆瓦光伏电站项目", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "使用正文具体主体。"}, "role": {"value_state": "present", "value": "项目运营方", "evidence": "加强运营管理", "confidence": 0.9, "verdict": "wrong", "reviewer_note": "正文支持项目团队运营，不支持Provider的投资方断言。"}}]
+  }],
+  "prompt_manifest": {"renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"}, "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"}, "prompt": {"path": "data/runs/26667/reviewer.prompt.txt", "sha256": "be5bf6067022dcb5cecc38585e9e5e6037fcaf00964d76c0692311796a721a11"}, "provider_sha256": "0df6841dca16dc107a19ed5ef0e301a66dde600e21800366ae689e7791d14cf6"}
+}

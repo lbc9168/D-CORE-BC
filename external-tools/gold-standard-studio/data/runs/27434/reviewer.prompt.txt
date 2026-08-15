@@ -1,0 +1,48 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：出海焦点｜154兆瓦！上能电气拿下阿尔及利亚两大太阳能项目，北非光伏市场的“规则之变”刚刚开始
+发布日期：2026-07-10 11:42:02
+来源：https://news.goalfore.cn/topstories/detail/96277.html
+正文：
+7月7日，中国逆变器头部企业
+上能电气（Sineng Electric）
+宣布，为阿尔及利亚两个公用事业规模太阳能光伏项目提供中央逆变器，总装机容量
+154兆瓦
+。两个项目分别位于贝沙尔省贝尼奥尼夫（52.8兆瓦）和瓦尔格拉省艾因拜达（101.2兆瓦），均由Amimer Energie为阿尔及利亚国有公用事业Sonelgaz的可再生能源子公司Sonelgaz EnR开发和建设。
+图片来源：
+上能电气
+这则消息的体量看似不大——154兆瓦放在中国光伏市场只是一个小项目。但放在阿尔及利亚的能源转型叙事中，它的意义远不止于“又一家中国企业拿下了北非订单”。它释放的信号是：中国逆变器企业正在系统性地进入阿尔及利亚光伏市场，而阿尔及利亚的太阳能招标规则正在发生一场深刻的“本地化转向”。
+01
+对15吉瓦目标的真实节奏
+阿尔及利亚已设定到2035年新增15吉瓦太阳能装机的目标。这个数字在非洲国家中名列前茅，背后是阿尔及利亚摆脱油气依赖、构建清洁能源体系的战略决心。此前阿尔及利亚已启动多轮太阳能招标，总规模超过3吉瓦，此次154兆瓦项目正是其中一部分。上能电气此次供货的两个电站所处的贝沙尔省和瓦尔格拉省，均位于撒哈拉沙漠边缘，光照资源极佳，但高温、沙尘等极端环境对逆变器的可靠性提出了严苛要求。
+图片仅供说明用途。这是一个现代化的新乡村，整个村庄都使用太阳能电池板发电。图片来源：Getty ImagesGetty Images/Moment RF
+上能电气此次提供的中央逆变器，具备
+IP65防沙尘等级
+和
+51℃高温不降额运行能力
+，采用
+4路MPPT设计
+以最大化发电收益——这些技术指标正在成为中国逆变器企业在中东北非市场的核心竞争门槛。能够拿下这类项目，本身就验证了中国逆变器产品在极端工况下的技术可靠性。
+更值得关注的趋势是，阿尔及利亚的光伏市场正处于从“试探性招标”到“规模化放量”的转折点。今年5月，阿尔及利亚国有公用事业公司Sonelgaz已启动新一轮
+2000兆瓦太阳能项目招标
+，规划建设15座光伏电站。从154兆瓦到2000兆瓦，中国逆变器企业在阿尔及利亚的市场空间正在从“一个项目”变成“一条赛道”。
+02
+逆变器背后的“规则之变”
+阿尔及利亚的太阳能招标正在发生一场被很多人忽视的规则变化。此前阿尔及利亚政府已明确表示，希望外国设备商在本地建立组装或制造能力，而非单纯从海外发货。已有项目实现
+41.7%的本土化率
+，采用“中阿技术深度融合”模式。这与阿尔及利亚近期在外资政策上的整体收紧方向一致——从要求进口付汇前置备案，到推动原材料本地深加工，再到现在的光伏设备本地化生产，阿尔及利亚正在用一套组合拳倒逼外资企业在本地建立更深度的产业存在。
+对于中国逆变器和光伏组件出口商来说，这意味着未来的竞争不只是价格和技术的比拼，更是本地化服务能力的较量。谁先在阿尔及利亚建立组装线或维修中心，谁就能在后续招标中获得更高的本地化评分和优先供应商地位。
+上能电气作为
+连续两年（2023、2024年）全球光伏逆变器出货量排名第四
+的企业，已被BloombergNEF评为一级逆变器制造商。此次154兆瓦项目的成功供货，为其在阿尔及利亚市场的后续拓展积累了关键的本地业绩。
+03
+结语
+从更宏大的视角看，中国企业在阿尔及利亚的布局正在从“单点项目供货”走向“产业链系统嵌入”。此前中国港湾已签约阿尔及利亚港口疏浚合资公司，中石化正在就20亿美元石化综合体进行深入谈判，中石油在阿尔及利亚多个勘探区块取得连续突破。上能电气此次供货154兆瓦逆变器，既是这一趋势的最新注脚，也是中国电力电子设备在北非光伏市场加速渗透的又一个信号。
+本文信息来源：EQ Mag Pro、索比光伏网、上能电气官方消息、African Leadership Magazine等，数据更新至2026年7月。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-27434-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":27434,"article_sha256":"706b26b9db500f243cfce6f540e9bfa73030ec8f534cbb12de877a3fc50b9e64","article_status":{"value_state":"present","value":"valid_project","evidence":"上能电气"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"阿尔及利亚154兆瓦太阳能光伏项目逆变器供应","evidence":"154兆瓦"},"category":{"value_state":"present","value":"光伏","evidence":"光伏"},"subcategory_raw_fact":{"value_state":"present","value":"中央逆变器供应","evidence":"中央逆变器"},"generation_sources":{"value_state":"present","value":["光伏"],"evidence":"光伏"},"storage_status":{"value_state":"not_mentioned","value":"not_mentioned"},"storage_power_mw":{"value_state":"not_applicable","value":null},"storage_energy_mwh":{"value_state":"not_applicable","value":null},"generation_capacity_mw":{"value_state":"present","value":"154兆瓦","evidence":"154兆瓦"},"project_stage":{"value_state":"present","value":"签约","evidence":"提供中央逆变器"},"country":{"value_state":"present","value":"阿尔及利亚","evidence":"阿尔及利亚"},"location":{"value_state":"present","value":"贝沙尔省；瓦尔格拉省","evidence":"贝沙尔省"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"present","value":"Amimer Energie","evidence":"Amimer Energie"},"chinese_entities":[{"entity":{"value_state":"present","value":"上能电气","evidence":"上能电气"},"role":{"value_state":"present","value":"中央逆变器供应","evidence":"中央逆变器"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/27434/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

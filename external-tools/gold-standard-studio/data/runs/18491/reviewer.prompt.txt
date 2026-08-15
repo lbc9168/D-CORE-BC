@@ -1,0 +1,73 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：日韩仍在搞煤电-越南广平省13亿美元煤电EPC合同签署
+发布日期：NA
+来源：https://news.goalfore.cn/topstories/detail/21150.html
+正文：
+2021年6月底，越南国家电力公司(EVN)签署了一份30.23万亿越南盾(13.1亿美元)的工程、采购和建设(EPC)合同，项目是位于越南广平省的1200MW Quang Trach 1煤电。
+据当地媒体报道，该项目总成本为41.14万亿越南盾(合18亿美元)，EVN投入30%的资本金，其余来自商业贷款。这将是EVN第一个在没有政府担保的情况下使用银行贷款的项目。
+EPC承包商包括越南第一建筑公司(No. 1 Construction Corporation)、日本三菱公司(Mitsubishi Corporation)和韩国现代工程建设公司(Hyundai Engineering and Construction)，它们将在3年半时间内完成电厂第一台机组的安装，在4年时间内完成第二台机组安装。
+一旦完工，项目将向国家电力系统提供多达84亿千瓦时的电力。
+越南一名能源行业观察人员表示:“这个项目有一些有趣的方面。作为越南遗留的燃煤发电项目之一，Quang Trach 1的融资可能是越南最后一批融资项目之一，因为越南正寻求优先利用可再生能源并以天然气作为过渡燃料。此外，与独立电力公司(IPP)主导的建设-运营-转让(BOT)燃煤发电项目不同，该设施的融资是由越南本土银行主导的，这反映了国际金融界对化石燃料项目立场已然坚定。推进这个项目有一些现实务实的理由，尽管从长远来看，我们无疑会越来越多地摆脱煤炭倚赖。”
+该项目原本的开发商是越南国家石油公司，并于2011年开始建设。2017年，由于实施缓慢，EVN取代越南石油公司成为开发商。
+今年4月，EVN获监管机构准许其突破贷款上限（提高了EVN信用额度），为Quang Trach I煤电厂进行融资。据了解，越南政府对该项目给予了特殊优待。
+今年2月，越南总理也批准了对Quang Trach II煤电厂项目的投资，该项目产能为1.2GW，初步投资总额约为48.156万亿越南盾(合21亿美元)。Quang Trach II的第一台机组预计将在2028年开始商业运营，第二个机组将在2029年之后。
+Quang Trach 2400MW 煤电基地
+Quảng Trạch Power Center是越南Quảng Bình（广平）省正在开发的一个2400兆瓦的燃煤电厂，下面的地图显示了项目地点，位于Quảng Đông公社，Quảng Trạch区，Quảng Bình省（广平省）
+Quang Trach-1
+2011年7月，耗资17亿美元的1200MW Quảng Trạch-1项目开始动工。该项目由越南国有石油和天然气集团越南石油公司(PetroVietnam)开发。1号机组原计划于2015年6月投入使用，2号机组计划于2015年12月投入使用。
+由于经济衰退，这个项目被推迟。2015年初，越南国家石油公司和省政府计划在2020年前实现项目投产；截至2015年4月，越南国家石油公司仅获得了该项目所需土地的60%，阻碍了进一步开发。
+2016年10月，因为越南石油公司一再推迟，越南国家电力公司(EVN)接管了该项目。EVN当时计划在2017年底恢复建设，第一台机组计划在2021年投入测试运行，第二台机组将在2022年投入测试运行
+截至2017年4月，EVN遇到了当地村民“侵占”项目场地的问题，其中一些人正在耕种部分土地
+2018年11月，EVN完成了该项目的土地征用，额外购买了80公顷，使总用地面积达到540公顷，其中土地面积为330.5公顷，海域面积为210公顷。EVN开始升级通往现场的道路，但还没有开始建设工厂本身
+2018年底，EVN董事会通过了一项决议，向越南工商银行、越南银行、越南投资与发展银行(BIDV)和农业银行寻求融资，预计这些银行将为该项目提供27.1万亿越南盾（项目总成本的42万亿越南盾）。农业银行未承诺为该项目提供资金，而越南银行和BIDV开始时候先承诺，但后来又退出了融资。因此，越南工商银行是该项目所需27.1万亿越南盾贷款的唯一贷款方。与EVN拥有的总资本相比，贷款数额如此之大，以至于违反了越南的信贷机构法。直到2021年5月越南总理出面干预，提高了EVN的信用额度，这笔贷款才得以发放。
+2019年2月，工厂预计完工日期为2023年；2019年6月，在工业和贸易部关于执行修订后的第七版电力发展计划(PDP7)的报告中，1号机组的完工日期被调整为2022年，2号机组的完工日期被定为2023年。
+2020年10月，EVN为该工厂招标建设合同，并宣布计划于2020年12月开始建设，预计调试日期为2024年。
+2021年6月，由三菱公司(日本)、现代工程建设公司(Hyundai E&C -韩国)和建设公司1号(CC1 -越南)组成的财团获得了建设Quang trach1电站的工程、采购和施工合同，价值30万亿越南盾。
+Quang trach-2
+Quảng Trạch-2 1200MW电厂原计划在Quảng Trạch-1电厂一年后开工建设，但二期项目在寻找到投资者方面遇到困难。2013年9月，三星报告称正在考虑接手这个项目;2013年8月，俄罗斯Inter RAO Group也表示对该项目感兴趣。
+2015年2月，俄罗斯公司Inter RAO与广平省政府签署了一份谅解备忘录，以BOT模式投资建设Quảng Trạch-2项目，耗资24亿美元。Inter RAO表示，它将在3月底前向省政府提交一份正式提案。该工厂预计于2024-25年投产。2015年4月，韩国浦项集团(POSCO Group)宣布希望作为共同投资者加入该项目
+2016年，越南国营电力公司(EVN)表示，将取代俄罗斯interrao集团对Quảng Trạch-2进行预可行性研究；根据修订后的电力发展计划(2016年)，该项目计划于2028年和2029年开工。
+2018年6月，据报道，香港联合投资者控股公司(HUI)和越南Geleximco的合资企业有兴趣投资该项目，以及位于Nghệ An省的Quynh Lap-1发电站。2019年6月，在工业和贸易部关于执行修订后的第七次电力发展计划(PDP7)的报告中，Quảng Trạch-2的投产日期被设置为2026年。
+2021年2月，越南总理批准了对Quang Trach II煤电厂项目的投资，该项目产能为1.2GW，初步投资总额约为48.156万亿越南盾(合21亿美元)，预计第一台机组将在2028年开始商业运营，第二个机组将在2029年之后；2021年6月，工业和贸易部表示，由于资金筹备困难，Quảng Trạch-2项目可能会推迟到2030年以后
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-18491-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 18491,
+  "article_sha256": "d1e2ef61935f6f06bc0514b7ece393d195ddfa64d90bd48cba00b1627d8bd024",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "no_chinese_participation",
+    "evidence": "EPC承包商包括越南第一建筑公司(No. 1 Construction Corporation)、日本三菱公司(Mitsubishi Corporation)和韩国现代工程建设公司(Hyundai Engineering and Construction)",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "explicit",
+    "value": "no_chinese_participation",
+    "evidence": "EPC承包商包括越南第一建筑公司(No. 1 Construction Corporation)、日本三菱公司(Mitsubishi Corporation)和韩国现代工程建设公司(Hyundai Engineering and Construction)",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "越南广平省Quang Trach 1与Quang Trach 2煤电项目",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步属于煤电发电项目；第二步所列业主、承包商和融资方均为越南、日本或韩国主体，正文未出现中国企业参与，因此为 no_chinese_participation。"
+    },
+    "s2": null,
+    "s34": [],
+    "s5": []
+  },
+  "prompt_manifest": {
+    "base": "data/runs/18491/base-manifest.json",
+    "dynamic": null
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

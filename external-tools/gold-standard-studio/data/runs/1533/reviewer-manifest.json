@@ -1,0 +1,12 @@
+{
+  "article_id": 1533,
+  "article_sha256": "cc6e6cd84dc3e801256d6f533d81821dbb2440eb07bcf337165c055746e9669d",
+  "parent_candidate_id": "terra-provider-1533-pilot-v1",
+  "prompt": {
+    "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\1533\\reviewer.prompt.txt",
+    "sha256": "ad513c008a9dd7a2eac3b0f3f9e2aa20633ee6ca3d8032bcecd43b4b78e06b84"
+  },
+  "provider_path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-1533.json",
+  "provider_sha256": "cd6cc3b222ae355d3d92fbc828015dd3860e2a85e10afb18c8492365596bcf2d",
+  "reviewer_model": "gpt-5.6-sol"
+}

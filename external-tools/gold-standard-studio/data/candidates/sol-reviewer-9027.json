@@ -1,0 +1,448 @@
+{
+  "candidate_id": "sol-reviewer-9027-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 9027,
+  "article_sha256": "664c4e4136556e3cc5b009763f6036e1506e2925eed12bd374546b3004aa700f",
+  "parent_candidate_id": "terra-provider-9027-v1",
+  "prompt_sources": [
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\review\\critic.py",
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\enums_mapping.json",
+    "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\candidates\\terra-provider-9027.json"
+  ],
+  "article_status": {
+    "value_state": "explicit",
+    "value": "valid_project",
+    "evidence": "中国能建葛洲坝海投公司投资，中南电力设计院有限公司EPC总承包建设的中国在海外投资单体规模最大的电化学储能项目乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目开工建设。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文明确报道录入范围内的储能项目，并点名中国投资方和中国EPC总承包商。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "文章明确报道两个具名、已开工的海外储能项目及中国企业的投资或EPC参与。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "不是负样本或非项目文章。"
+  },
+  "article": {
+    "title": "中国在海外投资的单体规模最大电化学储能项目开工",
+    "publish_date": "2024-03-27 10:23:02",
+    "url": "https://news.goalfore.cn/topstories/detail/62720.html"
+  },
+  "projects": [
+    {
+      "project_key": "project_1_lochi",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目开工建设。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "具名、具址、具容量且已开工的具体工程。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时电化学储能项目",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目开工建设；中国在海外投资单体规模最大的电化学储能项目。",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "名称只组合了原文明示的国家、地点、容量和电化学储能属性。"
+      },
+      "project_name_en": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文没有英文官方名称，不补造翻译。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "储能",
+        "evidence": "中国在海外投资单体规模最大的电化学储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "“储能”是从明示电化学储能事实按受控 taxonomy 确定的类别。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "explicit",
+        "value": "电化学储能；磷酸铁锂电芯",
+        "evidence": "项目采用电化学储能磷酸铁锂电芯。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "技术事实仅归属洛奇项目。"
+      },
+      "generation_sources": {
+        "value_state": "not_mentioned",
+        "value": [],
+        "evidence": "正文只明确储能系统和接入电网，未明示任何实际发电来源。",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "储能不属于 Generation Sources 受控集合，不能据接网信息推测发电源。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "配置150兆瓦/300兆瓦时储能系统。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "项目明确配置储能系统。"
+      },
+      "storage_power_mw": {
+        "value_state": "explicit",
+        "value": 150,
+        "raw_value": "150兆瓦",
+        "evidence": "配置150兆瓦/300兆瓦时储能系统。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "150兆瓦是储能功率，不是发电装机容量。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 300,
+        "raw_value": "300兆瓦时",
+        "evidence": "配置150兆瓦/300兆瓦时储能系统。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "300兆瓦时是唯一明示的储能能量容量；21.9亿度不得进入该字段。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "150兆瓦明确修饰“储能系统”，不是发电装机容量。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "纯储能项目不应把储能功率复制为发电装机。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "开工",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目开工建设。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "2024年12月商业运营是未来计划，不改变报道时点的开工阶段。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "乌兹别克斯坦",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "国家明示。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "安集延州洛奇，距离阿萨卡市约10千米",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目；项目位于安集延州，距离阿萨卡市约10千米。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "地点由项目名称中的洛奇与正文厂址描述共同支持。"
+      },
+      "investment": {
+        "value_state": "explicit",
+        "value": {
+          "total_project_investment_million_usd": 140,
+          "total_project_investment_raw": "计划总投资额1.4亿美元",
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "计划总投资额1.4亿美元。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "1.4亿美元按字段单位规范化为140百万美元；原文未给合同额或债务融资额。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "正文提到项目投资方，但未说明贷款、债券、股权融资结构或其他融资模式。",
+        "confidence": 0.97,
+        "verdict": "ok",
+        "reviewer_note": "“公司投资”足以识别参与角色和项目投资方，但不足以判定具体融资结构。"
+      },
+      "project_developer": {
+        "value_state": "explicit",
+        "value": "中国能建葛洲坝海投公司",
+        "evidence": "中国能建葛洲坝海投公司投资。",
+        "confidence": 0.96,
+        "verdict": "ok",
+        "reviewer_note": "production prompt 的业主白名单允许以明确“投资方/由X投资”作为 developer 证据；原文未披露另一个业主。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "中国能建葛洲坝海投公司",
+            "evidence": "中国能建葛洲坝海投公司投资。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "实体名逐字照原文。"
+          },
+          "role": {
+            "value_state": "derived_from_explicit",
+            "value": "股权投资方",
+            "evidence": "中国能建葛洲坝海投公司投资；是中国能建首个海外储能投资项目。",
+            "confidence": 0.94,
+            "verdict": "ok",
+            "reviewer_note": "原文明示项目投资，受控 involvement 中最贴近的是股权投资方；这不等同于已知融资模式。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "没有设备供货事实。"
+          }
+        },
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "中南电力设计院有限公司",
+            "evidence": "中南电力设计院有限公司EPC总承包建设。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "实体名逐字照原文。"
+          },
+          "role": {
+            "value_state": "explicit",
+            "value": "EPC总承包",
+            "evidence": "中南电力设计院有限公司EPC总承包建设。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "角色和项目归属均明确。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "EPC身份不等同于设备供应。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立项目；与project_2_oz同篇报道但分别位于安集延州洛奇和费尔干纳州奥兹，均有各自150兆瓦/300兆瓦时项目描述。",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目开工建设；中南电力作为EPC总承包商承揽的乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目也于3月25日同期开工。",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "Terra 的两项目拆分结论正确，但该关系是由两段明示项目事实推导，value_state 应从 explicit 改为 derived_from_explicit。"
+      },
+      "review_notes": [
+        "“建成后将为乌兹别克斯坦电网提供21.9亿度电力的调节能力”是调节能力表述，不是储能能量容量。",
+        "计划于2024年12月投入商业运营是未来计划，报道时点的阶段仍为“开工”。",
+        "洛奇项目的电化学/磷酸铁锂、1.4亿美元投资、接网方式和计划运营日期不得迁移到奥兹项目。"
+      ]
+    },
+    {
+      "project_key": "project_2_oz",
+      "record_type": {
+        "value_state": "explicit",
+        "value": "具体项目",
+        "evidence": "乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目也于3月25日同期开工。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "虽只用一句报道，但项目具备独立地点、名称语境、容量和开工节点。"
+      },
+      "project_name": {
+        "value_state": "derived_from_explicit",
+        "value": "乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目",
+        "evidence": "乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目也于3月25日同期开工。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "名称完全由该句明示要素组成，没有添加电化学或磷酸铁锂属性。"
+      },
+      "project_name_en": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文没有英文官方名称。"
+      },
+      "category": {
+        "value_state": "derived_from_explicit",
+        "value": "储能",
+        "evidence": "乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "“储能”是由明示项目类型按受控 taxonomy 确定。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "该项目仅被称为“储能项目”，正文未将其明确称为电化学储能或说明电芯技术。",
+        "confidence": 0.97,
+        "verdict": "ok",
+        "reviewer_note": "标题和前文的电化学/磷酸铁锂描述只明确修饰洛奇项目，不能跨项目外推。"
+      },
+      "generation_sources": {
+        "value_state": "not_mentioned",
+        "value": [],
+        "evidence": "正文未明示奥兹项目的任何实际发电来源。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "储能不属于 Generation Sources 受控集合。"
+      },
+      "storage_status": {
+        "value_state": "explicit",
+        "value": "confirmed",
+        "evidence": "奥兹150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "奥兹明确是储能项目。"
+      },
+      "storage_power_mw": {
+        "value_state": "explicit",
+        "value": 150,
+        "raw_value": "150兆瓦",
+        "evidence": "奥兹150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "容量直接归属奥兹项目。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "explicit",
+        "value": 300,
+        "raw_value": "300兆瓦时",
+        "evidence": "奥兹150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "容量直接归属奥兹项目；21.9亿度只出现在洛奇上下文且不是储能容量。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "150兆瓦处于“储能项目”的功率/能量配对描述，不能作为发电装机容量。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "不把储能功率复制为发电装机。"
+      },
+      "project_stage": {
+        "value_state": "explicit",
+        "value": "开工",
+        "evidence": "也于3月25日同期开工。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "开工节点明示。"
+      },
+      "country": {
+        "value_state": "explicit",
+        "value": "乌兹别克斯坦",
+        "evidence": "乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "国家明示。"
+      },
+      "location": {
+        "value_state": "explicit",
+        "value": "费尔干纳州奥兹",
+        "evidence": "乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "州和地点均明示。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": {
+          "total_project_investment_million_usd": null,
+          "total_project_investment_raw": null,
+          "contract_amount_million_usd": null,
+          "contract_amount_raw": null,
+          "financing_amount_million_usd": null,
+          "financing_amount_raw": null
+        },
+        "evidence": "1.4亿美元投资额所在段落明确描述洛奇项目；正文未把该金额归属给奥兹项目。",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "不得因同篇报道或相同容量把洛奇投资额复制到奥兹。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "Unknown",
+        "evidence": "正文未说明奥兹项目的融资结构。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "未披露融资模式。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "中南电力被明确描述为EPC总承包商，未披露该项目业主、开发商或投资方。",
+        "confidence": 0.98,
+        "verdict": "ok",
+        "reviewer_note": "EPC总承包商不等于 developer，且洛奇投资方不能自动迁移。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "explicit",
+            "value": "中南电力",
+            "evidence": "中南电力作为EPC总承包商承揽的乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "production prompt 要求实体名逐字照原文，不能擅自扩写为前文全称。"
+          },
+          "role": {
+            "value_state": "explicit",
+            "value": "EPC总承包",
+            "evidence": "中南电力作为EPC总承包商承揽的。",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "角色明示且在受控 involvement 枚举中。"
+          },
+          "equipment_role": {
+            "value_state": "not_mentioned",
+            "value": "未提及",
+            "evidence": "",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "EPC身份不等于设备供应。"
+          }
+        }
+      ],
+      "project_split_merge_relation": {
+        "value_state": "derived_from_explicit",
+        "value": "独立项目；与project_1_lochi于同日开工，但州、地点和项目描述均独立。",
+        "evidence": "乌兹别克斯坦安集延州洛奇150兆瓦/300兆瓦时储能项目开工建设；乌兹别克斯坦费尔干纳州奥兹150兆瓦/300兆瓦时储能项目也于3月25日同期开工。",
+        "confidence": 0.98,
+        "verdict": "wrong",
+        "reviewer_note": "Terra 的拆分结论正确，但“独立项目”是由两个不同地点的明示项目描述推导，value_state 应为 derived_from_explicit。"
+      },
+      "review_notes": [
+        "不可把洛奇项目的电化学/磷酸铁锂技术、1.4亿美元投资额、洛奇变电站接入信息或2024年12月商业运营计划迁移至奥兹项目。",
+        "正文未披露奥兹项目业主、融资模式、技术路线或更具体厂址。",
+        "中南电力在奥兹句中仅明示为EPC总承包商，不能填为 project_developer。"
+      ]
+    }
+  ],
+  "verdict_summary": {
+    "overall_verdict": "pass_with_minor_metadata_corrections",
+    "article_status_correct": true,
+    "project_count_correct": true,
+    "reviewed_project_count": 2,
+    "critical_field_corrections": 0,
+    "metadata_corrections": 2,
+    "corrected_fields": [
+      "project_1_lochi.project_split_merge_relation.value_state",
+      "project_2_oz.project_split_merge_relation.value_state"
+    ],
+    "summary": "Terra 正确识别两个独立储能项目及其各自150兆瓦/300兆瓦时容量，正确限制1.4亿美元投资和磷酸铁锂技术只归属洛奇，也正确排除了21.9亿度调节能力作为储能容量。仅两个拆分关系字段的 value_state 需由 explicit 改为 derived_from_explicit。"
+  },
+  "warnings": [
+    "本 Reviewer 只读取 raw_news.id=9027 原文、Terra Provider artifact、production prompts、review/critic.py 和受控枚举；未读取 canonical/db 聚合值、人工草稿或 Gold。",
+    "文章包含两个不同州和地点的同容量项目；相同容量、同日开工和同一EPC承包商不足以合并它们。",
+    "21.9亿度电力的调节能力既不是储能容量，也不是可据以确认的年发电量字段；confirmed储能能量容量仍为各项目明示的300兆瓦时。",
+    "“中国能建葛洲坝海投公司投资”支持洛奇项目的投资方/developer角色，但原文没有披露具体融资结构，因此 Financing Model 保持 Unknown。",
+    "奥兹项目不能继承洛奇项目的磷酸铁锂技术、1.4亿美元投资、接网信息、计划运营日期或投资方。"
+  ]
+}

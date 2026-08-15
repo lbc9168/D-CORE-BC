@@ -1,0 +1,28 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "山东电工电气",
+      "role": "供应商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "3台33千伏30兆伏安变压器",
+    "Category": "火电",
+    "Country": "刚果民主共和国",
+    "Energy Composition Evidence": "刚果金三期发电厂变压器项目",
+    "Generation Sources": [],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "刚果民主共和国三期发电厂变压器供货项目",
+    "Project Name (EN)": "DR Congo Phase III Power Plant Transformer Supply Project",
+    "Project Stage": "中标",
+    "Record Type": "设备订单",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

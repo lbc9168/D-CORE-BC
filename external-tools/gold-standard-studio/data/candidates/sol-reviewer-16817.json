@@ -1,0 +1,24 @@
+{
+  "candidate_id": "sol-reviewer-16817-stage4e-v1", "execution_role": "reviewer", "model": "gpt-5.6-sol", "article_id": 16817,
+  "article_sha256": "619782f7e9adc9abf2f9195602473c12622350c46363280424ec7a6b47bce12c", "parent_candidate_id": "terra-provider-16817-stage4e-v1",
+  "article_status": {"value_state": "present", "value": "valid_project", "evidence": "中国华能集团位于英国威尔特郡门迪镇的电池储能项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "具名中企持有的具体在营储能项目。"},
+  "non_project_reason": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "不适用。"},
+  "projects": [{
+    "project_name": {"value_state": "derived_from_explicit", "value": "英国威尔特郡门迪99.8兆瓦/99.8兆瓦时电池储能项目", "evidence": "华能储能项目位于英国威尔特郡门迪镇", "confidence": 0.99, "verdict": "ok", "reviewer_note": "地点和容量均在项目说明中明确。"},
+    "category": {"value_state": "derived_from_explicit", "value": "储能", "evidence": "电池储能项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "确定性分类。"},
+    "subcategory_raw_fact": {"value_state": "present", "value": "电网侧电池储能", "evidence": "电网侧电池储能项目", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "Provider遗漏明确子类型。"},
+    "generation_sources": {"value_state": "not_applicable", "value": [], "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "纯储能项目不适用发电来源。"},
+    "storage_status": {"value_state": "present", "value": "confirmed", "evidence": "规划装机容量为99.8兆瓦，总能量密度为99.8兆瓦时", "confidence": 0.99, "verdict": "ok", "reviewer_note": "储能功率和能量均明确。"},
+    "storage_power_mw": {"value_state": "present", "value": "99.8兆瓦", "evidence": "规划装机容量为99.8兆瓦", "confidence": 0.99, "verdict": "ok", "reviewer_note": "储能功率明确。"},
+    "storage_energy_mwh": {"value_state": "present", "value": "99.8兆瓦时", "evidence": "总能量密度为99.8兆瓦时", "confidence": 0.99, "verdict": "ok", "reviewer_note": "按原文记录能量值。"},
+    "generation_capacity_mw": {"value_state": "not_applicable", "value": "", "evidence": "", "confidence": 0.99, "verdict": "wrong", "reviewer_note": "99.8兆瓦是储能功率，不是发电装机。"},
+    "project_stage": {"value_state": "present", "value": "商业运营", "evidence": "2021年6月实现商业运营", "confidence": 0.99, "verdict": "ok", "reviewer_note": "阶段明确。"},
+    "country": {"value_state": "present", "value": "英国", "evidence": "位于英国威尔特郡门迪镇", "confidence": 0.99, "verdict": "ok", "reviewer_note": "国家明确。"},
+    "location": {"value_state": "present", "value": "威尔特郡门迪镇", "evidence": "威尔特郡门迪镇", "confidence": 0.99, "verdict": "ok", "reviewer_note": "地点明确。"},
+    "investment": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未披露投资额。"},
+    "financing_mode": {"value_state": "not_mentioned", "value": "", "evidence": "", "confidence": 0.99, "verdict": "ok", "reviewer_note": "未提及。"},
+    "project_developer": {"value_state": "present", "value": "中国华能集团", "evidence": "中国华能集团位于英国威尔特郡门迪镇的电池储能项目", "confidence": 0.98, "verdict": "ok", "reviewer_note": "正文明确项目归属华能。"},
+    "chinese_entities": [{"entity_name": {"value_state": "present", "value": "中国华能集团", "evidence": "中国华能集团位于英国威尔特郡门迪镇的电池储能项目", "confidence": 0.99, "verdict": "ok", "reviewer_note": "企业明确。"}, "role": {"value_state": "present", "value": "投资运营方", "evidence": "华能在推进企业投资项目取得成效", "confidence": 0.98, "verdict": "wrong", "reviewer_note": "正文同时呈现华能投资项目和运营团队。"}}]
+  }],
+  "prompt_manifest": {"renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"}, "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"}, "prompt": {"path": "data/runs/16817/reviewer.prompt.txt", "sha256": "b7c30cf768e84306aef6ad4b3091463ba2c1ef0c8420b1682974fcf85ec8591f"}, "provider_sha256": "56ee8b15b381e15e3304452a4a88f66fdbb4e246116a951f125dd2a6dc952d67"}
+}

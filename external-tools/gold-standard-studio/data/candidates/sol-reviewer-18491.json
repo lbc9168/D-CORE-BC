@@ -1,0 +1,29 @@
+{
+  "candidate_id": "sol-reviewer-18491-pilot-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 18491,
+  "article_sha256": "d1e2ef61935f6f06bc0514b7ece393d195ddfa64d90bd48cba00b1627d8bd024",
+  "parent_candidate_id": "terra-provider-18491-pilot-v1",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "no_chinese_participation",
+    "evidence": "EPC承包商包括越南第一建筑公司(No. 1 Construction Corporation)、日本三菱公司(Mitsubishi Corporation)和韩国现代工程建设公司(Hyundai Engineering and Construction)",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "独立检查全文后，两个煤电项目涉及的业主、承包商、贷款方及历史意向方均未出现中国实体；列明的EPC承包商为越、日、韩企业。"
+  },
+  "non_project_reason": {
+    "value_state": "explicit",
+    "value": "no_chinese_participation",
+    "evidence": "EPC承包商包括越南第一建筑公司(No. 1 Construction Corporation)、日本三菱公司(Mitsubishi Corporation)和韩国现代工程建设公司(Hyundai Engineering and Construction)",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "项目本身属于能源范围，但不满足中国参与条件。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "reviewer": "data/runs/18491/reviewer-manifest.json",
+    "prompt_sha256": "749ccdedc9107240197594986a111ecb289856bb8effc976cb7c1d05a67a17ad"
+  }
+}

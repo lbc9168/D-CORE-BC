@@ -1,0 +1,174 @@
+你是项目信息抽取专家。针对**指定项目**，同时完成两件事：(A) 列出所有参与的中国企业及其角色/设备；(B) 抽取该项目的投融资信息。仅基于正文事实。
+
+文章标题：中腾微网成功中标马尔代夫26个岛Raa&Baa光柴储微电网项目
+正文：
+2022年12月18日，中腾微网（北京）科技有限公司成功中标马尔代夫26个岛Raa&Baa环礁光柴储微电网总承包项目。
+新能源微电网项目
+Raa&Baa
+该项目是中腾微网在马尔代夫地区中标的第三个微电网项目，截止此次新项目中标，中腾微网在马尔代夫的项目岛总数量已达到64个。
+此次中腾微网中标的26个岛环礁光柴储微电网项目和之前承接的项目同属于马尔代夫政府的外岛可持续能源发展项目（POISED）的一部分，项目单体光伏装机量从175kWp至500 kWp不等，待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh。
+中腾微网将负责该项目中26个岛屿的光柴储微电网系统的设计和建设、现有电站的升级改造以及将原有的单柴油发电改造成光柴储微电网系统供电这几部分工作。此次项目采用了中腾微网自主研发的EMS能量管理系统以及SP系列储能产品，使光伏系统、柴油发电系统和储能系统有机的结合起来，既实现了多能互补，高效绿色的运行，又保障了岛屿电力系统的安全与稳定。
+一站式新能源微电网系统解决方案
+中腾微网拥有一支资深的研发团队，自主研发的SP系列储能逆变器、SP系列储能系统、EMS能量管理系统及GDP全球数据管理平台等产品均已正式上线，并成功应用于全球二十多个国家地区的微电网项目当中。
+中腾微网自主研发的储能逆变器及储能系列产品，以能量管理系统和储能系统为核心，配合中腾微网GDP智能运维监控云平台，在SP系列储能逆变器的基础上不断创新，使可再生能源、储能系统和传统能源系统有机地结合起来。
+产品可单台运行组建微电网，也可以多个电站并机组成多电源的微电网。同时可在并网模式工作，具备电网扩容补充、三相不平衡调节、削峰填谷、无缝切换、电能质量治理等功能，充分满足各类型用户的不同需求。
+让清洁能源应用到世界的每个角落
+中腾微网（北京）科技有限公司是一家专业从事新能源微电网和离网业务的国际化高新技术企业，业务范围主要涉及项目开发、系统设计、工程建设运维、储能系统产品、系统集成和定制化研发解决方案等多个领域。
+公司依托强大的市场开发能力、雄厚的技术研发和设计实力、遍及全球的项目建设经验以及高效的供应链和资源整合能力，为全球不同需求的客户提供新能源微电网、离网系统一站式交钥匙解决方案。
+公司依托强大的市场开发能力、雄厚的技术研发和设计实力、遍及全球的项目建设经验以及高效的供应链和资源整合能力，为全球不同需求的客户提供新能源微电网、离网系统一站式交钥匙解决方案。
+科技是第一生产力
+01
+技术研发
+中腾微网技术团队有15年以上的新能源微电网产品设计和集成经验，始终坚持“客户第一”的服务宗旨，一直致力于针对新能源微电网技术的创新研究，并拥有一支资深的研发团队。
+02
+产品资质
+截至目前为止，中腾微网已获得国家高新技术企业和中关村高新技术企业证书，并已获得市级专精特新小巨人企业认定。中腾微网已申报的专利共103项，其中已获得授权的国家发明专利17项，实用新型发明专利86项，计算机软件著作证书28项，外观设计专利3项，且已顺利通过了ISO三体系认证以及HSE管理体系认证。
+03
+业务覆盖
+迄今为止，中腾微网已在二十多个国家和地区建成三十余个新能源微电网项目，惠及人口超过3000万人，业务版图覆盖了东南亚、中亚、太平洋地区、中南美洲和非洲，项目经验丰富。此外，中腾微网在全球欠发达地区已成功安装并投入使用超过40万套太阳能离网系统，为欠发达地区超过三百万人解决了基本用电问题。
+全球案例
+马尔代夫26岛2.86MWp光柴储微网项目
+Cases of Maldives
+(Solar Hybrid system)
+案例详情
+PV : 2.86MWp
+BESS : 3.23MWh
+Genset : 6.72MW
+Fund : Asian Development Bank (ADB)
+乌干达518.4kWp太阳能微电网项目
+Cases of Uganda
+(Solar Hybrid system)
+案例详情
+PV : 518.4kWp
+BESS : 650kWh
+Genset : 500kW
+Fund : The Global Fund
+蒙古国收费站80kWp微电网发电项目
+Cases of Mongolia
+(Solar Hybrid system)
+案例详情
+PV : 80kWp
+BESS : 96kWh
+Genset : 100kW
+Fund : Mongolian Highway Administration
+缅甸583.2kWp太阳能微电网项目
+Cases of Myanmar
+(Solar Hybrid system)
+案例详情
+PV : 583.2kWp
+BESS : 476KWh
+Genset : 500kW
+State Grid : 1.25MVA
+苏里南N&C两地2.3MWp光柴储微电网项目
+Cases of Suriname
+(Solar Hybrid system)
+案例详情
+PV : 2.3MWp
+BESS : 1.14MWh
+Fund : Caribbean Development Bank (CDB)
+马绍尔群岛4MWp可持续能源发展项目
+Cases of Marshall Islands
+(Solar Hybrid system)
+案例详情
+PV : 4MWp
+BESS : 2MW/1MWh
+Genset : 8.6MW
+Fund : The World Bank
+斯里兰卡1.7MWp风光柴储微电网项目
+Cases of Sri Lanka
+(Solar Hybrid system)
+案例详情
+PV : 1.7MWp
+Wind Turbine : 530kWp
+BESS : 2.35MWh
+Genset : 2.05MW
+Fund : Asian Development Bank (ADB)
+尼日尔阿加德兹大区5个镇2.9MW
+光柴储互补微电网电站项目
+Cases of Niger
+(Solar Hybrid system)
+案例详情
+PV : 2.9MWp
+BESS : 4.35MWh
+Genset : 1.48MW
+Fund : The World Bank
+埃塞俄比亚25村庄2MWp光柴储微电网项目
+Cases of Ethiopia
+(Solar Hybrid system)
+案例详情
+PV : 2MWp
+BESS : 5.5MWh
+Genset : 450kW
+Fund : African Development Bank (AfDB)
+所罗门体育场微电网项目
+Cases of Solomon Islands
+(Solar Hybrid system)
+案例详情
+PV : 212.8kWp
+BESS : 161kWh
+Fund : Solomon Government
+缅甸36万套太阳能户用离网项目
+Cases of Myanmar
+(Solar Off-grid System)
+案例详情
+System Quantity : 368240 Sets
+Capacity : 24.88MWp
+Fund : The World Bank
+菲律宾2万5千套太阳能户用离网项目
+Cases of Philippines
+(Solar Off-grid System)
+案例详情
+System Quantity : 25000 Sets
+Capacity : 1.1MWp
+Fund : EU & The World Bank
+(截断)
+
+目标项目：马尔代夫Raa与Baa环礁26岛8MWp光柴储微电网项目（类型：综合能源）
+
+### A. 中方实体规则
+1. 所有参与的中方企业（总包/分包/设备商/股权投资方/金融机构等）都要列入。
+2. 中方金融机构（进出口银行、国家开发银行、中国银行、工商银行、建设银行、农业银行、民生银行、中国出口信用保险公司等）→ involvement_type 必须为「融资方」。
+3. 「融资方」仅用于纯金融机构（只放贷/担保）；「投融资+EPC」用于既是股权投资方又承担 EPC 的同一企业。
+4. **实体名填写规则**：
+   - "Implementing Chinese Entity" 和 "Subsidiary Name" 必须**逐字照原文抄写**，不要拆分、不要归一、不要替换为简称或全称。
+   - 如果正文中出现的是子公司名称，将其填入 "Implementing Chinese Entity"，"Subsidiary Name" 留空。
+   - 如果正文中出现的是集团总部名称，将其填入 "Implementing Chinese Entity"，"Subsidiary Name" 留空。
+   - "Implementing Chinese Entity" 不可为空（实在无法判断填 "Unknown"）。
+5. **设备角色（A.5）**：若该实体仅供应设备，判断设备是否为该项目类型的「主要设备」。本类型主要设备：组件、逆变器、电池、风机。equipment_role∈[主要设备, 非主要设备, 未提及]，equipment_items 填具体设备名（如「组件、逆变器」）。
+6. **设备供货两类（B.2）**：equipment_supply_scope∈[具体项目, 总量级]。若该中方角色只是「向某国/地区供应总量设备」未连到本具体电站，填「总量级」；连到本项目填「具体项目」；非设备供货填空串。
+
+### B. 金融规则
+- Financing Model 只能选 [信贷融资, 债券融资, 股权融资, 混合融资, 其他, Unknown]：贷款/融资/信贷/银团/买方信贷/优惠贷款→「信贷融资」；债券/公司债/点心债/绿色债券→「债券融资」；股权/股权投资→「股权融资」；同一项目同时含上述两类及以上→「混合融资」；无法判断→「Unknown」。
+- **B.4 富融资信息保留**：若融资信息丰富（股权+债权+融资方+模式都有），把完整细节写进 Financing Model Details 与 Additional Remarks 原文保留，不要丢弃。
+- Total Project Investment (Million USD)：只填换算后的数字（百万美元）；无则留空。
+- Total Project Investment Raw：**逐字抄录**正文中投资额的原始短语（如"约50亿元人民币"），不换算、不改写；正文无投资额信息则留空。
+- Contract Amount (Million USD)（合同金额）：中方企业就本项目签订的**工程承包合同金额**（EPC/总承包/施工/设备供货合同）。识别关键词：合同金额、合同总价、中标金额、中标价、签约金额。只填换算后的百万美元数字；无则留空。
+- Contract Amount Raw：**逐字抄录**原文合同金额短语（如"合同金额约12亿元人民币"）；无则留空。
+- Financing Amount (Million USD)（融资额度）：为本项目筹措的**债务融资金额**。识别关键词：贷款、授信、银团贷款、融资协议、买方信贷、出口信贷、优惠贷款金额。只填换算后的百万美元数字；无则留空。
+- Financing Amount Raw：**逐字抄录**原文融资金额短语；无则留空。
+- **B.5 金额归属规则**：三类金额（总投资/合同额/融资额）概念上不互斥、可同时有值（如"总投资50亿，其中银团贷款35亿"→投资额与融资额都填）。但**每一笔数字短语只归入语义对应的一个字段**："总投资/项目投资额"只进 Total Project Investment；"合同金额/中标价/签约额"只进 Contract Amount；"贷款/授信/银团额"只进 Financing Amount。禁止跨字段复制或推断（不得以合同额倒推总投资、不得把总投资拆算成融资额）；正文未提及的字段必须留空。多笔分项无总额短语时数值字段留空、Raw 逐字抄录各分项短语（禁止自行相加）。实体级 Subcontract Amount 规则不变（该实体自身份额）；Contract Amount 是项目级主合同额。
+
+### 输出（严格 JSON，实体列表 + 金融字段同级）
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "原文中国企业名（逐字抄，不可空）",
+      "Subsidiary Name": "留空（原文无子公司信息时留空）",
+      "Type of involvement of Chinese Entities": "只能选 [BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown]",
+      "Subcontract Amount (Million USD)": "数字或空",
+      "equipment_role": "主要设备 | 非主要设备 | 未提及",
+      "equipment_items": "设备名，逗号分隔，或空",
+      "equipment_supply_scope": "具体项目 | 总量级 | 空"
+    }
+  ],
+  "Total Project Investment Raw": "原文投资额短语或空",
+  "Total Project Investment (Million USD)": "数字或空",
+  "Contract Amount Raw": "原文合同金额短语或空",
+  "Contract Amount (Million USD)": "数字或空",
+  "Financing Amount Raw": "原文融资金额短语或空",
+  "Financing Amount (Million USD)": "数字或空",
+  "Investment (or Financial Close) Date": "YYYY-MM-DD 或空",
+  "Financing Model": "枚举或 Unknown",
+  "Financing Model Details": "融资方名称/明细或空",
+  "Additional Remarks": "富融资原文细节或空"
+}

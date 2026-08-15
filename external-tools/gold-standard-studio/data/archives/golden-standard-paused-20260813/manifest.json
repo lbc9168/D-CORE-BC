@@ -1,0 +1,3717 @@
+{
+  "branch": "claude/database-refactor-expansion-aa6198",
+  "frozen_artifacts": {
+    "golden_standard_annotation.md": "d7c1c49cb919bd4177c998ad969323f976f2a6c6751e708ac1f492cbb9c5a164",
+    "pilot-v0.1.1/manifest.json": "88e3986d18dfcd8ce443a61f074cfc34ee827ade46e957e796e9c6a22c96ab37",
+    "review.db": "095e7f4a55daf71b732bd64e8f5f2d4aea2faa7b4075674241a5d3a02306a9e8",
+    "stage-4e-40-v1/manifest.json": "7cb0dda1caa85e2bb525c40491536e7d9b86550e95f346c11850247ab79d61e1",
+    "stage-4f-terra-sol-40-manifest-r1.json": "bda704e7e7479acb6a2c59aafd93d6a2432fe19fd7e9dff159eeb5089c2da395"
+  },
+  "head": "fa224fe6e3ac7c65863ac44560795e2f6ddc0f97",
+  "paused_at": "2026-08-13T11:54:02.108209+00:00",
+  "preserved_file_count": 737,
+  "preserved_files": [
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__init__.py",
+      "sha256": "c1475da2e5fcc3713caa1639d657e8167628b7156e7cd1b2077e378f2b978940",
+      "size": 144
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/__init__.cpython-312.pyc",
+      "sha256": "875ea765e4651eb1e27a4bd7e33156ff14eccb155128f1e0837e9a2bdead7e29",
+      "size": 412
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/app.cpython-312.pyc",
+      "sha256": "7de40c602ce4ebc55239a1763a9ecfcc5887427496bc162d967aaa0af8aa63fd",
+      "size": 36478
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/candidate_contract.cpython-312.pyc",
+      "sha256": "5d4e3feaf220c1fdd0b954ead13ef44f58e9d75d3e70b61c136366d2f3311803",
+      "size": 20122
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/draft_store.cpython-312.pyc",
+      "sha256": "f31039409f6b8181d4c23ec4164ae138310bcacb2e759cb3bac7892500d27239",
+      "size": 15612
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/frozen_candidate_experiment.cpython-312.pyc",
+      "sha256": "4c3047354359639e083290669eb78b3fad059b5d6413f4f6e7d271deb32f400e",
+      "size": 25159
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/layered_evaluator.cpython-312.pyc",
+      "sha256": "77713dd2a5c49c49f201bda238fbc251559dd095a2df6934b89096089510f853",
+      "size": 37938
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/pilot_manifest.cpython-312.pyc",
+      "sha256": "7df789a3070d47d441672b97dc45fe13ec0fd04b1b09c02126c4838d1e3dbfb3",
+      "size": 2246
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/pilot_release.cpython-312.pyc",
+      "sha256": "d72c4a56f7e873cd43602c86f449510e735a2600c9eb7bf5c70b8ee97b3f759e",
+      "size": 35955
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/prompt_pack.cpython-312.pyc",
+      "sha256": "748f458ba09bc60bc8f23ec69dc3ebe5ec4f034cbf9700cc02cff6fee1647a42",
+      "size": 13136
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/review_cohorts.cpython-312.pyc",
+      "sha256": "38d970f76c274ab8dcb69a3021a537ef68fd0bcf9cf04b5dd27d40db906acb76",
+      "size": 2330
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/single_article.cpython-312.pyc",
+      "sha256": "60409f348ec4d200cc15e626d19d03ab0438e0b9d9ddee1cd97abf183f1e288e",
+      "size": 9563
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/__pycache__/stage4e_manifest.cpython-312.pyc",
+      "sha256": "3dfaa123b900d2ba5f60de681628fe40a2dd2ffd3837d3c28cdd84408bc99510",
+      "size": 19795
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/app.py",
+      "sha256": "70f9807151a2600846986cccbaa3926da3d8d8e9992472f6e925a343369207ef",
+      "size": 28229
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/candidate_contract.py",
+      "sha256": "58b468a8a503bb91985ef1ebdf30508ba814b5a513c34d85c61b789cdf787979",
+      "size": 15236
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/draft_store.py",
+      "sha256": "b45f99fa728308a359079ad3ddb508a164e2130246af3395ff9e30876c3b4c24",
+      "size": 11853
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/frozen_candidate_experiment.py",
+      "sha256": "7b60744ef1751fab751e8088f7f76c0c37d0c76c7eda96fb49127a59a978518a",
+      "size": 19712
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/layered_evaluator.py",
+      "sha256": "e65a978fdd538cbc529375ed7ffb38fa3ade69b6f2c7b7effcd416db402fc591",
+      "size": 30849
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/pilot_manifest.py",
+      "sha256": "8eee979ba60e8bad19850f41ce426ef402b245c6aed552c6c64c77c65a307cdf",
+      "size": 1936
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/pilot_release.py",
+      "sha256": "39aef11a2344d6a844a0166e20336b71555976dbc82b228ec253cf98afca6163",
+      "size": 27272
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d",
+      "size": 9831
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/review_cohorts.py",
+      "sha256": "2dc543c3c49f08ce777770e2e186b7050630fd8e35d964c61bc5a9d28272e8c9",
+      "size": 1529
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/single_article.py",
+      "sha256": "79f6db3d14cf5daf83de7c0eec1301b20397efe2fdab7abd8695b7b0bebc32be",
+      "size": 6958
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/stage4e_manifest.py",
+      "sha256": "cd211f7a87e4de7c0518eed2ac9e76ea4496617af5e44f97ccbc9f2c7e41bc15",
+      "size": 16203
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/static/review.js",
+      "sha256": "10db855d1a7e271294fb3ee3335e6778fd80bc78b2ebae7d0ce0796122dbc649",
+      "size": 17444
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/static/style.css",
+      "sha256": "4a7f5d8aaa451566f3c5fc8ec415f076c9e5ca64de825203f4f9fc130e964bfd",
+      "size": 8484
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/templates/queue.html",
+      "sha256": "fc07937eeb6e6ed58cc23b482d82eb34463f9faf9e92d66bcceb4528f88a783a",
+      "size": 2417
+    },
+    {
+      "path": "external-tools/gold-standard-studio/src/gold_standard_studio/templates/review.html",
+      "sha256": "424c587ad528de865d7a4e1464e443a9cb8a1b76d977942c15a990746510b0f1",
+      "size": 4369
+    },
+    {
+      "path": "external-tools/gold-standard-studio/scripts/__pycache__/apply_v011_guideline_audit.cpython-312.pyc",
+      "sha256": "b6eba0921a304e643fb65ebbc7f3b957234734508da1e15ea397462566aba86e",
+      "size": 11763
+    },
+    {
+      "path": "external-tools/gold-standard-studio/scripts/apply_v011_guideline_audit.py",
+      "sha256": "da9d410d0767f529312addc586b3abbfffdb5098ee582c723d1b86c2adf73b39",
+      "size": 9914
+    },
+    {
+      "path": "external-tools/gold-standard-studio/scripts/create_pause_snapshot.py",
+      "sha256": "ec7fa3964258c6dc90e3e61567ae4d1d3bf7cae3a186eb2e09423fbcee125ba2",
+      "size": 6282
+    },
+    {
+      "path": "external-tools/gold-standard-studio/scripts/repair_stage4f_23627_draft.py",
+      "sha256": "d08aba7c6a7f5a3a3d67c5589796a76576bc668450452580af166b5189eba1b3",
+      "size": 8403
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/__pycache__/test_frozen_candidate_experiment.cpython-312-pytest-9.1.1.pyc",
+      "sha256": "9a989039dd52f572da509c03cdbd6d88e46978386a7cb2f08e4fc3fef1c995d6",
+      "size": 11967
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/__pycache__/test_guideline_release.cpython-312-pytest-9.1.1.pyc",
+      "sha256": "b0c1a9170b95223fd7ecd247663fafe74ba3c9b4c0c332732907234c49585b1b",
+      "size": 12522
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/__pycache__/test_layered_evaluator.cpython-312-pytest-9.1.1.pyc",
+      "sha256": "c95b488aa838ed6a881a55cccb1c3004d67232df5f28c3b169dabdec9d64bf83",
+      "size": 12224
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/__pycache__/test_pilot_release.cpython-312-pytest-9.1.1.pyc",
+      "sha256": "7786aa6fe541a297743f2a2386a514c56c2fbc59c944cd3134eb256ff3aeb762",
+      "size": 14580
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/__pycache__/test_single_article_flow.cpython-312-pytest-9.1.1.pyc",
+      "sha256": "da42774fe6c596d70fd2450467b16e550402daeff6da5de1b2f73704d4dcf68c",
+      "size": 51266
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/__pycache__/test_stage4e_expansion.cpython-312-pytest-9.1.1.pyc",
+      "sha256": "591561e2740879e95c0721e70a4a17a8e22434a1e403265c6ee48e648b1cec33",
+      "size": 29438
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/test_frozen_candidate_experiment.py",
+      "sha256": "e508b398f32ddb2107a97a3e640e6297daed655515d68c56bcc0091c50265975",
+      "size": 3761
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/test_guideline_release.py",
+      "sha256": "fd04f8f81a14c05bdc56757d6f2bfba34876f0c3fb127fe7456dbde9dc16feb6",
+      "size": 3977
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/test_layered_evaluator.py",
+      "sha256": "073539d7ffe70c3bb49bb142bf55e9c4c087438a0b54ae0e5158c3766ed01865",
+      "size": 3664
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/test_pilot_release.py",
+      "sha256": "0071cabddd7ed387a18fdb69364e58209a9554706bcdae979bd4ec2cde28911b",
+      "size": 5670
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/test_single_article_flow.py",
+      "sha256": "0615272e720d597c585dac6bbcb6dbed3eea0aaf18dbc9639015b4b53dce82ef",
+      "size": 16419
+    },
+    {
+      "path": "external-tools/gold-standard-studio/tests/test_stage4e_expansion.py",
+      "sha256": "07b4199bd41ac7630e6f93fc95f0214564f530c97eb4a641a439352b67d3a011",
+      "size": 8190
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/.gitignore",
+      "sha256": "9f102f228c15df9900866e058ffbfc956493973ab6b6233db561e27ff6634124",
+      "size": 41
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/archives/golden-standard-paused-20260813/golden_standard_annotation.md",
+      "sha256": "d7c1c49cb919bd4177c998ad969323f976f2a6c6751e708ac1f492cbb9c5a164",
+      "size": 4120
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/archives/golden-standard-paused-20260813/review.db",
+      "sha256": "095e7f4a55daf71b732bd64e8f5f2d4aea2faa7b4075674241a5d3a02306a9e8",
+      "size": 1073152
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/pilot-v0.1.1-guideline-audit/audit-manifest.json",
+      "sha256": "a658e65e6c0afd3b40924a37fc6661dd5b2652df0efdbadc9ef295628a6361ee",
+      "size": 291
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/pilot-v0.1.1-guideline-audit/audit-report.json",
+      "sha256": "68e2a4e61a533f8c7fdcab69af9471acab1213c8e50e0ce391814c3a2fe1b4d2",
+      "size": 6712
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/pilot-v0.1.1-guideline-audit/review-before.db",
+      "sha256": "563c41e886b46a155f575069220d2432d5aa65713c4c2c6b9d7950ace444a5ac",
+      "size": 462848
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/draft-after-entity-schema-upgrade.json",
+      "sha256": "ba6299cb1b4806be49052ccbdbcc39e69e20394b6e017bdbe8310131c7420be6",
+      "size": 5059
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/draft-after.json",
+      "sha256": "3bce180e89c28df562e32999e8cc42a7da3e7a0bfea1e2640cf0cceee3d362bf",
+      "size": 5051
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/draft-before.json",
+      "sha256": "af53e3e1ac60ebfefbccf51c94146f5fa228a540be084c4e63237c0e22be0567",
+      "size": 4865
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/entity-schema-upgrade-manifest.json",
+      "sha256": "2f680376b4f54fcaf1e48be6deb8094741faf835f5e92bdbaae7248720506845",
+      "size": 271
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/repair-manifest.json",
+      "sha256": "6620dee25c4b4d05c975aa31cc77e73c696dd9261ebb32c3529f1f805fa0a119",
+      "size": 606
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/review-before.db",
+      "sha256": "712523114a0c32454882d178960a92c508ba7baa655ab678352e326860679032",
+      "size": 950272
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/article.json",
+      "sha256": "5effb19b1da9262b100a0e239d1970906af2a662f0d5e2c4536e623e0f276de5",
+      "size": 4497
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/base-manifest.json",
+      "sha256": "063cc4448bfb3b750ab3ce12de8f024be5822d13ad42ce597093326a7a7298ba",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/provider-working.json",
+      "sha256": "5a7b171507fb8b2b244e011737f33cb45b730d611e85405751a437b284a9dbf7",
+      "size": 319
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/reviewer-manifest.json",
+      "sha256": "95ae51038189c87c88268f425674c2897e321448908a7dd2db29d36eba36b983",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/reviewer.prompt.txt",
+      "sha256": "70a913a428192c9eb4668e49bb419be5763b6d891513de8a4f296b9a615bb106",
+      "size": 6562
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/s1.prompt.txt",
+      "sha256": "cd997674b8fe894fad44cee78b91d97201229b175c9032b458458f7d4bd94d8c",
+      "size": 9284
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/run-before/s2.prompt.txt",
+      "sha256": "8d54ec06ff2efdff2738f2215775f5d1a46b6a8998faefc389ae78504f63e7c2",
+      "size": 18371
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/sol-reviewer-23627-before.json",
+      "sha256": "70ea3a1c469548440d4823af5af728e91d5f30aec1102456bf5684191a4f6e06",
+      "size": 1804
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/audits/stage4f-23627-rerun-20260813/terra-provider-23627-before.json",
+      "sha256": "7e124f766d68e368ed9283c44768c814767c5bb82f696a88c03b8da76cad9599",
+      "size": 1123
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-10069.json",
+      "sha256": "3a41587c6d1f3a872874fe860bd06f615f77c3915cd69ed0b0831d6e8a2db5bc",
+      "size": 1326
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-12153.json",
+      "sha256": "5009b5dcf0b7da40697f211deedd010f5daac6bcf195ec0d53879e79d67a7c7a",
+      "size": 4932
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-12865.json",
+      "sha256": "01f4c82728e9aaf17465c8365e3b62f5c14472f7461508fd5d0eb43e32217dc1",
+      "size": 1623
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-13649.json",
+      "sha256": "a86689c3f98bc6c513bedfb7004d66ee8c5aaed83aaf5d2fcb5782a78229d7db",
+      "size": 5677
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-137.json",
+      "sha256": "4e5667ad5e2a246302882f61b9a88968dea2536705cedb46d144dfbd0957e807",
+      "size": 6376
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-13744.json",
+      "sha256": "25bf2c7371d0362dada23749fc81086b4609337ba5a70553b58fe00ec23754b9",
+      "size": 5295
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-1380.json",
+      "sha256": "2b974b57bcc3cfcf3a1177cb92774a4486cd8dfd85462352dd38a7268c9d46ea",
+      "size": 1480
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-13911.json",
+      "sha256": "0c5015bc75f5aba076c651c37fea31892dc2874b370c4d7c49931f90b367fb61",
+      "size": 1499
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-14313.json",
+      "sha256": "2666aa1d1b569f95360903898753b5c8b15293c40e46aa6bd143c796eb39f40e",
+      "size": 30374
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-14595.json",
+      "sha256": "c88f6cd78272f13f92e1449b098ad7964e295b2afee4d9bde4de95f5199d32fd",
+      "size": 9209
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-1533.json",
+      "sha256": "bd887b527aba501f479d0db6ce869e42fa7ad359fc06055c23eb0da9cc076d59",
+      "size": 56991
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-155.json",
+      "sha256": "a0d6c358ab9ab823ce2a8568323d0d2395a5665dece49dc11f5be0994a686ddb",
+      "size": 10749
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-1586.json",
+      "sha256": "6540b066b4e5823fcd2b211ddf17c9ed98bf74bd9ab48af21bb6411b79d8d250",
+      "size": 9423
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-16105.json",
+      "sha256": "6210e3a198d604f2ec68f6ce4d081166be230e3a82cd0f40351c3bb6ddfb39e8",
+      "size": 4348
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-166.json",
+      "sha256": "58a559c915ee7b2d29f2c4cca361145ff29b4ac623526550f9c55aec5eb321c4",
+      "size": 6596
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-16817.json",
+      "sha256": "792c8d513f1a70325573261a6400a658dc8dde8a935048433aef11503dc55f2c",
+      "size": 4851
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-16899.json",
+      "sha256": "9019b7e85199d4d2478836d235ed35dc2d984d0fbf3189e54c5f22b9e8b243ea",
+      "size": 4970
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-17408.json",
+      "sha256": "60df2c557098d6060d2a35cd2a345360baa8647c1d5fe1157faf953d2e02448b",
+      "size": 6248
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-17413.json",
+      "sha256": "04564e1cb7c146bfe3a35274343dbf67a68b252e5ab952ad6c8b23d8465317b2",
+      "size": 5451
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-18491.json",
+      "sha256": "cfcc66f38dff00f425e91033c8e590adabc8a57fe50720232232c63f3eb6b173",
+      "size": 1471
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-192.json",
+      "sha256": "d5cbb22d8cab058a07b566213d4e5966cabe80580fca53cabd4e866e0510e773",
+      "size": 4651
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-20872.json",
+      "sha256": "31f2bdaac92a5a275d09a1bccd83e3f3fd417b7b4f2da9e8f4632b5c95abe788",
+      "size": 1572
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-232.json",
+      "sha256": "536a8b6816dc8c4df0627f874a59e670cedce53dfbf011718e8679f5c640d208",
+      "size": 4362
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-23627.json",
+      "sha256": "b73f1c7f29e800131f7cef49f3b270599acac1c11a23a21da612b0f85f2ec554",
+      "size": 9380
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-25106.json",
+      "sha256": "450a633e1002fbbdb362e85ac1492e596b82053c7b037f0a78b5f677c7ec9f65",
+      "size": 5432
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-260.json",
+      "sha256": "062f7d04afbf5858a7f2fa7ae8092207b260f88ea179854fb90a4ddb05edc629",
+      "size": 5020
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-26667.json",
+      "sha256": "af2b4e0db6d4dd275b1de908bb43f83d5b12e3db5c05e90e8dfd4ae005d33185",
+      "size": 4781
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-27082.json",
+      "sha256": "7e2e7b8f8e84ab1b5e67a020f78c789f69c794a4f4fa0f836181bc0ccd7ee059",
+      "size": 2204
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-27309.json",
+      "sha256": "4d1f9c3e315c2ba62fcce4246c7d0e2e2a4984d0e0cfc5d0a1ad32471c868471",
+      "size": 1889
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-27434.json",
+      "sha256": "39b09ab7d51d9ba39577bfdc8e57ffbf355bd1f01c3b987340bac9a506b34565",
+      "size": 7173
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-2756.json",
+      "sha256": "3010e290d3d0845393171cc99c307512d4e01a2ace3a9e88e72411acddc5c370",
+      "size": 4820
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-281.json",
+      "sha256": "d222affd91bad7876eafa2cd7ea47f5c5bdb3674d4d338d16874338ca48a7fa0",
+      "size": 16622
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-32.json",
+      "sha256": "0ac8945daafaa16c3cb232235bb22ce9126d1cdd9c2ca884412f4a58340951fa",
+      "size": 12820
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-3215.json",
+      "sha256": "f2e076ee9edfa54f423dad89cbdaaa13c75da789936bd0428592e91b44d7a3a6",
+      "size": 1457
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-353.json",
+      "sha256": "a38183664641aea00d2bae06aebb8639235b831ff4a9938841aa355b5ef06650",
+      "size": 7600
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-3674.json",
+      "sha256": "5a62c33d01c90aa04b554273aec5e248aa4d12fa5151aaf501c194152753b535",
+      "size": 8085
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-432.json",
+      "sha256": "7be0f0d15c4e97707c3192f561a29cd8754e67cda87c437f2045c6e5bfe98ff1",
+      "size": 6904
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-4604.json",
+      "sha256": "4f3daaab413baea6532668c3ac6f1062cd41e4d726c04f29645886ce293cbd9b",
+      "size": 3870
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-465.json",
+      "sha256": "2d25a611eb53a98f547e1ae8e051160d5d06e60205f264022ce6c14c5669c660",
+      "size": 1443
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-483.json",
+      "sha256": "8f9a237acba8ba49829cb1b1549d2c52cfff78c4ffbf227716d1ec1c2daa0cf7",
+      "size": 3859
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-4930.json",
+      "sha256": "1376e3843c69679ff2a1d7aa22f08bfabc607b12bcf6ad9d4f0172a6b530902b",
+      "size": 4218
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-4952.json",
+      "sha256": "bcbae8bf2aa42c30ed46ac29fd156683b5bd101eb9d6b9e132280bcfaad5f767",
+      "size": 4055
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-5093.json",
+      "sha256": "39fab8ce754041097d17fb996e8d196089b1fb27bd52d646b433621fca048c30",
+      "size": 6982
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-526.json",
+      "sha256": "896717528d8154b0fc6cf6b17667e81bc4b82f4769dbf77abfb3ed45e8967cec",
+      "size": 3730
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-532.json",
+      "sha256": "2155b516f9f5d60e656c07fe3869ce13fd00a6025f3f06819a622b9debcc1d11",
+      "size": 3730
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-635.json",
+      "sha256": "9f19942b1549d179268b7e5c98f9d753b2e3c80326354eaf8591254627079821",
+      "size": 4186
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-75.json",
+      "sha256": "4dd037f126262c53371e2cc096b138552dd40857590014f9ff842b5d46d1f0f1",
+      "size": 6438
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-87.json",
+      "sha256": "d90d3f88fbdbcebd7333e7494defb5fa1205b013866ae279befe4d69dad2c08e",
+      "size": 6044
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-9027.json",
+      "sha256": "ddc3611af2c8196bd700e788a3d54955c8580547d22b03b3aceecd062a57b3b8",
+      "size": 21289
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/sol-reviewer-9081.json",
+      "sha256": "2e5a962882f42e0cfe0871823c65b6f7898a286763bb7eddd0c57f5c89bc0414",
+      "size": 29105
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-10069.json",
+      "sha256": "d7d462d59fbcfbba79c339ed470817397107a32750be8a408aa34081edd64d9f",
+      "size": 1349
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-12153.json",
+      "sha256": "baedcf69a8bc5058e23d381cf63f62551664e2a2222141ef6cc29d7d26a17eca",
+      "size": 9584
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-12865.json",
+      "sha256": "960fc829e920f5af045d7b4a1b03c40093e37911a7ebe16f5423f1836de4f911",
+      "size": 1206
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-13649.json",
+      "sha256": "7ae3082e10452741425683dbb5d34efea7a86145fc6917b03c1c59b63db76b7c",
+      "size": 7972
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-137.json",
+      "sha256": "55b35f3f9b362b1173e603351f6832b11b026c9ec11f8ed62deeb7a32b3d901e",
+      "size": 5260
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-13744.json",
+      "sha256": "4dd0170f4d74611192c430c2fd2b8b116cc4f40c6c27f38b46099c1804f6f390",
+      "size": 2539
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-1380.json",
+      "sha256": "0d1014ee0a5466b32e1f695ac70a28671879ca87f9d52652e4a9fb68cd2dfb04",
+      "size": 1070
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-13911.json",
+      "sha256": "a4fd8cf49b55a526d2faca97b6e806873e6001d61b89e97fcc733cfaaf66b90c",
+      "size": 978
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-14313.json",
+      "sha256": "345283ce16b3835368742d302719f847ae3ac5a414fbfa2ba83f1eb54e98125f",
+      "size": 42704
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-14595.json",
+      "sha256": "1bb4fd8fdde45f9e127ef8730c7752cd75bb402cf6171928841bf31f53d21116",
+      "size": 9626
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-1533.json",
+      "sha256": "cd6cc3b222ae355d3d92fbc828015dd3860e2a85e10afb18c8492365596bcf2d",
+      "size": 48735
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-155.json",
+      "sha256": "9673e882239d6289d3d1abe3888547292b9a12e586952c39fef411d3520b4703",
+      "size": 9009
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-1586.json",
+      "sha256": "78c0f2764c61b834efa9ef0227f7b5fc6408ac677df43e57383760ad5a9f4f19",
+      "size": 10008
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-16105.json",
+      "sha256": "3b31b75d9eb503812cb5fe5edb3c8db374c86ea41fbcb281b515f93c26f54953",
+      "size": 2490
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-166.json",
+      "sha256": "208aaff81d1c486c95f4eedab1276da9fa43372b7aa274e2a9152047cf7977ea",
+      "size": 5576
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-16817.json",
+      "sha256": "d8dccb4a3933ed1353198024ce50aa5f4234150300757f0de69265783ff66a0c",
+      "size": 5380
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-16899.json",
+      "sha256": "68530afc847b8496ee39fdae39d0c9a4f8c919651964febd423f92f50c814e13",
+      "size": 5415
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-17408.json",
+      "sha256": "0ea64dc278d30d7c26d3a2e319a46e4fdb24aad2e891a715996923c2e6660905",
+      "size": 5341
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-17413.json",
+      "sha256": "544b831bfb8aab5c439dd6878ef3362f165d16f60cd21f627923042315f8be5d",
+      "size": 7862
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-18491.json",
+      "sha256": "e48029db4ca575bebd7112c02705b133b8db4dcb261a1432828e8c6acab303ce",
+      "size": 1483
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-192.json",
+      "sha256": "0127686959462d98d98a4ab11718d6b4fb547ce6dd0262ae7369268c2c26ab0a",
+      "size": 5216
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-20872.json",
+      "sha256": "c1dad24852ecf7fbb2204bf85d2a18ca9f700e22f5d9dd37dedc1eb1c207a032",
+      "size": 1098
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-232.json",
+      "sha256": "525241a0001c5fbc6de2a47eeca5a4e0837b9b94c9e46cfa0216a3d480d6c322",
+      "size": 5125
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-23627.json",
+      "sha256": "b110950c3f9368c8959d63b20179e811fbbb1fdc48f72a9d3f79b7ac865cf9c6",
+      "size": 7722
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-25106.json",
+      "sha256": "5aed692016d2494305e33b1f261160184569d0266c8b927f3068db0f28023605",
+      "size": 5086
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-260.json",
+      "sha256": "8fbdde5fcfbc290027d3b52fdd668544fb9a5bb3e3f0ca37d8190f1cb3e6e444",
+      "size": 5216
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-26667.json",
+      "sha256": "e561e2557f7202d46fe58416330a9f16ca6e3c9205273f2ac3a96d6b06e45065",
+      "size": 5419
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-27082.json",
+      "sha256": "8b5bdbe0d66efa9d113202bfecde1e4cc339a18db96d6a982961255c2d8f403b",
+      "size": 1438
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-27309.json",
+      "sha256": "f474e311d283e988758be5c58a58801a3d9c9f46479bc10825e3b6910e7e982b",
+      "size": 1274
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-27434.json",
+      "sha256": "5e5f544b6a0273a7619ff2441ef904d6d44c9ef28a4577c377f786edec1c1d19",
+      "size": 1952
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-2756.json",
+      "sha256": "03e06f390178de8abe7bbbbdb77ad80ec8ff20f152570bb606ea1c7271affe42",
+      "size": 1917
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-281.json",
+      "sha256": "8fc6592b4f390964ecc6e88038526b8f836f794bae536b59601105f858050452",
+      "size": 20068
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-32.json",
+      "sha256": "7ad5e64b013d600dce7a3d4aa24217b99c28bf96c6628c843b305814381997d1",
+      "size": 9550
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-3215.json",
+      "sha256": "0db98586d295ef544cca2590f3798210f200d47c0a6177fc4abb4a83f90a1672",
+      "size": 1024
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-353.json",
+      "sha256": "57798ea83cf416c63ba7575f8663b5611fa39a64746e76f41313a4a7cc1fd850",
+      "size": 6377
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-3674.json",
+      "sha256": "dd57ab1aab4de48801e38d7ca879be2c183ba4424d5679cfb089586061815e4a",
+      "size": 9071
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-432.json",
+      "sha256": "75d511813aabbff16fbd2f268433f732bedd0f77dc1621293bd901195fa03c3d",
+      "size": 5092
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-4604.json",
+      "sha256": "8b8d9c2f62850aeb0d68b4bc2d5fd9c77505eb0617ce7fde2623b414b9318124",
+      "size": 2245
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-465.json",
+      "sha256": "b0f1b65468925ca0f266718942674b69e847e9944c223e4ae8f00478c8feabf6",
+      "size": 1003
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-483.json",
+      "sha256": "d73beaca56a750dba45aec2856a737d8233dab615ea210f7ffeb4ed3c886d46b",
+      "size": 2098
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-4930.json",
+      "sha256": "2a91b909eba9862dfcbd773344c5116c79467afefe8e1a0ac2f6469a35f447f1",
+      "size": 1846
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-4952.json",
+      "sha256": "12cb777e0c133dbf7634a449349d0a8174330988afe76ab39ecb23e3a29080a9",
+      "size": 3164
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-5093.json",
+      "sha256": "7423eba849c004805527adac4f126d70952094c0b098c060398a069f6fb5fdcb",
+      "size": 1933
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-526.json",
+      "sha256": "e599ccee0cccf7b4fd43dcd791b7fd18cfcaa46026e152b1e57b68e19888f763",
+      "size": 2086
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-532.json",
+      "sha256": "a8ca0a8c711fe8f33fb91a19257bbeea6b3df0c94cd90e62689c27fa367c348c",
+      "size": 2086
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-635.json",
+      "sha256": "759a6a160a38c9ed978c4b64fcdaf9edd83dc77a33fc01130628c69b2205b9a6",
+      "size": 2003
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-75.json",
+      "sha256": "8ffb47326cd7f48f7a36e4303d9b25dea9647d889a2f019f1d4765f070b3a5ea",
+      "size": 5436
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-87.json",
+      "sha256": "bd49fb07b11204a4f8add62dae555a8563b8b3f9fd45f3a5b031310d7a134be8",
+      "size": 5061
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-9027.json",
+      "sha256": "ad0dc1ad0e554a973e7bd55c16aefd6ef7f9a853f4374eec18505aac7ce73f7f",
+      "size": 14022
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/candidates/terra-provider-9081.json",
+      "sha256": "e01ba82ab9c9278818d8f2faa44bf5bb56980ba54313477a4b9878792c8f7d18",
+      "size": 37944
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/cohorts/stage-4e-40-v1/articles.jsonl",
+      "sha256": "78e72ddc0dcbfdbabf650096f58fe94b3f8237e99461995d5c07616a993fb649",
+      "size": 27857
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/cohorts/stage-4e-40-v1/manifest.json",
+      "sha256": "7cb0dda1caa85e2bb525c40491536e7d9b86550e95f346c11850247ab79d61e1",
+      "size": 1367
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/evaluations/pilot-v0.1.0/stored-snapshot-v2/errors.jsonl",
+      "sha256": "9fc10d892049238c42bb7cb4c859e3da5053f8bfee83a788cb755abe5fe96301",
+      "size": 85173
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/evaluations/pilot-v0.1.0/stored-snapshot-v2/report.json",
+      "sha256": "915aef6c8138afc3832a767f07fdab83c938c9844947dd2904e658df65acf611",
+      "size": 26500
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/evaluations/pilot-v0.1.0/stored-snapshot-v2/run-manifest.json",
+      "sha256": "b232f4ad82842d753cff559d3c1c383eedba1bb647a7404807e606c0c87c5345",
+      "size": 457
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/evaluations/pilot-v0.1.0/stored-snapshot-v2/summary.md",
+      "sha256": "77e7b72c2404a07cd8acd3d61d2b45ab91e7067b08dfe49345a92523bd09817b",
+      "size": 1126
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/comparison.json",
+      "sha256": "a5829c8eeef1ccf1131e996a1012ccf4aefb45c0fc6d4282fb33d3618a6f36b4",
+      "size": 10613
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/provider-errors.jsonl",
+      "sha256": "2b36d5aad1fc573e2d1b3f676376e5d9b6baf469f0e5e2f5c7d2a6195ac3c5c3",
+      "size": 7665
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/provider-report.json",
+      "sha256": "096c94993fd5f6cdc97ebf4797100aabf15f75adaee225c9aefa26caf8323ada",
+      "size": 7048
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/reviewer-errors.jsonl",
+      "sha256": "da16a52ff48d5745a7e2b013e3c9a52469397cd4785d46e672ad5734dfb2899e",
+      "size": 9877
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/reviewer-report.json",
+      "sha256": "7354d32c895cf4938e761e809085e0eca9d19d2081d1cde6789b5b778561054f",
+      "size": 7120
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/run-manifest.json",
+      "sha256": "5d43bccb2e4e763fb1b723fc1e956505426e0f6b81728f3c6c3634a60fe5adcc",
+      "size": 10368
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.0/frozen-terra-sol-v1/summary.md",
+      "sha256": "4ef718c849c0d426eb246030b628d38aad364e9ab83e626bd33f0793e02870a6",
+      "size": 1502
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/comparison.json",
+      "sha256": "70eb77b5ffb0209d9ebd5981a699e6cc50be00819eee9a30730411361b999092",
+      "size": 9612
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/provider-errors.jsonl",
+      "sha256": "f2e0ddf3dca882b5e801d3830d556100bdc0a26bf9a5e8bc46bf2f6b5ce4e48f",
+      "size": 12165
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/provider-report.json",
+      "sha256": "d90c5af6cd3ad9d5cf5f59086cb771f75bd9fc1f32bd3c9420e257410b5cd78e",
+      "size": 7105
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/reviewer-errors.jsonl",
+      "sha256": "f8e54c0650b2806516b2b360aa2072d8c604476c86ff3050fac985a56efaed23",
+      "size": 6270
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/reviewer-report.json",
+      "sha256": "92fee3a1b2596b32d91aea43d41f249250b4a011c904ec86a2b96a0b57d55a0b",
+      "size": 7091
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/run-manifest.json",
+      "sha256": "4752af39c9a55f47d3b09d4a2138f26bdb634026ac5244a39af7ffad1c1a4c4b",
+      "size": 10368
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/experiments/pilot-v0.1.1/frozen-terra-sol-v1/summary.md",
+      "sha256": "e63c967915ba2a4fae59673fdebf716ccedff9219c1de3c1b2667021efbcccc2",
+      "size": 1501
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/baseline/stored-pipeline-baseline.json",
+      "sha256": "7ae885d1b76927e07e23e06ab6bdbbfc2e4cbc9cf23ac80af020a3eadea36eea",
+      "size": 7301
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/manifest.json",
+      "sha256": "83a50b9642c36ef25b2ba30f2c3ff59d8e847246b2e6a5e455eb976c322af664",
+      "size": 1025
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/projections/end-to-end.jsonl",
+      "sha256": "68154ecbc8d3d28c72eab815b714d4d4b2fa71b557649123e3bc519e2e7eab94",
+      "size": 24542
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/projections/s01b-eval.jsonl",
+      "sha256": "d03045ce9964c46b96b45e3226a2cd4d866639361edcd684a6601684bb09fc1e",
+      "size": 7556
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/projections/s01b.jsonl",
+      "sha256": "46f85b4c24fd1a9359d0f01189cd52a222a66458fddd22f6c1ad3133ab6c3f13",
+      "size": 49097
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/projections/s02a.jsonl",
+      "sha256": "40afe46f335a91bb5d93da8f1ffff2cd9424347b651eb59cc5195d705ada7e61",
+      "size": 3257
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/projections/s02b.jsonl",
+      "sha256": "8a1deb70c23e4337950095d20d75f0cf994b7c1ff17ed314c60250747a79338b",
+      "size": 9145
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.0/rich-gold.jsonl",
+      "sha256": "743a7c0c523ac85c1e3969a3423d20d99f5e1c213e37d3a897fb7aba65f634be",
+      "size": 62887
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/baseline/stored-pipeline-baseline.json",
+      "sha256": "f6f111261a9edab3144e18ce3365a908bd5ac76e52b8f106d4c7564382917964",
+      "size": 7286
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/manifest.json",
+      "sha256": "88e3986d18dfcd8ce443a61f074cfc34ee827ade46e957e796e9c6a22c96ab37",
+      "size": 1025
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/projections/end-to-end.jsonl",
+      "sha256": "6a10704b5b4107d1bdfe96f0a19ce6363506fff800accdfedcfc1ccdac1689b3",
+      "size": 24402
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/projections/s01b-eval.jsonl",
+      "sha256": "89726622139f74779e06299c1712d43e36ef45e9262cb36ed0679061ce80c927",
+      "size": 7421
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/projections/s01b.jsonl",
+      "sha256": "7cfae4d1fa912a2bd6750949ccd32767e294285e05c7ab6157310cdd4ac05954",
+      "size": 48896
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/projections/s02a.jsonl",
+      "sha256": "c4ba833ed2a466097e0e0023b4c9ccf375fdc8dc6dc661b26294ea00909a3232",
+      "size": 3242
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/projections/s02b.jsonl",
+      "sha256": "21d9838ff1a2db46b3a32e64cd85d985c9be9dafbfa5511c01498be0e2294d3b",
+      "size": 9130
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/releases/pilot-v0.1.1/rich-gold.jsonl",
+      "sha256": "f748dc182de5c7879588327372290e9f6bf252f5c35f2b06063926d73c6addc5",
+      "size": 62671
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/review.db",
+      "sha256": "91182a05aa44c184f1e00bb368ef4385fe8ae039d9dbf002acd67a9718b5d418",
+      "size": 1073152
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/article.json",
+      "sha256": "60b6101a72e828db621125c12de1fbb2e8c4ba76e3d06614aac283900cd0b42b",
+      "size": 4551
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/base-manifest.json",
+      "sha256": "634aff38d5a67e93a9b9ee1d0f29d869cb885e381242711d954bc2eefa06d23e",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/provider-working.json",
+      "sha256": "6e034abac14a68e3897142e79a0cefbe37ed97ba63105bed9d91830ebd0bc84b",
+      "size": 451
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/reviewer-manifest.json",
+      "sha256": "413e0b02e0a17b2f9aaf6a3ec937a163c779aa10941f0e35beb8454b7f74b61d",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/reviewer.prompt.txt",
+      "sha256": "518b94b3168cfdd4a3ff585459640d40c327ecc05850a3b6f17c890fbb8db84d",
+      "size": 6830
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/s1.prompt.txt",
+      "sha256": "343adbf54d7eb08afafdbe967d833fc180387bc63cb1031815dc484914b213cc",
+      "size": 9323
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/10069/s2.prompt.txt",
+      "sha256": "b7214db64b64220d71fb5677f0a18821f3c562fb5c222bb925acf43ac9380f0a",
+      "size": 18410
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/article.json",
+      "sha256": "bc0a5664b8dcacf0b2ddace92b2d686ba3766f6dc81a270fc1bb9b6e4fb51a0d",
+      "size": 11948
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/base-manifest.json",
+      "sha256": "7bf29d40778e090321e0aa2505e52af198997d41a5d4c3d7ff3710ec6059af8d",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/dynamic-manifest.json",
+      "sha256": "3e2ab16835069a744754aef161b9d6aac36674aa7ed18828f0ed5bdbb1eaf881",
+      "size": 3550
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/project-01.pre-s5.json",
+      "sha256": "5637dc4cb693383e761781c2cc93d61bc31441345eb271b7f3933ab197e1225c",
+      "size": 1000
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/project-01.s34.prompt.txt",
+      "sha256": "080d3a8a06109667a9ee586f2b447e0546358fb765d7c4c21a7ff12cc25fbae3",
+      "size": 17328
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/project-01.s5.prompt.txt",
+      "sha256": "af4e8dbdc843a769e9eab746ad67a5f5d34a5d24e3b50f522327241df590d6c1",
+      "size": 2041
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/project-02.pre-s5.json",
+      "sha256": "b880dddeddb6b2d798ef1400ac4115c6999f31dad3b862ca875e6ba4da16ee8f",
+      "size": 1000
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/project-02.s34.prompt.txt",
+      "sha256": "802c747dcecde35188731cda9296e289f5dd83f02cb547a8464cbef37241d998",
+      "size": 17323
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/project-02.s5.prompt.txt",
+      "sha256": "c774d683702a5002dd931b88039e51f59b44859d2fbff5193ccf058962e58a80",
+      "size": 2041
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/provider-working.json",
+      "sha256": "c6f34d830ec963dde588e0eecd134dc3721c8630fb7c004fc0dec670cc27c814",
+      "size": 1961
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/reviewer-manifest.json",
+      "sha256": "c484bb22e1c903fdef1a1ca9a84f6cf45094ac662d55a556b0116aa415f9db30",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/reviewer.prompt.txt",
+      "sha256": "bb5ad73e5ed988372423e88e064a22d17f34866e3d8d60acb40c81e9469e68a8",
+      "size": 22117
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/s1.prompt.txt",
+      "sha256": "c9b1a2a8ee95f863501ea55339915e9d8a4ab7c1d23feba04221096bf02da30f",
+      "size": 16653
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12153/s2.prompt.txt",
+      "sha256": "28cb5bed48af643472a81119c3ba6af840a6f11b69b9e6351c7c8578ce38b78d",
+      "size": 25740
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/article.json",
+      "sha256": "a091cc708d4b803922234c91010de21c02d0e2e94e6b6dcb2d9d95dd4240f5e5",
+      "size": 4393
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/base-manifest.json",
+      "sha256": "83dca59ee336f96eb10db4f54f98bbaceb13c21d3bccb052a11f4be662e8eb93",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/provider-working.json",
+      "sha256": "0c3c84c6d2e8d0681689f0c946dde40f290f65fb7ae4a38f80122e537aa1c504",
+      "size": 310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/reviewer-manifest.json",
+      "sha256": "b676b287dd53c8aa1af6ed9dc7ec751a70bf2422e506dc8634a1b2fa5d10db17",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/reviewer.prompt.txt",
+      "sha256": "e05368bcdf8df5fe2b525e4c5a570915d81aca2a058da759b7d1a74c20f20f1f",
+      "size": 6519
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/s1.prompt.txt",
+      "sha256": "0e6215ed754a28dd42d983453384cc3ed9f165769756559c1bae2562650e46e6",
+      "size": 9152
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/12865/s2.prompt.txt",
+      "sha256": "fb2ae5359dd3c4f9c9bc0952688133cbc07806b5fe7edca2ec73bbb912a0ab11",
+      "size": 18239
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/article.json",
+      "sha256": "ae55f43f70bd8d1e4fd3d96f1834e3cae0a89dc007b1e7b512eb4d13d44af3e0",
+      "size": 3700
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/base-manifest.json",
+      "sha256": "1053d8bd63ddc1fe831eff774c572f23553a50d3635fb887405a628a67a4089e",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/dynamic-manifest.json",
+      "sha256": "df2b3a07336e224058b51f1d1cff088e8c77f8e5a01f89b35796581de405716a",
+      "size": 2530
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/project-01.pre-s5.json",
+      "sha256": "ce44e7d2b7757193c950b618042dfc36409cd17f098aca5852b6622c1ccf191b",
+      "size": 1574
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/project-01.s34.prompt.txt",
+      "sha256": "876d0902a554bfec31266a8660603393d89ff415257529ad8ea12adcd2fc5bbd",
+      "size": 9165
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/project-01.s5.prompt.txt",
+      "sha256": "8a3f5bc937e2274247d47a6e072c7268790c94f13c1b37d74a4da55d0a42c8f1",
+      "size": 2615
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/provider-working.json",
+      "sha256": "5945f5f07b8cedd28bedaf052235fcaf117130eec99b8ad5059d17de0c2b78fb",
+      "size": 2743
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/reviewer-manifest.json",
+      "sha256": "5be49eeb1693f1798c71aeaa8609ec07ec1d7e0324e0b81eacef24786206c904",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/reviewer.prompt.txt",
+      "sha256": "a0f4ea473b941fb70b006894936c93d9ddbc9eedd2b98a5596e73d3f19be813f",
+      "size": 12427
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/s1.prompt.txt",
+      "sha256": "618f33e8426706956a88e215eb9451b3d44ab88ef681d230c19f34d4fc6c5bae",
+      "size": 8480
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13649/s2.prompt.txt",
+      "sha256": "60b3face33de3efcaf7f528da52bf3da0e13fccbdcf28e9ffd8c6eaa51ddffe0",
+      "size": 17567
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/article.json",
+      "sha256": "9c8cb68d8d27cd5f7095a38bc82f6e11f9c5174a741e1f45d6de8e8122b9d785",
+      "size": 1913
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/base-manifest.json",
+      "sha256": "27187c58909c2a0fb221199d130c133200d6349cd30891801dfbfcce0e7f2196",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/dynamic-manifest.json",
+      "sha256": "f6d344e94ec3a6d2e58f350c0787f9a5f0cdb36c48bbc3b60baa31ac79db77ef",
+      "size": 2522
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/project-01.pre-s5.json",
+      "sha256": "3c302e93fd502aac86725992c6e9d2e0fd4e2c3e76c7e408f286a45c17e0522d",
+      "size": 317
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/project-01.s34.prompt.txt",
+      "sha256": "312464be7a256eef1ab42890671c7984a99a2d58eef057fddf11d324ae6b52b1",
+      "size": 7351
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/project-01.s5.prompt.txt",
+      "sha256": "ea0daa0c744b4f61f25b1934c9592f4d10532e3d838a29f000b1e5d9c6995fc3",
+      "size": 1358
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/provider-working.json",
+      "sha256": "2491c824517104b5f0c3f9baf90b808618f88c920adfa7fc3a85decede17d6c1",
+      "size": 541
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/reviewer-manifest.json",
+      "sha256": "9f65db5b9c6d968edea50f7e704b845fd80d7f81b2448a0e00e4b068df54d794",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/reviewer.prompt.txt",
+      "sha256": "e3a30c3f60eaa56a78f66c27a81c2cbda80d857d248766ebec949ef8cc439474",
+      "size": 7969
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/s1.prompt.txt",
+      "sha256": "f060564c30d846c2b86c8f4005f942187b68e565aafa3326fcc385af7998c471",
+      "size": 6688
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/137/s2.prompt.txt",
+      "sha256": "ea53ba4a9371e2a651c5b169d8feac1ea27883d27418495b09a5a90f63d7ab54",
+      "size": 15775
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13744/article.json",
+      "sha256": "2c27c1bc88100cd47ac229c68b6120236d5623c83d3bcfb59356dc1255cc249e",
+      "size": 4695
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13744/base-manifest.json",
+      "sha256": "2607eca43c287afccf745ccb164e503f3413eeb29ff34f2466886c4c489a969d",
+      "size": 2318
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13744/reviewer-manifest.json",
+      "sha256": "4b8b72c3f65dbbc29d403ebcd8c88103da8ffd8802a9350009b8e9837aa42100",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13744/reviewer.prompt.txt",
+      "sha256": "57d75d29edb08386458e9fb85dcc0708499a1886f0abcf283cc28ddc13b6a484",
+      "size": 8188
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13744/s1.prompt.txt",
+      "sha256": "d9926304fdc0bd54e6fc4a098ba02ee089ce4fd0887214377ecbfb061f03e311",
+      "size": 9455
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13744/s2.prompt.txt",
+      "sha256": "b61a0c3decd1392d329db363a08c83ba758aa29646ca34f3e460db14aa5ee12c",
+      "size": 18542
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/article.json",
+      "sha256": "703f59ed9ba68b4f16d0f69bab5897a4c402a76f9c03d25db2d81458c6eab755",
+      "size": 3142
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/base-manifest.json",
+      "sha256": "8bf58197244c98644762f8f665d0dd48d9cffefa4b61a8e4d84968d454bd328e",
+      "size": 2316
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/provider-working.json",
+      "sha256": "6d19bbb9632bebc581c874e57ab115d081e124e549676cacd484fdcf3ff331e3",
+      "size": 266
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/reviewer-manifest.json",
+      "sha256": "1c757a7c9691950d3fbb918c90770ce583aeb4de555c2ff8df9788a394c9f707",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/reviewer.prompt.txt",
+      "sha256": "6f944a805ed3f06c1695f83d1512cbafe02b20f69bd833f712acdfd685a07f70",
+      "size": 5141
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/s1.prompt.txt",
+      "sha256": "a5f5ec7f39824c2d18faae8104d4ba04cd9b8fe631215a0f527969c6df2fd9b1",
+      "size": 7910
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1380/s2.prompt.txt",
+      "sha256": "c10edce4aec9c47827bf58e830b2cdb7578f956a213b843760a2d66753a9c669",
+      "size": 16997
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13911/article.json",
+      "sha256": "3ef92620bafc349842fd24ae4943391b957a1a0824c1ab120645822fe6ca589f",
+      "size": 4643
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13911/base-manifest.json",
+      "sha256": "fc329a7aa843f588f18d89b610d550e0972bfc997b871a6366478990f6c43f4f",
+      "size": 2318
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13911/reviewer-manifest.json",
+      "sha256": "1572d79979433e7e90f47284b1f50f482f4c291749f730f1cb819b9fd1d36a3a",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13911/reviewer.prompt.txt",
+      "sha256": "8556f9c40d226ccb4b754000b0d264022122faeeb076887b64db8296c875f47f",
+      "size": 6576
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13911/s1.prompt.txt",
+      "sha256": "23c6af57e03ef3fe9ff2829fa451838a4fe143216216f63880a94a1ec5b08699",
+      "size": 9404
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/13911/s2.prompt.txt",
+      "sha256": "5ae672bbaa98a244764feff21d62eb568146f2b7a88cdb9cd9e5f2771cc3c4bc",
+      "size": 18491
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/article.json",
+      "sha256": "a7cb6d5a54a209e2417a6451d2d7402de9afd5481ad8df0c7170781b3bc4dc5c",
+      "size": 7114
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/base-manifest.json",
+      "sha256": "732db5f85b24d52b2825496cb51d403a9405cfcd51a137ba077b20bb991c9489",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/dynamic-manifest.json",
+      "sha256": "13d4d6a3260d9156ad39dfb0472bf5e8294769361c58d90f4a99daf5c519cff8",
+      "size": 11806
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-01.pre-s5.json",
+      "sha256": "01dd2f4353a31d71793c97645d6ddbe823799f9a23cb5466baac6017a2b3e57f",
+      "size": 926
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-01.s34.prompt.txt",
+      "sha256": "39fca3a492cfab66850a48a69d182c3b239ea99d1337794801c5bc0594c54e0b",
+      "size": 12558
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-01.s5.prompt.txt",
+      "sha256": "fa3e258e36e0250e5458856648be12170721b11088616c3e802e3833e0fb4dcd",
+      "size": 1967
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-02.pre-s5.json",
+      "sha256": "d132f3e74478497016ad2a321ef7cf8f53fc8685de195b0e0d09fc14729b42f8",
+      "size": 900
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-02.s34.prompt.txt",
+      "sha256": "9629062b7abefcb3f31090580648fd7738f5ab7f254d041fc4b462d8b30a0b30",
+      "size": 12546
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-02.s5.prompt.txt",
+      "sha256": "5bc34c91243d4e8e7bbb1b475b948a2b986324d0331e56f90670a68aa129dca2",
+      "size": 1941
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-03.pre-s5.json",
+      "sha256": "a7a2f63588801e5d75b7679480cc9ff069209a683d52a9e008384b4068cdacc6",
+      "size": 861
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-03.s34.prompt.txt",
+      "sha256": "23f7940b1f2e7a6928f84f9745b05532f0c1c82e53c2af859b085a0ceeca7234",
+      "size": 12532
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-03.s5.prompt.txt",
+      "sha256": "a0fc4dee6a77131d907b17e2110c335317b67998038a444cdb15384232ba03ab",
+      "size": 1902
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-04.pre-s5.json",
+      "sha256": "864f4842629cf7e3fbfdc2171351a910c47da2576a07af66ad7214372a34e02c",
+      "size": 890
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-04.s34.prompt.txt",
+      "sha256": "4962acc01a4aa7c401b0b11a81fbec18018685fdcefa80cf8d345749e5fe9b27",
+      "size": 12535
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-04.s5.prompt.txt",
+      "sha256": "c3b75834179d88df05d51293522c669c84dcf33070bc508722174ab4fbe01ec4",
+      "size": 1931
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-05.pre-s5.json",
+      "sha256": "62531a720b014d0c2ac8b25d8a8f06229f62d595af80a70a0daacf3ff0beb6e8",
+      "size": 920
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-05.s34.prompt.txt",
+      "sha256": "4d26f3179e55a9a9a18d810c0f070fb30168c7fa351aac8dc0d8e024ca369f5f",
+      "size": 12554
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-05.s5.prompt.txt",
+      "sha256": "abf5c5d6d8cd0dc8b9a13c11f890e79518a12512c6acd94b59fb9346a4136d80",
+      "size": 1961
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-06.pre-s5.json",
+      "sha256": "4b65a461f70ba31c406906cd30c40e12888d89520e58de6ede1323f2f0696a2d",
+      "size": 924
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-06.s34.prompt.txt",
+      "sha256": "5b50e6007b7d848b81b272bd37b11231319c9c5b58d2c8b0b33e8c1f3f8ce8c2",
+      "size": 12536
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-06.s5.prompt.txt",
+      "sha256": "0f9475e2f4afbb6e8e663cbf03d3f9b84d85aadf0179b6b718987ec969ccb3d4",
+      "size": 1965
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-07.pre-s5.json",
+      "sha256": "a3fd6e7af33ed21bf1b1e5917e69e29f90801d5379ef911488e4ec03245ffe1e",
+      "size": 869
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-07.s34.prompt.txt",
+      "sha256": "47fe7e049451bfe31cfd8adde77bafc561d318ff7d83afc6e916a0742e3dfea5",
+      "size": 12531
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-07.s5.prompt.txt",
+      "sha256": "c530c397fd4154059b61d97e2ec69bb2b3f501ba2a5238d560035a0f3513d491",
+      "size": 1910
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-08.pre-s5.json",
+      "sha256": "70393c98f25c65e3aa1052d1273f889d1895fb3e8c279fa71a35a3aee665fe11",
+      "size": 909
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-08.s34.prompt.txt",
+      "sha256": "61217527265991ac139f21a1e3b7446b253623c1c50c5eb82c22fe4017ac2f8b",
+      "size": 12546
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-08.s5.prompt.txt",
+      "sha256": "eb1055fabcf827b88e625f83d7bd8619982f0f1b57d2e139a37d30c2420785a9",
+      "size": 1950
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-09.pre-s5.json",
+      "sha256": "d2493dbb18bd656f6586d55b9ec2e97fe8271aecd076507aea85b045d6599f6a",
+      "size": 919
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-09.s34.prompt.txt",
+      "sha256": "f1ff0a20fe9edb055fb476e2d14ab8cc5ef019b3f15433b8974fb0e2bc72028f",
+      "size": 12542
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-09.s5.prompt.txt",
+      "sha256": "d93f5b475a70c533b7477092148531d1c47469a3c0f78db18dd50e41ba03511a",
+      "size": 1960
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-10.pre-s5.json",
+      "sha256": "d5ff5e0e9b1f8dd418b92fdc19bed630a11b7aee4f0f832de70548d403bc6ba3",
+      "size": 894
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-10.s34.prompt.txt",
+      "sha256": "e42675f59cffc2b16efe500b6b40cddb7ef5fc5379e031902e3904554761be6f",
+      "size": 12550
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/project-10.s5.prompt.txt",
+      "sha256": "ef73e3cd2233b4e49bb731ed68dc6595a24e6f5ba4a883845c66defcd1c35dcd",
+      "size": 1935
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/provider-working.json",
+      "sha256": "4ea75b2c9182ce6738ca4842bb8967b18050a3a8d12a2d856d1d6b367c8d15f1",
+      "size": 7796
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/reviewer-manifest.json",
+      "sha256": "4cb4d92db3c51ff7badd26f8924b4aaaae5e3eb9344a934ce96316f76354a8e0",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/reviewer.prompt.txt",
+      "sha256": "de37d5ffd9cba6dc3940b69a64d737b950a70941fe86924248a114e8ca35dab3",
+      "size": 49370
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/s1.prompt.txt",
+      "sha256": "9644c65f741a746fe3759cbb9a0fe9c00f1c1700c0832acd3e2c006523cb05d8",
+      "size": 11876
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14313/s2.prompt.txt",
+      "sha256": "2176668da2156ec2440f5e6a10892bcb72540f152e7a949d133abc4ca0ca7a06",
+      "size": 20963
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/article.json",
+      "sha256": "db2e2b313e8fb822e84df531e13495be4053d0b7efb605880206ee5e5daead3f",
+      "size": 6634
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/base-manifest.json",
+      "sha256": "a4071ab988d4f6c6a8afa1c38bfe231fac84033582de8fa32a378cbe995625eb",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/dynamic-manifest.json",
+      "sha256": "d5bdbc794aa11660388e168cb71aa3666ed7e6f2926a075ea10703a763dd497a",
+      "size": 2539
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/project-01.pre-s5.json",
+      "sha256": "2b0ce369f41f3f041e0acb9b0e4d55e5205342e0b9bc3443c31813e29ed59acf",
+      "size": 1447
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/project-01.s34.prompt.txt",
+      "sha256": "1e7e8ed5fc747409d1c9204f6d37b4aaaadebc501a2aa7c1d0ee4679e30aff2f",
+      "size": 11988
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/project-01.s5.prompt.txt",
+      "sha256": "2c35cd16a7a503bb3da33d28143e53923c51403ee89fda5f69e7bec26b694c1e",
+      "size": 2488
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/provider-working.json",
+      "sha256": "a781153ec92abe953b3031a40897752012f8bf1cad141f0269d75957699fa327",
+      "size": 2798
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/reviewer-manifest.json",
+      "sha256": "a17618eac5a0c29b260eb259c9db6a84dc475bafa1649f392cd86193df72ecc7",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/reviewer.prompt.txt",
+      "sha256": "072100ee32ba7c12d66d7ce08ea994158223b026169623c23be1ff9edb581a54",
+      "size": 17129
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/s1.prompt.txt",
+      "sha256": "f757ab73da23b441c88eb647e58aaa0f38f21976e351d3d128d3534da23e5125",
+      "size": 11309
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/14595/s2.prompt.txt",
+      "sha256": "a683de7ee9862350e0ca2438c635e1b65e06453f77e460ede8d36455cf57d0c0",
+      "size": 20396
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/article.json",
+      "sha256": "8aff7b900249db8e1c12b7fd2794f03282e03238d0ad9a1430b8aac05bf1cd2b",
+      "size": 3567
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/base-manifest.json",
+      "sha256": "9eb001d12aa8914383bed1de6d50a7d2c5d3637e4b20f1b1f8594c6d3e83fb18",
+      "size": 2260
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/dynamic-manifest.json",
+      "sha256": "f4ce9f1fc495842f20351485a2de47625cefe009ec1aba89a7d2631a1fc0038a",
+      "size": 9677
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-01.pre-s5.json",
+      "sha256": "bcad85babce271aee9985481ef5916171fa3fa51146e69c999d13666be366e52",
+      "size": 1514
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-01.s34.prompt.txt",
+      "sha256": "fd586586734d5ea88a118c522cb0547ea15e15e7f09467dd6de59afa45d6b1d6",
+      "size": 9039
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-01.s5.prompt.txt",
+      "sha256": "cef4208f5dcde60b7b5ab23ebd5f0cc171b2167119f4301493f199763f9c3509",
+      "size": 2555
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-02.pre-s5.json",
+      "sha256": "f8e12aeea61bc2e5f66d87c6023e7a5267b9fe8cdcb06d4cd2e6f622f00a2767",
+      "size": 1335
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-02.s34.prompt.txt",
+      "sha256": "415149a2e596589f595da930b4d22415d0b9d0f0ee4ccfa9cb03e0d6273b7c72",
+      "size": 9026
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-02.s5.prompt.txt",
+      "sha256": "c147b0e0676f32a0fb23e11f34266dde63875a3250d85a5cb5bc95d55bfdadcd",
+      "size": 2376
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-03.pre-s5.json",
+      "sha256": "027c4094430938ba81113007bbd1f2b8e2716c7b2d594630183252e8d8da4297",
+      "size": 1209
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-03.s34.prompt.txt",
+      "sha256": "1420346abe98cfdaca57bc7e2316dc5a76bef3697fb6077c3d19df814c7d2d2a",
+      "size": 9019
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-03.s5.prompt.txt",
+      "sha256": "8f5002a03e2807c1750504fc77f886ef400ef51e430197c39f477f126ae6fe07",
+      "size": 2250
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-04.pre-s5.json",
+      "sha256": "1e5fcc8ac49053e3a1f6b7ca3d9dfa127a488fa8619fca066d0f8317ddd0bad4",
+      "size": 1294
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-04.s34.prompt.txt",
+      "sha256": "9ea64ef8f82919be58d6092a645019c11485d72c2be93240f2931c7afd595a7f",
+      "size": 9035
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-04.s5.prompt.txt",
+      "sha256": "607c93c7002ae8c84bccc974ace1a3cb4679fee230adb29b3c33b9e9f24d1d5a",
+      "size": 2335
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-05.pre-s5.json",
+      "sha256": "835732d69ba8ecdd46c64264ad381a5b1010f3e32678a42678ebd99e9cfb8c52",
+      "size": 1300
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-05.s34.prompt.txt",
+      "sha256": "d3da0390a83c45b676628e2fed6d0c7ecf923e8fb0960ce728a33c1a5d995621",
+      "size": 9035
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-05.s5.prompt.txt",
+      "sha256": "9b3327547a44592d619a7819e3eb4892df8303f1a7d40383d08877757d8a05e3",
+      "size": 2341
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-06.pre-s5.json",
+      "sha256": "868eb47b315ff5233e396b295245fd790caaafcf524c3f669e6ed910910c1e66",
+      "size": 1309
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-06.s34.prompt.txt",
+      "sha256": "0c1049a4b2794a2391c1af4d73779544f2a160603fc073f33e19bb99ad9745d7",
+      "size": 9039
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-06.s5.prompt.txt",
+      "sha256": "e3c76fc56ecbf0c25274468b909cf85dff13904fcbefd7cdd5af0c5a8c85342a",
+      "size": 2350
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-07.pre-s5.json",
+      "sha256": "958b2c7fde89bd0df2ff2b9137f0d5dd1df3b9d5fffb891b859d83bfa1a730ab",
+      "size": 1242
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-07.s34.prompt.txt",
+      "sha256": "bc0ee8ec6cc402c40b2fb358f4020c5e8c9d5dc16d79a1e35680dd79d35d319c",
+      "size": 9030
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-07.s5.prompt.txt",
+      "sha256": "691c46f242ef3e9b6ce864d6e48c51e492cc37467f653a289c524d5c7c5b0eb3",
+      "size": 2283
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-08.pre-s5.json",
+      "sha256": "b81de4f3fde8efea57f5abbf3c93e06c0e3ee24885810fe84e8348d50e280d0b",
+      "size": 1456
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-08.s34.prompt.txt",
+      "sha256": "40c30fbbcc28862245ef029e34d89463cac995a9c9483f9b38a99be3ba06759f",
+      "size": 9024
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/project-08.s5.prompt.txt",
+      "sha256": "1c212b10ce441e1ec2e6b5af57605b4f68e61b67b92bd5bb9b31424f9656ec83",
+      "size": 2497
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/provider-working.json",
+      "sha256": "72115df167551c5d974c10cb683b4fb5abfbe6e01eff8963b86c897026ab1748",
+      "size": 17126
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/reviewer-manifest.json",
+      "sha256": "9eee606372f5de732700ecb2221bd107710d949c2691956f42530771b61f1f69",
+      "size": 768
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/reviewer.prompt.txt",
+      "sha256": "ad513c008a9dd7a2eac3b0f3f9e2aa20633ee6ca3d8032bcecd43b4b78e06b84",
+      "size": 53273
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/s1.prompt.txt",
+      "sha256": "cd045c4f53378f9f000739ba2979353672c7694673bee9fe7c7948916c793287",
+      "size": 8344
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1533/s2.prompt.txt",
+      "sha256": "ad0c23e1f793eee55fd870b58f5495841f30dc9a5059ad4cbd175cc0a1678e62",
+      "size": 17431
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/article.json",
+      "sha256": "79f08b6db2dd04c03e5648fbf88cde07555992168ec041541d1e58ccfebd108d",
+      "size": 1858
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/base-manifest.json",
+      "sha256": "8804f33f6e0f004f127bd4674a1ed202b2ae786695eedcf7ec07437f63403d2f",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/dynamic-manifest.json",
+      "sha256": "562245d944d8c634f4259f4e0ff7ce2e3675d0289e8df840f2a99ed66e36516f",
+      "size": 3536
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/project-01.pre-s5.json",
+      "sha256": "59ff3a44d7365335a2976707494b10681ec02c5d562dd7c34cda36d5cc64707b",
+      "size": 302
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/project-01.s34.prompt.txt",
+      "sha256": "5f99c602586bed15f53cb22aac540322c3322209ca165bf08e46659ca8784aed",
+      "size": 7293
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/project-01.s5.prompt.txt",
+      "sha256": "0d4569438057f456ca06706cdfc9ec11709b45096f73fe2d7b596ec7a3bf4436",
+      "size": 1343
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/project-02.pre-s5.json",
+      "sha256": "100edb6940514f27e2b3d5b3fc677c205e2c57993f0cf6896200bcd7de565489",
+      "size": 305
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/project-02.s34.prompt.txt",
+      "sha256": "9c97de00ebc7f4f7c15a60430164403dbf697d527a08884c313173368d23c4c6",
+      "size": 7296
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/project-02.s5.prompt.txt",
+      "sha256": "3545c5ec69b152a88d814aa978863dbcbcd1bf25580c00c7ce1381a027e2fa52",
+      "size": 1346
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/provider-working.json",
+      "sha256": "bd1f21e8774258ae70bb87f4e15a636031b29bc6171b50777830865eba25460f",
+      "size": 790
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/reviewer-manifest.json",
+      "sha256": "2829b1c0d0490c8eacf41f239c1bc63ee6a7fc64105b3277a1b0b8e58c9e05df",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/reviewer.prompt.txt",
+      "sha256": "27d0beb81f7adb3ec9d23d0ca6fa1a6813af8ce563abf31bcb1d474eb32279a0",
+      "size": 11527
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/s1.prompt.txt",
+      "sha256": "0b43130c0cbc3ceeb832826e465f4fac221f135d3dec355c54d1fe71210ce48f",
+      "size": 6627
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/155/s2.prompt.txt",
+      "sha256": "e43e88ba5b566a26346944e87b82fafaee8419f191223f1d6b724dcd9a4d21d1",
+      "size": 15714
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/article.json",
+      "sha256": "eea121443b8618868f558559d65b3fcc98abffd63b02a81e1f95ff2d7328aa22",
+      "size": 9276
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/base-manifest.json",
+      "sha256": "6efc1878f6c7d3ddcd5f3c9666203296c3862239f16fc911f3fec4e1e166f839",
+      "size": 2260
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/dynamic-manifest.json",
+      "sha256": "15f373e6d89c42ee919ef055619482c025613c6b33e0688027c618d15f25717f",
+      "size": 2534
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/project-01.pre-s5.json",
+      "sha256": "34ac0dd3f0f10ef03be9c9b8c15e5e461d58e9bae875f075485ba1d6a04f6815",
+      "size": 1748
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/project-01.s34.prompt.txt",
+      "sha256": "6df004692b64196edd9656090e8ea9f7373b32495630dcb3e117cdc4e308863b",
+      "size": 14715
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/project-01.s5.prompt.txt",
+      "sha256": "e0f640441611d7cb7656228462c833231f32772969e816c4df18c1b5b5d9b4de",
+      "size": 2789
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/provider-working.json",
+      "sha256": "9168fd85c296f4a7be314db527777ac89afaec593fb5aab16f1cdd40355b0257",
+      "size": 2993
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/reviewer-manifest.json",
+      "sha256": "b96bb38ee5f57c58b922078433aeb799c49ab336b10f95a79efdf2b3bbf9fb9e",
+      "size": 768
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/reviewer.prompt.txt",
+      "sha256": "fec1661f2fd85ab2b8ba89b1a46e0909baa09695a98675430e668146fee249fc",
+      "size": 20232
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/s1.prompt.txt",
+      "sha256": "8fece9d07a4736cef293a944e453cc7b844d24ad288818406755a71d599ac10f",
+      "size": 14030
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/1586/s2.prompt.txt",
+      "sha256": "a2139a0995cee6740333457e81cc13f33dc35a956d04d8442d7d2b696246dc29",
+      "size": 23117
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16105/article.json",
+      "sha256": "ced5f555af320401a109c5861d881015ca35fb5e2173a48a713a6b1495277a86",
+      "size": 4582
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16105/base-manifest.json",
+      "sha256": "5ba9a46cdf5af0421f74c036924c7692b9d455366eb9b89bf28e013a550fb602",
+      "size": 2318
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16105/reviewer-manifest.json",
+      "sha256": "f9bbc24a615caa9c5958f172e5573413e1e55854639c6564694c4d57e8e4fd71",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16105/reviewer.prompt.txt",
+      "sha256": "d0871b67d9a6f3dedce464b74c4e315cc605b0f1f709538abe311590278b88f6",
+      "size": 8024
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16105/s1.prompt.txt",
+      "sha256": "aa93c358d778b8fb0c1bd7a4104f9783584f91af792af8b6b2cd62a9dfdc15a8",
+      "size": 9340
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16105/s2.prompt.txt",
+      "sha256": "d242f5d012b5148e24455afc0a424b4dd39b0c700e43c2e3acecb25656ffacbc",
+      "size": 18427
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/article.json",
+      "sha256": "51ee844eaadd622373aacf3e55014f4f4b3d71d205fc6676106fa48f6fb0106d",
+      "size": 2828
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/base-manifest.json",
+      "sha256": "a809d7f533d8d071516360930a3db6d04c0c3eea2d157f47beb28d5de0fe7569",
+      "size": 2310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/dynamic-manifest.json",
+      "sha256": "317ecfb5268a7ccc73f8078ad71a57421c61948a70d54cb351fc3e58cabaf11f",
+      "size": 2546
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/project-01.pre-s5.json",
+      "sha256": "43fb2bea485e0d405e4d08a2d2c3acf5ecd59c5ee82e456f73588cc4453af90f",
+      "size": 344
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/project-01.s34.prompt.txt",
+      "sha256": "aeebddb80fc7d17d9d39292f9db7148bec7ee887075e6b1d40f8c5975a77a62e",
+      "size": 8285
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/project-01.s5.prompt.txt",
+      "sha256": "642671d76453e6dce1daa661f00f8d3676e607e50207f1b46a975e0bf4d60713",
+      "size": 1385
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/provider-working.json",
+      "sha256": "eb5573d57db42b396fdc2125a23fa220b275c8066a1429b6c51530cfca44bb88",
+      "size": 609
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/reviewer-manifest.json",
+      "sha256": "10eaf90a50f2f3f531f895e673af854b2777911a55dfb85742e8713aa6f1175e",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/reviewer.prompt.txt",
+      "sha256": "02d28316bfbe405e7fc71a71fc34a128a5e0a3db5753109293b80b9a73b64df1",
+      "size": 9198
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/s1.prompt.txt",
+      "sha256": "fc91c3206ba1d0884d58b5742ab69112c614b870e25b27c06b2bf479a50ed676",
+      "size": 7601
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/166/s2.prompt.txt",
+      "sha256": "68458eb96db2088485dd01e7b9626768a5d87745840316adb253b5fb714fa81d",
+      "size": 16688
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/article.json",
+      "sha256": "8fadc1da85b98f1dc0a8d56bfbdb1f96c3cefd7b29b8ae78c167724dc5b2aa28",
+      "size": 3289
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/base-manifest.json",
+      "sha256": "b49c97fc7e8dd07703b8eeb818b7240eff4e24d99d443a0911355786567e8629",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/dynamic-manifest.json",
+      "sha256": "15241d5b91432be99f1eec5b9643ed3750bea250ff87517e707c404a90f6e7ed",
+      "size": 2545
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/project-01.pre-s5.json",
+      "sha256": "7e8da60e4b3574b557bbf1e17722afec2f9bded764b7b6a6286e6318193f8570",
+      "size": 1072
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/project-01.s34.prompt.txt",
+      "sha256": "fa3ac518141123cc8a5fece73576f7c2ae919e7395077b4dfe948b41ebd8925f",
+      "size": 8750
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/project-01.s5.prompt.txt",
+      "sha256": "9e8b4a967b1d515ad865631ec15aa8242342b1f2ccd66ecda2895faadc01eaca",
+      "size": 2113
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/provider-working.json",
+      "sha256": "6c5cc31567d83f4e059075a4429c8baf7f21a358d3abe09f8281701777e4a1c6",
+      "size": 1191
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/reviewer-manifest.json",
+      "sha256": "9df7e34215a98390528ebc8ab8e0d953da5f1251a91812c246b46794c39b720e",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/reviewer.prompt.txt",
+      "sha256": "b7c30cf768e84306aef6ad4b3091463ba2c1ef0c8420b1682974fcf85ec8591f",
+      "size": 9458
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/s1.prompt.txt",
+      "sha256": "da8e0c5a96fbd5d4b5e1a24baa4089926b34b45f573750937d2e1e6d46554bc7",
+      "size": 8062
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16817/s2.prompt.txt",
+      "sha256": "f142a68de6be207ec5e4ee88834cf103a1c36736510c49b5c891fda76299c13f",
+      "size": 17149
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/article.json",
+      "sha256": "ba22551ffa97e14047ec8622d452a55a670c31ab49786fe0095f6df847011ff3",
+      "size": 2117
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/base-manifest.json",
+      "sha256": "0aa02163c4ac325c1098e8f120fc4db36a30e916cf527c3230955e9ac49197ec",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/dynamic-manifest.json",
+      "sha256": "3994f88569444591fa7572ff62f96364f3df7c49bfb847174e600c3cb398bc0e",
+      "size": 2515
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/project-01.pre-s5.json",
+      "sha256": "3a2681f64cb4372505ccd9535a0b8f0ed2ddc18f9d280fe5d97d39766c935622",
+      "size": 1009
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/project-01.s34.prompt.txt",
+      "sha256": "912355fb2d8aa5f352c0118556dcdd3d00926664a0fabde02bccb7e6a2e5ba81",
+      "size": 7543
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/project-01.s5.prompt.txt",
+      "sha256": "84b59f1c24f160762f394868011ee84038899c02c5b52b176b15aa18d1c6f4fc",
+      "size": 2050
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/provider-working.json",
+      "sha256": "81eeda0f370d9b1c7eab465e1f6bd1b947f31a145373cc39b8c1d7a34ad02522",
+      "size": 1093
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/reviewer-manifest.json",
+      "sha256": "e66cc5e2864d9d4f353583afc5f9ed0319b32d9de5be5a3f888cee099c47737e",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/reviewer.prompt.txt",
+      "sha256": "1c57ec59cf5d2fdecf7c4529726961a5748c6bfbc6f41ad6ac3227932617dd54",
+      "size": 8315
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/s1.prompt.txt",
+      "sha256": "7f3f1faed11b56dc5947270883254c165675698f1294612c7f8faa062e8a042c",
+      "size": 6888
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/16899/s2.prompt.txt",
+      "sha256": "d3d80f30db0e0a1e0b7c81820e00429b25f17a8fa829a84990eeb20019c06cb2",
+      "size": 15975
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/article.json",
+      "sha256": "213bbaffa2b85e11bc22eb836d748a31281a7e0690bc5a4ec7bc2f51f450f70c",
+      "size": 2349
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/base-manifest.json",
+      "sha256": "fcb122c958a5f88399cf1acb9506cc048f1538e4177520b6db3bdc808959cbb0",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/dynamic-manifest.json",
+      "sha256": "aa56cdec68cd245a52dec169200a4baf7a416992aea8fdb5947063a4df324104",
+      "size": 2531
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/project-01.pre-s5.json",
+      "sha256": "10bf2b511453bcc4e743c52f7cf7416645904db43e0da9a1aa4e87ebc1c4fd73",
+      "size": 307
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/project-01.s34.prompt.txt",
+      "sha256": "a082a9f3b13e1a8afc93ee15a1d47bff973c693b8b434bba14dd73a123a7bb7d",
+      "size": 7801
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/project-01.s5.prompt.txt",
+      "sha256": "194fae49ea0f02f4a30818d4ea86ae1f407e55b5612ba5f732c98dd0f2c629d6",
+      "size": 1348
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/provider-working.json",
+      "sha256": "f7a47347f13c0941e161bc39518cff21ca4047aa02310ad0b24b0a97bdab564e",
+      "size": 505
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/reviewer-manifest.json",
+      "sha256": "f6e072dd0fdd9857558cdf8403a4655c4728077a33feedbcdfade24e38109272",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/reviewer.prompt.txt",
+      "sha256": "a127d74c3e7d97d27d01f42345ab973112eb6d6d165a9d9a97077897b7668d5d",
+      "size": 8491
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/s1.prompt.txt",
+      "sha256": "f6c12a80cd8735cbfc9663a3c15885b7d0a3ea43f286f90e09ecea72c74b4a06",
+      "size": 7127
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17408/s2.prompt.txt",
+      "sha256": "641b70586a9d36624fa8bd395580b1330514b341916fe0dd293cdf539bbdc0bb",
+      "size": 16214
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/article.json",
+      "sha256": "ee7b43ed531e3c88b04e77a5497d5224a8cea9923b4d37174f8a7b78e4f7dce8",
+      "size": 9071
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/base-manifest.json",
+      "sha256": "fb7bbae9821a5f4465e2214417f2e6033bda1737805cdbeeed2f33289c33acba",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/dynamic-manifest.json",
+      "sha256": "014065d56cfa9eb827e8dc23440ff746f1348031b405edb9754fa52fea969e65",
+      "size": 2533
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/project-01.pre-s5.json",
+      "sha256": "777a3dbc5c29f2ff8f920da871776e969fdc5cbe5006d581e238d369dd21b42e",
+      "size": 1656
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/project-01.s34.prompt.txt",
+      "sha256": "21b219a22e421375fb90a9eaae8e9715c7911dccbb786ae98f36ea29e8e1593c",
+      "size": 14429
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/project-01.s5.prompt.txt",
+      "sha256": "4f2ea6e7a4efec8e0b15c2c3ff5b51a5dab2995ed27e10ec688ab61337271285",
+      "size": 2697
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/provider-working.json",
+      "sha256": "1f6e55cce8f8b4d412c0fa99bfdea43c6aac0a03310d5d5d34cb0793e745e4c7",
+      "size": 2843
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/reviewer-manifest.json",
+      "sha256": "eeab523f978a22cb5f490805934ca0e9373d5671c40cd5fac2da7621c0d453f4",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/reviewer.prompt.txt",
+      "sha256": "b5532d2f3271a2bdcb01197310641d2cbfc95ab95777ba3cd2decd0d646945f7",
+      "size": 17582
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/s1.prompt.txt",
+      "sha256": "e6265c649b0a9feac2e244c3d02a32315c38b7faed23b7310210e4b7bd9fde2a",
+      "size": 13741
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/17413/s2.prompt.txt",
+      "sha256": "33aef9e85382a8c3fafedf83f88d09c147f3d872923ea7af6352a7c79ed54903",
+      "size": 22828
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/article.json",
+      "sha256": "654a7771eda1e82662dd89209300da08fa90eb54464ce1b00e025c720268ef2d",
+      "size": 6719
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/base-manifest.json",
+      "sha256": "7a3a22e97b8ddeb17f541ad59aa8617860275e110478908f9019badf65c937f5",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/provider-working.json",
+      "sha256": "8b177953a6494b9fed308e3f628c9da76217b39fa6b39fa5dc6c0f6a930ca5f8",
+      "size": 464
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/reviewer-manifest.json",
+      "sha256": "e37a387aad3afe48a954a2897c7757fa3d301d1ca7ccdcbbc5cff0fd8ae64a79",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/reviewer.prompt.txt",
+      "sha256": "749ccdedc9107240197594986a111ecb289856bb8effc976cb7c1d05a67a17ad",
+      "size": 9174
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/s1.prompt.txt",
+      "sha256": "068845648a17e9e4ead0b5918ca19ed01b0b083cee893f4ac2a81f66f6157a1b",
+      "size": 11497
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/18491/s2.prompt.txt",
+      "sha256": "b1e05ff2f4857827564b24a36341301f970c9ca81100916d5d26dbd414904383",
+      "size": 20584
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/article.json",
+      "sha256": "e7944dd5a1e726f510a79174d8a63e9987027bd47ecf52da1b61c7356664a44c",
+      "size": 1622
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/base-manifest.json",
+      "sha256": "d65218ff3d605f5c52c9843d3633b62e12201ae54ce06d531808e34df5ff4cb2",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/dynamic-manifest.json",
+      "sha256": "4f02b137041bb133dcdd6c79f78680a2771eecf37dfceaed77a9dbb38721fadb",
+      "size": 2534
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/project-01.pre-s5.json",
+      "sha256": "f7ccb115bf10a775f194ebfadb714f4c285961b3fcb8d1abc1f9ba4b236b6e96",
+      "size": 982
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/project-01.s34.prompt.txt",
+      "sha256": "15ace59663f5d3b897cf0660a3f2127a7484af19222babc716f5272bdb1b9db5",
+      "size": 7102
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/project-01.s5.prompt.txt",
+      "sha256": "a6bfd3d628a4544fc6dba65c417d3d3fc81e388926963c5999c26016bdf2b028",
+      "size": 2023
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/provider-working.json",
+      "sha256": "4f281c98bc862b082857eb3510eecf678b551d07ce1d1825fbddaa06eaa62b9a",
+      "size": 1094
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/reviewer-manifest.json",
+      "sha256": "bcf57819a6ec3ba75636935500682e5a0e15500cd14918c6f82ce31f38f156db",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/reviewer.prompt.txt",
+      "sha256": "9638d6eb7fdd494d0f8063dc19c9a96a8f0a62b8e646881d26d3f621eb99f556",
+      "size": 7643
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/s1.prompt.txt",
+      "sha256": "86fc8183e1177d5430a5a7e129cbfd9e22396a985fb2ba319d082eb848460319",
+      "size": 6415
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/192/s2.prompt.txt",
+      "sha256": "df8f0fe11077a5941b53159455feadf1b209ea40d3b6841eeed60b50e83e089f",
+      "size": 15502
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/article.json",
+      "sha256": "484a8bd34410e951b2e01ed5cf8fb47f763a23bedb584176946396d6df535f3e",
+      "size": 2045
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/base-manifest.json",
+      "sha256": "5e985a13032b718dd1a7ac0e316b6a4b9ed37abaee4accde900319c6cf6a5334",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/provider-working.json",
+      "sha256": "6fcf76783fb7b2ce1005b849fa7a926bc73b6020540baf3c2a15220dcdf96d05",
+      "size": 334
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/reviewer-manifest.json",
+      "sha256": "7be09a788776679ed8ecb3486593423c3c0e1ee7ff4392a6aa75cc180e636a57",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/reviewer.prompt.txt",
+      "sha256": "345da98028b749a2346f64977577a3c552d8e6f1756ac5b551924ebc5b0ab293",
+      "size": 4095
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/s1.prompt.txt",
+      "sha256": "86246de8644f1672d0c1f7dd594986c63c17514a441d1ffd79a581d0d254351c",
+      "size": 6839
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/20872/s2.prompt.txt",
+      "sha256": "724b5edceb9858103b01ada1dccda6cd60da176e926c58ffb12cd0b310c9fe8f",
+      "size": 15926
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/article.json",
+      "sha256": "1baa0c0b5afeb2820707eadf7d28fed656bc79fbe600ce3b12ff20bf47d793d8",
+      "size": 3509
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/base-manifest.json",
+      "sha256": "824f92b588f1540685b951d2588189c0ef904e8f48f13df0defa30d12025913d",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/dynamic-manifest.json",
+      "sha256": "3feb3c500f7e6d1b2b40bb3979287f44f15108d711bdf92a83dfb5ed00db8ce7",
+      "size": 2513
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/project-01.pre-s5.json",
+      "sha256": "84f4e2f1fa77a5f1edfe7cef956dd12124c71e877afbc4593ee0cc92be2c7988",
+      "size": 899
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/project-01.s34.prompt.txt",
+      "sha256": "6803fed7393d8fd1fc34db66d591b30908640995fbef1c70d3a9570e6cca7ead",
+      "size": 8910
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/project-01.s5.prompt.txt",
+      "sha256": "a029964cd0f4483c2d0f5e713f46ba0b8e0fe128123ca07e8210f12273ac1a8f",
+      "size": 1940
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/provider-working.json",
+      "sha256": "757bbd330ead3f823cbd8c4c7feee62b2a0f57b4b22b293536b6973e737d1683",
+      "size": 1006
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/reviewer-manifest.json",
+      "sha256": "d78f5c28af8778108326190b6b2eb9c30198b49db2312c01ccccc4311da00b72",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/reviewer.prompt.txt",
+      "sha256": "bf30d4c285b2c435d0542150762cd5b9a4b30ef4adf270a4451fbc6d0da4e41c",
+      "size": 9381
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/s1.prompt.txt",
+      "sha256": "356008a3e5590b6c113bcc0ac466f23210c8b41047e8b021097ad6279924780f",
+      "size": 8244
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/232/s2.prompt.txt",
+      "sha256": "399bad5a366675a49c012b1441b55977b950f403e0b9dd38d561fbec742ef733",
+      "size": 17331
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/article.json",
+      "sha256": "5effb19b1da9262b100a0e239d1970906af2a662f0d5e2c4536e623e0f276de5",
+      "size": 4497
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/base-manifest.json",
+      "sha256": "063cc4448bfb3b750ab3ce12de8f024be5822d13ad42ce597093326a7a7298ba",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/dynamic-manifest.json",
+      "sha256": "5c4c4015cfda51268a2373be5d3cac22bc320c27bf77832969200cbac9b7c07f",
+      "size": 2540
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/project-01.pre-s5.json",
+      "sha256": "111736a30d8a54e91fcad615fc53d45eb8c09dea28fa7527e4c09001bda4b81a",
+      "size": 1504
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/project-01.s34.prompt.txt",
+      "sha256": "22d17c24ea5adb63b16968cdba68f2ecd96d7e021d95efc7353aa09f2731b359",
+      "size": 9967
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/project-01.s5.prompt.txt",
+      "sha256": "789d121a6ccb448184e95d31e71afcfb1f992f09fa32475e72978e1e235fadde",
+      "size": 2545
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/provider-working.json",
+      "sha256": "ba66b881c4679ccaf323106ac0a653de64d715663f0cb238a5f8a3af8dc1c2da",
+      "size": 2686
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/reviewer-manifest.json",
+      "sha256": "946d5b9eb1e10ac113bdf3644b902fe7f87341de8c572a3520fea938621318bf",
+      "size": 763
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/reviewer.prompt.txt",
+      "sha256": "88b5e50b146baa6800fd9edd6180dc26e0ca3576cb4831a083105f03454da3bf",
+      "size": 13199
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/s1.prompt.txt",
+      "sha256": "cd997674b8fe894fad44cee78b91d97201229b175c9032b458458f7d4bd94d8c",
+      "size": 9284
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/23627/s2.prompt.txt",
+      "sha256": "8d54ec06ff2efdff2738f2215775f5d1a46b6a8998faefc389ae78504f63e7c2",
+      "size": 18371
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/article.json",
+      "sha256": "9ade2937028e11532780041c9103b9babc4f75636fcd1c484837a899e1edefbe",
+      "size": 1634
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/base-manifest.json",
+      "sha256": "502a3de20945dbebc1c3dc8a53837834f40f153c1c18c751978b00a7dddcceda",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/dynamic-manifest.json",
+      "sha256": "f94dc4ad10fc1e58a95e5ee17dcb7add45efbf9e21ca80f0e85ab01ee5ed8655",
+      "size": 2508
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/project-01.pre-s5.json",
+      "sha256": "02b173fa4225b834e049ab8f3f0120f71b9ffbbfef6911d01f6a3355f4e91a69",
+      "size": 904
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/project-01.s34.prompt.txt",
+      "sha256": "29213e2a8730b7d2f09888b50c04b85cb9172f0e8e7589557e7492f6cad89e77",
+      "size": 7078
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/project-01.s5.prompt.txt",
+      "sha256": "f80dc153c4184992f13b4f53422a01449326602f25887615038a14d66bd2d2fe",
+      "size": 1945
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/provider-working.json",
+      "sha256": "90702b6d5beeb4867465da3b062257ea473388bbc7afde494bb762798408d206",
+      "size": 987
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/reviewer-manifest.json",
+      "sha256": "e6222aeffe5966d505bdac3727d2a27c568d6e60a04fa11695ade0b98bb7ce5d",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/reviewer.prompt.txt",
+      "sha256": "8b01bdd04af39661bd81442fd1417e835fb79914dcb74f4bb7f0d6bc91579145",
+      "size": 7524
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/s1.prompt.txt",
+      "sha256": "d8b86df92f4d9be8b3a8340d0f0a66bfaf79103adb3a6bbaf07a19ce2f64807b",
+      "size": 6427
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/25106/s2.prompt.txt",
+      "sha256": "3660b1ec8251f35caef85b404d6a476325d3b889e5b81cbdc23d3a7cc84e2fcd",
+      "size": 15514
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/article.json",
+      "sha256": "c048bcf31490832fa81bc338551bd52ddd43d3e239b46dd7ba831c8ef9a21991",
+      "size": 2039
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/base-manifest.json",
+      "sha256": "61180633ff08dc7a920693fc9d27f582485375b42cad09729a1eda0ed45d5dc1",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/dynamic-manifest.json",
+      "sha256": "4a507909adcaff51314dd9f01498fa655bab2af0e888bd47f1497fb60f5ebf3f",
+      "size": 2523
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/project-01.pre-s5.json",
+      "sha256": "2af053b4fb3b2253938d8f9805e945a021140b74667c718791fbe6f53d52cb93",
+      "size": 961
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/project-01.s34.prompt.txt",
+      "sha256": "321b9f9fe112c3efc389308fe166b9031ac115c75537c845df04aa384d51a0c3",
+      "size": 7479
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/project-01.s5.prompt.txt",
+      "sha256": "29288365e9c46b6db5ad649d2d6eeaae6d8a610e3ae8a0308370fc289f4ab4da",
+      "size": 2002
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/provider-working.json",
+      "sha256": "4855da724bab9979632b7663bbef00e350326c33a1a2945945f7484cb55548e9",
+      "size": 1087
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/reviewer-manifest.json",
+      "sha256": "fb1362e3db5665aa5edb9a423782cdbe0d928c26ab70698ba894878ae20b9587",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/reviewer.prompt.txt",
+      "sha256": "9d427a8b85ef82f5c10625aacde0fcd77f9ec01d647f623dfac798507b1e0949",
+      "size": 8034
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/s1.prompt.txt",
+      "sha256": "e85572203f6919d896aeb3186ab42f425b97d4335e2c94c0dcf6c59196eada27",
+      "size": 6806
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/260/s2.prompt.txt",
+      "sha256": "af2ea542640703e9c45ef78ca06aa3908935dbd64c397b6efb3fbe400f9370a2",
+      "size": 15893
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/article.json",
+      "sha256": "a2b191184cc0ac7303110e58d9a742de10fce15603e092a995d716aa594300a2",
+      "size": 1592
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/base-manifest.json",
+      "sha256": "0e2b345c2c0f4f269336c9a90b0c64235a5d7c64051e3d7bcf92434eed8335b1",
+      "size": 2320
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/dynamic-manifest.json",
+      "sha256": "0983e4535bd6ba3af2a7986f13207f83ab9bd318ddf2bf5227c7518b4a7e3570",
+      "size": 2548
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/project-01.pre-s5.json",
+      "sha256": "fe9d6465820478f24ee4f3074ee000e8de8226fda85f7ef2f170807b21263306",
+      "size": 1062
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/project-01.s34.prompt.txt",
+      "sha256": "bdfbe62b5d5f5af2fe07b4dcae0e3f1596f4f7c9f1592bccc8377e60393047a2",
+      "size": 7073
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/project-01.s5.prompt.txt",
+      "sha256": "057cfb13baed77b24c52385aec0098632c6f31702a82c02eb4bb97f8160a71c4",
+      "size": 2103
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/provider-working.json",
+      "sha256": "03de2888ada6eef2f4d25be038f0d0e08d46d8a4e7e1ed22809ec902ff071487",
+      "size": 1170
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/reviewer-manifest.json",
+      "sha256": "79edbcf4cd463fa75840a58d77e35cabeb4fb1a832f13d2feedd966d81ef8d64",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/reviewer.prompt.txt",
+      "sha256": "be5bf6067022dcb5cecc38585e9e5e6037fcaf00964d76c0692311796a721a11",
+      "size": 7813
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/s1.prompt.txt",
+      "sha256": "197621149a952f481d365f677b078e1d3dcf40c2620fd8f1c41f67b7f8e2f938",
+      "size": 6382
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/26667/s2.prompt.txt",
+      "sha256": "dac9d6539eea7fcdca1083567bd767a363f3340d560b974f33342847030e70ca",
+      "size": 15469
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27082/article.json",
+      "sha256": "6a50bda541a5799681cce64413fd03fe56dc61a1195903aa12ed0c3f11078058",
+      "size": 8918
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27082/base-manifest.json",
+      "sha256": "ead1c3f84dfed81925db02ead29d4d4844bb6db45338db753ffc542696e1a162",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27082/reviewer-manifest.json",
+      "sha256": "b6f2ab16b4771f82edf256d5d98951e14a765be4fdbeacb0b56e0172caeed972",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27082/reviewer.prompt.txt",
+      "sha256": "fae5497a5fef745dc9138143a4f2ae7fcf25875a74d02305de5a5dcde6cad445",
+      "size": 11268
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27082/s1.prompt.txt",
+      "sha256": "d394be85533cdcb4a88c828642c4b60db39d1fa4d94d63bc08f6a930fac73dc8",
+      "size": 13636
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27082/s2.prompt.txt",
+      "sha256": "d769ef6067a38b6bb252df84cd6a50162e07689aa82ea361af35adc5ef9a8b7c",
+      "size": 22723
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27309/article.json",
+      "sha256": "91bae1ac3f6fd7fd620541206ba12579412427daf4bf0c69a47f990966b8730e",
+      "size": 2950
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27309/base-manifest.json",
+      "sha256": "b09775e414b3c7dea5342dd3a5ac5b2f5b1de8e8b1741d3011f469d5aa999f83",
+      "size": 2264
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27309/reviewer-manifest.json",
+      "sha256": "d6fe66b29426d3d04a1507b3b1a03191c1bea3269d244103fbf86eeb35c3ee3a",
+      "size": 772
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27309/reviewer.prompt.txt",
+      "sha256": "c308f1ac37147a8e4d604483b52b56f2cd483e02dce7da9f6bc6b0904d297de8",
+      "size": 5205
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27309/s1.prompt.txt",
+      "sha256": "fe6d24f622ef5e9c15da9b2f5fac94d5c5529b98c3a47a9e797195d1f05b0910",
+      "size": 7737
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27309/s2.prompt.txt",
+      "sha256": "c15d64fd191191a83db207f0a4bcd984d905e177899029c47bde3b6ef4cb6e00",
+      "size": 16824
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27434/article.json",
+      "sha256": "487aba684b43076f79b6e930eb42961862b240ffc78c1139316a8311538ee928",
+      "size": 4722
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27434/base-manifest.json",
+      "sha256": "ce6fa46cb1188ff553321ad20b512433ad2d6661564e7cf608d9db7774905a52",
+      "size": 2318
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27434/reviewer-manifest.json",
+      "sha256": "ad10a5325dbb64c692784173979e5b76383147f9f2ffc3eae8380e6d00393f87",
+      "size": 774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27434/reviewer.prompt.txt",
+      "sha256": "8c70809f9e9d2fb8738fe705645352347ecaa04c983666f9c3418d9712d89edd",
+      "size": 7624
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27434/s1.prompt.txt",
+      "sha256": "89c4dfc029cd0c424ba100e48e7230012b90d14d14f20b0835ae7306257edd8a",
+      "size": 9478
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/27434/s2.prompt.txt",
+      "sha256": "c9e1a0aad6facad96fd788c0c44a95db1e07011757c175a01f9141ed9445783d",
+      "size": 18565
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/2756/article.json",
+      "sha256": "8a4b0823a3e7570c15b57787542d291cd448ea8423c33f172cfeeebc8c64282a",
+      "size": 2474
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/2756/base-manifest.json",
+      "sha256": "35848607dd6a09f191443d46d0d33ffe8f085398243a0ac1284b16a824498c27",
+      "size": 2314
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/2756/reviewer-manifest.json",
+      "sha256": "7a54cca37af511120eefc1467a1c0ce6183917c18921e142868668f25f35cee8",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/2756/reviewer.prompt.txt",
+      "sha256": "44d93dc1d5327ea2fd17d77574fb02f3abebf1619c0b772fa6193d65585a7154",
+      "size": 5380
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/2756/s1.prompt.txt",
+      "sha256": "b17ebaf8661bfe3ab35088bd3249c52a2afff6506212d12938a07eb5dacbefa7",
+      "size": 7269
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/2756/s2.prompt.txt",
+      "sha256": "c318f257b7196eea1c1980cc693156d02f1aea36d103b7c95d852b9eca6ccd82",
+      "size": 16356
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/article.json",
+      "sha256": "914a71f6347a03bdc042ca93f002b29c1919fe912f6ddccc533f6b3694c0f347",
+      "size": 3228
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/base-manifest.json",
+      "sha256": "117e3edf70e11222dacca0e9a1f89e41e59411ce7482cf3c4180c6315bc3b6c7",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/dynamic-manifest.json",
+      "sha256": "e7a3eb2748999ab75e4d9b357706c56223e5e4e99d44c0041d991366d7abee65",
+      "size": 5590
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-01.pre-s5.json",
+      "sha256": "fa84a34ad096642118c68532eced6b2b54c3f1b1033bcca8b13b84304247c321",
+      "size": 1044
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-01.s34.prompt.txt",
+      "sha256": "c8844528d876da7241dc23bd02c5689619d64b56272b5fb85e1270a6f12ec60c",
+      "size": 8643
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-01.s5.prompt.txt",
+      "sha256": "d1bea878aad3e80a60485a0652d62cbb7c30de0c784f78f11dff018d3dbdf473",
+      "size": 2085
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-02.pre-s5.json",
+      "sha256": "68f5fa35fbde21646b9b47398c479dee88d187969d6d76911d70303dc120a1a3",
+      "size": 1121
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-02.s34.prompt.txt",
+      "sha256": "375ff44259a1330672e3fc05eedbd844b37a6d1857010af58a607b8753162740",
+      "size": 8666
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-02.s5.prompt.txt",
+      "sha256": "adbe3c52e8068e58b973df816242f0dfbc3573259f3acd00f41ca4547619f27c",
+      "size": 2162
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-03.pre-s5.json",
+      "sha256": "5d10e8b6f02daf1d063d8b021fee9598695e8bff0f6c173075be69fb02dfda53",
+      "size": 1210
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-03.s34.prompt.txt",
+      "sha256": "cf9348d9c8a3d4f4e07b619a54926a34a40179c534ebfc4242831eb2b6ff065a",
+      "size": 8645
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-03.s5.prompt.txt",
+      "sha256": "e5a9a6608d4b5bb5ad31bdc3a010a1cb5c750c22f6e0391e970a93a4c6b13041",
+      "size": 2251
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-04.pre-s5.json",
+      "sha256": "62f38a9c2a8227c16e560f4d7088ad211a8f418c70683361893e8cd4cd3bfaeb",
+      "size": 1035
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-04.s34.prompt.txt",
+      "sha256": "6e22e2aac9403680bab7109b2ba06ac26ba40eeed888c957d8bff4be4c561836",
+      "size": 8630
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/project-04.s5.prompt.txt",
+      "sha256": "0935827dc2b81f00fc7c30a61ac02d7709a1ff1097aed96a09bb2f46b8cec3f9",
+      "size": 2076
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/provider-working.json",
+      "sha256": "c18dbd9c698065dc2c206b50a8ce3f7a26f5a100f6c12666a6aa1a6b2d258992",
+      "size": 3896
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/reviewer-manifest.json",
+      "sha256": "f7537093565beed1b10e0e87024784e0f615df4079da6f9eb5180bc90880bd1a",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/reviewer.prompt.txt",
+      "sha256": "84aec20c4861e89325e3bfa38650021079ca0e56e9ac5f3311aaff6695c25304",
+      "size": 23566
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/s1.prompt.txt",
+      "sha256": "30683ce8f3c6848a269f09a1cecdbde3273223064706051abffe2f270b1eadd3",
+      "size": 7978
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/281/s2.prompt.txt",
+      "sha256": "31f2d719c6c8d491e67769f62933ee7c1d8b866faaafc64351de35375d84aa19",
+      "size": 17065
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/article.json",
+      "sha256": "605549a9169f3221617df53e9f0d1c7cb3d23998abea310c69b7d24fdde12ba5",
+      "size": 3158
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/base-manifest.json",
+      "sha256": "9ac9ae25abb7fb06a739f2e00b2334362cbd5fd2063f9b27dc9ba2c628aca2a1",
+      "size": 2308
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/dynamic-manifest.json",
+      "sha256": "2fa14189ece06cb6453e427818441e42cc1ec020b3e708a989d635787b36544a",
+      "size": 3554
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/project-01.pre-s5.json",
+      "sha256": "74c36580ed7b59c294bf73afa0e55edea313080c674bf1fc4f3e90c2fea8f389",
+      "size": 583
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/project-01.s34.prompt.txt",
+      "sha256": "9733dc3189f2cf6126b75065ad9a7f17a3c1e6aeefab72cf54256beff097eda3",
+      "size": 8590
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/project-01.s5.prompt.txt",
+      "sha256": "860d6cd3c08c84b0b5c552e2750b4fb4c15611fedf77fea12704da561fecdd63",
+      "size": 1624
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/project-02.pre-s5.json",
+      "sha256": "af7b301aef03ae2f092acdd52de0551d9f31f9c91539fd82678e607cdf836780",
+      "size": 473
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/project-02.s34.prompt.txt",
+      "sha256": "655ea2fb89ec1a87f945ac316a55b5941bb9d9702211780aa84515bd8e00ea8e",
+      "size": 8616
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/project-02.s5.prompt.txt",
+      "sha256": "2e3ad4b7cb28d3a5b9a65e49b450bc7fb4e2e8a029ee800e689df253004c7dbc",
+      "size": 1514
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/provider-working.json",
+      "sha256": "c30cbb182e311998b4b7ec8a1dd4068d1738b18769d9edef699329dfea5c3fab",
+      "size": 1155
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/reviewer-manifest.json",
+      "sha256": "414e59d70a339a02bec7e6ad565f6c46a4b127294770c858352b1dd34f9746a6",
+      "size": 762
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/reviewer.prompt.txt",
+      "sha256": "dce0d6801517f037e9a706470aeae9d2c8dc13527595b54c8da1b87f5bae8df1",
+      "size": 13349
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/s1.prompt.txt",
+      "sha256": "b45f3208f0604b6294d0a90308b646d4aac0b2e4014771a5b7e0a1418c54846c",
+      "size": 7921
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/32/s2.prompt.txt",
+      "sha256": "08dec88877a701a07046b67a0fc8d7fc845e06f8f55b5bcd4592b1f3aa7aad6e",
+      "size": 17008
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/article.json",
+      "sha256": "00bdb5992ef4510eedb91ba79020015144ba3408202b3b76554fbe99185dd6e2",
+      "size": 4472
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/base-manifest.json",
+      "sha256": "c3a18796572089a3d8311643cef2a1c5f7d1db217d4f4d8a3f2f40bee9143590",
+      "size": 2316
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/provider-working.json",
+      "sha256": "5ae86e38b7d21c0f564e70c6d8f5a6673d1ed6fc2c40bbde8a0c3f67f8a74de5",
+      "size": 274
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/reviewer-manifest.json",
+      "sha256": "785e7a92f445fb039ff2d50954a6376ae71a3ebf34883e9b51bb8ae4e4e2de0f",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/reviewer.prompt.txt",
+      "sha256": "6566cbdf523de0a198203c55d235552104f95a0bca9b1d53e6076cd1de8eef6a",
+      "size": 6427
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/s1.prompt.txt",
+      "sha256": "7f20ffeb1572f3f54da40811b111e336f3609b673813cf8e6b944c31fb7d5c41",
+      "size": 9242
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3215/s2.prompt.txt",
+      "sha256": "0d0c044178e4329e67e68f69d66c688a3cf5d03cfb4701175604a60e9986ef3e",
+      "size": 18329
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/article.json",
+      "sha256": "be1afba3fcd13191caf2bc4198702c5dee4ebdcf47efd887bfd6bd335950e5fb",
+      "size": 1366
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/base-manifest.json",
+      "sha256": "ad44b88235f3319a8057b638e4011201cf20a54bf05b688a3ffaf3e2d8718051",
+      "size": 2310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/dynamic-manifest.json",
+      "sha256": "ffe554fddf4872dac4b43389c6a110f79631f0f2a735df0b0653793e48e8232d",
+      "size": 2526
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/project-01.pre-s5.json",
+      "sha256": "7dc3e88a899da7179d6ed27929504b58a8312a701f6065353701b1423958099d",
+      "size": 575
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/project-01.s34.prompt.txt",
+      "sha256": "9d900b8b7d6a053ad2b7e725d85c1634408556e4a5eaf35c2ac1ff3abc6ba7b5",
+      "size": 6823
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/project-01.s5.prompt.txt",
+      "sha256": "a03d78837c8514bdc8c8c81b754781d2dcb3e7262ccb9eba4829c11f30326371",
+      "size": 1616
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/provider-working.json",
+      "sha256": "17af746c1f789e4ceb7442b6b9822232588e12865f99fd00efac5fa6c095eca2",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/reviewer-manifest.json",
+      "sha256": "23646e362db7b080ddcae6c368aa5100491b2eafbbecf4f4439346e686e547d3",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/reviewer.prompt.txt",
+      "sha256": "1b1f9d54c8aeb9389a46dbcebf445afd5ee02d4f8a61274a2c10ade6c7bfc8df",
+      "size": 8517
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/s1.prompt.txt",
+      "sha256": "0ea111faeb3a84dba74ba2e4f7330999b068d05168d91ded21abe9dbe99ae966",
+      "size": 6147
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/353/s2.prompt.txt",
+      "sha256": "a94c92bbf9eb712569a483de5122d4db8afee0238db057bbe12d33cfad6760e8",
+      "size": 15234
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/article.json",
+      "sha256": "183c654d39610e0d4af746187f35fc252d5823b627788147af90bc161e953b90",
+      "size": 5769
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/base-manifest.json",
+      "sha256": "b0bf0d4996c9e79368edf2988394bf520e5fea7e07cea0cd9505cb8951f36450",
+      "size": 2316
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/dynamic-manifest.json",
+      "sha256": "17c9d9a853ff59924eadbbcd43d25c75ba6cef37051c6acfa4e707a28de6415f",
+      "size": 3512
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/project-01.pre-s5.json",
+      "sha256": "618cdfc817cb65dfd1730339f04e809257a670f0a2fa73fe3ffcc1bc7baf2da5",
+      "size": 1014
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/project-01.s34.prompt.txt",
+      "sha256": "6abd32b0da7fcac825c004db500fcd642abc5762a7bc369f68ec73c361e1c892",
+      "size": 11183
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/project-01.s5.prompt.txt",
+      "sha256": "e365fd9c1d315bb2740d9ddab374443fbcbf2929272c99cdd0b30ea8beba5089",
+      "size": 2055
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/project-02.pre-s5.json",
+      "sha256": "537d26ff2f05fc92c71567a816308a58d9c4744a8cdedba25eefcf0d33586147",
+      "size": 917
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/project-02.s34.prompt.txt",
+      "sha256": "5c12c5474a3fe2e511ddb08fd947df720997cd34fa3fb0ad41c842f06b6bceec",
+      "size": 11176
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/project-02.s5.prompt.txt",
+      "sha256": "6fb932fcab96373ba01ad43aee2bdd34a480a5e2ca6f9ff6b73c3766a6a6234c",
+      "size": 1958
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/provider-working.json",
+      "sha256": "d9ba3d478017ffb5b6924d6b97808c464c21fc018cc780e4671a9d0a29979a55",
+      "size": 1877
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/reviewer-manifest.json",
+      "sha256": "fc9723bbac628e8c0f71e962f2c96c7bc36aef8bff6d328dd44dedb51c121447",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/reviewer.prompt.txt",
+      "sha256": "5d71c467a2b5b8b26faa33f3d6a5dd69b045c1cbe22bfd9f0291c3fb8ea00c52",
+      "size": 15476
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/s1.prompt.txt",
+      "sha256": "042f85aaf3a7b74d91be6fadd713d1f6c51558a856d4e99aedcfd5e3c77b1566",
+      "size": 10525
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/3674/s2.prompt.txt",
+      "sha256": "fdf5b3444de38b2d6c88369fb44e3d163ac7fe3ba7d6edc32833973c7f0225d8",
+      "size": 19612
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/article.json",
+      "sha256": "f22f8efc320cae11c7f6903c5e673205f821c6b34b70790ca16f44d50fe886cf",
+      "size": 1002
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/base-manifest.json",
+      "sha256": "80333171ada68ae666b320adfc67a9b42db7cb903651f7ebbe86cc7958aa7d1e",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/dynamic-manifest.json",
+      "sha256": "9bbaebd481e9e88b7ae76ca1116fb51eda586fb30ee04e65afba3da3d98440db",
+      "size": 2542
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/project-01.pre-s5.json",
+      "sha256": "9df86373bcc77c66334c3296a44c1f12e2d7793ed5c596fc3853dafd5faadb36",
+      "size": 328
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/project-01.s34.prompt.txt",
+      "sha256": "10c14ad8cace7b4f7c65a3c7bd46683848bb3dd4efcf4bc8f9d96161d4fae15f",
+      "size": 6484
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/project-01.s5.prompt.txt",
+      "sha256": "7eacd7bfc3e1c5093348179a777b311df606fbbacd6f4acaf25d8c202794b506",
+      "size": 1369
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/provider-working.json",
+      "sha256": "29713c5ef35c4985cc20e1123a5e73299b7ffc6971cbae8b402da3e6552546c7",
+      "size": 573
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/reviewer-manifest.json",
+      "sha256": "dd619bf342084b528f3287ea08c216f065e8aa02fee12ab1f2d0eb3d15b69029",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/reviewer.prompt.txt",
+      "sha256": "af00ebbdba2b5aa726962144bd844acbf5fbd8b4ac4fa125a6600fbe0bcdc0ab",
+      "size": 6892
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/s1.prompt.txt",
+      "sha256": "50d3c84ec3c42a025a6d072955bbccad2c4ae4de8feeb836bef38bb518004133",
+      "size": 5777
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/432/s2.prompt.txt",
+      "sha256": "4f4fedd51f33483471f4fa4e3414c1b49b3d5447411b1e92b643356c3f5ce270",
+      "size": 14864
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4604/article.json",
+      "sha256": "360160f479511a7fec6db8de9dabf76f8b64ae5023772cade874f35606f20b0c",
+      "size": 2752
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4604/base-manifest.json",
+      "sha256": "32a8e6e36097160c985591a327401dd4747af990a021824a48fc1ea300767b73",
+      "size": 2314
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4604/reviewer-manifest.json",
+      "sha256": "66957c823c480d6e68ec41eea7c87383772eb62aa1eb1ddacab85dd6c492c24d",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4604/reviewer.prompt.txt",
+      "sha256": "08895b08effbf50cf64dcd3907da0a3dcd11bb6a0fd1c7be2392175d5eda06b1",
+      "size": 5967
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4604/s1.prompt.txt",
+      "sha256": "1953482eee1fd20e5a8a21bb8d7fb9bca52fad163561658f3be86f4540e72ec8",
+      "size": 7528
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4604/s2.prompt.txt",
+      "sha256": "bde8670af8f377ff89e997d4b1793cce8f5a3999f058f58377e3479ab6f88cbd",
+      "size": 16615
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/article.json",
+      "sha256": "dacb764602b86a69ca25e3aec833ef6c495cba65ad763bb7b655492fb513e732",
+      "size": 1590
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/base-manifest.json",
+      "sha256": "6406cf745f60c346d7b842c52b3f1507dfaa07364160d9897e06a37f46d99c38",
+      "size": 2312
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/provider-working.json",
+      "sha256": "b276184f31e4c1621ef339ad92cf95d09da06b2db0ac0968c0caa3c2fe308388",
+      "size": 325
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/reviewer-manifest.json",
+      "sha256": "fbdaf358b51241edaf9e569e0053e7fe21ea7c7b73a596f9d8a67bfd6ed672a9",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/reviewer.prompt.txt",
+      "sha256": "eec3aeab11fdcdc673a8a9e38a63cb114fa485e1929a055b29e8a0faed365149",
+      "size": 3540
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/s1.prompt.txt",
+      "sha256": "c531244d74d4c90fa6ffbc2ccf2c50bd8e3351d9ac8a46811f5275ecb582d079",
+      "size": 6376
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/465/s2.prompt.txt",
+      "sha256": "7ae3126b9e4f53410da6204baa1b5b3528018b84165c57b573ec94a218e5e058",
+      "size": 15463
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/483/article.json",
+      "sha256": "956ff10b0994dc6b2840d95190a99fa6e2a218c6e8dc0279078ed4423ee2379b",
+      "size": 1332
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/483/base-manifest.json",
+      "sha256": "83bc947551f07b200aa9b768ee7b54c8e70b888baded076e0a59db95e3967f7c",
+      "size": 2310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/483/reviewer-manifest.json",
+      "sha256": "1cf1b15f0ad74c86c3f9fe0e12d2a2f6b1ecb7cead9fcfce9e89fd52426203dc",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/483/reviewer.prompt.txt",
+      "sha256": "e0a54f0722b6637a20212628cb86d99ea5c24f97e308e7cc72199715b141c542",
+      "size": 4388
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/483/s1.prompt.txt",
+      "sha256": "b35c77375a228ea76d7d385e0caff4e0f193f3edf60bf69dd33ef5b9060c73e9",
+      "size": 6096
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/483/s2.prompt.txt",
+      "sha256": "98a3e182a4453a0daca7289e845f72a3d3941e4e8350e8a99f5f1fc41e5a3ffa",
+      "size": 15183
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4930/article.json",
+      "sha256": "7fce270835fb3779ad8475a67543a665fdc895ab557bf0fff6b9fc0c6db04cee",
+      "size": 1755
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4930/base-manifest.json",
+      "sha256": "e5b1df2f89b56be7dd50ec590145835ee4877f00d14aca95092db8e1269651b0",
+      "size": 2314
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4930/reviewer-manifest.json",
+      "sha256": "c683ac55d2ab5741e84655086950ba02b9982f1aa8ef0a5f40b28f98878ab7e0",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4930/reviewer.prompt.txt",
+      "sha256": "62274f46fa2671018afa6f8484ac8e73d53a0a4a00ad452e0a282aff48913f65",
+      "size": 4586
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4930/s1.prompt.txt",
+      "sha256": "e8770833ef185549c062c10a3918913744812acc472ef276b305160b29c6941c",
+      "size": 6546
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4930/s2.prompt.txt",
+      "sha256": "533a0ba65dff510648acad3c1d63d198f23115eca53c42fc929af384cf1e5746",
+      "size": 15633
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4952/article.json",
+      "sha256": "4c7792ca897273891333713636d99eb66873caeb3a68414bb6e10f2e7b7824d3",
+      "size": 1909
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4952/base-manifest.json",
+      "sha256": "f0324de28da1d2838c780ee34cb65610507566c138b892635328bd5b289c2aee",
+      "size": 2314
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4952/reviewer-manifest.json",
+      "sha256": "0787c9b8d11609eb4af25c45f6165e834ca9b0496a51d24c2c7935739cb53601",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4952/reviewer.prompt.txt",
+      "sha256": "1342e797c98ddc670aa7748e3b4054a7fa79893cc3d1d2d9809de6197a039a96",
+      "size": 6052
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4952/s1.prompt.txt",
+      "sha256": "c4667178c39db263b588e5683bc4fa46d21ed8071048534590e34c4a028aa6da",
+      "size": 6694
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/4952/s2.prompt.txt",
+      "sha256": "03ca26db4293197ce59967b893a1f859fa7b7c2ff618c28f3a843bca311b840c",
+      "size": 15781
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/5093/article.json",
+      "sha256": "9700abfa1ce057082489533033f55635f5f45f15d4237823f57c7b9716171223",
+      "size": 5853
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/5093/base-manifest.json",
+      "sha256": "66e5ca87c37b7bbcfdc2b4f45da9ef3171a1a348fb7c44f3bba724362fc43c3b",
+      "size": 2314
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/5093/reviewer-manifest.json",
+      "sha256": "cb4bf386085393821fa3ed42aa8e80d89d07f633075a6ed4939910e761704300",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/5093/reviewer.prompt.txt",
+      "sha256": "eb1e1fcb024397f7c6045a9d228998c07ee338002164e2d630a0f5d6d8f49571",
+      "size": 8738
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/5093/s1.prompt.txt",
+      "sha256": "d10b6912e49263aa71437caa69e92000731cb6aac7727da2351d9be076414f8e",
+      "size": 10611
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/5093/s2.prompt.txt",
+      "sha256": "6287d8a77e87049dc460d7b0504fdfcda9c123a1c2931cd2f5116258646fd34f",
+      "size": 19698
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/526/article.json",
+      "sha256": "25436e1a4841d9d931d456da4094271b12010c2d101fa5159836cd39a273f258",
+      "size": 2358
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/526/base-manifest.json",
+      "sha256": "b13f8c458c7dbf32023ea2b7dceeeaad21337f0d467cd53dedd3ac5fcb86f07f",
+      "size": 2310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/526/reviewer-manifest.json",
+      "sha256": "9f654715562139dfc4a4cccb0276db43773a94d846393b02f99584c6adc169ac",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/526/reviewer.prompt.txt",
+      "sha256": "eb4c5f83b2d1d5db235c0b9338891dd6a1fe68ed97af9d048e5f494372e910b7",
+      "size": 5429
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/526/s1.prompt.txt",
+      "sha256": "60ee8cdf9a8636295f4c1d741483e6f837ff4cc5375c7a1e6bc6256b65268831",
+      "size": 7149
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/526/s2.prompt.txt",
+      "sha256": "14a93b5670a2fb70c4f77a77d6f93c8c9d5f68078e404d10c5c1d327432013c6",
+      "size": 16236
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/532/article.json",
+      "sha256": "7a96858c47ddfec24f2dc42b753a8a059daec896a6954174855121b698e69fbe",
+      "size": 2401
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/532/base-manifest.json",
+      "sha256": "2eaaf56afd0ad4e9a15a21541aa1def7c8a22fa2e8967dc7fea5271b7a830c84",
+      "size": 2310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/532/reviewer-manifest.json",
+      "sha256": "ccf8ca1e5069016f8e368a7439d8da201666348a63669a06a87077d117febd4e",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/532/reviewer.prompt.txt",
+      "sha256": "578c57bae4c93c8afef86f15c799ddaedb6f5a42fedd6318c8dc2eb2e8138ac6",
+      "size": 5470
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/532/s1.prompt.txt",
+      "sha256": "b24fb07855173dec852d087ed3ad9c1b8140af9c954f7b2dd4efb92da64698e9",
+      "size": 7190
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/532/s2.prompt.txt",
+      "sha256": "5f1c79d82668d79964c520622a8f4b07b8d8b5cb36683b3e73c917bf1d35dc9f",
+      "size": 16277
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/635/article.json",
+      "sha256": "9d1b58585fe817c8e790a7e9e31bc5678fc5a9f1a4b261f8de46614ce6ca2519",
+      "size": 1288
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/635/base-manifest.json",
+      "sha256": "91568e80aa543241340453081b1126600c9640189411f2c63b2f395aec0f9a64",
+      "size": 2310
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/635/reviewer-manifest.json",
+      "sha256": "5b1f384e2c67759621c8bd010d9df54ef9a1922559607630d6027a1e3fa07aa6",
+      "size": 766
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/635/reviewer.prompt.txt",
+      "sha256": "3f9643ac050da0f72c6d4d26f64616370da198767b5fe0995db62ec4a5d9dd95",
+      "size": 4271
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/635/s1.prompt.txt",
+      "sha256": "786591bd3e65181a8d83f87388c599eb8c9a70eed024e3e4e6c20e6ab8eab6de",
+      "size": 6074
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/635/s2.prompt.txt",
+      "sha256": "31590edaded4bea472849e21ba48b546339545c81c5e02e051895826d00641fc",
+      "size": 15161
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/article.json",
+      "sha256": "9c81ba057c75190da072622ae5a19ff00bb24beb42a40be754601346203e189a",
+      "size": 2503
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/base-manifest.json",
+      "sha256": "d02974367729f3829083b2ca41a92997cd7e5fd2aecd75b6be7e6d2dfeb5dc36",
+      "size": 2308
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/dynamic-manifest.json",
+      "sha256": "45bc516a937e1eada183caba4975e318ed7919756d284fa524e1378c608b570b",
+      "size": 2525
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/project-01.pre-s5.json",
+      "sha256": "28c1bdadf6d94bc4061be0c89025e1b6ac5ef8d5597322dfd2814624657b1535",
+      "size": 319
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/project-01.s34.prompt.txt",
+      "sha256": "246e5c17adeffa397d5979c187870ca0a2f085ddf1152a10f257cbd88b46d308",
+      "size": 7959
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/project-01.s5.prompt.txt",
+      "sha256": "7beea5d6d77f8ccde8bee48cec45cda7342c9d67227a5f7f53592cfc3ce887ec",
+      "size": 1360
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/provider-working.json",
+      "sha256": "ce38636a588106f000608187a7cdb85d2bc1395db75bc148b2a37d1158511dae",
+      "size": 553
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/reviewer-manifest.json",
+      "sha256": "99e2a26c75964c5b9bbf3b95bc6b5d1dc2a73654c2530f3e1dcba0bbde3fd238",
+      "size": 762
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/reviewer.prompt.txt",
+      "sha256": "f29fcde20f2cb9cf9fdfafd21d38660a5921a11918c5fa3b07772e0886d17e72",
+      "size": 8745
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/s1.prompt.txt",
+      "sha256": "fdcbe19604c228a103d0c9a6d16f76f3603784cd20f3c423096f09eb4307f24a",
+      "size": 7288
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/75/s2.prompt.txt",
+      "sha256": "2f698b0212e26ca803ee07c49615ead74a3413961ccb8cc7eb9afb482ebf5c82",
+      "size": 16375
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/article.json",
+      "sha256": "e2bf9b978f868eead6bec0957eba01aa4d66a189f0df206d7d07fd266c529299",
+      "size": 2877
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/base-manifest.json",
+      "sha256": "0c15660bd48c1f46244c323188d449239072b764494dd514bed900faaae28b5c",
+      "size": 2306
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/dynamic-manifest.json",
+      "sha256": "4264029df7cd50dc741757c9920f9a7758537d3bd69e18d7da25b9c050d88870",
+      "size": 2509
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/project-01.pre-s5.json",
+      "sha256": "6cfd13ca673b33070d7597a25023a216d11c14e8e635c0304c558f853b470a5b",
+      "size": 288
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/project-01.s34.prompt.txt",
+      "sha256": "67d5db6e18de0155470690999b77cec5fce405142b038bdef6728fd4ec3422e5",
+      "size": 8259
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/project-01.s5.prompt.txt",
+      "sha256": "8e6a7b5448f49753c0ba59797d0f60b916a22b87fa73f3d6e55becae6637306f",
+      "size": 1329
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/provider-working.json",
+      "sha256": "cc15d22954047dc1c3bd6371f8f6db80e7a7378f7486899bdde34f19e4802e01",
+      "size": 505
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/reviewer-manifest.json",
+      "sha256": "62193e4f55b334a9c64cb28625bb7b64a8ee79ed291b47153bf34b1489296d3b",
+      "size": 762
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/reviewer.prompt.txt",
+      "sha256": "9dbfdab222df59be04e8c0050470c7e50b9280c0cc40d2ad5dc27a6429a09b62",
+      "size": 8673
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/s1.prompt.txt",
+      "sha256": "b66f4ccbdf4e1a35c2979b6c36e2d5f3bc6210538b6096ddc10193e418f27bd0",
+      "size": 7589
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/87/s2.prompt.txt",
+      "sha256": "a002eb75e311ffcd9c20a745cb6f7a569fcabcef7d2ea64a7af85f11a204f939",
+      "size": 16676
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/article.json",
+      "sha256": "3ceb805cfe706bf7839aa10e38e14582574d9f03ece8dda1d3d0bcb4b4154193",
+      "size": 2458
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/base-manifest.json",
+      "sha256": "c60108a750534b9f5e7e654d0a0891cf0cb9e11962f14ee0100076c1889c4a33",
+      "size": 2316
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/dynamic-manifest.json",
+      "sha256": "d8b0040e6452d20eaf8ab5512cafbbeab8c3b8620fb33d1a160bafcbe52f4f36",
+      "size": 10693
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-01.pre-s5.json",
+      "sha256": "ac69665f3ebb7db90ca5a1fd340fa9bfade934ce08362244c3d130a08346b70d",
+      "size": 864
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-01.s34.prompt.txt",
+      "sha256": "626c42c5cb324f9846cc28776a944ccd56acc17ecdb49d112e4681f5dc5cda83",
+      "size": 7895
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-01.s5.prompt.txt",
+      "sha256": "7f692dadd9ea41c563e044786427ffc8c6f3552e42ae2bee341f7cd010ce2db7",
+      "size": 1905
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-02.pre-s5.json",
+      "sha256": "fd77529570b84720d7cb0bd801d242a8b772b7d209151ae39c021b29cd46b9c9",
+      "size": 869
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-02.s34.prompt.txt",
+      "sha256": "bee2c2670ed5d02501af8717690cdc87564d03798057c377ad4dad7c0f6606d9",
+      "size": 7916
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-02.s5.prompt.txt",
+      "sha256": "6e28a7534f28d785f5ed179e08c95de346bbef66d37546fce5decb5c0df53d55",
+      "size": 1910
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-03.pre-s5.json",
+      "sha256": "539aeeebd711661e7491af64e1f11ee809ee4f47f8bd52d8ec1fd0bbe16c6c44",
+      "size": 848
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-03.s34.prompt.txt",
+      "sha256": "bf2986f36ecb229fd04a9beed602459f07ed3be424e25e15e48491be8b225055",
+      "size": 7912
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-03.s5.prompt.txt",
+      "sha256": "d407a3f728ee477eebec5663b35a62963d3d716cc37c6ec0ab41fa4a989db299",
+      "size": 1889
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-04.pre-s5.json",
+      "sha256": "f2fbaf577ecf61e329fbd9730c4a583931da42a27771221fa04c869b8bce0b27",
+      "size": 794
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-04.s34.prompt.txt",
+      "sha256": "2ce226e008f179ffc41fd0c6f2d2b83ebc0d437bc4d5be2c68c910d028d2b5d7",
+      "size": 7868
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-04.s5.prompt.txt",
+      "sha256": "2478381fa1f056d93dbb21e28ec6acc9e6883f7a722a2269790904f28a609f0b",
+      "size": 1835
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-05.pre-s5.json",
+      "sha256": "7ad251c31506211901ebc902ec811d4cce9d7c0015410f9295e8341bce27c063",
+      "size": 831
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-05.s34.prompt.txt",
+      "sha256": "3cc96d37678d811e008fd1b78e34abfaec15f7f7f9cdf957e86b49c8f83f68da",
+      "size": 7877
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-05.s5.prompt.txt",
+      "sha256": "f0c371f4a22fa8bf4299820bb4ed9e7f9d94e46dddbac994d5d32e6b5349b148",
+      "size": 1872
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-06.pre-s5.json",
+      "sha256": "4d89fa0cbdb55d45184b8d6ee81d4d036d2c9a16ebefbbbfcc1b6cdb738db827",
+      "size": 944
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-06.s34.prompt.txt",
+      "sha256": "673dfc980e65de5512d82cc0c7e2c631ab6e29f121a3db4ea4035af1616804ea",
+      "size": 7929
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-06.s5.prompt.txt",
+      "sha256": "a90477183e48650e604af36487c5c5919209c7aec3e29522db5757aa2f42c2cd",
+      "size": 1985
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-07.pre-s5.json",
+      "sha256": "7e23d66a04f9d1df55dfc0ff27720b47a1327ad2b6cc03fca9268b68d70d4bcd",
+      "size": 949
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-07.s34.prompt.txt",
+      "sha256": "956fb07b1050f9e397d0f58652acd6d182d09681be03c6c37e9c5e7dcf5be1ad",
+      "size": 7904
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-07.s5.prompt.txt",
+      "sha256": "d08dc52a95e7ca2691278eed24fa1bf2dfbcb7066d055998508430e956f431cd",
+      "size": 1990
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-08.pre-s5.json",
+      "sha256": "cb7c6f031cf45fc9d4a467680b412c72682ee61141f479996b784de4b30441b7",
+      "size": 856
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-08.s34.prompt.txt",
+      "sha256": "826f9386dfbfe49274020a9bc2bb4489e524527a464167574c3bfdbfc4ac6c59",
+      "size": 7910
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-08.s5.prompt.txt",
+      "sha256": "e7499d5a15717ae008ff01b16cb6fa1d0d0e18aed2675ea8ef04be5300068fca",
+      "size": 1897
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-09.pre-s5.json",
+      "sha256": "4bbb9c6c80b4dde5b99a2dc51b85c75b33cdc7b0bde71635d626444303011553",
+      "size": 879
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-09.s34.prompt.txt",
+      "sha256": "be70d9f2c996fd09b9b0a7cc616593aa2bf05a341242c51ccfa89d9f0c8169f6",
+      "size": 7892
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/project-09.s5.prompt.txt",
+      "sha256": "a7c7b802bd950338a897f430182771ab0d80482bc5e2c3668dacff76aa15d942",
+      "size": 1920
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/provider-working.json",
+      "sha256": "27ba334c119e72b24fa884338d3604d14fca3de90bb85255325ef02c40d983a0",
+      "size": 6774
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/reviewer-manifest.json",
+      "sha256": "aede951f0c352074fe4ce72dc664580c848e6310735c1dd499627449bf77ea65",
+      "size": 770
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/reviewer.prompt.txt",
+      "sha256": "970ddaa19f0e3c0b37dc974c3134cb29d46a1eb972c7c23afa1afeb6e972acc5",
+      "size": 40109
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/s1.prompt.txt",
+      "sha256": "4a210e86c39f5c8041e5948c2ce8ef416a289c33eb2bf368653708a5f8e53f25",
+      "size": 7228
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/9081/s2.prompt.txt",
+      "sha256": "073688d9a379065e02bbbc0c395be7bf2f5830c4720551995fd8ae782b16f932",
+      "size": 16315
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/stage-4f-terra-sol-40-manifest-r1.json",
+      "sha256": "bda704e7e7479acb6a2c59aafd93d6a2432fe19fd7e9dff159eeb5089c2da395",
+      "size": 41894
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/runs/stage-4f-terra-sol-40-manifest.json",
+      "sha256": "cdc81deb7ed9bb0463a42c01d839877aa15f76f3808ddfa8d0433a385fab1f13",
+      "size": 41927
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/server.stage3.err.log",
+      "sha256": "5d9fe7df8d8f748e2a558b569746e99ab8ec98cb97c1734a7a441464e92e75a7",
+      "size": 202
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/server.stage3.out.log",
+      "sha256": "130644641b4d51051fdddfb2fb332e3251b9275b17bed40347c56738aa10d3a3",
+      "size": 445
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/server.stage4e.err.log",
+      "sha256": "71094e730eb9408da8d559247cfe8a1b5dce0d4268b7d9bb8b056168e70701c6",
+      "size": 202
+    },
+    {
+      "path": "external-tools/gold-standard-studio/data/server.stage4e.out.log",
+      "sha256": "72f54ede3b766041f2a43200b813e9ff9b29ae8367d2602eac1b93611b2c5f4b",
+      "size": 2520
+    }
+  ],
+  "resume_policy": "Restore the archived review.db only to resume the old rule version; open a new guideline/release version before applying any new taxonomy.",
+  "review_counts": {
+    "article_23627": {
+      "confirmed": false,
+      "revision": 25,
+      "updated_at": "2026-08-13T06:32:33.808360+00:00"
+    },
+    "article_snapshots": 19,
+    "candidates": 102,
+    "confirmed_drafts": 18,
+    "drafts": 19,
+    "review_actions": 45
+  },
+  "rule_version": "2026-08-12",
+  "snapshot_version": "gold-standard-paused-v1",
+  "status": "paused_preserved_not_migrated",
+  "studio_version": "0.8.0"
+}

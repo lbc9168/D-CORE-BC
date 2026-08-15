@@ -1,0 +1,13 @@
+{
+  "article_id": 23627,
+  "draft_revision_after": 25,
+  "draft_revision_before": 24,
+  "entities_evidence": "CHINT",
+  "entities_value": [
+    {
+      "name": "CHINT",
+      "role": "股权投资方"
+    }
+  ],
+  "repair": "stage4f-23627-entity-name-envelope-upgrade"
+}

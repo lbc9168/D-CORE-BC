@@ -1,0 +1,182 @@
+{
+  "candidate_id": "terra-provider-192-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 192,
+  "article_sha256": "ff7d2be00a920f6c7a3a708de3c69321ca5a9cc80f7518e22a90dbe94e6a353f",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "马来西亚砂拉越巴塘艾一期50兆瓦漂浮式光伏项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "光伏",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "巴塘艾一期漂浮式光伏项目",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "巴塘艾一期漂浮式光伏项目",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "巴塘艾一期漂浮式光伏项目",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "50兆瓦",
+        "evidence": "50兆瓦",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "投入运营",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "present",
+        "value": "马来西亚",
+        "evidence": "马来西亚",
+        "confidence": 0.85
+      },
+      "location": {
+        "value_state": "present",
+        "value": "砂拉越州",
+        "evidence": "砂拉越州",
+        "confidence": 0.85
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "上海电力",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "受托管理方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "马来西亚巴塘艾一期50MW漂浮式光伏项目受托管理",
+      "is_power_generation_plant": true,
+      "reasoning": "具名光伏电站且上海电力参与管理。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "马来西亚砂拉越巴塘艾一期50兆瓦漂浮式光伏项目",
+            "Project Name (EN)": "Batang Ai Phase I 50MW Floating Solar Project",
+            "Country": "马来西亚",
+            "Location(State)": "砂拉越州",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "巴塘艾一期漂浮式光伏项目",
+            "Capacity (MW)": "50兆瓦",
+            "Capacity Details": "交流测装机容量",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": "2025-03-19"
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "上海电力",
+            "role": "受托管理方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/192/base-manifest.json",
+    "dynamic": "data/runs/192/dynamic-manifest.json",
+    "working_result": "data/runs/192/provider-working.json"
+  }
+}

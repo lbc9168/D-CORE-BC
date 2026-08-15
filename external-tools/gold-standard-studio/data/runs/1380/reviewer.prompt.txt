@@ -1,0 +1,82 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：沙特4.5GW新能源项目招标结果出炉，中企落榜，风电中标价再创全球新低
+发布日期：NA
+来源：https://news.goalfore.cn/topstories/detail/89410.html
+正文：
+10月27日，沙特国家可再生能源计划（
+NREP
+）第六轮的招标结果出炉，并正式与中标方签署购电协议。
+此次总共授标5个项目，包括1个风电与4个光伏，总装机容量4500MW，总投资额约24亿美元。
+项目一：
+项目名称：达瓦德米风能项目
+装机容量：1,500 兆瓦
+项目地点：利雅得省
+中标方：韩国电力公司 (KEPCO)、Nesma可再生能源公司与阿提哈德水电公司 PJSC (EtihadWE) 组成的联合体
+平准化电力成本 (LCOE)：1.33803 美分/千瓦时
+项目二：
+项目名称：纳季兰太阳能项目 (Najran Solar Energy Project)
+装机容量：1,400 兆瓦
+项目地点：沙特纳季兰地区
+中标方：阿布扎比未来能源公司（马斯达尔）与沙特合作开发
+平准化电力成本 (LCOE)：1.09682 美分/千瓦时（4.11307 哈拉拉/千瓦时）
+项目三：
+项目名称：Ad Darb 太阳能光伏 IPP 电站
+装机容量：600 兆瓦
+项目地点：吉赞省
+中标方：阿布扎比未来能源公司 PJSC-Masdar
+平准化电力成本 (LCOE)：1.36070 美分/千瓦时（5.10262 哈拉拉/千瓦时）
+项目四：
+项目名称：Samtah 太阳能光伏 IPP 电站
+装机容量：600 兆瓦
+项目地点：吉赞省
+中标方：沙特电力公司 (SEC) 与EDF POWER SOLUTIONS INTERNATIONAL SAS 组成的联合体
+平准化电力成本 (LCOE)：1.48678 美分/千瓦时（5.57544 哈拉拉/千瓦时）
+项目五：
+项目名称：Sufun 太阳能光伏 IPP 电站
+装机容量：400 兆瓦
+项目地点：哈伊勒省
+中标方：Al Jomaih 能源与水务公司 (AEW) 控股公司和 TotalEnergies Renewables SAS 组成的财团
+平准化电力成本 (LCOE)：1.50686 美分/千瓦时（5.65074 哈拉拉/千瓦时）
+本轮招标电价创下了两个世界记录：达瓦德米风能项目创造了风力发电成本最低的世界纪录；纳季兰太阳能项目则创下了太阳能发电成本世界第二低纪录，仅次于沙特舒艾巴1号项目，后者此前以每千瓦时1.04美分的发电成本创下了全球太阳能发电成本最低纪录。
+遗憾的是，参加本轮招标的多家中资企业及其联合体均未能上榜，包括：中国电建、中国电力工程顾问集团国际工程有限公司、晶科电力、国家电投黄河水电开发有限公司等。再次侧面反映了沙特新能源市场竞争日趋激烈、头部效应日趋突出的特点。
+不过，新一轮竞标即将开始。9月份，沙特电力采购公司（SPPC）正式发布第七轮招标资格预审请求（RFQ），项目总规模 5.3 GW，其中光伏 3.1 GW、风电 2.2 GW。预计2025年1月完成资格预审、2025年三季度提交投标函。期待中资企业能有所斩获！
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-1380-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 1380,
+  "article_sha256": "c60762e2b86def896539cdc0c8ecf46caa30e61fb8077898fa5ba8892f63a4ef",
+  "article_status": {
+    "value_state": "present",
+    "value": "no_chinese_participation",
+    "evidence": "参加本轮招标的多家中资企业及其联合体均未能上榜",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "参加本轮招标的多家中资企业及其联合体均未能上榜",
+      "is_power_generation_plant": false,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    }
+  },
+  "prompt_manifest": {
+    "base": "data/runs/1380/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/1380/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

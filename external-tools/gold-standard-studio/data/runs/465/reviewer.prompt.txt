@@ -1,0 +1,49 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：刚果（金）恩子洛Ⅱ水电站大坝及溢洪道工程开工
+发布日期：2026-01-13 14:18:05
+来源：https://news.goalfore.cn/topstories/detail/91749.html
+正文：
+当地时间1月10日，刚果（金）恩子洛Ⅱ水电站项目启动临建、大坝左右岸边坡开挖工作，标志着该项目大坝及溢洪道工程正式开工。
+恩子洛Ⅱ水电站位于刚果金卢阿拉巴省卢阿拉巴河上，距卢阿拉巴省首府科卢韦齐50千米，装机容量200兆瓦，电站水库正常蓄水位1162.5米，死水位1150米，最高洪水位1163.5米，兴利库容2.02亿立方米，死库容2.82亿立方米，总库容为4.84亿立方米，为Ⅱ等大（2）型工程。
+此次开工的水电站大坝及溢洪道土建和金属结构安装砂石骨料生产系统建设及运行工程，主要建设内容包括碾压混凝土坝、溢洪道开挖支护和混凝土施工；溢洪道、坝身底孔和临时泄水管、引水发电系统、导流洞配套金结；厂房开挖、支护；厂房尾水河道的清挖及岸坡防护；弃渣场施工及维护；石料场开采及支护；砂石骨料生产系统设计、建设及运行等，项目合同工期为1142天。
+工程建成后，将极大缓解刚果（金）东南部矿区电力严重短缺问题，可助力推动矿企降本增效、绿色转型，同时带动当地基建与民生改善，深化中刚矿业能源合作。
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-465-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 465,
+  "article_sha256": "d60a972c9e92e8add25b878e7b347a2151bf632efb505db86c12e94247702c92",
+  "article_status": {
+    "value_state": "present",
+    "value": "chinese_unnamed_participation",
+    "evidence": "深化中刚矿业能源合作。",
+    "confidence": 0.8
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "chinese_unnamed_participation",
+      "project_subject": "深化中刚矿业能源合作。",
+      "is_power_generation_plant": false,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    }
+  },
+  "prompt_manifest": {
+    "base": "data/runs/465/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/465/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

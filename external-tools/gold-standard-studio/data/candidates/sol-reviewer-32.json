@@ -1,0 +1,372 @@
+{
+  "candidate_id": "sol-reviewer-32-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 32,
+  "article_sha256": "ac3ad7fdb9c7a0000d68845c83163fe0dbf674655f42d780541f7558dbb27a85",
+  "parent_candidate_id": "terra-provider-32-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "公司作为联营体牵头方，与中国能建国际集团、中国能建西南院携手中标非洲规模最大独立储能项目——埃及本班Nefertiti 1000兆瓦时储能项目。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "该字段对本项目不适用。"
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "埃及本班Nefertiti 1000兆瓦时储能项目",
+        "evidence": "埃及本班Nefertiti 1000兆瓦时储能项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "储能",
+        "evidence": "独立储能项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_sources": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "1000兆瓦时储能项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "1000兆瓦时",
+        "evidence": "1000兆瓦时储能项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "not_applicable",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "该字段对本项目不适用。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "携手中标",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "埃及",
+        "evidence": "埃及本班Nefertiti",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "阿斯旺本班光伏园区",
+        "evidence": "项目位于埃及阿斯旺本班光伏园区。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国能建浙江火电",
+            "evidence": "浙江火电自2009年进入埃及市场以来",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "Provider 遗漏正文以“公司”指代的浙江火电；原文明确其为联营体牵头方。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "公司作为联营体牵头方",
+            "confidence": 0.96,
+            "verdict": "wrong",
+            "reviewer_note": "Provider 遗漏正文以“公司”指代的浙江火电；原文明确其为联营体牵头方。"
+          }
+        },
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国能建国际集团",
+            "evidence": "中国能建国际集团",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "项目采用EPC总承包模式",
+            "confidence": 0.95,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          }
+        },
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国能建西南院",
+            "evidence": "中国能建西南院",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "项目采用EPC总承包模式",
+            "confidence": 0.95,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    },
+    {
+      "project_id": "provider-02",
+      "project_name": {
+        "value_state": "present",
+        "value": "印度尼西亚SCM矿区光储EPC项目",
+        "evidence": "印尼SCM矿区光储EPC项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "建设规模为227兆瓦光伏及100兆瓦/400兆瓦时储能。",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "227兆瓦光伏",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "100兆瓦/400兆瓦时储能",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "100兆瓦",
+        "evidence": "100兆瓦/400兆瓦时储能",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "400兆瓦时",
+        "evidence": "100兆瓦/400兆瓦时储能",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "227兆瓦",
+        "evidence": "227兆瓦光伏",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "中标",
+        "evidence": "中标印尼SCM矿区光储EPC项目",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "country": {
+        "value_state": "present",
+        "value": "印度尼西亚",
+        "evidence": "印尼SCM矿区",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "location": {
+        "value_state": "present",
+        "value": "苏拉威西省SCM矿区",
+        "evidence": "项目位于印尼苏拉威西省SCM矿区",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文逐字证据支持该值。"
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99,
+        "verdict": "ok",
+        "reviewer_note": "原文未提及该事实，保留缺失状态。"
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国能建浙江火电",
+            "evidence": "浙江火电凭借诚信可靠、脚踏实地的优秀品质",
+            "confidence": 0.98,
+            "verdict": "wrong",
+            "reviewer_note": "Provider 遗漏正文以“公司”指代的浙江火电；原文明确其联合中标 EPC 项目。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "公司联合中国能建西南院中标印尼SCM矿区光储EPC项目",
+            "confidence": 0.96,
+            "verdict": "wrong",
+            "reviewer_note": "Provider 遗漏正文以“公司”指代的浙江火电；原文明确其联合中标 EPC 项目。"
+          }
+        },
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "中国能建西南院",
+            "evidence": "公司联合中国能建西南院中标",
+            "confidence": 0.99,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          },
+          "role": {
+            "value_state": "present",
+            "value": "EPC总承包方",
+            "evidence": "光储EPC项目",
+            "confidence": 0.95,
+            "verdict": "ok",
+            "reviewer_note": "原文逐字证据支持该值。"
+          }
+        }
+      ],
+      "verdict": "ok",
+      "reviewer_note": "项目边界由原文支持；以下字段已逐项独立复核。"
+    }
+  ],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/32/reviewer.prompt.txt",
+      "sha256": "dce0d6801517f037e9a706470aeae9d2c8dc13527595b54c8da1b87f5bae8df1"
+    },
+    "reviewer_manifest": "data/runs/32/reviewer-manifest.json",
+    "provider_sha256": "1a0556b595cb27041825217a1b9ec7154c1529cda8f17d0ba228c36910560c69"
+  }
+}

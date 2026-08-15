@@ -1,0 +1,150 @@
+{
+  "article_status": "valid",
+  "last_evidence": "",
+  "non_project_reason": null,
+  "projects": [
+    {
+      "fields": {
+        "category": {
+          "accepted_source": "pipeline",
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "光伏",
+          "value_state": "present"
+        },
+        "country": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "澳大利亚",
+          "value_state": "present"
+        },
+        "entities": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "modified",
+          "value": "[\n  {\n    \"name\": \"正泰集团股份有限公司\",\n    \"role\": \"股权投资方\"\n  }\n {\n    \"name\": \"深圳市茂能科技有限公司\",\n    \"role\": \"股权投资方\"\n  }\n]",
+          "value_state": "present"
+        },
+        "financing_mode": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "generation_capacity_mw": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "150",
+          "value_state": "present"
+        },
+        "generation_sources": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": [],
+          "value_state": "present"
+        },
+        "investment": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "location": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "normalized_entities": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "modified",
+          "value": "[\n  {\n    \"canonical_entity\": \"正泰集团股份有限公司\",\n    \"mentioned_name\": \"正泰集团股份有限公司\",\n    \"parent_company\": \"正泰集团股份有限公司\",\n    \"role\": \"股权投资方\"\n  }\n {\n    \"name\": \"深圳市茂能科技有限公司\",\n    \"mentioned_name\": \"深圳市茂能科技有限公司\",\n    \"parent_company\": \"深圳市茂能科技有限公司\",\n    \"role\": \"股权投资方\"\n  }\n]",
+          "value_state": "present"
+        },
+        "normalized_location": {
+          "accepted_source": "pipeline",
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "planned_complete_date": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "planned_start_date": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "project_developer": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "Maoneng; CHINT",
+          "value_state": "present"
+        },
+        "project_name": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "澳大利亚150MW光伏项目",
+          "value_state": "present"
+        },
+        "project_stage": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "拟开发",
+          "value_state": "present"
+        },
+        "storage_energy_mwh": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "storage_power_mw": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        },
+        "storage_status": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": "not_mentioned",
+          "value_state": "present"
+        },
+        "subcategory": {
+          "confidence": null,
+          "evidence": "",
+          "review_action": "confirmed",
+          "value": null,
+          "value_state": "not_mentioned"
+        }
+      },
+      "gold_project_id": "P01",
+      "project_name": "澳大利亚150MW光伏项目",
+      "relation_note": "文章内独立项目"
+    }
+  ],
+  "scroll_y": 0
+}

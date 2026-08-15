@@ -1,0 +1,39 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "三一硅能",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "一体化方案提供商",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "2025-03-01",
+    "Capacity (MW)": "",
+    "Capacity Details": "",
+    "Category": "综合能源",
+    "Country": "赞比亚",
+    "Energy Composition Evidence": "乔瓦矿山光储微网项目开工（已并网）",
+    "Financing Model": "Unknown",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "赞比亚乔瓦矿山光储微网项目",
+    "Project Name (EN)": "Zambia Qiaowa Mine Solar and Storage Microgrid Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,41 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "三一硅能",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "股权投资方",
+      "equipment_items": "",
+      "equipment_role": "未提及",
+      "equipment_supply_scope": ""
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Additional Remarks": "4月签署股权购买协议，10月15日举行股权转让仪式。",
+    "Capacity (MW)": "",
+    "Capacity Details": "光伏：95MWp；储能：218MWh",
+    "Category": "综合能源",
+    "Country": "罗马尼亚",
+    "Energy Composition Evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施",
+    "Financing Model": "股权融资",
+    "Financing Model Details": "三一硅能完成项目100%股权转让",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "Dolj县Dobrești",
+    "Project Developer": "三一集团",
+    "Project Developer Evidence": "完成了100%的股权转让",
+    "Project Name": "罗马尼亚Dolj县Dobrești 95MWp光伏+218MWh储能项目",
+    "Project Name (EN)": "Romania Dolj County Dobrești 95MWp Solar PV and 218MWh Energy Storage Project",
+    "Project Stage": "收购",
+    "Record Type": "具体项目",
+    "Storage Energy": "218MWh",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

@@ -1,0 +1,28 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程山西院",
+      "role": "总承包商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "200兆瓦",
+    "Capacity Details": "200兆瓦时",
+    "Category": "储能",
+    "Country": "新加坡",
+    "Energy Composition Evidence": "总规划容量为200兆瓦/200兆瓦时",
+    "Generation Sources": [],
+    "Location(State)": "裕廊岛",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "新加坡裕廊岛200兆瓦/200兆瓦时储能项目",
+    "Project Name (EN)": "Jurong Island 200MW/200MWh Energy Storage Project",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "200兆瓦时",
+    "Storage Power": "200兆瓦",
+    "Storage Status": "confirmed"
+  }
+}

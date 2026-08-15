@@ -1,0 +1,31 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "协鑫集团",
+      "role": "开发商"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "2025-01-01",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "年产量12万吨",
+    "Category": "新能源制造业",
+    "Country": "沙特阿拉伯",
+    "Energy Composition Evidence": "建造一家工厂，年产量为 12 万吨",
+    "Generation Sources": [],
+    "Location(State)": "",
+    "Project Developer": "协鑫集团",
+    "Project Developer Evidence": "协鑫联合首席执行官兰天石",
+    "Project Name": "沙特阿拉伯12万吨年产量硅料工厂项目",
+    "Project Name (EN)": "Saudi Arabia 120,000-tonne Annual Polysilicon Factory Project",
+    "Project Stage": "拟开发",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

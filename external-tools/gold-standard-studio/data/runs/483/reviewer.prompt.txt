@@ -1,0 +1,15 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：老挝塔维扬～纳帕双回230千伏输电线路工程开工
+发布日期：2026-01-11 20:36:03
+来源：https://news.goalfore.cn/topstories/detail/91707.html
+正文：
+2025年12月29日，宏业集团属下创成公司总经理谢榕昌赴老挝首都万象，出席塔维扬～纳帕双回230千伏输电线路工程开工仪式暨老挝国家输电网有限责任公司（EDL-T）运营两周年活动。
+该项目是创成公司首次进军老挝电力建设市场的重要突破，也是EDL-T第一监管周期输电网规划的关键工程，更是贯通老挝南北联网的核心枢纽。项目建成后，将显著强化老挝北部至中部电网结构，有效满足经济社会发展用电需求。作为项目监理单位，创成公司已组建一支素质优良、专业精湛、经验丰富的现场服务团队，将恪守“严格监理、热情服务、公正科学、廉洁自律”原则，全面履行“三控两管一协调一履职”监理职责，主动加强与业主、设计、施工等各参建方的沟通协作，高效解决工程推进中的各类难题，全力保障项目按计划高质量实施。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-483-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":483,"article_sha256":"11c9f4b0fc4a4674b350fb83587f9033ea97dc3f6c83f29c247e94f11f557398","article_status":{"value_state":"present","value":"valid_project","evidence":"作为项目监理单位，创成公司已组建一支素质优良、专业精湛、经验丰富的现场服务团队"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"老挝塔维扬—纳帕双回230千伏输电线路工程","evidence":"塔维扬～纳帕双回230千伏输电线路工程开工仪式"},"category":{"value_state":"present","value":"输变电建设","evidence":"输电线路工程"},"subcategory_raw_fact":{"value_state":"present","value":"双回230千伏输电线路","evidence":"双回230千伏输电线路工程"},"generation_sources":{"value_state":"not_applicable","value":[]},"storage_status":{"value_state":"not_applicable","value":null},"storage_power_mw":{"value_state":"not_applicable","value":null},"storage_energy_mwh":{"value_state":"not_applicable","value":null},"generation_capacity_mw":{"value_state":"not_applicable","value":null},"project_stage":{"value_state":"present","value":"开工","evidence":"出席塔维扬～纳帕双回230千伏输电线路工程开工仪式"},"country":{"value_state":"present","value":"老挝","evidence":"赴老挝首都万象"},"location":{"value_state":"not_mentioned","value":null},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"not_mentioned","value":null},"chinese_entities":[{"entity":{"value_state":"present","value":"创成公司","evidence":"作为项目监理单位，创成公司"},"role":{"value_state":"present","value":"项目监理","evidence":"作为项目监理单位"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{"in_scope":true}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/483/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

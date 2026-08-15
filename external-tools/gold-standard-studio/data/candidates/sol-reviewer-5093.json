@@ -1,0 +1,154 @@
+{
+    "candidate_id": "sol-reviewer-5093-stage4e-v1",
+    "execution_role": "reviewer",
+    "model": "gpt-5.6-sol",
+    "article_id": 5093,
+    "article_sha256": "5cb36d9000b7f79ed95066bb8b9deb1f005d8dd4669be58f9750cf01076d363d",
+    "parent_candidate_id": "terra-provider-5093-stage4e-v1",
+    "article_status": {
+        "value_state": "present",
+        "value": "valid_project",
+        "evidence": "锂源（印尼）",
+        "verdict": "ok",
+        "reviewer_note": "境外新能源材料制造项目及中国投资主体明确。"
+    },
+    "non_project_reason": {
+        "value_state": "not_applicable",
+        "value": null,
+        "verdict": "ok",
+        "reviewer_note": "正样本不适用。"
+    },
+    "projects": [
+        {
+            "project_name": {
+                "value_state": "present",
+                "value": "新能源汽车动力与储能电池正极材料规模化生产项目",
+                "evidence": "储能电池正极材料规模化生产项目",
+                "verdict": "wrong",
+                "reviewer_note": "采用公告中的原始项目名，不另造地理化名称。"
+            },
+            "category": {
+                "value_state": "derived_from_explicit",
+                "value": "新能源制造业",
+                "evidence": "储能电池正极材料规模化生产项目",
+                "verdict": "ok",
+                "reviewer_note": "由明确的正极材料生产事实作确定性分类，不能作为储能电站。"
+            },
+            "subcategory_raw_fact": {
+                "value_state": "present",
+                "value": "磷酸铁锂正极材料",
+                "evidence": "磷酸铁锂正极材料产能",
+                "verdict": "ok",
+                "reviewer_note": "原文明确。"
+            },
+            "generation_sources": {
+                "value_state": "not_applicable",
+                "value": [],
+                "verdict": "ok",
+                "reviewer_note": "制造项目不适用。"
+            },
+            "storage_status": {
+                "value_state": "not_applicable",
+                "value": null,
+                "verdict": "ok",
+                "reviewer_note": "“储能电池正极材料”不是储能电站配置。"
+            },
+            "storage_power_mw": {
+                "value_state": "not_applicable",
+                "value": null,
+                "verdict": "ok",
+                "reviewer_note": "制造项目不适用。"
+            },
+            "storage_energy_mwh": {
+                "value_state": "not_applicable",
+                "value": null,
+                "verdict": "ok",
+                "reviewer_note": "制造项目不适用。"
+            },
+            "generation_capacity_mw": {
+                "value_state": "not_applicable",
+                "value": null,
+                "verdict": "ok",
+                "reviewer_note": "12 万吨为材料产能，不是发电容量。"
+            },
+            "project_stage": {
+                "value_state": "present",
+                "value": "一期已建设，二期拟建设",
+                "evidence": "已投资建设一期 3 万吨磷酸铁锂正极材料产能；并由该二期项目公司建设实施二期项目",
+                "verdict": "wrong",
+                "reviewer_note": "Provider 的“拟开发”遗漏一期已建设事实；二期仍需审批且尚未具体开展。"
+            },
+            "country": {
+                "value_state": "present",
+                "value": "印度尼西亚",
+                "evidence": "印度尼西亚爪哇岛",
+                "verdict": "ok",
+                "reviewer_note": "原文明确。"
+            },
+            "location": {
+                "value_state": "present",
+                "value": "中爪哇省三宝垄市",
+                "evidence": "中爪哇省三宝垄市",
+                "verdict": "wrong",
+                "reviewer_note": "补全 Provider 遗漏的省级地点。"
+            },
+            "investment": {
+                "value_state": "present",
+                "value": "约2.9亿美元（约合人民币20亿元）",
+                "evidence": "2.9 亿美元（约合人民币 20 亿元）",
+                "verdict": "wrong",
+                "reviewer_note": "Provider 错标 not_mentioned；原文明确项目总投资，且调整后金额不变。"
+            },
+            "financing_mode": {
+                "value_state": "not_mentioned",
+                "value": null,
+                "verdict": "ok",
+                "reviewer_note": "自有投资行为不等同于明确融资模式。"
+            },
+            "project_developer": {
+                "value_state": "needs_adjudication",
+                "value": null,
+                "verdict": "wrong",
+                "reviewer_note": "一期为锂源（印尼），二期实施主体拟调整为名称待定的新公司，无法用单一开发主体覆盖全项目。"
+            },
+            "chinese_entities": [
+                {
+                    "entity": {
+                        "value_state": "present",
+                        "value": "龙蟠科技",
+                        "evidence": "龙蟠科技拟通过其下属公司",
+                        "verdict": "ok",
+                        "reviewer_note": "原文明确母公司。"
+                    },
+                    "role": {
+                        "value_state": "present",
+                        "value": "通过下属公司投资开发建设",
+                        "evidence": "通过锂源（印尼）投资开发建设",
+                        "verdict": "wrong",
+                        "reviewer_note": "用原文明确的投资开发建设角色替代笼统“投资方”。"
+                    }
+                }
+            ]
+        }
+    ],
+    "prompt_manifest": {
+        "renderer": {
+            "path": "src/gold_standard_studio/prompt_pack.py",
+            "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+        },
+        "builders": {
+            "s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a",
+            "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd",
+            "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6",
+            "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+        },
+        "reviewer_prompt": {
+            "path": "data/runs/5093/reviewer.prompt.txt",
+            "sha256": "eb1e1fcb024397f7c6045a9d228998c07ee338002164e2d630a0f5d6d8f49571"
+        },
+        "provider": {
+            "path": "data/candidates/terra-provider-5093.json",
+            "sha256": "7423eba849c004805527adac4f126d70952094c0b098c060398a069f6fb5fdcb"
+        }
+    }
+}

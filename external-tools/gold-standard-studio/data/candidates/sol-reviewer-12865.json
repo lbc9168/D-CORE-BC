@@ -1,0 +1,41 @@
+{
+  "candidate_id": "sol-reviewer-12865-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 12865,
+  "article_sha256": "ed9705732317ee4736292777e9d566fdce954859e20cf7e7fb2fc1dcdd78b934",
+  "parent_candidate_id": "terra-provider-12865-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "irrelevant",
+    "evidence": "开展涉及远程监控·能源分析及管理系统领域的业务合作。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "non_project_reason": {
+    "value_state": "present",
+    "value": "既有项目的能源管理服务合作，不是具体工程节点",
+    "evidence": "双方将共同开发面向可再生能源发电项目的先进数字化运行模型。",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "原文逐字证据支持该值。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "renderer": {
+      "path": "src/gold_standard_studio/prompt_pack.py",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "builder": {
+      "function": "gold_standard_studio.prompt_pack.render_reviewer",
+      "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"
+    },
+    "prompt": {
+      "path": "data/runs/12865/reviewer.prompt.txt",
+      "sha256": "e05368bcdf8df5fe2b525e4c5a570915d81aca2a058da759b7d1a74c20f20f1f"
+    },
+    "reviewer_manifest": "data/runs/12865/reviewer-manifest.json",
+    "provider_sha256": "8f54ca6c79c188a99f96fb1d1f177cc945755244b6195c94df2f2b13a21e9b7a"
+  }
+}

@@ -1,0 +1,198 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：行业英文 | 晶澳太阳能签署越南257兆瓦光伏项目供应协议
+发布日期：2018-12-01 17:32:44
+来源：https://news.goalfore.cn/topstories/detail/1093.html
+正文：
+JA Solar has entered into an agreement with Shanxi Electric Power Engineering (SEPEC) to supply high-efficiency mono PERC PV modules for a 257MW plant in Phu Yen, Vietnam.
+The installation, contracted by SEPEC and developed by B. GRIMM, stands as a key addition to a growing Vietnamese PV sector. JA Solar's modules were chosen due to their long-term reliability and environmental adaptability tests, with Vietnam located in a region under extreme environmental conditions, featuring constant high temperatures and heavy humidity.
+Jiping Chen, president of SEPEC, said: "JA Solar takes a leading position in the R&D and production of high-performance PV products. We are confident that JA's high-efficiency modules and well-established global sales network will enable project success. In addition, we look forward to the opportunity to further strengthen our partnership with JA Solar and cooperate on future projects."
+Baofang Jin, president and CEO of JA Solar, added: "The cooperation between the two companies demonstrates SEPEC's recognition of JA's products and services. We look forward to cooperating on more projects in the future, further developing the solar market within the 'Belt and Road' countries, and delivering benefits to more people from solar energy development."
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-25106-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 25106,
+  "article_sha256": "e23fc2f2a563ea1e9e25577f82d0a6fa97690ba7d282ac016739cf544f4f1610",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "越南富安257MW光伏项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "光伏",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "not_mentioned",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "257MW plant in Phu Yen, Vietnam",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "257MW",
+        "evidence": "257MW",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "签约",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "uncertain",
+        "value": "越南",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "location": {
+        "value_state": "uncertain",
+        "value": "富安",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "B. GRIMM",
+        "evidence": "B. GRIMM",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "晶澳太阳能",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "设备供应商",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "越南富安257MW光伏电站组件供应",
+      "is_power_generation_plant": true,
+      "reasoning": "具名光伏电站且晶澳供应组件。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "设备订单",
+            "Project Name": "越南富安257MW光伏项目",
+            "Project Name (EN)": "Phu Yen 257MW Solar PV Plant",
+            "Country": "越南",
+            "Location(State)": "富安",
+            "Category": "光伏",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "257MW plant in Phu Yen, Vietnam",
+            "Capacity (MW)": "257MW",
+            "Capacity Details": "",
+            "Project Stage": "签约",
+            "Project Developer": "B. GRIMM",
+            "Project Developer Evidence": "developed by B. GRIMM",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "晶澳太阳能",
+            "role": "设备供应商"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/25106/base-manifest.json",
+    "dynamic": "data/runs/25106/dynamic-manifest.json",
+    "working_result": "data/runs/25106/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

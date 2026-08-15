@@ -1,0 +1,58 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "project_summary": "",
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "英国苏格兰阿德赛尔港风电机组制造基地项目",
+    "Project Name (EN)": "Ardersier Port Wind Turbine Manufacturing Base Project, Scotland, United Kingdom",
+    "Country": "英国",
+    "Location(State)": "苏格兰因弗内斯附近阿德赛尔港",
+    "Category": "新能源制造业",
+    "Generation Sources": [],
+    "Storage Status": "not_mentioned",
+    "Storage Power": "",
+    "Storage Energy": "",
+    "Energy Composition Evidence": "全产业链一体化风电机组制造基地",
+    "Capacity (MW)": "",
+    "Capacity Details": "",
+    "Project Stage": "拟开发",
+    "Project Developer": "明阳智慧能源集团股份公司",
+    "Project Developer Evidence": "明阳智慧能源集团股份公司宣布，拟投资15亿英镑",
+    "(Planned) Start Date": "",
+    "(Planned) Complete Date": "",
+    "Total Project Investment Raw": "拟投资15亿英镑（折合人民币超142亿元）",
+    "Financing Model": "Unknown",
+    "Additional Remarks": "已与英国政府和苏格兰政府深入讨论，并与英国国家能源公司、国家财富基金、苏格兰国家投资银行、英国王室地产署以及英国出口信贷署进行了商业磋商；正文未说明已落实的融资。"
+  },
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "明阳智慧能源集团股份公司",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "股权投资方",
+      "Subcontract Amount (Million USD)": "",
+      "equipment_role": "未提及",
+      "equipment_items": "",
+      "equipment_supply_scope": ""
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

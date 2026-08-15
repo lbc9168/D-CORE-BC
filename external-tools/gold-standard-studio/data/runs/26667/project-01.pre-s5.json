@@ -1,0 +1,33 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国华电",
+      "role": "投资方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "2026-03-31",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "300兆瓦",
+    "Capacity Details": "项目总规模500兆瓦",
+    "Category": "光伏",
+    "Country": "乌兹别克斯坦",
+    "Energy Composition Evidence": "吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Location(State)": "吉扎克",
+    "Project Developer": "中国华电",
+    "Project Developer Evidence": "华电海投乌兹别克斯坦吉扎克",
+    "Project Name": "乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期300兆瓦",
+    "Project Name (EN)": "Jizzakh 500MW Solar PV Plant Phase I 300MW",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

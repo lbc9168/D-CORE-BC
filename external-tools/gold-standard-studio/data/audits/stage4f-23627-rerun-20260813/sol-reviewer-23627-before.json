@@ -1,0 +1,31 @@
+{
+  "candidate_id": "sol-reviewer-23627-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 23627,
+  "article_sha256": "4113272ba9cb84d6ed953fe0ec8c458301623a4ff67509034aa01f50243a3018",
+  "parent_candidate_id": "terra-provider-23627-stage4e-v1",
+  "article_status": {
+    "value_state": "present",
+    "value": "other_non_project",
+    "evidence": "The JV aims to develop a project pipeline with combined capacity of at least 150MWac by 2019 and 500MWac by 2021.",
+    "confidence": 0.98,
+    "verdict": "ok",
+    "reviewer_note": "正文仅给出合资开发管线目标，没有可独立识别的新增具体项目。"
+  },
+  "non_project_reason": {
+    "value_state": "present",
+    "value": "仅有项目管线或非项目文章",
+    "evidence": "Maoneng and CHINT are looking to acquire and co-develop projects with an enterprise value between $60m-$200m.",
+    "confidence": 0.98,
+    "verdict": "ok",
+    "reviewer_note": "150MWac和500MWac均为未来项目管线合计目标，不是单体工程容量。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"},
+    "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"},
+    "prompt": {"path": "data/runs/23627/reviewer.prompt.txt", "sha256": "70a913a428192c9eb4668e49bb419be5763b6d891513de8a4f296b9a615bb106"},
+    "provider_sha256": "d5084a5c6285e9bc3bed07f6d9fc7b39677d1def2a12a310c88cb028736509dc"
+  }
+}

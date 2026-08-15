@@ -1,0 +1,40 @@
+{
+  "chinese_entities": [
+    {
+      "Implementing Chinese Entity": "中腾微网（北京）科技有限公司",
+      "Subcontract Amount (Million USD)": "",
+      "Subsidiary Name": "",
+      "Type of involvement of Chinese Entities": "EPC总承包",
+      "equipment_items": "EMS能量管理系统、SP系列储能产品",
+      "equipment_role": "主要设备",
+      "equipment_supply_scope": "具体项目"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "",
+    "Capacity Details": "PV: 8MWp; BESS: 12MWh; 柴油发电装机未提及",
+    "Category": "综合能源",
+    "Country": "马尔代夫",
+    "Energy Composition Evidence": "待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh",
+    "Financing Model": "Unknown",
+    "Generation Sources": [
+      "光伏",
+      "火电"
+    ],
+    "Location(State)": "Raa与Baa环礁26个岛",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "马尔代夫Raa与Baa环礁26岛8MWp光柴储微电网项目",
+    "Project Name (EN)": "Maldives Raa and Baa Atolls 26-Island 8MWp Solar-Diesel-Storage Microgrid Project",
+    "Project Stage": "中标",
+    "Record Type": "具体项目",
+    "Storage Energy": "12MWh",
+    "Storage Power": "",
+    "Storage Status": "confirmed"
+  },
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "project_summary": ""
+}

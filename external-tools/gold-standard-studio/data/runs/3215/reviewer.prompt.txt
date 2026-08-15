@@ -1,0 +1,70 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：俄罗斯国家原子能公司中标哈萨克斯坦首座核电站建设项目
+发布日期：2025-06-16 10:05:04
+来源：https://news.goalfore.cn/topstories/detail/84029.html
+正文：
+哈萨克斯坦政府已宣布，选定俄罗斯国家原子能公司（Rosatom）主导建设该国首座核电站。这一
+标志性项目
+在全民公投通过后正式启动，标志着哈萨克斯坦致力于实现能源来源多元化，也是该国在经历多年严重
+电力短缺
+后能源战略迈出的重要一步。据预测，哈萨克斯坦2025年的电力缺口将达到33亿千瓦时。
+这座核电站将包含两个反应堆，厂址位于阿拉木图西北约400公里处、巴尔喀什湖西岸的
+乌尔肯村（Ulken）
+附近。预计到2035年，该电站的发电能力将达到2.4吉瓦，可满足哈萨克斯坦未来相当一部分的能源需求。该项目将恢复哈萨克斯坦的核电生产。自1999年
+BN-350快中子反应堆
+关闭后，该国便不再拥有核电设施。
+Rosatom是在经过竞争性招标后中标的，其他主要国际竞标方包括中国核工业集团有限公司（中国）、法国电力公司（EDF，法国）和韩国水电与核电公司（KHNP，韩国）。各方的提案根据安全、成本、劳动力培训、核燃料循环合作以及社会责任举措等标准进行了评估，最终Rosatom的提案被认为最具优势。
+此前，托卡耶夫总统和哈萨克斯坦原子能机构都曾强调，鉴于哈萨克斯坦奉行
+多边平衡外交政策
+，为此项目组建一个
+国际财团
+非常重要。但在当前地缘政治形势下，其他方是否会加入由俄罗斯牵头的财团尚不明朗。目前，作为Rosatom提案的一部分，正在努力争取获得俄罗斯联邦的国家出口融资支持。
+哈萨克斯坦是全球最大的铀生产国，但其电力供应长期以来严重依赖燃煤电厂，辅以水电以及日益增长的可再生能源。目前，煤炭工业为该国
+约70%
+的发电量提供燃料。能源战略转向核电，旨在减少哈萨克斯坦对化石燃料的依赖、加强能源安全并解决环境问题。据《中亚时报》此前报道，尽管进行了多次改革承诺并减少了特定排放，但过去二十年哈萨克斯坦的空气污染水平一直居高不下。
+从经济角度看，该核电站有望提高哈萨克斯坦电力供应的可靠性，支持工业增长，并在技术开发、建设和电站运营领域创造就业机会。前能源部长阿尔玛萨达姆·萨特卡利耶夫（Almasadam Satkaliyev）曾在一月表示：“到2030年，核电站建设项目将创造约5000个工作岗位，预计2032年将达到约10000个岗位的峰值。首座核电站投入运行后，将至少提供2000个固定岗位。”该项目还包括设备本地化和劳动力培训计划，以确保长期的能力建设。
+哈萨克斯坦选择Rosatom主导其首个核电项目，反映了该国在技术雄心、国际合作和能源多元化方面的战略考量。NANO Nuclear Energy公司首席执行官兼反应堆开发主管詹姆斯·沃克（James Walker）告诉《中亚时报》：“Rosatom多年来一直积极参与哈萨克斯坦的核领域，包括铀矿开采和核燃料循环活动。”他强调，这得益于Rosatom的“既有存在[以及]俄罗斯在中亚的地缘政治影响力”。
+选择与谁合作的问题，在哈萨克斯坦政界曾被视为一个
+争议焦点
+。据报道，财政官员和经济政策制定者倾向于选择中国核工业集团有限公司。与此同时，科学家、工程师、核专业人员和技师——他们更看重可靠性和操作的熟悉度——则据称在为Rosatom游说，这源于俄罗斯在哈萨克斯坦核领域的历史参与。
+相关消息方面，俄罗斯经济发展部长马克西姆·列舍特尼科夫（Maxim Reshetnikov）与乌兹别克斯坦投资、工业和贸易部长拉齐兹·库德拉托夫（Laziz Kudratov）举行会谈后，Rosatom在乌兹别克斯坦建设核电站的计划有所更新。俄罗斯经济部报告称：“去年开始建设一座低功率核电站，[现在]两国领导人已达成协议，调整项目方案，改为建设一座双机组高功率核电站和一座双机组低功率核电站。”
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-3215-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 3215,
+  "article_sha256": "ae68c8f9c8c5c4145d2faedaa91b11cc7fe790a6ff4aafadf23a5ef78773efdb",
+  "article_status": {
+    "value_state": "present",
+    "value": "no_chinese_participation",
+    "evidence": "最终Rosatom的提案被认为最具优势。",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "最终Rosatom的提案被认为最具优势。",
+      "is_power_generation_plant": false,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    }
+  },
+  "prompt_manifest": {
+    "base": "data/runs/3215/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/3215/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

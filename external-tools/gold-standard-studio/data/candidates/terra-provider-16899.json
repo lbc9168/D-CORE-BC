@@ -1,0 +1,182 @@
+{
+  "candidate_id": "terra-provider-16899-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 16899,
+  "article_sha256": "deecc3ca6273cc57dd9261a934cc462ef3f4a3460fea5ccdc0f3e55587d81a11",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "valid_project",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "non_project_reason": {
+    "value_state": "not_mentioned",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.5
+  },
+  "projects": [
+    {
+      "project_name": {
+        "value_state": "uncertain",
+        "value": "加纳1GW光伏及500MWh储能项目",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "develop a 1GW solar PV plant and 500MWh energy storage system in Ghana",
+        "confidence": 0.85
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "develop a 1GW solar PV plant and 500MWh energy storage system in Ghana",
+        "confidence": 0.85
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "develop a 1GW solar PV plant and 500MWh energy storage system in Ghana",
+        "confidence": 0.85
+      },
+      "storage_power_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "develop a 1GW solar PV plant and 500MWh energy storage system in Ghana",
+        "confidence": 0.85
+      },
+      "storage_energy_mwh": {
+        "value_state": "present",
+        "value": "500MWh",
+        "evidence": "500MWh",
+        "confidence": 0.85
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "",
+        "evidence": "develop a 1GW solar PV plant and 500MWh energy storage system in Ghana",
+        "confidence": 0.85
+      },
+      "project_stage": {
+        "value_state": "uncertain",
+        "value": "签约",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "country": {
+        "value_state": "uncertain",
+        "value": "加纳",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": "",
+        "evidence": "",
+        "confidence": 0.5
+      },
+      "project_developer": {
+        "value_state": "present",
+        "value": "Meinergy Technology",
+        "evidence": "Meinergy Technology",
+        "confidence": 0.85
+      },
+      "chinese_entities": [
+        {
+          "entity_name": {
+            "value_state": "uncertain",
+            "value": "华为数字能源",
+            "evidence": "",
+            "confidence": 0.5
+          },
+          "role": {
+            "value_state": "uncertain",
+            "value": "合作方",
+            "evidence": "",
+            "confidence": 0.5
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "加纳1GW光伏和500MWh储能项目合作开发",
+      "is_power_generation_plant": true,
+      "reasoning": "具名华为参与的光储项目。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "加纳1GW光伏及500MWh储能项目",
+            "Project Name (EN)": "Ghana 1GW Solar PV and 500MWh Energy Storage Project",
+            "Country": "加纳",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "500MWh",
+            "Energy Composition Evidence": "develop a 1GW solar PV plant and 500MWh energy storage system in Ghana",
+            "Capacity (MW)": "",
+            "Capacity Details": "PV: 1GW; BESS: 500MWh",
+            "Project Stage": "签约",
+            "Project Developer": "Meinergy Technology",
+            "Project Developer Evidence": "Meinergy Technology to develop",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "entity_name": "华为数字能源",
+            "role": "合作方"
+          }
+        ]
+      }
+    ],
+    "s5": [
+      {}
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/16899/base-manifest.json",
+    "dynamic": "data/runs/16899/dynamic-manifest.json",
+    "working_result": "data/runs/16899/provider-working.json"
+  }
+}

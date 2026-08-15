@@ -1,0 +1,185 @@
+{
+  "article_id": 14313,
+  "article_sha256": "e5013d881ca52e15d2590ed16cf23b41f41e33b91e3b53aaeb7a35fb869795ef",
+  "builder_versions": {
+    "s1": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s1_relevance.py",
+      "sha256": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a"
+    },
+    "s2": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s2_basic.py",
+      "sha256": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd"
+    },
+    "s34": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s34_entity_finance.py",
+      "sha256": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6"
+    },
+    "s5": {
+      "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\s01b_project_extractor\\src\\s01b_project_extractor\\prompts\\s5_summary.py",
+      "sha256": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"
+    }
+  },
+  "projects": [
+    {
+      "project_index": 0,
+      "project_name": "菲律宾AURORA-LALA 138千伏输电线路项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-01.s34.prompt.txt",
+        "sha256": "39fca3a492cfab66850a48a69d182c3b239ea99d1337794801c5bc0594c54e0b"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-01.s5.prompt.txt",
+        "sha256": "fa3e258e36e0250e5458856648be12170721b11088616c3e802e3833e0fb4dcd"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-01.pre-s5.json",
+        "sha256": "01dd2f4353a31d71793c97645d6ddbe823799f9a23cb5466baac6017a2b3e57f"
+      }
+    },
+    {
+      "project_index": 1,
+      "project_name": "巴基斯坦卡拉奇滨佳胜三期900兆瓦联合循环项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-02.s34.prompt.txt",
+        "sha256": "9629062b7abefcb3f31090580648fd7738f5ab7f254d041fc4b462d8b30a0b30"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-02.s5.prompt.txt",
+        "sha256": "5bc34c91243d4e8e7bbb1b475b948a2b986324d0331e56f90670a68aa129dca2"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-02.pre-s5.json",
+        "sha256": "d132f3e74478497016ad2a321ef7cf8f53fc8685de195b0e0d09fc14729b42f8"
+      }
+    },
+    {
+      "project_index": 2,
+      "project_name": "伊拉克萨拉哈丁2台630兆瓦燃油气电站",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-03.s34.prompt.txt",
+        "sha256": "23f7940b1f2e7a6928f84f9745b05532f0c1c82e53c2af859b085a0ceeca7234"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-03.s5.prompt.txt",
+        "sha256": "a0fc4dee6a77131d907b17e2110c335317b67998038a444cdb15384232ba03ab"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-03.pre-s5.json",
+        "sha256": "a7a2f63588801e5d75b7679480cc9ff069209a683d52a9e008384b4068cdacc6"
+      }
+    },
+    {
+      "project_index": 3,
+      "project_name": "巴基斯坦吉航1263兆瓦联合循环电站项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-04.s34.prompt.txt",
+        "sha256": "4962acc01a4aa7c401b0b11a81fbec18018685fdcefa80cf8d345749e5fe9b27"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-04.s5.prompt.txt",
+        "sha256": "c3b75834179d88df05d51293522c669c84dcf33070bc508722174ab4fbe01ec4"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-04.pre-s5.json",
+        "sha256": "864f4842629cf7e3fbfdc2171351a910c47da2576a07af66ad7214372a34e02c"
+      }
+    },
+    {
+      "project_index": 4,
+      "project_name": "巴基斯坦塔尔煤田II区块二期TEL1×330兆瓦坑口燃煤电站",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-05.s34.prompt.txt",
+        "sha256": "4d26f3179e55a9a9a18d810c0f070fb30168c7fa351aac8dc0d8e024ca369f5f"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-05.s5.prompt.txt",
+        "sha256": "abf5c5d6d8cd0dc8b9a13c11f890e79518a12512c6acd94b59fb9346a4136d80"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-05.pre-s5.json",
+        "sha256": "62531a720b014d0c2ac8b25d8a8f06229f62d595af80a70a0daacf3ff0beb6e8"
+      }
+    },
+    {
+      "project_index": 5,
+      "project_name": "土耳其胡努特鲁2×66万千瓦燃煤电厂工程",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-06.s34.prompt.txt",
+        "sha256": "5b50e6007b7d848b81b272bd37b11231319c9c5b58d2c8b0b33e8c1f3f8ce8c2"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-06.s5.prompt.txt",
+        "sha256": "0f9475e2f4afbb6e8e663cbf03d3f9b84d85aadf0179b6b718987ec969ccb3d4"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-06.pre-s5.json",
+        "sha256": "4b65a461f70ba31c406906cd30c40e12888d89520e58de6ede1323f2f0696a2d"
+      }
+    },
+    {
+      "project_index": 6,
+      "project_name": "柬埔寨西哈努克港2×350兆瓦燃煤电站",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-07.s34.prompt.txt",
+        "sha256": "47fe7e049451bfe31cfd8adde77bafc561d318ff7d83afc6e916a0742e3dfea5"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-07.s5.prompt.txt",
+        "sha256": "c530c397fd4154059b61d97e2ec69bb2b3f501ba2a5238d560035a0f3513d491"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-07.pre-s5.json",
+        "sha256": "a3fd6e7af33ed21bf1b1e5917e69e29f90801d5379ef911488e4ec03245ffe1e"
+      }
+    },
+    {
+      "project_index": 7,
+      "project_name": "伊拉克巴士拉650兆瓦燃机联合循环电站扩建项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-08.s34.prompt.txt",
+        "sha256": "61217527265991ac139f21a1e3b7446b253623c1c50c5eb82c22fe4017ac2f8b"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-08.s5.prompt.txt",
+        "sha256": "eb1055fabcf827b88e625f83d7bd8619982f0f1b57d2e139a37d30c2420785a9"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-08.pre-s5.json",
+        "sha256": "70393c98f25c65e3aa1052d1273f889d1895fb3e8c279fa71a35a3aee665fe11"
+      }
+    },
+    {
+      "project_index": 8,
+      "project_name": "泰国NPS绿湖2×30兆瓦漂浮光伏项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-09.s34.prompt.txt",
+        "sha256": "f1ff0a20fe9edb055fb476e2d14ab8cc5ef019b3f15433b8974fb0e2bc72028f"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-09.s5.prompt.txt",
+        "sha256": "d93f5b475a70c533b7477092148531d1c47469a3c0f78db18dd50e41ba03511a"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-09.pre-s5.json",
+        "sha256": "d2493dbb18bd656f6586d55b9ec2e97fe8271aecd076507aea85b045d6599f6a"
+      }
+    },
+    {
+      "project_index": 9,
+      "project_name": "新加坡裕廊岛200兆瓦/200兆瓦时储能项目",
+      "s34": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-10.s34.prompt.txt",
+        "sha256": "e42675f59cffc2b16efe500b6b40cddb7ef5fc5379e031902e3904554761be6f"
+      },
+      "s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-10.s5.prompt.txt",
+        "sha256": "ef73e3cd2233b4e49bb731ed68dc6595a24e6f5ba4a883845c66defcd1c35dcd"
+      },
+      "structured_pre_s5": {
+        "path": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\project-10.pre-s5.json",
+        "sha256": "d5ff5e0e9b1f8dd418b92fdc19bed630a11b7aee4f0f832de70548d403bc6ba3"
+      }
+    }
+  ],
+  "working_result": "E:\\Projects\\BRI_RE_Database_v2\\.claude\\worktrees\\database-refactor-expansion-aa6198\\external-tools\\gold-standard-studio\\data\\runs\\14313\\provider-working.json"
+}

@@ -1,0 +1,52 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "project_summary": "",
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "乌兹别克斯坦吉扎克500兆瓦光伏电站项目一期300兆瓦",
+    "Project Name (EN)": "Jizzakh 500MW Solar PV Plant Phase I 300MW",
+    "Country": "乌兹别克斯坦",
+    "Location(State)": "吉扎克",
+    "Category": "光伏",
+    "Generation Sources": [
+      "光伏"
+    ],
+    "Storage Status": "not_mentioned",
+    "Storage Power": "",
+    "Storage Energy": "",
+    "Energy Composition Evidence": "吉扎克500兆瓦光伏电站项目一期工程（300兆瓦）",
+    "Capacity (MW)": "300兆瓦",
+    "Capacity Details": "项目总规模500兆瓦",
+    "Project Stage": "投入运营",
+    "Project Developer": "中国华电",
+    "Project Developer Evidence": "华电海投乌兹别克斯坦吉扎克",
+    "(Planned) Start Date": "",
+    "(Planned) Complete Date": "2026-03-31"
+  },
+  "chinese_entities": [
+    {
+      "entity_name": "中国华电",
+      "role": "投资方"
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

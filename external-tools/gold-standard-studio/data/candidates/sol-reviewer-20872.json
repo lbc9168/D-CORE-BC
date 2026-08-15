@@ -1,0 +1,31 @@
+{
+  "candidate_id": "sol-reviewer-20872-stage4e-v1",
+  "execution_role": "reviewer",
+  "model": "gpt-5.6-sol",
+  "article_id": 20872,
+  "article_sha256": "ca709cb3b8fd088650ef4b7ce0a22b2d4c5839ae706fe9ddfa1e1f441cfeecf0",
+  "parent_candidate_id": "terra-provider-20872-stage4e-v1",
+  "article_status": {
+    "value_state": "uncertain",
+    "value": "no_chinese_participation",
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "具名项目及参与方均清楚，但正文未提及任何中国企业参与；否定性判断不附造证据。"
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": "",
+    "evidence": "",
+    "confidence": 0.99,
+    "verdict": "ok",
+    "reviewer_note": "文章确有具体电站项目，只因无中方参与而判负。"
+  },
+  "projects": [],
+  "prompt_manifest": {
+    "renderer": {"path": "src/gold_standard_studio/prompt_pack.py", "sha256": "d27470c279593664002dd1a49d4a41c91e3b6b29c83e63477f7cd5f90ec0b71d"},
+    "builders_sha256": {"s1": "1ef82e10fb4acff4f6b24c28be7a4fff40d6e86f54c98d5be26eeaf901f5dd3a", "s2": "0b2e23f0fe0d7f5924c66027fc8fd0ac24662f6c5273bfbf2489b5ae09b3f7cd", "s34": "99cc59f55dd2836c5ba7d12d2551537cdd7af6305106c226c428b2b07a0608e6", "s5": "a7e372aa429d5cc15d79e1a90e2b502dad6e3776836c289bd95238a44c79e295"},
+    "prompt": {"path": "data/runs/20872/reviewer.prompt.txt", "sha256": "345da98028b749a2346f64977577a3c552d8e6f1756ac5b551924ebc5b0ab293"},
+    "provider_sha256": "b267952c56852e5224d17fe03708735d2216ebd032ba01ccaeac0edef29d39bb"
+  }
+}

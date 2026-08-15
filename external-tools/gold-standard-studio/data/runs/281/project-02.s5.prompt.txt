@@ -1,0 +1,56 @@
+你是数据质检员。下面是已结构化的一个项目。请：
+1) 生成 project_summary：2-3 句概括「哪个中国企业、在哪个国家、做什么类型项目、装机多少MW、什么阶段」，仅基于已有字段，不臆测。
+2) 自检三字段与摘要语义是否自洽；不一致才给纠偏（confidence≥0.8 才提）。
+
+结构化项目：
+{
+  "project_summary": "",
+  "in_scope": true,
+  "out_of_scope_reason": "",
+  "common_info": {
+    "Record Type": "具体项目",
+    "Project Name": "吉尔吉斯斯坦乌奇库尔干4x45MW水电站增容改造项目",
+    "Project Name (EN)": "Uch-Kurgan 4x45MW Hydropower Plant Uprating Project",
+    "Country": "吉尔吉斯斯坦",
+    "Location(State)": "乌奇库尔干",
+    "Category": "水电",
+    "Generation Sources": [
+      "水电"
+    ],
+    "Storage Status": "not_mentioned",
+    "Storage Power": "",
+    "Storage Energy": "",
+    "Energy Composition Evidence": "4x45MW水电站增容改造项目",
+    "Capacity (MW)": "4x45MW",
+    "Capacity Details": "原有4x45兆瓦机组增容至4x56兆瓦",
+    "Project Stage": "中标",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "(Planned) Start Date": "",
+    "(Planned) Complete Date": ""
+  },
+  "chinese_entities": [
+    {
+      "entity_name": "中国电力工程有限公司",
+      "role": "总承包商"
+    },
+    {
+      "entity_name": "机械工业勘察设计研究院有限公司",
+      "role": "服务商"
+    }
+  ]
+}
+
+### 合法枚举
+- project_stage: 拟开发, 收购, 中标, 签约, 开工, 在建, 竣工, 投入运营, Unknown
+- category: 光伏, 风电, 水电, 地热及余热, 生物质, 储能, 综合能源, 核电, 火电, 新能源制造业, 输变电建设
+- involvement_type: BOT/BOOT, EPC总承包, 设计/施工服务方, 股权投资方, 设备供应商, 一体化方案提供商, 投融资+EPC, 融资方, Unknown
+
+### 输出（严格 JSON）
+{
+  "project_summary": "2-3 句中文摘要",
+  "corrections": [
+    {"field": "project_stage|category|involvement_type", "suggested_value": "合法枚举值", "confidence": 0.0}
+  ]
+}
+若无需纠偏，corrections 为 []。

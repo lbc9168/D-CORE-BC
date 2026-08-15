@@ -1,0 +1,30 @@
+{
+  "chinese_entities": [
+    {
+      "entity_name": "中国能建中电工程浙江院",
+      "role": "设计方"
+    }
+  ],
+  "common_info": {
+    "(Planned) Complete Date": "",
+    "(Planned) Start Date": "",
+    "Capacity (MW)": "1263兆瓦",
+    "Capacity Details": "",
+    "Category": "火电",
+    "Country": "巴基斯坦",
+    "Energy Composition Evidence": "吉航1263兆瓦联合循环电站项目",
+    "Generation Sources": [
+      "火电"
+    ],
+    "Location(State)": "旁遮普省Jhang地区",
+    "Project Developer": "",
+    "Project Developer Evidence": "",
+    "Project Name": "巴基斯坦吉航1263兆瓦联合循环电站项目",
+    "Project Name (EN)": "Jhang 1263MW Combined Cycle Power Plant",
+    "Project Stage": "投入运营",
+    "Record Type": "具体项目",
+    "Storage Energy": "",
+    "Storage Power": "",
+    "Storage Status": "not_mentioned"
+  }
+}

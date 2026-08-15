@@ -1,0 +1,53 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：华友 2.1 亿美元全现金收购加纳首个锂矿
+发布日期：2026-05-08 08:50:06
+来源：https://news.goalfore.cn/topstories/detail/94763.html
+正文：
+2026 年 5 月 7 日，非洲锂矿勘探开发企业 Atlantic Lithium 正式公告，已与浙江华友钴业签署具有约束力的安排实施协议，华友钴业将以全现金方式、通过澳大利亚安排计划收购 Atlantic Lithium 全部股份。本次交易每股现金对价为 0.25486 美元，折合 0.354 澳元、0.188 英镑，对应企业整体估值约 2.1 亿美元，较 Atlantic Lithium 最新收盘价溢价 26.6%，较 30 日成交量加权平均价溢价 21.8%，溢价水平可观，充分体现了华友钴业对标的资产价值的高度认可。
+作为全球新能源材料行业的龙头企业，华友钴业此次收购，重点看中 Atlantic Lithium 旗下核心资产 Ewoyaa Lithium Project，这也是加纳首个即将投产的锂矿项目，同时 Atlantic Lithium 在加纳和科特迪瓦还拥有大面积高潜力锂矿勘探矿权，本次交易也直接印证了该项目及相关矿权的开发价值与市场前景。交易达成后，将进一步完善华友钴业在非洲的锂电资源布局，强化其在新能源产业链上游的资源掌控能力。
+本次交易获得 Atlantic Lithium 董事会的全力支持，董事会全体成员一致推荐股东投票支持本次收购，且在无更优提案的情况下将悉数投出赞成票，同时公司持股约 26.4% 的第一大股东 Assore 也已明确承诺投票支持，为交易顺利推进提供了关键保障。按照规划，本次交易需通过股东大会表决、法院批准及多国监管审批，预计 2026 年 10 月向股东派发计划文件，11 月召开股东投票会议，12 月完成交割，交易完成后 Atlantic Lithium 将从澳大利亚、伦敦、加纳三大交易所退市，正式成为华友钴业旗下资产。
+Atlantic Lithium 首席执行官 Keith Muller 表示：
+在锂价持续波动、属地监管复杂、项目融资与开发执行风险较高的行业背景下，华友钴业提出的方案为股东提供了风险调整后最具吸引力、确定性最强、价值兑现最快的选择。Ewoyaa Lithium Project 是极具价值的硬岩锂资产，能够支撑全球电动汽车与储能市场增长，此次收购将加速项目投产，为加纳当地带来显著的社会经济效益。
+华友钴业董事长兼总裁陈红良表示：
+在完成详尽尽调与沟通后，很高兴达成此次交易，Ewoyaa Lithium Project 与公司在非洲的现有电池金属矿产业务形成良好互补，与公司构建新能源材料业务的战略方向高度契合，未来将与 Atlantic Lithium 团队及加纳政府合作，快速推进项目开发建设。
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-27309-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 27309,
+  "article_sha256": "16106940161cae1384d7fe4f630aeb4afc1dc33ce27c18f22c39f7370ec34d99",
+  "article_status": {
+    "value_state": "explicit",
+    "value": "irrelevant",
+    "evidence": "Ewoyaa Lithium Project 是极具价值的硬岩锂资产",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "explicit",
+    "value": "锂矿开采与矿权收购，属于矿业非发电环节",
+    "evidence": "这也是加纳首个即将投产的锂矿项目",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "irrelevant",
+      "project_subject": "华友钴业收购Atlantic Lithium及其加纳Ewoyaa锂矿资产",
+      "is_power_generation_plant": false,
+      "reasoning": "第一步命中油气/矿业的非发电环节：正文主体是锂矿项目和矿权收购，不是发电、新能源装备制造或输变电工程，因此直接判 irrelevant。"
+    }
+  },
+  "prompt_manifest": {
+    "base_manifest": "data/runs/27309/base-manifest.json",
+    "executed_prompts": ["data/runs/27309/s1.prompt.txt"],
+    "short_circuit_after": "s1",
+    "execution_order": ["s1"]
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

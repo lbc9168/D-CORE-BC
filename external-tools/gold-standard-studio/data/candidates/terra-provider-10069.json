@@ -1,0 +1,36 @@
+{
+  "candidate_id": "terra-provider-10069-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 10069,
+  "article_sha256": "efdee6e2956f4ab16849da8fa8a5efeef7309a3a4e6afce92a4608220c5eaaf2",
+  "article_status": {
+    "value_state": "extracted",
+    "value": "no_chinese_participation",
+    "evidence": "The consortium, led by EDF Renewables and Korea Western Power Corporation (KOWEPO)",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "extracted",
+    "value": "无中国企业参与",
+    "evidence": "EDF Renewables-led consortium with KOWEPO financed Manah1, a 500 MW PV project.",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "阿曼Manah 1 500 MW光伏项目融资关闭",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步命中具名光伏发电项目；第二步正文所列开发、融资和购电相关方均为法国、韩国及阿曼机构，未出现中国企业，故为no_chinese_participation。"
+    },
+    "s2": null,
+    "s34": [],
+    "s5": []
+  },
+  "prompt_manifest": {
+    "base": "data/runs/10069/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/10069/provider-working.json"
+  }
+}

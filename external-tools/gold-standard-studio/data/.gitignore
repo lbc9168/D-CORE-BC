@@ -1,0 +1,4 @@
+review.db
+review.db-*
+*.tmp
+server.*.log

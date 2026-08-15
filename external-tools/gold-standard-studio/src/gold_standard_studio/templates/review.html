@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>证据复核 · {{ context.article.id }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}?v=20260812-stage4f">
+</head>
+<body>
+  <header class="topbar">
+    <div><span class="eyebrow">GOLDEN STANDARD · {{ context.pilot.cohort }} · {{ context.pilot.split }} · {{ context.pilot_nav.position }}/{{ context.pilot_nav.total }}</span><h1>证据复核工作台</h1></div>
+    <div class="header-actions"><a class="nav-link" href="/queue">复核队列</a>{% if context.pilot_nav.previous %}<a class="nav-link" href="/review/{{ context.pilot_nav.previous }}">← 上一篇</a>{% endif %}{% if context.pilot_nav.next %}<a class="nav-link" href="/review/{{ context.pilot_nav.next }}">下一篇 →</a>{% endif %}<span id="save-status" class="save-status">草稿已载入</span><button id="confirm-article" class="primary">确认文章</button></div>
+  </header>
+  <main class="workspace">
+    <section class="article-pane">
+      <div class="article-meta">
+        <span>文章 #{{ context.article.id }}</span><span>{{ context.pilot.kind }}</span><span>难度 {{ context.pilot.difficulty }}</span><span>{{ context.article.publish_date }}</span><span>{{ context.article.author }}</span>
+      </div>
+      <h2 id="article-title">{{ context.article.title }}</h2>
+      <a class="source-link" href="{{ context.article.url }}" target="_blank" rel="noreferrer">打开来源 ↗</a>
+      <div class="hash">SHA-256 · {{ context.article.article_sha256 }}</div>
+      <div id="article-content" class="article-content">{{ context.article.content }}</div>
+      <aside class="evidence-legend"><strong>证据定位</strong><span>标题和正文都属于固定原文证据；点击右侧候选证据后会在对应位置高亮。</span></aside>
+    </section>
+    <section class="review-pane">
+      <div id="error-banner" class="error-banner hidden"></div>
+      <section class="article-gate panel">
+        <div><span class="eyebrow">文章判断</span><h3>这是可录入项目文章吗？</h3></div>
+        <select id="article-status">
+          <option value="">待人工选择</option>
+          <option value="valid">有效项目文章</option>
+          <option value="no_chinese">无中国参与</option>
+          <option value="irrelevant">非项目 / 不相关</option>
+          <option value="chinese_unnamed">有中方参与但项目未具名</option>
+        </select>
+        <input id="non-project-reason" placeholder="非项目原因（草稿可留空）">
+        {% if context.article_candidates %}<div class="article-candidates">
+          {% for candidate in context.article_candidates %}<div><strong>{{ "Terra Provider" if candidate.source == "provider" else "Sol Reviewer" }}</strong><span>{{ candidate.status }}</span><p>{{ candidate.reason or "未给出非项目原因" }}</p></div>{% endfor %}
+        </div>{% endif %}
+      </section>
+      <section class="structure panel">
+        <div class="section-heading"><div><span class="eyebrow">项目结构</span><h3>拆分与合并</h3></div><button id="add-project">＋ 增加项目</button></div>
+        <p class="hint">请按原文判断项目拆分与合并；结构未完成仍可保存草稿。S01B 事实层评价原文抽取，S02B 规则层单独评价实体与地点归一化。</p>
+        {% if not context.draft.payload.projects %}<div class="source-project-summary">
+          {% for source, names in context.source_project_summary.items() %}<div><strong>{{ "数据库关联" if source == "database" else "当前 Pipeline" }}</strong><span>{{ names | length }} 个历史项目</span>{% for name in names %}<p>{{ name }}</p>{% endfor %}</div>{% endfor %}
+        </div>{% endif %}
+        <div id="project-tabs"></div>
+      </section>
+      <section class="toolbar panel">
+        <div><strong id="conflict-count">—</strong><span> 个冲突或高风险字段</span></div>
+        <button id="confirm-consistent">确认所有已填写字段</button>
+      </section>
+      <div id="projects"></div>
+    </section>
+  </main>
+  <script id="bootstrap" type="application/json">{{ context | tojson }}</script>
+  <script src="{{ url_for('static', path='/review.js') }}?v=20260813-title-evidence"></script>
+</body>
+</html>

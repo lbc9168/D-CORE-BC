@@ -1,0 +1,33 @@
+{
+  "candidate_id": "terra-provider-1380-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 1380,
+  "article_sha256": "c60762e2b86def896539cdc0c8ecf46caa30e61fb8077898fa5ba8892f63a4ef",
+  "article_status": {
+    "value_state": "present",
+    "value": "no_chinese_participation",
+    "evidence": "参加本轮招标的多家中资企业及其联合体均未能上榜",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "参加本轮招标的多家中资企业及其联合体均未能上榜",
+      "is_power_generation_plant": false,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    }
+  },
+  "prompt_manifest": {
+    "base": "data/runs/1380/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/1380/provider-working.json"
+  }
+}

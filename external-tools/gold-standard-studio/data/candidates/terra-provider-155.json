@@ -1,0 +1,304 @@
+{
+  "candidate_id": "terra-provider-155-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 155,
+  "article_sha256": "66b4fce692be1ff2bd0d423ec24638bdf95a8288fdba1b81cdd67cd1cd051668",
+  "article_status": {
+    "value_state": "present",
+    "value": "valid_project",
+    "evidence": "签署哈萨克斯坦卡拉干达风电配储项目购电协议。",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "not_applicable",
+    "value": null,
+    "evidence": "",
+    "confidence": 0.99
+  },
+  "projects": [
+    {
+      "project_id": "provider-01",
+      "project_name": {
+        "value_state": "present",
+        "value": "哈萨克斯坦萨乌兰300MW光伏配储项目",
+        "evidence": "萨乌兰300MW光伏配储项目",
+        "confidence": 0.99
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "300MW光伏配储项目",
+        "confidence": 0.99
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "光伏"
+        ],
+        "evidence": "300MW光伏配储项目",
+        "confidence": 0.99
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "300MW光伏配储项目",
+        "confidence": 0.99
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "300MW",
+        "evidence": "萨乌兰300MW光伏配储项目",
+        "confidence": 0.99
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "开工",
+        "evidence": "于2025年12月15日顺利举行了开工仪式",
+        "confidence": 0.99
+      },
+      "country": {
+        "value_state": "present",
+        "value": "哈萨克斯坦",
+        "evidence": "哈萨克斯坦800MW新能源项目",
+        "confidence": 0.99
+      },
+      "location": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "海投公司",
+          "evidence": "海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动",
+            "confidence": 0.98
+          },
+          "role": {
+            "value_state": "present",
+            "value": "股权投资方",
+            "evidence": "推动中哈政府间框架下新能源重点项目落地",
+            "confidence": 0.9
+          }
+        }
+      ]
+    },
+    {
+      "project_id": "provider-02",
+      "project_name": {
+        "value_state": "present",
+        "value": "哈萨克斯坦卡拉干达500MW风电配储项目",
+        "evidence": "卡拉干达500MW风电配储项目",
+        "confidence": 0.99
+      },
+      "category": {
+        "value_state": "present",
+        "value": "综合能源",
+        "evidence": "500MW风电配储项目",
+        "confidence": 0.99
+      },
+      "subcategory_raw_fact": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "generation_sources": {
+        "value_state": "present",
+        "value": [
+          "风电"
+        ],
+        "evidence": "500MW风电配储项目",
+        "confidence": 0.99
+      },
+      "storage_status": {
+        "value_state": "present",
+        "value": "confirmed",
+        "evidence": "500MW风电配储项目",
+        "confidence": 0.99
+      },
+      "storage_power_mw": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "storage_energy_mwh": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "generation_capacity_mw": {
+        "value_state": "present",
+        "value": "500MW",
+        "evidence": "卡拉干达500MW风电配储项目",
+        "confidence": 0.99
+      },
+      "project_stage": {
+        "value_state": "present",
+        "value": "签约",
+        "evidence": "签署了哈萨克斯坦卡拉干达风电配储项目购电协议",
+        "confidence": 0.99
+      },
+      "country": {
+        "value_state": "present",
+        "value": "哈萨克斯坦",
+        "evidence": "哈萨克斯坦卡拉干达风电配储项目",
+        "confidence": 0.99
+      },
+      "location": {
+        "value_state": "present",
+        "value": "卡拉干达",
+        "evidence": "卡拉干达500MW风电配储项目",
+        "confidence": 0.99
+      },
+      "investment": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "financing_mode": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "project_developer": {
+        "value_state": "not_mentioned",
+        "value": null,
+        "evidence": "",
+        "confidence": 0.99
+      },
+      "chinese_entities": [
+        {
+          "entity": {
+            "value_state": "present",
+            "value": "海投公司",
+            "evidence": "海投公司党委书记、董事长林晓丹",
+            "confidence": 0.98
+          },
+          "role": {
+            "value_state": "present",
+            "value": "股权投资方",
+            "evidence": "推动中哈政府间框架下新能源重点项目落地",
+            "confidence": 0.9
+          }
+        }
+      ]
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "签署哈萨克斯坦卡拉干达风电配储项目购电协议。",
+      "is_power_generation_plant": true,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Project Name": "哈萨克斯坦萨乌兰300MW光伏配储项目",
+            "Category": "综合能源"
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Project Name": "哈萨克斯坦卡拉干达500MW风电配储项目",
+            "Category": "综合能源"
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      }
+    ],
+    "s5": [
+      {
+        "project_summary": "",
+        "corrections": []
+      },
+      {
+        "project_summary": "",
+        "corrections": []
+      }
+    ]
+  },
+  "prompt_manifest": {
+    "base": "data/runs/155/base-manifest.json",
+    "dynamic": "data/runs/155/dynamic-manifest.json",
+    "working_result": "data/runs/155/provider-working.json"
+  }
+}

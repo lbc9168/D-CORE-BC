@@ -1,0 +1,23 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：中亚最大电化学储能项目全容量并网！
+发布日期：2025-12-27 17:51:04
+来源：https://news.goalfore.cn/topstories/detail/91346.html
+正文：
+当地时间12月25日
+由中国能建中电工程安徽院
+作为联营体成员总承包建设的
+中亚最大电化学储能项目
+乌兹别克斯坦塔什干光储项目储能站
+实现全容量并网
+标志着项目全面具备稳定运行
+与商业化投运条件
+塔什干光储项目包含200兆瓦光伏电站和500兆瓦/小时储能系统，其中光伏电站已完工移交。项目建成投运后，将充分发挥“光伏+储能”协同优势，显著提升塔什干地区新能源消纳能力和电网运行灵活性，对缓解用电高峰压力、提升供电可靠性、推动乌兹别克斯坦能源结构转型具有重要意义。
+下一步，中国能建将持续强化运行管理和履约保障，稳步推进项目移交及后续运维工作，全面释放工程综合效益，为推动乌兹别克斯坦电力系统实现绿色、高效、安全及可持续转型，贡献更多能建智慧，助力构建中乌命运共同体。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-635-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":635,"article_sha256":"81d6f0f1129e5f958fc320ee01e9cc419b75df2ba8e81688e7b520ea9e7c92d5","article_status":{"value_state":"present","value":"valid_project","evidence":"中国能建中电工程安徽院"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"乌兹别克斯坦塔什干光储项目","evidence":"塔什干光储项目"},"category":{"value_state":"present","value":"综合能源","evidence":"光伏+储能"},"subcategory_raw_fact":{"value_state":"present","value":"光伏+储能","evidence":"光伏+储能"},"generation_sources":{"value_state":"present","value":["光伏"],"evidence":"光伏电站"},"storage_status":{"value_state":"present","value":"confirmed","evidence":"储能系统"},"storage_power_mw":{"value_state":"not_mentioned","value":null},"storage_energy_mwh":{"value_state":"present","value":"500兆瓦/小时","evidence":"500兆瓦/小时"},"generation_capacity_mw":{"value_state":"present","value":"200兆瓦","evidence":"200兆瓦"},"project_stage":{"value_state":"present","value":"投入运营","evidence":"全容量并网"},"country":{"value_state":"present","value":"乌兹别克斯坦","evidence":"乌兹别克斯坦"},"location":{"value_state":"present","value":"塔什干","evidence":"塔什干"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"not_mentioned","value":null},"chinese_entities":[{"entity":{"value_state":"present","value":"中国能建中电工程安徽院","evidence":"中国能建中电工程安徽院"},"role":{"value_state":"present","value":"总承包建设","evidence":"总承包建设"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/635/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

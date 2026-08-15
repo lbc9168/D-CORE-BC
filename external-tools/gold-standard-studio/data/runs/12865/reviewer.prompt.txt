@@ -1,0 +1,68 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：远景智能(Envision Digital)将向日本境内90个光伏+风电+生物质项目提供能源管理服务
+发布日期：2023-07-11 11:20:45
+来源：https://news.goalfore.cn/topstories/detail/42726.html
+正文：
+【2023年7月5日，东京消息】日本国内可再生能源发电站的大型运营商JRE株式会社（总部：东京都港区，简称“JRE”,https://operations.jre.co.jp/）携手总部位于新加坡的世界级可再生能源系统软件厂商远景智能（Envision Digital）签订业务合作协议，双方将以JRE公司日本境内总计90个光伏项目及风项目为对象开展涉及远程监控·能源分析及管理系统领域的业务合作。
+图片说明：出席双方协议书签名的Envision
+Digital International公司副总经理Kum Mun
+Lock先生（左）和JRE公司的金子泰之(Yasuyuki Kaneko)总经理（右）
+JRE公司位列日本国内可再生能源领域头部运营商之一，目前旗下总计持有约1,000MW的光伏、风电和生物质可再生能源资产。
+图片说明：JRE日本稲敷佐倉光伏电站,容量17,104 kW,2019年1月2日投运
+远景智能（Envision
+Digital）是中国远景科技集团（Envision Group）旗下全球领先的零碳和AIoT技术公司，致力成为企业和政府的零碳技术伙伴。公司拥有世界一流的AIoT技术，面向可再生能源、城市基础设施和碳管理等场景打造智能产品和解决方案，助力世界各地政府和公司实现数字化与低碳化转型。EnOS™ 是远景智能自主研发的智能物联操作系统，在全球连接和管理超过 2 亿2千万台智能设备和约568 GW的能源资产。远景智能（Envision Digital）公司将大规模参与支持日本境内各地区地区实现碳中和目标所需的数字化解决方案的设计与交付。
+双方将共同开发面向可再生能源发电项目的先进数字化运行模型。Envision Digital提供的针对可再生能源的数字化解决方案系统平台「EnOS™ Bazefield」功能强大，将帮助包括日本业主在内的全球范围内的可再生能源项目业主进一步提升项目的运行效率+提升项目投资回报率，优化财务模型。
+依托于远景智能（Envision
+Digital）方面的先进技术，JRE公司将实现可再生能源项目发电量的进一步提升，同时，至2030年为止，JRE公司将实现46%的碳减排效果，此外，至2050年为止，公司将实现100%碳中和，这将有效的助力于日本政府所倡导的碳中和目标。
+EnOS系统利用物联网、云计算、
+大数据等先进技术，连接数以亿计的光伏面板、风电机组、储能电池、用电终端，让每个家庭、
+工厂
+、园区和城市的各类设备协同运行，实现
+可再生能源
+系统供需实时动态平衡。根据市场动态来实现能源供需平衡，提升运营效率，降低系统协同成本。EnOS平台可以实现对新能源以及负荷的精准监测和管理，利用系统柔性，来动态、灵活实现能源供需匹配,显著优化基础设施投资成本，打通全能源产业链，帮助不同类型的企业和合作伙伴实现不同的价值创造。
+日本JRE董事长金子泰之表示：
+“我们非常高兴能够有机会与Envision Digital一起向着后固定电价制度（FIT）之后的新时代迈进。我们相信，利用远景能源可再生能源管理平台，将可以最大限度地提高可再生能源资产的价值。”
+「国内の固定価格買取制度（FIT）に続く新たな時代に向けて、Envision Digitalとともに歩みを進めていけることを、大変うれしく思います。当社は、この再生可能エネルギー管理プラットフォームを活用して、再生可能エネルギー資産の価値を最大化できると確信しています」
+远景智能（Envision Digital）全球业务执行总监Michael Ding先生表示：
+“对于以到2030年为止，可再生能源将在总体能源占比实现36~38%为目标的日本来说，远景智能（Envision
+Digital）和JRE公司之间的本次业务合作必有助于实现日本的100%碳中和目标，并不断推进改进程。”
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-12865-stage4e-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 12865,
+  "article_sha256": "ed9705732317ee4736292777e9d566fdce954859e20cf7e7fb2fc1dcdd78b934",
+  "article_status": {
+    "value_state": "present",
+    "value": "irrelevant",
+    "evidence": "开展涉及远程监控·能源分析及管理系统领域的业务合作。",
+    "confidence": 0.99
+  },
+  "non_project_reason": {
+    "value_state": "present",
+    "value": "既有项目的能源管理服务合作，不是具体工程节点",
+    "evidence": "双方将共同开发面向可再生能源发电项目的先进数字化运行模型。",
+    "confidence": 0.99
+  },
+  "projects": [],
+  "stage_outputs": {
+    "s1": {
+      "status": "irrelevant",
+      "project_subject": "开展涉及远程监控·能源分析及管理系统领域的业务合作。",
+      "is_power_generation_plant": false,
+      "reasoning": "依据固定原文和 S01B-S1 提示判断。"
+    }
+  },
+  "prompt_manifest": {
+    "base": "data/runs/12865/base-manifest.json",
+    "dynamic": null,
+    "working_result": "data/runs/12865/provider-working.json"
+  }
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

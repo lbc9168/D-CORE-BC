@@ -1,0 +1,43 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：光伏、储能、农光互补....能建国际.一大波海外中标签约
+发布日期：2022-06-12 06:32:27
+来源：https://news.goalfore.cn/topstories/detail/29218.html
+正文：
+近期能建国际海外市场接连中标、签约光伏、储能、房建等新能源和非电项目快来一起看看吧
+0
+1
+越南大进90兆瓦农光互补电站EPC项目
+当地时间6月8日，中能建建筑集团与中国能建广西院以联营体模式在越南太原省签约越南大进90兆瓦农光互补电站EPC项目，实现了越南电力市场的滚动发展。
+项目位于越南太原省武涯县，占地约120公顷，总装机容量90兆瓦，分两期建设，第一期30兆瓦，第二期60兆瓦，工程建设包括农光互补电站设计、供货、施工和调试等内容。项目签约后即开始建设，建成后将有效缓解越南电力紧缺状况，促进当地基础设施建设，直接或间接为当地人民创造近千个就业岗位，持续推动区域经济发展。
+02
+巴基斯坦ADB302储能项目
+近日，中国能建江苏院和中天科技联合体中标巴基斯坦ADB302储能项目。
+项目是巴基斯坦首个大型储能试点工程，地处巴基斯坦信德省220/132千伏Jhimpir-1 Substation站内。项目建设采用磷酸铁锂电池，拟建设一个20兆瓦/20兆瓦时的储能电池系统和一个220/132千伏变电站改造的EPC项目。项目建成后，将为巴基斯坦地区新能源消纳提供支撑，有助于完善电网结构及提升电网稳定性。
+03
+塞尔维亚米特洛维卡焚烧锅炉岛EPC项目
+5月30日，中国能建西北电建与东方电气集团国际合作有限公司签订塞尔维亚米特洛维卡焚烧锅炉岛EPC项目建筑安装工程施工承包合同。
+项目位于塞尔维亚西部斯雷姆斯卡·米特洛维卡，工作范围为新建垃圾焚烧锅炉岛，包括给料系统、锅炉本体、烟气净化系统等的设计、制造、施工、调试及性能试验工作。该项目为热电联产项目，燃料为生活垃圾，采用炉排炉焚烧技术，天然气点火，垃圾处理量为650吨/天。西北电建负责该项目的土建施工、设备安装和单体调试等建安部分工作。项目建成后将为推动当地垃圾处理资源化和提升周边地区就业率等方面做出贡献。
+04
+老挝华潘洁净高效电站设计项目
+近日，中国能建华北院确认中标老挝华潘洁净高效电站工程设计与技术服务项目。
+项目位于老挝人民民主共和国华潘省，拟建设1台35万千瓦超临界燃煤发电机组，计划4年内建成投产。项目利用当地丰富的煤炭资源发电，投产后不仅可以加强老挝电力系统的供电能力，还可实现水电与火电互补，提高供电的可靠性。同时，项目部分电力计划出售给越南，可带动当地的就业和经济发展。
+05
+马来西亚雪兰莪项目厂区热力分厂工程
+日前，中国能建湖南火电中标马来西亚雪兰莪项目厂区热力分厂安装标段工程，是该公司继马来西亚巴林基安项目和马来西亚理文项目后，在马来西亚市场滚动开发的又一成果。
+马来西亚雪莱莪项目位于马来西亚金狮集团万津工业园，靠近马来西亚半岛西海岸的巴生港。项目本期建设2×80兆瓦级燃气轮发电机组+配套余热锅炉，承包范围包括一期热力分厂设计范围内的所有设备、系统的安装调试工作。
+06
+韩国新万金光伏行政楼改造EPC项目
+近日，中国能建山西院在非电业务领域再下一城，成功签约韩国新万金III期光伏行政楼改造EPC总承包项目。
+该项目位于韩国全罗北道群山市新万金特区，距离首尔以南约250公里。合同内主要工作范围包括对现有行政楼进行升级改造，加盖一层，对现有外立面的进行设计装饰，内部重新装修，新增远程监控系统。
+07
+缅甸水面光伏EPC项目
+近日，中国能建云南院与缅甸继达合作有限公司以视频会议“云签约”方式签约缅甸伊洛瓦底省2.54兆瓦漂浮光伏EPC总承包项目。
+项目位于缅甸伊洛瓦底省，本期为试点项目规划装机2.54兆瓦，项目建成后为缅甸最大的海鲜渔业加工厂环球养鱼场配套供电，根据整个养殖加工区用电负荷，未来预计装机规模可达30兆瓦。
+
+【Terra Provider 完整候选】
+{"candidate_id":"terra-provider-16105-stage4e-v1","execution_role":"provider","model":"gpt-5.6-terra","article_id":16105,"article_sha256":"49005ab1d5a51c814a6728bbb09b0501835dc3d48246c9ae0150893a834a4528","article_status":{"value_state":"present","value":"valid_project","evidence":"中能建建筑集团与中国能建广西院以联营体模式在越南太原省签约越南大进90兆瓦农光互补电站EPC项目"},"non_project_reason":{"value_state":"not_applicable","value":null},"projects":[{"project_name":{"value_state":"present","value":"越南太原省大进90兆瓦农光互补电站","evidence":"越南大进90兆瓦农光互补电站EPC项目"},"category":{"value_state":"present","value":"光伏","evidence":"农光互补电站"},"subcategory_raw_fact":{"value_state":"present","value":"农光互补","evidence":"农光互补电站"},"generation_sources":{"value_state":"present","value":["光伏"],"evidence":"农光互补电站"},"storage_status":{"value_state":"not_mentioned","value":"not_mentioned"},"storage_power_mw":{"value_state":"not_applicable","value":null},"storage_energy_mwh":{"value_state":"not_applicable","value":null},"generation_capacity_mw":{"value_state":"present","value":"90兆瓦","evidence":"总装机容量90兆瓦"},"project_stage":{"value_state":"present","value":"开工","evidence":"项目签约后即开始建设"},"country":{"value_state":"present","value":"越南","evidence":"在越南太原省签约"},"location":{"value_state":"present","value":"太原省武涯县","evidence":"项目位于越南太原省武涯县"},"investment":{"value_state":"not_mentioned","value":null},"financing_mode":{"value_state":"not_mentioned","value":null},"project_developer":{"value_state":"not_mentioned","value":null},"chinese_entities":[{"entity":{"value_state":"present","value":"中能建建筑集团","evidence":"中能建建筑集团与中国能建广西院以联营体模式"},"role":{"value_state":"present","value":"EPC总承包","evidence":"签约越南大进90兆瓦农光互补电站EPC项目"}},{"entity":{"value_state":"present","value":"中国能建广西院","evidence":"中能建建筑集团与中国能建广西院以联营体模式"},"role":{"value_state":"present","value":"EPC总承包","evidence":"签约越南大进90兆瓦农光互补电站EPC项目"}}]}],"stage_outputs":{"s1":{"status":"valid_project"},"s2":{"projects":[{"in_scope":true}]},"s34":[{}],"s5":[{}]},"prompt_manifest":{"base":"data/runs/16105/base-manifest.json"}}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。

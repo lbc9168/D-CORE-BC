@@ -1,0 +1,718 @@
+你是 Golden Standard 的独立证据审校员。你只能使用下方固定新闻原文审阅 Terra Provider 候选；不得读取数据库值、人工草稿或 Gold。逐项目、逐字段判断 ok / wrong / unsupported / exclude，并输出可直接显示的完整 reviewed projects。每个 present 值必须给出新闻中的逐字证据；证据不足时使用 not_mentioned 或 needs_adjudication，严禁补造。特别检查项目过度拆分、历史项目误收、年发电量/工厂年产能/设备出口/预留配置被误作 confirmed 储能容量，以及模型事实与确定性 taxonomy policy 的职责边界。保持 parent_candidate_id 指向 Terra 候选。
+
+【固定文章】
+标题：三一集团收购罗马尼亚光储项目，加速布局新能源投建营
+发布日期：NA
+来源：https://news.goalfore.cn/topstories/detail/88947.html
+正文：
+近期，三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作。
+该项目位于罗马尼亚Dolj县的Dobrești，是三一集团在境外完成的首个光储一体化项目收购。
+项目状态：
+目前处于准备建设阶段；
+项目规模：一座95MWp的光伏电站，以及配套的218MWh储能设施；
+交易进程： 三一在4月签署股权购买协议，10月15日与罗马尼亚开发商Enero举行了股权转让仪式，不到五个月的时间内就完成了100%的股权转让。
+项目规模： 是罗马尼亚目前在建的最大的光储混合项目之一。
+近年来，三一集团加速布局境外可再生能源市场，电力项目多点开花。
+在赞比亚
+三一硅能凭借集团积累的矿业业主资源，叠加工程建设、核心装备供应及后期运维方面的全产业链优势，累计获得多个矿山光储微网发电项目，已经成为当地领先的可再生能源承包商：
+2024年5月，与赞比亚能源部签订瑞达矿业30MW光伏+60MWh储能项目合作备忘录，三一集团光伏业务首次落子海外；
+2024年10月，瑞达矿山光储微网项目动工，是三一硅能在海外“光伏+储能+柴发”微电网发电领域的首次尝试（已并网）；
+2025年3月，乔瓦矿山光储微网项目开工（已并网）；
+2025年5月，佳航矿业10MW/33MWh光储微网项目开工（已并网）；
+2025年8月，乔瓦矿山换电站项目开工；
+2025年9月，瑞达矿业二期光储柴微网项目并网发电。
+在几内亚
+三一硅能复制赞比亚的经验，并且已经初显成效：
+2025年8月，圣图矿区3MW光伏+9Wh储能微电网项目投运；
+2025年9月，米希扬矿区2MW光伏+6MWh储能微电网项目投运。
+在蒙古
+依托“一带一路”框架下的中蒙能源合作，三一硅能参建达尔汗5MW+4MWh光储电站，是蒙古国首个具备绿电出口潜力的示范项目。
+在塞尔维亚
+三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目，目前已顺利签署15年PPA和CfD，2028年投运后，年发电量预计为480GWh。
+三一对风电的野心并不止于“投”和“建”，三一重能还进行风机的制造与销售。
+2024年，三一重能海外风机业务毛利率为21.71%，高出国内业务10个以上百分点。截至2025年6月底，其在手订单已经超过28GW。据统计，目前，三一重能已经是全球综合排名前十、中国陆上前五的风电整机商。
+而就在本月，三一重能又成立了一家海上风电装备公司，经营范围包括海上风电相关装备销售、海上风电相关系统研发、海上风力发电机组销售等。
+在传统电力工程企业追求与矿业公司深度合作的今天，以往处于下游的工程机械制造商也在往纵向（电力工程投建营）和横向（电力装备）探索，将其服务链条从单一的设备供应延伸到了长期的能源供应，利用新能源解决老客户的用电难题，在充分挖掘既有业主资源的同时，也开辟了新的业务领域——这是未来一段时间内，装备制造商拓展新增长曲线的重要战略方向。
+
+【Terra Provider 完整候选】
+{
+  "candidate_id": "terra-provider-1533-pilot-v1",
+  "execution_role": "provider",
+  "model": "gpt-5.6-terra",
+  "article_id": 1533,
+  "article_sha256": "cc6e6cd84dc3e801256d6f533d81821dbb2440eb07bcf337165c055746e9669d",
+  "article_status": {"value_state": "explicit", "value": "valid_project", "evidence": "三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作。", "confidence": 0.99},
+  "non_project_reason": {"value_state": "not_applicable", "value": null, "evidence": "", "confidence": 0.99},
+  "projects": [
+    {
+      "project_key": "project_1_romania_dobresti",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "已完成罗马尼亚光储项目的收购工作", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "罗马尼亚Dolj县Dobrești 95MWp光伏+218MWh储能项目", "evidence": "该项目位于罗马尼亚Dolj县的Dobrești", "confidence": 0.98},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光储一体化项目", "evidence": "光储一体化项目", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏"], "evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施", "confidence": 0.99},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "配套的218MWh储能设施", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "explicit", "value": 218, "raw_value": "218MWh", "evidence": "配套的218MWh储能设施", "confidence": 0.99},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 95, "raw_value": "95MWp", "evidence": "一座95MWp的光伏电站", "confidence": 0.99},
+      "project_stage": {"value_state": "explicit", "value": "收购", "evidence": "已完成罗马尼亚光储项目的收购工作", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "罗马尼亚", "evidence": "该项目位于罗马尼亚Dolj县的Dobrești", "confidence": 0.99},
+      "location": {"value_state": "explicit", "value": "Dolj县Dobrești", "evidence": "该项目位于罗马尼亚Dolj县的Dobrești", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "derived_from_explicit", "value": "股权融资", "evidence": "三一在4月签署股权购买协议", "confidence": 0.92},
+      "project_developer": {"value_state": "explicit", "value": "三一集团", "evidence": "是三一集团在境外完成的首个光储一体化项目收购", "confidence": 0.95},
+      "planned_start_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "planned_complete_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作", "confidence": 0.99}, "role": {"value_state": "derived_from_explicit", "value": "股权投资方", "evidence": "已完成罗马尼亚光储项目的收购工作", "confidence": 0.96}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "文章主项目，与后文分国别列举的历史项目分别记录。", "evidence": "近年来，三一集团加速布局境外可再生能源市场，电力项目多点开花。", "confidence": 0.96},
+      "project_summary": "三一硅能在罗马尼亚参与Dolj县Dobrești光储项目股权收购。项目包括95MWp光伏电站和218MWh储能设施，目前处于收购完成、准备建设阶段。"
+    },
+    {
+      "project_key": "project_2_zambia_rida",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "瑞达矿山光储微网项目动工", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "赞比亚瑞达矿业30MW光储柴微网项目", "evidence": "瑞达矿业30MW光伏+60MWh储能项目", "confidence": 0.96},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "光伏+储能+柴发", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光储柴微网", "evidence": "瑞达矿业二期光储柴微网项目", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏", "火电"], "evidence": "光伏+储能+柴发", "confidence": 0.98},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "瑞达矿业30MW光伏+60MWh储能项目", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "explicit", "value": 60, "raw_value": "60MWh", "evidence": "瑞达矿业30MW光伏+60MWh储能项目", "confidence": 0.98},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 30, "raw_value": "30MW", "evidence": "瑞达矿业30MW光伏+60MWh储能项目", "confidence": 0.98},
+      "project_stage": {"value_state": "explicit", "value": "投入运营", "evidence": "瑞达矿业二期光储柴微网项目并网发电", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "赞比亚", "evidence": "在赞比亚", "confidence": 0.99},
+      "location": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "not_mentioned", "value": "Unknown", "evidence": "", "confidence": 0.99},
+      "project_developer": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.98},
+      "planned_start_date": {"value_state": "explicit", "value": "2024-10-01", "evidence": "2024年10月，瑞达矿山光储微网项目动工", "confidence": 0.97},
+      "planned_complete_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一硅能在海外“光伏+储能+柴发”微电网发电领域的首次尝试", "confidence": 0.99}, "role": {"value_state": "derived_from_explicit", "value": "一体化方案提供商", "evidence": "叠加工程建设、核心装备供应及后期运维方面的全产业链优势", "confidence": 0.89}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "derived_from_explicit", "value": "瑞达矿业一期和二期按同一矿业项目分期合并为一条。", "evidence": "瑞达矿业二期光储柴微网项目并网发电", "confidence": 0.94},
+      "project_summary": "三一硅能在赞比亚参与瑞达矿业光储柴微网项目。项目包含30MW光伏和60MWh储能，文中一期及二期均已并网。"
+    },
+    {
+      "project_key": "project_3_zambia_qiaowa",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "乔瓦矿山光储微网项目开工（已并网）", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "赞比亚乔瓦矿山光储微网项目", "evidence": "乔瓦矿山光储微网项目", "confidence": 0.99},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "乔瓦矿山光储微网项目", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光储微网", "evidence": "乔瓦矿山光储微网项目", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏"], "evidence": "乔瓦矿山光储微网项目", "confidence": 0.96},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "乔瓦矿山光储微网项目", "confidence": 0.97},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "generation_capacity_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "project_stage": {"value_state": "explicit", "value": "投入运营", "evidence": "乔瓦矿山光储微网项目开工（已并网）", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "赞比亚", "evidence": "在赞比亚", "confidence": 0.99},
+      "location": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "not_mentioned", "value": "Unknown", "evidence": "", "confidence": 0.99},
+      "project_developer": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.98},
+      "planned_start_date": {"value_state": "explicit", "value": "2025-03-01", "evidence": "2025年3月，乔瓦矿山光储微网项目开工", "confidence": 0.97},
+      "planned_complete_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一硅能凭借集团积累的矿业业主资源", "confidence": 0.98}, "role": {"value_state": "derived_from_explicit", "value": "一体化方案提供商", "evidence": "叠加工程建设、核心装备供应及后期运维方面的全产业链优势", "confidence": 0.86}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "乔瓦矿山光储微网为发电项目；后文乔瓦矿山换电站不属于发电项目，未合并录入。", "evidence": "乔瓦矿山换电站项目开工", "confidence": 0.96},
+      "project_summary": "三一硅能在赞比亚参与乔瓦矿山光储微网项目。项目于2025年3月开工，文中说明已并网。"
+    },
+    {
+      "project_key": "project_4_zambia_jiahang",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "赞比亚佳航矿业10MW光伏+33MWh储能微网项目", "evidence": "佳航矿业10MW/33MWh光储微网项目", "confidence": 0.99},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "佳航矿业10MW/33MWh光储微网项目", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光储微网", "evidence": "光储微网项目", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏"], "evidence": "佳航矿业10MW/33MWh光储微网项目", "confidence": 0.96},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "佳航矿业10MW/33MWh光储微网项目", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "explicit", "value": 33, "raw_value": "33MWh", "evidence": "佳航矿业10MW/33MWh光储微网项目", "confidence": 0.99},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 10, "raw_value": "10MW", "evidence": "佳航矿业10MW/33MWh光储微网项目", "confidence": 0.96},
+      "project_stage": {"value_state": "explicit", "value": "投入运营", "evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "赞比亚", "evidence": "在赞比亚", "confidence": 0.99},
+      "location": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "not_mentioned", "value": "Unknown", "evidence": "", "confidence": 0.99},
+      "project_developer": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.98},
+      "planned_start_date": {"value_state": "explicit", "value": "2025-05-01", "evidence": "2025年5月，佳航矿业10MW/33MWh光储微网项目开工", "confidence": 0.97},
+      "planned_complete_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一硅能凭借集团积累的矿业业主资源", "confidence": 0.98}, "role": {"value_state": "derived_from_explicit", "value": "一体化方案提供商", "evidence": "叠加工程建设、核心装备供应及后期运维方面的全产业链优势", "confidence": 0.86}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "独立具名矿山微网项目。", "evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）", "confidence": 0.99},
+      "project_summary": "三一硅能在赞比亚参与佳航矿业光储微网项目。项目包含10MW光伏和33MWh储能，于2025年5月开工并已并网。"
+    },
+    {
+      "project_key": "project_5_guinea_shengtu",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "几内亚圣图矿区3MW光伏+9Wh储能微电网项目", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.99},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光伏+储能微电网", "evidence": "光伏+9Wh储能微电网", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏"], "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.99},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "explicit", "value": 0.000009, "raw_value": "9Wh", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.82},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 3, "raw_value": "3MW", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.99},
+      "project_stage": {"value_state": "explicit", "value": "投入运营", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "几内亚", "evidence": "在几内亚", "confidence": 0.99},
+      "location": {"value_state": "explicit", "value": "圣图矿区", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "not_mentioned", "value": "Unknown", "evidence": "", "confidence": 0.99},
+      "project_developer": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.98},
+      "planned_start_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "planned_complete_date": {"value_state": "explicit", "value": "2025-08-01", "evidence": "2025年8月，圣图矿区3MW光伏+9Wh储能微电网项目投运", "confidence": 0.97},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一硅能复制赞比亚的经验，并且已经初显成效", "confidence": 0.97}, "role": {"value_state": "derived_from_explicit", "value": "一体化方案提供商", "evidence": "三一硅能复制赞比亚的经验，并且已经初显成效", "confidence": 0.82}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "独立具名矿区微网项目；原文9Wh按原文保留，不擅自改为9MWh。", "evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运", "confidence": 0.99},
+      "project_summary": "三一硅能在几内亚参与圣图矿区光储微电网项目。项目包含3MW光伏及原文所述9Wh储能，于2025年8月投运。"
+    },
+    {
+      "project_key": "project_6_guinea_mixiyang",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "几内亚米希扬矿区2MW光伏+6MWh储能微电网项目", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光伏+储能微电网", "evidence": "光伏+6MWh储能微电网", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏"], "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "explicit", "value": 6, "raw_value": "6MWh", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 2, "raw_value": "2MW", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "project_stage": {"value_state": "explicit", "value": "投入运营", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "几内亚", "evidence": "在几内亚", "confidence": 0.99},
+      "location": {"value_state": "explicit", "value": "米希扬矿区", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "not_mentioned", "value": "Unknown", "evidence": "", "confidence": 0.99},
+      "project_developer": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.98},
+      "planned_start_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "planned_complete_date": {"value_state": "explicit", "value": "2025-09-01", "evidence": "2025年9月，米希扬矿区2MW光伏+6MWh储能微电网项目投运", "confidence": 0.97},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一硅能复制赞比亚的经验，并且已经初显成效", "confidence": 0.97}, "role": {"value_state": "derived_from_explicit", "value": "一体化方案提供商", "evidence": "三一硅能复制赞比亚的经验，并且已经初显成效", "confidence": 0.82}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "独立具名矿区微网项目。", "evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运", "confidence": 0.99},
+      "project_summary": "三一硅能在几内亚参与米希扬矿区光储微电网项目。项目包含2MW光伏和6MWh储能，于2025年9月投运。"
+    },
+    {
+      "project_key": "project_7_mongolia_darkhan",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "蒙古国达尔汗5MW光伏+4MWh储能电站项目", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "category": {"value_state": "derived_from_explicit", "value": "综合能源", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "光储电站", "evidence": "光储电站", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["光伏"], "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.95},
+      "storage_status": {"value_state": "explicit", "value": "confirmed", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "explicit", "value": 4, "raw_value": "4MWh", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 5, "raw_value": "5MW", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.96},
+      "project_stage": {"value_state": "derived_from_explicit", "value": "在建", "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站", "confidence": 0.88},
+      "country": {"value_state": "explicit", "value": "蒙古国", "evidence": "是蒙古国首个具备绿电出口潜力的示范项目", "confidence": 0.99},
+      "location": {"value_state": "explicit", "value": "达尔汗", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "not_mentioned", "value": "Unknown", "evidence": "", "confidence": 0.99},
+      "project_developer": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.98},
+      "planned_start_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "planned_complete_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一硅能", "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站", "confidence": 0.99}, "role": {"value_state": "explicit", "value": "设计/施工服务方", "evidence": "三一硅能参建达尔汗5MW+4MWh光储电站", "confidence": 0.94}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "独立具名光储电站。", "evidence": "达尔汗5MW+4MWh光储电站", "confidence": 0.99},
+      "project_summary": "三一硅能在蒙古国参建达尔汗光储电站。项目包含5MW光伏和4MWh储能，正文未明确给出更具体的建设阶段。"
+    },
+    {
+      "project_key": "project_8_serbia_wind",
+      "record_type": {"value_state": "explicit", "value": "具体项目", "evidence": "收购168MW风电项目", "confidence": 0.99},
+      "project_name": {"value_state": "derived_from_explicit", "value": "塞尔维亚168MW风电项目", "evidence": "收购168MW风电项目", "confidence": 0.98},
+      "category": {"value_state": "explicit", "value": "风电", "evidence": "收购168MW风电项目", "confidence": 0.99},
+      "subcategory_raw_fact": {"value_state": "explicit", "value": "集中式风电", "evidence": "布局集中式风电领域", "confidence": 0.99},
+      "generation_sources": {"value_state": "explicit", "value": ["风电"], "evidence": "收购168MW风电项目", "confidence": 0.99},
+      "storage_status": {"value_state": "not_mentioned", "value": "not_mentioned", "evidence": "", "confidence": 0.99},
+      "storage_power_mw": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "storage_energy_mwh": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "generation_capacity_mw": {"value_state": "explicit", "value": 168, "raw_value": "168MW", "evidence": "收购168MW风电项目", "confidence": 0.99},
+      "project_stage": {"value_state": "explicit", "value": "收购", "evidence": "收购168MW风电项目", "confidence": 0.99},
+      "country": {"value_state": "explicit", "value": "塞尔维亚", "evidence": "在塞尔维亚", "confidence": 0.99},
+      "location": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "investment": {"value_state": "not_mentioned", "value": {"total_project_investment_million_usd": null, "total_project_investment_raw": null, "contract_amount_million_usd": null, "contract_amount_raw": null, "financing_amount_million_usd": null, "financing_amount_raw": null}, "evidence": "", "confidence": 0.99},
+      "financing_mode": {"value_state": "derived_from_explicit", "value": "股权融资", "evidence": "收购168MW风电项目", "confidence": 0.91},
+      "project_developer": {"value_state": "explicit", "value": "三一重能", "evidence": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目", "confidence": 0.95},
+      "planned_start_date": {"value_state": "not_mentioned", "value": null, "evidence": "", "confidence": 0.99},
+      "planned_complete_date": {"value_state": "explicit", "value": "2028-01-01", "evidence": "2028年投运后", "confidence": 0.90},
+      "chinese_entities": [
+        {"entity": {"value_state": "explicit", "value": "三一重能", "evidence": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目", "confidence": 0.99}, "role": {"value_state": "derived_from_explicit", "value": "股权投资方", "evidence": "收购168MW风电项目", "confidence": 0.97}, "equipment_role": {"value_state": "not_mentioned", "value": "未提及", "evidence": "", "confidence": 0.99}}
+      ],
+      "project_split_merge_relation": {"value_state": "explicit", "value": "独立风电项目；28GW在手订单、海上风电装备公司和480GWh年发电量不另拆项目或容量。", "evidence": "截至2025年6月底，其在手订单已经超过28GW", "confidence": 0.99},
+      "project_summary": "三一重能在塞尔维亚收购168MW风电项目。项目已签署15年PPA和CfD，计划于2028年投运。"
+    }
+  ],
+  "stage_outputs": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "三一集团在罗马尼亚、赞比亚、几内亚、蒙古和塞尔维亚参与的光储、微电网及风电项目",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步命中发电项目；第二步明确给出三一集团、三一硅能和三一重能参与，因此为 valid_project。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "罗马尼亚Dolj县Dobrești 95MWp光伏+218MWh储能项目",
+            "Project Name (EN)": "Romania Dolj County Dobrești 95MWp Solar PV and 218MWh Energy Storage Project",
+            "Country": "罗马尼亚",
+            "Location(State)": "Dolj县Dobrești",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "218MWh",
+            "Energy Composition Evidence": "一座95MWp的光伏电站，以及配套的218MWh储能设施",
+            "Capacity (MW)": "",
+            "Capacity Details": "光伏：95MWp；储能：218MWh",
+            "Project Stage": "收购",
+            "Project Developer": "三一集团",
+            "Project Developer Evidence": "完成了100%的股权转让",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "赞比亚瑞达矿业30MW光储柴微网项目",
+            "Project Name (EN)": "Zambia Rida Mining 30MW Solar-Storage-Diesel Microgrid Project",
+            "Country": "赞比亚",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏",
+              "火电"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "60MWh",
+            "Energy Composition Evidence": "瑞达矿业30MW光伏+60MWh储能项目；光伏+储能+柴发",
+            "Capacity (MW)": "",
+            "Capacity Details": "光伏：30MW；储能：60MWh；含柴发；合并瑞达矿业一期、二期",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "2024-10-01",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "赞比亚乔瓦矿山光储微网项目",
+            "Project Name (EN)": "Zambia Qiaowa Mine Solar and Storage Microgrid Project",
+            "Country": "赞比亚",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "乔瓦矿山光储微网项目开工（已并网）",
+            "Capacity (MW)": "",
+            "Capacity Details": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "2025-03-01",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "赞比亚佳航矿业10MW光伏+33MWh储能微网项目",
+            "Project Name (EN)": "Zambia Jiahang Mining 10MW Solar PV and 33MWh Energy Storage Microgrid Project",
+            "Country": "赞比亚",
+            "Location(State)": "",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "33MWh",
+            "Energy Composition Evidence": "佳航矿业10MW/33MWh光储微网项目开工（已并网）",
+            "Capacity (MW)": "",
+            "Capacity Details": "光伏：10MW；储能：33MWh",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "2025-05-01",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "几内亚圣图矿区3MW光伏+9Wh储能微电网项目",
+            "Project Name (EN)": "Guinea Shengtu Mining Area 3MW Solar PV and 9Wh Energy Storage Microgrid Project",
+            "Country": "几内亚",
+            "Location(State)": "圣图矿区",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "9Wh",
+            "Energy Composition Evidence": "圣图矿区3MW光伏+9Wh储能微电网项目投运",
+            "Capacity (MW)": "",
+            "Capacity Details": "光伏：3MW；储能：原文9Wh",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": "2025-08-01"
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "几内亚米希扬矿区2MW光伏+6MWh储能微电网项目",
+            "Project Name (EN)": "Guinea Mixiyang Mining Area 2MW Solar PV and 6MWh Energy Storage Microgrid Project",
+            "Country": "几内亚",
+            "Location(State)": "米希扬矿区",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "6MWh",
+            "Energy Composition Evidence": "米希扬矿区2MW光伏+6MWh储能微电网项目投运",
+            "Capacity (MW)": "",
+            "Capacity Details": "光伏：2MW；储能：6MWh",
+            "Project Stage": "投入运营",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": "2025-09-01"
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "蒙古国达尔汗5MW光伏+4MWh储能电站项目",
+            "Project Name (EN)": "Mongolia Darkhan 5MW Solar PV and 4MWh Energy Storage Power Station Project",
+            "Country": "蒙古国",
+            "Location(State)": "达尔汗",
+            "Category": "综合能源",
+            "Generation Sources": [
+              "光伏"
+            ],
+            "Storage Status": "confirmed",
+            "Storage Power": "",
+            "Storage Energy": "4MWh",
+            "Energy Composition Evidence": "达尔汗5MW+4MWh光储电站",
+            "Capacity (MW)": "",
+            "Capacity Details": "光伏：5MW；储能：4MWh",
+            "Project Stage": "在建",
+            "Project Developer": "",
+            "Project Developer Evidence": "",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": ""
+          }
+        },
+        {
+          "project_summary": "",
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "塞尔维亚168MW风电项目",
+            "Project Name (EN)": "Serbia 168MW Wind Power Project",
+            "Country": "塞尔维亚",
+            "Location(State)": "",
+            "Category": "风电",
+            "Generation Sources": [
+              "风电"
+            ],
+            "Storage Status": "not_mentioned",
+            "Storage Power": "",
+            "Storage Energy": "",
+            "Energy Composition Evidence": "收购168MW风电项目",
+            "Capacity (MW)": "168MW",
+            "Capacity Details": "年发电量预计为480GWh，不作为装机容量",
+            "Project Stage": "收购",
+            "Project Developer": "三一重能",
+            "Project Developer Evidence": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目",
+            "(Planned) Start Date": "",
+            "(Planned) Complete Date": "2028-01-01"
+          }
+        }
+      ]
+    },
+    "s34": [
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "股权投资方",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "股权融资",
+        "Financing Model Details": "三一硅能完成项目100%股权转让",
+        "Additional Remarks": "4月签署股权购买协议，10月15日举行股权转让仪式。"
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "一体化方案提供商",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "一体化方案提供商",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "一体化方案提供商",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "一体化方案提供商",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "一体化方案提供商",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一硅能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "设计/施工服务方",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "Unknown",
+        "Financing Model Details": "",
+        "Additional Remarks": ""
+      },
+      {
+        "chinese_entities": [
+          {
+            "Implementing Chinese Entity": "三一重能",
+            "Subsidiary Name": "",
+            "Type of involvement of Chinese Entities": "股权投资方",
+            "Subcontract Amount (Million USD)": "",
+            "equipment_role": "未提及",
+            "equipment_items": "",
+            "equipment_supply_scope": ""
+          }
+        ],
+        "Total Project Investment Raw": "",
+        "Total Project Investment (Million USD)": "",
+        "Contract Amount Raw": "",
+        "Contract Amount (Million USD)": "",
+        "Financing Amount Raw": "",
+        "Financing Amount (Million USD)": "",
+        "Investment (or Financial Close) Date": "",
+        "Financing Model": "股权融资",
+        "Financing Model Details": "三一重能收购168MW风电项目",
+        "Additional Remarks": "已签署15年PPA和CfD，计划2028年投运。"
+      }
+    ],
+    "s5": [
+      {
+        "project_summary": "三一硅能在罗马尼亚参与Dolj县Dobrești光储项目股权收购。项目包括95MWp光伏电站和218MWh储能设施，目前处于收购完成、准备建设阶段。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一硅能在赞比亚参与瑞达矿业光储柴微网项目。项目包含30MW光伏和60MWh储能，文中一期及二期均已并网。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一硅能在赞比亚参与乔瓦矿山光储微网项目。项目于2025年3月开工，文中说明已并网。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一硅能在赞比亚参与佳航矿业光储微网项目。项目包含10MW光伏和33MWh储能，于2025年5月开工并已并网。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一硅能在几内亚参与圣图矿区光储微电网项目。项目包含3MW光伏及原文所述9Wh储能，于2025年8月投运。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一硅能在几内亚参与米希扬矿区光储微电网项目。项目包含2MW光伏和6MWh储能，于2025年9月投运。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一硅能在蒙古国参建达尔汗光储电站。项目包含5MW光伏和4MWh储能，正文未明确给出更具体的建设阶段。",
+        "corrections": []
+      },
+      {
+        "project_summary": "三一重能在塞尔维亚收购168MW风电项目。项目已签署15年PPA和CfD，计划于2028年投运。",
+        "corrections": []
+      }
+    ]
+  },
+  "prompt_manifest": {
+    "base_manifest": "data/runs/1533/base-manifest.json",
+    "dynamic_manifest": "data/runs/1533/dynamic-manifest.json",
+    "working_artifact": "data/runs/1533/provider-working.json",
+    "execution_order": ["s1", "s2", "s34[0..7]", "s5[0..7]"],
+    "builder_source_sha256": {
+      "s1": "8a40381f0e19889a5ada510597e3ff58de2abd91515fd6cec6528efa115f64da",
+      "s2": "f1e9a67ed03387e6f3fad42830af26351cfbdd4529ac9353fc4e6d1a472a1fdd",
+      "s34": "733bd3d180fcff52ba95291145c42197ffc39cc763210fe0901bee5935fc3e2e",
+      "s5": "9cd20337a28df559589bfc1f719803cc747afef5888d9fe022fab5fe034f96b3"
+    }
+  },
+  "warnings": [
+    "合作备忘录不单独提取；瑞达矿业一期、二期合并为一个项目。",
+    "乔瓦矿山换电站、风机业务和企业战略不是发电项目，未作为项目记录。",
+    "圣图项目储能值严格保留原文9Wh，不擅自纠正为9MWh。",
+    "塞尔维亚项目480GWh为预计年发电量，不作为装机或储能容量。"
+  ]
+}
+
+
+只输出严格 JSON，顶层至少包含 candidate_id、execution_role="reviewer"、model="gpt-5.6-sol"、article_id、article_sha256、parent_candidate_id、article_status、non_project_reason、projects。projects 中保持 Provider 的字段 envelope，并为每个字段加入 verdict 和 reviewer_note；允许修正 value/value_state/evidence/confidence。负样本 projects 必须为空数组。
