@@ -99,7 +99,7 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
       if (p.last_event_year < start || p.first_event_year > end) return false;
     }
     if (f.categories.length > 0 && !f.categories.includes(p.category)) return false;
-    // 子类筛选：所选子类键（集中式/分布式/光储/其他）跨类别唯一，直接匹配即可
+    // 项目形态子类筛选：当前仅光伏集中式/分布式。
     if (f.subcategories.length > 0 && !f.subcategories.includes(p.subcategory ?? "")) return false;
     // 按状态筛选：状态取范围结束年（end）的快照
     if (f.groups.length > 0) {

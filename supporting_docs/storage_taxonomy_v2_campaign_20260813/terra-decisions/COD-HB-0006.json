@@ -1,0 +1,75 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COD-HB-0006",
+  "package_sha256": "61ae48e3e604ff470674fbc4bb3c15feccc2fceb387567190ba63ffd476bb0b6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76261.html",
+        "surface": "title",
+        "quote": "中国十五冶中标刚果（金）刚波夫光储柴微电网项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76261.html",
+        "surface": "body",
+        "quote": "12月10日，中国十五冶收到刚果（金）刚波夫矿业股份有限公司发来的中标通知书，成功中标PPA模式采购“光伏+储能”系统供电项目，实现了公司在海外“矿山+”领域的新突破。\n该项目位于刚果（金）加丹加省利卡西市kambove镇，采用“F+EPC+O”模式运营，通过在厂内建立一座自发自用的光伏储能构网型电站，对当地电网供电不足和供电不稳定进行补充，可以实现市电突然停供的情况下，能源管理系统自动毫"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76216.html",
+        "surface": "title",
+        "quote": "中国十五冶中标刚果（金）刚波夫光储柴微电网项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76216.html",
+        "surface": "body",
+        "quote": "日前，中国十五冶收到刚果（金）刚波夫矿业股份有限公司发来的中标通知书，成功中标PPA模式采购“光伏+储能”系统供电项目，实现了公司在海外“矿山+”领域的新突破。\n该项目位于刚果（金）加丹加省利卡西市kambove镇，采用“F+EPC+O”模式运营，通过在厂内建立一座自发自用的光伏储能构网型电站，对当地电网供电不足和供电不稳定进行补充，可以实现市电突然停供的情况下，能源管理系统自动毫"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COD-HB-0006-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76261.html",
+          "surface": "title",
+          "quote": "中国十五冶中标刚果（金）刚波夫光储柴微电网项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76261.html",
+          "surface": "body",
+          "quote": "12月10日，中国十五冶收到刚果（金）刚波夫矿业股份有限公司发来的中标通知书，成功中标PPA模式采购“光伏+储能”系统供电项目，实现了公司在海外“矿山+”领域的新突破。\n该项目位于刚果（金）加丹加省利卡西市kambove镇，采用“F+EPC+O”模式运营，通过在厂内建立一座自发自用的光伏储能构网型电站，对当地电网供电不足和供电不稳定进行补充，可以实现市电突然停供的情况下，能源管理系统自动毫"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76216.html",
+          "surface": "title",
+          "quote": "中国十五冶中标刚果（金）刚波夫光储柴微电网项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76216.html",
+          "surface": "body",
+          "quote": "日前，中国十五冶收到刚果（金）刚波夫矿业股份有限公司发来的中标通知书，成功中标PPA模式采购“光伏+储能”系统供电项目，实现了公司在海外“矿山+”领域的新突破。\n该项目位于刚果（金）加丹加省利卡西市kambove镇，采用“F+EPC+O”模式运营，通过在厂内建立一座自发自用的光伏储能构网型电站，对当地电网供电不足和供电不稳定进行补充，可以实现市电突然停供的情况下，能源管理系统自动毫"
+        }
+      ]
+    }
+  ]
+}

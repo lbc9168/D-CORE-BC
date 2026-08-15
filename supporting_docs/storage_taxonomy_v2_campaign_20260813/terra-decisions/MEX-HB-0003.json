@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MEX-HB-0003",
+  "package_sha256": "bf3c17c1e4a98fd9b1b3ea777e8746e22a5b3547053ba7ca214e3039ddaa60eb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35053.html",
+        "surface": "body",
+        "quote": "二、墨西哥光伏项目交割"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35053.html",
+        "surface": "body",
+        "quote": "一、哈萨克斯坦风电项目股权交割"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MEX-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35053.html",
+          "surface": "body",
+          "quote": "二、墨西哥光伏项目交割"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35053.html",
+          "surface": "body",
+          "quote": "一、哈萨克斯坦风电项目股权交割"
+        }
+      ]
+    }
+  ]
+}

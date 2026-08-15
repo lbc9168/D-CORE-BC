@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ARG-HB-0008",
+  "package_sha256": "0363c9f7c6009d69f3603ae77b0675ef8630cf5245921b5ac87d275e1ec41dd8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1000,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26274.html",
+        "surface": "body",
+        "quote": "近日，喜讯接踵而至，中国电建签署又一光伏项目，成为在该国实施的第16个新能源项目。\n作为阿根廷最大新能源承包商，中国电建近日顺利签署了阿根廷阿劳科一期二期199兆瓦光伏项目EPC总承包合同，这也是公司在该国实施的第9个光伏项目。\n该项目位于阿根廷西部拉里奥哈省阿劳科地区，承包范围包括设计、施工、光伏组件及电气设备供货、"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/26274.html",
+        "surface": "body",
+        "quote": "作为全球清洁低碳能源、水资源与环境建设领域的引领者，全球基础设施互联互通的骨干力量，中国电建深度参与阿根廷的能源和基础设施行业发展，先后建成了胡胡伊高查瑞315兆瓦光伏项目、赫利俄斯355兆瓦风电项目群、卡法亚特100兆瓦光伏项目等11个能源和基础设施项目，同时还有潭波拉综合水利枢纽工程、科尔多瓦65兆瓦光伏项目和马里亚纳光储项目等4个项目正在建设中，总建设装机容量超过1吉瓦。\n▲中国电建在阿根廷承建的部分风电项目\n登高望远，厚积薄发\n把握全球能源转型发展大势\n中国电建积极推进双碳战略\n在全球范围打造绿色精品工程\n扩大“中国电建新能源”品牌影响力"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ARG-HB-0008-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1吉瓦",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26274.html",
+          "surface": "body",
+          "quote": "近日，喜讯接踵而至，中国电建签署又一光伏项目，成为在该国实施的第16个新能源项目。\n作为阿根廷最大新能源承包商，中国电建近日顺利签署了阿根廷阿劳科一期二期199兆瓦光伏项目EPC总承包合同，这也是公司在该国实施的第9个光伏项目。\n该项目位于阿根廷西部拉里奥哈省阿劳科地区，承包范围包括设计、施工、光伏组件及电气设备供货、"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/26274.html",
+          "surface": "body",
+          "quote": "作为全球清洁低碳能源、水资源与环境建设领域的引领者，全球基础设施互联互通的骨干力量，中国电建深度参与阿根廷的能源和基础设施行业发展，先后建成了胡胡伊高查瑞315兆瓦光伏项目、赫利俄斯355兆瓦风电项目群、卡法亚特100兆瓦光伏项目等11个能源和基础设施项目，同时还有潭波拉综合水利枢纽工程、科尔多瓦65兆瓦光伏项目和马里亚纳光储项目等4个项目正在建设中，总建设装机容量超过1吉瓦。\n▲中国电建在阿根廷承建的部分风电项目\n登高望远，厚积薄发\n把握全球能源转型发展大势\n中国电建积极推进双碳战略\n在全球范围打造绿色精品工程\n扩大“中国电建新能源”品牌影响力"
+        }
+      ]
+    }
+  ]
+}

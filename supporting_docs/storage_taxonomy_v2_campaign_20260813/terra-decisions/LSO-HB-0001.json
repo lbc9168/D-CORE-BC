@@ -1,0 +1,75 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "LSO-HB-0001",
+  "package_sha256": "46c0129d08b0252cde1b95f89004a9d18126d8db1b3142f0308eec896c194f35",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95602.html",
+        "surface": "body",
+        "quote": "该项目位于莱索托首都马塞卢区，工程主要内容包括设计、供货、运输、安装、调试“水电+光伏+电池储能+柴油发电机+配网”一体化供电系统，并提供1年运维服务。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95602.html",
+        "surface": "title",
+        "quote": "中水电中标莱索托微电网设计与建造项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95602.html",
+        "surface": "body",
+        "quote": "近日，水电对外毛里求斯分公司收到业主通知，公司牵头的联营体成功中标莱索托“源网荷储”微电网设计与建造项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "LSO-HB-0001-01",
+      "generation_sources": [
+        "光伏",
+        "水电",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95602.html",
+          "surface": "body",
+          "quote": "该项目位于莱索托首都马塞卢区，工程主要内容包括设计、供货、运输、安装、调试“水电+光伏+电池储能+柴油发电机+配网”一体化供电系统，并提供1年运维服务。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95602.html",
+          "surface": "title",
+          "quote": "中水电中标莱索托微电网设计与建造项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95602.html",
+          "surface": "body",
+          "quote": "近日，水电对外毛里求斯分公司收到业主通知，公司牵头的联营体成功中标莱索托“源网荷储”微电网设计与建造项目。"
+        }
+      ]
+    }
+  ]
+}

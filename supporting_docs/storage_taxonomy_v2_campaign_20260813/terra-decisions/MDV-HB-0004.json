@@ -1,0 +1,108 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MDV-HB-0004",
+  "package_sha256": "ae514f4ee2244e6ac25be796c984824a49ebb1df32db7c6b7afa0c000193ec64",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81326.html",
+        "surface": "body",
+        "quote": "在新能源微电网系统中定制化配置储能系统将直接提升公共电网对光伏等新能源系统产出电力的承载能力，并保证电网的稳定运行，使项目辐射各岛后续可大规模接入屋顶光伏系统。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81326.html",
+        "surface": "body",
+        "quote": "电网稳定性：缓解传统柴油发电的电压波动问题"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/81326.html",
+        "surface": "body",
+        "quote": "岛屿配置储能系统一览"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80322.html",
+        "surface": "body",
+        "quote": "模块化设计，可灵活扩展，并兼容光伏发电、风力发电和储能等多类型发电单元。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80322.html",
+        "surface": "body",
+        "quote": "项目采用中腾微网自主研发的能量管理系统（EMS），通过\"新能源+储能+智慧能源管理\"的系统化解决方案，实现对偏远或分散的电网环境进行整合监管："
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MDV-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81326.html",
+          "surface": "body",
+          "quote": "在新能源微电网系统中定制化配置储能系统将直接提升公共电网对光伏等新能源系统产出电力的承载能力，并保证电网的稳定运行，使项目辐射各岛后续可大规模接入屋顶光伏系统。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81326.html",
+          "surface": "body",
+          "quote": "电网稳定性：缓解传统柴油发电的电压波动问题"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/81326.html",
+          "surface": "body",
+          "quote": "岛屿配置储能系统一览"
+        }
+      ]
+    },
+    {
+      "event_id": "MDV-HB-0004-02",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80322.html",
+          "surface": "body",
+          "quote": "模块化设计，可灵活扩展，并兼容光伏发电、风力发电和储能等多类型发电单元。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80322.html",
+          "surface": "body",
+          "quote": "项目采用中腾微网自主研发的能量管理系统（EMS），通过\"新能源+储能+智慧能源管理\"的系统化解决方案，实现对偏远或分散的电网环境进行整合监管："
+        }
+      ]
+    }
+  ]
+}

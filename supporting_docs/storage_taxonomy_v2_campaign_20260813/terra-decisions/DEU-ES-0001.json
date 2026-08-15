@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DEU-ES-0001",
+  "package_sha256": "314a86a90eaefefbc4cba4c4b73319f39b2ec1ac47d34d23f0c2615c085a92d2",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 1600,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90183.html",
+        "surface": "title",
+        "quote": "海博思创与LEAG清洁能源签署德国1.6GWh储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90183.html",
+        "surface": "body",
+        "quote": "科技股份有限公司（股票代码：688411.SH）旗下德国子公司海博思创国际（德国）有限公司，与LEAG清洁能源有限公司正式签署协议，双方将在德国联合打造一座规模达1.6GWh的大型储能项目，该项目建成后将跻身欧洲大型电池储能设施之列。\n此次合作的项目名为“GigaBattery Boxberg 400”，是LEAG公司“吉瓦工厂”战略规划的关键组成部分。作为集光伏、风能发电、储能及氢能兼容型电厂于一体的综合性可再生能源枢纽，“吉瓦工厂”战略承载着LEAG为德国"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DEU-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 1600,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "1.6GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90183.html",
+          "surface": "title",
+          "quote": "海博思创与LEAG清洁能源签署德国1.6GWh储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90183.html",
+          "surface": "body",
+          "quote": "科技股份有限公司（股票代码：688411.SH）旗下德国子公司海博思创国际（德国）有限公司，与LEAG清洁能源有限公司正式签署协议，双方将在德国联合打造一座规模达1.6GWh的大型储能项目，该项目建成后将跻身欧洲大型电池储能设施之列。\n此次合作的项目名为“GigaBattery Boxberg 400”，是LEAG公司“吉瓦工厂”战略规划的关键组成部分。作为集光伏、风能发电、储能及氢能兼容型电厂于一体的综合性可再生能源枢纽，“吉瓦工厂”战略承载着LEAG为德国"
+        }
+      ]
+    }
+  ]
+}

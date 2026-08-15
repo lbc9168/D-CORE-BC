@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ECU-HB-0003",
+  "package_sha256": "0fbaa1f74308e2902f4042ca2d2657d1f1283a2eb137009e8c253e76823ade8a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/14139.html",
+        "surface": "title",
+        "quote": "厄瓜多尔延长200WM光伏电站招投标日期"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/14139.html",
+        "surface": "body",
+        "quote": "110MW的Villonaco II和III风电场项目\n。\n根据之前的时间表，从2019年8月下旬开始的整个招标过程，原定于2020年4月15日结束。卫生部解释说，该决定是针对当前由Covid-19大流行引起的健康危机而作出的，该危机影响了全球活动的正常发展，因此厄瓜多尔延长了招投标的截止日期。\n据悉，El Aromo和Vil"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ECU-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/14139.html",
+          "surface": "title",
+          "quote": "厄瓜多尔延长200WM光伏电站招投标日期"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/14139.html",
+          "surface": "body",
+          "quote": "110MW的Villonaco II和III风电场项目\n。\n根据之前的时间表，从2019年8月下旬开始的整个招标过程，原定于2020年4月15日结束。卫生部解释说，该决定是针对当前由Covid-19大流行引起的健康危机而作出的，该危机影响了全球活动的正常发展，因此厄瓜多尔延长了招投标的截止日期。\n据悉，El Aromo和Vil"
+        }
+      ]
+    }
+  ]
+}

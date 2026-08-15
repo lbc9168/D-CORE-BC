@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "LKA-WD-0001",
+  "package_sha256": "7d1f8c51738f0ce546fb97cc22120a187eb6d16698da2468198012ac49858202",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原单一发电类别文章出现多种新能源，可能混入多个项目",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 120,
+    "storage_energy_mwh": 480,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92922.html",
+        "surface": "body",
+        "quote": "1)项目内容：50 MWac地面光伏电站 + 配套电池储能系统（BESS）;"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92922.html",
+        "surface": "body",
+        "quote": "值得注意的是，该风电项目招标时曾强制要求投标方配套建设至少"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92922.html",
+        "surface": "title",
+        "quote": "总金额超5个亿，斯里兰卡电力(CEB)授权境内首个120MW/480MWh独立储能项目开发权"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "LKA-WD-0001-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 120,
+      "storage_energy_mwh": 480,
+      "storage_power_mw_raw": "120MW",
+      "storage_energy_mwh_raw": "480MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92922.html",
+          "surface": "body",
+          "quote": "1)项目内容：50 MWac地面光伏电站 + 配套电池储能系统（BESS）;"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92922.html",
+          "surface": "body",
+          "quote": "值得注意的是，该风电项目招标时曾强制要求投标方配套建设至少"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92922.html",
+          "surface": "title",
+          "quote": "总金额超5个亿，斯里兰卡电力(CEB)授权境内首个120MW/480MWh独立储能项目开发权"
+        }
+      ]
+    }
+  ]
+}

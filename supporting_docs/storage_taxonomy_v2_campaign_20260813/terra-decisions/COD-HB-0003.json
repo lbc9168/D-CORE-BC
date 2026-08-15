@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COD-HB-0003",
+  "package_sha256": "44d58121b79a61d93d299000ad9ebd1c7d82b454bcf89b20c62bb0af924538bb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 90,
+    "storage_energy_mwh": 200,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91912.html",
+        "surface": "body",
+        "quote": "根据协议，莱鼎能源将投资、建设并运营刚果（金）90MW光伏+200MWh储能一体化微电网项目，为环球矿业提供稳定可靠的绿色能源解决方案，标志着中国领先的微电网技术正式落地刚果（金）矿业领域，开启中非绿色能源合作新篇章。\n莱鼎能源与环球矿业签约仪式\n作为国内最早参与非洲微电网建设的企业之一，莱鼎能源始终秉持“构建绿色世界，共享美好未来”的"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91912.html",
+        "surface": "body",
+        "quote": "根据协议，莱鼎能源将投资、建设并运营刚果（金）90MW光伏+200MWh储能一体化微电网项目，为环球矿业提供稳定可靠的绿色能源解决方案，标志着中国领先的微电网技术正式落地刚果（金）矿业领域，开启中非绿色能源合作新篇章。\n莱鼎能源与环球矿业签约仪式\n作为国内最早参与非洲微电网建设的企业之一，莱鼎能源始终秉持“构建绿色世界，共享美好未来”的企业使命，以能源投"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91864.html",
+        "surface": "body",
+        "quote": "莱鼎能源将在刚果金投资、建设、运营90MW光伏+200MWh储能电站，为环球矿业提供绿色能源解决方案，将中国的微电网技术带进刚果金。\n莱鼎能源是一家江苏企业，以“构建绿色世界，共享美好未来”为使命，以能源投资为核心，致力打造一流全球绿色能源解决方案。公司以机电工程、电力工程为基石，稳步发展半导体项目，拓展新能源投资及海外市场。\n公司现已布局非"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COD-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 90,
+      "storage_energy_mwh": 200,
+      "storage_power_mw_raw": "90MW",
+      "storage_energy_mwh_raw": "200MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91912.html",
+          "surface": "body",
+          "quote": "根据协议，莱鼎能源将投资、建设并运营刚果（金）90MW光伏+200MWh储能一体化微电网项目，为环球矿业提供稳定可靠的绿色能源解决方案，标志着中国领先的微电网技术正式落地刚果（金）矿业领域，开启中非绿色能源合作新篇章。\n莱鼎能源与环球矿业签约仪式\n作为国内最早参与非洲微电网建设的企业之一，莱鼎能源始终秉持“构建绿色世界，共享美好未来”的"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91912.html",
+          "surface": "body",
+          "quote": "根据协议，莱鼎能源将投资、建设并运营刚果（金）90MW光伏+200MWh储能一体化微电网项目，为环球矿业提供稳定可靠的绿色能源解决方案，标志着中国领先的微电网技术正式落地刚果（金）矿业领域，开启中非绿色能源合作新篇章。\n莱鼎能源与环球矿业签约仪式\n作为国内最早参与非洲微电网建设的企业之一，莱鼎能源始终秉持“构建绿色世界，共享美好未来”的企业使命，以能源投"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91864.html",
+          "surface": "body",
+          "quote": "莱鼎能源将在刚果金投资、建设、运营90MW光伏+200MWh储能电站，为环球矿业提供绿色能源解决方案，将中国的微电网技术带进刚果金。\n莱鼎能源是一家江苏企业，以“构建绿色世界，共享美好未来”为使命，以能源投资为核心，致力打造一流全球绿色能源解决方案。公司以机电工程、电力工程为基石，稳步发展半导体项目，拓展新能源投资及海外市场。\n公司现已布局非"
+        }
+      ]
+    }
+  ]
+}

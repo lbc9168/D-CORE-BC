@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ARG-HB-0009",
+  "package_sha256": "b471a186d14c1f1c38d46bd83a4bd72e311c61ec9913eeb9d575396f1f30e0a2",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 200,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/6319.html",
+        "surface": "title",
+        "quote": "阿根廷最大光伏电站将扩建200MW"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/6319.html",
+        "surface": "body",
+        "quote": "当地政府表示,这一扩建项目将包括一些储能容量的部署。\nCui太阳能电站是阿根廷政府在RenovAr方案第一轮招标中选出的项目。电站在2017年开工,使用的是中利腾晖(Talesun)的组件。这一项目的融资方为中国进出口银行,胡胡伊省也同时发行了2.1亿美元的债券。Jemse公司占股80%,剩余的20%由PowerChi"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ARG-HB-0009-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 200,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "200MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/6319.html",
+          "surface": "title",
+          "quote": "阿根廷最大光伏电站将扩建200MW"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/6319.html",
+          "surface": "body",
+          "quote": "当地政府表示,这一扩建项目将包括一些储能容量的部署。\nCui太阳能电站是阿根廷政府在RenovAr方案第一轮招标中选出的项目。电站在2017年开工,使用的是中利腾晖(Talesun)的组件。这一项目的融资方为中国进出口银行,胡胡伊省也同时发行了2.1亿美元的债券。Jemse公司占股80%,剩余的20%由PowerChi"
+        }
+      ]
+    }
+  ]
+}

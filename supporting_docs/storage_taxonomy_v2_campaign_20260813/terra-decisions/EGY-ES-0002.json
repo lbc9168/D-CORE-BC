@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-ES-0002",
+  "package_sha256": "06c39f7c9636644b2d33346c74ddae27ee47e064d54f03b2fbaab4b2b2c242c6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 500,
+    "storage_energy_mwh": 300,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76663.html",
+        "surface": "body",
+        "quote": "（项目现场，图片来源：PV-Tech）\n作为埃及首个光储融合解决方案项目，项目位于Kom Ombo, Aswan地区，由AMEA Power开发，是对目前现有的500MW太阳能光伏项目的扩展。通过整合储能系统，该项目不仅实现了清洁能源的高效利用，还增强了当地电网稳定性，更突显了埃及对可持续能源创新的承诺。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76663.html",
+        "surface": "title",
+        "quote": "天合光能与AMEA Power和浙江火电携手部署超300MWh储能解决方案"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76663.html",
+        "surface": "body",
+        "quote": "共同建设位于埃及南部地区的Abydos储能项目。\n天合光能将为Abydos储能项目提供总容量\n超300\nMWh的Elementa金刚2储能系统\n，充分彰显天合光能解决方案的全球竞争力，以及对于推动埃及能源转型的重要意义。\n（项目现场，图片来源：PV-Tech）\n作为埃及首个光储融合解决方案项目，项目位于Kom Ombo,"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-ES-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 500,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "500MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76663.html",
+          "surface": "body",
+          "quote": "（项目现场，图片来源：PV-Tech）\n作为埃及首个光储融合解决方案项目，项目位于Kom Ombo, Aswan地区，由AMEA Power开发，是对目前现有的500MW太阳能光伏项目的扩展。通过整合储能系统，该项目不仅实现了清洁能源的高效利用，还增强了当地电网稳定性，更突显了埃及对可持续能源创新的承诺。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76663.html",
+          "surface": "title",
+          "quote": "天合光能与AMEA Power和浙江火电携手部署超300MWh储能解决方案"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76663.html",
+          "surface": "body",
+          "quote": "共同建设位于埃及南部地区的Abydos储能项目。\n天合光能将为Abydos储能项目提供总容量\n超300\nMWh的Elementa金刚2储能系统\n，充分彰显天合光能解决方案的全球竞争力，以及对于推动埃及能源转型的重要意义。\n（项目现场，图片来源：PV-Tech）\n作为埃及首个光储融合解决方案项目，项目位于Kom Ombo,"
+        }
+      ]
+    }
+  ]
+}

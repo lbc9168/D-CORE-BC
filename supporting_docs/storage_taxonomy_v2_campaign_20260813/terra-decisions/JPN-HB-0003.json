@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "JPN-HB-0003",
+  "package_sha256": "2ac72087c7cc5e62c815c0893eb6aba0742e78332149d0f025dffac9a6ea125d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": "分布式",
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54683.html",
+        "surface": "body",
+        "quote": "该项目包含“源”“荷”“储”三种元素，分别对应分布式光伏、医院大楼可调负荷及充电桩、储能等配套设施，并就地部署了能源管理系统管控平台，针对医院不同用电状态下的场景，自动切换光伏发电+储能充、放电、应急等不同模式，实现可调负荷的启停及功率的自动调节。该项目可减少二氧化碳排放量约为348吨，同时为市原医院在台风等自然灾害期间提供应急保障电"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54683.html",
+        "surface": "body",
+        "quote": "该项目包含“源”“荷”“储”三种元素，分别对应分布式光伏、医院大楼可调负荷及充电桩、储能等配套设施，并就地部署了能源管理系统管控平台，针对医院不同用电状态下的场景，自动切换光伏发电+储能充、放电、应急等不同模式，实现可调负荷的启停及功率的自动调节。该项目可减少二氧化碳排放量约为348吨，同时为市原医院在台风等自然灾害期间提供应急保障电源。\n日本市原医院综合零碳电厂项"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "JPN-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54683.html",
+          "surface": "body",
+          "quote": "该项目包含“源”“荷”“储”三种元素，分别对应分布式光伏、医院大楼可调负荷及充电桩、储能等配套设施，并就地部署了能源管理系统管控平台，针对医院不同用电状态下的场景，自动切换光伏发电+储能充、放电、应急等不同模式，实现可调负荷的启停及功率的自动调节。该项目可减少二氧化碳排放量约为348吨，同时为市原医院在台风等自然灾害期间提供应急保障电"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54683.html",
+          "surface": "body",
+          "quote": "该项目包含“源”“荷”“储”三种元素，分别对应分布式光伏、医院大楼可调负荷及充电桩、储能等配套设施，并就地部署了能源管理系统管控平台，针对医院不同用电状态下的场景，自动切换光伏发电+储能充、放电、应急等不同模式，实现可调负荷的启停及功率的自动调节。该项目可减少二氧化碳排放量约为348吨，同时为市原医院在台风等自然灾害期间提供应急保障电源。\n日本市原医院综合零碳电厂项"
+        }
+      ]
+    }
+  ]
+}

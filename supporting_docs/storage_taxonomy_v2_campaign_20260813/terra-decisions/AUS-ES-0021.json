@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-ES-0021",
+  "package_sha256": "59184059cda6499d5c7504d096464613dd7b895b8120e90466547bc69a8515cb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 3200,
+    "storage_energy_mwh": 117,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93487.html",
+        "surface": "title",
+        "quote": "南都电源获澳大利亚储能项目订单"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93487.html",
+        "surface": "body",
+        "quote": "日前，南都电源海外储能市场再传捷报，成功签署澳大利亚北领地117MWh储能项目，进一步巩固了公司在澳洲储能市场的地位。\n作为澳大利亚最北部行政区域，北领地可再生能源资源丰富，但电网基础设施相对薄弱。随着新能源装机规模扩大，对可调度储能容量的需求日益迫切。\n此项目落地后，将为当地电网提供调峰调频、应急供"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-ES-0021-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 3200,
+      "storage_energy_mwh": 117,
+      "storage_power_mw_raw": "3.2GW",
+      "storage_energy_mwh_raw": "117MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93487.html",
+          "surface": "title",
+          "quote": "南都电源获澳大利亚储能项目订单"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93487.html",
+          "surface": "body",
+          "quote": "日前，南都电源海外储能市场再传捷报，成功签署澳大利亚北领地117MWh储能项目，进一步巩固了公司在澳洲储能市场的地位。\n作为澳大利亚最北部行政区域，北领地可再生能源资源丰富，但电网基础设施相对薄弱。随着新能源装机规模扩大，对可调度储能容量的需求日益迫切。\n此项目落地后，将为当地电网提供调峰调频、应急供"
+        }
+      ]
+    }
+  ]
+}

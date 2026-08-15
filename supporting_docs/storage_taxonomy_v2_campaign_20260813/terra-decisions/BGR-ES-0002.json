@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BGR-ES-0002",
+  "package_sha256": "466efa9257a02d8aea35c9e24d10e5e151fb446a6f08730bc7082d5ad2ea7739",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 124,
+    "storage_energy_mwh": 2400,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85802.html",
+        "surface": "body",
+        "quote": "7月28日，全球光储龙头企业阳光电源与欧洲领先太阳能解决方案提供商SUNOTEC正式签署战略协议，将在欧洲多个太阳能项目中部署总容量达2.4GWh的电池储能系统（BESS）。\n据了解，首批项目重点落地保加利亚等东南欧国家，标志着阳光电源首次进军该国储能市场。\n这些项目将成为保加利亚乃至欧洲迄今为止规"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85802.html",
+        "surface": "title",
+        "quote": "阳光电源拿下欧洲2.4GWh储能大单，进军保加利亚市场"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BGR-ES-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 124,
+      "storage_energy_mwh": 2400,
+      "storage_power_mw_raw": "124MW",
+      "storage_energy_mwh_raw": "2.4GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85802.html",
+          "surface": "body",
+          "quote": "7月28日，全球光储龙头企业阳光电源与欧洲领先太阳能解决方案提供商SUNOTEC正式签署战略协议，将在欧洲多个太阳能项目中部署总容量达2.4GWh的电池储能系统（BESS）。\n据了解，首批项目重点落地保加利亚等东南欧国家，标志着阳光电源首次进军该国储能市场。\n这些项目将成为保加利亚乃至欧洲迄今为止规"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85802.html",
+          "surface": "title",
+          "quote": "阳光电源拿下欧洲2.4GWh储能大单，进军保加利亚市场"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MYS-HB-0003",
+  "package_sha256": "9725818757026421c91c2dbf202e6b413b1f3471765fd8e9376249cf832f732f",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 620,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88342.html",
+        "surface": "body",
+        "quote": "该项目将一个峰值功率为310兆瓦（MWp）的地面太阳能发电场与一个容量为620兆瓦时（MWh）的电池储能系统配对，旨在提供持续、可调度的电力。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88342.html",
+        "surface": "body",
+        "quote": "这将是马来西亚首个专门为提供“稳定输出”太阳能而建造的项目——其能源强度足以模拟通常由天然气或水力发电厂提供的基荷电力供应。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MYS-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 620,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "620兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88342.html",
+          "surface": "body",
+          "quote": "该项目将一个峰值功率为310兆瓦（MWp）的地面太阳能发电场与一个容量为620兆瓦时（MWh）的电池储能系统配对，旨在提供持续、可调度的电力。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88342.html",
+          "surface": "body",
+          "quote": "这将是马来西亚首个专门为提供“稳定输出”太阳能而建造的项目——其能源强度足以模拟通常由天然气或水力发电厂提供的基荷电力供应。"
+        }
+      ]
+    }
+  ]
+}

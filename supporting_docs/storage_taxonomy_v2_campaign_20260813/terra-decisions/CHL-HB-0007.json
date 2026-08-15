@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHL-HB-0007",
+  "package_sha256": "131b8f40bb254b4c7b068cd6892209c49e35e6bdfe264f8080d755bf2fec5aea",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 253,
+    "storage_energy_mwh": 1000,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32041.html",
+        "surface": "title",
+        "quote": "光储又一单！阿特斯集团成功中标智利253兆瓦光伏电站+1000兆瓦时储能一体项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32041.html",
+        "surface": "body",
+        "quote": "储能\n的\n光储一体项目\n(“Zaldivar项目”)。\n在此次招标中，中标的三个可再生能源项目预计每年发电量为\n777吉瓦时\n，其中\n16%\n的发电量将来自“萨尔迪瓦(Zaldivar)项目”。\n“萨尔迪瓦(Zaldivar)项目”位于安托法加斯塔(Antofagasta)地区，现处"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHL-HB-0007-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 253,
+      "storage_energy_mwh": 1000,
+      "storage_power_mw_raw": "253兆瓦",
+      "storage_energy_mwh_raw": "1000兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32041.html",
+          "surface": "title",
+          "quote": "光储又一单！阿特斯集团成功中标智利253兆瓦光伏电站+1000兆瓦时储能一体项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32041.html",
+          "surface": "body",
+          "quote": "储能\n的\n光储一体项目\n(“Zaldivar项目”)。\n在此次招标中，中标的三个可再生能源项目预计每年发电量为\n777吉瓦时\n，其中\n16%\n的发电量将来自“萨尔迪瓦(Zaldivar)项目”。\n“萨尔迪瓦(Zaldivar)项目”位于安托法加斯塔(Antofagasta)地区，现处"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0002",
+  "package_sha256": "e43e13874af8454107553a8655e5fad7b4e2301d8c8028aaed11e2548ebbe49c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 75,
+    "storage_energy_mwh": 75,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91265.html",
+        "surface": "body",
+        "quote": "项目规划建设300MW光伏发电装机容量，配套建设75MW/75MWh储能系统，是乌兹别克斯坦推动能源结构转型、促进工业低碳发展的重点项目之一，为大型工业设施的绿色运行提供稳定保障。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0002-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 75,
+      "storage_energy_mwh": 75,
+      "storage_power_mw_raw": "75MW",
+      "storage_energy_mwh_raw": "75MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91265.html",
+          "surface": "body",
+          "quote": "项目规划建设300MW光伏发电装机容量，配套建设75MW/75MWh储能系统，是乌兹别克斯坦推动能源结构转型、促进工业低碳发展的重点项目之一，为大型工业设施的绿色运行提供稳定保障。"
+        }
+      ]
+    }
+  ]
+}

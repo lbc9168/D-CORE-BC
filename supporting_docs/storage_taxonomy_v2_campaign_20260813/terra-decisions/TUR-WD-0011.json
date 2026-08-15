@@ -1,0 +1,75 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "TUR-WD-0011",
+  "package_sha256": "a0693558a46d93bb54757efb2bc19de6f87be15b76ec4720eadd3e981c2b739d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；原单一发电类别文章出现多种新能源，可能混入多个项目",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94877.html",
+        "surface": "body",
+        "quote": "集团在水电、风电以及土耳其首个持证漂浮式太阳能电站等领域的投资均取得了卓越成效。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94877.html",
+        "surface": "body",
+        "quote": "通过“风储融合”模式，项目不仅能有效平抑风电出力的波动性，还能显著提升电网的稳定性与容量因子。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94877.html",
+        "surface": "title",
+        "quote": "金风科技携手土耳其Erdem集团，打造伊兹密尔43.5MW“风储融合”新标杆"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "TUR-WD-0011-01",
+      "generation_sources": [
+        "光伏",
+        "风电",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94877.html",
+          "surface": "body",
+          "quote": "集团在水电、风电以及土耳其首个持证漂浮式太阳能电站等领域的投资均取得了卓越成效。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94877.html",
+          "surface": "body",
+          "quote": "通过“风储融合”模式，项目不仅能有效平抑风电出力的波动性，还能显著提升电网的稳定性与容量因子。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94877.html",
+          "surface": "title",
+          "quote": "金风科技携手土耳其Erdem集团，打造伊兹密尔43.5MW“风储融合”新标杆"
+        }
+      ]
+    }
+  ]
+}

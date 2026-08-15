@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AFG-HB-0001",
+  "package_sha256": "e04411266721c7e906b833c80f32a097d0ce05a6e5a3187f09c2beb05e15c5b0",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/5459.html",
+        "surface": "title",
+        "quote": "中国公司在阿富汗承包5兆瓦太阳能项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AFG-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/5459.html",
+          "surface": "title",
+          "quote": "中国公司在阿富汗承包5兆瓦太阳能项目"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0015",
+  "package_sha256": "17cd0be74538f581bdabdaaad6445ab9ced8adfb8ae393f5ad79d47c9d7101ca",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84836.html",
+        "surface": "body",
+        "quote": "乌兹别克斯坦塔什干绿氢项目是乌兹别克斯坦政府“绿色能源战略”的核心组成部分，由沙特国际电力及水务公司（AWCA Power）投资，中国电建集团华东勘测设计院EPC总承包，项目新建一座绿色制氢厂和一座陆上风电场。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54494.html",
+        "surface": "title",
+        "quote": "中国电建承建的乌兹别克斯坦首个绿氢项目举行开工仪式"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+        "surface": "body",
+        "quote": "1.\tAr Rass光伏项目：国内首个境外资本金过桥贷款成功落地案例"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+        "surface": "body",
+        "quote": "该笔贷款还将用于建设配套的输电线路，以使上述风电项目得以并入乌兹别克斯坦的国家电网。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49959.html",
+        "surface": "body",
+        "quote": "沙特红海综合智慧能源项目是沙特“2030愿景”下三个“千兆计划”之一的“红海计划”国际旅游区的专项配套基础设施项目，位于沙特西北部红海岸乌姆卢日和沃季赫城镇间，由光伏发电、储能、海水淡化、污水处理、固体废物处理、制冷、数据中心、智能电网等系统构成，将为红海度假区提供综合智慧能源一体化解决方案，是度假区唯一的供电、供水项目。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49959.html",
+        "surface": "body",
+        "quote": "近年来，黄河公司积极响应国家电投支持“绿色中东”“绿色沙特”倡议，创新国际化发展思路，扎实推进“光伏+”项目与新兴产业国际化发展，成功参股建设全球最大规模离网型综合智慧能源和储能项目——"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0015-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84836.html",
+          "surface": "body",
+          "quote": "乌兹别克斯坦塔什干绿氢项目是乌兹别克斯坦政府“绿色能源战略”的核心组成部分，由沙特国际电力及水务公司（AWCA Power）投资，中国电建集团华东勘测设计院EPC总承包，项目新建一座绿色制氢厂和一座陆上风电场。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0015-02",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54494.html",
+          "surface": "title",
+          "quote": "中国电建承建的乌兹别克斯坦首个绿氢项目举行开工仪式"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0015-03",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+          "surface": "body",
+          "quote": "1.\tAr Rass光伏项目：国内首个境外资本金过桥贷款成功落地案例"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+          "surface": "body",
+          "quote": "该笔贷款还将用于建设配套的输电线路，以使上述风电项目得以并入乌兹别克斯坦的国家电网。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0015-04",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49959.html",
+          "surface": "body",
+          "quote": "沙特红海综合智慧能源项目是沙特“2030愿景”下三个“千兆计划”之一的“红海计划”国际旅游区的专项配套基础设施项目，位于沙特西北部红海岸乌姆卢日和沃季赫城镇间，由光伏发电、储能、海水淡化、污水处理、固体废物处理、制冷、数据中心、智能电网等系统构成，将为红海度假区提供综合智慧能源一体化解决方案，是度假区唯一的供电、供水项目。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49959.html",
+          "surface": "body",
+          "quote": "近年来，黄河公司积极响应国家电投支持“绿色中东”“绿色沙特”倡议，创新国际化发展思路，扎实推进“光伏+”项目与新兴产业国际化发展，成功参股建设全球最大规模离网型综合智慧能源和储能项目——"
+        }
+      ]
+    }
+  ]
+}

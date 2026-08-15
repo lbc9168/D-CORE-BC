@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-MF-0002",
+  "package_sha256": "806903d9c47d231e8eacde28dd7420b298f0b990a94d2e5e97eb3716a837d585",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92016.html",
+        "surface": "body",
+        "quote": "签约仪式后，伊斯马特部长实地考察了协鑫集团位于江苏省的光伏电池制造基地，深入调研生产线及全流程制造环节。该中国生产基地将为埃及计划建设的产业园区提供技术与运营参照标准。\n在考察期间，伊斯马特就园区初步设计理念、实施机制及应用技术与中方进行探讨，同时详细听取了关于协鑫集团自主创新成果的介绍。其参访范围还涵盖组件装配区、研发实验室及检测中心等关键区域。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/6172.html",
+        "surface": "title",
+        "quote": "协鑫与埃及军方签署太阳能电池板生产厂项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-MF-0002-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92016.html",
+          "surface": "body",
+          "quote": "签约仪式后，伊斯马特部长实地考察了协鑫集团位于江苏省的光伏电池制造基地，深入调研生产线及全流程制造环节。该中国生产基地将为埃及计划建设的产业园区提供技术与运营参照标准。\n在考察期间，伊斯马特就园区初步设计理念、实施机制及应用技术与中方进行探讨，同时详细听取了关于协鑫集团自主创新成果的介绍。其参访范围还涵盖组件装配区、研发实验室及检测中心等关键区域。"
+        }
+      ]
+    },
+    {
+      "event_id": "EGY-MF-0002-02",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/6172.html",
+          "surface": "title",
+          "quote": "协鑫与埃及军方签署太阳能电池板生产厂项目"
+        }
+      ]
+    }
+  ]
+}

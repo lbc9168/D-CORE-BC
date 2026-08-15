@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DEU-ES-0003",
+  "package_sha256": "a56ebef825773a404187bed1e0056d6d31c22cfa0ce3635324a04693e40998e5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 900,
+    "storage_energy_mwh": 100,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/72943.html",
+        "surface": "title",
+        "quote": "天合储能携手欧洲Aquila，助力德国斯泰因州领先储能项目盛大开建"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/72943.html",
+        "surface": "body",
+        "quote": "近日，天合储能携手欧洲可再生能源开发商Aquila，在德国荷尔斯泰因州斯特吕贝尔（Strübbel）启动了一个标杆性的电池储能项目。作为该州最大、最先进的电池储能项目之一，项目容量达100MWh，采用天合储能先进的电池技术和TrinaStorage Elementa金刚系列电池舱在内的一体化A"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DEU-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 900,
+      "storage_energy_mwh": 100,
+      "storage_power_mw_raw": "900MW",
+      "storage_energy_mwh_raw": "100MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/72943.html",
+          "surface": "title",
+          "quote": "天合储能携手欧洲Aquila，助力德国斯泰因州领先储能项目盛大开建"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/72943.html",
+          "surface": "body",
+          "quote": "近日，天合储能携手欧洲可再生能源开发商Aquila，在德国荷尔斯泰因州斯特吕贝尔（Strübbel）启动了一个标杆性的电池储能项目。作为该州最大、最先进的电池储能项目之一，项目容量达100MWh，采用天合储能先进的电池技术和TrinaStorage Elementa金刚系列电池舱在内的一体化A"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DEU-ES-0007",
+  "package_sha256": "d9cb02b510cd837f679caef1fbbddf86ffa728c3469d88514843f72261416f30",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 0.105,
+    "storage_energy_mwh": 0.215,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94916.html",
+        "surface": "title",
+        "quote": "德国首个工商业储能项目并网"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94916.html",
+        "surface": "body",
+        "quote": "近日，隆基在德国首个工商业储能项目正式并网。项目位于德国东北部城市施特拉尔松德，业主为当地公用事业公司Stadtwerke Stralsund。在其运营的光伏电站中，加入隆基OmniCube A215电池储能系统，旨在保障运营连续性，缓解电网波动与停电风险。项目已于四月底安装并调试完成。\n项目的成功并网，标志"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DEU-ES-0007-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 0.105,
+      "storage_energy_mwh": 0.215,
+      "storage_power_mw_raw": "105kW",
+      "storage_energy_mwh_raw": "215kWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94916.html",
+          "surface": "title",
+          "quote": "德国首个工商业储能项目并网"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94916.html",
+          "surface": "body",
+          "quote": "近日，隆基在德国首个工商业储能项目正式并网。项目位于德国东北部城市施特拉尔松德，业主为当地公用事业公司Stadtwerke Stralsund。在其运营的光伏电站中，加入隆基OmniCube A215电池储能系统，旨在保障运营连续性，缓解电网波动与停电风险。项目已于四月底安装并调试完成。\n项目的成功并网，标志"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "USA-MF-0009",
+  "package_sha256": "fcf45bd39bdedfc4b141f974750baef9671fcbb65d89e8b4d9742be2afb9d844",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/44731.html",
+        "surface": "title",
+        "quote": "TCL中环参股子公司Maxeon宣布赴美建设3GW TOPCon电池组件工厂"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "USA-MF-0009-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/44731.html",
+          "surface": "title",
+          "quote": "TCL中环参股子公司Maxeon宣布赴美建设3GW TOPCon电池组件工厂"
+        }
+      ]
+    }
+  ]
+}

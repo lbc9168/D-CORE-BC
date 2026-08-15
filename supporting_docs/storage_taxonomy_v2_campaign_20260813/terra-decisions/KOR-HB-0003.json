@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KOR-HB-0003",
+  "package_sha256": "1353540e5ecdc37e5112426b20675acca70ae3736e8ce2e755c35caedce3d3fe",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 120,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93436.html",
+        "surface": "title",
+        "quote": "易助能源签署韩国120MW光储合作协议，共筑智慧能源国际合作新生态"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93436.html",
+        "surface": "body",
+        "quote": "O袁楠带队出访韩国，携手韩国ePower Korea会⻓LEE SOON DEOG女士，于3月11日、12日先后与韩国OWL E&D公司、SOL Group公司分别签署了120MW光储项目、可再生能源项目的合作协议。这是继东南亚200MW光储项目后，易助在国际市场的又一关键进展，标志着公司国际化战略的持续深化。\n为响应韩国市场对“光伏+储能”一体化应用的迫切需求，易助凭借在分布式光储协同控制与综合能源管理及光伏组件、逆变器等核心设备集成供应领域的深厚积淀，将为"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KOR-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 120,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "120MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93436.html",
+          "surface": "title",
+          "quote": "易助能源签署韩国120MW光储合作协议，共筑智慧能源国际合作新生态"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93436.html",
+          "surface": "body",
+          "quote": "O袁楠带队出访韩国，携手韩国ePower Korea会⻓LEE SOON DEOG女士，于3月11日、12日先后与韩国OWL E&D公司、SOL Group公司分别签署了120MW光储项目、可再生能源项目的合作协议。这是继东南亚200MW光储项目后，易助在国际市场的又一关键进展，标志着公司国际化战略的持续深化。\n为响应韩国市场对“光伏+储能”一体化应用的迫切需求，易助凭借在分布式光储协同控制与综合能源管理及光伏组件、逆变器等核心设备集成供应领域的深厚积淀，将为"
+        }
+      ]
+    }
+  ]
+}

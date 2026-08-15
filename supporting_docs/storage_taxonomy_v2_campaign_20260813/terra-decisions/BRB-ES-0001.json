@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRB-ES-0001",
+  "package_sha256": "f8240879c53a8cdd6199b474803b7e380d70260d81eecd461d9eb32a4530505c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 4.6,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76046.html",
+        "surface": "title",
+        "quote": "中腾微网中标巴巴多斯首个4.6MWh储能电站项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76046.html",
+        "surface": "body",
+        "quote": "近日，中腾微网（北京）科技有限公司成功中标巴巴多斯4.6MWh储能电站项目。该项目由巴巴多斯国家石油公司NPC发起，并由泛美开发银行（IDB）等机构出资建设。这不仅是巴巴多斯境内首个储能电站项目，也是该国在能源转型进程中的关键一步。\n根据巴巴多斯政府的能源规划，到2030年，巴巴多斯计划实现80%的能源来自可再生能源。巴巴多斯4.6MWh储能电"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRB-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 4.6,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "4.6MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76046.html",
+          "surface": "title",
+          "quote": "中腾微网中标巴巴多斯首个4.6MWh储能电站项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76046.html",
+          "surface": "body",
+          "quote": "近日，中腾微网（北京）科技有限公司成功中标巴巴多斯4.6MWh储能电站项目。该项目由巴巴多斯国家石油公司NPC发起，并由泛美开发银行（IDB）等机构出资建设。这不仅是巴巴多斯境内首个储能电站项目，也是该国在能源转型进程中的关键一步。\n根据巴巴多斯政府的能源规划，到2030年，巴巴多斯计划实现80%的能源来自可再生能源。巴巴多斯4.6MWh储能电"
+        }
+      ]
+    }
+  ]
+}

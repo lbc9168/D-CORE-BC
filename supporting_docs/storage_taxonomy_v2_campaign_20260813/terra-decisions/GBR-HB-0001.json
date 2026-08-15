@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GBR-HB-0001",
+  "package_sha256": "0e8808fbdfcab2d04261e0dd3cd676ebc38fe3981dec2b9a8845dbc6a792a221",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 500,
+    "storage_energy_mwh": 0,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91093.html",
+        "surface": "title",
+        "quote": "阿特斯集团英国重大光储项目获开发许可"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91093.html",
+        "surface": "body",
+        "quote": "近日，全球领先的太阳能及储能电站开发商和持有运营商——阿特斯阳光电力集团(Canadian Solar Inc., NASDAQ: CSIQ，以下简称“阿特斯集团”)旗下能源子公司Recurrent Energy宣布，其成功获得位于英国林肯郡(Lincolnshire)的“蒂尔布里奇(Tillbridge)"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GBR-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 500,
+      "storage_energy_mwh": 0,
+      "storage_power_mw_raw": "500兆瓦",
+      "storage_energy_mwh_raw": "000兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91093.html",
+          "surface": "title",
+          "quote": "阿特斯集团英国重大光储项目获开发许可"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91093.html",
+          "surface": "body",
+          "quote": "近日，全球领先的太阳能及储能电站开发商和持有运营商——阿特斯阳光电力集团(Canadian Solar Inc., NASDAQ: CSIQ，以下简称“阿特斯集团”)旗下能源子公司Recurrent Energy宣布，其成功获得位于英国林肯郡(Lincolnshire)的“蒂尔布里奇(Tillbridge)"
+        }
+      ]
+    }
+  ]
+}

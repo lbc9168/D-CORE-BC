@@ -4,6 +4,7 @@ import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { formatCountryName } from "@/utils/display";
 import EntityList from "./EntityList";
+import TechnologyTagBadges from "./TechnologyTagBadges";
 
 interface ProjectDetailProps {
   project: Project;
@@ -58,6 +59,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
             {p.subcategory_en}
           </span>
         )}
+        <TechnologyTagBadges project={p} />
         <span
           className="badge text-xs"
           style={{ backgroundColor: stageColor + "20", color: stageColor }}

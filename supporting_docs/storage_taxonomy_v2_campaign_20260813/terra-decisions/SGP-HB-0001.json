@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SGP-HB-0001",
+  "package_sha256": "6afac8e15b0bb48bfe9fda13a0fbf2e927980edcf27f52753f49d072899fed86",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/87613.html",
+        "surface": "title",
+        "quote": "中国能建山西院马晓峰、吕建国与胜科集团首席运营官会谈并见证项目签约"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SGP-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/87613.html",
+          "surface": "title",
+          "quote": "中国能建山西院马晓峰、吕建国与胜科集团首席运营官会谈并见证项目签约"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KGZ-HB-0001",
+  "package_sha256": "a629904ce96feb5e9c01b8728272a20af52f7205d4dc4e5ba45b44380bd6009e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91466.html",
+        "surface": "title",
+        "quote": "中亚首个！军信股份吉尔吉斯斯坦比什凯克市垃圾科技处置发电项目举行竣工投产仪式"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/83551.html",
+        "surface": "title",
+        "quote": "国辰实业集团中标出口吉尔吉斯比什凯克市垃圾科技处置发电项目换热站"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68973.html",
+        "surface": "title",
+        "quote": "军信股份签订吉尔吉斯共和国垃圾科技处置发电项目特许经营协议和售电协议"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KGZ-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91466.html",
+          "surface": "title",
+          "quote": "中亚首个！军信股份吉尔吉斯斯坦比什凯克市垃圾科技处置发电项目举行竣工投产仪式"
+        }
+      ]
+    },
+    {
+      "event_id": "KGZ-HB-0001-02",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/83551.html",
+          "surface": "title",
+          "quote": "国辰实业集团中标出口吉尔吉斯比什凯克市垃圾科技处置发电项目换热站"
+        }
+      ]
+    },
+    {
+      "event_id": "KGZ-HB-0001-03",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68973.html",
+          "surface": "title",
+          "quote": "军信股份签订吉尔吉斯共和国垃圾科技处置发电项目特许经营协议和售电协议"
+        }
+      ]
+    }
+  ]
+}

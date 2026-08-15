@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KHM-HB-0009",
+  "package_sha256": "67ce45d8d3ffa16d99aa940b5cdbb79f46e06f9541adbf86c84e08e613893c64",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 0.05,
+    "storage_energy_mwh": 0.2,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/21732.html",
+        "surface": "title",
+        "quote": "天合光能 “绿色益惠——澜湄合作光伏离网发电项目”之柬埔寨工程完工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/21732.html",
+        "surface": "body",
+        "quote": "天合光能亚太电站团队设计了由50kW光伏及200kWh储能设备组成的光储离网发电系统，日均发电200kWh，可满足学校日常用电的基本需求。\n柬埔寨项目的完工标志着“绿色益惠——澜湄合作光伏离网发电项目”的圆满收官。“绿色益惠”项目由中国侨联——中国华侨公益基金会主办，\n天合光能作为捐赠方之一，提供项目设计、采购和建设的整体解决方案及部分"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KHM-HB-0009-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 0.05,
+      "storage_energy_mwh": 0.2,
+      "storage_power_mw_raw": "50kW",
+      "storage_energy_mwh_raw": "200kWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/21732.html",
+          "surface": "title",
+          "quote": "天合光能 “绿色益惠——澜湄合作光伏离网发电项目”之柬埔寨工程完工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/21732.html",
+          "surface": "body",
+          "quote": "天合光能亚太电站团队设计了由50kW光伏及200kWh储能设备组成的光储离网发电系统，日均发电200kWh，可满足学校日常用电的基本需求。\n柬埔寨项目的完工标志着“绿色益惠——澜湄合作光伏离网发电项目”的圆满收官。“绿色益惠”项目由中国侨联——中国华侨公益基金会主办，\n天合光能作为捐赠方之一，提供项目设计、采购和建设的整体解决方案及部分"
+        }
+      ]
+    }
+  ]
+}

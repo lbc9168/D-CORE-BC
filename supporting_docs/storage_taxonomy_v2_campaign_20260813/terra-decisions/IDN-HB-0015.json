@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0015",
+  "package_sha256": "1d69a7fecbd433b1acf62147cd47ed43d07338ccce6db47a654b705db83ae735",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80917.html",
+        "surface": "title",
+        "quote": "四川能建工程技术服务公司签署印尼丹绒沙乌300兆瓦智慧能源项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78353.html",
+        "surface": "title",
+        "quote": "印尼丹绒韶赫智慧能源电站项目正式生效"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0015-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80917.html",
+          "surface": "title",
+          "quote": "四川能建工程技术服务公司签署印尼丹绒沙乌300兆瓦智慧能源项目"
+        }
+      ]
+    },
+    {
+      "event_id": "IDN-HB-0015-02",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78353.html",
+          "surface": "title",
+          "quote": "印尼丹绒韶赫智慧能源电站项目正式生效"
+        }
+      ]
+    }
+  ]
+}

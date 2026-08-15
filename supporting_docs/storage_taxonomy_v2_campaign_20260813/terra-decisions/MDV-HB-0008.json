@@ -1,0 +1,85 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MDV-HB-0008",
+  "package_sha256": "470ff101772d1ad3b88e8e30eefa0831058ebf0b905b85913b7fac452281a620",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 12,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+        "surface": "body",
+        "quote": "斯里兰卡1.7MWp风光柴储微电网项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+        "surface": "body",
+        "quote": "中腾微网将负责该项目中26个岛屿的光柴储微电网系统的设计和建设、现有电站的升级改造以及将原有的单柴油发电改造成光柴储微电网系统供电这几部分工作。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+        "surface": "body",
+        "quote": "此次项目采用了中腾微网自主研发的EMS能量管理系统以及SP系列储能产品，使光伏系统、柴油发电系统和储能系统有机的结合起来，既实现了多能互补，高效绿色的运行，又保障了岛屿电力系统的安全与稳定。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+        "surface": "body",
+        "quote": "此次中腾微网中标的26个岛环礁光柴储微电网项目和之前承接的项目同属于马尔代夫政府的外岛可持续能源发展项目（POISED）的一部分，项目单体光伏装机量从175kWp至500 kWp不等，待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MDV-HB-0008-01",
+      "generation_sources": [
+        "光伏",
+        "风电",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 12,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "12MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+          "surface": "body",
+          "quote": "斯里兰卡1.7MWp风光柴储微电网项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+          "surface": "body",
+          "quote": "中腾微网将负责该项目中26个岛屿的光柴储微电网系统的设计和建设、现有电站的升级改造以及将原有的单柴油发电改造成光柴储微电网系统供电这几部分工作。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+          "surface": "body",
+          "quote": "此次项目采用了中腾微网自主研发的EMS能量管理系统以及SP系列储能产品，使光伏系统、柴油发电系统和储能系统有机的结合起来，既实现了多能互补，高效绿色的运行，又保障了岛屿电力系统的安全与稳定。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/35055.html",
+          "surface": "body",
+          "quote": "此次中腾微网中标的26个岛环礁光柴储微电网项目和之前承接的项目同属于马尔代夫政府的外岛可持续能源发展项目（POISED）的一部分，项目单体光伏装机量从175kWp至500 kWp不等，待26个岛全部完工后总计光伏装机量为8MWp，储能装机量达到12MWh。"
+        }
+      ]
+    }
+  ]
+}

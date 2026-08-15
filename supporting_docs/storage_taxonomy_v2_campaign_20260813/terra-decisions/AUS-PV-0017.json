@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-PV-0017",
+  "package_sha256": "06af4eed7f82e9975e92556d14a56ac497e24501922f893116393e245af6731f",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/18323.html",
+        "surface": "body",
+        "quote": "Merredin太阳能电站\n签署了可再生能源采购协议，以满足必和必拓BHP旗下的西部镍业公司高达50％的电力需求。\n作为必和必拓BHP在西澳签署的首个可再生能源的采购协议，\n该协议自2021年2月1日起正式生效，\n有效期为十年，将有助于必和必拓BHP在这十年期间有效地减少约36.4万吨二氧化碳，等同于"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-PV-0017-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/18323.html",
+          "surface": "body",
+          "quote": "Merredin太阳能电站\n签署了可再生能源采购协议，以满足必和必拓BHP旗下的西部镍业公司高达50％的电力需求。\n作为必和必拓BHP在西澳签署的首个可再生能源的采购协议，\n该协议自2021年2月1日起正式生效，\n有效期为十年，将有助于必和必拓BHP在这十年期间有效地减少约36.4万吨二氧化碳，等同于"
+        }
+      ]
+    }
+  ]
+}

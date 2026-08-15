@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GUY-ES-0001",
+  "package_sha256": "44291cac13590be8c47b7966c291529406f11c40831fceb9af77b0ccada18c0e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 30,
+    "storage_energy_mwh": 60,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94807.html",
+        "surface": "title",
+        "quote": "中国电建签约圭亚那电力公司30兆瓦/60兆瓦时储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94807.html",
+        "surface": "body",
+        "quote": "当地时间5月8日，中国电建与圭亚那电力公司（GPL）在圭亚那首都乔治敦正式签订圭亚那30兆瓦/60兆瓦时电池储能系统EPC项目合同。签约仪式由圭亚那电力公司执行管理委员会主席凯什·南德拉尔主持，圭亚那电力公司技术总监瑞安·罗斯及中国电建加勒比英语区代表共同出席。\n该项目内容包括在戈德赫瓦亭变电站和索菲亚变电站各安装一套15兆瓦/30兆瓦时锂离子电池系统，通过现代化的监督控制与数据采集、能源"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GUY-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 30,
+      "storage_energy_mwh": 60,
+      "storage_power_mw_raw": "30兆瓦",
+      "storage_energy_mwh_raw": "60兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94807.html",
+          "surface": "title",
+          "quote": "中国电建签约圭亚那电力公司30兆瓦/60兆瓦时储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94807.html",
+          "surface": "body",
+          "quote": "当地时间5月8日，中国电建与圭亚那电力公司（GPL）在圭亚那首都乔治敦正式签订圭亚那30兆瓦/60兆瓦时电池储能系统EPC项目合同。签约仪式由圭亚那电力公司执行管理委员会主席凯什·南德拉尔主持，圭亚那电力公司技术总监瑞安·罗斯及中国电建加勒比英语区代表共同出席。\n该项目内容包括在戈德赫瓦亭变电站和索菲亚变电站各安装一套15兆瓦/30兆瓦时锂离子电池系统，通过现代化的监督控制与数据采集、能源"
+        }
+      ]
+    }
+  ]
+}

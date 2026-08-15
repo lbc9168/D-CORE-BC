@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IRQ-HB-0011",
+  "package_sha256": "b88c8c5b06ac8a5b67edda5539d9269da952d383517d17f7a38095754b33ab14",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1,
+    "storage_energy_mwh": 4,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/75155.html",
+        "surface": "title",
+        "quote": "CPECC承建的中国石油在伊拉克首座兆瓦级光伏储能电站投产"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/75155.html",
+        "surface": "body",
+        "quote": "当天投产的光伏电站是中国石油在伊拉克首座兆瓦级光伏储能电站，占地1.1万平方米，实施装机容量1兆瓦/4兆瓦时电池储能系统，年发电量约160万千瓦时。\n为助力伊拉克政府实现2030年达到12吉瓦（GW）的可再生能源装机目标，推动鲁迈拉油田绿色发展，CPECC积极响应，将绿色环保理念落实到项目建设全过程。结合伊拉克年均日照时长可达300"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IRQ-HB-0011-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1,
+      "storage_energy_mwh": 4,
+      "storage_power_mw_raw": "1兆瓦",
+      "storage_energy_mwh_raw": "4兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/75155.html",
+          "surface": "title",
+          "quote": "CPECC承建的中国石油在伊拉克首座兆瓦级光伏储能电站投产"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/75155.html",
+          "surface": "body",
+          "quote": "当天投产的光伏电站是中国石油在伊拉克首座兆瓦级光伏储能电站，占地1.1万平方米，实施装机容量1兆瓦/4兆瓦时电池储能系统，年发电量约160万千瓦时。\n为助力伊拉克政府实现2030年达到12吉瓦（GW）的可再生能源装机目标，推动鲁迈拉油田绿色发展，CPECC积极响应，将绿色环保理念落实到项目建设全过程。结合伊拉克年均日照时长可达300"
+        }
+      ]
+    }
+  ]
+}

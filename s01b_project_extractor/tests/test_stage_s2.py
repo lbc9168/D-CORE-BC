@@ -67,17 +67,18 @@ def test_run_s2_passes_through_in_scope_false():
 
 
 def test_s2_prompt_tightens_integrated_energy_and_has_in_scope_output():
-    """S2 prompt 收紧综合能源定义并要求输出 in_scope/out_of_scope_reason。"""
+    """S2 prompt 明确 v2 综合能源口径并要求输出范围判定。"""
     from s01b_project_extractor.prompts.s2_basic import build_s2_prompt
     p = build_s2_prompt("t", "c", "2026-01-01")
     assert "in_scope" in p and "out_of_scope_reason" in p
-    assert "综合能源仅指" in p or "综合能源只指" in p
+    assert "只有两种及以上非备用发电源组合才归「综合能源」" in p
+    assert "严禁把 BESS MW 加入发电装机" in p
     assert "不是综合能源" in p or "不应成为项目" in p
     assert "可再生能源" not in p
 
 
-def test_run_s2_normalizes_energy_facts_without_overwriting_legacy_category():
-    """能源事实应结构化进入 shadow 键，但 legacy Category 必须原样保留作对照。"""
+def test_run_s2_normalizes_energy_facts_and_overwrites_model_category():
+    """能源事实应结构化进入 v2 键并确定性覆盖模型旧口径 Category。"""
     llm = _StubLLM({"projects": [{"common_info": {
         "Project Name": "意大利光储项目",
         "Category": "综合能源",
@@ -89,13 +90,15 @@ def test_run_s2_normalizes_energy_facts_without_overwriting_legacy_category():
     }}]})
     project = run_s2("t", "c", "2026-01-01", llm=llm)[0]
     common = project["common_info"]
-    assert common["Category"] == "综合能源"
+    assert common["Category"] == "光伏"
     assert common["generation_sources_json"] == '["光伏"]'
     assert common["storage_status_normalized"] == "confirmed"
     assert common["storage_power_mw_raw_phrase"] == "20MW"
     assert common["storage_energy_mwh_raw_phrase"] == "40MWh"
     assert common["storage_power_mw_parsed"] == 20.0
     assert common["storage_energy_mwh_parsed"] == 40.0
+    assert common["technology_tags_json"] == '["光储"]'
+    assert common["energy_taxonomy_version"] == "energy_taxonomy_v2.1"
 
 
 def test_validate_s2_flags_invalid_energy_fact_enums():

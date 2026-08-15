@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0031",
+  "package_sha256": "28c2fa547fc27a0676a0d7cd416e31381954d26cc064a97911ec7333aef92306",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 500,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68302.html",
+        "surface": "title",
+        "quote": "欧洲复兴开发银行支持乌兹建设 200兆瓦太阳能发电厂和500兆瓦时电池储能系统"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/57402.html",
+        "surface": "body",
+        "quote": "ACWA正在乌实施多个项目，包括卡拉卡尔帕克斯坦2座风电站（1.5吉瓦和1吉瓦）、布哈拉地区2座500兆瓦风电站等。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68302.html",
+        "surface": "body",
+        "quote": "欧洲复兴开发银行 (EBRD) 为乌兹别克斯坦雄心勃勃的可再生能源目标提供了融资，该项目包括塔什干地区的一个 200 兆瓦太阳能光伏发电厂和一个 500 兆瓦时的电池储能系统 (BESS)。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0031-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 500,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "500兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68302.html",
+          "surface": "title",
+          "quote": "欧洲复兴开发银行支持乌兹建设 200兆瓦太阳能发电厂和500兆瓦时电池储能系统"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/57402.html",
+          "surface": "body",
+          "quote": "ACWA正在乌实施多个项目，包括卡拉卡尔帕克斯坦2座风电站（1.5吉瓦和1吉瓦）、布哈拉地区2座500兆瓦风电站等。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68302.html",
+          "surface": "body",
+          "quote": "欧洲复兴开发银行 (EBRD) 为乌兹别克斯坦雄心勃勃的可再生能源目标提供了融资，该项目包括塔什干地区的一个 200 兆瓦太阳能光伏发电厂和一个 500 兆瓦时的电池储能系统 (BESS)。"
+        }
+      ]
+    }
+  ]
+}

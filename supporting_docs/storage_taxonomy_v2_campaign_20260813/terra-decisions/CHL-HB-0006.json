@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHL-HB-0006",
+  "package_sha256": "8b460feedd06c53b08db820872ce93ece98d836918070a7daa362575726f4228",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 820,
+    "storage_energy_mwh": 1100,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62799.html",
+        "surface": "body",
+        "quote": "BESS Coya项目的储电量为639MWh，装机容量为139MW，为毗邻的Coya光伏电站（180MW）提供配套的储能。BESS Coya项目的232个模块可以存储5小时的电力，以便在电力需求扩大的时期向电网供应电力。BESS Coya预计将为智利电网每年输出200GWh的电力。\nENGIE目前在智利开发四座储能设施，除最早的具有实验性质的2MW/2MWh项目和近"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62799.html",
+        "surface": "title",
+        "quote": "烈火烹油的智利储能市场，潜在投资者面临抉择的时刻已至"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/62799.html",
+        "surface": "body",
+        "quote": "2022年的热潮褪去之后，中国国内的储能行业进入了一个深度调整的时期。行业经历了一段时间内“一拥而上”的快速扩张后，市场竞争快速趋于白热化，业内企业明显承压。因此，各家企业纷纷谋求“出海”，以找寻新的盈利增长点。在投资商和设备供应商在甄别兼具潜力和可行性的国别时，天时、地利、政通、人和并具的智利得到了业内的注目。\n天时"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHL-HB-0006-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 820,
+      "storage_energy_mwh": 1100,
+      "storage_power_mw_raw": "820MW",
+      "storage_energy_mwh_raw": "1.1GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62799.html",
+          "surface": "body",
+          "quote": "BESS Coya项目的储电量为639MWh，装机容量为139MW，为毗邻的Coya光伏电站（180MW）提供配套的储能。BESS Coya项目的232个模块可以存储5小时的电力，以便在电力需求扩大的时期向电网供应电力。BESS Coya预计将为智利电网每年输出200GWh的电力。\nENGIE目前在智利开发四座储能设施，除最早的具有实验性质的2MW/2MWh项目和近"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62799.html",
+          "surface": "title",
+          "quote": "烈火烹油的智利储能市场，潜在投资者面临抉择的时刻已至"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/62799.html",
+          "surface": "body",
+          "quote": "2022年的热潮褪去之后，中国国内的储能行业进入了一个深度调整的时期。行业经历了一段时间内“一拥而上”的快速扩张后，市场竞争快速趋于白热化，业内企业明显承压。因此，各家企业纷纷谋求“出海”，以找寻新的盈利增长点。在投资商和设备供应商在甄别兼具潜力和可行性的国别时，天时、地利、政通、人和并具的智利得到了业内的注目。\n天时"
+        }
+      ]
+    }
+  ]
+}

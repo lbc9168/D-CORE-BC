@@ -18,6 +18,7 @@ _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py")
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums  # noqa: E402
+from . import flat_builder
 
 BASELINE_YEAR = 2022
 _EXCLUDED_ISO3 = {"CHN", "HKG", "MAC", "TWN"}
@@ -28,6 +29,7 @@ _COLUMNS = [
     "project_name_en", "project_name_cn",
     "country_en", "country_iso", "province",
     "category_en", "category_cn", "subcategory_cn", "subcategory_en",
+    "generation_sources", "storage_status", "technology_tags_cn", "technology_tags_en",
     "stage_cn", "stage_en", "stage_group_cn", "stage_group_en",
     "year", "month",
     "capacity_mw", "pv_capacity_mw", "storage_power_mw", "storage_energy_mwh",
@@ -183,9 +185,16 @@ def export_events_csv(
         grp_meta = enums.viz_groups().get(grp, {}) if grp else {}
         cap = ev.get("capacity_mw")
 
-        # 子类：与 projects_flat 同口径（NULL 渲染父类默认），项目级值每行重复
+        # 子类只表达项目形态；综合能源旧“光储/其他”组合信息不再导出。
         _cat = proj.get("category") or ""
-        _sub = enums.effective_subcategory(_cat, proj.get("subcategory"))
+        _sub = flat_builder._export_subcategory(_cat, proj.get("subcategory"))
+        _sources = flat_builder._json_string_list(ev.get("generation_sources_json"))
+        _storage_status = str(ev.get("storage_status") or "not_mentioned").strip()
+        if "storage_status" not in ev and (
+            ev.get("storage_power_mw") is not None or ev.get("storage_energy_mwh") is not None
+        ):
+            _storage_status = "confirmed"
+        _tags = flat_builder._json_string_list(proj.get("technology_tags_json"))
 
         def _num(col: str):
             """事件级数值列：None → 空串（CSV 口径）。"""
@@ -204,6 +213,10 @@ def export_events_csv(
             "category_cn": _cat,
             "subcategory_cn": _sub or "",
             "subcategory_en": (enums.subcategory_en(_cat, _sub) or "") if _sub else "",
+            "generation_sources": " | ".join(_sources),
+            "storage_status": _storage_status,
+            "technology_tags_cn": " | ".join(_tags),
+            "technology_tags_en": " | ".join(flat_builder._technology_tag_en(tag) for tag in _tags),
             "stage_cn": stage,
             "stage_en": enums.stage_en(stage) or stage,
             "stage_group_cn": grp_meta.get("zh", ""),
@@ -212,8 +225,8 @@ def export_events_csv(
             "month": _month(d),
             "capacity_mw": cap if cap is not None else "",
             "pv_capacity_mw": _num("pv_capacity_mw"),
-            "storage_power_mw": _num("storage_power_mw"),
-            "storage_energy_mwh": _num("storage_energy_mwh"),
+            "storage_power_mw": _num("storage_power_mw") if _storage_status == "confirmed" else "",
+            "storage_energy_mwh": _num("storage_energy_mwh") if _storage_status == "confirmed" else "",
             "voltage_kv": _num("voltage_kv"),
             "line_length_km": _num("line_length_km"),
             "transmission_capacity_mw": _num("transmission_capacity_mw"),

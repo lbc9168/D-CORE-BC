@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COD-HB-0013",
+  "package_sha256": "aaf759f2b45ae5a4f6cb386db219eb9256da1e44db016aeb300bcb1522c38cd9",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 12.5,
+    "storage_energy_mwh": 50,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94789.html",
+        "surface": "body",
+        "quote": "作为非洲刚果金区域内规模领先、技术先进的矿区光储柴一体化微电网工程，该项目在一期稳定运行基础上全面优化扩容，新增 15MWp 光伏、12.5MW/50MWh 储能系统，配套\n构网型储能变流器升压逆变一体机、微电网能量管理系统\n及全套监控、消防、通信设备，与原有系统深度融合，实现统一监控与统一调度；项目建成后，矿区将形成总装机"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COD-HB-0013-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 12.5,
+      "storage_energy_mwh": 50,
+      "storage_power_mw_raw": "12.5MW",
+      "storage_energy_mwh_raw": "50MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94789.html",
+          "surface": "body",
+          "quote": "作为非洲刚果金区域内规模领先、技术先进的矿区光储柴一体化微电网工程，该项目在一期稳定运行基础上全面优化扩容，新增 15MWp 光伏、12.5MW/50MWh 储能系统，配套\n构网型储能变流器升压逆变一体机、微电网能量管理系统\n及全套监控、消防、通信设备，与原有系统深度融合，实现统一监控与统一调度；项目建成后，矿区将形成总装机"
+        }
+      ]
+    }
+  ]
+}

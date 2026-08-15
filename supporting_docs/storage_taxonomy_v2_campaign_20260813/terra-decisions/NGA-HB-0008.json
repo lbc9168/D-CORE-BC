@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NGA-HB-0008",
+  "package_sha256": "60b4930044bcec2d10f5aee883e0bb462c1358ecd4309ee62e35024b5eab8d8e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76424.html",
+        "surface": "title",
+        "quote": "惠生清洁能源签订尼日利亚FLNG和Power Barge项目FEED合同"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NGA-HB-0008-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76424.html",
+          "surface": "title",
+          "quote": "惠生清洁能源签订尼日利亚FLNG和Power Barge项目FEED合同"
+        }
+      ]
+    }
+  ]
+}

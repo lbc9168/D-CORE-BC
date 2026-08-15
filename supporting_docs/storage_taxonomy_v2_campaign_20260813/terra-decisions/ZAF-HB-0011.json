@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZAF-HB-0011",
+  "package_sha256": "a1b96d7b621f1fa0e99c35b9fe0453252fa6e10551b57fcf262646aede1b3828",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/46950.html",
+        "surface": "body",
+        "quote": "该协议标志着该项目的下一阶段，包括115MW Avondale光伏电站的设计、采购和施工。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZAF-HB-0011-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/46950.html",
+          "surface": "body",
+          "quote": "该协议标志着该项目的下一阶段，包括115MW Avondale光伏电站的设计、采购和施工。"
+        }
+      ]
+    }
+  ]
+}

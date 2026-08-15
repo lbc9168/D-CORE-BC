@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "USA-HB-0007",
+  "package_sha256": "40bb1e096b556aefac9a8ade0de4bc590658e1089893ba91c62d0a5c753ec4e4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 860,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/45553.html",
+        "surface": "body",
+        "quote": "近期，全球最大储能系统集成商之一Fluence宣布与远景动力（AESC）签署储能电池采购协议。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/45553.html",
+        "surface": "body",
+        "quote": "不仅仅是Fluence，另一家全球头部储能系统集成商Powin同样也给远景动力抛出了“橄榄枝”，宣布将其作为一级供应商，此前，Powin已与远景动力在美国联合建设860 MWh的光储项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "USA-HB-0007-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 860,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "860MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/45553.html",
+          "surface": "body",
+          "quote": "近期，全球最大储能系统集成商之一Fluence宣布与远景动力（AESC）签署储能电池采购协议。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/45553.html",
+          "surface": "body",
+          "quote": "不仅仅是Fluence，另一家全球头部储能系统集成商Powin同样也给远景动力抛出了“橄榄枝”，宣布将其作为一级供应商，此前，Powin已与远景动力在美国联合建设860 MWh的光储项目。"
+        }
+      ]
+    }
+  ]
+}

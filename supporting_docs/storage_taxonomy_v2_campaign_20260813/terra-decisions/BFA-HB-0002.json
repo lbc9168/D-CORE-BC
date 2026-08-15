@@ -1,0 +1,81 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BFA-HB-0002",
+  "package_sha256": "844a8243a17a1fea3e774cf6087bf6c38b08926e143de8bcd2d53bf358ff8eb7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 40,
+    "storage_energy_mwh": 30,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90255.html",
+        "surface": "title",
+        "quote": "威海国际中标布基纳法索40MW光伏电站和30MWh储能电站EPC项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90255.html",
+        "surface": "body",
+        "quote": "近日，公司与远信储能联合中标西非40MW光伏电站和30MWh储能电站EPC项目。该项目是公司斩获的首个“光伏+储能”项目，标志着公司在新能源领域的市场拓展实现重要突破，为后续深耕区域市场奠定了坚实基础。\n该项目位于布基纳法索Koudougou地区，建设内容涵盖项目设计、设备供应和安装、现场施工、能源"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90108.html",
+        "surface": "title",
+        "quote": "远信储能中标西非布基纳法索光储EPC项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90108.html",
+        "surface": "body",
+        "quote": "近日，远信储能与威海国际联合\n中标西非40MW光伏电站和30MWh储能电站EPC项目\n。这是远信储能在西非区域的首次突破，为推动全球清洁能源普及与区域能源结构转型注入新动能。\n该项目位于布基纳法索Koudougou地区，涵盖设计、设备供应、安装施工等全流程EPC交钥匙内容，并配套能源送出线路及"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BFA-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 40,
+      "storage_energy_mwh": 30,
+      "storage_power_mw_raw": "40MW",
+      "storage_energy_mwh_raw": "30MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90255.html",
+          "surface": "title",
+          "quote": "威海国际中标布基纳法索40MW光伏电站和30MWh储能电站EPC项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90255.html",
+          "surface": "body",
+          "quote": "近日，公司与远信储能联合中标西非40MW光伏电站和30MWh储能电站EPC项目。该项目是公司斩获的首个“光伏+储能”项目，标志着公司在新能源领域的市场拓展实现重要突破，为后续深耕区域市场奠定了坚实基础。\n该项目位于布基纳法索Koudougou地区，建设内容涵盖项目设计、设备供应和安装、现场施工、能源"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90108.html",
+          "surface": "title",
+          "quote": "远信储能中标西非布基纳法索光储EPC项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90108.html",
+          "surface": "body",
+          "quote": "近日，远信储能与威海国际联合\n中标西非40MW光伏电站和30MWh储能电站EPC项目\n。这是远信储能在西非区域的首次突破，为推动全球清洁能源普及与区域能源结构转型注入新动能。\n该项目位于布基纳法索Koudougou地区，涵盖设计、设备供应、安装施工等全流程EPC交钥匙内容，并配套能源送出线路及"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PHL-HB-0003",
+  "package_sha256": "45c8097178654b6e033896ec49190fd26696061d5078c16993402a3c5a0582ac",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电",
+      "地热及余热",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 100,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水地热储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+        "surface": "title",
+        "quote": "菲律宾启动9378MW可再生能源招标，首推1100MW光储融合项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+        "surface": "body",
+        "quote": "上一轮拍卖：7GW抽水蓄能项目中标"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+        "surface": "body",
+        "quote": "，主要面向不符合上网电价补贴（FiT）条件的项目，包括水电、抽水蓄能（PHES）和地热发电。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+        "surface": "body",
+        "quote": "近年来，菲律宾独立电池储能系统（BESS）装机快速增长，主要由大型电力企业推动，以提高其传统火电机组在"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+        "surface": "body",
+        "quote": "菲律宾能源部启动第四轮绿色能源拍卖，本轮拍卖计划招标9,378MW可再生能源项目，其中1,100MW要求配套储能。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PHL-HB-0003-01",
+      "generation_sources": [
+        "光伏",
+        "水电",
+        "地热及余热",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 100,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "100MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+          "surface": "title",
+          "quote": "菲律宾启动9378MW可再生能源招标，首推1100MW光储融合项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+          "surface": "body",
+          "quote": "上一轮拍卖：7GW抽水蓄能项目中标"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+          "surface": "body",
+          "quote": "，主要面向不符合上网电价补贴（FiT）条件的项目，包括水电、抽水蓄能（PHES）和地热发电。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+          "surface": "body",
+          "quote": "近年来，菲律宾独立电池储能系统（BESS）装机快速增长，主要由大型电力企业推动，以提高其传统火电机组在"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80319.html",
+          "surface": "body",
+          "quote": "菲律宾能源部启动第四轮绿色能源拍卖，本轮拍卖计划招标9,378MW可再生能源项目，其中1,100MW要求配套储能。"
+        }
+      ]
+    }
+  ]
+}

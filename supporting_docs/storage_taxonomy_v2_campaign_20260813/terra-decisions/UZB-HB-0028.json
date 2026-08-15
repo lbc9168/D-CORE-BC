@@ -1,0 +1,131 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0028",
+  "package_sha256": "907e2decadaec7e7f04883d7eac8cc1d40283bb375d67458d5ed23ea86638fc4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电",
+      "火电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1000,
+    "storage_energy_mwh": 500,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49469.html",
+        "surface": "title",
+        "quote": "安徽省商务厅代表团到乌兹别克斯坦塔什干光储项目开展调研"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/74203.html",
+        "surface": "body",
+        "quote": "当地时间10月26日至11月2日，能建国际党委副书记、总经理袁宝义赴乌兹别克斯坦，分别对锡尔河燃机项目部、塔什干光储项目部、布哈拉风电项目部开展调研指导及秋季安全大检查工作，指导各项目进一步理清履约思路、加快工程建设进展，并加强秋冬季安全生产管理工作。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/49469.html",
+        "surface": "body",
+        "quote": "乌兹塔什干光储项目由中国能建国际集团、浙江火电和安徽院组成紧密型联营体实施，项目包含一期200MW光伏，二期200MW光伏和500MWh储能。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94236.html",
+        "surface": "title",
+        "quote": "中材节能国际投资公司乌兹别克斯坦节能升级改造及光储一体化项目成功签约"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+        "surface": "title",
+        "quote": "中能建葛洲坝工程科技公司再次中标乌兹别克斯坦大型风电项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+        "surface": "body",
+        "quote": "近年来，公司深耕乌兹别克斯坦国别，先后中标实施了乌兹别克斯坦最大燃机项目——锡尔河1500MW燃气联合循环项目土建第三方试验检测、乌兹别克斯坦最大光储项目——塔什干350MW光伏储能项目试验检测、巴什赞克尔迪1000MW风电项目土建第三方试验检测、安集延生活垃圾焚烧发电项目试验检测、努库斯200兆瓦风电&100兆瓦储能项目试验检测等业务，实现了乌兹别克斯坦区域属地化滚动开发、多品类战新业务落地，在当地积累了扎实的项目业绩、良好的市场口碑与深厚的品牌底蕴。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0028-01",
+      "generation_sources": [
+        "光伏",
+        "风电",
+        "火电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 200,
+      "storage_energy_mwh": 500,
+      "storage_power_mw_raw": "200MW",
+      "storage_energy_mwh_raw": "500MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49469.html",
+          "surface": "title",
+          "quote": "安徽省商务厅代表团到乌兹别克斯坦塔什干光储项目开展调研"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/74203.html",
+          "surface": "body",
+          "quote": "当地时间10月26日至11月2日，能建国际党委副书记、总经理袁宝义赴乌兹别克斯坦，分别对锡尔河燃机项目部、塔什干光储项目部、布哈拉风电项目部开展调研指导及秋季安全大检查工作，指导各项目进一步理清履约思路、加快工程建设进展，并加强秋冬季安全生产管理工作。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/49469.html",
+          "surface": "body",
+          "quote": "乌兹塔什干光储项目由中国能建国际集团、浙江火电和安徽院组成紧密型联营体实施，项目包含一期200MW光伏，二期200MW光伏和500MWh储能。"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0028-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94236.html",
+          "surface": "title",
+          "quote": "中材节能国际投资公司乌兹别克斯坦节能升级改造及光储一体化项目成功签约"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0028-03",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1000MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+          "surface": "title",
+          "quote": "中能建葛洲坝工程科技公司再次中标乌兹别克斯坦大型风电项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+          "surface": "body",
+          "quote": "近年来，公司深耕乌兹别克斯坦国别，先后中标实施了乌兹别克斯坦最大燃机项目——锡尔河1500MW燃气联合循环项目土建第三方试验检测、乌兹别克斯坦最大光储项目——塔什干350MW光伏储能项目试验检测、巴什赞克尔迪1000MW风电项目土建第三方试验检测、安集延生活垃圾焚烧发电项目试验检测、努库斯200兆瓦风电&100兆瓦储能项目试验检测等业务，实现了乌兹别克斯坦区域属地化滚动开发、多品类战新业务落地，在当地积累了扎实的项目业绩、良好的市场口碑与深厚的品牌底蕴。"
+        }
+      ]
+    }
+  ]
+}

@@ -10,7 +10,7 @@ def build_s4_prompt(title: str, content: str, project_name: str, category: str, 
     """为某个已识别项目，提取其全部中方实体、参与方式、设备角色；实体名逐字照原文抄写。"""
     involve_list = enums.prompt_value_list("involvement_type")
     equip_text = "、".join(main_equipment) if main_equipment else "（该类型无预设主要设备）"
-    return f"""你是中方参与实体抽取专家。针对**指定项目**，列出所有参与的中国企业及其角色。仅基于正文事实。
+    return f"""你是中方参与实体抽取专家。针对**指定项目**，列出所有参与的中国企业及其角色。仅基于标题或正文事实。
 
 文章标题：{title}
 正文：
@@ -25,10 +25,10 @@ def build_s4_prompt(title: str, content: str, project_name: str, category: str, 
 3. 「融资方」仅用于纯金融机构（只放贷/担保）；「投融资+EPC」用于既是股权投资方又承担 EPC 的同一企业。
 4. **实体名填写规则**：
    - "Implementing Chinese Entity" 和 "Subsidiary Name" 必须**逐字照原文抄写**，不要拆分、不要归一、不要替换为简称或全称。
-   - 如果正文中出现的是子公司名称，将其填入 "Implementing Chinese Entity"，"Subsidiary Name" 留空。
-   - 如果正文中出现的是集团总部名称，将其填入 "Implementing Chinese Entity"，"Subsidiary Name" 留空。
+   - 如果标题或正文中出现的是子公司名称，将其填入 "Implementing Chinese Entity"，"Subsidiary Name" 留空。
+   - 如果标题或正文中出现的是集团总部名称，将其填入 "Implementing Chinese Entity"，"Subsidiary Name" 留空。
    - "Implementing Chinese Entity" 不可为空（实在无法判断填 "Unknown"）。
-5. **设备角色（A.5）**：若该实体仅供应设备，判断设备是否为该项目类型的「主要设备」。本类型主要设备：{equip_text}。equipment_role∈[主要设备, 非主要设备, 未提及]，equipment_items 填具体设备名（如「组件、逆变器」）。
+5. **设备角色（A.5）**：若该实体仅供应设备，判断设备是否为该项目类型的「主要设备」。本类型及技术标签对应的主要设备：{equip_text}。综合能源基础设备不默认含电池，只有光储/风储/风光储标签才追加储能设备；TX 使用其专用设备表；MF 不按发电设备表猜测，只按标题或正文明确事实判断。equipment_role∈[主要设备, 非主要设备, 未提及]。
 6. **设备供货两类（B.2）**：equipment_supply_scope∈[具体项目, 总量级]。若该中方角色只是「向某国/地区供应总量设备」未连到本具体电站，填「总量级」；连到本项目填「具体项目」；非设备供货填空串。
 
 ### 输出（严格 JSON）

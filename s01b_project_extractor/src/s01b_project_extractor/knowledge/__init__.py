@@ -18,9 +18,13 @@ def _factors() -> dict:
     return json.loads((_DIR / "capacity_factors.json").read_text(encoding="utf-8"))
 
 
-def main_equipment(category_zh: str) -> list[str]:
-    """某项目类型的主要设备清单；未知类型返回空表。"""
-    return list(_equipment().get(category_zh, []))
+def main_equipment(category_zh: str, technology_tags=()) -> list[str]:
+    """返回类别基础设备，并为合法含储标签追加储能设备。"""
+    base = list(_equipment().get(category_zh, []))
+    storage_tags = {"光储", "风储", "风光储"}
+    if any(tag in storage_tags for tag in technology_tags):
+        base.extend(_equipment().get("储能", []))
+    return list(dict.fromkeys(base))
 
 
 def capacity_factor(category_zh: str) -> float | None:

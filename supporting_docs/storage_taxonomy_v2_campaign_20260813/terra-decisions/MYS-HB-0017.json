@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MYS-HB-0017",
+  "package_sha256": "59e41221192bb38d72c62be8ad863793fc5cf36c3a60319fbe5f8b1f6108b4c9",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/51986.html",
+        "surface": "title",
+        "quote": "中国能建江苏院中标马来西亚EDRA马六甲电厂培训中心建设总包项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MYS-HB-0017-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/51986.html",
+          "surface": "title",
+          "quote": "中国能建江苏院中标马来西亚EDRA马六甲电厂培训中心建设总包项目"
+        }
+      ]
+    }
+  ]
+}

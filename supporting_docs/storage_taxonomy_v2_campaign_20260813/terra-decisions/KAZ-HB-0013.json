@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0013",
+  "package_sha256": "66178ca3450b50caebf57cf5ff47f751373e69d1321be9229230aaf5338e1f45",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/56558.html",
+        "surface": "body",
+        "quote": "此次竞拍由哈萨克斯坦能源部组织举办，共释放7个风电项目和5个光伏项目标段进行在线竞拍。除了哈萨克斯坦当地企业，还吸引了中国、俄罗斯、以及其他欧洲等地企业参与同台竞争。\n在历经多轮角逐后，最终，寰泰能源中标4个新能源项目：3个为总容量150MW的风电项目，1个为容量20MW的光伏项目。\n值得关注的是，今年哈萨克斯坦的风电项目投标竞争尤为激烈，中"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/56558.html",
+        "surface": "body",
+        "quote": "此次竞拍由哈萨克斯坦能源部组织举办，共释放7个风电项目和5个光伏项目标段进行在线竞拍。除了哈萨克斯坦当地企业，还吸引了中国、俄罗斯、以及其他欧洲等地企业参与同台竞争。\n在历经多轮角逐后，最终，寰泰能源中标4个新能源项目：3个为总容量150MW的风电项目，1个为容量20MW的光伏项目。\n值得关注的是，今年哈萨克斯坦的风电项目投标竞"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0013-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/56558.html",
+          "surface": "body",
+          "quote": "此次竞拍由哈萨克斯坦能源部组织举办，共释放7个风电项目和5个光伏项目标段进行在线竞拍。除了哈萨克斯坦当地企业，还吸引了中国、俄罗斯、以及其他欧洲等地企业参与同台竞争。\n在历经多轮角逐后，最终，寰泰能源中标4个新能源项目：3个为总容量150MW的风电项目，1个为容量20MW的光伏项目。\n值得关注的是，今年哈萨克斯坦的风电项目投标竞争尤为激烈，中"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/56558.html",
+          "surface": "body",
+          "quote": "此次竞拍由哈萨克斯坦能源部组织举办，共释放7个风电项目和5个光伏项目标段进行在线竞拍。除了哈萨克斯坦当地企业，还吸引了中国、俄罗斯、以及其他欧洲等地企业参与同台竞争。\n在历经多轮角逐后，最终，寰泰能源中标4个新能源项目：3个为总容量150MW的风电项目，1个为容量20MW的光伏项目。\n值得关注的是，今年哈萨克斯坦的风电项目投标竞"
+        }
+      ]
+    }
+  ]
+}

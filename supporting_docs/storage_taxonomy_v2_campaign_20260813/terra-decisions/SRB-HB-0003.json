@@ -1,0 +1,84 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SRB-HB-0003",
+  "package_sha256": "289b39eb7cbed6839948862d39249adbb1a25fcb753b76bc15bd6d31156d3486",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1000,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/59279.html",
+        "surface": "body",
+        "quote": "这是塞尔维亚目前最大的绿色能源项目，比之前塞尔维亚一项1GW的太阳能储能项目还要大。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/59241.html",
+        "surface": "body",
+        "quote": "计划投资20亿欧元建设总装机容量为2000兆瓦的风电场和太阳能发电厂以及绿氢生产设施。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/59241.html",
+        "surface": "body",
+        "quote": "该部长早些时候表示，绿色氢将用于风能和太阳能发电的储能。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SRB-HB-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1GW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/59279.html",
+          "surface": "body",
+          "quote": "这是塞尔维亚目前最大的绿色能源项目，比之前塞尔维亚一项1GW的太阳能储能项目还要大。"
+        }
+      ]
+    },
+    {
+      "event_id": "SRB-HB-0003-02",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/59241.html",
+          "surface": "body",
+          "quote": "计划投资20亿欧元建设总装机容量为2000兆瓦的风电场和太阳能发电厂以及绿氢生产设施。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/59241.html",
+          "surface": "body",
+          "quote": "该部长早些时候表示，绿色氢将用于风能和太阳能发电的储能。"
+        }
+      ]
+    }
+  ]
+}

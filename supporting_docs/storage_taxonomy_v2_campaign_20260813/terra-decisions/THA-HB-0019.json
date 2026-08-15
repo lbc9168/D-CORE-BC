@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "THA-HB-0019",
+  "package_sha256": "417e65a29772791fcd5cdb8d54adc66229c60d71784fcfafaa14a7455308bd93",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据；能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93810.html",
+        "surface": "body",
+        "quote": "项目建成后将显著提升东南亚区域的数据处理与存储能力，为云计算、人工智能发展提供核心基石。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "THA-HB-0019-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93810.html",
+          "surface": "body",
+          "quote": "项目建成后将显著提升东南亚区域的数据处理与存储能力，为云计算、人工智能发展提供核心基石。"
+        }
+      ]
+    }
+  ]
+}

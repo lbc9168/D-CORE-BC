@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GUY-HB-0003",
+  "package_sha256": "4d9bf769493ae1a2cee8d481eb06a8aab6be80657ed8f25a035c526faf6b705e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 15,
+    "storage_energy_mwh": 22,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/83330.html",
+        "surface": "title",
+        "quote": "苏美达成套公司签署圭亚那光储项目二期合同"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/83330.html",
+        "surface": "body",
+        "quote": "当地时间5月21日，苏美达成套公司与圭亚那电力与照明公司GPL正式签订圭亚那光储项目二期合同。圭亚那政府总理Mark Phillips、中国驻圭亚那使馆杨扬大使团队、泛美开发银行（IDB）圭亚那国家代表Iván-Alonzo Gaviria及当地媒体参与并见证了签约仪式。\n本次签约项目涉及圭亚那林登地区3个光储电站建设，包括合计15MW光伏区和22MWh储能"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GUY-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 15,
+      "storage_energy_mwh": 22,
+      "storage_power_mw_raw": "15MW",
+      "storage_energy_mwh_raw": "22MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/83330.html",
+          "surface": "title",
+          "quote": "苏美达成套公司签署圭亚那光储项目二期合同"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/83330.html",
+          "surface": "body",
+          "quote": "当地时间5月21日，苏美达成套公司与圭亚那电力与照明公司GPL正式签订圭亚那光储项目二期合同。圭亚那政府总理Mark Phillips、中国驻圭亚那使馆杨扬大使团队、泛美开发银行（IDB）圭亚那国家代表Iván-Alonzo Gaviria及当地媒体参与并见证了签约仪式。\n本次签约项目涉及圭亚那林登地区3个光储电站建设，包括合计15MW光伏区和22MWh储能"
+        }
+      ]
+    }
+  ]
+}

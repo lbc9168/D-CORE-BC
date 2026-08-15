@@ -4,12 +4,15 @@ import logging
 import re
 import bri_enums as enums
 from s01b_project_extractor.capacity_parser import parse_capacity_mw
-from s01b_project_extractor.energy_taxonomy import (
+from s01b_project_extractor.energy_taxonomy_v2 import (
     GENERATION_SOURCES,
     STORAGE_STATUSES,
+    classify_energy,
     extract_energy_facts,
     normalize_generation_sources,
+    parse_storage_measurements,
 )
+from s01b_project_extractor.txmf_spec_parser import parse_mf_atomic, parse_tx_atomic
 
 logger = logging.getLogger(__name__)
 
@@ -34,28 +37,121 @@ def _apply_capacity_post_process(ci: dict) -> None:
 
 
 def _apply_energy_facts_post_process(ci: dict) -> None:
-    """规范化 S2 能源事实并确定性解析 confirmed 储能原文容量。"""
+    """规范化 S2 原子事实，并用 v2 规则确定 category、标签和 confirmed 储能容量。"""
+    if str(ci.get("Category", "") or "").strip() in {"输变电建设", "新能源制造业"}:
+        ci["Generation Sources"] = []
+        ci["Storage Status"] = "not_mentioned"
+        ci["Storage Power"] = ""
+        ci["Storage Energy"] = ""
+        ci["generation_sources_json"] = "[]"
+        ci["storage_status_normalized"] = "not_mentioned"
+        ci["storage_power_mw_raw_phrase"] = ""
+        ci["storage_energy_mwh_raw_phrase"] = ""
+        ci["storage_power_mw_parsed"] = None
+        ci["storage_energy_mwh_parsed"] = None
+        ci["energy_composition_evidence_normalized"] = ""
+        ci["technology_tags_json"] = "[]"
+        ci["energy_taxonomy_version"] = "energy_taxonomy_v2.1"
+        return
     raw_sources = ci.get("Generation Sources", []) or []
     if isinstance(raw_sources, str):
         raw_sources = [part.strip() for part in re.split(r"[,，;；]", raw_sources) if part.strip()]
     try:
         sources = normalize_generation_sources(raw_sources)
     except ValueError:
-        sources = tuple(dict.fromkeys(str(source).strip() for source in raw_sources if str(source).strip()))
+        sources = tuple(
+            source for source in GENERATION_SOURCES
+            if source in {str(value).strip() for value in raw_sources}
+        )
     status = str(ci.get("Storage Status", "not_mentioned") or "not_mentioned").strip()
     power_raw = str(ci.get("Storage Power", "") or "").strip()
     energy_raw = str(ci.get("Storage Energy", "") or "").strip()
     evidence = str(ci.get("Energy Composition Evidence", "") or "").strip()
-    parsed = extract_energy_facts(
-        f"{evidence}；储能：{power_raw}/{energy_raw}" if status == "confirmed" else evidence
-    )
+    evidence_facts = extract_energy_facts(evidence)
+    if status not in STORAGE_STATUSES:
+        status = "unclear"
+    if status == "confirmed" and evidence_facts.storage_status != "confirmed":
+        status = evidence_facts.storage_status
+    if status == "confirmed":
+        storage_power_mw, storage_energy_mwh = parse_storage_measurements(power_raw, energy_raw)
+    else:
+        power_raw = ""
+        energy_raw = ""
+        storage_power_mw = None
+        storage_energy_mwh = None
+    classification = classify_energy(sources, status)
+    if classification.proposed_category is not None:
+        ci["Category"] = classification.proposed_category
     ci["generation_sources_json"] = json.dumps(sources, ensure_ascii=False)
     ci["storage_status_normalized"] = status
     ci["storage_power_mw_raw_phrase"] = power_raw
     ci["storage_energy_mwh_raw_phrase"] = energy_raw
-    ci["storage_power_mw_parsed"] = parsed.storage_power_mw if status == "confirmed" else None
-    ci["storage_energy_mwh_parsed"] = parsed.storage_energy_mwh if status == "confirmed" else None
+    ci["storage_power_mw_parsed"] = storage_power_mw
+    ci["storage_energy_mwh_parsed"] = storage_energy_mwh
     ci["energy_composition_evidence_normalized"] = evidence
+    ci["technology_tags_json"] = json.dumps(classification.technology_tags, ensure_ascii=False)
+    ci["energy_taxonomy_version"] = classification.policy_version
+
+
+_TXMF_FIELDS = {
+    "TX Voltage Evidence": "voltage_kv_raw_phrase",
+    "TX Line Length Evidence": "line_length_km_raw_phrase",
+    "TX Transmission Capacity Evidence": "transmission_capacity_mw_raw_phrase",
+    "MF Production Capacity Evidence": "production_capacity_raw_phrase",
+}
+
+
+def _is_exact_surface_quote(value: str, title: str, content: str) -> bool:
+    """判断证据是否完整连续地出现于标题或正文任一 surface。"""
+    return not value or value in title or value in content
+
+
+def _apply_txmf_post_process(ci: dict, title: str, content: str) -> None:
+    """校验 TX/MF 证据并解析专用指标；非对应领域字段强制为空。"""
+    category = str(ci.get("Category", "") or "").strip()
+    errors: list[str] = []
+    values: dict[str, str] = {}
+    for source_key, target_key in _TXMF_FIELDS.items():
+        value = str(ci.get(source_key, "") or "").strip()
+        allowed = (category == "输变电建设" and source_key.startswith("TX ")) or (
+            category == "新能源制造业" and source_key.startswith("MF ")
+        )
+        if value and not allowed:
+            errors.append(f"{source_key} 不适用于 {category or '空分类'}")
+            value = ""
+        if value and not _is_exact_surface_quote(value, title, content):
+            errors.append(f"{source_key} 不是标题或正文连续逐字证据")
+            value = ""
+        ci[source_key] = value
+        ci[target_key] = value
+        values[source_key] = value
+    ci["_txmf_contract_errors"] = errors
+    if category == "输变电建设":
+        parsed = parse_tx_atomic(
+            values["TX Voltage Evidence"],
+            values["TX Line Length Evidence"],
+            values["TX Transmission Capacity Evidence"],
+        )
+        ci["voltage_kv_parsed"] = parsed["voltage_kv"]
+        ci["line_length_km_parsed"] = parsed["line_length_km"]
+        ci["transmission_capacity_mw_parsed"] = parsed["transmission_capacity_mw"]
+        ci["production_capacity_value_parsed"] = None
+        ci["production_capacity_unit_normalized"] = None
+        ci["Capacity (MW)"] = ""
+    elif category == "新能源制造业":
+        parsed = parse_mf_atomic(values["MF Production Capacity Evidence"])
+        ci["production_capacity_value_parsed"] = parsed["production_capacity_value"]
+        ci["production_capacity_unit_normalized"] = parsed["production_capacity_unit"]
+        ci["voltage_kv_parsed"] = None
+        ci["line_length_km_parsed"] = None
+        ci["transmission_capacity_mw_parsed"] = None
+        ci["Capacity (MW)"] = ""
+    else:
+        ci["voltage_kv_parsed"] = None
+        ci["line_length_km_parsed"] = None
+        ci["transmission_capacity_mw_parsed"] = None
+        ci["production_capacity_value_parsed"] = None
+        ci["production_capacity_unit_normalized"] = None
 
 
 def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
@@ -75,9 +171,10 @@ def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
         # in_scope 出口：S2 未给时默认在范围内（不误排除）；给了则原样透传
         p.setdefault("in_scope", True)
         p.setdefault("out_of_scope_reason", "")
-        # 容量后处理：确定性解析器在此处运行（单一解析点），写入 capacity_mw_parsed / capacity_mw_raw_phrase
-        _apply_capacity_post_process(ci)
+        # 先确定能源分类，再按最终类别解析发电装机，确保储能容量永不混入 capacity_mw。
         _apply_energy_facts_post_process(ci)
+        _apply_txmf_post_process(ci, title, content)
+        _apply_capacity_post_process(ci)
     return projects
 
 
@@ -106,4 +203,6 @@ def validate_s2(projects: list[dict]) -> list[str]:
         storage_status = str(ci.get("Storage Status", "not_mentioned") or "not_mentioned").strip()
         if storage_status not in STORAGE_STATUSES:
             errors.append(f"项目#{i} 储能状态不合法: {storage_status}")
+        for message in ci.get("_txmf_contract_errors", []) or []:
+            errors.append(f"项目#{i} {message}")
     return errors

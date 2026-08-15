@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PER-HB-0002",
+  "package_sha256": "ac651297641c58f28683c27c45488d059225fa3a3bac1df027dddc2e34c7cc86",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；原综合能源项目仅找到火电证据，新能源技术仍不明确",
+  "canonical_decision": {
+    "generation_sources": [
+      "火电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "火电",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95787.html",
+        "surface": "body",
+        "quote": "柴油发电成本的六分之一到五分之一"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PER-HB-0002-01",
+      "generation_sources": [
+        "火电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95787.html",
+          "surface": "body",
+          "quote": "柴油发电成本的六分之一到五分之一"
+        }
+      ]
+    }
+  ]
+}

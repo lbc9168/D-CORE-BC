@@ -31,8 +31,12 @@ export interface Project {
   province: string | null;
   category: string;         // 光伏 / 风电 / 水电 / 核电 / 火电 / 地热及余热 / 生物质 / 储能 / 综合能源 / 新能源制造业 / 输变电建设
   category_en: string;      // Solar PV / Wind Power / Hydropower / ...
-  subcategory?: string;     // 子类中文键（光伏：集中式/分布式；综合能源：光储/其他；其余类别为空串）
-  subcategory_en?: string;  // 子类英文标签（Utility-scale / Distributed / Solar + Storage / Other）
+  subcategory?: string;     // 项目形态子类中文键（当前仅光伏：集中式/分布式）
+  subcategory_en?: string;  // 项目形态子类英文标签（Utility-scale / Distributed）
+  generation_sources: string[];   // 发电源原子事实（储能不计为发电源）
+  storage_status: "confirmed" | "planned" | "optional" | "unclear" | "not_mentioned";
+  technology_tags: string[];      // 技术组合标签中文键（如光储/风光储）
+  technology_tags_en: string[];   // 技术组合标签英文展示值
   capacity_mw: number | null;
   pv_capacity_mw?: number | null;      // 综合能源项目光伏子项装机（MW），其余类别无值
   storage_power_mw?: number | null;    // 储能功率（MW），多数项目无值
@@ -172,7 +176,7 @@ export interface RegionFilter {
 export interface FilterState {
   yearRange: [number, number] | null;    // 年份范围 [start, end]；null = 不限年份。状态/配色按 end 年（结束年）计算
   categories: string[];                  // 空数组 = 全选
-  subcategories: string[];               // 子类中文键（集中式/分布式/光储/其他）；空数组 = 不筛选
+  subcategories: string[];               // 项目形态子类中文键（集中式/分布式）；空数组 = 不筛选
   groups: VizGroup[];                    // 4 大类状态；空数组 = 全选
   entities: string[];                    // 空数组 = 全选
   briFilter: string[];                   // [] 或 ["Yes","No"] = 不过滤；["Yes"] = 仅BRI；["No"] = 仅非BRI

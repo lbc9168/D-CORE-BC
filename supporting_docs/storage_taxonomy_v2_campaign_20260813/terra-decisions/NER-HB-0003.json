@@ -1,0 +1,94 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NER-HB-0003",
+  "package_sha256": "8123290e1e786220f6fb5eb48ee1562ab23e3a05ee5ab6e1f5970e72dd0d349a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 9.52,
+    "storage_energy_mwh": 14.5,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/59903.html",
+        "surface": "body",
+        "quote": "2024年2月1日，由伊斯兰发展银行资助的尼日尔9.52MW新能源光储微电网项目在多索及塔瓦地区顺利破土动工，尼日尔共和国政府高级官员出席了活动。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/59903.html",
+        "surface": "body",
+        "quote": "尼日尔9.52MW新能源光储微电网项目位于尼日尔主要的经济大省，是连接并带动尼日尔东部及北部地区发展的重要桥梁纽带。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/36668.html",
+        "surface": "body",
+        "quote": "此次签约的尼日尔多索及塔瓦地区9.52MW光储项目是由"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/36668.html",
+        "surface": "body",
+        "quote": "预计18个月，共包括9.52MW光伏及14.5MWh储能电站及附属33kV升压站的建设。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NER-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/59903.html",
+          "surface": "body",
+          "quote": "2024年2月1日，由伊斯兰发展银行资助的尼日尔9.52MW新能源光储微电网项目在多索及塔瓦地区顺利破土动工，尼日尔共和国政府高级官员出席了活动。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/59903.html",
+          "surface": "body",
+          "quote": "尼日尔9.52MW新能源光储微电网项目位于尼日尔主要的经济大省，是连接并带动尼日尔东部及北部地区发展的重要桥梁纽带。"
+        }
+      ]
+    },
+    {
+      "event_id": "NER-HB-0003-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 9.52,
+      "storage_energy_mwh": 14.5,
+      "storage_power_mw_raw": "9.52MW",
+      "storage_energy_mwh_raw": "14.5MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/36668.html",
+          "surface": "body",
+          "quote": "此次签约的尼日尔多索及塔瓦地区9.52MW光储项目是由"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/36668.html",
+          "surface": "body",
+          "quote": "预计18个月，共包括9.52MW光伏及14.5MWh储能电站及附属33kV升压站的建设。"
+        }
+      ]
+    }
+  ]
+}

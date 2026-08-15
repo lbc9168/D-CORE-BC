@@ -1,0 +1,81 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ESP-ES-0001",
+  "package_sha256": "771ddf81b20ad3f34cee31afbc629fcf8717e2d11a02e8c6af5ccaa74a4b6a68",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 30000,
+    "storage_energy_mwh": 20000,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77425.html",
+        "surface": "body",
+        "quote": "其中西班牙市场是晶科海外业务的重要支撑点之一，累计开发、投建并出售了194MW光伏项目，当前处于开发中的光伏、储能、氢能、风电等项目规模更是高达2.8GW。\n早在2018年6月，晶科电力就中标了西班牙能源改革后首次全球招标的光伏独立发电项目——182.5MW的Alcalá de Guadaira，年发电量为3.56亿度。\n最新消息来看，2024年9月，晶科科技"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77425.html",
+        "surface": "body",
+        "quote": "先是与OCEAN TEXTILE INTERNATIONAL PRIVATE LIMITED签约，拿下10MWh的印度纺织业首个大型储能项目，实现晶科储能SunTera G2蓝鲸系统在工商业领域的首次应用。\n接着又以迅雷不及掩耳之势，迅速完成其西班牙首批工商业储能项目的交付，5台SunGiga海豚工商储系统成功落地比列纳、阿吉拉斯和阿利坎特3地。\n更不得了的是，该项目的落地还被当地企业Cubierta Solar"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77356.html",
+        "surface": "title",
+        "quote": "晶科储能成功交付在西班牙的工商业储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77356.html",
+        "surface": "body",
+        "quote": "近日，全球极具创新力的储能解决方案供应商晶科储能宣布已完成了在西班牙的首批工商业储能项目的交付。项目中的五台SunGiga海豚工商业储能系统，均已在比列纳、阿吉拉斯和阿利坎特成功安装。此次安装工作由Cubierta Solar负责执行，而调试工作则由晶科储能技术团队全力支持。目前，该项目已顺利交付并投入使"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ESP-ES-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 30000,
+      "storage_energy_mwh": 20000,
+      "storage_power_mw_raw": "30GW",
+      "storage_energy_mwh_raw": "20GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77425.html",
+          "surface": "body",
+          "quote": "其中西班牙市场是晶科海外业务的重要支撑点之一，累计开发、投建并出售了194MW光伏项目，当前处于开发中的光伏、储能、氢能、风电等项目规模更是高达2.8GW。\n早在2018年6月，晶科电力就中标了西班牙能源改革后首次全球招标的光伏独立发电项目——182.5MW的Alcalá de Guadaira，年发电量为3.56亿度。\n最新消息来看，2024年9月，晶科科技"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77425.html",
+          "surface": "body",
+          "quote": "先是与OCEAN TEXTILE INTERNATIONAL PRIVATE LIMITED签约，拿下10MWh的印度纺织业首个大型储能项目，实现晶科储能SunTera G2蓝鲸系统在工商业领域的首次应用。\n接着又以迅雷不及掩耳之势，迅速完成其西班牙首批工商业储能项目的交付，5台SunGiga海豚工商储系统成功落地比列纳、阿吉拉斯和阿利坎特3地。\n更不得了的是，该项目的落地还被当地企业Cubierta Solar"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77356.html",
+          "surface": "title",
+          "quote": "晶科储能成功交付在西班牙的工商业储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77356.html",
+          "surface": "body",
+          "quote": "近日，全球极具创新力的储能解决方案供应商晶科储能宣布已完成了在西班牙的首批工商业储能项目的交付。项目中的五台SunGiga海豚工商业储能系统，均已在比列纳、阿吉拉斯和阿利坎特成功安装。此次安装工作由Cubierta Solar负责执行，而调试工作则由晶科储能技术团队全力支持。目前，该项目已顺利交付并投入使"
+        }
+      ]
+    }
+  ]
+}

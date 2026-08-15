@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0048",
+  "package_sha256": "ee074dcd97c412b202e84b711669c9de770e5a83887d1acc778e6da2a5071ba7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1000,
+    "storage_energy_mwh": null,
+    "proposed_category": "风电",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+        "surface": "title",
+        "quote": "中能建葛洲坝工程科技公司再次中标乌兹别克斯坦大型风电项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+        "surface": "body",
+        "quote": "近年来，公司深耕乌兹别克斯坦国别，先后中标实施了乌兹别克斯坦最大燃机项目——锡尔河1500MW燃气联合循环项目土建第三方试验检测、乌兹别克斯坦最大光储项目——塔什干350MW光伏储能项目试验检测、巴什赞克尔迪1000MW风电项目土建第三方试验检测、安集延生活垃圾焚烧发电项目试验检测、努库斯200兆瓦风电&100兆瓦储能项目试验检测等业务，实现了乌兹别克斯坦区域属地化滚动开发、多品类战新业务落地，在当地积累了扎实的项目业绩、良好的市场口碑与深厚的品牌底蕴。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0048-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1000MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+          "surface": "title",
+          "quote": "中能建葛洲坝工程科技公司再次中标乌兹别克斯坦大型风电项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95600.html",
+          "surface": "body",
+          "quote": "近年来，公司深耕乌兹别克斯坦国别，先后中标实施了乌兹别克斯坦最大燃机项目——锡尔河1500MW燃气联合循环项目土建第三方试验检测、乌兹别克斯坦最大光储项目——塔什干350MW光伏储能项目试验检测、巴什赞克尔迪1000MW风电项目土建第三方试验检测、安集延生活垃圾焚烧发电项目试验检测、努库斯200兆瓦风电&100兆瓦储能项目试验检测等业务，实现了乌兹别克斯坦区域属地化滚动开发、多品类战新业务落地，在当地积累了扎实的项目业绩、良好的市场口碑与深厚的品牌底蕴。"
+        }
+      ]
+    }
+  ]
+}

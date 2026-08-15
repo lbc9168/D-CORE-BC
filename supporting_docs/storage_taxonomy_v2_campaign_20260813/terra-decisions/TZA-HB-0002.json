@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "TZA-HB-0002",
+  "package_sha256": "6ebfa0d59a8a4e5ecddc742e04c68b21d87b8acacbdeaf622f575e6f4a9effd8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/70133.html",
+        "surface": "body",
+        "quote": "签约坦桑尼亚12MW光伏电站合同协议"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "TZA-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/70133.html",
+          "surface": "body",
+          "quote": "签约坦桑尼亚12MW光伏电站合同协议"
+        }
+      ]
+    }
+  ]
+}

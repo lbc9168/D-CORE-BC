@@ -14,9 +14,22 @@ _EVENT_COLUMNS = (
     ("storage_energy_mwh_raw", "TEXT"),
     ("energy_composition_evidence", "TEXT"),
 )
+_CANONICAL_COLUMNS = (
+    ("technology_tags_json", "TEXT NOT NULL DEFAULT '[]'"),
+)
 _SHADOW_COLUMNS = (
+    ("generation_sources_json", "TEXT NOT NULL DEFAULT '[]'"),
+    ("storage_status", "TEXT NOT NULL DEFAULT 'not_mentioned'"),
     ("storage_power_mw", "REAL"),
     ("storage_energy_mwh", "REAL"),
+    ("proposed_category", "TEXT"),
+    ("technology_tags_json", "TEXT NOT NULL DEFAULT '[]'"),
+    ("classification_version", "TEXT NOT NULL DEFAULT 'energy_taxonomy_v2'"),
+    ("needs_review", "INTEGER NOT NULL DEFAULT 0"),
+    ("review_reason", "TEXT"),
+    ("classification_source", "TEXT NOT NULL DEFAULT 'policy'"),
+    ("manual_locked", "INTEGER NOT NULL DEFAULT 0"),
+    ("updated_at", "TEXT NOT NULL DEFAULT ''"),
 )
 _SHADOW_SQL = """
 CREATE TABLE project_classification_shadow (
@@ -49,10 +62,21 @@ def _has_shadow_table(conn: sqlite3.Connection) -> bool:
     ).fetchone() is not None
 
 
+def _has_table(conn: sqlite3.Connection, table: str) -> bool:
+    """判断任意 SQLite 表是否存在。"""
+    return conn.execute(
+        "SELECT 1 FROM sqlite_master WHERE type='table' AND name=?", (table,)
+    ).fetchone() is not None
+
+
 def _inspect(conn: sqlite3.Connection) -> dict[str, list[str]]:
     """检查待迁移对象并返回 existing/to_add 报告。"""
     event_columns = _columns(conn, "project_events")
+    canonical_columns = _columns(conn, "canonical_projects")
     report: dict[str, list[str]] = {"existing": [], "to_add": []}
+    for name, _decl in _CANONICAL_COLUMNS:
+        key = f"canonical_projects.{name}"
+        report["existing" if name in canonical_columns else "to_add"].append(key)
     for name, _decl in _EVENT_COLUMNS:
         key = f"project_events.{name}"
         report["existing" if name in event_columns else "to_add"].append(key)
@@ -97,15 +121,24 @@ def dry_run(db_path: Path) -> dict[str, list[str]]:
 
 
 def apply_migration(db_path: Path) -> dict[str, list[str]]:
-    """备份后单事务添加缺失对象，并验证 ID 集合与表行数不变。"""
+    """备份后单事务添加缺失对象，并验证 ID 集合与外键状态不变。"""
     _backup(db_path)
     conn = sqlite3.connect(str(db_path))
     try:
         conn.execute("PRAGMA busy_timeout=30000")
         before_projects = {row[0] for row in conn.execute("SELECT id FROM canonical_projects")}
         before_events = {row[0] for row in conn.execute("SELECT id FROM project_events")}
+        before_entities = (
+            {row[0] for row in conn.execute("SELECT id FROM chinese_entities")}
+            if _has_table(conn, "chinese_entities") else set()
+        )
+        before_foreign_keys = list(conn.execute("PRAGMA foreign_key_check"))
         report = _inspect(conn)
         with conn:
+            canonical_existing = _columns(conn, "canonical_projects")
+            for name, decl in _CANONICAL_COLUMNS:
+                if name not in canonical_existing:
+                    conn.execute(f"ALTER TABLE canonical_projects ADD COLUMN {name} {decl}")
             existing = _columns(conn, "project_events")
             for name, decl in _EVENT_COLUMNS:
                 if name not in existing:
@@ -119,15 +152,33 @@ def apply_migration(db_path: Path) -> dict[str, list[str]]:
                         conn.execute(f"ALTER TABLE project_classification_shadow ADD COLUMN {name} {decl}")
         after_projects = {row[0] for row in conn.execute("SELECT id FROM canonical_projects")}
         after_events = {row[0] for row in conn.execute("SELECT id FROM project_events")}
-        if before_projects != after_projects or before_events != after_events:
-            raise RuntimeError("能源影子 schema 迁移改变了 canonical/event ID 集合")
+        after_entities = (
+            {row[0] for row in conn.execute("SELECT id FROM chinese_entities")}
+            if _has_table(conn, "chinese_entities") else set()
+        )
+        after_foreign_keys = list(conn.execute("PRAGMA foreign_key_check"))
+        if (
+            before_projects != after_projects
+            or before_events != after_events
+            or before_entities != after_entities
+        ):
+            raise RuntimeError("能源影子 schema 迁移改变了 canonical/event/entity ID 集合")
+        if before_foreign_keys != after_foreign_keys:
+            raise RuntimeError("能源影子 schema 迁移改变了外键校验结果")
+        missing_canonical = [
+            name for name, _ in _CANONICAL_COLUMNS
+            if name not in _columns(conn, "canonical_projects")
+        ]
         missing = [name for name, _ in _EVENT_COLUMNS if name not in _columns(conn, "project_events")]
         missing_shadow = [
             name for name, _ in _SHADOW_COLUMNS
             if name not in _columns(conn, "project_classification_shadow")
         ]
-        if missing or missing_shadow or not _has_shadow_table(conn):
-            raise RuntimeError(f"能源影子 schema 迁移后仍缺对象：{missing}")
+        if missing_canonical or missing or missing_shadow or not _has_shadow_table(conn):
+            raise RuntimeError(
+                "能源影子 schema 迁移后仍缺对象："
+                f"canonical={missing_canonical}, events={missing}, shadow={missing_shadow}"
+            )
         return report
     finally:
         conn.close()

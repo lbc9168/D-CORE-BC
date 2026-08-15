@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRA-PV-0018",
+  "package_sha256": "3bac640b9f54496b598786b470441e0f9f05627e90189d5faf70cb90feee570e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/43266.html",
+        "surface": "title",
+        "quote": "拉美最大的太阳能园区光伏组件由晶科能源提供！"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRA-PV-0018-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/43266.html",
+          "surface": "title",
+          "quote": "拉美最大的太阳能园区光伏组件由晶科能源提供！"
+        }
+      ]
+    }
+  ]
+}

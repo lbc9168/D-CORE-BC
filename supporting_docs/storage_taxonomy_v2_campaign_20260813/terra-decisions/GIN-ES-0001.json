@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GIN-ES-0001",
+  "package_sha256": "58e4a477063bc63472541943ae424cf2a71f8728d4709dfbfc3848ae5556164e",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 40,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89183.html",
+        "surface": "title",
+        "quote": "融和元储中标几内亚赢联盟40MWh储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89183.html",
+        "surface": "body",
+        "quote": "融和元储成功中标几内亚赢联盟博凯二港40MWh储能项目\n，以全球领先的储能系统解决方案，\n助力几内亚博凯港区实现高效、清洁用能，实现绿色能源转型，同时也为公司全球化战略注入持续动能\n。\n作为以储能为核心的全球领先零碳能源运营商，融和元储持续\n深化\"技术输出+本地化服务\"双轮驱动模式\n，稳步推进全球业务拓展。几内亚项目地处西非战略"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GIN-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 40,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "40MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89183.html",
+          "surface": "title",
+          "quote": "融和元储中标几内亚赢联盟40MWh储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89183.html",
+          "surface": "body",
+          "quote": "融和元储成功中标几内亚赢联盟博凯二港40MWh储能项目\n，以全球领先的储能系统解决方案，\n助力几内亚博凯港区实现高效、清洁用能，实现绿色能源转型，同时也为公司全球化战略注入持续动能\n。\n作为以储能为核心的全球领先零碳能源运营商，融和元储持续\n深化\"技术输出+本地化服务\"双轮驱动模式\n，稳步推进全球业务拓展。几内亚项目地处西非战略"
+        }
+      ]
+    }
+  ]
+}

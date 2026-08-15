@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BRA-HB-0004",
+  "package_sha256": "c93ad489ea7a28deef675c08e36fabf7f4a0f4f9deeff73579ebdb671d9a6a20",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77497.html",
+        "surface": "title",
+        "quote": "解锁新国别！中国水电四局哥伦比亚、巴西市场新中标"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BRA-HB-0004-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77497.html",
+          "surface": "title",
+          "quote": "解锁新国别！中国水电四局哥伦比亚、巴西市场新中标"
+        }
+      ]
+    }
+  ]
+}

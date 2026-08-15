@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PHL-HB-0007",
+  "package_sha256": "b684d5482195d02c947af1761ce932db81349010de36b35d8e6aeed392bb43db",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 3500,
+    "storage_energy_mwh": 4500,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88787.html",
+        "surface": "title",
+        "quote": "菲律宾最大光储项目电网接入获批，两家中企参建"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88787.html",
+        "surface": "body",
+        "quote": "该项目位于吕宋岛的新怡诗夏省（Nueva Ecija）和布拉干省（Bulacan），规划总装机容量为3.5GW光伏电站+ 4.5GWh储能。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PHL-HB-0007-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 3500,
+      "storage_energy_mwh": 4500,
+      "storage_power_mw_raw": "3.5GW",
+      "storage_energy_mwh_raw": "4.5GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88787.html",
+          "surface": "title",
+          "quote": "菲律宾最大光储项目电网接入获批，两家中企参建"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88787.html",
+          "surface": "body",
+          "quote": "该项目位于吕宋岛的新怡诗夏省（Nueva Ecija）和布拉干省（Bulacan），规划总装机容量为3.5GW光伏电站+ 4.5GWh储能。"
+        }
+      ]
+    }
+  ]
+}

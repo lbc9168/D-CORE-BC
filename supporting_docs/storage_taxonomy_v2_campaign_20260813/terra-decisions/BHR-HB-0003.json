@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BHR-HB-0003",
+  "package_sha256": "d4286e413371ae0c77c70e4524e091bde504de508e043f1f94468168519f92b6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88359.html",
+        "surface": "title",
+        "quote": "巴林招标哈瓦尔岛日产百万加仑海水淡化厂EPC总包合同"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BHR-HB-0003-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88359.html",
+          "surface": "title",
+          "quote": "巴林招标哈瓦尔岛日产百万加仑海水淡化厂EPC总包合同"
+        }
+      ]
+    }
+  ]
+}

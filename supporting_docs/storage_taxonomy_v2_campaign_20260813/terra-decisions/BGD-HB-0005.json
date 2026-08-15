@@ -1,0 +1,72 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "BGD-HB-0005",
+  "package_sha256": "556f267cc3fe179018ba1980a80ea93cc666ce6fc43978da953d93d844891887",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/24328.html",
+        "surface": "title",
+        "quote": "中设集团签约孟加拉北达卡市垃圾发电项目投资协议"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/17438.html",
+        "surface": "body",
+        "quote": "上个月，孟加拉内阁接受了一家中国国有公司的投标，要求建造该国的第一座垃圾发电厂。能源官员称，该厂每天将产生42兆瓦的电能，同时有助于清理达卡的河流并解决其垃圾管理问题。\n与风力发电厂一样，开发商和国有的中国机械工程总公司（CMEC）将完全承担建造和运营垃圾发电站的成本。但政府官员说，孟加拉国将为它在25年内发电的价格支付近20亿美元。\n尽管如此，孟加拉国"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "BGD-HB-0005-01",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/24328.html",
+          "surface": "title",
+          "quote": "中设集团签约孟加拉北达卡市垃圾发电项目投资协议"
+        }
+      ]
+    },
+    {
+      "event_id": "BGD-HB-0005-02",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/17438.html",
+          "surface": "body",
+          "quote": "上个月，孟加拉内阁接受了一家中国国有公司的投标，要求建造该国的第一座垃圾发电厂。能源官员称，该厂每天将产生42兆瓦的电能，同时有助于清理达卡的河流并解决其垃圾管理问题。\n与风力发电厂一样，开发商和国有的中国机械工程总公司（CMEC）将完全承担建造和运营垃圾发电站的成本。但政府官员说，孟加拉国将为它在25年内发电的价格支付近20亿美元。\n尽管如此，孟加拉国"
+        }
+      ]
+    }
+  ]
+}

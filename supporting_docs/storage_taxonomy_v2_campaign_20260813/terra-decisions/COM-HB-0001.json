@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COM-HB-0001",
+  "package_sha256": "34950986cbe618388ef6112a0726334fe44d31031636dfa42dabdaa2935b5d30",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": "分布式",
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91743.html",
+        "surface": "body",
+        "quote": "近日，由东方国际承建的科摩罗昂儒昂光伏综合能源总承包项目收到业主全额预付款，标志着东方国际进入科摩罗签约的首个项目正式生效。该项目是世行资金支持下科摩罗最大的综合能源发电项目，采用“东方造”N型双面双玻组件，工作范围包括在大科摩罗岛、昂儒昂岛和莫埃利岛建设三座分布式电站，并配套建设生活供水管路及部分输电线路。项目建成"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COM-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91743.html",
+          "surface": "body",
+          "quote": "近日，由东方国际承建的科摩罗昂儒昂光伏综合能源总承包项目收到业主全额预付款，标志着东方国际进入科摩罗签约的首个项目正式生效。该项目是世行资金支持下科摩罗最大的综合能源发电项目，采用“东方造”N型双面双玻组件，工作范围包括在大科摩罗岛、昂儒昂岛和莫埃利岛建设三座分布式电站，并配套建设生活供水管路及部分输电线路。项目建成"
+        }
+      ]
+    }
+  ]
+}

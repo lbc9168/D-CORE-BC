@@ -45,12 +45,14 @@ def test_apply_adds_schema_backs_up_and_preserves_ids(tmp_path):
     project_ids = {row[0] for row in conn.execute("SELECT id FROM canonical_projects")}
     event_ids = {row[0] for row in conn.execute("SELECT id FROM project_events")}
     event_columns = {row[1] for row in conn.execute("PRAGMA table_info(project_events)")}
+    canonical_columns = {row[1] for row in conn.execute("PRAGMA table_info(canonical_projects)")}
     shadow_columns = {row[1] for row in conn.execute("PRAGMA table_info(project_classification_shadow)")}
     conn.close()
     backups = list(tmp_path.glob("bri.db.bak.*"))
     assert project_ids == {"ITA-PV-0001"}
     assert event_ids == {"ITA-PV-0001-01"}
     assert "generation_sources_json" in event_columns
+    assert "technology_tags_json" in canonical_columns
     assert "manual_locked" in shadow_columns
     assert {"storage_power_mw", "storage_energy_mwh"}.issubset(shadow_columns)
     assert backups and backups[0].stat().st_size > 0
@@ -68,3 +70,26 @@ def test_apply_is_idempotent(tmp_path):
     conn.close()
     assert count == 1
     assert second["to_add"] == []
+
+
+def test_apply_completes_legacy_partial_shadow_table(tmp_path):
+    """旧试运行 shadow 表只有少量列时，迁移必须幂等补齐完整 v2 契约。"""
+    db = tmp_path / "bri.db"
+    _legacy_db(db)
+    conn = sqlite3.connect(db)
+    conn.execute(
+        "CREATE TABLE project_classification_shadow ("
+        "canonical_id TEXT PRIMARY KEY, proposed_category TEXT)"
+    )
+    conn.commit()
+    conn.close()
+
+    apply_migration(db)
+    conn = sqlite3.connect(db)
+    shadow_columns = {row[1] for row in conn.execute("PRAGMA table_info(project_classification_shadow)")}
+    conn.close()
+    assert {
+        "generation_sources_json", "storage_status", "storage_power_mw",
+        "storage_energy_mwh", "technology_tags_json", "classification_version",
+        "needs_review", "review_reason", "classification_source", "manual_locked", "updated_at",
+    }.issubset(shadow_columns)

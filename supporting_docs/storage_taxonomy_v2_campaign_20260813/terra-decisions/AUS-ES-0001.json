@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-ES-0001",
+  "package_sha256": "6fa9d63f21708b5aa3234bcb4a2d639c8f4bc8911b4eb2a70de880e8dda6fa3d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1170,
+    "storage_energy_mwh": 11980,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92917.html",
+        "surface": "title",
+        "quote": "11.98GWh，澳大利亚新州第六轮长时储能招标落地，无中国投资企业中标"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92917.html",
+        "surface": "body",
+        "quote": "近日，澳大利亚新南威尔士州在长时储能领域迎来重大进展——第六轮长期储能项目招标结果正式出炉，6个大型锂电储能项目成功入选，并获签长期能源服务合同，为当地电网转型升级注入新动能。\n本次招标由AusEnergy Services Limited主导，该公司脱胎于澳大利亚能源市场运营商，依托深厚的行业积淀，保障了招标流程"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1170,
+      "storage_energy_mwh": 11980,
+      "storage_power_mw_raw": "1.17 GW",
+      "storage_energy_mwh_raw": "11.98GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92917.html",
+          "surface": "title",
+          "quote": "11.98GWh，澳大利亚新州第六轮长时储能招标落地，无中国投资企业中标"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92917.html",
+          "surface": "body",
+          "quote": "近日，澳大利亚新南威尔士州在长时储能领域迎来重大进展——第六轮长期储能项目招标结果正式出炉，6个大型锂电储能项目成功入选，并获签长期能源服务合同，为当地电网转型升级注入新动能。\n本次招标由AusEnergy Services Limited主导，该公司脱胎于澳大利亚能源市场运营商，依托深厚的行业积淀，保障了招标流程"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NER-HB-0004",
+  "package_sha256": "2caabd863a896141e99ba0b4ab85facfb4fa6e5cb287c713db5c8097ba97d521",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42241.html",
+        "surface": "body",
+        "quote": "津巴布韦100兆瓦光伏电站项目、尼日尔250兆瓦风光储智慧能源园区项目、埃及塞得港绿氨项"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NER-HB-0004-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42241.html",
+          "surface": "body",
+          "quote": "津巴布韦100兆瓦光伏电站项目、尼日尔250兆瓦风光储智慧能源园区项目、埃及塞得港绿氨项"
+        }
+      ]
+    }
+  ]
+}

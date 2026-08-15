@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GBR-ES-0006",
+  "package_sha256": "8cdd3616f9de412c8840fa65d9c79dfabf7eb684a6b2be56c9865e7635737a06",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 16000,
+    "storage_energy_mwh": 720,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85941.html",
+        "surface": "title",
+        "quote": "海辰储能携手Elements Green 助力英国净零转型"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85941.html",
+        "surface": "body",
+        "quote": "近日，海辰储能宣布与太阳能及储能基础设施领域头部开发商 Elements Green签署合作协议，为其在英国部署总规模达 720MWh 的电池储能系统项目。该项目是英国迄今最大规模的储能项目之一，计划于2027年建成投运，将有力推动当地及欧洲可再生能源转型进程。\n签约仪式\n促进当地电网韧性与脱"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GBR-ES-0006-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 16000,
+      "storage_energy_mwh": 720,
+      "storage_power_mw_raw": "16GW",
+      "storage_energy_mwh_raw": "720MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85941.html",
+          "surface": "title",
+          "quote": "海辰储能携手Elements Green 助力英国净零转型"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85941.html",
+          "surface": "body",
+          "quote": "近日，海辰储能宣布与太阳能及储能基础设施领域头部开发商 Elements Green签署合作协议，为其在英国部署总规模达 720MWh 的电池储能系统项目。该项目是英国迄今最大规模的储能项目之一，计划于2027年建成投运，将有力推动当地及欧洲可再生能源转型进程。\n签约仪式\n促进当地电网韧性与脱"
+        }
+      ]
+    }
+  ]
+}

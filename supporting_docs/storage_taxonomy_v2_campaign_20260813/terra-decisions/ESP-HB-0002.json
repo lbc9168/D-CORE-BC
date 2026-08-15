@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ESP-HB-0002",
+  "package_sha256": "b1559297a91913d41150cff57ea89d29d59c774c7c442238e7159f3e19fa2f2b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "风电",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/71777.html",
+        "surface": "body",
+        "quote": "位于卡斯蒂利亚和莱昂大区阿维拉省拉斯纳瓦斯－德尔马克斯市(Navas del Marqués)的风力发电厂和风力涡轮机组装厂(La planta de generación de energía eólica y de ensamblaje de turbinas eólicas)。\n拉斯纳瓦斯－德尔马克斯，来源：Google Map\n以上工厂将创造4000多个就业机会。最重要的是"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ESP-HB-0002-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/71777.html",
+          "surface": "body",
+          "quote": "位于卡斯蒂利亚和莱昂大区阿维拉省拉斯纳瓦斯－德尔马克斯市(Navas del Marqués)的风力发电厂和风力涡轮机组装厂(La planta de generación de energía eólica y de ensamblaje de turbinas eólicas)。\n拉斯纳瓦斯－德尔马克斯，来源：Google Map\n以上工厂将创造4000多个就业机会。最重要的是"
+        }
+      ]
+    }
+  ]
+}

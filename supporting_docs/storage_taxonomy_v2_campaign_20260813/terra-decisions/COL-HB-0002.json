@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "COL-HB-0002",
+  "package_sha256": "58c0d239324d26efc985d32abe75ec503ae425c6d7f6c7c6ddbf94b8a2db35bc",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/16853.html",
+        "surface": "body",
+        "quote": "哥伦比亚总统伊凡.杜克(Iván Duque)本周二在一个太阳能发电厂的落成典礼上宣布，\n该国将在2021年第一季度举行第二轮可再生能源拍卖。\n哥伦比亚政府计划通过此次拍卖分配约5GW的可再生能源产能，\n中标的项目要求在2022年底并网。\n拍卖的招标条件将由哥伦比亚矿业和能源部在未来几个月内确定和公布。伊凡.杜克总统还表示，哥伦比亚将与智利一"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/16853.html",
+        "surface": "body",
+        "quote": "在2019年10月份完成的哥伦比亚首轮可再生能源拍卖中，哥伦比亚矿业和能源部共分配了2.2GW的光伏和风电。最终成交的电价平均约为COP95/kWh(COP，哥伦比亚比索，约合0.027美元/KWh)，最高出价为COP11/KWh。拍卖当时吸引了包括\n中国的阿特斯太阳能电力\n，天合光能，西班牙的Acciona（安迅能源）、solarpack、Cobra，法国的EDF（法国电力公司）G"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "COL-HB-0002-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/16853.html",
+          "surface": "body",
+          "quote": "哥伦比亚总统伊凡.杜克(Iván Duque)本周二在一个太阳能发电厂的落成典礼上宣布，\n该国将在2021年第一季度举行第二轮可再生能源拍卖。\n哥伦比亚政府计划通过此次拍卖分配约5GW的可再生能源产能，\n中标的项目要求在2022年底并网。\n拍卖的招标条件将由哥伦比亚矿业和能源部在未来几个月内确定和公布。伊凡.杜克总统还表示，哥伦比亚将与智利一"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/16853.html",
+          "surface": "body",
+          "quote": "在2019年10月份完成的哥伦比亚首轮可再生能源拍卖中，哥伦比亚矿业和能源部共分配了2.2GW的光伏和风电。最终成交的电价平均约为COP95/kWh(COP，哥伦比亚比索，约合0.027美元/KWh)，最高出价为COP11/KWh。拍卖当时吸引了包括\n中国的阿特斯太阳能电力\n，天合光能，西班牙的Acciona（安迅能源）、solarpack、Cobra，法国的EDF（法国电力公司）G"
+        }
+      ]
+    }
+  ]
+}

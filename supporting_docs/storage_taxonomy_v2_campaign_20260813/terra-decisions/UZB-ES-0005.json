@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-ES-0005",
+  "package_sha256": "f55af8bb4fae498bfd83f620973f56e350e499a7b343fea4a5b41d64ac5dfaf8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 150,
+    "storage_energy_mwh": 300,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/85606.html",
+        "surface": "body",
+        "quote": "中国能建集团投资乌兹别克斯坦奥兹和洛奇两个电化学储能电站项目（150MW/300MWh*2）"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78156.html",
+        "surface": "body",
+        "quote": "该项目位于日本南部高知县，项目规模为40兆瓦/120兆瓦时，拟采用最新技术电化学储能系统，工作内容包含储能系统及输电线路总包工作。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-ES-0005-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/85606.html",
+          "surface": "body",
+          "quote": "中国能建集团投资乌兹别克斯坦奥兹和洛奇两个电化学储能电站项目（150MW/300MWh*2）"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-ES-0005-02",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 40,
+      "storage_energy_mwh": 120,
+      "storage_power_mw_raw": "40兆瓦",
+      "storage_energy_mwh_raw": "120兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78156.html",
+          "surface": "body",
+          "quote": "该项目位于日本南部高知县，项目规模为40兆瓦/120兆瓦时，拟采用最新技术电化学储能系统，工作内容包含储能系统及输电线路总包工作。"
+        }
+      ]
+    }
+  ]
+}

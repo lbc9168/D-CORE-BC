@@ -1,0 +1,104 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-WD-0001",
+  "package_sha256": "e17e64748191b580968dcefafb3287fd0bff0df75ed75fd04f430d8f2d1d0796",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 500,
+    "storage_energy_mwh": 300,
+    "proposed_category": "风电",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+        "surface": "body",
+        "quote": "2月6日，中国能建国际集团党委常委、高级副总裁，海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动，推动中哈政府间框架下新能源重点项目落地，并签署哈萨克斯坦卡拉干达风电配储项目购电协议。\n签约现场\n林晓丹拜会了哈萨克斯坦能源部副部长松加特，并感谢哈能源部长期以来给予中国能建及海投公司的帮助与支持。他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+        "surface": "body",
+        "quote": "2月6日，中国能建国际集团党委常委、高级副总裁，海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动，推动中哈政府间框架下新能源重点项目落地，并签署哈萨克斯坦卡拉干达风电配储项目购电协议。\n签约现场\n林晓丹拜会了哈萨克斯坦能源部副部长松加特，并感谢哈能源部长期以来给予中国能建及海投公司的帮助与支持。他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了开工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/84217.html",
+        "surface": "body",
+        "quote": "风电、光储、氢能\n等多项重要协议\n实现中亚市场新突破\n推动构建更加紧密的\n中国—中亚命运共同体\n哈萨克斯坦卡拉干达州500兆瓦风电配储项目股东协议\n6月16日，中国—中亚产业与投资论坛上，中国能建海投公司与萨姆鲁克能源公司交换\n哈萨克斯坦卡拉干达州500兆瓦风电配储项目\n股东协议\n文本。项"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+        "surface": "title",
+        "quote": "哈萨克斯坦与两家中国公司合作开发四大风光项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+        "surface": "body",
+        "quote": "将与Samruk-Energy在巴甫洛达尔合作开发500MW的风电项目,配备储能系统，电价为4.25美分/kWh。另外，双方还将合作开发第二个500MW的风电项目，配备储能系统，电价为4.25美分/kWh，但地点尚未确定。\n中国能建海外投资有限公司\n将与Samruk-Energy在图尔克斯坦州合作开发300MW的光伏项目，配备储能系统，电价为5.63美分/k"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-WD-0001-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 500,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "500MW",
+      "storage_energy_mwh_raw": "300兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+          "surface": "body",
+          "quote": "2月6日，中国能建国际集团党委常委、高级副总裁，海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动，推动中哈政府间框架下新能源重点项目落地，并签署哈萨克斯坦卡拉干达风电配储项目购电协议。\n签约现场\n林晓丹拜会了哈萨克斯坦能源部副部长松加特，并感谢哈能源部长期以来给予中国能建及海投公司的帮助与支持。他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92665.html",
+          "surface": "body",
+          "quote": "2月6日，中国能建国际集团党委常委、高级副总裁，海投公司党委书记、董事长林晓丹一行赴哈萨克斯坦展开商务活动，推动中哈政府间框架下新能源重点项目落地，并签署哈萨克斯坦卡拉干达风电配储项目购电协议。\n签约现场\n林晓丹拜会了哈萨克斯坦能源部副部长松加特，并感谢哈能源部长期以来给予中国能建及海投公司的帮助与支持。他表示，在哈能源部的大力支持和指导下，公司在哈萨克斯坦800MW新能源项目进展顺利，其中萨乌兰300MW光伏配储项目于2025年12月15日顺利举行了开工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/84217.html",
+          "surface": "body",
+          "quote": "风电、光储、氢能\n等多项重要协议\n实现中亚市场新突破\n推动构建更加紧密的\n中国—中亚命运共同体\n哈萨克斯坦卡拉干达州500兆瓦风电配储项目股东协议\n6月16日，中国—中亚产业与投资论坛上，中国能建海投公司与萨姆鲁克能源公司交换\n哈萨克斯坦卡拉干达州500兆瓦风电配储项目\n股东协议\n文本。项"
+        }
+      ]
+    },
+    {
+      "event_id": "KAZ-WD-0001-02",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 500,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "500MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+          "surface": "title",
+          "quote": "哈萨克斯坦与两家中国公司合作开发四大风光项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+          "surface": "body",
+          "quote": "将与Samruk-Energy在巴甫洛达尔合作开发500MW的风电项目,配备储能系统，电价为4.25美分/kWh。另外，双方还将合作开发第二个500MW的风电项目，配备储能系统，电价为4.25美分/kWh，但地点尚未确定。\n中国能建海外投资有限公司\n将与Samruk-Energy在图尔克斯坦州合作开发300MW的光伏项目，配备储能系统，电价为5.63美分/k"
+        }
+      ]
+    }
+  ]
+}

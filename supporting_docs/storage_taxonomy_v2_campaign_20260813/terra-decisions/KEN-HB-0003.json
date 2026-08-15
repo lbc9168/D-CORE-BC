@@ -1,0 +1,59 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KEN-HB-0003",
+  "package_sha256": "f0705ec34156f626bb4a4cb2b7627ed551efecea1240261ebe6597a99c6f41d5",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "storage wording appears in an article but the package target description does not tie it conclusively to this project",
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "unclear",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90881.html",
+        "surface": "title",
+        "quote": "中材节能成功签署肯尼亚NGAIE “生物质+余热电站项目” 总承包合同"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90881.html",
+        "surface": "body",
+        "quote": "双方一致表示，将以本次项目为起点，继续深化在新能源领域的战略协作，重点探索光伏电站建设、储能系统集成、综合能源管理等多元化合作方向，助力肯尼亚构建“传统工业低碳化+可再生能源规模化”的发展格局。这一规划与东非区域正在推进的坦赞铁路繁荣带绿色产业布局形成呼应，为中非绿色合作注入新动能。\n工程分公司国际市场部副部长张飞、项目经理张金鹏等出席签约仪式。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KEN-HB-0003-01",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "unclear",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90881.html",
+          "surface": "title",
+          "quote": "中材节能成功签署肯尼亚NGAIE “生物质+余热电站项目” 总承包合同"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90881.html",
+          "surface": "body",
+          "quote": "双方一致表示，将以本次项目为起点，继续深化在新能源领域的战略协作，重点探索光伏电站建设、储能系统集成、综合能源管理等多元化合作方向，助力肯尼亚构建“传统工业低碳化+可再生能源规模化”的发展格局。这一规划与东非区域正在推进的坦赞铁路繁荣带绿色产业布局形成呼应，为中非绿色合作注入新动能。\n工程分公司国际市场部副部长张飞、项目经理张金鹏等出席签约仪式。"
+        }
+      ]
+    }
+  ]
+}

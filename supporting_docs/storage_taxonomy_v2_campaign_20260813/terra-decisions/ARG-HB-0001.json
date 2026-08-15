@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ARG-HB-0001",
+  "package_sha256": "1a1c71e1c2741174ee6151b11b0e66981d682e7ecf9dd08da17bf08e707f1327",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package describes a manufacturing/processing facility rather than a generation project",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92482.html",
+        "surface": "body",
+        "quote": "阿根廷赣锋锂业Guemes年产2万吨氯化锂加工厂项目是阿根廷公司发挥属地化优势、深耕多元化市场所取得的又一重要突破，该项目位于阿根廷萨尔塔省Guemes镇，公司最初承接ST5000车间设备管道及电气仪表工程，凭借专业的技术能力、高效的客户服务与深度的资源挖掘，成功拓展承接ST6000车间电气仪表安装工程。两大车"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ARG-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92482.html",
+          "surface": "body",
+          "quote": "阿根廷赣锋锂业Guemes年产2万吨氯化锂加工厂项目是阿根廷公司发挥属地化优势、深耕多元化市场所取得的又一重要突破，该项目位于阿根廷萨尔塔省Guemes镇，公司最初承接ST5000车间设备管道及电气仪表工程，凭借专业的技术能力、高效的客户服务与深度的资源挖掘，成功拓展承接ST6000车间电气仪表安装工程。两大车"
+        }
+      ]
+    }
+  ]
+}

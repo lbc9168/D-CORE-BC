@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IND-MF-0004",
+  "package_sha256": "1e054d9be2acdfa3bd766e5db2f2b901ef46b40ca041b751c9ee9322c0285c82",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "新能源制造业",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50089.html",
+        "surface": "body",
+        "quote": "土耳其能源和自然资源部部长登梅兹参观项目时赞叹：“由红太阳新能源建设的光伏生产线，代表了自动化、高度智能化的全球领先水平，帮助土耳其提升了约10%的光伏产能。”\n安卡拉500MW光伏产业园既是红太阳新能源首个海外工程总承包+委托运营（EPC+OM）项目，也是推动共建“一带一路”走深走实的重要成果，还是土耳其第一个、目前唯一的光伏全产业链项目。\n继安卡拉光伏产"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IND-MF-0004-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50089.html",
+          "surface": "body",
+          "quote": "土耳其能源和自然资源部部长登梅兹参观项目时赞叹：“由红太阳新能源建设的光伏生产线，代表了自动化、高度智能化的全球领先水平，帮助土耳其提升了约10%的光伏产能。”\n安卡拉500MW光伏产业园既是红太阳新能源首个海外工程总承包+委托运营（EPC+OM）项目，也是推动共建“一带一路”走深走实的重要成果，还是土耳其第一个、目前唯一的光伏全产业链项目。\n继安卡拉光伏产"
+        }
+      ]
+    }
+  ]
+}

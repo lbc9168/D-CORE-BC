@@ -1,0 +1,117 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-HB-0024",
+  "package_sha256": "670ff86532106288d9c58059357e05bc5409a2624855366dc1e4c33d47f34ae7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 12500,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+        "surface": "body",
+        "quote": "Sakaka 光伏项目储能配套"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+        "surface": "body",
+        "quote": "该项目是沙特阿拉伯首批大型风电场，储能系统将用于提高电网稳定性。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+        "surface": "title",
+        "quote": "全球最大储能项目签约 - 比亚迪 & 沙特电力公司"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+        "surface": "body",
+        "quote": "日前，比亚迪 BYD 与沙特电力公司 SEC 成功签署容量高达12.5GWh储能项目(BESS)，以规模计，为全球最大储能项目合同。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+        "surface": "body",
+        "quote": "1.\tAr Rass光伏项目：国内首个境外资本金过桥贷款成功落地案例"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+        "surface": "body",
+        "quote": "该笔贷款还将用于建设配套的输电线路，以使上述风电项目得以并入乌兹别克斯坦的国家电网。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-HB-0024-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 12500,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "12.5GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+          "surface": "body",
+          "quote": "Sakaka 光伏项目储能配套"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+          "surface": "body",
+          "quote": "该项目是沙特阿拉伯首批大型风电场，储能系统将用于提高电网稳定性。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+          "surface": "title",
+          "quote": "全球最大储能项目签约 - 比亚迪 & 沙特电力公司"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+          "surface": "body",
+          "quote": "日前，比亚迪 BYD 与沙特电力公司 SEC 成功签署容量高达12.5GWh储能项目(BESS)，以规模计，为全球最大储能项目合同。"
+        }
+      ]
+    },
+    {
+      "event_id": "SAU-HB-0024-02",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+          "surface": "body",
+          "quote": "1.\tAr Rass光伏项目：国内首个境外资本金过桥贷款成功落地案例"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50090.html",
+          "surface": "body",
+          "quote": "该笔贷款还将用于建设配套的输电线路，以使上述风电项目得以并入乌兹别克斯坦的国家电网。"
+        }
+      ]
+    }
+  ]
+}

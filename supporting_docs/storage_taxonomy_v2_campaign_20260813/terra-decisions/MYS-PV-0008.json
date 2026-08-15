@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MYS-PV-0008",
+  "package_sha256": "a6be0e96e86d9ca986f8db32c463c4892f14afbeea9a7439f85f1931984a18bd",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89272.html",
+        "surface": "body",
+        "quote": "此次马来西亚光伏项目的签约，是顺德院继印尼智慧园项目后，在东南亚市场落地的第二项国际业务，进一步夯实了企业国际化业务矩阵，彰显了顺德院在跨境能源设计与技术服务领域的综合实力。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MYS-PV-0008-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89272.html",
+          "surface": "body",
+          "quote": "此次马来西亚光伏项目的签约，是顺德院继印尼智慧园项目后，在东南亚市场落地的第二项国际业务，进一步夯实了企业国际化业务矩阵，彰显了顺德院在跨境能源设计与技术服务领域的综合实力。"
+        }
+      ]
+    }
+  ]
+}

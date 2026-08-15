@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-HB-0002",
+  "package_sha256": "06606638d888f77db06bfb1f15bac809cb5cf8e8fbb802a05efcc073c1190881",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/89985.html",
+        "surface": "title",
+        "quote": "中国泰达环保与埃及签署固废发电项目MOU"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-HB-0002-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/89985.html",
+          "surface": "title",
+          "quote": "中国泰达环保与埃及签署固废发电项目MOU"
+        }
+      ]
+    }
+  ]
+}

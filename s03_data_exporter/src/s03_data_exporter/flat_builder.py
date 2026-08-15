@@ -62,6 +62,10 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     category_en         TEXT,
     subcategory         TEXT,
     subcategory_en      TEXT,
+    generation_sources  TEXT NOT NULL DEFAULT '[]',
+    storage_status      TEXT NOT NULL DEFAULT 'not_mentioned',
+    technology_tags     TEXT NOT NULL DEFAULT '[]',
+    technology_tags_en  TEXT NOT NULL DEFAULT '[]',
     capacity_mw         REAL,
     pv_capacity_mw      REAL,
     storage_power_mw    REAL,
@@ -94,6 +98,55 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     record_type                TEXT
 )
 """
+
+_STORAGE_STATUS_PRIORITY = {
+    status: enums.storage_status_priority(status) for status in enums.valid_storage_statuses()
+}
+
+
+def _json_string_list(value) -> list[str]:
+    """把 JSON 数组或 Python 序列安全规范为去重字符串列表。"""
+    if isinstance(value, str):
+        try:
+            value = json.loads(value or "[]")
+        except (json.JSONDecodeError, TypeError):
+            return []
+    if not isinstance(value, (list, tuple)):
+        return []
+    return list(dict.fromkeys(str(item).strip() for item in value if str(item).strip()))
+
+
+def _technology_tag_en(tag: str) -> str:
+    """从根枚举翻译受控技术标签，未知历史值原样返回。"""
+    return enums.technology_tag_en(tag) or tag
+
+
+def _project_energy_fields(proj: dict, sorted_events: list[dict]) -> tuple[list[str], str, list[str], list[str]]:
+    """聚合事件能源事实并读取已批准的 canonical 技术标签，兼容旧 schema。"""
+    sources: list[str] = []
+    statuses: list[str] = []
+    status_column_present = any("storage_status" in event for event in sorted_events)
+    for event in sorted_events:
+        sources.extend(_json_string_list(event.get("generation_sources_json")))
+        status = str(event.get("storage_status") or "").strip()
+        if status in _STORAGE_STATUS_PRIORITY:
+            statuses.append(status)
+    sources = list(dict.fromkeys(sources))
+    status = max(statuses, key=_STORAGE_STATUS_PRIORITY.__getitem__) if statuses else "not_mentioned"
+    if not status_column_present and any(
+        event.get("storage_power_mw") is not None or event.get("storage_energy_mwh") is not None
+        for event in sorted_events
+    ):
+        status = "confirmed"
+    tags = _json_string_list(proj.get("technology_tags_json"))
+    return sources, status, tags, [_technology_tag_en(tag) for tag in tags]
+
+
+def _export_subcategory(category: str, subcategory) -> Optional[str]:
+    """仅导出项目形态子类；综合能源旧“光储/其他”子类不再进入消费层。"""
+    if enums.category_code(category) != "PV":
+        return None
+    return enums.effective_subcategory(category, subcategory)
 
 
 def _stage_rank(stage: str) -> int:
@@ -291,8 +344,16 @@ def build_flat(
 
         category     = proj.get("category") or ""
 
-        # 子类：DB 存有证据值（NULL=无证据），导出时按父类默认渲染（光伏→集中式、综合能源→其他）
-        _sub = enums.effective_subcategory(category, proj.get("subcategory"))
+        # 子类只承载项目形态；综合能源的旧“光储/其他”组合信息改由 technology_tags 表达。
+        _sub = _export_subcategory(category, proj.get("subcategory"))
+        generation_sources, storage_status, technology_tags, technology_tags_en = (
+            _project_energy_fields(proj, sorted_events)
+        )
+
+        # 新口径只允许 confirmed 储能事实携带确定 MW/MWh；旧 schema 由上方兼容逻辑推断 confirmed。
+        if storage_status != "confirmed":
+            storage_power_mw = None
+            storage_energy_mwh = None
 
         # 无装机容量意义的类别：清空容量字段；储能类（storage_metrics）保留 storage_*——
         # 储能功率/能量正是其核心指标，仅 capacity_mw 不进装机聚合（TX/MF 继续全清）
@@ -385,6 +446,10 @@ def build_flat(
                 "category_en":         enums.category_en(category) or category,
                 "subcategory":         _sub or "",
                 "subcategory_en":      (enums.subcategory_en(category, _sub) or "") if _sub else "",
+                "generation_sources":  json.dumps(generation_sources, ensure_ascii=False),
+                "storage_status":      storage_status,
+                "technology_tags":     json.dumps(technology_tags, ensure_ascii=False),
+                "technology_tags_en":  json.dumps(technology_tags_en, ensure_ascii=False),
                 "capacity_mw":         capacity_mw,
                 "pv_capacity_mw":      pv_capacity_mw,
                 "storage_power_mw":    storage_power_mw,

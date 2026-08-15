@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-ES-0003",
+  "package_sha256": "b7d9d06d2efc8f5fa32930dd5d04e1017ff4917eaf8b71a0936fc9d228113e9b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 2500,
+    "storage_energy_mwh": 12500,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78399.html",
+        "surface": "body",
+        "quote": "近日，沙特国家电力公司（SEC）宣布了一项重大合同授予决定：沙特公用事业巨头阿尔法纳集团（Alfanar Projects）与中国知名企业比亚迪股份有限公司共同赢得了在沙特阿拉伯全国范围内开发总容量为2.5吉瓦/12.5吉瓦时的电池储能系统（BESS）项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-ES-0003-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 2500,
+      "storage_energy_mwh": 12500,
+      "storage_power_mw_raw": "2.5吉瓦",
+      "storage_energy_mwh_raw": "12.5吉瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78399.html",
+          "surface": "body",
+          "quote": "近日，沙特国家电力公司（SEC）宣布了一项重大合同授予决定：沙特公用事业巨头阿尔法纳集团（Alfanar Projects）与中国知名企业比亚迪股份有限公司共同赢得了在沙特阿拉伯全国范围内开发总容量为2.5吉瓦/12.5吉瓦时的电池储能系统（BESS）项目。"
+        }
+      ]
+    }
+  ]
+}

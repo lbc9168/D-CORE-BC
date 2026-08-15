@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHL-ES-0006",
+  "package_sha256": "977a02bd0047f1c679eb4b73a9871ee56c7d7492721a4d32ab0702423d88dc74",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 880,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/67856.html",
+        "surface": "title",
+        "quote": "阳光电源携手Atlas建设拉美最大独立储能电站"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/67856.html",
+        "surface": "body",
+        "quote": "近日，阳光电源与拉美最大独立发电商之一Atlas Renewable Energy达成供货协议，拉美规模最大的独立储能项目智利BESS del Desierto 880MWh电站将全部采用阳光电源PowerTitan液冷储能系统，通过领先的储能解决方案能有效解决智利北部限电问题，增强地区能源可靠性，助力实现智利2050年100%清洁能源目标。\n该项目位于智利阿塔卡马沙漠，受制于当地有限的电力传输"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHL-ES-0006-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 880,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "880MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/67856.html",
+          "surface": "title",
+          "quote": "阳光电源携手Atlas建设拉美最大独立储能电站"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/67856.html",
+          "surface": "body",
+          "quote": "近日，阳光电源与拉美最大独立发电商之一Atlas Renewable Energy达成供货协议，拉美规模最大的独立储能项目智利BESS del Desierto 880MWh电站将全部采用阳光电源PowerTitan液冷储能系统，通过领先的储能解决方案能有效解决智利北部限电问题，增强地区能源可靠性，助力实现智利2050年100%清洁能源目标。\n该项目位于智利阿塔卡马沙漠，受制于当地有限的电力传输"
+        }
+      ]
+    }
+  ]
+}

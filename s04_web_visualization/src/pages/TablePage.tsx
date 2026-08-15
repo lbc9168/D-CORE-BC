@@ -14,6 +14,7 @@ import { TX_CATEGORY_KEY, MF_CATEGORY_KEY } from "@/utils/domains";
 import { formatCountryName } from "@/utils/display";
 import { downloadCSV } from "@/utils/csvExport";
 import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
+import TechnologyTagBadges from "@/components/projects/TechnologyTagBadges";
 
 const SURVEY_ENDPOINT = import.meta.env.VITE_SURVEY_ENDPOINT as string | undefined;
 
@@ -344,6 +345,7 @@ export default function TablePage() {
                             {p.subcategory_en}
                           </span>
                         )}
+                        <TechnologyTagBadges project={p} compact className="ml-1" />
                       </td>
                       <td className="px-3 py-2 text-right text-slate-600 whitespace-nowrap">
                         {p.capacity_mw?.toFixed(0) ?? "—"}

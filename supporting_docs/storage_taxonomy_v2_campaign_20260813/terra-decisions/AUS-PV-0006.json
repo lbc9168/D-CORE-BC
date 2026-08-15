@@ -1,0 +1,59 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-PV-0006",
+  "package_sha256": "cac8d1ca7c135d14375f8ea98aab24b6f76504c24b2031574a9ef5218f2cde02",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "storage wording appears in an article but the package target description does not tie it conclusively to this project",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "unclear",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78360.html",
+        "surface": "title",
+        "quote": "天合光能至尊组件供货澳洲光伏车棚项目竣工"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78360.html",
+        "surface": "body",
+        "quote": "致力于成为全球光储智慧能源解决方案领导者，天合光能始终坚持可持续发展，以领先的技术和产品解决方案满足全球新能源发展需求，为构建美好零碳未来贡献天合智慧！"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-PV-0006-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "unclear",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78360.html",
+          "surface": "title",
+          "quote": "天合光能至尊组件供货澳洲光伏车棚项目竣工"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78360.html",
+          "surface": "body",
+          "quote": "致力于成为全球光储智慧能源解决方案领导者，天合光能始终坚持可持续发展，以领先的技术和产品解决方案满足全球新能源发展需求，为构建美好零碳未来贡献天合智慧！"
+        }
+      ]
+    }
+  ]
+}

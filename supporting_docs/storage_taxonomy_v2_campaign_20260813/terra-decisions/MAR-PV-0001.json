@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MAR-PV-0001",
+  "package_sha256": "628b37941fa77877c54214fb01fb5f32e5de250afda5d8dde3e13eb0d367aeb7",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；原单一发电类别文章出现多种新能源，可能混入多个项目",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "水电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光水储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42762.html",
+        "surface": "title",
+        "quote": "摩洛哥可再生能源局发布Noor Midelt光伏项目2期400MW资格预审名单,东方电气入围"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42762.html",
+        "surface": "body",
+        "quote": "截至2021年底，该国风能、水电和光伏项目的装机量为4109MW。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/42762.html",
+        "surface": "body",
+        "quote": "表示，Noor Midelt 2期光伏项目容量为400MW，搭配2小时的储能电池设备。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MAR-PV-0001-01",
+      "generation_sources": [
+        "光伏",
+        "水电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42762.html",
+          "surface": "title",
+          "quote": "摩洛哥可再生能源局发布Noor Midelt光伏项目2期400MW资格预审名单,东方电气入围"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42762.html",
+          "surface": "body",
+          "quote": "截至2021年底，该国风能、水电和光伏项目的装机量为4109MW。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/42762.html",
+          "surface": "body",
+          "quote": "表示，Noor Midelt 2期光伏项目容量为400MW，搭配2小时的储能电池设备。"
+        }
+      ]
+    }
+  ]
+}

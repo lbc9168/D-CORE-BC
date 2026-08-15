@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-HB-0009",
+  "package_sha256": "26ccc7caf023abcc358edfa88cdeb9b00af066c5b5547ffe61d6e1874b131209",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 7800,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68692.html",
+        "surface": "body",
+        "quote": "2024年5月，阳光电源与沙特大型离网项目AMAALA签署合作协议，将为该项目部署160MW/760MWh的电池储能系统和165MW的光伏逆变器。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68692.html",
+        "surface": "body",
+        "quote": "签约沙特7.8GWh储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68692.html",
+        "surface": "body",
+        "quote": "近日，阳光电源宣布与沙特阿拉伯的Algihaz Holding签署了一项容量高达7.8吉瓦时的储能项目协议。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-HB-0009-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 7800,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "7.8吉瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68692.html",
+          "surface": "body",
+          "quote": "2024年5月，阳光电源与沙特大型离网项目AMAALA签署合作协议，将为该项目部署160MW/760MWh的电池储能系统和165MW的光伏逆变器。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68692.html",
+          "surface": "body",
+          "quote": "签约沙特7.8GWh储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68692.html",
+          "surface": "body",
+          "quote": "近日，阳光电源宣布与沙特阿拉伯的Algihaz Holding签署了一项容量高达7.8吉瓦时的储能项目协议。"
+        }
+      ]
+    }
+  ]
+}

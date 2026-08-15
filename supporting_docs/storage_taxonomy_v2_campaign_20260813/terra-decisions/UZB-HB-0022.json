@@ -1,0 +1,70 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0022",
+  "package_sha256": "e9e14325b4c36a038a6c988a7913e1a6c2ec68ebe5fefd78f105115ae7d08dfe",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76258.html",
+        "surface": "title",
+        "quote": "通用技术中技公司领导参加乌兹别克斯坦重点能源项目集中开工及并网典礼"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/69625.html",
+        "surface": "body",
+        "quote": "签署Ginosa光伏电站EPC合同"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0022-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76258.html",
+          "surface": "title",
+          "quote": "通用技术中技公司领导参加乌兹别克斯坦重点能源项目集中开工及并网典礼"
+        }
+      ]
+    },
+    {
+      "event_id": "UZB-HB-0022-02",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/69625.html",
+          "surface": "body",
+          "quote": "签署Ginosa光伏电站EPC合同"
+        }
+      ]
+    }
+  ]
+}

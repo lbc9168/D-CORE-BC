@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PHL-PV-0064",
+  "package_sha256": "4c664244d09dadff168b909868aaa47e67403fe44815ebe328248e2e011b67ee",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 10,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32448.html",
+        "surface": "body",
+        "quote": "菲律宾塔帕斯光伏项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32448.html",
+        "surface": "body",
+        "quote": "越南昆嵩陆上风电项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/32448.html",
+        "surface": "body",
+        "quote": "该项目位于菲律宾塔帕斯市，光伏装机容量100兆瓦，储能装机10兆瓦时，建成后年发电量156.56吉瓦时，对缓解当地能源紧缺，提高电网稳定性以及支持当地经济发展有着重要意义。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PHL-PV-0064-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 10,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "10兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32448.html",
+          "surface": "body",
+          "quote": "菲律宾塔帕斯光伏项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32448.html",
+          "surface": "body",
+          "quote": "越南昆嵩陆上风电项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/32448.html",
+          "surface": "body",
+          "quote": "该项目位于菲律宾塔帕斯市，光伏装机容量100兆瓦，储能装机10兆瓦时，建成后年发电量156.56吉瓦时，对缓解当地能源紧缺，提高电网稳定性以及支持当地经济发展有着重要意义。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ESP-ES-0002",
+  "package_sha256": "198f189fdec12b96b5ba244a58c85a0be2154c7c1f28dc3566c19512a900d0c9",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 50,
+    "storage_energy_mwh": 300,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/25033.html",
+        "surface": "title",
+        "quote": "欧洲空气储能设计项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/25033.html",
+        "surface": "body",
+        "quote": "液态空气储能电站设计及技术咨询服务项目，\n进一步巩固了在欧洲市场上的地位。\n该项目位于加那利岛首府特内里费岛东南部Granadilla热电厂，拟基于英国Highview Power公司液态空气储能技术（LAES），建设一座50 MW/ 300MWh的液态空气储能电站。\nLAES(液态空气储能"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ESP-ES-0002-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 50,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "50 MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/25033.html",
+          "surface": "title",
+          "quote": "欧洲空气储能设计项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/25033.html",
+          "surface": "body",
+          "quote": "液态空气储能电站设计及技术咨询服务项目，\n进一步巩固了在欧洲市场上的地位。\n该项目位于加那利岛首府特内里费岛东南部Granadilla热电厂，拟基于英国Highview Power公司液态空气储能技术（LAES），建设一座50 MW/ 300MWh的液态空气储能电站。\nLAES(液态空气储能"
+        }
+      ]
+    }
+  ]
+}

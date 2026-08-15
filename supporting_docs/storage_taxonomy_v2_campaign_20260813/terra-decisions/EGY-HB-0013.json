@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "EGY-HB-0013",
+  "package_sha256": "e3167a2a4fcc2ea3739706141e4eb48ee27225661f526b05d87c581b10b5bd60",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 7.5,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/22129.html",
+        "surface": "title",
+        "quote": "阳光电源光储微电网方案助力埃及打造“绿色”金矿项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/22129.html",
+        "surface": "body",
+        "quote": "近日，阳光电源与德国能源开发商、承包商Juwi公司正式签约，为埃及Sukari金矿提供光伏和储能整体解决方案。这是该地区矿业最大的光储微电网项目，极大减少业主采矿用电成本，提升电力稳定性，加速矿业能源转型。\nSukari金矿位于埃及东部沙漠，采矿用电常年依靠柴油发电，油耗成本较高，同时面临极大的减排压力。由36MW光伏电站及7.5MW电池储能系统组成的光储微电网，建成后可替"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "EGY-HB-0013-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 7.5,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "7.5MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/22129.html",
+          "surface": "title",
+          "quote": "阳光电源光储微电网方案助力埃及打造“绿色”金矿项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/22129.html",
+          "surface": "body",
+          "quote": "近日，阳光电源与德国能源开发商、承包商Juwi公司正式签约，为埃及Sukari金矿提供光伏和储能整体解决方案。这是该地区矿业最大的光储微电网项目，极大减少业主采矿用电成本，提升电力稳定性，加速矿业能源转型。\nSukari金矿位于埃及东部沙漠，采矿用电常年依靠柴油发电，油耗成本较高，同时面临极大的减排压力。由36MW光伏电站及7.5MW电池储能系统组成的光储微电网，建成后可替"
+        }
+      ]
+    }
+  ]
+}

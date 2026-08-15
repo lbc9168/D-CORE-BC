@@ -1,0 +1,53 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZMB-HB-0010",
+  "package_sha256": "84c8755066c3b9dad55a69fe18078efcf1fcf17184e9269563606b74bdb6d818",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光生物质"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/47249.html",
+        "surface": "body",
+        "quote": "会后，外建集团负责人与赞比亚发展署署长艾伯特·哈尔万帕进行了会面，向赞比亚发展署递交了关于参与赞比亚500MW光伏项目和卢萨卡垃圾焚烧发电项目意向函，并与赞中经济文化交流中心主席、赞比亚中华总商会的监事长、赞比亚中华江西同乡会会长张军进行了会面，双方表示将持续加强沟通和务实合作，共同推动赞比亚新能源的项目尽快落地。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZMB-HB-0010-01",
+      "generation_sources": [
+        "光伏",
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/47249.html",
+          "surface": "body",
+          "quote": "会后，外建集团负责人与赞比亚发展署署长艾伯特·哈尔万帕进行了会面，向赞比亚发展署递交了关于参与赞比亚500MW光伏项目和卢萨卡垃圾焚烧发电项目意向函，并与赞中经济文化交流中心主席、赞比亚中华总商会的监事长、赞比亚中华江西同乡会会长张军进行了会面，双方表示将持续加强沟通和务实合作，共同推动赞比亚新能源的项目尽快落地。"
+        }
+      ]
+    }
+  ]
+}

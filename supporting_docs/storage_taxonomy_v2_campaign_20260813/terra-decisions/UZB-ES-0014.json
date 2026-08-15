@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-ES-0014",
+  "package_sha256": "1029bce1c6cee59eae8acb0e1a63a61a771962a44ac3ef044e03f167100498c4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 1800,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/57298.html",
+        "surface": "body",
+        "quote": "该储能项目群共包含8个储能子项目，设计总容量达1.8GWh。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-ES-0014-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 1800,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "1.8GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/57298.html",
+          "surface": "body",
+          "quote": "该储能项目群共包含8个储能子项目，设计总容量达1.8GWh。"
+        }
+      ]
+    }
+  ]
+}

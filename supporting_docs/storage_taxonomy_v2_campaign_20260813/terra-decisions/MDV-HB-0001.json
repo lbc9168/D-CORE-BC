@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MDV-HB-0001",
+  "package_sha256": "e8873585cb6819159402ba8acfceb5e691d3314000f5b98708536bfc0c0d553a",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/87291.html",
+        "surface": "body",
+        "quote": "其中一期新能源电站投资金额约1.1亿美金，分别在六个环礁及大马累地区的28个岛屿上建设总规模150MW的光储一体化电站和相关产业项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MDV-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/87291.html",
+          "surface": "body",
+          "quote": "其中一期新能源电站投资金额约1.1亿美金，分别在六个环礁及大马累地区的28个岛屿上建设总规模150MW的光储一体化电站和相关产业项目。"
+        }
+      ]
+    }
+  ]
+}

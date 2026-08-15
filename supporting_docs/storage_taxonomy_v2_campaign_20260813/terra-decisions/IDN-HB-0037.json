@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0037",
+  "package_sha256": "a478efeabc8d2b1d8420f4f558a2c5a5cc9f12dbcef1eaf9e3eaddbf7281462b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 95,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/28359.html",
+        "surface": "title",
+        "quote": "印尼光伏+储能IPP项目招标，多家中企入围"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/28359.html",
+        "surface": "body",
+        "quote": "PLN可再生能源执行副总裁Cita Dewi表示，拟替换的柴油发电机组总装机容量为588兆瓦，分两个阶段实施：“第一阶段项目将把200个地点的250兆瓦柴油发电厂转换为太阳能发电厂，同时配备储能电池；在第二阶段，根据各地特有的可再生能源类型，对总共338兆瓦的柴油发电机组进行替换。“部分替换项目会授予独立电力生产商（IPP）开发。从2022年初开始分阶段开展招标，先从上述200个地点的老旧柴油机组开始。这些转换项目主要位于偏远、欠发达和边境地区”。\n第一批项目招标计划如"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0037-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 95,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "95MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/28359.html",
+          "surface": "title",
+          "quote": "印尼光伏+储能IPP项目招标，多家中企入围"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/28359.html",
+          "surface": "body",
+          "quote": "PLN可再生能源执行副总裁Cita Dewi表示，拟替换的柴油发电机组总装机容量为588兆瓦，分两个阶段实施：“第一阶段项目将把200个地点的250兆瓦柴油发电厂转换为太阳能发电厂，同时配备储能电池；在第二阶段，根据各地特有的可再生能源类型，对总共338兆瓦的柴油发电机组进行替换。“部分替换项目会授予独立电力生产商（IPP）开发。从2022年初开始分阶段开展招标，先从上述200个地点的老旧柴油机组开始。这些转换项目主要位于偏远、欠发达和边境地区”。\n第一批项目招标计划如"
+        }
+      ]
+    }
+  ]
+}

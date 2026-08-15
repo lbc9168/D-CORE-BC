@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-HB-0032",
+  "package_sha256": "dc1195d9cbc8d620b8a7e6785c901cfed34c01b930191d36f8c90062609c4a02",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54029.html",
+        "surface": "body",
+        "quote": "印尼米拉务公司全面介绍了中国大唐在光伏、风电、水电等新能源开发方面专业优势和发展战略，详细介绍了工程建设、净可容量测试、商业运营取证等情况，表达了按时加入印尼国家电力公司供电序列，保持机组可靠运行的信心和决心。希望在印尼国家电力公司的支持下，双方深化合作，共谋发展，把米拉务项目建设成为科技创新、数字智慧、火光互补、节"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/54029.html",
+        "surface": "body",
+        "quote": "印尼米拉务公司全面介绍了中国大唐在光伏、风电、水电等新能源开发方面专业优势和发展战略，详细介绍了工程建设、净可容量测试、商业运营取证等情况，表达了按时加入印尼国家电力公司供电序列，保持机组可靠运行的信心和决心。希望在印尼国家电力公司的支持下，双方深化合作，共谋发展，把米拉务项目建设成为科技创新、数字智慧、火光互补、节能环保"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-HB-0032-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54029.html",
+          "surface": "body",
+          "quote": "印尼米拉务公司全面介绍了中国大唐在光伏、风电、水电等新能源开发方面专业优势和发展战略，详细介绍了工程建设、净可容量测试、商业运营取证等情况，表达了按时加入印尼国家电力公司供电序列，保持机组可靠运行的信心和决心。希望在印尼国家电力公司的支持下，双方深化合作，共谋发展，把米拉务项目建设成为科技创新、数字智慧、火光互补、节"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/54029.html",
+          "surface": "body",
+          "quote": "印尼米拉务公司全面介绍了中国大唐在光伏、风电、水电等新能源开发方面专业优势和发展战略，详细介绍了工程建设、净可容量测试、商业运营取证等情况，表达了按时加入印尼国家电力公司供电序列，保持机组可靠运行的信心和决心。希望在印尼国家电力公司的支持下，双方深化合作，共谋发展，把米拉务项目建设成为科技创新、数字智慧、火光互补、节能环保"
+        }
+      ]
+    }
+  ]
+}

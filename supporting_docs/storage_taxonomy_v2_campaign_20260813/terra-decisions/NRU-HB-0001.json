@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "NRU-HB-0001",
+  "package_sha256": "def24c0fd824d97a4e87c8b05339e72be32ffb802d05c26649716d4493c088cd",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 5,
+    "storage_energy_mwh": 2.5,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/14870.html",
+        "surface": "body",
+        "quote": "项目主要内容包括设计、安装、调试一座6兆瓦（标称安装的交流容量）太阳能场，一个容量为2.5 MWh / 5 MW的电池储能系统（BESS），一个11 kV变电站，包括所有开关设备，电力变压器以及与现有的NUC 11 kV配电系统的连接。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "NRU-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 5,
+      "storage_energy_mwh": 2.5,
+      "storage_power_mw_raw": "5MW",
+      "storage_energy_mwh_raw": "2.5MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/14870.html",
+          "surface": "body",
+          "quote": "项目主要内容包括设计、安装、调试一座6兆瓦（标称安装的交流容量）太阳能场，一个容量为2.5 MWh / 5 MW的电池储能系统（BESS），一个11 kV变电站，包括所有开关设备，电力变压器以及与现有的NUC 11 kV配电系统的连接。"
+        }
+      ]
+    }
+  ]
+}

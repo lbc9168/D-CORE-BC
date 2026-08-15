@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GBR-HB-0007",
+  "package_sha256": "65b23a5e33016aa7a72a328f02ee9ca0fb4cadedf51c5a05ad9b1240ca14d5b4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 27,
+    "storage_energy_mwh": 30,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/8104.html",
+        "surface": "title",
+        "quote": "阳光电源签约英国34.7MW光伏储能大型项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/8104.html",
+        "surface": "body",
+        "quote": "从英国传来喜讯，阳光电源签约当地34.7MW光伏+27MW/30MWh储能大型项目\n。据了解，该无补贴项目是英国目前最大的光储融合项目，标志着英国“无补贴时代”的逐步到来，对当地可再生能源发展起到重要的推动作用。\n众所周知，欧洲技术门槛高、产品要求严苛，此次凭借22年的新能源产品研发与项目应用经验，阳光电源成为项目独家光伏逆变器与储能系统供应商。基于对"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GBR-HB-0007-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 27,
+      "storage_energy_mwh": 30,
+      "storage_power_mw_raw": "27MW",
+      "storage_energy_mwh_raw": "30MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/8104.html",
+          "surface": "title",
+          "quote": "阳光电源签约英国34.7MW光伏储能大型项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/8104.html",
+          "surface": "body",
+          "quote": "从英国传来喜讯，阳光电源签约当地34.7MW光伏+27MW/30MWh储能大型项目\n。据了解，该无补贴项目是英国目前最大的光储融合项目，标志着英国“无补贴时代”的逐步到来，对当地可再生能源发展起到重要的推动作用。\n众所周知，欧洲技术门槛高、产品要求严苛，此次凭借22年的新能源产品研发与项目应用经验，阳光电源成为项目独家光伏逆变器与储能系统供应商。基于对"
+        }
+      ]
+    }
+  ]
+}

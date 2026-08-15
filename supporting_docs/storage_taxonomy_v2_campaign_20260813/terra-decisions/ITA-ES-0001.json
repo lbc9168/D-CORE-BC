@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ITA-ES-0001",
+  "package_sha256": "88545efc91c4640c9829ef2f223fe204311312c0eefc69ec009d9763630b8f41",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 250,
+    "storage_energy_mwh": 1000,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92118.html",
+        "surface": "title",
+        "quote": "天合储能签约意大利最大储能项目之一"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92118.html",
+        "surface": "body",
+        "quote": "近日，天合储能与爱尔兰可再生能源开发商Aer Soléir正式签署了其在意大利首个大型电池储能项目合作协议，双方将共同建设位于都灵地区Rondissone的250 MW/1 GWh储能电站。该项目将成为意大利乃至欧洲目前规模最大的电池储能项目之一，不仅开启了天合储能在意大利规模储能市场的新篇章"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ITA-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 250,
+      "storage_energy_mwh": 1000,
+      "storage_power_mw_raw": "250 MW",
+      "storage_energy_mwh_raw": "1 GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92118.html",
+          "surface": "title",
+          "quote": "天合储能签约意大利最大储能项目之一"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92118.html",
+          "surface": "body",
+          "quote": "近日，天合储能与爱尔兰可再生能源开发商Aer Soléir正式签署了其在意大利首个大型电池储能项目合作协议，双方将共同建设位于都灵地区Rondissone的250 MW/1 GWh储能电站。该项目将成为意大利乃至欧洲目前规模最大的电池储能项目之一，不仅开启了天合储能在意大利规模储能市场的新篇章"
+        }
+      ]
+    }
+  ]
+}

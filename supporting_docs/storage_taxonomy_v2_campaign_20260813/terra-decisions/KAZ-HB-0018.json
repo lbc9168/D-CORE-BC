@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0018",
+  "package_sha256": "26a225b80b49cbbbf2e6448ecb0f667c8d5f44821feacc812490c4d2a148c349",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 150,
+    "storage_energy_mwh": 300,
+    "proposed_category": "风电",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94697.html",
+        "surface": "title",
+        "quote": "哈萨克斯坦卡拉干达500MW风储项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94697.html",
+        "surface": "body",
+        "quote": "当地时间4月30日，由中国能建海投公司与萨姆鲁克能源公司共同投资开发的哈萨克斯坦卡拉干达500MW风储项目正式开工。这是继萨乌兰光储项目之后，中国能建在中哈政府合作框架内成功落地的又一重大新能源项目。哈萨克斯坦萨姆鲁克-卡泽纳国家基金主席努尔兰·扎库波夫，中国驻哈萨克斯坦大使韩春霖，卡拉干达州州长叶尔马甘别特·布列克帕耶夫，哈萨克斯坦共和国议会议员代表叶尔纳特·然贝尔申，萨姆鲁克"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0018-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": 300,
+      "storage_power_mw_raw": "150MW",
+      "storage_energy_mwh_raw": "300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94697.html",
+          "surface": "title",
+          "quote": "哈萨克斯坦卡拉干达500MW风储项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94697.html",
+          "surface": "body",
+          "quote": "当地时间4月30日，由中国能建海投公司与萨姆鲁克能源公司共同投资开发的哈萨克斯坦卡拉干达500MW风储项目正式开工。这是继萨乌兰光储项目之后，中国能建在中哈政府合作框架内成功落地的又一重大新能源项目。哈萨克斯坦萨姆鲁克-卡泽纳国家基金主席努尔兰·扎库波夫，中国驻哈萨克斯坦大使韩春霖，卡拉干达州州长叶尔马甘别特·布列克帕耶夫，哈萨克斯坦共和国议会议员代表叶尔纳特·然贝尔申，萨姆鲁克"
+        }
+      ]
+    }
+  ]
+}

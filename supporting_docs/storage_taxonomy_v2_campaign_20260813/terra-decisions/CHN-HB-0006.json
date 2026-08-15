@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "CHN-HB-0006",
+  "package_sha256": "b2336840e2d157208fca95b61ba81e31a14fee234178ec0d1c8158b267c52011",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/14819.html",
+        "surface": "title",
+        "quote": "国机集团签下香港首个综合垃圾处理设施动力岛项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "CHN-HB-0006-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/14819.html",
+          "surface": "title",
+          "quote": "国机集团签下香港首个综合垃圾处理设施动力岛项目"
+        }
+      ]
+    }
+  ]
+}

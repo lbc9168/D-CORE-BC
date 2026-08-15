@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IRQ-HB-0004",
+  "package_sha256": "221c3ce78751b0d29e11e8df45206fdb4284516efdbc9e194e9f04e6df542bb8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.7,
+  "review_reason": "package evidence does not resolve a generation source or confirmed standalone storage",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/91870.html",
+        "surface": "title",
+        "quote": "电建国际签署伊拉克170亿元巴士拉海水淡化项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IRQ-HB-0004-01",
+      "generation_sources": [],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/91870.html",
+          "surface": "title",
+          "quote": "电建国际签署伊拉克170亿元巴士拉海水淡化项目"
+        }
+      ]
+    }
+  ]
+}

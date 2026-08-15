@@ -75,8 +75,8 @@ def test_apply_writes_shadow_only_and_preserves_identity(tmp_path):
     assert canonical == ("ITA-PV-0001", "综合能源", "光储")
     assert json.loads(shadow[0]) == ["光伏"]
     assert shadow[1:3] == ("confirmed", "光伏")
-    assert json.loads(shadow[3]) == ["光储", "含储能"]
-    assert shadow[4] == "energy_taxonomy_v1"
+    assert json.loads(shadow[3]) == ["光储"]
+    assert shadow[4] == "energy_taxonomy_v2.1"
     assert shadow[5] == 0
     assert shadow[6:] == (13.75, 50.16)
 
@@ -119,5 +119,5 @@ def test_reports_write_csv_and_json(tmp_path):
     assert rows[0]["current_category"] == "综合能源"
     assert rows[0]["proposed_category"] == "光伏"
     assert payload["would_change"] == 1
-    assert payload["rows"][0]["technology_tags"] == ["光储", "含储能"]
+    assert payload["rows"][0]["technology_tags"] == ["光储"]
     assert payload["rows"][0]["storage_energy_mwh"] == 50.16

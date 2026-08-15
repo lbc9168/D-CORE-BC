@@ -3,6 +3,7 @@ import { useLang } from "@/contexts/LanguageContext";
 import type { Project } from "@/types";
 import { CATEGORIES, VIZ_GROUPS } from "@/types";
 import { Zap } from "lucide-react";
+import TechnologyTagBadges from "./TechnologyTagBadges";
 
 interface ProjectListProps {
   projects: Project[];
@@ -100,6 +101,7 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
                     {p.subcategory_en}
                   </span>
                 )}
+                <TechnologyTagBadges project={p} compact />
                 <span
                   className="badge"
                   style={{

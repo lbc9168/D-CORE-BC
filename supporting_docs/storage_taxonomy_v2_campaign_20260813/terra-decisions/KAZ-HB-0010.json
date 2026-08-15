@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0010",
+  "package_sha256": "0dcb75ec7d8b963ec8aa1aa3cff58a47f11ff1cea484a265a1f48e41ec21760f",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 90,
+    "storage_energy_mwh": 360,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77236.html",
+        "surface": "body",
+        "quote": "项目包括图尔克斯坦州300MW光伏项目和卡拉干达州500MW风电项目。图尔克斯坦州项目装机容量300MW，并配套90MW/360MWh储能以及对应的变电站和线路。卡拉干达州项目包括500MW风电场、150MW/300MWh储能以及220kV升压站和输变电线路。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77236.html",
+        "surface": "body",
+        "quote": "图尔克斯坦州项目装机容量300MW，并配套90MW/360MWh储能以及对应的变电站和线路。卡拉干达州项目包括500MW风电场、150MW/300MWh储能以及220kV升压站和输变电线路。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0010-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 90,
+      "storage_energy_mwh": 360,
+      "storage_power_mw_raw": "90MW",
+      "storage_energy_mwh_raw": "360MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77236.html",
+          "surface": "body",
+          "quote": "项目包括图尔克斯坦州300MW光伏项目和卡拉干达州500MW风电项目。图尔克斯坦州项目装机容量300MW，并配套90MW/360MWh储能以及对应的变电站和线路。卡拉干达州项目包括500MW风电场、150MW/300MWh储能以及220kV升压站和输变电线路。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77236.html",
+          "surface": "body",
+          "quote": "图尔克斯坦州项目装机容量300MW，并配套90MW/360MWh储能以及对应的变电站和线路。卡拉干达州项目包括500MW风电场、150MW/300MWh储能以及220kV升压站和输变电线路。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-ES-0007",
+  "package_sha256": "1ed52205df28ddff6e9cc233243d92d6e265ea556ae35a7ce48cf1b87ee1c5d1",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 12500,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+        "surface": "body",
+        "quote": "日前，比亚迪 BYD 与沙特电力公司 SEC 成功签署容量高达12.5GWh储能项目(BESS)，以规模计，为全球最大储能项目合同。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/23301.html",
+        "surface": "title",
+        "quote": "1300MWh! 华为签约全球最大储能项目"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-ES-0007-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 12500,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "12.5GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78886.html",
+          "surface": "body",
+          "quote": "日前，比亚迪 BYD 与沙特电力公司 SEC 成功签署容量高达12.5GWh储能项目(BESS)，以规模计，为全球最大储能项目合同。"
+        }
+      ]
+    },
+    {
+      "event_id": "SAU-ES-0007-02",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 1300,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "1300MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/23301.html",
+          "surface": "title",
+          "quote": "1300MWh! 华为签约全球最大储能项目"
+        }
+      ]
+    }
+  ]
+}

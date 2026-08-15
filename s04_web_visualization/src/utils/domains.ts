@@ -6,9 +6,8 @@
  * - txmf     ：tx_flat/mf_flat 专表（度量仅 count——TX 输送容量覆盖率 2.7%、MF 单位异质）
  *
  * 储能不是第三个域，而是发电域的"度量透镜"：选中储能度量（MWh/MW）时地图按储能
- * 口径着色、列表聚焦 isStorageLens 子集。透镜谓词是数据驱动并集（用户拍板）：
- * 储能类别 ∪ 光储子类 ∪ 任何披露了储能字段的项目——保证地图上每个贡献值都能在
- * 列表中找到，且未来储能容量补全后透镜自动扩大，前端零改动。
+ * 口径着色、列表聚焦 isStorageLens 子集。透镜谓词是数据驱动并集：
+ * 储能类别 ∪ 储能状态 ∪ 技术标签 ∪ 储能数值；不再依赖综合能源旧“光储”子类。
  */
 
 import type { DomainKey, MetricKey, Project } from "@/types";
@@ -48,15 +47,13 @@ const keyByCode = (code: string): string =>
   Object.entries(CATEGORIES).find(([, m]) => m.code === code)?.[0] ?? "";
 
 export const ES_CATEGORY_KEY = keyByCode("ES");
-export const HB_CATEGORY_KEY = keyByCode("HB");
 export const TX_CATEGORY_KEY = keyByCode("TX");
 export const MF_CATEGORY_KEY = keyByCode("MF");
-/** 综合能源"光储"子类的 DB 键（enums_mapping.json subcategory.综合能源.values 之一） */
-export const SOLAR_STORAGE_SUBCATEGORY = "光储";
 
-/** 储能透镜谓词：储能类别 ∪ 光储子类 ∪ 披露了储能字段（任何类别） */
+/** 储能透镜谓词：储能类别、状态、标签或容量任一显示存在储能即可命中。 */
 export function isStorageLens(p: Project): boolean {
   if (p.category === ES_CATEGORY_KEY) return true;
-  if (p.category === HB_CATEGORY_KEY && p.subcategory === SOLAR_STORAGE_SUBCATEGORY) return true;
+  if (p.storage_status && p.storage_status !== "not_mentioned") return true;
+  if (p.technology_tags?.some((tag) => tag.includes("储能") || tag.endsWith("储"))) return true;
   return p.storage_power_mw != null || p.storage_energy_mwh != null;
 }

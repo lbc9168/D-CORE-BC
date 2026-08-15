@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PHL-ES-0004",
+  "package_sha256": "a23019c5661c7abb4f91b56f92fc2040a984ab06cf6672eaa6d7b6e34dd8be16",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 16,
+    "storage_energy_mwh": 19,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76733.html",
+        "surface": "body",
+        "quote": "玛格项目位于菲律宾吕宋岛伊莎贝拉省，计划在一期24兆瓦储能项目的基础上扩建一套16兆瓦/19兆瓦时的储能设备，以及相关的控制系统、高压设备等。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PHL-ES-0004-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 16,
+      "storage_energy_mwh": 19,
+      "storage_power_mw_raw": "16兆瓦",
+      "storage_energy_mwh_raw": "19兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76733.html",
+          "surface": "body",
+          "quote": "玛格项目位于菲律宾吕宋岛伊莎贝拉省，计划在一期24兆瓦储能项目的基础上扩建一套16兆瓦/19兆瓦时的储能设备，以及相关的控制系统、高压设备等。"
+        }
+      ]
+    }
+  ]
+}

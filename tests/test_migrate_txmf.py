@@ -78,12 +78,12 @@ def test_apply_creates_backup_with_matching_row_count(tmp_path):
 
 
 def test_apply_is_idempotent_second_run_zero_new_columns(tmp_path):
-    """第二次 apply 应报告 5 列已存在、0 变更（幂等），行数依旧不变。"""
+    """第二次 apply 应报告 9 列已存在、0 变更（幂等），行数依旧不变。"""
     db_path = tmp_path / "t.db"
     _make_db(db_path)
 
     first = apply_migration(db_path)
-    assert len(first["to_add"]) == 5
+    assert len(first["to_add"]) == 9
 
     second = apply_migration(db_path)
     assert second["to_add"] == []
@@ -98,7 +98,7 @@ def test_apply_is_idempotent_second_run_zero_new_columns(tmp_path):
 
 
 def test_dry_run_after_apply_reports_all_existing(tmp_path):
-    """apply 后再跑 dry-run（只读连接）应报告全部 5 列已存在。"""
+    """apply 后再跑 dry-run（只读连接）应报告全部 9 列已存在。"""
     db_path = tmp_path / "t.db"
     _make_db(db_path)
     apply_migration(db_path)

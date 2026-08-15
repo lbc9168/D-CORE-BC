@@ -1,0 +1,51 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "USA-HB-0003",
+  "package_sha256": "40c386d93b3fff4e1a8795f17533a73fd8620d6f98a04041d5b3a476ca13cd68",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 400,
+    "storage_energy_mwh": 1600,
+    "proposed_category": "光伏",
+    "proposed_subcategory": "分布式",
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/72201.html",
+        "surface": "body",
+        "quote": "The Green River Energy Center项目由可再生能源商rPlus Energies开发，是全美最大的光伏+储能项目之一，包括一个400MWac光伏电站和一个400MW/1600 MWh电池储能项目，并将根据购电协议向西部电力公司PacifiCorp提供电力。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "USA-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 400,
+      "storage_energy_mwh": 1600,
+      "storage_power_mw_raw": "400MW",
+      "storage_energy_mwh_raw": "1600MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/72201.html",
+          "surface": "body",
+          "quote": "The Green River Energy Center项目由可再生能源商rPlus Energies开发，是全美最大的光伏+储能项目之一，包括一个400MWac光伏电站和一个400MW/1600 MWh电池储能项目，并将根据购电协议向西部电力公司PacifiCorp提供电力。"
+        }
+      ]
+    }
+  ]
+}

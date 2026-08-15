@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UZB-HB-0008",
+  "package_sha256": "8b84a5878c7f2574f525944ab14b9e593d6f2fdf432a03500918f647f39dee40",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "文章可能同时描述多个独立发电项目；能源构成证据语境存在歧义；单条证据并列多个项目，无法安全归并能源构成",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/90032.html",
+        "surface": "body",
+        "quote": "协议还明确配套举措：中国大唐通过培训提升当地专家技能，同步在布金光伏电站建立联合创新能源技术研究中心，完善项目人才研发合作链条。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/63561.html",
+        "surface": "body",
+        "quote": "会谈中贾炳军对乌兹能源部长期以来对中国大唐的支持表示感谢，介绍了有关项目最新进展情况，并重点就双方共同推动布卡光伏项目开工建设、加快纳沃伊风电项目开发等工作提出意见建议。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/87061.html",
+        "surface": "title",
+        "quote": "合作升级！大唐海投公司与乌兹别克斯坦能源部再签光储协议"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UZB-HB-0008-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/90032.html",
+          "surface": "body",
+          "quote": "协议还明确配套举措：中国大唐通过培训提升当地专家技能，同步在布金光伏电站建立联合创新能源技术研究中心，完善项目人才研发合作链条。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/63561.html",
+          "surface": "body",
+          "quote": "会谈中贾炳军对乌兹能源部长期以来对中国大唐的支持表示感谢，介绍了有关项目最新进展情况，并重点就双方共同推动布卡光伏项目开工建设、加快纳沃伊风电项目开发等工作提出意见建议。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/87061.html",
+          "surface": "title",
+          "quote": "合作升级！大唐海投公司与乌兹别克斯坦能源部再签光储协议"
+        }
+      ]
+    }
+  ]
+}

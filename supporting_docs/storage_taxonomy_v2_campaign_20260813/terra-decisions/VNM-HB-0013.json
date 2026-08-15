@@ -1,0 +1,72 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "VNM-HB-0013",
+  "package_sha256": "b61aa1437b938d71c0a7e96c1f24f026c720b50fe6f7513a10612b745f8263b6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "生物质"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "生物质",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/7860.html",
+        "surface": "title",
+        "quote": "中国天楹就越南垃圾焚烧发电项目相关合作事宜签署备忘录"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/7656.html",
+        "surface": "body",
+        "quote": "近日，中国一冶集团与中国天楹股份有限公司签署了越南河内4000吨/天生活垃圾焚烧发电厂项目EPC总承包合同。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "VNM-HB-0013-01",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/7860.html",
+          "surface": "title",
+          "quote": "中国天楹就越南垃圾焚烧发电项目相关合作事宜签署备忘录"
+        }
+      ]
+    },
+    {
+      "event_id": "VNM-HB-0013-02",
+      "generation_sources": [
+        "生物质"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/7656.html",
+          "surface": "body",
+          "quote": "近日，中国一冶集团与中国天楹股份有限公司签署了越南河内4000吨/天生活垃圾焚烧发电厂项目EPC总承包合同。"
+        }
+      ]
+    }
+  ]
+}

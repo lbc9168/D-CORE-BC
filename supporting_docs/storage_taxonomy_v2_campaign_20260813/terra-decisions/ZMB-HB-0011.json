@@ -1,0 +1,73 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "ZMB-HB-0011",
+  "package_sha256": "06bd49d881827674a3aa5c8fefa15d36c874d7afba61b54998e59b5fe08acffa",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 30,
+    "storage_energy_mwh": 60,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+        "surface": "title",
+        "quote": "三一集团收购罗马尼亚光储项目，加速布局新能源投建营"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+        "surface": "body",
+        "quote": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目，目前已顺利签署15年PPA和CfD，2028年投运后，年发电量预计为480GWh。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+        "surface": "body",
+        "quote": "2024年5月，与赞比亚能源部签订瑞达矿业30MW光伏+60MWh储能项目合作备忘录，三一集团光伏业务首次落子海外；"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "ZMB-HB-0011-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 30,
+      "storage_energy_mwh": 60,
+      "storage_power_mw_raw": "30MW",
+      "storage_energy_mwh_raw": "60MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+          "surface": "title",
+          "quote": "三一集团收购罗马尼亚光储项目，加速布局新能源投建营"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+          "surface": "body",
+          "quote": "三一集团子公司三一重能布局集中式风电领域，于2025年26月收购168MW风电项目，目前已顺利签署15年PPA和CfD，2028年投运后，年发电量预计为480GWh。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+          "surface": "body",
+          "quote": "2024年5月，与赞比亚能源部签订瑞达矿业30MW光伏+60MWh储能项目合作备忘录，三一集团光伏业务首次落子海外；"
+        }
+      ]
+    }
+  ]
+}

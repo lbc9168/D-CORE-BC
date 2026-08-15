@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-WD-0030",
+  "package_sha256": "1a13a4bfd962a0be307104c326f70f5b3ee47c43b4d20cbcd812e11797b6720d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 500,
+    "storage_energy_mwh": null,
+    "proposed_category": "风电",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+        "surface": "title",
+        "quote": "哈萨克斯坦与两家中国公司合作开发四大风光项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+        "surface": "body",
+        "quote": "将与Samruk-Energy在巴甫洛达尔合作开发500MW的风电项目,配备储能系统，电价为4.25美分/kWh。另外，双方还将合作开发第二个500MW的风电项目，配备储能系统，电价为4.25美分/kWh，但地点尚未确定。\n中国能建海外投资有限公司\n将与Samruk-Energy在图尔克斯坦州合作开发300MW的光伏项目，配备储能系统，电价为5.63美分/k"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-WD-0030-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 500,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "500MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+          "surface": "title",
+          "quote": "哈萨克斯坦与两家中国公司合作开发四大风光项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/76056.html",
+          "surface": "body",
+          "quote": "将与Samruk-Energy在巴甫洛达尔合作开发500MW的风电项目,配备储能系统，电价为4.25美分/kWh。另外，双方还将合作开发第二个500MW的风电项目，配备储能系统，电价为4.25美分/kWh，但地点尚未确定。\n中国能建海外投资有限公司\n将与Samruk-Energy在图尔克斯坦州合作开发300MW的光伏项目，配备储能系统，电价为5.63美分/k"
+        }
+      ]
+    }
+  ]
+}

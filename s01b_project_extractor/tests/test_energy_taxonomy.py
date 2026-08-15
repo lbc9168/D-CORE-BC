@@ -13,11 +13,12 @@ from s01b_project_extractor.energy_taxonomy import (
 @pytest.mark.parametrize(
     ("sources", "storage_status", "category", "tags"),
     [
-        (["光伏"], "confirmed", "光伏", ("光储", "含储能")),
-        (["风电"], "confirmed", "风电", ("风储", "含储能")),
-        (["风电", "光伏"], "confirmed", "综合能源", ("风光储", "含储能")),
-        (["光伏", "火电"], "confirmed", "综合能源", ("光火储", "含储能")),
-        ([], "confirmed", "储能", ("独立储能", "含储能")),
+        (["光伏"], "confirmed", "光伏", ("光储",)),
+        (["风电"], "confirmed", "风电", ("风储",)),
+        (["风电", "光伏"], "not_mentioned", "综合能源", ("风光",)),
+        (["风电", "光伏"], "confirmed", "综合能源", ("风光储",)),
+        (["光伏", "火电"], "confirmed", "光伏", ("光储",)),
+        ([], "confirmed", "储能", ()),
         (["光伏"], "planned", "光伏", ()),
         (["光伏"], "optional", "光伏", ()),
     ],
@@ -69,6 +70,16 @@ def test_aggregate_prefers_most_informative_event_with_same_status():
         EnergyFacts(("光伏",), "confirmed", "50MW", "100MWh", 50.0, 100.0, "储能50MW/100MWh"),
     ])
     assert (facts.storage_power_mw, facts.storage_energy_mwh) == (50.0, 100.0)
+
+
+def test_aggregate_clears_metrics_when_storage_is_not_confirmed():
+    """计划配储即使上游误填容量，也只能保留状态，不能保留 MW/MWh。"""
+    facts = aggregate_energy_facts([
+        EnergyFacts(("光伏",), "planned", "50MW", "100MWh", 50.0, 100.0, "拟配储"),
+    ])
+    assert facts.storage_status == "planned"
+    assert facts.storage_power_mw is None
+    assert facts.storage_energy_mwh is None
 
 
 @pytest.mark.parametrize(

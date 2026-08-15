@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "UNK-HB-0009",
+  "package_sha256": "9f2e62b757c6e36aaf4182a514c8acc2e911eec306ddd5ef127178ea45605bd4",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 15,
+    "storage_energy_mwh": 60,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95861.html",
+        "surface": "title",
+        "quote": "钧灏电力再签海外大型矿山光储微电网项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95861.html",
+        "surface": "body",
+        "quote": "项目总规划装机110MWp光伏+400MWh储能，本次落地的一期工程将建设30MWp光伏、15MW/60MWh储能系统及220kV升压站，"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "UNK-HB-0009-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 15,
+      "storage_energy_mwh": 60,
+      "storage_power_mw_raw": "15MW",
+      "storage_energy_mwh_raw": "60MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95861.html",
+          "surface": "title",
+          "quote": "钧灏电力再签海外大型矿山光储微电网项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95861.html",
+          "surface": "body",
+          "quote": "项目总规划装机110MWp光伏+400MWh储能，本次落地的一期工程将建设30MWp光伏、15MW/60MWh储能系统及220kV升压站，"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "SAU-ES-0012",
+  "package_sha256": "5ba74e554689f60277f5eadf3ce3d2ce89ed8c1fb1309853707345c1e25a2b62",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 7800,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/95240.html",
+        "surface": "body",
+        "quote": "2025年12月，沙特阿拉伯一座标杆性电池储能项目正式完成并网，该项目额定容量达 7.8 吉瓦时。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "SAU-ES-0012-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 7800,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "7.8吉瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/95240.html",
+          "surface": "body",
+          "quote": "2025年12月，沙特阿拉伯一座标杆性电池储能项目正式完成并网，该项目额定容量达 7.8 吉瓦时。"
+        }
+      ]
+    }
+  ]
+}

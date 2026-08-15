@@ -1,0 +1,106 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "KAZ-HB-0014",
+  "package_sha256": "a4f5b0708d93609468eda10b5f449904a51c253dbcb4fa6a2c5d693aedd576f8",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 1000,
+    "storage_energy_mwh": 600,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50866.html",
+        "surface": "body",
+        "quote": "其中，三一重能董事长周福贵与中电国际党委书记、董事长王子超，萨姆鲁克—卡泽纳基金首席执行官扎库波夫共同签署了哈萨克斯坦1GW风电+储能项目三方合作协议。\n三一重能与中电国际、萨姆鲁克—卡泽纳基金签署三方合作协议\n哈萨克斯坦是“一带一路”的首倡之地，三一重能与哈萨克斯坦在风电项目上有良好的合作基础。2022年，三一重能在哈萨克斯坦中标两个风电项目，其中1个项目中采用其自主研发的6.25MW机型。同时，三一重"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50866.html",
+        "surface": "body",
+        "quote": "其中，三一重能董事长周福贵与中电国际党委书记、董事长王子超，萨姆鲁克—卡泽纳基金首席执行官扎库波夫共同签署了哈萨克斯坦1GW风电+储能项目三方合作协议。\n三一重能与中电国际、萨姆鲁克—卡泽纳基金签署三方合作协议\n哈萨克斯坦是“一带一路”的首倡之地，三一重能与哈萨克斯坦在风电项目上有良好的合作基础。2022年，三一重能在哈萨克斯坦中标两个风电项目，其中1个项目中采用其自主研发的6.25MW机型。同时，三一重能落位"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/50655.html",
+        "surface": "body",
+        "quote": "夫访华出席第三届“一带一路”国际合作高峰论坛行程框架内，中电国际党委书记、董事长王子超与三一重能董事长周福贵、萨姆鲁克—卡泽纳基金首席执行官扎库波夫共同签署了哈萨克斯坦1GW风电+储能项目三方合作协议。\n中电国际与三一重能、萨姆鲁克—卡泽纳基金签署三方合作协议\n同日，王子超应邀出席第三届“一带一路”国际合作高峰论坛企业家大会，并代表中电国际与萨姆鲁克—卡泽纳基金代表共同签署1GW 风电+储能项目的联合开发协议。\n中电国际与萨姆鲁克—卡泽纳基金共同签署联合开发协"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/41706.html",
+        "surface": "title",
+        "quote": "道达尔签署哈萨克斯坦1GW风电项目25年PPA"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/41706.html",
+        "surface": "body",
+        "quote": "Mirny 项目位于哈萨克斯坦Zhambyl 地区，内容包括1GW的陆上风电场和600MWh的电池储能系统，总投资约14亿美元。\n该项目将由Total Eren与哈萨克国家财富基金Samruk-Kazyna 、哈萨克国家石油天然气公司KazMunayGas合作开发，三者持股比例分别为60%，20%，20%。\n该项目是2022年11月哈萨克总统访问法国期间两国政府签署的关于在应对全"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "KAZ-HB-0014-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "1GW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50866.html",
+          "surface": "body",
+          "quote": "其中，三一重能董事长周福贵与中电国际党委书记、董事长王子超，萨姆鲁克—卡泽纳基金首席执行官扎库波夫共同签署了哈萨克斯坦1GW风电+储能项目三方合作协议。\n三一重能与中电国际、萨姆鲁克—卡泽纳基金签署三方合作协议\n哈萨克斯坦是“一带一路”的首倡之地，三一重能与哈萨克斯坦在风电项目上有良好的合作基础。2022年，三一重能在哈萨克斯坦中标两个风电项目，其中1个项目中采用其自主研发的6.25MW机型。同时，三一重"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50866.html",
+          "surface": "body",
+          "quote": "其中，三一重能董事长周福贵与中电国际党委书记、董事长王子超，萨姆鲁克—卡泽纳基金首席执行官扎库波夫共同签署了哈萨克斯坦1GW风电+储能项目三方合作协议。\n三一重能与中电国际、萨姆鲁克—卡泽纳基金签署三方合作协议\n哈萨克斯坦是“一带一路”的首倡之地，三一重能与哈萨克斯坦在风电项目上有良好的合作基础。2022年，三一重能在哈萨克斯坦中标两个风电项目，其中1个项目中采用其自主研发的6.25MW机型。同时，三一重能落位"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/50655.html",
+          "surface": "body",
+          "quote": "夫访华出席第三届“一带一路”国际合作高峰论坛行程框架内，中电国际党委书记、董事长王子超与三一重能董事长周福贵、萨姆鲁克—卡泽纳基金首席执行官扎库波夫共同签署了哈萨克斯坦1GW风电+储能项目三方合作协议。\n中电国际与三一重能、萨姆鲁克—卡泽纳基金签署三方合作协议\n同日，王子超应邀出席第三届“一带一路”国际合作高峰论坛企业家大会，并代表中电国际与萨姆鲁克—卡泽纳基金代表共同签署1GW 风电+储能项目的联合开发协议。\n中电国际与萨姆鲁克—卡泽纳基金共同签署联合开发协"
+        }
+      ]
+    },
+    {
+      "event_id": "KAZ-HB-0014-02",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 1000,
+      "storage_energy_mwh": 600,
+      "storage_power_mw_raw": "1GW",
+      "storage_energy_mwh_raw": "600MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/41706.html",
+          "surface": "title",
+          "quote": "道达尔签署哈萨克斯坦1GW风电项目25年PPA"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/41706.html",
+          "surface": "body",
+          "quote": "Mirny 项目位于哈萨克斯坦Zhambyl 地区，内容包括1GW的陆上风电场和600MWh的电池储能系统，总投资约14亿美元。\n该项目将由Total Eren与哈萨克国家财富基金Samruk-Kazyna 、哈萨克国家石油天然气公司KazMunayGas合作开发，三者持股比例分别为60%，20%，20%。\n该项目是2022年11月哈萨克总统访问法国期间两国政府签署的关于在应对全"
+        }
+      ]
+    }
+  ]
+}

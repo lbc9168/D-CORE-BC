@@ -284,9 +284,9 @@ export default function FilterBar() {
     setFilter((f) => ({ ...f, categories: f.categories.filter((cat) => categoryOptions.includes(cat)) }));
   }, [filter.categories, setFilter, categoryOptions]);
 
-  // 子类二级筛选：仅当选中的类别里有子类维度（光伏/综合能源）时出现
+  // 子类二级筛选只承载项目形态：当前仅光伏集中式/分布式，不暴露综合能源旧组合子类。
   const subcatCats = useMemo(
-    () => filter.categories.filter((c) => SUBCATEGORIES[c]),
+    () => filter.categories.filter((c) => CATEGORIES[c]?.code === "PV" && SUBCATEGORIES[c]),
     [filter.categories],
   );
   const subcatOptions = useMemo(
@@ -374,7 +374,7 @@ export default function FilterBar() {
         />
       )}
 
-      {/* 子类二级筛选（选中光伏/综合能源时出现） */}
+      {/* 项目形态子类二级筛选（选中光伏时出现） */}
       {domain === "renewable" && subcatCats.length > 0 && (
         <MultiSelect
           label={t("filter.subtype")}

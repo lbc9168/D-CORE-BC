@@ -1,0 +1,71 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GIN-HB-0003",
+  "package_sha256": "e10c24e77bf7a25bdc90e048fddce803a5d9344fdc04c277e6f8891d51356ceb",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 7,
+    "storage_energy_mwh": 21,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88675.html",
+        "surface": "body",
+        "quote": "当地时间10月10日，三一硅能几内亚圣图火车站微电网项目完成送电调试并正式投运，实现光储协同与全负荷绿色供电。作为几内亚矿区首批微电网项目（含三个子项目，总装机7MWp光伏+21MWh储能）的收官之作，该项目标志着当地清洁能源布局迈入可持续、高韧性供能新阶段。\n项目运用“2MWp光伏+6MWh储能+柴发备用”的复合架构，鉴于站区4条负荷线路分散、供电半径大的特性，构"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/87648.html",
+        "surface": "body",
+        "quote": "近日，三一硅能几内亚米希扬微电网项目顺利完成最后一道送电调试工序，正式投运并转入运营阶段，达成光储联合运行，实现全负荷绿电供应。\n项目按矿区分为三个子项目，总容量配置7MWp光伏+7MW/21MWh储能系统。其核心“2MWp光伏+6MWh电化学储能+柴油发电机备用”，2MWp光伏年转化约540万度电，6MWh储能于光照不足时供电，柴油发电机应急备用，三层保障挖掘可再生能源潜力"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/86618.html",
+        "surface": "body",
+        "quote": "当地时间8月15日，三一硅能在西非几内亚的首个微电网项目——圣图山顶微电网项目迎来重要时刻，随着现场最后一台柴发停运，项目正式投运，成功实现光储联合、全负荷绿电供应。\n该项目按矿区划分为三个子项目，总配置为7MWp光伏+7MW/21MWh储能。此次投运的圣图微电网项目一期，采用3MWp光伏+3MW/9MWh储能组合，并将原有柴发系统改造为备用，构建起光伏、储能、柴发多能一体的综合能源系统，为园区稳定输送绿色电力。项目投运"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GIN-HB-0003-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 7,
+      "storage_energy_mwh": 21,
+      "storage_power_mw_raw": "7MW",
+      "storage_energy_mwh_raw": "21MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88675.html",
+          "surface": "body",
+          "quote": "当地时间10月10日，三一硅能几内亚圣图火车站微电网项目完成送电调试并正式投运，实现光储协同与全负荷绿色供电。作为几内亚矿区首批微电网项目（含三个子项目，总装机7MWp光伏+21MWh储能）的收官之作，该项目标志着当地清洁能源布局迈入可持续、高韧性供能新阶段。\n项目运用“2MWp光伏+6MWh储能+柴发备用”的复合架构，鉴于站区4条负荷线路分散、供电半径大的特性，构"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/87648.html",
+          "surface": "body",
+          "quote": "近日，三一硅能几内亚米希扬微电网项目顺利完成最后一道送电调试工序，正式投运并转入运营阶段，达成光储联合运行，实现全负荷绿电供应。\n项目按矿区分为三个子项目，总容量配置7MWp光伏+7MW/21MWh储能系统。其核心“2MWp光伏+6MWh电化学储能+柴油发电机备用”，2MWp光伏年转化约540万度电，6MWh储能于光照不足时供电，柴油发电机应急备用，三层保障挖掘可再生能源潜力"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/86618.html",
+          "surface": "body",
+          "quote": "当地时间8月15日，三一硅能在西非几内亚的首个微电网项目——圣图山顶微电网项目迎来重要时刻，随着现场最后一台柴发停运，项目正式投运，成功实现光储联合、全负荷绿电供应。\n该项目按矿区划分为三个子项目，总配置为7MWp光伏+7MW/21MWh储能。此次投运的圣图微电网项目一期，采用3MWp光伏+3MW/9MWh储能组合，并将原有柴发系统改造为备用，构建起光伏、储能、柴发多能一体的综合能源系统，为园区稳定输送绿色电力。项目投运"
+        }
+      ]
+    }
+  ]
+}

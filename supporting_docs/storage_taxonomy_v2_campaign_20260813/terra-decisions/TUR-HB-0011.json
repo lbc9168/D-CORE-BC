@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "TUR-HB-0011",
+  "package_sha256": "c43907be7d63bf5ab3a275bc105379e80ac1e159e5f36d8ae8b97a54cc593d6b",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 12.51,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93691.html",
+        "surface": "title",
+        "quote": "正泰新能供货土耳其Kuzukuyu光储一体化项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/93525.html",
+        "surface": "body",
+        "quote": "双方就位于土耳其科尼亚省 (Konya) 埃雷利地区 (Ereğli) 的Kuzukuyu 12MWp/12.51MWh光储一体化项目达成深度合作，正泰新能源将为该项目提供EPC总承包服务。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "TUR-HB-0011-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 12.51,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "12.51MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93691.html",
+          "surface": "title",
+          "quote": "正泰新能供货土耳其Kuzukuyu光储一体化项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/93525.html",
+          "surface": "body",
+          "quote": "双方就位于土耳其科尼亚省 (Konya) 埃雷利地区 (Ereğli) 的Kuzukuyu 12MWp/12.51MWh光储一体化项目达成深度合作，正泰新能源将为该项目提供EPC总承包服务。"
+        }
+      ]
+    }
+  ]
+}

@@ -1,9 +1,13 @@
 """scripts/migrate_add_txmf_columns.py —— 给 project_events 补 TX/MF 稀疏专用列（阶段3 任务3.1）。
 
-新增 5 列（均可空，供 3.2 回填器写入）：
+新增 9 列（均可空，原子 raw 由新 S01B 写入，数值列由确定性解析器写入）：
+    voltage_kv_raw TEXT
     voltage_kv REAL                    -- TX：电压等级（千伏）
+    line_length_km_raw TEXT
     line_length_km REAL                -- TX：线路长度（公里）
+    transmission_capacity_mw_raw TEXT
     transmission_capacity_mw REAL      -- TX：输送容量（MW）
+    production_capacity_raw TEXT
     production_capacity_value REAL     -- MF：产能数值
     production_capacity_unit TEXT      -- MF：产能单位（受控枚举，见 bri_enums.mf_production_units）
 
@@ -12,7 +16,7 @@
     --apply：WAL 安全备份（sqlite3.backup API）→ 三重断言 → busy_timeout=30s
              → 单事务 ALTER → 提交后自检列齐全 + 行数不变。
 幂等：已存在的列跳过（ALTER TABLE ADD COLUMN 报 duplicate column 时静默，按 CLAUDE.md 规则1
-      属已知无害边界）；重跑应报告 5 列已存在、0 变更。
+      属已知无害边界）；重跑应报告 9 列已存在、0 变更。
 
 用法：
     uv run python scripts/migrate_add_txmf_columns.py --db <path>            # dry-run
@@ -39,9 +43,13 @@ _DEFAULT_DB = (
 
 _TABLE = "project_events"
 _NEW_COLUMNS: list[tuple[str, str]] = [
+    ("voltage_kv_raw", "TEXT"),
     ("voltage_kv", "REAL"),
+    ("line_length_km_raw", "TEXT"),
     ("line_length_km", "REAL"),
+    ("transmission_capacity_mw_raw", "TEXT"),
     ("transmission_capacity_mw", "REAL"),
+    ("production_capacity_raw", "TEXT"),
     ("production_capacity_value", "REAL"),
     ("production_capacity_unit", "TEXT"),
 ]
@@ -89,7 +97,7 @@ def _backup_db(db_path: Path) -> Path:
 
 
 def dry_run(db_path: Path) -> dict[str, list[str]]:
-    """只读连接检查 5 列现状，返回 {"existing": [...], "to_add": [...]}。"""
+    """只读连接检查 9 列现状，返回 {"existing": [...], "to_add": [...]}。"""
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     try:
         existing = _existing_columns(conn, _TABLE)
@@ -138,7 +146,7 @@ def apply_migration(db_path: Path) -> dict[str, list[str]]:
                     logger.error("ALTER TABLE 添加列 %s 失败（视为已存在）：%s", col, e)
                     report["existing"].append(col)
 
-        # 提交后自检：5 列齐全 + 行数与迁移前一致
+        # 提交后自检：9 列齐全 + 行数与迁移前一致
         after_cols = _existing_columns(conn, _TABLE)
         missing = [c for c, _ in _NEW_COLUMNS if c not in after_cols]
         if missing:

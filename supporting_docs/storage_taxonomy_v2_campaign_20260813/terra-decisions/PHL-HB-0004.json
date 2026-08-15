@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "PHL-HB-0004",
+  "package_sha256": "81b74426bb795b3da04f5a34d2d999954cb425b958408b73fd193825fa1ee11c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 6.7,
+    "proposed_category": "风电",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/68500.html",
+        "surface": "title",
+        "quote": "国机集团签约菲律宾塞米拉拉群岛风储微网项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/78757.html",
+        "surface": "body",
+        "quote": "项目位于菲律宾南部岛屿Semirara，风机容量为12.5(6.25MW*2)兆瓦，储能容量6.7兆瓦时(https://www.bworldonline.com/corporate/2024/01/08/567308/dmci-power-to-finish-12-mw-antique-wind-farm-by-yearend/)。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "PHL-HB-0004-01",
+      "generation_sources": [
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 6.7,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "6.7兆瓦时",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/68500.html",
+          "surface": "title",
+          "quote": "国机集团签约菲律宾塞米拉拉群岛风储微网项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/78757.html",
+          "surface": "body",
+          "quote": "项目位于菲律宾南部岛屿Semirara，风机容量为12.5(6.25MW*2)兆瓦，储能容量6.7兆瓦时(https://www.bworldonline.com/corporate/2024/01/08/567308/dmci-power-to-finish-12-mw-antique-wind-farm-by-yearend/)。"
+        }
+      ]
+    }
+  ]
+}

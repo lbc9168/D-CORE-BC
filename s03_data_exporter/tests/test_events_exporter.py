@@ -209,12 +209,21 @@ def test_new_columns_in_csv(tmp_path):
     # 给库补新列并造值（IND-PV-0001 子类留 NULL → CSV 应渲染父类默认）
     c = sqlite3.connect(str(src))
     c.execute("ALTER TABLE canonical_projects ADD COLUMN subcategory TEXT")
+    c.execute("ALTER TABLE canonical_projects ADD COLUMN technology_tags_json TEXT NOT NULL DEFAULT '[]'")
     for col in ("pv_capacity_mw", "storage_power_mw", "storage_energy_mwh",
                 "contract_amount_usd", "financing_amount_usd"):
         c.execute(f"ALTER TABLE project_events ADD COLUMN {col} REAL")
+    c.execute("ALTER TABLE project_events ADD COLUMN generation_sources_json TEXT")
+    c.execute("ALTER TABLE project_events ADD COLUMN storage_status TEXT")
+    c.execute(
+        "UPDATE canonical_projects SET technology_tags_json='[\"光储\"]' "
+        "WHERE id='IND-PV-0001'"
+    )
     c.execute(
         "UPDATE project_events SET storage_power_mw=20.0, storage_energy_mwh=80.0, "
-        "contract_amount_usd=167.0, financing_amount_usd=486.0 WHERE id='IND-PV-0001-01'"
+        "contract_amount_usd=167.0, financing_amount_usd=486.0, "
+        "generation_sources_json='[\"光伏\"]', storage_status='confirmed' "
+        "WHERE id='IND-PV-0001-01'"
     )
     c.commit()
     c.close()
@@ -226,7 +235,8 @@ def test_new_columns_in_csv(tmp_path):
         header = list(rows[0].keys())
 
     for col in ("subcategory_cn", "subcategory_en", "pv_capacity_mw", "storage_power_mw",
-                "storage_energy_mwh", "contract_amount_usd", "financing_amount_usd"):
+                "storage_energy_mwh", "contract_amount_usd", "financing_amount_usd",
+                "generation_sources", "storage_status", "technology_tags_cn", "technology_tags_en"):
         assert col in header, f"CSV 缺列 {col}"
 
     e01 = next(r for r in rows if r["event_id"] == "IND-PV-0001-01")
@@ -237,6 +247,10 @@ def test_new_columns_in_csv(tmp_path):
     assert e01["contract_amount_usd"] == "167.0"
     assert e01["financing_amount_usd"] == "486.0"
     assert e01["pv_capacity_mw"] == "", "无值数值列为空串"
+    assert e01["generation_sources"] == "光伏"
+    assert e01["storage_status"] == "confirmed"
+    assert e01["technology_tags_cn"] == "光储"
+    assert e01["technology_tags_en"] == "Solar + Storage"
 
     # E02 无金额/储能值 → 空串
     e02 = next(r for r in rows if r["event_id"] == "IND-PV-0001-02")

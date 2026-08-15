@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "GIN-HB-0005",
+  "package_sha256": "bb4c89db38ed48bf8391ed356f1481d6e5d32cfdc6c5e8783108fcf4e92b34df",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 3,
+    "storage_energy_mwh": 6,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+        "surface": "title",
+        "quote": "三一集团收购罗马尼亚光储项目，加速布局新能源投建营"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+        "surface": "body",
+        "quote": "近期，三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作。\n该项目位于罗马尼亚Dolj县的Dobrești，是三一集团在境外完成的首个光储一体化项目收购。\n项目状态：\n目前处于准备建设阶段；\n项目规模：一座95MWp的光伏电站，以及配套的218MWh储能设施；\n交易进程： 三一在4月签署股权购买协议，10月15日与罗马尼"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "GIN-HB-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 3,
+      "storage_energy_mwh": 6,
+      "storage_power_mw_raw": "3MW",
+      "storage_energy_mwh_raw": "6MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+          "surface": "title",
+          "quote": "三一集团收购罗马尼亚光储项目，加速布局新能源投建营"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/88947.html",
+          "surface": "body",
+          "quote": "近期，三一集团子公司三一硅能宣布，已完成罗马尼亚光储项目的收购工作。\n该项目位于罗马尼亚Dolj县的Dobrești，是三一集团在境外完成的首个光储一体化项目收购。\n项目状态：\n目前处于准备建设阶段；\n项目规模：一座95MWp的光伏电站，以及配套的218MWh储能设施；\n交易进程： 三一在4月签署股权购买协议，10月15日与罗马尼"
+        }
+      ]
+    }
+  ]
+}

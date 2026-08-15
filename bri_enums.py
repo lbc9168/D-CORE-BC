@@ -35,6 +35,21 @@ def valid_involvement() -> list[str]:
     return list(_data()["involvement_type"].keys())
 
 
+def valid_generation_sources() -> list[str]:
+    """返回受控的实际发电源中文键，储能与项目类别不在其中。"""
+    return list(_data()["generation_source"].keys())
+
+
+def valid_storage_statuses() -> list[str]:
+    """返回受控储能状态键，顺序与枚举文件一致。"""
+    return list(_data()["storage_status"].keys())
+
+
+def valid_technology_tags() -> list[str]:
+    """返回全部受控技术组合标签中文键。"""
+    return list(_data()["technology_tag"].keys())
+
+
 # ── category 助手 ──
 def category_code(zh: str) -> str | None:
     """category 中文键 → code（如 光伏→PV）。"""
@@ -64,6 +79,16 @@ def has_storage_metrics(zh: str) -> bool:
 def is_excluded_category(zh: str) -> bool:
     """该 category 是否被基线策略剔除。"""
     return _data()["category"].get(zh, {}).get("excluded", False)
+
+
+def category_data_domain(zh: str) -> str:
+    """返回类别所属数据域；未显式配置的类别默认属于发电与储能域。"""
+    return _data()["category"].get(zh, {}).get("data_domain", "renewable")
+
+
+def category_spec_profile(zh: str) -> str | None:
+    """返回类别专用规格配置键（tx/mf），普通类别返回 None。"""
+    return _data()["category"].get(zh, {}).get("spec_profile")
 
 
 # ── stage 助手 ──
@@ -96,6 +121,32 @@ def financing_en(zh: str) -> str | None:
 def involvement_en(zh: str) -> str | None:
     """involvement_type 中文键 → 英文标签。"""
     return _data()["involvement_type"].get(zh, {}).get("en")
+
+
+def generation_source_en(zh: str) -> str | None:
+    """实际发电源中文键转英文展示名称。"""
+    return _data()["generation_source"].get(zh, {}).get("en")
+
+
+def storage_status_priority(status: str) -> int:
+    """返回储能状态聚合优先级，非法状态返回 -1。"""
+    return _data()["storage_status"].get(status, {}).get("priority", -1)
+
+
+def storage_status_en(status: str) -> str | None:
+    """储能状态键转英文展示名称。"""
+    return _data()["storage_status"].get(status, {}).get("en")
+
+
+def technology_tag_en(tag: str) -> str | None:
+    """技术标签中文键转英文展示名称。"""
+    return _data()["technology_tag"].get(tag, {}).get("en")
+
+
+def technology_tag_allowed(category_zh: str, tag: str) -> bool:
+    """判断技术标签是否允许挂在给定正式类别下。"""
+    allowed = _data()["technology_tag"].get(tag, {}).get("allowed_categories", [])
+    return category_zh in allowed
 
 
 def prompt_value_list(enum: str) -> str:

@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MEX-HB-0001",
+  "package_sha256": "7b97d12b03e39fb2707a91c361b634f4ff384bf7494d7accc6f26981aaeac61d",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 600,
+    "storage_energy_mwh": 400,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80710.html",
+        "surface": "title",
+        "quote": "中电工程国际公司签约墨西哥光伏+储能项目EPC框架协议"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80710.html",
+        "surface": "body",
+        "quote": "该项目位于墨西哥阳光资源丰富的地区，项目内容为约600MW并配套400 MWh储能设施，提供包括技术方案设计、设备供应、工程建设及运营管理在内的一体化解决方案，确保项目的高效实施与长期稳定运营。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MEX-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 600,
+      "storage_energy_mwh": 400,
+      "storage_power_mw_raw": "600MW",
+      "storage_energy_mwh_raw": "400MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80710.html",
+          "surface": "title",
+          "quote": "中电工程国际公司签约墨西哥光伏+储能项目EPC框架协议"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80710.html",
+          "surface": "body",
+          "quote": "该项目位于墨西哥阳光资源丰富的地区，项目内容为约600MW并配套400 MWh储能设施，提供包括技术方案设计、设备供应、工程建设及运营管理在内的一体化解决方案，确保项目的高效实施与长期稳定运营。"
+        }
+      ]
+    }
+  ]
+}

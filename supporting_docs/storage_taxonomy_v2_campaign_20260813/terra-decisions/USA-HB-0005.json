@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "USA-HB-0005",
+  "package_sha256": "19163d5e7ffd2093037e27a37af7cd51b816694ac085cd1b01451864cadea5ce",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": 3000,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/58938.html",
+        "surface": "body",
+        "quote": "加利福尼亚州新的875 MW太阳能项目有近200万块太阳能电池板，储能规模超过3 GWh。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/58938.html",
+        "surface": "title",
+        "quote": "美国最大太阳能储能项目并网"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "USA-HB-0005-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": 3000,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": "3GWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/58938.html",
+          "surface": "body",
+          "quote": "加利福尼亚州新的875 MW太阳能项目有近200万块太阳能电池板，储能规模超过3 GWh。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/58938.html",
+          "surface": "title",
+          "quote": "美国最大太阳能储能项目并网"
+        }
+      ]
+    }
+  ]
+}

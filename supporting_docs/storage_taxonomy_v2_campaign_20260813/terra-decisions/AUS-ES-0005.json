@@ -1,0 +1,55 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "AUS-ES-0005",
+  "package_sha256": "dd04e567ceba34f87479421ba618652b655159788cb8882acd1c73aae1ccd4da",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 250,
+    "storage_energy_mwh": 500,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80634.html",
+        "surface": "title",
+        "quote": "天合储能助力Pacific Green建设南澳最大储能项目之一，成功完成4.6亿澳元融资"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80634.html",
+        "surface": "body",
+        "quote": "天合储能作为全球头部新能源开发商Pacific Green的合作伙伴，为Limestone Coast North 储能项目提供装机容量为250MW/ 500MWh储能系统，并助力顺利完成融资，预计2027年2月投入运营，建成后将是南澳最大的储能项目之一。\n携手Pacific Green"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "AUS-ES-0005-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 250,
+      "storage_energy_mwh": 500,
+      "storage_power_mw_raw": "250MW",
+      "storage_energy_mwh_raw": "500MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80634.html",
+          "surface": "title",
+          "quote": "天合储能助力Pacific Green建设南澳最大储能项目之一，成功完成4.6亿澳元融资"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80634.html",
+          "surface": "body",
+          "quote": "天合储能作为全球头部新能源开发商Pacific Green的合作伙伴，为Limestone Coast North 储能项目提供装机容量为250MW/ 500MWh储能系统，并助力顺利完成融资，预计2027年2月投入运营，建成后将是南澳最大的储能项目之一。\n携手Pacific Green"
+        }
+      ]
+    }
+  ]
+}

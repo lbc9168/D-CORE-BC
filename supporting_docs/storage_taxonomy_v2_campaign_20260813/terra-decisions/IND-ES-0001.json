@@ -1,0 +1,65 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IND-ES-0001",
+  "package_sha256": "2bdeb7ca441448ec7ed17047fe3822ce735f873795cd0bea3e8b5f7ba1a4e3d0",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": 30000,
+    "storage_energy_mwh": 10,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77425.html",
+        "surface": "body",
+        "quote": "先是与OCEAN TEXTILE INTERNATIONAL PRIVATE LIMITED签约，拿下10MWh的印度纺织业首个大型储能项目，实现晶科储能SunTera G2蓝鲸系统在工商业领域的首次应用。\n接着又以迅雷不及掩耳之势，迅速完成其西班牙首批工商业储能项目的交付，5台SunGiga海豚工商储系统成功落地比列纳、阿吉拉斯和阿利坎特3地。\n更不得了的是，该项目的落地还被当地企业Cubierta Solar"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77235.html",
+        "surface": "title",
+        "quote": "晶科储能与印度最大纺织厂签订蓝鲸SunTera G2储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/77235.html",
+        "surface": "body",
+        "quote": "近日，晶科储能很荣幸地宣布与OCEAN TEXTILE INTERNATIONAL PRIVATE LIMITED签订合同，为其部署最先进的SunTera G2蓝鲸5MWh储能系统。该项目总容量为 10MWh，具有多个开创性的里程碑意义。这将是晶科储能 SunTera G2蓝鲸系统在印度的首个"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IND-ES-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": 30000,
+      "storage_energy_mwh": 10,
+      "storage_power_mw_raw": "30GW",
+      "storage_energy_mwh_raw": "10MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77425.html",
+          "surface": "body",
+          "quote": "先是与OCEAN TEXTILE INTERNATIONAL PRIVATE LIMITED签约，拿下10MWh的印度纺织业首个大型储能项目，实现晶科储能SunTera G2蓝鲸系统在工商业领域的首次应用。\n接着又以迅雷不及掩耳之势，迅速完成其西班牙首批工商业储能项目的交付，5台SunGiga海豚工商储系统成功落地比列纳、阿吉拉斯和阿利坎特3地。\n更不得了的是，该项目的落地还被当地企业Cubierta Solar"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77235.html",
+          "surface": "title",
+          "quote": "晶科储能与印度最大纺织厂签订蓝鲸SunTera G2储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/77235.html",
+          "surface": "body",
+          "quote": "近日，晶科储能很荣幸地宣布与OCEAN TEXTILE INTERNATIONAL PRIVATE LIMITED签订合同，为其部署最先进的SunTera G2蓝鲸5MWh储能系统。该项目总容量为 10MWh，具有多个开创性的里程碑意义。这将是晶科储能 SunTera G2蓝鲸系统在印度的首个"
+        }
+      ]
+    }
+  ]
+}

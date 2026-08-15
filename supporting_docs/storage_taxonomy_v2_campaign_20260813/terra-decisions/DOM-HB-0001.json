@@ -1,0 +1,63 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DOM-HB-0001",
+  "package_sha256": "34e44c05f1444620309cba847919865399d1a613ac4e1939113c8bab66b9b812",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏",
+      "风电"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 600,
+    "storage_energy_mwh": null,
+    "proposed_category": "综合能源",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "风光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92926.html",
+        "surface": "title",
+        "quote": "多米尼加: 启动600MW风光储招标商务评审阶段"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/92926.html",
+        "surface": "body",
+        "quote": "本次招标旨在通过长期购电协议（PPA），授予总计600兆瓦（MW）的新建可再生能源发电项目，且强制要求配套电池储能系统（BESS）。此次开标标志着这一高度竞争性进程进入了关键的技术评估阶段。\n本次招标吸引了业界的广泛关注，共有32个光伏和风力发电项目参与竞标，总申报容量高达2,960兆瓦峰值（MWp），几乎是可用容量的五倍。这种严重的供过于求局面，预计将在后续的经济评估阶段对最终电价产生显著"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DOM-HB-0001-01",
+      "generation_sources": [
+        "光伏",
+        "风电"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 600,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "600MW",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92926.html",
+          "surface": "title",
+          "quote": "多米尼加: 启动600MW风光储招标商务评审阶段"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/92926.html",
+          "surface": "body",
+          "quote": "本次招标旨在通过长期购电协议（PPA），授予总计600兆瓦（MW）的新建可再生能源发电项目，且强制要求配套电池储能系统（BESS）。此次开标标志着这一高度竞争性进程进入了关键的技术评估阶段。\n本次招标吸引了业界的广泛关注，共有32个光伏和风力发电项目参与竞标，总申报容量高达2,960兆瓦峰值（MWp），几乎是可用容量的五倍。这种严重的供过于求局面，预计将在后续的经济评估阶段对最终电价产生显著"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "USA-HB-0002",
+  "package_sha256": "f525771d49f9d0105472980571f9f759d6873d9d0eb0a70105cd3f2bab2cce2c",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "能源构成证据语境存在歧义",
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 150,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/73913.html",
+        "surface": "body",
+        "quote": "这两项为期20年的收费协议涵盖了600兆瓦时的大漠之花（Desert Bloom）独立储能电站项目和150兆瓦的帕帕戈（Papago）光伏电站项目。"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/73913.html",
+        "surface": "body",
+        "quote": "届时，帕帕戈（Papago）项目预计将成为亚利桑那州最大的独立储能项目。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "USA-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 150,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": "150兆瓦",
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/73913.html",
+          "surface": "body",
+          "quote": "这两项为期20年的收费协议涵盖了600兆瓦时的大漠之花（Desert Bloom）独立储能电站项目和150兆瓦的帕帕戈（Papago）光伏电站项目。"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/73913.html",
+          "surface": "body",
+          "quote": "届时，帕帕戈（Papago）项目预计将成为亚利桑那州最大的独立储能项目。"
+        }
+      ]
+    }
+  ]
+}

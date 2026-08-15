@@ -1,0 +1,61 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "FJI-HB-0001",
+  "package_sha256": "92fc4ee29c695496cb9dd026bc77b7cea76c75e466d2351de557e08c210100e6",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82228.html",
+        "surface": "title",
+        "quote": "东方电子集团与斐济国家招商局等签署光储能智能微网项目协议"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/82228.html",
+        "surface": "body",
+        "quote": "东方电子集团有限公司（以下简称“东方电子集团”）党委书记、董事长方正基参团并代表东方电子集团与斐济国家招商局等签署了光储能智能微网项目协议，并开展业务洽谈活动。\n在斐济期间，东方电子集团拜会了我国驻斐济大使周剑、斐济国家招商局局长，与斐济逸仙学校等进行了深入交流，将围绕节能减排、绿色低碳等领域强化项目合作。\n4月23日，东方电子集团与招金集团就其旗下的瓦图克拉金矿微网项目进行深入交流，东方电子可提"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "FJI-HB-0001-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82228.html",
+          "surface": "title",
+          "quote": "东方电子集团与斐济国家招商局等签署光储能智能微网项目协议"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/82228.html",
+          "surface": "body",
+          "quote": "东方电子集团有限公司（以下简称“东方电子集团”）党委书记、董事长方正基参团并代表东方电子集团与斐济国家招商局等签署了光储能智能微网项目协议，并开展业务洽谈活动。\n在斐济期间，东方电子集团拜会了我国驻斐济大使周剑、斐济国家招商局局长，与斐济逸仙学校等进行了深入交流，将围绕节能减排、绿色低碳等领域强化项目合作。\n4月23日，东方电子集团与招金集团就其旗下的瓦图克拉金矿微网项目进行深入交流，东方电子可提"
+        }
+      ]
+    }
+  ]
+}

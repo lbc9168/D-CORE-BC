@@ -1,0 +1,45 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "MMR-HB-0001",
+  "package_sha256": "a43c7b4f8a33df2c9e51108cfac47c2e738b182bd14b24ecd43b3de896d61613",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "needs_manual_review",
+  "confidence": 0.66,
+  "review_reason": "原综合能源项目缺少可归因的发电技术证据",
+  "canonical_decision": {
+    "generation_sources": [],
+    "storage_status": "confirmed",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "储能",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/94109.html",
+        "surface": "body",
+        "quote": "该项目是云南院深耕缅甸市场的又一重大突破，是云南院在缅甸参与的首个吉瓦级多能互补综合能源发电基地项目，标志着双方合作向多能互补、源网荷储一体化全面升级，进一步提升了云南院在缅甸电力市场的综合竞争力和品牌影响力。"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "MMR-HB-0001-01",
+      "generation_sources": [],
+      "storage_status": "confirmed",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/94109.html",
+          "surface": "body",
+          "quote": "该项目是云南院深耕缅甸市场的又一重大突破，是云南院在缅甸参与的首个吉瓦级多能互补综合能源发电基地项目，标志着双方合作向多能互补、源网荷储一体化全面升级，进一步提升了云南院在缅甸电力市场的综合竞争力和品牌影响力。"
+        }
+      ]
+    }
+  ]
+}

@@ -380,6 +380,15 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
             storage_power_mw_raw    TEXT,
             storage_energy_mwh_raw  TEXT,
             energy_composition_evidence TEXT,
+            voltage_kv_raw          TEXT,
+            voltage_kv              REAL,
+            line_length_km_raw      TEXT,
+            line_length_km          REAL,
+            transmission_capacity_mw_raw TEXT,
+            transmission_capacity_mw REAL,
+            production_capacity_raw TEXT,
+            production_capacity_value REAL,
+            production_capacity_unit TEXT,
             capacity_source         TEXT,
             project_stage           TEXT,
             project_developer       TEXT,
@@ -432,6 +441,15 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN storage_power_mw_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN storage_energy_mwh_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN energy_composition_evidence TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN voltage_kv_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN voltage_kv REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN line_length_km_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN line_length_km REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN transmission_capacity_mw_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN transmission_capacity_mw REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN production_capacity_raw TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN production_capacity_value REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN production_capacity_unit TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN capacity_source TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN subcontract_amount_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN total_investment_usd_raw TEXT",
@@ -523,8 +541,10 @@ def _build_prompt(title: str, content: str, date: str) -> str:
     _involve_list = enums.prompt_value_list("involvement_type")
     _financing_list = enums.prompt_value_list("financing_model")
     _stage_list = enums.prompt_value_list("project_stage")
+    _source_list = enums.prompt_value_list("generation_source")
+    _storage_list = enums.prompt_value_list("storage_status")
     return f"""
-    你是一个能源项目审核专家。请阅读输入的新闻标题和正文，按要求提取符合要求的中国海外能源项目信息，同时需要注意剔除无关的项目。
+    你是一个能源项目审核专家。请从标题或正文提取中国参与的海外电力项目（发电或独立储能）、新能源制造业和输变电工程。
 
     文章发布日期：{date}
     文章标题：{title}
@@ -562,12 +582,20 @@ def _build_prompt(title: str, content: str, date: str) -> str:
         - 如果新闻中只提到各企业领导之间、或者企业与政府部门领导之间的访问、会议交流等，没有提到具体的项目信息，则视为无关。
 
     ### 关键处理规则
-    1. **混合能源项目（如光伏+储能）**：
-       - **Category**: 必须选择 "综合能源"。
-       - **Capacity (MW)**: 请计算所有子项目的**总装机量**，仅填数字。例如：光伏100MW+储能50MW，此处填 "150"。
-       - **Capacity Details**: 在此字段填写明细。例如："PV: 100MW, BESS: 50MW"。
+    1. **能源分类 v2 与容量隔离**：
+       - 储能不计为发电源。光伏+储能归「光伏」，风电+储能归「风电」；只有风+光等两种及以上发电源才归「综合能源」。单一新能源+柴油/燃气备用仍按新能源类别；明确独立储能才归「储能」。
+       - **Capacity (MW)**: 只填发电装机，禁止把 BESS MW 加入或自行求和。
+       - **Storage Power / Storage Energy**: 只有项目明确包含储能时，分别逐字填写 MW 与 MWh/GWh 原文短语。
+       - **Capacity Details**: 可保留子项明细，例如："PV: 100MW, BESS: 50MW/100MWh"。
+       - 技术标签不是四选一：光储仅允许光伏，风储仅允许风电，风光/风光储仅允许综合能源；只有 confirmed 储能才生成带「储」标签。
 
-    2. **单一能源项目**：
+    2. **TX/MF 专用规格**：
+       - TX 的 Capacity (MW) 强制为空；电压、线路长度、输送容量分别写入 TX Voltage/Line Length/Transmission Capacity Evidence。
+       - MF 的 Capacity (MW) 强制为空；年产能写入 MF Production Capacity Evidence。普通工业、矿冶化工、传统蓄电池制造不得因产能数字归 MF。
+       - 四个 Evidence 必须逐字连续来自标题或正文，非对应类别及未提及字段留空；未提及无需证据。
+       - 发电项目内部配套升压站/送出线路不另拆 TX；独立线路、变电站、电网改造、供电工程才归 TX。
+
+    3. **单一能源项目**：
        - **Category**: 选对应的能源种类（如"光伏"）。
        - **Capacity (MW)**: 填数字。
        - **Capacity Details**: 从新闻原文中提取与能源种类和装机容量相关的信息填入，如没有信息则不填。
@@ -622,7 +650,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
       "status": "String",
       "projects": [
         {{{{
-          "project_summary": "String — 用2-3句话概括：哪个中国企业、在哪个国家、做什么类型的项目、装机多少MW、处于什么阶段。仅基于新闻原文事实，不做推测。",
+          "project_summary": "String — 按类别概括：发电写装机，储能写MW/MWh，TX写kV/km/MW或MVA，MF写年产能；禁止把TX/MF写成发电装机。",
           "common_info": {{{{
             "Record Type": "String",
             "Project Name": "String",
@@ -630,8 +658,17 @@ def _build_prompt(title: str, content: str, date: str) -> str:
             "Country": "String",
             "Location(State)": "String",
             "Category": "String",
+            "Generation Sources": ["只能选 {_source_list}；TX/MF为空"],
+            "Storage Status": "只能选 {_storage_list}；TX/MF为not_mentioned",
+            "Storage Power": "String — confirmed 储能功率原文短语或空",
+            "Storage Energy": "String — confirmed 储能能量原文短语或空",
+            "Energy Composition Evidence": "String — 发电源与储能状态的逐字证据",
             "Capacity (MW)": "String",
             "Capacity Details": "String",
+            "TX Voltage Evidence": "String — 仅TX连续逐字证据或空",
+            "TX Line Length Evidence": "String — 仅TX连续逐字证据或空",
+            "TX Transmission Capacity Evidence": "String — 仅TX连续逐字证据或空",
+            "MF Production Capacity Evidence": "String — 仅MF连续逐字证据或空",
             "Project Stage": "String",
             "Project Developer": "String",
             "(Planned) Start Date": "String",
@@ -669,7 +706,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
             - **区分关键**：看产出单位。如果是"GW/年（产能）"、"万吨/年"，则是工厂。如果是"MW/GW（装机容量）"，才是电站。
         - 如果项目仅涉及"输电线路"、"变电站扩建"、"电网改造"、"升压站建设"等，则选择"输变电建设"。
         - 如果项目是建设"火电厂"、"燃气轮机厂"、"天然气发电厂"、"煤电"，且不涉及与其他新能源发电形式结合，则视为"火电"。
-    - **project_summary**: 用2-3句话概括该项目的核心事实。必须包含：中方参与企业名称、所在国家、项目类型、装机容量（如有）、当前阶段。仅基于新闻原文提炼，不做推测或补充。
+    - **project_summary**: 用2-3句话概括核心事实。发电写装机，储能写MW/MWh，TX写电压/里程/输送容量，MF写年产能；仅基于标题或正文，不做推测。
     - **status**: 枚举值 "valid_project" | "no_chinese_participation" | "irrelevant"
     - **Type of involvement of Chinese Entities**: 只能选 [{_involve_list}]。
     - **Financing Model**: 只能选 [{_financing_list}]。
@@ -682,12 +719,16 @@ def _build_prompt(title: str, content: str, date: str) -> str:
 
 
 def extract_one(title: str, content: str, date: str, *, client, model: str = "gemini-2.5-flash-lite") -> dict:
-    """对单篇文章跑一次分阶段提取，返回原始结果 dict；支持按 S01B_STAGE_PROVIDERS 分阶段路由（默认全 gemini，复用传入的 client）。"""
+    """对单篇文章运行分阶段提取，并按环境配置复用 Gemini 或构建 OpenAI/DeepSeek 路由。"""
     from s01b_project_extractor.llm.client import LLMClient, LLMConfig, build_stage_router_from_env
     from s01b_project_extractor.stages.orchestrator import extract_staged
-    # 默认 gemini 阶段复用调用方已建好的 client；被 S01B_STAGE_PROVIDERS 覆盖的阶段（如 deepseek）从 env 另建
-    gemini_llm = LLMClient(LLMConfig(provider="gemini", model=model), _client=client)
-    router = build_stage_router_from_env(default_client=gemini_llm)
+    # 只有默认 provider 为 Gemini 时才复用批处理入口的连接；OpenAI/DeepSeek 由统一 client 自行创建。
+    default_provider = os.getenv("S01B_PROVIDER", "gemini").strip().lower()
+    default_llm = None
+    if default_provider == "gemini":
+        default_model = os.getenv("S01B_MODEL", model).strip()
+        default_llm = LLMClient(LLMConfig(provider="gemini", model=default_model), _client=client)
+    router = build_stage_router_from_env(default_client=default_llm)
     return extract_staged(title, content, date, llm=router)
 
 
@@ -968,6 +1009,23 @@ class ProjectExtractorTool:
                         "_energy_composition_evidence": common.get(
                             "energy_composition_evidence_normalized", ""
                         ),
+                        "_voltage_kv_raw": common.get("voltage_kv_raw_phrase", ""),
+                        "_voltage_kv": common.get("voltage_kv_parsed"),
+                        "_line_length_km_raw": common.get("line_length_km_raw_phrase", ""),
+                        "_line_length_km": common.get("line_length_km_parsed"),
+                        "_transmission_capacity_mw_raw": common.get(
+                            "transmission_capacity_mw_raw_phrase", ""
+                        ),
+                        "_transmission_capacity_mw": common.get(
+                            "transmission_capacity_mw_parsed"
+                        ),
+                        "_production_capacity_raw": common.get("production_capacity_raw_phrase", ""),
+                        "_production_capacity_value": common.get(
+                            "production_capacity_value_parsed"
+                        ),
+                        "_production_capacity_unit": common.get(
+                            "production_capacity_unit_normalized"
+                        ),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": dev_cn,
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
@@ -1103,6 +1161,23 @@ class ProjectExtractorTool:
                         "_storage_energy_mwh": common.get("storage_energy_mwh_parsed"),
                         "_energy_composition_evidence": common.get(
                             "energy_composition_evidence_normalized", ""
+                        ),
+                        "_voltage_kv_raw": common.get("voltage_kv_raw_phrase", ""),
+                        "_voltage_kv": common.get("voltage_kv_parsed"),
+                        "_line_length_km_raw": common.get("line_length_km_raw_phrase", ""),
+                        "_line_length_km": common.get("line_length_km_parsed"),
+                        "_transmission_capacity_mw_raw": common.get(
+                            "transmission_capacity_mw_raw_phrase", ""
+                        ),
+                        "_transmission_capacity_mw": common.get(
+                            "transmission_capacity_mw_parsed"
+                        ),
+                        "_production_capacity_raw": common.get("production_capacity_raw_phrase", ""),
+                        "_production_capacity_value": common.get(
+                            "production_capacity_value_parsed"
+                        ),
+                        "_production_capacity_unit": common.get(
+                            "production_capacity_unit_normalized"
                         ),
                         "Project Stage": common.get("Project Stage", ""),
                         "Project Developer": common.get("Project Developer", ""),
@@ -1363,7 +1438,10 @@ class ProjectExtractorTool:
                 )
                 proj_conn.execute(
                     """UPDATE extracted_projects SET generation_sources_json=?, storage_status=?,
-                       storage_power_mw_raw=?, storage_energy_mwh_raw=?, energy_composition_evidence=?
+                       storage_power_mw_raw=?, storage_energy_mwh_raw=?, energy_composition_evidence=?,
+                       voltage_kv_raw=?, voltage_kv=?, line_length_km_raw=?, line_length_km=?,
+                       transmission_capacity_mw_raw=?, transmission_capacity_mw=?,
+                       production_capacity_raw=?, production_capacity_value=?, production_capacity_unit=?
                        WHERE id=?""",
                     (
                         row_data.get("_generation_sources_json", "[]"),
@@ -1371,6 +1449,15 @@ class ProjectExtractorTool:
                         row_data.get("_storage_power_mw_raw") or None,
                         row_data.get("_storage_energy_mwh_raw") or None,
                         row_data.get("_energy_composition_evidence") or None,
+                        row_data.get("_voltage_kv_raw") or None,
+                        row_data.get("_voltage_kv"),
+                        row_data.get("_line_length_km_raw") or None,
+                        row_data.get("_line_length_km"),
+                        row_data.get("_transmission_capacity_mw_raw") or None,
+                        row_data.get("_transmission_capacity_mw"),
+                        row_data.get("_production_capacity_raw") or None,
+                        row_data.get("_production_capacity_value"),
+                        row_data.get("_production_capacity_unit"),
                         cursor.lastrowid,
                     ),
                 )

@@ -1,0 +1,81 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "DEU-HB-0002",
+  "package_sha256": "af4c3e1276c0ab706b277c5bf5caccb8e9ea4e3e06fcff52dfaf4d8068861367",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "confirmed",
+    "storage_power_mw": 19,
+    "storage_energy_mwh": 5,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [
+      "光储"
+    ],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80338.html",
+        "surface": "title",
+        "quote": "晶科能源与德国 AIS GmbH公司完成光储项目签约仪式"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/80338.html",
+        "surface": "body",
+        "quote": "近日，全球领先的光储企业晶科能源与德国 AIS GmbH公司举行战略签约仪式，双方正式启动德国 66.5MWh 光伏+储能项目交付。晶科储能副总裁与AIS GmbH公司首席执行官共同出席签约活动，并就项目交付周期、本地化运维服务及未来合作规划展开深入交流。此次签约标志着晶科推动全球可再生能源解决方案"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/79240.html",
+        "surface": "title",
+        "quote": "晶科能源签署德国66.5MWh光伏+储能项目"
+      },
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/79240.html",
+        "surface": "body",
+        "quote": "全球领先的光储企业晶科能源今日宣布，成功签署德国光储项目。该项目采用晶科5MWh液冷储能系统以及高效的Tiger Neo系列光伏组件。项目包含66.5MWh储能系统和19MW Tiger Neo系列高效组件，充分展现了晶科推动创新及全球可再生能源解决方案的决心。\n该项目彰显了晶科储能5MWh液"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "DEU-HB-0002-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "confirmed",
+      "storage_power_mw": 19,
+      "storage_energy_mwh": 5,
+      "storage_power_mw_raw": "19MW",
+      "storage_energy_mwh_raw": "5MWh",
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80338.html",
+          "surface": "title",
+          "quote": "晶科能源与德国 AIS GmbH公司完成光储项目签约仪式"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/80338.html",
+          "surface": "body",
+          "quote": "近日，全球领先的光储企业晶科能源与德国 AIS GmbH公司举行战略签约仪式，双方正式启动德国 66.5MWh 光伏+储能项目交付。晶科储能副总裁与AIS GmbH公司首席执行官共同出席签约活动，并就项目交付周期、本地化运维服务及未来合作规划展开深入交流。此次签约标志着晶科推动全球可再生能源解决方案"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/79240.html",
+          "surface": "title",
+          "quote": "晶科能源签署德国66.5MWh光伏+储能项目"
+        },
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/79240.html",
+          "surface": "body",
+          "quote": "全球领先的光储企业晶科能源今日宣布，成功签署德国光储项目。该项目采用晶科5MWh液冷储能系统以及高效的Tiger Neo系列光伏组件。项目包含66.5MWh储能系统和19MW Tiger Neo系列高效组件，充分展现了晶科推动创新及全球可再生能源解决方案的决心。\n该项目彰显了晶科储能5MWh液"
+        }
+      ]
+    }
+  ]
+}

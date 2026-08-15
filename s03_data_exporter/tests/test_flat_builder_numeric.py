@@ -258,4 +258,53 @@ def test_amounts_and_pv_capacity_exported(tmp_path):
     assert row[0] == 100.0
     assert row[1] == 167.0
     assert row[2] == 486.0
-    assert row[3] == bri_enums.subcategory_default("综合能源"), "HB NULL 渲染默认"
+    assert row[3] == "", "综合能源旧组合子类不应再进入导出层"
+
+
+def test_energy_taxonomy_fields_and_confirmed_storage_policy(tmp_path):
+    """projects_flat 输出能源事实/双语标签，且非 confirmed 状态不携带储能数值。"""
+    src, dst = tmp_path / "src.db", tmp_path / "dst.db"
+    conn = _make_src_ext(str(src))
+    conn.execute("ALTER TABLE canonical_projects ADD COLUMN technology_tags_json TEXT NOT NULL DEFAULT '[]'")
+    conn.execute("ALTER TABLE project_events ADD COLUMN generation_sources_json TEXT")
+    conn.execute("ALTER TABLE project_events ADD COLUMN storage_status TEXT")
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category, technology_tags_json) "
+            "VALUES ('VNM-PV-0003','光储项目','光伏','[\"光储\"]')"
+    )
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw, "
+        "storage_power_mw, storage_energy_mwh, generation_sources_json, storage_status, publish_date) "
+        "VALUES ('VNM-PV-0003-01','VNM-PV-0003',?,100.0,20.0,80.0,'[\"光伏\"]','confirmed','2024-01')",
+        (_TERMINAL,),
+    )
+    conn.execute(
+        "INSERT INTO canonical_projects (id, project_name, category) "
+        "VALUES ('VNM-WD-0004','拟配储风电','风电')"
+    )
+    conn.execute(
+        "INSERT INTO project_events (id, canonical_id, project_stage, capacity_mw, "
+        "storage_power_mw, storage_energy_mwh, generation_sources_json, storage_status, publish_date) "
+        "VALUES ('VNM-WD-0004-01','VNM-WD-0004',?,50.0,10.0,40.0,'[\"风电\"]','planned','2024-01')",
+        (_TERMINAL,),
+    )
+    conn.commit()
+    conn.close()
+
+    flat_builder.build_flat(src, dst, province_map={})
+    conn = sqlite3.connect(dst)
+    confirmed = conn.execute(
+        "SELECT generation_sources, storage_status, technology_tags, technology_tags_en, "
+        "storage_power_mw, storage_energy_mwh FROM projects_flat WHERE project_id='VNM-PV-0003'"
+    ).fetchone()
+    planned = conn.execute(
+        "SELECT storage_status, storage_power_mw, storage_energy_mwh FROM projects_flat "
+        "WHERE project_id='VNM-WD-0004'"
+    ).fetchone()
+    conn.close()
+
+    assert confirmed == (
+            '["光伏"]', "confirmed", '["光储"]',
+            '["Solar + Storage"]', 20.0, 80.0,
+    )
+    assert planned == ("planned", None, None)

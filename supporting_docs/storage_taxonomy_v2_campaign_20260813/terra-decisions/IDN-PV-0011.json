@@ -1,0 +1,49 @@
+{
+  "schema_version": "storage-taxonomy-decision-v1",
+  "campaign_version": "storage-taxonomy-v2-20260813",
+  "project_id": "IDN-PV-0011",
+  "package_sha256": "01ba79837b279d3176a84b255a0b8eee26ec21650529259b17ce1ed946335222",
+  "role": "terra",
+  "model": "gpt-5.6-terra",
+  "resolution": "resolved",
+  "confidence": 0.94,
+  "review_reason": null,
+  "canonical_decision": {
+    "generation_sources": [
+      "光伏"
+    ],
+    "storage_status": "not_mentioned",
+    "storage_power_mw": null,
+    "storage_energy_mwh": null,
+    "proposed_category": "光伏",
+    "proposed_subcategory": null,
+    "technology_tags": [],
+    "evidence": [
+      {
+        "url": "https://news.goalfore.cn/topstories/detail/67954.html",
+        "surface": "body",
+        "quote": "项目位于印尼滨淡岛，展现了印尼分公司深耕印尼、走向外岛的坚强决心，项目建成后将助力分公司巩固光伏厂房业务的既有优势、塑强新能源产品线。\n2\n项目位于印尼三宝垄，印尼国别以现场出市场，顺利承接业主安装工程，标志着安装公司迈出工业安装领域的第一步。\n3\n项目位于印尼三宝垄，是东菱科技集团布局印尼小家电市场战略的重要一环，印尼分公司以优质履约赢得业主信赖，承接该后续工程。项目建成"
+      }
+    ]
+  },
+  "event_decisions": [
+    {
+      "event_id": "IDN-PV-0011-01",
+      "generation_sources": [
+        "光伏"
+      ],
+      "storage_status": "not_mentioned",
+      "storage_power_mw": null,
+      "storage_energy_mwh": null,
+      "storage_power_mw_raw": null,
+      "storage_energy_mwh_raw": null,
+      "energy_composition_evidence": [
+        {
+          "url": "https://news.goalfore.cn/topstories/detail/67954.html",
+          "surface": "body",
+          "quote": "项目位于印尼滨淡岛，展现了印尼分公司深耕印尼、走向外岛的坚强决心，项目建成后将助力分公司巩固光伏厂房业务的既有优势、塑强新能源产品线。\n2\n项目位于印尼三宝垄，印尼国别以现场出市场，顺利承接业主安装工程，标志着安装公司迈出工业安装领域的第一步。\n3\n项目位于印尼三宝垄，是东菱科技集团布局印尼小家电市场战略的重要一环，印尼分公司以优质履约赢得业主信赖，承接该后续工程。项目建成"
+        }
+      ]
+    }
+  ]
+}

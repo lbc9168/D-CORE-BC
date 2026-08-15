@@ -32,9 +32,20 @@ from rapidfuzz import fuzz
 _root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
 if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
+_s01b_src = _root / "s01b_project_extractor" / "src"
+if str(_s01b_src) not in sys.path:
+    sys.path.insert(0, str(_s01b_src))
 import bri_enums as enums
 import bri_location
 import bri_parse
+from s01b_project_extractor.energy_taxonomy_v2 import (
+    EnergyFacts,
+    POLICY_VERSION as ENERGY_TAXONOMY_VERSION,
+    STORAGE_STATUSES,
+    aggregate_energy_facts,
+    classify_energy,
+    normalize_generation_sources,
+)
 
 from s02a_duplicate_merger.tools import dedup_cache  # 同包：去重判断结果缓存（断点续跑）
 
@@ -108,6 +119,7 @@ CREATE TABLE IF NOT EXISTS canonical_projects (
     location         TEXT,
     location_norm    TEXT,               -- 规范地名（音译归一；NULL=未归一，消费方回退 location）
     category         TEXT,
+    technology_tags_json TEXT NOT NULL DEFAULT '[]',
     excluded         INTEGER DEFAULT 0,   -- 1=非可再生能源等，排除出统计
     excluded_reason  TEXT,
     created_at       TEXT
@@ -143,6 +155,10 @@ CREATE TABLE IF NOT EXISTS project_events (
     storage_power_mw_raw    TEXT,
     storage_energy_mwh_raw  TEXT,
     energy_composition_evidence TEXT,
+    voltage_kv_raw          TEXT,
+    line_length_km_raw      TEXT,
+    transmission_capacity_mw_raw TEXT,
+    production_capacity_raw TEXT,
     capacity_source         TEXT,
     project_developer       TEXT,
     project_developer_en    TEXT,
@@ -200,6 +216,146 @@ def _parse_capacity(val: Any) -> Optional[float]:
     return bri_parse.parse_number(val)
 
 
+def _decode_generation_sources(raw: object) -> tuple[str, ...]:
+    """把 JSON 或列表形式的发电源解码为 v2 受控集合，非法值返回空集合。"""
+    value = raw
+    if isinstance(raw, str):
+        try:
+            value = json.loads(raw or "[]")
+        except json.JSONDecodeError:
+            return ()
+    if not isinstance(value, (list, tuple)):
+        return ()
+    try:
+        return normalize_generation_sources(value)
+    except ValueError:
+        return ()
+
+
+def _project_energy_facts(project: Dict) -> EnergyFacts:
+    """把一条 s02a 逻辑项目转换为事件级 v2 原子事实。"""
+    status = str(project.get("storage_status") or "not_mentioned").strip()
+    if status not in STORAGE_STATUSES:
+        status = "unclear"
+    confirmed = status == "confirmed"
+    return EnergyFacts(
+        _decode_generation_sources(project.get("generation_sources_json")),
+        status,
+        project.get("storage_power_mw_raw") if confirmed else None,
+        project.get("storage_energy_mwh_raw") if confirmed else None,
+        project.get("storage_power_mw") if confirmed else None,
+        project.get("storage_energy_mwh") if confirmed else None,
+        str(project.get("energy_composition_evidence") or "").strip(),
+    )
+
+
+def _apply_incoming_energy_taxonomy(project: Dict) -> None:
+    """在 canonical 匹配前用事件原子事实确定 category，并清除非 confirmed 储能容量。"""
+    if project.get("category") in {"输变电建设", "新能源制造业"}:
+        project["generation_sources_json"] = "[]"
+        project["storage_status"] = "not_mentioned"
+        project["storage_power_mw"] = None
+        project["storage_energy_mwh"] = None
+        project["storage_power_mw_raw"] = ""
+        project["storage_energy_mwh_raw"] = ""
+        project["capacity_mw"] = ""
+        return
+    facts = _project_energy_facts(project)
+    project["storage_status"] = facts.storage_status
+    project["storage_power_mw"] = facts.storage_power_mw
+    project["storage_energy_mwh"] = facts.storage_energy_mwh
+    project["storage_power_mw_raw"] = facts.storage_power_mw_raw or ""
+    project["storage_energy_mwh_raw"] = facts.storage_energy_mwh_raw or ""
+    if project.get("excluded"):
+        return
+    classification = classify_energy(facts.generation_sources, facts.storage_status)
+    if not classification.needs_review and classification.proposed_category:
+        project["category"] = classification.proposed_category
+
+
+def _refresh_canonical_energy_taxonomy(conn: sqlite3.Connection, canonical_id: str) -> None:
+    """聚合 canonical 的全部事件事实，更新 shadow，并确定性写入未锁定的正式类别和标签。"""
+    project_row = conn.execute(
+        "SELECT COALESCE(excluded,0), category FROM canonical_projects WHERE id=?", (canonical_id,)
+    ).fetchone()
+    if not project_row or project_row[0] or project_row[1] in {"输变电建设", "新能源制造业"}:
+        return
+    shadow_row = conn.execute(
+        "SELECT manual_locked FROM project_classification_shadow WHERE canonical_id=?",
+        (canonical_id,),
+    ).fetchone()
+    if shadow_row and shadow_row[0]:
+        return
+    event_rows = conn.execute(
+        """SELECT generation_sources_json, storage_status,
+                  storage_power_mw_raw, storage_energy_mwh_raw,
+                  storage_power_mw, storage_energy_mwh,
+                  energy_composition_evidence
+           FROM project_events WHERE canonical_id=?""",
+        (canonical_id,),
+    ).fetchall()
+    facts = aggregate_energy_facts(
+        EnergyFacts(
+            _decode_generation_sources(row[0]),
+            row[1] if row[1] in STORAGE_STATUSES else "not_mentioned",
+            row[2] if row[1] == "confirmed" else None,
+            row[3] if row[1] == "confirmed" else None,
+            row[4] if row[1] == "confirmed" else None,
+            row[5] if row[1] == "confirmed" else None,
+            str(row[6] or "").strip(),
+        )
+        for row in event_rows
+    )
+    classification = classify_energy(facts.generation_sources, facts.storage_status)
+    now = datetime.now().isoformat()
+    conn.execute(
+        """INSERT INTO project_classification_shadow
+           (canonical_id, generation_sources_json, storage_status,
+            storage_power_mw, storage_energy_mwh, proposed_category,
+            technology_tags_json, classification_version, needs_review,
+            review_reason, classification_source, manual_locked, updated_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 's02a_policy', 0, ?)
+           ON CONFLICT(canonical_id) DO UPDATE SET
+             generation_sources_json=excluded.generation_sources_json,
+             storage_status=excluded.storage_status,
+             storage_power_mw=excluded.storage_power_mw,
+             storage_energy_mwh=excluded.storage_energy_mwh,
+             proposed_category=excluded.proposed_category,
+             technology_tags_json=excluded.technology_tags_json,
+             classification_version=excluded.classification_version,
+             needs_review=excluded.needs_review,
+             review_reason=excluded.review_reason,
+             classification_source=excluded.classification_source,
+             updated_at=excluded.updated_at
+           WHERE project_classification_shadow.manual_locked=0""",
+        (
+            canonical_id,
+            json.dumps(facts.generation_sources, ensure_ascii=False),
+            facts.storage_status,
+            facts.storage_power_mw,
+            facts.storage_energy_mwh,
+            classification.proposed_category,
+            json.dumps(classification.technology_tags, ensure_ascii=False),
+            ENERGY_TAXONOMY_VERSION,
+            int(classification.needs_review),
+            classification.review_reason or None,
+            now,
+        ),
+    )
+    if not classification.needs_review and classification.proposed_category:
+        conn.execute(
+            """UPDATE canonical_projects
+               SET category=?, technology_tags_json=?,
+                   subcategory=CASE WHEN subcategory IN ('光储','其他') THEN NULL ELSE subcategory END
+               WHERE id=?""",
+            (
+                classification.proposed_category,
+                json.dumps(classification.technology_tags, ensure_ascii=False),
+                canonical_id,
+            ),
+        )
+
+
 def _get_cat_code(category: str) -> str:
     """category 中文键 → canonical_id 用的 code；未知类别记 warning 并回退 UNK。"""
     code = enums.category_code(category)
@@ -240,6 +396,10 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE project_events ADD COLUMN storage_power_mw_raw TEXT",
         "ALTER TABLE project_events ADD COLUMN storage_energy_mwh_raw TEXT",
         "ALTER TABLE project_events ADD COLUMN energy_composition_evidence TEXT",
+        "ALTER TABLE project_events ADD COLUMN voltage_kv_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN line_length_km_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN transmission_capacity_mw_raw TEXT",
+        "ALTER TABLE project_events ADD COLUMN production_capacity_raw TEXT",
         "ALTER TABLE project_events ADD COLUMN capacity_source TEXT",
         "ALTER TABLE project_events ADD COLUMN total_investment_usd_raw TEXT",
         "ALTER TABLE chinese_entities ADD COLUMN subcontract_amount_raw TEXT",
@@ -248,6 +408,7 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE canonical_projects ADD COLUMN excluded INTEGER DEFAULT 0",
         "ALTER TABLE canonical_projects ADD COLUMN excluded_reason TEXT",
         "ALTER TABLE canonical_projects ADD COLUMN location_norm TEXT",
+        "ALTER TABLE canonical_projects ADD COLUMN technology_tags_json TEXT NOT NULL DEFAULT '[]'",
         "ALTER TABLE project_events ADD COLUMN project_developer_en TEXT",
         # TX/MF 稀疏专用列（阶段3 任务3.1）
         "ALTER TABLE project_events ADD COLUMN voltage_kv REAL",
@@ -262,6 +423,19 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE project_events ADD COLUMN contract_amount_usd REAL",
         "ALTER TABLE project_events ADD COLUMN financing_amount_usd_raw TEXT",
         "ALTER TABLE project_events ADD COLUMN financing_amount_usd REAL",
+        # 能源分类 shadow 旧库兼容（表可能来自早期、列不完整的试运行版本）
+        "ALTER TABLE project_classification_shadow ADD COLUMN generation_sources_json TEXT NOT NULL DEFAULT '[]'",
+        "ALTER TABLE project_classification_shadow ADD COLUMN storage_status TEXT NOT NULL DEFAULT 'not_mentioned'",
+        "ALTER TABLE project_classification_shadow ADD COLUMN storage_power_mw REAL",
+        "ALTER TABLE project_classification_shadow ADD COLUMN storage_energy_mwh REAL",
+        "ALTER TABLE project_classification_shadow ADD COLUMN proposed_category TEXT",
+        "ALTER TABLE project_classification_shadow ADD COLUMN technology_tags_json TEXT NOT NULL DEFAULT '[]'",
+        "ALTER TABLE project_classification_shadow ADD COLUMN classification_version TEXT NOT NULL DEFAULT 'energy_taxonomy_v2.1'",
+        "ALTER TABLE project_classification_shadow ADD COLUMN needs_review INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE project_classification_shadow ADD COLUMN review_reason TEXT",
+        "ALTER TABLE project_classification_shadow ADD COLUMN classification_source TEXT NOT NULL DEFAULT 'policy'",
+        "ALTER TABLE project_classification_shadow ADD COLUMN manual_locked INTEGER NOT NULL DEFAULT 0",
+        "ALTER TABLE project_classification_shadow ADD COLUMN updated_at TEXT NOT NULL DEFAULT ''",
     ]:
         try:
             conn.execute(col_def)
@@ -338,6 +512,15 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
         "storage_power_mw":        "Storage Power MW",
         "storage_energy_mwh":      "Storage Energy MWh",
         "energy_composition_evidence": "Energy Composition Evidence",
+        "voltage_kv_raw":         "TX Voltage Evidence",
+        "voltage_kv":             "TX Voltage KV",
+        "line_length_km_raw":     "TX Line Length Evidence",
+        "line_length_km":         "TX Line Length KM",
+        "transmission_capacity_mw_raw": "TX Transmission Capacity Evidence",
+        "transmission_capacity_mw": "TX Transmission Capacity MW",
+        "production_capacity_raw": "MF Production Capacity Evidence",
+        "production_capacity_value": "MF Production Capacity Value",
+        "production_capacity_unit": "MF Production Capacity Unit",
         "project_stage":           "Project Stage",
         "project_developer":       "Project Developer",
         "project_developer_en":    "Project Developer (EN)",
@@ -477,6 +660,25 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "storage_power_mw":     _parse_capacity(first.get("Storage Power MW", "")),
             "storage_energy_mwh":   _parse_capacity(first.get("Storage Energy MWh", "")),
             "energy_composition_evidence": _clean(first.get("Energy Composition Evidence", "")),
+            "voltage_kv_raw":       _clean(first.get("TX Voltage Evidence", "")),
+            "voltage_kv":           _parse_capacity(first.get("TX Voltage KV", "")),
+            "line_length_km_raw":   _clean(first.get("TX Line Length Evidence", "")),
+            "line_length_km":       _parse_capacity(first.get("TX Line Length KM", "")),
+            "transmission_capacity_mw_raw": _clean(
+                first.get("TX Transmission Capacity Evidence", "")
+            ),
+            "transmission_capacity_mw": _parse_capacity(
+                first.get("TX Transmission Capacity MW", "")
+            ),
+            "production_capacity_raw": _clean(
+                first.get("MF Production Capacity Evidence", "")
+            ),
+            "production_capacity_value": _parse_capacity(
+                first.get("MF Production Capacity Value", "")
+            ),
+            "production_capacity_unit": _clean(
+                first.get("MF Production Capacity Unit", "")
+            ),
             "project_stage":        _clean(first.get("Project Stage", "")),
             "project_developer":    _clean(first.get("Project Developer", "")),
             "project_developer_en": _clean(first.get("Project Developer (EN)", "")),
@@ -1436,6 +1638,7 @@ def _write_to_db(
     group_canonical: Dict[str, str] = {}
 
     for project in projects:
+        _apply_incoming_energy_taxonomy(project)
         # ── canonical_projects ──────────────────────────────────────────────
         gid = project.get("dedup_group_id")
         if gid and gid in group_canonical:
@@ -1594,6 +1797,41 @@ def _write_to_db(
                 event_id,
             ),
         )
+
+        # 新 S01B 原子 TX/MF 字段优先，且只填充目标事件的空列；历史 backfill 仍可兜底。
+        conn.execute(
+            """UPDATE project_events SET
+                 voltage_kv_raw=COALESCE(NULLIF(voltage_kv_raw,''), ?),
+                 voltage_kv=COALESCE(voltage_kv, ?),
+                 line_length_km_raw=COALESCE(NULLIF(line_length_km_raw,''), ?),
+                 line_length_km=COALESCE(line_length_km, ?),
+                 transmission_capacity_mw_raw=COALESCE(NULLIF(transmission_capacity_mw_raw,''), ?),
+                 transmission_capacity_mw=COALESCE(transmission_capacity_mw, ?),
+                 production_capacity_raw=COALESCE(NULLIF(production_capacity_raw,''), ?),
+                 production_capacity_value=COALESCE(production_capacity_value, ?),
+                 production_capacity_unit=COALESCE(NULLIF(production_capacity_unit,''), ?),
+                 capacity_mw=CASE
+                   WHEN ? IN ('输变电建设','新能源制造业') THEN NULL ELSE capacity_mw END,
+                 capacity_mw_raw=CASE
+                   WHEN ? IN ('输变电建设','新能源制造业') THEN NULL ELSE capacity_mw_raw END
+               WHERE id=?""",
+            (
+                project.get("voltage_kv_raw") or None,
+                project.get("voltage_kv"),
+                project.get("line_length_km_raw") or None,
+                project.get("line_length_km"),
+                project.get("transmission_capacity_mw_raw") or None,
+                project.get("transmission_capacity_mw"),
+                project.get("production_capacity_raw") or None,
+                project.get("production_capacity_value"),
+                project.get("production_capacity_unit") or None,
+                project.get("category"),
+                project.get("category"),
+                event_id,
+            ),
+        )
+
+        _refresh_canonical_energy_taxonomy(conn, canonical_id)
 
         # ── chinese_entities ───────────────────────────────────────────────
         for ent in project.get("entities", []):
