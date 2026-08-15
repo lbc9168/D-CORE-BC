@@ -1,9 +1,5 @@
 # eval — s01b 提取器金标准评测框架（v2.1 P0 / P0.1）
 
-## Studio gold 的运行规则
-
-`external-tools/gold-standard-studio` 与生产 extractor 隔离：只读 `raw_news.db`、`projects.db` 和主库，所有草稿、缓存和报告均归属于指定 Studio `data-dir`。先执行 `gold-studio sample`（无 `--apply`）并保留来源逻辑哈希与配额结果；只有人工检查后才允许 `sample --apply`。`build-candidates --all` 必须确认精确数量，当前 CLI 安全默认不调用外部模型。发布只允许 `gold-studio publish --version vMAJOR.MINOR.PATCH` 通过完整人工 gate，失败时不得手工改产物绕过。完整命令、恢复及故障排查见 Studio README。
-
 > 最后更新：2026-05-30（金标准已标注 97 篇 + P1 改造前基线已跑出）
 
 **模块路径：** `eval/`（仓库根）

@@ -1,65 +1,14 @@
 # external-tools 状态
 
-> 最后更新：2026-08-06（Golden Standard Studio 最终加固 A 修复轮 2 完成）
+> 最后更新：2026-08-15（Gold Standard Studio 独立策略导入路径修复）
+
+Gold Standard Studio 独立启动时会显式加载仓库根目录与 S01B `src`，确保确定性能源策略及 `bri_enums` 可在未安装主流水线包的情况下导入。
 
 ---
 
 ## 概述
 
 `external-tools/` 目录存放不属于主流水线的一次性辅助工具。这些工具独立运行，不依赖 crewai 框架，可直接用 `uv run --with <deps>` 执行。
-
----
-
-## gold-standard-studio — 全库金标准复核工作台
-
-### 功能
-
-为 Full-Database Golden Standard Studio 提供与主流水线隔离的人工复核数据契约。富金标准记录保留字段状态、文章级证据、项目实体角色和候选来源；正式发布前要求整篇文章已人工复核，且不存在 `needs_adjudication` 字段。
-
-### 当前状态
-
-| 项目 | 状态 |
-|------|------|
-| Pydantic 富金标准、证据与候选契约 | ✅ 已完成 |
-| 统一字段注册表（证据要求 + 评测映射） | ✅ 已完成 |
-| Schema 边界回归覆盖 | ✅ 已完成 |
-| 只读数据源与不可变快照（仅待导入标签、稳定排序、严格链接 JSON、WAL 逻辑哈希） | ✅ 已完成 |
-| 确定性分层抽样（去重、严格负样本/类别配额、风险加权、Pilot/正式分区与 manifest） | ✅ 已完成 |
-| SQLite 复核存储（规范 JSON 草稿/候选、`BEGIN IMMEDIATE` 人工决策、完整 before/after 审计、会话恢复与队列） | ✅ 已完成 |
-| SQLite 原生备份（完整性、全表行数与审计尾部校验） | ✅ 已完成 |
-| 四路独立候选（数据库、生产提取、独立审校、确定性解析）、严格缓存与单次渲染审校 prompt | ✅ 已完成 |
-| 证据精确定位与安全重定位（原文 hash、offset、歧义阻断） | ✅ 已完成 |
-| 字段注册表驱动冲突识别（全局一对一跨源身份对齐、枚举/日期、±5% 数值、集合及名称归一） | ✅ 已完成 |
-| 可解释难度评分与固定种子抽检（风险标签动态提升） | ✅ 已完成 |
-| 本地复核 API（队列、文章上下文、字段/结构/裁决、事务内确认守卫、已确认草稿不可变与完整审计） | ✅ 已完成 |
-| 冲突优先 Web UI（并发安全只读源库、审计顺序结构门控、候选与人工证据 SHA 校验、结构编辑、审计、自动保存与快捷键） | ✅ 已完成 |
-| rich gold 发布器（原子版本目录、证据/审计保留、兼容 eval 投影与发行清单） | ✅ 已完成 |
-| 安全 CLI（init/sample/build-candidates/serve/publish/report）与 Pilot runbook | ✅ 已完成 |
-| 最终核心加固（权威文章状态、完整状态机、严格确认门、路径身份隔离、快照身份、顺序迁移） | ✅ 已完成 |
-| 最终加固 A 修复轮 1（迁移撤权/恢复、竞态隔离、完整 UI/API、严格发布契约） | ✅ 已完成 |
-| 最终加固 A 修复轮 2（安全备份/发布、可验证 provenance、Host/CSRF/actor、真实 UI 发布） | ✅ 已完成 |
-
-发布器只读访问 Studio review DB；仅当草稿和索引均为 `reviewed`、存在匹配 `article_confirmed` 审计且其后没有 gold 草稿变更时才写入版本目录，确认后的候选观测不影响资格。每次发布先在同级临时目录生成并以 Pydantic 校验 rich/eval JSONL、manifest、schema、distribution 与 changelog，再 fsync 后以协作版本锁和平台 no-replace rename 原子提交；版本必须是 `vMAJOR.MINOR.PATCH` 且不可覆盖。投影将 `field_eligibility` 保留在每个项目内：`present`/`not_mentioned` 为可评测，`not_applicable`/`uncertain` 为不可评测；发布 rich JSON 仅保留 allowlist 的确认审计 ID、动作、时间和字段路径，不发布任意原始 audit metadata。
-
-Studio 现提供 `gold-studio` 命令：`sample` 默认为真正的无写入 dry-run，只有 `--apply` 才向 Studio-owned review DB 和 manifest 写入；60 篇/11 个负样本与稀有类别下限不足时 fail-closed。`build-candidates --all` 显示精确数量并要求确认（或 `--yes`），CLI 默认完全禁用外部模型调用。`serve` 默认为 `127.0.0.1`，非 loopback 必须 `--allow-network`。`publish` 要求显式版本并复用不可变发布 gate；`report` 输出无网络依赖、带语义表格的可访问 HTML。完整运行、备份/恢复、成本和故障处理见 `external-tools/gold-standard-studio/README.md`。
-
-Task 12 fix round 1 将候选难度/风险保存为 review DB 的观察性 `sample_scoring`（`BEGIN IMMEDIATE` + 独立审计），不重开或改写已确认 rich gold；队列和完成后报告均读取该持久评分。`build-candidates --all` 现覆盖所有已种子样本，`--resume` 只跳过已保存 candidate bundle 的样本。`init` 在创建 Studio 文件前检查所有只读 SQLite 表/列契约；`sample --format json` 输出可复算的前后逻辑哈希、物理诊断哈希、行数/ID digest、配额与 unchanged 证据。
-
-Task 12 fix round 2 规定 `sample --format json` 的 stdout 永远只有一个 JSON document：dry-run 为 `applied:false`，`--apply` 在同一对象中附加 `applied:true`、`seeded_count`、安全的 review DB/manifest 文件名，不再将 apply 进度文本混入机器输出。
-
-评测器现已消费逐项目 eligibility、分派全字段指标并输出 split/category/risk 切片：`not_mentioned` 的 null 按显式空值计入分母，`not_applicable`/`uncertain` 仍排除；地点采用与 Studio evidence 相同的 normalized-exact。评测的显式 FIELD_PRIMARY_METRIC 映射将发电源指定为 set F1（精确集合准确率仅供诊断），避免 full/core 汇总退化为通用 accuracy。Studio exporter 通过不污染全局 `sys.path` 的私有 importlib 包加载仓库唯一的 `eval.gold_loader` 契约，因此从 Studio 独立工作目录导入也可用。
-
-发布投影的唯一校验契约现为 `eval.gold_loader.GoldRecord`：写入前和临时 JSONL 重读时均使用该模型，Studio 不再维护宽松的重复 projection schema。Loader 对 canonical gold 使用严格 JSON 类型、受控 category/stage/financing enum、受控发电源和严格数值字段，拒绝例如布尔值伪装的数值；验证失败在版本目录可见前清理 staging。
-
-最终核心加固将文章级 gold status 与 workflow review status 完全分离，只允许人工审计的 `valid`、`no_chinese`、`irrelevant`、`chinese_unnamed` 进入发布，并把抽样种子、原始类别分层、风险、纳入原因与 negative proxy 固定为独立 `sampling_provenance`。`valid` 必须至少有一个项目且每个项目精确覆盖 19 个注册字段；负样本必须为空项目，并由单事务 `confirm-negative` 写入 status 与 confirmation。字段类型/受控值、实体角色、证据 hash/bounds/quote 都在保存、确认和发布边界重复校验。
-
-Review DB schema 现以显式版本和顺序事务迁移管理，新增不可变 `article_snapshots` 与索引化 article status，拒绝损坏、缺失或未来版本元数据。证据重定位只接受 canonical `ArticleSnapshot`（标题、正文、发布日期共同计算 hash）。所有 Studio 可写路径在配置和写入边界与三份只读源库比较 resolved path、symlink/samefile 及 device/inode hardlink 身份；回归覆盖普通路径、符号链接和硬链接别名。临时三库端到端测试包含一个全字段、实体角色与原文证据齐全的真实 `valid` 项目以及三种负样本状态，发布前后源库物理 hash、行数和 ID 集保持不变。
-
-最终加固 A 修复轮 1 进一步规定：v1/v2 数据迁移一律撤销旧 reviewed/status 权威，只保留 `legacy_migration_hint` 并写 `migration_rereview_required` 审计；`rehydrate-snapshots` 只能从已配置只读 `SourceRepository` 恢复缺失快照，恢复后必须重新作出 status 与 confirmation。review SQLite 打开会持有 no-follow 文件句柄并核对 claimed/path/SQLite 实际 inode，配置、manifest、candidate cache 与 report 采用 sibling-temp、fsync、身份复查和原子 replace。正式/API Pydantic 边界同时启用 `strict=True` 与 `extra=forbid`，候选 envelope 保持宽容；FIELD_REGISTRY 的 `evidence_required` 在保存、确认、发布重复强制。UI 暴露专用 adjudication 动作、多证据 span、实体增改删与受控角色。`valid` 至少需要一个具名中方实体、非 `Unknown` 角色及证据；`chinese_unnamed` 明确为“有中方参与但原文未具名”的零项目负样本，不是 valid 占位实体。投影逐项目输出全部 19 个字段键，`not_mentioned` 为显式 null 且 eligible=true。
-
-最终加固 A 修复轮 2 将 SQLite backup 的临时目标纳入 held-handle/no-follow/identity 校验，并将 rich、projection、schema、distribution、changelog、manifest 六类 staged artifacts 全部切换到源库别名感知的安全原子写入。ReviewStore schema 升至 v4：迁移值只成为显式 `legacy_unknown`/`verified=false` provenance 和审计提示，必须经 Store/API/`verify-provenance` CLI 的 operator-reviewed 决定替换后才能确认或发布；其中 operator provenance 必须与 confirmation 之前的 `sampling_provenance_decision` canonical payload 精确一致，单独伪造 verified flag 无效。v1/v2 会撤销推断 status，v3→v4 则保留 article status、重置复核 workflow。eval loader 对旧 gold 继续兼容缺少 verification 字段的 provenance。Web mutation 只接受本地 TrustedHost、`X-Gold-Studio-Request: 1`、非空 bounded actor 及可选的精确同源 Origin，真实 Chromium 回归从空项目通过页面完成 19 字段、专用裁决、双字段证据、具名实体/受控角色/双实体证据、状态与确认，再由公共 CLI 发布并校验 rich/eval projection。安全边界假定可信本地操作员；原子写/no-follow/源别名检查用于防止误操作和已检测路径替换，不承诺抵御同一 OS 身份的恶意进程在最终校验与 commit 之间发起微竞态。
-
-最终验证：本次 provenance audit-binding 最小收尾回归 `8 passed`，覆盖伪造/已审计 payload、Store/API/CLI 修复、正负确认、v1 重新复核与真实 Chromium UI→CLI 发布；此前 Studio 完整测试（含真实 Chromium）`212 passed`，eval loader/CSV 兼容测试 `15 passed`（仅保留现有 Windows pytest cache ACL warning）。
 
 ---
 
@@ -233,3 +182,112 @@ uv run --with pandas --with openpyxl --with google-genai --with python-dotenv --
 - 台账（`ledger.json`）幂等：已定案的 pair/project/raw_name 不会重复入队，也不会被 ingest 重复处理。
 - gated（要改数据）类判定强制抽检：`ingest_verdicts --apply` 默认按 15% 比例（`--sample-rate`）确定性抽样进 `manual_check_T*.csv`，人工复核后才可执行 apply_actions。
 - T3 不直接写 registry/主库，产出物需人工三步（合并进 draft → 重跑 `build_hierarchy_v2.py` → s01b 跑 `entity_reparse_maindb --apply`）才生效。
+
+---
+
+## gold-standard-studio — Pilot 与 Stage 4E 五十篇复核队列
+
+> 最后更新：2026-08-13；状态：十篇人工复核已发布 `pilot-v0.1.1`；Stage 4E 固定 40 篇（24 development + 16 challenge）已完成 40 对 Terra Provider/Sol Reviewer 候选，23627 异常已审计重跑，累计 50 篇可进入复核，blind 仍为 0。
+
+### 当前范围
+
+- Pilot 固定 10 篇真实文章并全部计入 development；Stage 4E 新增 40 篇且与 Pilot ID 完全不相交，分为 development 24、challenge 16、blind 0。累计划分为 development 34、challenge 16。
+- `/queue` 分组显示 Pilot development、Stage 4E development 和 Stage 4E challenge 的真实标题、候选链状态与本地草稿/确认进度；复核页在全部 50 篇间提供上一篇、下一篇和返回队列导航。
+- development/challenge 都显示冻结的 Terra/Sol 辅助候选；challenge 表示未来固定困难回归集，不再用于网页“首次判断隐藏候选”实验。未触碰的 revision=1 自动草稿在 Provider 到达时安全升级，任何已编辑或已确认草稿均不覆盖。
+- 保留阶段 2 双栏证据复核、冲突优先、任意字段宽松草稿、刷新恢复、严格确认、确认锁定和显式重新打开语义；项目候选按名称与 Terra 项目对齐，不按数据库行号错配。
+- 复核字段现分离 S01B 事实层与 S02B 规则层：`entities/location` 只保存原文实体、角色和地点，`normalized_entities/normalized_location` 单独保存标准实体、母公司和标准地点；Terra/Sol 不因未执行母子公司归一化而产生伪错误。
+- S02B-2 标准地点预填遵循正式去重逻辑：`location_norm` 非空时优先使用，否则回退原始 `location`；只有两者都为空才显示未提及。旧版空预填在文章重新打开时立即持久化为 `unreviewed` 新候选，避免不刷新页面便确认时仍读取旧 JSON；明确的人工 `modified` 值不会被覆盖。
+- 规则层字段可以独立采用、编辑、确认和保存；母公司或标准地名不要求逐字出现在新闻。事实层只有 `present` 字段要求可精确定位的原文证据，`not_mentioned/not_applicable/uncertain` 可以无 evidence；候选适配器不再把 unknown 或字面 not_mentioned 误转成 present。旧草稿只补齐缺失的新字段，不覆盖既有人工值。
+- 负样本页面仍显示 Terra/Sol 文章级判断、原因及数据库/Pipeline 历史关联项目；最终确认要求非项目原因，但草稿不受该约束。
+- 不记录人工复核耗时、停留时间或操作速度；Master Plan 当前规划点按最新目标调整为 200 篇（development 90、challenge 50、blind 60），但当前只实施 Stage 4E/4F 40 篇，不建设完整 200 篇、权限或远程部署。
+
+### 阶段 4A：不可变 Gold 发布与分层评估
+
+- 新增 `pilot_release.py`，以只读方式重新校验十篇草稿的确认状态、完整字段、review action、原文证据和文章快照 hash；任何问题均逐篇返回并 fail closed。
+- `pilot-vX.Y.Z` 发布使用同级临时目录生成并重新读取校验，成功后原子改名；既有版本拒绝覆盖。manifest 固定文章清单、复核库 hash、状态/项目统计和每个 artifact 的 SHA-256。
+- 一份 rich Gold 同时投影为 S01B 事实层、现有 `eval/gold_loader.py` 兼容层、S02A 项目边界层、S02B 实体/地点归一化层及端到端最终值层。
+- 基线明确标记为 `stored_pipeline_snapshot`：S01B 读取已有 `projects.db`，S02A/S02B/端到端读取当前主库快照；不调用模型，报告同时写入只读源数据库路径及 hash 和指标限制。
+- 隔离发布测试覆盖未确认阻断、完整发布、artifact hash、legacy loader 兼容、同版本不可覆盖和一致样本基线；2026-08-11 真实发布预检为 `10/10 ready`，无 blocker。
+- 已生成 `data/releases/pilot-v0.1.0`：10 篇、14 个 Gold 项目，文章状态为 valid=6、no_chinese=3、irrelevant=1；rich Gold 和五种投影均为 10 行，manifest artifact hash 全部复核一致，legacy Gold loader 成功读取 10 条。
+- stored Pipeline 首轮诊断基线：valid/non-valid 准确率 `0.800`；S01B 项目 precision/recall/F1=`0.737/1.000/0.848`；S02A 文章内项目集合 precision/recall/F1 同为 `0.737/1.000/0.848`；S01B 字段 micro accuracy=`0.441`、S02B 字段=`0.429`、端到端字段=`0.489`。这些是 10 篇 Pilot 的快照诊断，不用于直接选择模型。
+
+### 可复现双 Subagent 候选链
+
+- 命名统一为“顶层模块 + 内部步骤”：S01B 是 Project Extractor，S01B-S1/S2/S34/S5 是其内部步骤；S02A 是项目 duplicate merger/入库，S02B 才包含公司实体归一化及 S02B-2 地点归一化。旧 artifact 的 `s1/s2/s34/s5` 键保留为稳定机器契约。
+- 新增 `prompt_pack.py`，代码直接调用当前 production `build_s1_prompt/build_s2_prompt/build_s34_prompt/build_s5_prompt`；保存固定文章快照、完整 rendered Prompt、Prompt SHA-256、builder 文件字节 SHA-256、逐步骤原始输出和动态 S01B-S5 输入。
+- Provider 使用 `gpt-5.6-terra` 严格执行 S01B-S1→S01B-S2→逐项目 S01B-S34→逐项目 S01B-S5；`irrelevant/no_chinese_participation` 按 production 规则在 S01B-S1 短路。
+- Reviewer 使用 `gpt-5.6-sol`，只读取同一固定原文和 Terra 完整候选，通过独立 critic prompt 逐字段审校，并以 `parent_candidate_id` 指回 Terra。
+- 两种 Subagent 均不读取数据库候选、人工草稿或 Gold；Web 应用不调用模型、不使用 API key。所有非空 evidence 均验证为对应正文的单一连续逐字子串。
+- 模型只提取结构化事实；页面继续按每项目自己的证据调用 `energy_taxonomy_v1` 确定性派生 proposed category。
+
+### Pilot 真实发现
+
+- 当前 production S01B-S1 将文章 `10069` 与 `18491` 判为电力项目但无中方参与，Sol 独立同意；工具保留它们与历史数据库项目的冲突，而不为匹配旧库强改候选。
+- `1586` 的 Sol Reviewer 将港口描述保留为“首选地点”，未提升为确定项目地址。
+- `14595` 明确 8MWp 是光伏容量、12MWh 是本次储能容量，未混入全球案例背景。
+- `1533` 的 Terra 将瑞达一期/二期合并，排除换电站、纯 MOU 和战略内容；保留原文 `9Wh`，且未把 `480GWh` 年发电量当装机或储能容量。
+- 浏览器验收发现并修正 policy 展示的证据串扰：`95MWp` 光伏装机不再被解析成储能功率；发电证据与储能证据分别进入确定性 parser，当前显示光伏、confirmed 储能、`storage_power=null`、`storage_energy=218MWh`。
+
+### 验证与门控
+
+- 阶段 4A 定向测试当前 `12 passed`，覆盖原有单篇/队列/分层交互、标准地点显式映射/原地点回退/旧草稿安全升级与 reopen 持久化，以及发布 fail-closed、无半成品、hash、legacy loader 兼容和不可覆盖；未运行全量 pytest。
+- 9 篇新增文章的 Prompt manifest 文件/hash 已逐项核验无不匹配；所有候选 JSON、父候选关系和 evidence 子串均已校验。
+- 真实浏览器已完成：队列 → 8 项目复杂文章 → policy 容量检查 → 三一硅能事实层/三一集团规则层展示 → 规则层修改/自动保存/刷新恢复/还原 → irrelevant 负样本编辑/保存/刷新恢复/恢复原值 → no_chinese 样本历史数据库/Pipeline 关联显示；没有替用户确认新增文章。
+- 阶段 4A 未修改上游三份 SQLite，也未创建提交。发布后 raw/extraction/main SHA-256 仍分别为 `3CFE53B...B60DD`、`B7D364C...8FC6B`、`6AB48986...B87F`；后续任何 Gold 修订必须使用新版本号，不能覆盖 `pilot-v0.1.0`。
+
+### 阶段 4B：类型化分层评估器
+
+- 新增 `layered_evaluator.py`：运行前核验不可变 release 的 artifact hash，使用全局一对一项目对齐和字段类型语义，原子生成 `report.json`、`errors.jsonl`、`summary.md` 与 `run-manifest.json`；同一 run id 拒绝覆盖。
+- 比较规则区分数值容差、部分精度 ISO 日期、规范化文本、集合、实体元组及投资金额结构；Gold 有证据但没有可比较规范值、快照没有存储该字段、或货币/结构不兼容时记为 `unscorable`，不伪装成模型错误。
+- 明确支持 article validity gate、S01B 事实字段、S02B 实体/地点归一化和 stored end-to-end；完整跨文章 S02A duplicate clustering 与 S03 省级地点推断在当前固定快照中标记为 unsupported。
+- 修正历史 Pipeline 页面适配器残留的原型兜底：不再为无储能信息的文章注入 `300MWh`，非储能项目的 `capacity_mw` 不再映射为储能功率；该修正只影响本地展示/评估适配，不修改数据库。
+- 已生成不可变评估运行 `data/evaluations/pilot-v0.1.0/stored-snapshot-v2`：valid/non-valid accuracy=`0.800`，S01B 项目 P/R/F1=`0.737/1.000/0.848`，S01B/S02B/end-to-end 可评分字段 micro accuracy=`0.644/0.643/0.656`；共记录 mismatch=`180`、unscorable=`66`。这些仍是历史存储快照诊断，不是新模型实验。
+- 阶段 4B 定向测试为 `16 passed`，未运行全量 pytest；未调用模型，未修改 Prompt、taxonomy、Gold、上游数据库或正式导出，也未创建提交。
+
+### 阶段 4C：冻结 Terra/Sol 对照实验
+
+- 新增 `frozen_candidate_experiment.py`，严格读取 Gold 发布前由 Codex Subagents 生成的十篇 `gpt-5.6-terra` Provider 与 `gpt-5.6-sol` Reviewer artifact；校验完整文章 ID 集合、模型名、文章 hash、Reviewer 父候选关系和可用 Prompt provenance 后再评分。
+- 实验只评分可直接归因的 S01B 文章状态、项目结构及事实字段；候选 `category` 没有完整 deterministic taxonomy trace，`subcategory_raw_fact` 也不等于最终 subcategory，因此不进入模型主指标。S02A/S02B/S03 同样排除。
+- 已生成不可变实验 `data/experiments/pilot-v0.1.0/frozen-terra-sol-v1`：Provider 与 Reviewer 四分类/二元门控均为 `1.000/1.000`，项目 P/R/F1 均为 `1.000/1.000/1.000`；类型化字段 micro accuracy 分别为 `0.917/0.903`，Reviewer delta=`-0.015`。
+- Reviewer 相对 Provider 修复 7 个 mismatch、新增 10 个、共有 10 个不变；日期起止字段各提升 `+0.250`，但实体、开发商、项目名和阶段相对当前 Gold 下降。新增差异包含“拒绝把收购方当开发商”“拒绝把区域角色复制到各项目”“保留首选址限定”等保守判断，属于下一轮 Gold/规则审计候选，不能自动判作 Reviewer 推理错误。
+- 这十篇复核时曾展示模型候选，因此报告明确标记为 development set，不作为无泄漏泛化排名。文章 9027 早于完整 rendered Prompt pack，只能记录 candidate source paths；其余九篇保留 rendered Prompt/manifest hash。Subagent runtime 不暴露 temperature/seed，本轮诚实记录为 unavailable，且新模型调用数为 0。
+- 当前 Studio 定向测试为 `19 passed`，未运行全量 pytest；实验不修改 Prompt、模型、taxonomy、Gold、候选、上游数据库或正式导出，且同 experiment id 拒绝覆盖。
+
+### 阶段 4D：标注口径审计与 `pilot-v0.1.1`
+
+- 新增长期标注合同 `docs/rules_and_plans/golden_standard_annotation.md`，固定五条规则：收购方不自动等于开发商、组合/区域能力不下放为逐项目角色、候选场址不进入项目名且地点只保留确定层级、收购不等于融资、参建可以支持在建但完工/投运优先。
+- 定向核对冻结实验的 10 个 Reviewer 新增 mismatch：修改 2 篇文章的 9 个字段；保留达尔汗 P07 的 `参建→在建`。其中罗马尼亚项目按正文将开发商从收购方“三一集团”纠正为明确的“Enero”，融资改为未提及；P02–P06 保留三一硅能实体但移除无逐项目证据的统一角色；塞尔维亚 P08 收购方不再标开发商；1586 项目名移除候选阿德赛尔港而保留确定的英国/苏格兰。
+- 审计脚本 `scripts/apply_v011_guideline_audit.py` 对旧值 fail closed，先做 SQLite backup，再逐篇 reopen/save/strict confirm；产物位于 `data/audits/pilot-v0.1.1-guideline-audit`，含 9 项 before/after、保留决定、release hash 和审计前 review DB。第一次 Windows 文件句柄失败已自动恢复到原 revision，显式关闭连接后重试成功，没有半完成 Gold。
+- 已不可变发布 `data/releases/pilot-v0.1.1`：10 篇、14 项目、状态 valid=6/no_chinese=3/irrelevant=1；rich Gold SHA-256=`F748DC...ADDC5`。`pilot-v0.1.0` manifest SHA-256 仍为 `83A50B...AF664`，未覆盖旧版。
+- 相同冻结候选重跑到 `data/experiments/pilot-v0.1.1/frozen-terra-sol-v1`：Provider/Reviewer 门控和项目 F1 均为 `1.000`；字段 micro 从旧 Gold 下的 `0.917/0.903` 变为 `0.874/0.937`，Reviewer delta 从 `-0.015` 变为 `+0.063`。Reviewer 修复/新增/共享 mismatch 为 `14/1/12`，唯一新增项是其拒绝“参建→在建”。
+- 这仍是候选可见的 10 篇 development set，只能证明口径修正改变了错误归因，不能作为最终泛化排名；在新增 30–50 篇前不据此修改 Reviewer Prompt。
+- 当前 Studio 定向测试为 `21 passed`，未运行全量 pytest；候选、Prompt provenance、模型、taxonomy 和三份上游数据库均未修改，也未创建提交。
+
+### 阶段 4E/4F：40 篇分层扩展与 Terra→Sol 候选链
+
+- Master Plan 将当前最终规划点固定为 200 篇：development 90、challenge 50、blind 60；Pilot 十篇是 development 起点且永久不得进入 blind。分层 Gold 规划覆盖 S01B、跨文章 S02A、S02B、S03 和至少 80 篇端到端样本，并定义人工复核、不可变版本发布和分层回归门槛。
+- Stage 4E 采用定向分层扩展而非最终总体随机样本：`core_balanced=10`、`s01b_complex=8`、`s02a_family=8`、`s02b_s03_normalization=8`、`boundary_gate=6`；四个 S02A family 各含两篇且 family 不跨 split。
+- 新增 `stage4e_manifest.py`：固定 40 个互异且非 Pilot 的 article ID，从只读源库冻结正文 hash 与历史选择信号，严格校验 24/16 和各 stratum 配额，先写临时目录、重读 hash 后原子发布，同版本拒绝覆盖。
+- 已生成 `data/cohorts/stage-4e-40-v1`：`articles.jsonl` SHA-256=`78E72D...FB649`；33 篇有历史 valid 信号、7 篇保持 unreviewed，历史项目复杂度为单项目 18、2–3 项目 4、4+ 项目 11、无历史项目 7。这些历史信号明确不是 Gold。
+- cohort manifest 固定 raw/extraction/main SHA-256 为 `3CFE53B...B60DD`、`B7D364C...8FC6B`、`6AB48986...B87F`，并记录实现与 artifact hash；没有调用模型、修改 Prompt/taxonomy/registry/location rules 或写入上游数据库。
+- Stage 4F 使用 cohort manifest 而非执行器硬编码，`gpt-5.6-terra` 对 40 篇逐一执行 production S01B-S1→S2→逐项目 S34→S5；每篇保存固定正文、rendered prompts、builder hash、stage outputs、候选和 prompt manifest，并由 fail-closed `candidate_contract.py` 校验 model/role/article hash/schema/evidence。
+- `gpt-5.6-sol` 已对全部 40 篇读取相同固定文章与完整 Terra artifact 做独立逐字段 Reviewer 审校；40/40 Provider、40/40 Reviewer 均通过合同。初始 `stage-4f-terra-sol-40-manifest.json` 因 23627 S1/最终状态错位被标记为已取代；修复后的权威清单为 `data/runs/stage-4f-terra-sol-40-manifest-r1.json`，SHA-256=`BDA704E...2DA395`。
+- `prompt_pack.py` 已从 Pilot-only 泛化到完整 review cohort；网页只导入通过 Stage 4E 严格合同的候选。新候选只升级完全未触碰的初始草稿，人工编辑、确认记录与既有 Pilot release 保持不变。
+- Pilot 冻结实验加载器只读取 release manifest 指定的文章 ID，Stage 4E 新候选与 Pilot 使用同一 candidate 目录时不再被误判为 Pilot hash 冲突；Studio 全量测试为 `32 passed`（仅 1 个既有 TestClient/httpx deprecation warning）。
+- 23627 审计发现旧 Terra `stage_outputs.s1.status=valid_project`，但最终 artifact 被错误写成 `other_non_project` 并跳过 S2/S34/S5；合同现强制 S1 与最终状态一致，并强制 valid 分支的 S2 in-scope、S34、S5、final project 数量一致。重跑后均为 1，Sol parent 已更新并通过合同。
+- 修复前 revision 23 草稿、旧 Provider/Reviewer 和旧 run 已完整备份到 `data/audits/stage4f-23627-rerun-20260813`；仅在确认草稿字节未变化且仍未确认后更新到 revision 25。实体适配兼容 `entity/name/entity_name` envelope，当前 CHINT 名称与原文 evidence 已保留；没有替用户确认文章。
+- 标题与正文现为并列的固定原文证据来源：候选合同、网页导入、人工最终确认和 Pilot release 预检都会在两者中逐字校验；多段 evidence 的每一段可分别来自标题或正文。复核页可直接高亮标题证据，提示文案也明确 `present` 可引用标题或正文。
+- Studio 全部定向测试现为 `25 passed`；唯一 warning 是当前 TestClient/httpx 兼容层的既有 deprecation 提示，不影响功能。本轮未运行全仓库 pytest。
+
+### 2026-08-13：Golden Standard 暂停封存
+
+- 本地 8765 服务已停止；Pilot release、Stage 4E 40 篇候选、人工草稿及 23627 revision 25 均按旧 guideline 保持原样，不参与能源分类 v2 迁移。
+- 暂停快照位于 `data/archives/golden-standard-paused-20260813/`，包含 WAL-safe `review.db`、规则副本、737 个文件 SHA-256 和恢复 README；manifest SHA-256=`7628077D...073967`。
+- 快照状态：19 article snapshots、102 candidates、19 drafts、18 confirmed；23627 revision 25 仍为 unconfirmed。恢复时必须另开 guideline/release 版本，不能覆盖既有 Pilot。
+- Studio 全量测试 `33 passed`，仅保留一个既有 Starlette/httpx deprecation warning。
+
+### 2026-08-15：暂停快照的只读 Development 评测复用
+
+- 暂停快照没有解封或迁移；`eval/archived_gold.py` 以 SQLite query-only 模式读取 archived `review.db`，只消费 18 篇 confirmed 草稿，23627 revision 25 保持 unconfirmed 并排除。
+- 评测输入标题/正文来自 archived `article_snapshots`，生成 run-local `raw_news.db`；封存源库 SHA-256 仍为 `095E7F4A...A9E8`，旧 guideline 与草稿没有被当前 taxonomy v2.1 改写。
+- 该 18 篇集合只标记为 development/non-blind，不发布为新 Pilot，也不替代未来当前 guideline 的正式 Gold release。
