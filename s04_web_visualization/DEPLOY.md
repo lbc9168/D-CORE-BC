@@ -2,10 +2,11 @@
 
 > 目的：每次更新一次性、可靠地把网站发上线，避免"下载 CSV 404 / 数据缺失"那类漏文件问题。
 
-## 部署目标（已确认）
-- **托管 = GitHub Pages**，仓库 `lbc9168/BRI_RE_Database`，源 = **`gh-pages` 分支根目录**（path `/`）。
-- **线上地址**：<https://lbc9168.github.io/BRI_RE_Database/>
-- vite `base: "./"`（相对路径），子路径 `/BRI_RE_Database/` 下正常工作。
+## 部署目标（已确认，两处都要发）
+1. **公司服务器（主站，2026-07-21 起）**：<https://d-core.iigf.com.cn>，阿里云 `39.104.17.72`，nginx `alias /home/app/ydyl/dist/`。流程见下方「部署目标 2」。
+2. **GitHub Pages（镜像）**：仓库 `lbc9168/BRI_RE_Database`，源 = **`gh-pages` 分支根目录**（path `/`）。
+   - **线上地址**：<https://lbc9168.github.io/BRI_RE_Database/>
+   - vite `base: "./"`（相对路径），子路径 `/BRI_RE_Database/` 下正常工作。
 
 ## ⚠️ 不要用 `npm run deploy`（当前是坏的）
 `package.json` 里的 `npm run deploy`（`gh-pages -d dist`）目前**行为异常**：它不发布 `dist/`，而是把 `.gitignore` + 几个空 `.gitkeep` 推上去 → 线上缺 `index.html`/`data/` → **下载 404**。清缓存也没用。**改用下面第④步的 git 手动发布**，可靠且确定。（想以后恢复一条命令，再单独排查修 gh-pages 工具。）
@@ -59,6 +60,35 @@ curl -s "https://lbc9168.github.io/BRI_RE_Database/" | grep -oE 'assets/index-[A
 ```
 浏览器 Ctrl+F5 强刷，进「数据表格」点 Export CSV → 正常下载，中文不乱码。
 （查 Pages 构建状态：`gh api repos/lbc9168/BRI_RE_Database/pages/builds/latest`）
+
+---
+
+## 部署目标 2：公司服务器（d-core.iigf.com.cn）
+
+前提：本地 `~/.ssh/shipyard.pem` 密钥（**私钥绝不进 git**）；②③步的 dist 已构建并自检。
+
+```bash
+# 1. 打包（-C 进 dist 打包内容本身，含 .nojekyll 等隐藏文件）
+tar -czf dist_YYYYMMDD.tar.gz -C s04_web_visualization/dist .
+
+# 2. 上传
+scp -i ~/.ssh/shipyard.pem dist_YYYYMMDD.tar.gz root@39.104.17.72:/home/app/ydyl/
+
+# 3. 服务器上：备份 → 解压到新目录 → 瞬间切换（近零停机）→ 清理
+ssh -i ~/.ssh/shipyard.pem root@39.104.17.72 'cd /home/app/ydyl \
+  && rm -rf dist_bak && cp -r dist dist_bak \
+  && mkdir dist_new && tar -xzf dist_YYYYMMDD.tar.gz -C dist_new \
+  && cp dist/README_部署说明.txt dist_new/ 2>/dev/null; cd /home/app/ydyl \
+  && mv dist dist_old && mv dist_new dist && rm -rf dist_old dist_YYYYMMDD.tar.gz'
+
+# 4. 公网验证（首页 / PDF / CSV / geo 全 200，asset 哈希 = 本次 dist）
+curl -s -o /dev/null -w "%{http_code}\n" "https://d-core.iigf.com.cn/data/events_export.csv"
+curl -s "https://d-core.iigf.com.cn/" | grep -oE 'assets/index-[A-Za-z0-9_-]+\.js'
+```
+
+- 管理员规矩：**部署前必先备份**（`cp -r dist dist_bak`，先 `rm -rf` 旧备份，否则 cp 会嵌套进去）。
+- 服务器上 `dist.zip` / `dist.zip.bak` 是管理员的历史产物，**不要动**。
+- nginx 配置在 `/usr/local/nginx/conf/nginx.conf`（443 端口 server 块），纯静态无需改配置、无需重载。
 
 ---
 
