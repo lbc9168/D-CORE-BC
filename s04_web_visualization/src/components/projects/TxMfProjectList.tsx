@@ -39,8 +39,15 @@ export default function TxMfProjectList({ projects, onSelect, selectedId }: TxMf
     );
   }
 
-  // 专表无 display_order，按 project_id 稳定排序
-  const ordered = [...projects].sort((a, b) => a.project_id.localeCompare(b.project_id));
+  // 专表无 display_order，按最新事件年降序；同年按 project_id 稳定排序，缺失年份排末尾
+  const ordered = [...projects].sort((a, b) => {
+    if (a.event_year == null && b.event_year == null) {
+      return a.project_id.localeCompare(b.project_id);
+    }
+    if (a.event_year == null) return 1;
+    if (b.event_year == null) return -1;
+    return b.event_year - a.event_year || a.project_id.localeCompare(b.project_id);
+  });
 
   return (
     <div className="overflow-y-auto h-full">

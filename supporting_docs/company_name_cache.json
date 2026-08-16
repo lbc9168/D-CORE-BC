@@ -25317,5 +25317,413 @@
     "en": "China CAMC Engineering Co., Ltd.",
     "verified": true,
     "source": "developer_registry_campaign_2026-07"
+  },
+  "阿尔及利亚国家电力与天然气公司下属电力生产公司": {
+    "en": "Société Algérienne de Production de l'Electricité (Société de Production d'Électricité)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "尼日利亚国家电力公司": {
+    "en": "National Electricity Company of Nigeria",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "韩国PNH株式会社": {
+    "en": "PNH Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "大连派思": {
+    "en": "Dalian Pasi",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "阿尔雷比贸易太阳能系统公司": {
+    "en": "Alrabih Trading Solar Systems Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "以色列国家基建委员会": {
+    "en": "Israel National Infrastructure Committee",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国能建新疆院": {
+    "en": "China Energy Engineering Group Xinjiang Power Engineering Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国电建山东电建三公司": {
+    "en": "PowerChina Shandong Electric Power Construction Third Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "水电十四局": {
+    "en": "China Water Resources and Hydropower Fourteenth Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国能建东北电力第三工程有限公司": {
+    "en": "China Energy Engineering Group Northeast Electric Power Third Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "钧灏电力": {
+    "en": "Junhao Electric Power",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国能建中电工程湖南院": {
+    "en": "China Energy Engineering Group Hunan Electric Power Survey and Design Institute Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "LTL 集团": {
+    "en": "LTL Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "陕建控股集团": {
+    "en": "Shaanxi Construction Holding Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "陕建七建集团": {
+    "en": "Shaanxi Construction Seventh Construction Group Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "天津瑞源电气有限公司": {
+    "en": "Tianjin Ruiyuan Electric Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "西北院": {
+    "en": "Northwest Design and Research Institute",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "金风科技（Goldwind）": {
+    "en": "Goldwind Science & Technology Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "浙江火电": {
+    "en": "Zhejiang Electric Power Construction",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "勝倍公司": {
+    "en": "Winsun Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国出口信用保险公司（Sinosure）": {
+    "en": "Sinosure",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "西南院": {
+    "en": "Southwest Research Institute",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国能建中电工程云南院": {
+    "en": "China Energy Engineering Corporation Yunnan Electric Power Design Institute",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "湖北中盛电气有限公司": {
+    "en": "Hubei Zhongsheng Electric Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "托普（柬埔寨）有限公司": {
+    "en": "TOP (CAMBODIA) CO., LTD",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "江苏烈豹新能源": {
+    "en": "Jiangsu Liebao New Energy",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "Limak集团": {
+    "en": "Limak Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "庆唐建设": {
+    "en": "Qingtang Construction",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "山东泰昇": {
+    "en": "Shandong Taisheng",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中石化工程集团": {
+    "en": "Sinopec Engineering Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "盛弘": {
+    "en": "Shenghong",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "高能环境": {
+    "en": "CAP Environment",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "华为技术罗马尼亚有限公司": {
+    "en": "Huawei Technologies Romania SRL",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "阿曼政府": {
+    "en": "Oman Government",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "三一重能": {
+    "en": "Sany Renewable Energy",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "内蒙古万江投资有限公司": {
+    "en": "Inner Mongolia Wanjiang Investment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "法国电力解决方": {
+    "en": "EDF Solutions",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "平煤神马储能有限公司": {
+    "en": "Pingmei Shenma Energy Storage Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "上海采日能源公司": {
+    "en": "Shanghai Cairi Energy Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "河南平煤神马储能有限公司": {
+    "en": "Henan Pingmei Shenma Energy Storage Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "亿纬锂能公司": {
+    "en": "EVE Energy Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "国开行河南省分行": {
+    "en": "China Development Bank Henan Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "泰达环保": {
+    "en": "TEDA Environmental Protection",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国银行驻马店分行": {
+    "en": "Bank of China Zhumadian Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中信建设国投": {
+    "en": "CITIC Construction Investment Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "光大银行驻马店分行": {
+    "en": "China Everbright Bank Zhumadian Branch",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中设香港（CMECHK）": {
+    "en": "CMECHK (Design & Engineering Corporation of China Hong Kong)",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "广州擎天": {
+    "en": "Guangzhou Qingtian",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "天津电气院": {
+    "en": "Tianjin Electric Power Research Institute",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "武汉天源集团": {
+    "en": "Wuhan Tianyuan Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国联合": {
+    "en": "China United",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "新疆三宝实业集团": {
+    "en": "Xinjiang Sanbao Industrial Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "哈成套": {
+    "en": "HaseTao",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中机建设所属澳门公司": {
+    "en": "CMEC Macao Company Limited",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "当升科技(芬兰)新材料有限公司": {
+    "en": "Chisun Technology (Finland) New Materials Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "公路桥梁集团": {
+    "en": "China Railway Highway Bridge Group",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中国山东国际经济技术合作有限公司": {
+    "en": "China Shandong International Economic and Technical Cooperation Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中工武大能源建设投资（湖北）有限公司": {
+    "en": "CNBM-WUDA Energy Construction and Investment (Hubei) Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "湖南基础工程有限公司": {
+    "en": "Hunan Foundation Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "山东电建三公司": {
+    "en": "Shandong Electric Power Construction Third Engineering Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中能装备": {
+    "en": "CNPC Equipment Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "西电中特": {
+    "en": "Xidian Zhongte Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "西电济变": {
+    "en": "Xi'an Electrical Transformer Co., Ltd.",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "西南公司": {
+    "en": "Southwest Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "一公司": {
+    "en": "Yicompany",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "山东天岳": {
+    "en": "Shandong Tianyue",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "南方公司": {
+    "en": "South China Company",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
+  },
+  "中建五洲": {
+    "en": "CSCEC Fifth Engineering Division",
+    "en_abbr": null,
+    "verified": false,
+    "source": "ai"
   }
 }

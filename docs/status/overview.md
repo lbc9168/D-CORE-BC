@@ -41,7 +41,7 @@ s01a + s01b    s02a            s02b              s03            s04        （�
 | 一A 新闻爬虫 | `s01a_news_crawler` | ✅ 运行中 | [s01a.md](s01a.md) |
 | 一B AI 提取 | `s01b_project_extractor` | ✅ 运行中 | [s01b.md](s01b.md) |
 | 二A 去重合并 | `s02a_duplicate_merger` | ✅ 运行中 | [s02a.md](s02a.md) |
-| 二B 实体/地点归一化 | `s02b_entity_normalizer` | ✅ 运行中 | [s02b.md](s02b.md) |
+| 二B 实体审核建议/地点等后处理 | `s02b_entity_normalizer` | ✅ 运行中 | [s02b.md](s02b.md) |
 | 二C 交叉验证（可选） | `s02c_cross_verification` | ⚠️ 受限（GDELT 无匹配信源） | [s02c.md](s02c.md) |
 | 三 数据库整理 | `s03_data_exporter` | ✅ 运行中 | [s03.md](s03.md) |
 | 四 网页可视化 | `s04_web_visualization` | ✅ 运行中（GitHub Pages 已部署） | [s04.md](s04.md) |
@@ -126,7 +126,7 @@ BRI_RE_Database_v2/
 ├── s01a_news_crawler/         # 阶段一A：新闻爬虫 → raw_news.db
 ├── s01b_project_extractor/    # 阶段一B：AI 提取 + 三层校验 → projects.db
 ├── s02a_duplicate_merger/     # 阶段二A：去重合并入库 → bri_re_database.db（主库）
-├── s02b_entity_normalizer/    # 阶段二B：实体名 + 地点归一化（原地更新主库）
+├── s02b_entity_normalizer/    # 阶段二B：实体只读建议 + 地点/业主/英文名后处理
 ├── s02c_cross_verification/   # 阶段二C：外部交叉验证（可选）
 ├── s03_data_exporter/         # 阶段三：整理导出 JSON/CSV（自动同步到 s04）
 ├── s04_web_visualization/     # 阶段四：React 前端（静态数据）

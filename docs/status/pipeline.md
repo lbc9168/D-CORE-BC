@@ -1,13 +1,13 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-08-05（2B-7 严格事实回填 + 2B-8 能源分类影子报告）
+> 最后更新：2026-08-16（中方实体模糊写库退役，2B 改为默认关闭的只读建议）
 
 ---
 
 ## 职责
 
 `pipeline/` 用一条命令把各阶段子项目串成完整流水线（纯 Python 顺序编排，无 crewAI）。
-阶段之间靠 SQLite 文件接力（不依赖内存状态），可按需跳过任意阶段。s01b 内部实体处理采用"S4 逐字抄原文名 → 写库前 entity_normalize 确定性查表解析（company_hierarchy_v2.json）"两步，与 s02b 归一化独立。
+阶段之间靠 SQLite 文件接力（不依赖内存状态），可按需跳过任意阶段。s01b 内部实体处理采用“S4 逐字抄原文名 → 写库前 entity_normalize 确定性查表解析（company_hierarchy_v2.json）”两步，是中方实体正式归类的唯一入口；s02b 不再二次模糊改写该结果。
 
 ---
 
@@ -24,7 +24,7 @@
    ↓
 阶段二A 去重合并入库 ← 始终执行（→ 直调 DuplicateMergerTool()._run(input_db, db_path)，绝对路径）
    ↓
-阶段二B 实体归一化   ← cfg.run_entity_normalize=False 时跳过（通常不跳）
+阶段二B 实体别名候选（只读） ← cfg.run_entity_suggestions=False 时跳过（默认跳过）
    ↓
 阶段二B-2 地点归一化 ← cfg.run_location_normalize=False 时跳过（写 location_norm）
    ↓
@@ -59,7 +59,8 @@
 | 参数 | 类型 | 默认 | 说明 |
 |------|------|------|------|
 | `skip_s01a` | bool | False | 跳过爬虫（用已有 raw_news.db，即路径二） |
-| `run_entity_normalize` | bool | True | 是否执行 s02b 实体归一化 |
+| `run_entity_suggestions` | bool | False | 是否只读导出中方实体疑似别名审核 CSV |
+| `run_entity_normalize` | bool | False | 旧配置名兼容位；True 也只生成建议，不再写库 |
 | `run_location_normalize` | bool | True | 是否执行地点归一化（写 location_norm） |
 | `run_developer_normalize` | bool | True | 是否执行业主归一化（project_developer 部件级） |
 | `run_en_backfill` | bool | True | 是否执行英文名回填（缓存口径同步 *_en 列） |
@@ -118,7 +119,8 @@ cd s01b_project_extractor && uv run run_bulk_extract # 并发调用 Gemini 批�
 2. 根目录 `.env` 需包含 `GEMINI_API_KEY`。
 3. 路径二（`run_from_s01b`）需要 `s01a/data/raw_news.db` 已存在。
 4. s02a 段直调 tool 用**绝对路径**（不走 `s02a.run()`，因其写死相对路径会按 pipeline 的 CWD 写错文件）。
-5. **主库原地回填后的部署顺序（硬约束）**：凡对主库 `chinese_entities` 做过实体回填
+5. `implementing_entity` 正式归类只允许登记册确定性查找；旧式“模糊候选 → LLM → Union-Find → 全表 UPDATE”已禁用。未命中值透传并进入审核建议，不得在增量更新中重评历史实体。
+6. **主库原地回填后的部署顺序（硬约束）**：凡对主库 `chinese_entities` 做过实体回填
    （如 `entity_reparse_maindb --apply`，其规则为「CN 变 → 对应 `*_en` 置 NULL」）后，
    部署必须按 **en_backfill → run_export(s03) → 部署（gh-pages）** 顺序执行，
    不得跳过 en_backfill 直接导出——回填后主库英文名大面积为空

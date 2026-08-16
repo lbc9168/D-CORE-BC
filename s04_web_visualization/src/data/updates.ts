@@ -11,6 +11,24 @@ export interface Update {
  */
 export const updates: Update[] = [
   {
+    id: "2026-august",
+    date: "2026-08-16",
+    title_en: "2026 August Update",
+    body_en:
+      "We've made several important updates to D-CORE:\n\n" +
+      "🔋 Modified classification for project with energy storage\n" +
+      "We changed how renewable energy projects with storage are classified. In the previous version, a solar, wind, or other renewable project could be placed under Integrated Energy simply because it included storage. This made these projects harder to find under their main energy type.\n\n" +
+      "We now classify each project by the renewable source that generates electricity. For example, solar-plus-storage projects are listed under Solar PV, while wind-plus-storage projects are listed under Wind Power.\n\n" +
+      "Standalone storage projects remain under Energy Storage, and projects with several generation sources may still be listed under Integrated Energy. We also show when a project includes storage and record its storage power and energy separately from its generation capacity.\n\n" +
+      "🏗️ More projects to explore\n" +
+      "D-CORE now includes power transmission and renewable energy manufacturing projects. You can explore them on the Map, Overview, and Data Table pages. The new project data is also included in the downloadable dataset.\n\n" +
+      "📊 July data added\n" +
+      "We added the project data collected during July 2026, including new signings, construction updates, and completed projects.\n\n" +
+      "⚡ A faster and safer website\n" +
+      "We renewed the website's security certificate and improved server and file loading. Pages should now open and load faster.\n\n" +
+      "Thanks for following D-CORE — more updates are on the way!",
+  },
+  {
     id: "2026-q2",
     date: "2026-07-10",
     title_en: "2026 Q2 Update",

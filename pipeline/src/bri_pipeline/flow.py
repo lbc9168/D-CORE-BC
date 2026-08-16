@@ -43,7 +43,7 @@ _S03  = _PROJECT_ROOT / "s03_data_exporter"         # 保留备用（后续路�
 from s01a_news_crawler.main import run_single as _run_s01a                              # noqa: E402
 from s01b_project_extractor.main import run_bulk_extract as _run_s01b                    # noqa: E402
 from s02a_duplicate_merger.tools.duplicate_merger_tool import DuplicateMergerTool        # noqa: E402
-from s02b_entity_normalizer.entity_normalizer import run as _run_s02b                    # noqa: E402
+from s02b_entity_normalizer.entity_normalizer import run as _run_entity_suggestions      # noqa: E402
 
 
 # ════════════════════════════════════════════════════════════════
@@ -66,7 +66,8 @@ class PipelineConfig:
     db_path:  str = str(_S02A / "data" / "db" / "bri_re_database.db")
     # ── 跑哪些段（标志位；与原 PipelineState 同名同义）──
     skip_s01a:              bool = False   # True=跳过爬虫，用已有 raw_news.db
-    run_entity_normalize:   bool = True    # False=跳过 s02b
+    run_entity_suggestions: bool = False   # True=只读导出疑似别名；不写主库
+    run_entity_normalize:   bool = False   # 兼容旧配置名；True 也只生成建议，不再归一写库
     run_location_normalize: bool = True    # False=跳过地点归一化（s02b 第二步，写 location_norm）
     run_developer_normalize: bool = True   # False=跳过业主归一化（s02b 第三步，写 project_developer）
     run_en_backfill:        bool = True    # False=跳过英文名回填（归一后按缓存口径重算 *_en 列）
@@ -107,12 +108,12 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> None:
     _print_stage_header("2A", "数据去重合并与入库")
     DuplicateMergerTool()._run(input_db=cfg.input_db, db_path=cfg.db_path)
 
-    # 阶段二B：实体归一化（除非关闭）
-    if cfg.run_entity_normalize:
-        _print_stage_header("2B", "中国实体名称归一化")
-        _run_s02b(db_path=cfg.db_path)
+    # 阶段二B：实体别名候选发现（只读、显式开启；正式归类已在 S01B 确定性完成）
+    if cfg.run_entity_suggestions or cfg.run_entity_normalize:
+        _print_stage_header("2B", "中国实体别名候选发现（只读）")
+        _run_entity_suggestions(db_path=cfg.db_path)
     else:
-        print("\n[Pipeline] ⏭  阶段二B：跳过实体归一化")
+        print("\n[Pipeline] ⏭  阶段二B：跳过实体别名候选发现（默认）")
 
     # 阶段二B-2：地点归一化（除非关闭）
     if cfg.run_location_normalize:

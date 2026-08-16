@@ -10,7 +10,7 @@ import FilterBar from "@/components/filters/FilterBar";
 import DomainSwitcher from "@/components/filters/DomainSwitcher";
 import ProjectDetailDrawer from "@/components/projects/ProjectDetailDrawer";
 import { txmfScaleLabel } from "@/components/projects/TxMfProjectList";
-import { TX_CATEGORY_KEY, MF_CATEGORY_KEY } from "@/utils/domains";
+import { PV_CATEGORY_KEY, TX_CATEGORY_KEY, MF_CATEGORY_KEY } from "@/utils/domains";
 import { formatCountryName } from "@/utils/display";
 import { downloadCSV } from "@/utils/csvExport";
 import DownloadSurveyModal, { saveSurveyRecord, type SurveyData } from "@/components/DownloadSurveyModal";
@@ -322,7 +322,7 @@ export default function TablePage() {
                             {p.category_en || p.category}
                           </span>
                         ) : null}
-                        {p.subcategory_en && (
+                        {p.subcategory_en && p.category !== PV_CATEGORY_KEY && (
                           <span
                             className="badge border bg-white ml-1"
                             style={{

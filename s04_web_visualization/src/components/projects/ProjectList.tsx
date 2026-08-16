@@ -48,12 +48,15 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
     );
   }
 
-  // 默认按 display_order 升序（老项目在前）；缺失值排末尾
-  const ordered = [...projects].sort(
-    (a, b) =>
-      (a.display_order ?? Number.MAX_SAFE_INTEGER) -
-      (b.display_order ?? Number.MAX_SAFE_INTEGER)
-  );
+  // 默认按 display_order 降序（新项目在前）；缺失值排末尾
+  const ordered = [...projects].sort((a, b) => {
+    if (a.display_order == null && b.display_order == null) {
+      return a.project_id.localeCompare(b.project_id);
+    }
+    if (a.display_order == null) return 1;
+    if (b.display_order == null) return -1;
+    return b.display_order - a.display_order || a.project_id.localeCompare(b.project_id);
+  });
 
   return (
     <div className="overflow-y-auto h-full">

@@ -595,12 +595,13 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
     for _, rows in df.groupby(key_cols, sort=False):
         first = rows.iloc[0]
 
-        # 收集实体（去重：implementing_entity + involvement_type 为联合键）
+        # 收集实体（集团 + 具体子公司 + 角色为联合键；同集团不同子公司必须同时保留）
         seen_entities: set = set()
         entities: List[Dict] = []
         for _, row in rows.iterrows():
             ent_key = (
                 _clean(row.get("Implementing Chinese Entity", "")),
+                _clean(row.get("Subsidiary Name", "")),
                 _clean(row.get("Type of involvement of Chinese Entities", "")),
             )
             if ent_key[0] and ent_key not in seen_entities:
@@ -608,9 +609,9 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
                 entities.append({
                     "implementing_entity":    ent_key[0],
                     "implementing_entity_en": _clean(row.get("Implementing Chinese Entity (EN)", "")),
-                    "subsidiary_name":        _clean(row.get("Subsidiary Name", "")),
+                    "subsidiary_name":        ent_key[1],
                     "subsidiary_name_en":     _clean(row.get("Subsidiary Name (EN)", "")),
-                    "involvement_type":       ent_key[1],
+                    "involvement_type":       ent_key[2],
                     "subcontract_amount":     _clean(row.get("Subcontract Amount (Million USD)", "")),
                     "is_central_soe":         row.get("is_central_soe"),
                 })
@@ -1839,8 +1840,15 @@ def _write_to_db(
                 continue
             dupe = conn.execute(
                 """SELECT 1 FROM chinese_entities
-                   WHERE event_id = ? AND implementing_entity = ? AND involvement_type = ?""",
-                (event_id, ent["implementing_entity"], ent["involvement_type"]),
+                   WHERE event_id = ? AND implementing_entity = ?
+                     AND COALESCE(subsidiary_name, '') = COALESCE(?, '')
+                     AND involvement_type = ?""",
+                (
+                    event_id,
+                    ent["implementing_entity"],
+                    ent.get("subsidiary_name", ""),
+                    ent["involvement_type"],
+                ),
             ).fetchone()
             if not dupe:
                 conn.execute(

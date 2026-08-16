@@ -1,22 +1,20 @@
-# s04 网站部署清单（D-CORE）
+# s04 本地部署与线上发布清单（D-CORE）
 
-> 目的：每次更新一次性、可靠地把网站发上线，避免"下载 CSV 404 / 数据缺失"那类漏文件问题。
+> 目的：把“本地部署”和“线上发布”拆成两个独立工作单元，避免未经确认发布线上，也避免“下载 CSV 404 / 数据缺失”一类漏文件问题。
 
-## 部署目标（已确认，两处都要发）
-1. **公司服务器（主站，2026-07-21 起）**：<https://d-core.iigf.com.cn>，阿里云 `39.104.17.72`，nginx `alias /home/app/ydyl/dist/`。流程见下方「部署目标 2」。
-2. **GitHub Pages（镜像）**：仓库 `lbc9168/BRI_RE_Database`，源 = **`gh-pages` 分支根目录**（path `/`）。
-   - **线上地址**：<https://lbc9168.github.io/BRI_RE_Database/>
-   - vite `base: "./"`（相对路径），子路径 `/BRI_RE_Database/` 下正常工作。
+## 执行边界（默认规则）
 
-## ⚠️ 不要用 `npm run deploy`（当前是坏的）
-`package.json` 里的 `npm run deploy`（`gh-pages -d dist`）目前**行为异常**：它不发布 `dist/`，而是把 `.gitignore` + 几个空 `.gitkeep` 推上去 → 线上缺 `index.html`/`data/` → **下载 404**。清缓存也没用。**改用下面第④步的 git 手动发布**，可靠且确定。（想以后恢复一条命令，再单独排查修 gh-pages 工具。）
+- 用户说“做 S03 导出和前端部署”时，**默认只执行第一部分：本地部署**，即重新导出、构建、自检并保留本地 `dist/`；不得自动推送或上传。
+- GitHub Pages 与公司主站属于**第二部分：线上发布**。只有用户明确指定发布目标并批准后，才执行对应发布步骤。
+- 本地部署完成后应报告产物、验证结果和两个可选线上目标，等待用户下一条指令。
 
 ---
 
-## 部署步骤
+## 第一部分：本地部署（默认执行）
 
-### ① （数据有更新时）重新导出数据
-> 数据没变可跳过。`run_export` 需当前主数据库，应在**主数据库所在工作区**跑。
+### ① 重新导出 S03 数据
+
+> `run_export` 需当前主数据库，应在**主数据库所在工作区**跑。
 ```bash
 uv --project s03_data_exporter run run_export
 ```
@@ -37,7 +35,24 @@ ls dist/data/                  # 应有：events_export.csv + projects_flat.json
 ```
 > `dist/data/events_export.csv` 不在 → 回步骤①重新导出再 build（CSV 被 .gitignore，干净 clone 后必须本地导出生成）。
 
-### ④ 发布 dist/ 到 gh-pages（手动 git，可靠）
+完成到这里即为“本地部署完成”。除非用户另行明确批准，不继续执行下面的线上发布。
+
+---
+
+## 第二部分：线上发布（须用户明确批准）
+
+### 发布目标 A：GitHub Pages 镜像
+
+- 仓库：`lbc9168/BRI_RE_Database`
+- 发布源：`gh-pages` 分支根目录
+- 线上地址：<https://lbc9168.github.io/BRI_RE_Database/>
+- Vite `base: "./"`，适配 `/BRI_RE_Database/` 子路径。
+
+#### ⚠️ 暂时不要使用 `npm run deploy`
+
+`package.json` 里的 `npm run deploy`（`gh-pages -d dist`）目前有过只发布 `.gitignore` 和空 `.gitkeep`、遗漏 `index.html`/`data/` 的已知故障。在该命令被单独修复并验证前，GitHub Pages 使用下面的手动 git 流程。
+
+#### 发布 `dist/` 到 gh-pages（手动 git）
 在 **`dist/` 目录里**新建一个临时 git 仓库（这样父级 `.gitignore` 不会误伤 `*.csv`/`*.json`），整份强推到 `gh-pages`：
 ```bash
 cd s04_web_visualization/dist
@@ -52,7 +67,7 @@ rm -rf .git          # 清掉临时仓库，别让 dist 变成嵌套 repo
 - `-f` 强推会用本次 `dist/` **整份替换** gh-pages（部署分支，历史无所谓）。依赖已缓存的 HTTPS 凭据（同 `git push origin main`）。
 - 若 git 没配全局用户名，临时加：`git -c user.name="Bingcai Liu" -c user.email="liu.3444.osu@gmail.com" commit ...`
 
-### ⑤ 上线后验证（GitHub Pages 重建约 1 分钟）
+#### 上线后验证（GitHub Pages 重建约 1 分钟）
 ```bash
 curl -s -o /dev/null -w "%{http_code}\n" "https://lbc9168.github.io/BRI_RE_Database/"                       # 200
 curl -s -o /dev/null -w "%{http_code}\n" "https://lbc9168.github.io/BRI_RE_Database/data/events_export.csv" # 200（不是 404）
@@ -63,7 +78,7 @@ curl -s "https://lbc9168.github.io/BRI_RE_Database/" | grep -oE 'assets/index-[A
 
 ---
 
-## 部署目标 2：公司服务器（d-core.iigf.com.cn）
+### 发布目标 B：公司服务器（d-core.iigf.com.cn）
 
 前提：本地 `~/.ssh/shipyard.pem` 密钥（**私钥绝不进 git**）；②③步的 dist 已构建并自检。
 

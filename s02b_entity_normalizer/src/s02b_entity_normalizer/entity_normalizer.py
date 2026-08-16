@@ -1,439 +1,320 @@
-"""entity_normalizer.py — 中国实体名称归一化工具
+"""中国实体别名候选发现器：只读扫描主库，输出人工审核 CSV。
 
-三信号候选筛查 + LLM 批量确认：
-  Signal 1: token_sort_ratio >= 75%（词序无关相似度）
-  Signal 2: partial_ratio >= 80%（子串包含，覆盖"子公司简称"情况）
-  Signal 3: is_subsequence(短名, 长名) AND len(短名) <= 8
-            （缩写检测，如 中国电建 <-> 中国电力建设集团）
-
-Special:  Unknown / 未知 / 不详 等变体统一归一为 "Unknown"
-
-使用方法（在 s02b_entity_normalizer/ 目录下）：
-    uv run normalize_entities            # 正式运行，写入数据库
-    uv run normalize_entities --preview  # 仅预览候选对，不写入
+正式实体归类由 s01b 的 ``company_hierarchy_v2.json`` 确定性解析器负责。本模块只用
+字符串相似度发现登记册可能遗漏的别名，不调用 LLM、不构造传递闭包，也不更新数据库。
 """
 
+from __future__ import annotations
+
 import argparse
+import csv
 import json
+import logging
 import os
 import sqlite3
 import sys
-import time
+from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
-# Windows GBK 控制台下强制 UTF-8 输出，避免中文乱码
-if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp950"):
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # type: ignore[union-attr]
-
-from dotenv import load_dotenv
-from google import genai
-from google.genai import types
 from rapidfuzz import fuzz
 
-_S02B_ROOT = Path(__file__).resolve().parents[2]  # s02b_entity_normalizer/
+if sys.stdout.encoding and sys.stdout.encoding.lower() in ("gbk", "cp936", "cp950"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
-load_dotenv(_S02B_ROOT / ".env")
-load_dotenv()
+logger = logging.getLogger(__name__)
+_S02B_ROOT = Path(__file__).resolve().parents[2]
+_PROJECT_ROOT = _S02B_ROOT.parent
 
-# ── 常量 ──────────────────────────────────────────────────────────────────────
+DEFAULT_DB = _PROJECT_ROOT / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
+DEFAULT_HIERARCHY = _PROJECT_ROOT / "supporting_docs" / "company_hierarchy_v2.json"
 
-DEFAULT_DB = _S02B_ROOT.parent / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
+FUZZY_TOKEN_THRESHOLD = 80
+FUZZY_PARTIAL_THRESHOLD = 90
+PARTIAL_MAX_LEN_RATIO = 2.5
+SUBSEQ_MIN_LEN = 4
+SUBSEQ_MAX_LEN = 8
+SUBSEQ_MIN_LEN_DIFF = 2
+SUBSEQ_MAX_LEN_RATIO = 0.68
+SUBSEQ_PREFIX_MATCH = 3
+MIN_BOTH_LEN = 3
+BATCH_SIZE = 25  # developer_normalizer 的兼容导入；实体建议流程本身不分批。
 
-FUZZY_TOKEN_THRESHOLD   = 80   # Signal 1: token_sort_ratio 阈值
-FUZZY_PARTIAL_THRESHOLD = 90   # Signal 2: partial_ratio 阈值
-PARTIAL_MAX_LEN_RATIO   = 2.5  # Signal 2: 长名/短名长度比上限（排除父公司 vs 远房子公司）
-SUBSEQ_MIN_LEN          = 4    # Signal 3: 短名最少字符数（避免"中国"等过短词误触发）
-SUBSEQ_MAX_LEN          = 8    # Signal 3: 短名最多字符数
-SUBSEQ_MIN_LEN_DIFF     = 2    # Signal 3: 长名至少比短名多几个字符
-SUBSEQ_MAX_LEN_RATIO    = 0.68 # Signal 3: 短名/长名长度比上限（排除"电建山西" vs "电建四川"类）
-SUBSEQ_PREFIX_MATCH     = 3    # Signal 3: 短名前N字必须与长名前N字相同（防止乱序误匹配）
-MIN_BOTH_LEN            = 3    # 双方名称最小字符数（过滤"中国"等无意义短名）
-
-GEMINI_MODEL = "gemini-2.5-flash-lite"
-BATCH_SIZE   = 25   # 每次 LLM 调用处理的候选对数
-
-# 统一归一为 "Unknown" 的变体集合（比较时忽略大小写）
 UNKNOWN_VARIANTS = {"unknown", "未知", "不详", "不明", "暂无", "n/a", "na", "-"}
+_CORP_SUFFIXES = (
+    "集团股份有限公司",
+    "集团有限责任公司",
+    "集团有限公司",
+    "股份有限公司",
+    "有限责任公司",
+    "有限公司",
+    "集团公司",
+    "集团",
+)
 
 
-# ── Signal 3：子序列检测 ───────────────────────────────────────────────────────
+def _strip_suffix(name: str) -> str:
+    """剥除一个常见公司尾缀，供登记册命中状态判断。"""
+    for suffix in _CORP_SUFFIXES:
+        if name.endswith(suffix):
+            return name[: -len(suffix)]
+    return name
+
 
 def _is_subsequence(short: str, long_: str) -> bool:
-    """检测 short 所有字符是否按序出现在 long_ 中（用于识别缩写关系）。"""
-    it = iter(long_)
-    return all(c in it for c in short)
+    """判断短名字符是否按顺序出现在长名中，用于发现可能的简称。"""
+    iterator = iter(long_)
+    return all(char in iterator for char in short)
 
-
-# ── 候选对筛查 ─────────────────────────────────────────────────────────────────
 
 def _find_candidates(names_with_counts: List[Tuple[str, int]]) -> List[Dict]:
-    """
-    三信号扫描所有名称对，返回满足至少一个信号的候选对列表。
-
-    每个候选对格式：
-        {id, name_a, count_a, name_b, count_b, signals, score_token, score_partial}
-    """
-    names     = [n for n, _ in names_with_counts]
-    count_map = {n: c for n, c in names_with_counts}
-
+    """扫描名称对，返回满足至少一个相似度信号的只读审核候选。"""
+    names = [name for name, _ in names_with_counts]
+    count_map = {name: count for name, count in names_with_counts}
     candidates: List[Dict] = []
 
-    for i, name_a in enumerate(names):
-        for j in range(i + 1, len(names)):
-            name_b = names[j]
-
-            # 双方至少 MIN_BOTH_LEN 字，过滤「中国」等无意义短名
+    for index, name_a in enumerate(names):
+        for name_b in names[index + 1 :]:
             if len(name_a) < MIN_BOTH_LEN or len(name_b) < MIN_BOTH_LEN:
                 continue
 
-            signals      : List[str] = []
-            score_token   = fuzz.token_sort_ratio(name_a, name_b)
+            signals: List[str] = []
+            score_token = fuzz.token_sort_ratio(name_a, name_b)
             score_partial = fuzz.partial_ratio(name_a, name_b)
 
-            # Signal 1: token_sort_ratio
             if score_token >= FUZZY_TOKEN_THRESHOLD:
                 signals.append(f"token_sort={score_token}")
 
-            # Signal 2: partial_ratio + 长度比约束（排除父公司 vs 远房子公司）
             if score_partial >= FUZZY_PARTIAL_THRESHOLD:
-                short_p = name_a if len(name_a) <= len(name_b) else name_b
-                long_p  = name_b if len(name_a) <= len(name_b) else name_a
+                short_p, long_p = sorted((name_a, name_b), key=len)
                 if len(long_p) / len(short_p) <= PARTIAL_MAX_LEN_RATIO:
                     signals.append(f"partial={score_partial}")
 
-            # Signal 3：子序列缩写检测（仅在前两个信号均未触发时运行）
-            # 约束：短名 4~8 字；长名至少多 2 字；长度比 <= 0.68；前缀前 3 字一致
-            # 目的：捕获"中国电建 <-> 中国电力建设集团"类，排除"电建山西 vs 电建四川"类
             if not signals:
-                short, long_ = (
-                    (name_a, name_b) if len(name_a) <= len(name_b)
-                    else (name_b, name_a)
-                )
-                len_s, len_l = len(short), len(long_)
-                prefix_n = min(SUBSEQ_PREFIX_MATCH, len_s - 1)
+                short, long_ = sorted((name_a, name_b), key=len)
+                prefix_n = min(SUBSEQ_PREFIX_MATCH, len(short) - 1)
                 if (
-                    SUBSEQ_MIN_LEN <= len_s <= SUBSEQ_MAX_LEN
-                    and (len_l - len_s) >= SUBSEQ_MIN_LEN_DIFF
-                    and (len_s / len_l) <= SUBSEQ_MAX_LEN_RATIO
+                    SUBSEQ_MIN_LEN <= len(short) <= SUBSEQ_MAX_LEN
+                    and len(long_) - len(short) >= SUBSEQ_MIN_LEN_DIFF
+                    and len(short) / len(long_) <= SUBSEQ_MAX_LEN_RATIO
                     and short[:prefix_n] == long_[:prefix_n]
                     and _is_subsequence(short, long_)
                 ):
                     signals.append("subsequence")
 
             if signals:
-                candidates.append({
-                    "id"           : len(candidates),
-                    "name_a"       : name_a,
-                    "count_a"      : count_map[name_a],
-                    "name_b"       : name_b,
-                    "count_b"      : count_map[name_b],
-                    "signals"      : ", ".join(signals),
-                    "score_token"  : score_token,
-                    "score_partial": score_partial,
-                })
-
+                candidates.append(
+                    {
+                        "id": len(candidates),
+                        "name_a": name_a,
+                        "count_a": count_map[name_a],
+                        "name_b": name_b,
+                        "count_b": count_map[name_b],
+                        "signals": ", ".join(signals),
+                        "score_token": score_token,
+                        "score_partial": score_partial,
+                    }
+                )
     return candidates
 
 
-# ── LLM 批量确认 ───────────────────────────────────────────────────────────────
-
-def _llm_confirm_batch(client: genai.Client, batch: List[Dict]) -> List[Dict]:
-    """
-    Gemini 批量判断候选对是否为同一公司，并选定规范名称。
-    返回同一 batch 列表，每项追加 is_same / canonical_name 字段。
-    """
-    pairs_text = "\n".join(
-        f"{p['id']}. 「{p['name_a']}」(出现{p['count_a']}次)"
-        f" vs 「{p['name_b']}」(出现{p['count_b']}次)"
-        f"  [信号: {p['signals']}]"
-        for p in batch
-    )
-
-    prompt = f"""你是一个专注于中国企业的数据库清洗专家。
-下面列出若干对候选重复企业名称（来自"一带一路"可再生能源项目数据库），请判断每对是否指同一家中国企业，并选定规范名称。
-
-【判断标准】
-- 同一公司的典型情况：全称与缩写（如"中国电力建设集团"<->"中国电建"）、名称微小差异（如繁简体、错字）
-- 不是同一公司：业务实质不同的企业，即使名称相似也不合并
-- 规范名选择：优先选用行业内更广泛认可的正式名称（若"中国电建"比"中国电力建设集团"更通用，则选前者）
-
-【候选对】
-{pairs_text}
-
-请以 JSON 数组返回，每个元素格式：
-{{"id": <编号>, "is_same": <true|false>, "canonical_name": "<规范名；is_same=false时留空>"}}
-
-只返回 JSON，不要有其他文字。"""
-
-    for attempt in range(3):
-        try:
-            resp = client.models.generate_content(
-                model=GEMINI_MODEL,
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    temperature=0,
-                    response_mime_type="application/json",
-                ),
-            )
-            raw = resp.text.strip()
-            # 有时模型返回 ```json ... ``` 包裹
-            if raw.startswith("```"):
-                raw = raw.split("```")[1]
-                if raw.startswith("json"):
-                    raw = raw[4:]
-            results = json.loads(raw)
-            result_map = {r["id"]: r for r in results}
-            for p in batch:
-                info = result_map.get(p["id"], {})
-                p["is_same"]       = bool(info.get("is_same", False))
-                p["canonical_name"] = info.get("canonical_name", "").strip()
-            return batch
-        except Exception as e:
-            print(f"    [警告] LLM 调用失败 (attempt {attempt + 1}/3): {e}")
-            time.sleep(2 ** attempt)
-
-    # 全部失败：保守处理，不合并
-    for p in batch:
-        p["is_same"]        = False
-        p["canonical_name"] = ""
-    return batch
-
-
-# ── Union-Find 构建规范名映射 ──────────────────────────────────────────────────
-
 def _build_mapping(
-    names_with_counts: List[Tuple[str, int]],
-    confirmed_pairs  : List[Dict],
+    names_with_counts: List[Tuple[str, int]], confirmed_pairs: List[Dict]
 ) -> Dict[str, str]:
-    """
-    Union-Find 合并已确认的同一公司名称集合，选定规范名。
-    返回 {alias → canonical_name}（不含自身→自身的条目）。
-    """
-    all_names = {n for n, _ in names_with_counts}
+    """兼容 developer_normalizer 的旧辅助函数；不得用于中方实体字段写库。"""
+    all_names = {name for name, _ in names_with_counts}
+    parent: Dict[str, str] = {name: name for name in all_names}
+    canonical_by_root: Dict[str, str] = {}
 
-    parent: Dict[str, str] = {n: n for n in all_names}
-    canon_of: Dict[str, str] = {}   # root → 该 union 的规范名
+    def find(name: str) -> str:
+        while parent.get(name, name) != name:
+            parent[name] = parent.get(parent[name], parent[name])
+            name = parent[name]
+        return name
 
-    def find(x: str) -> str:
-        while parent.get(x, x) != x:
-            parent[x] = parent.get(parent[x], parent[x])
-            x = parent[x]
-        return x
+    def union(name_a: str, name_b: str, canonical: str) -> None:
+        for name in (name_a, name_b, canonical):
+            parent.setdefault(name, name)
+        root_a, root_b, root_c = find(name_a), find(name_b), find(canonical)
+        parent[root_a] = root_c
+        parent[root_b] = root_c
+        canonical_by_root[root_c] = canonical
 
-    def union(a: str, b: str, canon: str) -> None:
-        # 确保 canon 在 parent 中（可能不在原始名单）
-        if canon not in parent:
-            parent[canon] = canon
-        for name in (a, b, canon):
-            if name not in parent:
-                parent[name] = name
-
-        ra, rb, rc = find(a), find(b), find(canon)
-        # 将 rc 设为代表根
-        parent[ra] = rc
-        parent[rb] = rc
-        canon_of[rc] = canon
-
-    for p in confirmed_pairs:
-        if p.get("is_same") and p.get("canonical_name"):
-            union(p["name_a"], p["name_b"], p["canonical_name"])
+    for pair in confirmed_pairs:
+        if pair.get("is_same") and pair.get("canonical_name"):
+            union(pair["name_a"], pair["name_b"], pair["canonical_name"])
 
     mapping: Dict[str, str] = {}
     for name in all_names:
-        root  = find(name)
-        canon = canon_of.get(root, root)
-        if canon != name:
-            mapping[name] = canon
-
+        root = find(name)
+        canonical = canonical_by_root.get(root, root)
+        if canonical != name:
+            mapping[name] = canonical
     return mapping
 
 
-# ── 数据库更新 ─────────────────────────────────────────────────────────────────
+def _load_registered_names(hierarchy_path: str | os.PathLike[str]) -> tuple[set[str], set[str]]:
+    """校验并加载公司层级登记册的全部名称键及无歧义去尾缀键。"""
+    path = Path(hierarchy_path)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(data, dict) or not isinstance(data.get("groups"), list):
+        raise ValueError(f"公司层级登记册结构无效: {path}")
 
-def _update_db(
+    names: set[str] = set()
+    for group in data["groups"]:
+        if not isinstance(group, dict) or not isinstance(group.get("canonical_name_cn"), str):
+            raise ValueError(f"公司层级登记册 group 结构无效: {group!r}")
+        names.add(group["canonical_name_cn"].strip())
+        aliases = group.get("aliases", []) or []
+        subsidiaries = group.get("subsidiaries", []) or []
+        if not isinstance(aliases, list) or not isinstance(subsidiaries, list):
+            raise ValueError(f"公司层级登记册 aliases/subsidiaries 结构无效: {group!r}")
+        names.update(str(alias).strip() for alias in aliases if str(alias).strip())
+        for subsidiary in subsidiaries:
+            if not isinstance(subsidiary, dict):
+                raise ValueError(f"公司层级登记册 subsidiary 结构无效: {subsidiary!r}")
+            for key in ("name_cn", "legal_full_name_cn"):
+                value = str(subsidiary.get(key) or "").strip()
+                if value:
+                    names.add(value)
+            sub_aliases = subsidiary.get("aliases", []) or []
+            if not isinstance(sub_aliases, list):
+                raise ValueError(f"公司层级登记册 subsidiary.aliases 结构无效: {subsidiary!r}")
+            names.update(str(alias).strip() for alias in sub_aliases if str(alias).strip())
+
+    stripped_owners: dict[str, set[str]] = {}
+    for name in names:
+        stripped = _strip_suffix(name)
+        if stripped != name:
+            stripped_owners.setdefault(stripped, set()).add(name)
+    unambiguous_stripped = {key for key, owners in stripped_owners.items() if len(owners) == 1}
+    return names, unambiguous_stripped
+
+
+def _is_registered(name: str, exact: set[str], stripped: set[str]) -> bool:
+    """判断名称是否能由登记册的精确或无歧义去尾缀规则处理。"""
+    if name in exact:
+        return True
+    core = _strip_suffix(name)
+    return core != name and core in stripped
+
+
+def generate_suggestions(
     db_path: str,
-    impl_mapping: Dict[str, str],
-    sub_mapping: Optional[Dict[str, str]] = None,
-) -> Tuple[int, int]:
-    """用 impl_mapping 归一 implementing_entity；仅当传入 sub_mapping 才归一 subsidiary_name（两列映射来源独立，互不串改）。"""
-    if not impl_mapping and not sub_mapping:
-        return 0, 0
+    out_path: str,
+    hierarchy_path: str | os.PathLike[str] = DEFAULT_HIERARCHY,
+) -> dict[str, int | str]:
+    """只读扫描实体名并写审核 CSV；返回统计信息。"""
+    db = Path(db_path)
+    if not db.exists():
+        raise FileNotFoundError(f"数据库不存在: {db}")
 
-    conn = sqlite3.connect(db_path)
-    n_impl = n_sub = 0
+    exact, stripped = _load_registered_names(hierarchy_path)
+    connection = sqlite3.connect(f"file:{db}?mode=ro", uri=True)
+    try:
+        rows = connection.execute(
+            "SELECT implementing_entity, COUNT(*) FROM chinese_entities "
+            "WHERE implementing_entity IS NOT NULL AND TRIM(implementing_entity) <> '' "
+            "GROUP BY implementing_entity ORDER BY COUNT(*) DESC"
+        ).fetchall()
+    finally:
+        connection.close()
 
-    # 批量更新用事务包裹 + executemany（CLAUDE.md 规则3）
-    if impl_mapping:
-        cur = conn.executemany(
-            "UPDATE chinese_entities SET implementing_entity = ? "
-            "WHERE implementing_entity = ?",
-            [(canon, alias) for alias, canon in impl_mapping.items()],
-        )
-        n_impl = cur.rowcount
-
-    if sub_mapping:
-        cur = conn.executemany(
-            "UPDATE chinese_entities SET subsidiary_name = ? "
-            "WHERE subsidiary_name = ?",
-            [(canon, alias) for alias, canon in sub_mapping.items()],
-        )
-        n_sub = cur.rowcount
-
-    conn.commit()
-    conn.close()
-    return n_impl, n_sub
-
-
-# ── 主流程 ────────────────────────────────────────────────────────────────────
-
-def run(db_path: Optional[str] = None, preview: bool = False) -> None:
-
-    # 仅在“纯 CLI 调用”（未显式传入参数）时解析 sys.argv，避免覆盖流程层传参。
-    if db_path is None and preview is False:
-        parser = argparse.ArgumentParser(
-            description="实体名称归一化工具（三信号 + LLM 确认）"
-        )
-        parser.add_argument(
-            "--preview", action="store_true",
-            help="仅预览候选对，不写入数据库"
-        )
-        parser.add_argument(
-            "--db", type=str, default=None,
-            help=f"数据库路径（默认：{DEFAULT_DB}）"
-        )
-        args, _ = parser.parse_known_args()
-
-        if args.preview:
-            preview = True
-        if args.db:
-            db_path = args.db
-
-    if db_path is None:
-        db_path = str(DEFAULT_DB)
-
-    if not os.path.exists(db_path):
-        raise FileNotFoundError(f"数据库不存在: {db_path}")
-
-    api_key = os.environ.get("GEMINI_API_KEY", "")
-    if not api_key and not preview:
-        raise RuntimeError("未找到 GEMINI_API_KEY，请在 .env 文件中配置")
-
-    print(f"\n{'='*50}")
-    print(f"  实体名称归一化工具{'（预览模式）' if preview else ''}")
-    print(f"{'='*50}")
-    print(f"  数据库: {db_path}")
-
-    # ── Step 0：统一 Unknown 变体 ──────────────────────────────────────────────
-    print("\n[0] 统一 Unknown 变体...")
-    if not preview:
-        conn = sqlite3.connect(db_path)
-        n_unknown = 0
-        for variant in UNKNOWN_VARIANTS:
-            if variant.lower() == "unknown":
-                continue
-            r = conn.execute(
-                "UPDATE chinese_entities SET implementing_entity = 'Unknown' "
-                "WHERE lower(implementing_entity) = ?",
-                (variant.lower(),),
-            )
-            n_unknown += r.rowcount
-        conn.commit()
-        conn.close()
-        print(f"  统一 {n_unknown} 条 Unknown 变体 → 'Unknown'")
-    else:
-        conn = sqlite3.connect(db_path)
-        n_unknown = sum(
-            conn.execute(
-                "SELECT COUNT(*) FROM chinese_entities "
-                "WHERE lower(implementing_entity) = ?",
-                (v.lower(),),
-            ).fetchone()[0]
-            for v in UNKNOWN_VARIANTS if v.lower() != "unknown"
-        )
-        conn.close()
-        print(f"  [预览] 将统一 {n_unknown} 条 Unknown 变体 → 'Unknown'")
-
-    # ── Step 1：加载实体名 ─────────────────────────────────────────────────────
-    print("\n[1] 加载实体名称...")
-    conn = sqlite3.connect(db_path)
-    rows = conn.execute(
-        "SELECT implementing_entity, COUNT(*) as n "
-        "FROM chinese_entities "
-        "WHERE implementing_entity IS NOT NULL AND implementing_entity != '' "
-        "  AND lower(implementing_entity) != 'unknown' "
-        "GROUP BY implementing_entity ORDER BY n DESC"
-    ).fetchall()
-    conn.close()
-
-    names_with_counts: List[Tuple[str, int]] = [(r[0], r[1]) for r in rows]
-    print(f"  加载 {len(names_with_counts)} 个不重复实体名（排除 Unknown）")
-
-    # ── Step 2：三信号候选筛查 ─────────────────────────────────────────────────
-    print(
-        f"\n[2] 三信号候选筛查（token≥{FUZZY_TOKEN_THRESHOLD} / "
-        f"partial≥{FUZZY_PARTIAL_THRESHOLD} / subsequence≤{SUBSEQ_MAX_LEN}字）..."
-    )
+    names_with_counts = [
+        (str(name).strip(), int(count))
+        for name, count in rows
+        if str(name).strip().lower() not in UNKNOWN_VARIANTS
+    ]
     candidates = _find_candidates(names_with_counts)
-    print(f"  发现 {len(candidates)} 对候选重复对")
-
-    if not candidates:
-        print("  无候选对，无需归一化。")
-        return
-
-    print("\n  候选对列表：")
-    for p in candidates:
-        print(
-            f"    [{p['id']:>3}] 「{p['name_a']}」({p['count_a']}) <-> "
-            f"「{p['name_b']}」({p['count_b']})  [{p['signals']}]"
+    suggestions = []
+    for candidate in candidates:
+        registered_a = _is_registered(candidate["name_a"], exact, stripped)
+        registered_b = _is_registered(candidate["name_b"], exact, stripped)
+        if registered_a and registered_b:
+            continue
+        suggestions.append(
+            {
+                **candidate,
+                "registered_a": int(registered_a),
+                "registered_b": int(registered_b),
+                "review_relationship": "",
+                "approved_canonical": "",
+                "review_notes": "",
+            }
         )
 
-    if preview:
-        print("\n[预览模式] 跳过 LLM 确认和数据库更新。")
-        return
+    output = Path(out_path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames = [
+        "id",
+        "name_a",
+        "count_a",
+        "registered_a",
+        "name_b",
+        "count_b",
+        "registered_b",
+        "signals",
+        "score_token",
+        "score_partial",
+        "review_relationship",
+        "approved_canonical",
+        "review_notes",
+    ]
+    with output.open("w", newline="", encoding="utf-8-sig") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(suggestions)
 
-    # ── Step 3：LLM 批量确认 ───────────────────────────────────────────────────
-    client = genai.Client(api_key=api_key)
-    print(f"\n[3] LLM 批量确认（batch_size={BATCH_SIZE}）...")
+    result: dict[str, int | str] = {
+        "names": len(names_with_counts),
+        "candidates": len(candidates),
+        "suggestions": len(suggestions),
+        "out_path": str(output),
+    }
+    logger.info("实体别名只读建议生成完成: %s", result)
+    return result
 
-    confirmed: List[Dict] = []
-    total_batches = (len(candidates) - 1) // BATCH_SIZE + 1
-    for i in range(0, len(candidates), BATCH_SIZE):
-        batch = candidates[i: i + BATCH_SIZE]
-        batch_no = i // BATCH_SIZE + 1
-        print(f"  批次 {batch_no}/{total_batches}：{len(batch)} 对...")
-        confirmed.extend(_llm_confirm_batch(client, batch))
-        time.sleep(0.5)
 
-    same_count = sum(1 for p in confirmed if p.get("is_same"))
-    print(f"\n  LLM 结果：{same_count} 对确认为同一公司，{len(confirmed) - same_count} 对排除")
-    for p in confirmed:
-        if p.get("is_same"):
-            print(
-                f"    ✓ 「{p['name_a']}」<->「{p['name_b']}」"
-                f" → 规范名：「{p['canonical_name']}」"
-            )
+def _update_db(*_args, **_kwargs) -> tuple[int, int]:
+    """拒绝旧式模糊映射写库，防止母子公司及历史记录再次被全表改写。"""
+    raise RuntimeError(
+        "旧式实体模糊映射写库已禁用；请审核建议并更新 company_hierarchy_v2.json，"
+        "再使用 S01B 确定性解析器处理明确记录。"
+    )
 
-    # ── Step 4：构建规范名映射 ─────────────────────────────────────────────────
-    print("\n[4] 构建规范名映射（Union-Find）...")
-    mapping = _build_mapping(names_with_counts, confirmed)
-    print(f"  生成 {len(mapping)} 条别名 → 规范名映射")
-    for alias, canon in sorted(mapping.items()):
-        print(f"    {alias}  →  {canon}")
 
-    if not mapping:
-        print("  无需更新数据库。")
-        return
+def run(db_path: str | None = None, preview: bool = False, out: str | None = None) -> dict:
+    """CLI/流水线入口：始终只读并输出候选审核 CSV，preview 参数仅保留兼容。"""
+    if db_path is None:
+        parser = argparse.ArgumentParser(description="中国实体别名候选发现（只读，不写数据库）")
+        parser.add_argument("--db", default=str(DEFAULT_DB), help="主数据库路径")
+        parser.add_argument("--out", default=None, help="审核 CSV 输出路径")
+        parser.add_argument(
+            "--preview",
+            action="store_true",
+            help="兼容参数；当前命令始终是只读 preview",
+        )
+        args = parser.parse_args()
+        db_path = args.db
+        out = args.out
+        preview = True
 
-    # ── Step 5：写入数据库 ─────────────────────────────────────────────────────
-    print("\n[5] 更新数据库...")
-    n_impl, n_sub = _update_db(db_path, mapping)
-    print(f"  ✓ implementing_entity 更新：{n_impl} 行")
-    print(f"  ✓ subsidiary_name     更新：{n_sub} 行")
-
-    print(f"\n{'='*50}")
-    print(f"  ✅ 实体名称归一化完成")
-    print(f"{'='*50}\n")
+    del preview  # 当前入口不存在 apply 模式。
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output = out or str(Path(db_path).parent / "reports" / f"entity_alias_suggestions_{timestamp}.csv")
+    Path(output).parent.mkdir(parents=True, exist_ok=True)
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s [%(name)s] %(levelname)s %(message)s",
+        handlers=[logging.FileHandler(str(Path(output).with_suffix(".log")), encoding="utf-8")],
+    )
+    result = generate_suggestions(str(db_path), output)
+    print(
+        "实体别名候选已只读导出："
+        f"names={result['names']} candidates={result['candidates']} "
+        f"suggestions={result['suggestions']} CSV={result['out_path']}"
+    )
+    return result
 
 
 if __name__ == "__main__":

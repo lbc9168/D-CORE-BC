@@ -29,6 +29,8 @@ def _seed(path):
 def test_pipeline_config_enables_taxonomy_shadow_by_default():
     """完整 pipeline 默认必须执行影子分类，但仍保留旧开关兼容。"""
     config = PipelineConfig()
+    assert config.run_entity_suggestions is False
+    assert config.run_entity_normalize is False
     assert config.run_storage_subcat_backfill is True
     assert config.run_energy_taxonomy_shadow is True
 
