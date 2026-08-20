@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-08-14（energy taxonomy v2.1 与 TX/MF 专用指标契约）
+> 最后更新：2026-08-19（2025 年起网页 developer 审计回填）
 
 **"一带一路"可再生能源项目数据库** —— 追踪中国企业参与的海外可再生能源项目。
 纯本地流水线（Python）+ 静态前端（React），无后端服务；主存储为 SQLite，前端消费静态 JSON/CSV。
@@ -74,7 +74,7 @@ s01a: raw_news.db
 
 - 储能不再作为发电源：单一新能源配储回归光伏/风电等主类，多种新能源才归综合能源，独立储能归储能；组合信息改由 `technology_tags_json` 表达。
 - 809 个候选完成 Terra 全量重读，789 个风险项目完成 Sol 复核；594 个 resolved 项安全应用，215 个未决项只写 shadow。resolved 正式记录中旧 `综合能源/光储|其他` 子类为 0；57 个未决旧子类保持原值，但 s03/s04 不再导出。
-- 主表/事件/实体行数保持 `4529/5365/6572`，SQLite integrity=`ok`、foreign-key errors=`0`，项目/事件/实体 ID 集合未变化。最终主库 SHA-256=`7E60276F...FA33B`。
+- 当前主库 canonical/event/entity 行数为 `4604/5451/6620`，另有 `non_project_records=1562`、`project_classification_shadow=3614`；SQLite integrity=`ok`、foreign-key errors=`0`。2025 年起网页可见 developer 审计回填 41 个事件后，当前主库 SHA-256=`5F87F9652520242A4DBFD91A0703E9DDC3C520C048DC853F28B1FA4069AB2F63`。
 - Golden Standard Studio 已暂停并按旧 guideline 原样封存；未用本轮 taxonomy 静默改写 Pilot、40 篇候选或人工草稿。
 
 ### 2026-08-15：封存 Gold-18 模型替换诊断
