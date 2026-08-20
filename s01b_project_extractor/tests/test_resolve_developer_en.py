@@ -93,7 +93,8 @@ def test_write_path_uses_developer_split(tmp_path, monkeypatch):
                     "common_info": {"Project Name": "肯尼亚50MW光伏项目", "Category": "光伏",
                                     "Capacity (MW)": "50", "Capacity Details": "",
                                     "Country": "肯尼亚", "Project Stage": "在建",
-                                    "Project Developer": "中国电建;阳光电源"},
+                                    "Project Developer": "中国电建;阳光电源",
+                                    "Project Developer Evidence": "项目由中国电建与阳光电源共同投资建设"},
                     # 角色用股权投资方：developer 守卫（developer_check）对投资类重名放行，
                     # 本测试只考拆串翻译写库路径，不测守卫语义
                     "chinese_entities": [{"Implementing Chinese Entity": "中国电建",

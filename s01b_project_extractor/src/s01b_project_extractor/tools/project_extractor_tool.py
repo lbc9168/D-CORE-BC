@@ -600,8 +600,10 @@ def _build_prompt(title: str, content: str, date: str) -> str:
        - **Capacity (MW)**: 填数字。
        - **Capacity Details**: 从新闻原文中提取与能源种类和装机容量相关的信息填入，如没有信息则不填。
 
-    3. **联合开发商（multiple project developers）**：
-       - 多个业主或开发商用分号 ";" 隔开。
+    3. **项目开发商/业主（Project Developer，证据白名单）**：
+       - 只有原文明示业主/开发商/投资建设方、EPC 发包方、项目股权持有方、特许经营权人或 PPA 卖电方时才填；无证据留空，并把连续原文短语写入 Project Developer Evidence。
+       - 承包商、设备商、融资机构、购电方、审批政府不是业主。合格投标方/合格开发商名单、入围名单、短名单、候选人、资格预审通过方和参与竞标方（qualified/eligible bidder、shortlisted/prequalified developer）只代表投标资格，除非原文进一步明确最终中标、正式授标、签署 PPA 或持有/开发该具体项目，否则不得填写。
+       - 区域或批次级候选名单不得复制到每个具体项目。多个已确定业主用分号 ";" 隔开，只写公司名。
 
     4. **中方企业填写规则**：
        - 所有参与的中方企业（包括总包、分包、设备商、股权投资方、金融机构等）均需列入 `chinese_entities`。
@@ -671,6 +673,7 @@ def _build_prompt(title: str, content: str, date: str) -> str:
             "MF Production Capacity Evidence": "String — 仅MF连续逐字证据或空",
             "Project Stage": "String",
             "Project Developer": "String",
+            "Project Developer Evidence": "String — 支撑业主判断的连续原文短语；developer 为空时也为空",
             "(Planned) Start Date": "String",
             "(Planned) Complete Date": "String",
             "Total Project Investment (Million USD)": "String",
@@ -976,6 +979,7 @@ class ProjectExtractorTool:
                     # （先清洗再翻译，避免给被剔部件白跑翻译）──
                     dev_cn, dev_dropped = clean_developer(
                         common.get("Project Developer", ""), entities, common.get("Category", ""),
+                        common.get("Project Developer Evidence", "") or "",
                     )
                     if dev_dropped:
                         logger.info("developer 守卫剔除 %s（项目=%s）",
@@ -1134,6 +1138,18 @@ class ProjectExtractorTool:
                     project_summary = proj.get("project_summary", "")
                     country_name = common.get("Country", "")
                     meta = _get_country_meta(country_name, country_db)
+                    dev_cn, dev_dropped = clean_developer(
+                        common.get("Project Developer", ""),
+                        [],
+                        common.get("Category", ""),
+                        common.get("Project Developer Evidence", "") or "",
+                    )
+                    if dev_dropped:
+                        logger.info(
+                            "developer 证据守卫剔除 %s（未具名中企项目=%s）",
+                            dev_dropped,
+                            common.get("Project Name", ""),
+                        )
 
                     base = {
                         "Record Type": _normalize_record_type(common.get("Record Type")),
@@ -1180,10 +1196,10 @@ class ProjectExtractorTool:
                             "production_capacity_unit_normalized"
                         ),
                         "Project Stage": common.get("Project Stage", ""),
-                        "Project Developer": common.get("Project Developer", ""),
+                        "Project Developer": dev_cn,
                         # 业主英文：拆串逐家走 _resolve_entity_en（缓存+Gemini）后 '; ' 拼回
-                        # （unnamed 路径无实体角色可交叉，守卫不适用）
-                        "Project Developer (EN)": _resolve_developer_en(common.get("Project Developer", ""), client),
+                        # unnamed 路径无实体角色可交叉，但仍执行证据/候选名单守卫。
+                        "Project Developer (EN)": _resolve_developer_en(dev_cn, client),
                         "Project Developer Evidence": common.get("Project Developer Evidence", ""),
                         "Multiple Chinese Enterprises Involved": "No",
                         "(Planned) Start Date": common.get("(Planned) Start Date", ""),

@@ -21,6 +21,7 @@ sweep_nonenergy        = "s01b_project_extractor.tools.nonenergy_sweep:main"
 sweep_nonenergy_maindb = "s01b_project_extractor.tools.nonenergy_sweep_maindb:main"
 cache_fix              = "s01b_project_extractor.tools.cache_hygiene:main"
 entity_reparse_maindb  = "s01b_project_extractor.tools.entity_reparse_maindb:main"
+backfill_developer_audit = "s01b_project_extractor.tools.developer_audit_backfill:main"
 
 [build-system]
 requires = ["hatchling"]

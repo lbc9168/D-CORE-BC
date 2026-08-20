@@ -1,4 +1,4 @@
-"""Layer 0: 确定性业主守卫——developer 与同事件中方实体重名时按实体角色置空，不依赖 LLM。
+"""Layer 0: 确定性业主守卫——拒绝无证据/候选名单，并按实体角色清理 developer。
 
 背景：2026-07-04 验证抽样（supporting_docs/developer_sampling_verdicts_20260704.csv）证实
 「重名-纯EPC」组 6/6 全错、「重名-设备商」组多数错（例外：新能源制造业厂主=设备商自建、
@@ -22,6 +22,21 @@ _CONTRACTOR_ROLES = {"EPC总承包", "设计/施工服务方"}
 _EQUIPMENT_ROLE = "设备供应商"
 _EQUIPMENT_EXEMPT_CATEGORY = "新能源制造业"
 
+# 投标资格、入围或候选身份不等于最终开发权；若同一短证据还明确最终授标/持有则放行。
+_CANDIDATE_ONLY_MARKERS = (
+    "合格投标方", "合格投标人", "合格开发商", "入围开发商", "入围名单",
+    "短名单", "候选人", "候选方", "资格预审", "预审通过", "参与竞标",
+    "qualified bidder", "qualified developer", "shortlist", "prequalified",
+    "eligible bidder", "candidate bidder",
+)
+_FINAL_AWARD_MARKERS = (
+    "最终中标", "成功中标", "中标开发商", "正式授标", "授标给", "授予项目",
+    "授予合同", "授予特许权", "获得开发权", "被选为中标方",
+    "签署购电协议", "签订购电协议", "签署ppa", "签订ppa", "全资持有",
+    "持有项目", "组成的联合体开发", "project is developed by",
+    "awarded to", "signed the ppa", "wholly owned by",
+)
+
 
 def _split(value: str) -> list[str]:
     """按统一分隔符拆业主串（去空段）。"""
@@ -39,15 +54,36 @@ def _name_overlap(a: str, b: str) -> bool:
     return a in b or b in a
 
 
-def clean_developer(developer: str, entities: list[dict], category: str) -> tuple[str, list[tuple[str, str]]]:
-    """按同事件实体角色剔除 developer 中的承包方/设备商部件；返回 (清洗后值, [(被剔部件, 理由)])。
+def _candidate_only_evidence(evidence: str) -> bool:
+    """证据只表明投标资格/候选身份且无最终授标或持有信号时返回 True。"""
+    normalized = str(evidence or "").strip().lower()
+    return (
+        any(marker in normalized for marker in _CANDIDATE_ONLY_MARKERS)
+        and not any(marker in normalized for marker in _FINAL_AWARD_MARKERS)
+    )
+
+
+def clean_developer(
+    developer: str,
+    entities: list[dict],
+    category: str,
+    evidence: str | None = None,
+) -> tuple[str, list[tuple[str, str]]]:
+    """按证据与实体角色清理 developer；返回 (清洗后值, [(被剔部件, 理由)])。
 
     无部件被剔时原样返回（含原分隔符风格）；全部被剔返回空串。
+    evidence=None 仅供旧调用兼容；生产入口显式传入 evidence，空证据即拒绝 developer。
     entities 形状与 row 组装处一致：Implementing Chinese Entity / Subsidiary Name /
     Type of involvement of Chinese Entities。
     """
     parts = _split(developer)
-    if not parts or not entities:
+    if not parts:
+        return str(developer or ""), []
+    if evidence is not None and not str(evidence).strip():
+        return "", [(part, "缺少 Project Developer Evidence") for part in parts]
+    if evidence is not None and _candidate_only_evidence(evidence):
+        return "", [(part, "证据仅表明入围/投标候选资格") for part in parts]
+    if not entities:
         return str(developer or ""), []
 
     kept: list[str] = []

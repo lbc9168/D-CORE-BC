@@ -116,3 +116,36 @@ def test_short_part_not_matched():
 def test_empty_inputs_noop():
     assert clean_developer("", [_ent("某公司", "EPC总承包")], "光伏") == ("", [])
     assert clean_developer("某业主", [], "光伏") == ("某业主", [])
+
+
+def test_explicit_empty_evidence_drops_all_developers():
+    """生产入口显式传空 evidence 时，developer 必须按白名单契约留空。"""
+    cleaned, dropped = clean_developer("A公司; B公司", [], "光伏", "")
+    assert cleaned == ""
+    assert [part for part, _ in dropped] == ["A公司", "B公司"]
+
+
+def test_candidate_list_evidence_drops_all_developers():
+    """合格投标方/入围名单只代表候选资格，不得复制为具体项目 developer。"""
+    cleaned, dropped = clean_developer(
+        "A公司; B公司", [], "光伏", "第七轮合格开发商入围名单",
+    )
+    assert cleaned == ""
+    assert all("候选资格" in reason for _, reason in dropped)
+
+
+def test_candidate_list_is_not_overridden_by_generic_project_wording():
+    """“项目由采购方公布合格名单”不是项目归属或最终授标证据。"""
+    cleaned, _ = clean_developer(
+        "A公司", [], "光伏", "项目由采购方公布合格开发商名单",
+    )
+    assert cleaned == ""
+
+
+def test_final_award_marker_overrides_candidate_context():
+    """同一证据明确最终中标时不按候选名单误杀。"""
+    cleaned, dropped = clean_developer(
+        "A公司", [], "光伏", "A公司从合格投标方中最终中标",
+    )
+    assert cleaned == "A公司"
+    assert dropped == []

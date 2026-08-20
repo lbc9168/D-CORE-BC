@@ -252,30 +252,7 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           );
         })()}
 
-        {/* 外部链接 */}
-        {((p.official_website_links?.length ?? 0) > 0 ||
-          (p.non_official_website_links?.length ?? 0) > 0) && (
-          <section>
-            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-              {t("projectDetail.externalLinks")}
-            </h4>
-            <div className="bg-slate-50 rounded-xl p-3 text-xs space-y-1.5">
-              {[...(p.official_website_links ?? []), ...(p.non_official_website_links ?? [])].map((url, i) => (
-                <div key={i}>
-                  <a
-                    href={url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-teal-700 hover:underline break-all"
-                  >
-                    {url}
-                  </a>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
+        {/* 外部链接暂时隐藏，待链接数据完成核验后恢复。 */}
         {/* 信息来源（暂时隐藏，待 Bug 2 source_links JSON.parse 修复后重新启用） */}
       </div>
     </div>

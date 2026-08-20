@@ -36,7 +36,7 @@ def _valid_project(common_extra: dict, entities: list[dict]) -> dict:
 def test_contractor_developer_blanked_before_write(monkeypatch, tmp_path):
     """developer=同事件EPC实体 → 写库时 project_developer 与 _en 均为空。"""
     result = _valid_project(
-        {"Project Developer": "中国电建"},
+        {"Project Developer": "中国电建", "Project Developer Evidence": "项目由中国电建投资建设"},
         [{"Implementing Chinese Entity": "中国电力建设集团有限公司",
           "Subsidiary Name": "中国电建集团国际工程有限公司",
           "Type of involvement of Chinese Entities": "EPC总承包"}],
@@ -52,7 +52,7 @@ def test_contractor_developer_blanked_before_write(monkeypatch, tmp_path):
 def test_invest_developer_survives_write(monkeypatch, tmp_path):
     """developer=同事件股权投资方 → 原样写库（守卫不误伤）。"""
     result = _valid_project(
-        {"Project Developer": "国家电投"},
+        {"Project Developer": "国家电投", "Project Developer Evidence": "国家电投持有项目股权"},
         [{"Implementing Chinese Entity": "国家电投",
           "Type of involvement of Chinese Entities": "股权投资方"}],
     )
@@ -94,3 +94,35 @@ def test_developer_evidence_persisted_unnamed_path(monkeypatch, tmp_path):
     conn.close()
     assert dev == "肯尼亚电力公司"
     assert ev == "由肯尼亚电力公司投资建设"
+
+
+def test_candidate_list_developer_blanked_before_write(monkeypatch, tmp_path):
+    """合格开发商名单即使含投资类实体，也不得作为具体项目 developer 写库。"""
+    result = _valid_project(
+        {"Project Developer": "国家电投; ACWA Power",
+         "Project Developer Evidence": "第七轮合格开发商入围名单"},
+        [{"Implementing Chinese Entity": "国家电投",
+          "Type of involvement of Chinese Entities": "股权投资方"}],
+    )
+    conn = _run_process_df(monkeypatch, tmp_path, result)
+    dev, dev_en = conn.execute(
+        "SELECT project_developer, project_developer_en FROM extracted_projects"
+    ).fetchone()
+    conn.close()
+    assert dev == ""
+    assert dev_en == ""
+
+
+def test_null_developer_evidence_is_treated_as_missing(monkeypatch, tmp_path):
+    """模型返回 JSON null 时生产入口仍按缺少 evidence 清空 developer。"""
+    result = _valid_project(
+        {"Project Developer": "ACWA Power", "Project Developer Evidence": None},
+        [],
+    )
+    conn = _run_process_df(monkeypatch, tmp_path, result)
+    dev, dev_en = conn.execute(
+        "SELECT project_developer, project_developer_en FROM extracted_projects"
+    ).fetchone()
+    conn.close()
+    assert dev == ""
+    assert dev_en == ""
