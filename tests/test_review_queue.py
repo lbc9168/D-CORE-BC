@@ -22,3 +22,41 @@ def test_queue_accepts_exclude_suggested(tmp_path):
                    critic_confidence=0.7, evidence="存疑：可能是油气")
     rows = queue.pending(db)
     assert len(rows) == 1 and rows[0]["reason_type"] == "exclude_suggested"
+
+
+def test_queue_accepts_entity_identity(tmp_path):
+    """未命中中企登记表的项目可进入 entity_identity 人工复核队列。"""
+    db = tmp_path / "review.db"
+    queue.init_queue(db)
+    queue.add_item(
+        db,
+        canonical_id="123",
+        source_link="http://example.com/entity",
+        reason_type="entity_identity",
+        field="implementing_entity",
+        current_value="某未登记企业",
+        suggested_value=None,
+        critic_confidence=None,
+        evidence="中企名称未命中受控登记表",
+    )
+    rows = queue.pending(db)
+    assert len(rows) == 1 and rows[0]["reason_type"] == "entity_identity"
+
+
+def test_queue_accepts_entity_relation(tmp_path):
+    """身份已知但项目—企业—角色证据不足时可进入 entity_relation 复核队列。"""
+    db = tmp_path / "review.db"
+    queue.init_queue(db)
+    queue.add_item(
+        db,
+        canonical_id="124",
+        source_link="http://example.com/relation",
+        reason_type="entity_relation",
+        field="involvement_type",
+        current_value="投融资+EPC",
+        suggested_value="Unknown",
+        critic_confidence=None,
+        evidence="没有通过目标项目—具体企业—参与角色证据绑定",
+    )
+    rows = queue.pending(db)
+    assert len(rows) == 1 and rows[0]["reason_type"] == "entity_relation"

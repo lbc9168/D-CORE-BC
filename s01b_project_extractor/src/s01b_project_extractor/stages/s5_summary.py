@@ -16,7 +16,7 @@ def run_s5(structured_project: dict, *, llm) -> dict:
 
 
 def apply_s5(project: dict, s5_out: dict) -> dict:
-    """把 S5 摘要及合法 stage/involvement 纠偏写入项目，忽略 category 建议。"""
+    """把 S5 摘要及合法 stage 纠偏写入项目，忽略角色与 category 建议。"""
     summary = (s5_out.get("project_summary") or "").strip()
     if summary:
         project["project_summary"] = summary
@@ -24,7 +24,6 @@ def apply_s5(project: dict, s5_out: dict) -> dict:
     # common_info 级别可纠偏字段：field 键 → common_info 实际键名
     valid = {
         "project_stage": set(enums.valid_stages()),
-        "involvement_type": set(enums.valid_involvement()),
     }
     field_map = {"project_stage": "Project Stage"}
     for c in (s5_out.get("corrections") or []):
@@ -37,10 +36,6 @@ def apply_s5(project: dict, s5_out: dict) -> dict:
             continue
         if f not in valid or conf < 0.8 or sv not in valid[f]:
             continue
-        if f == "involvement_type":
-            # involvement_type 存于实体层：应用到所有 chinese_entities
-            for ent in (project.get("chinese_entities") or []):
-                ent["Type of involvement of Chinese Entities"] = sv
-        elif f in field_map:
+        if f in field_map:
             ci[field_map[f]] = sv
     return project

@@ -1,5 +1,7 @@
 """S1 相关性 + 中企参与门 prompt：只判 RE 相关性与是否有中企，强化 B.1 排除规则。"""
 
+from s01b_project_extractor.prompts.policy_fragments import CHINESE_IDENTITY_RULE
+
 
 def build_s1_prompt(title: str, content: str, date: str) -> str:
     """构建 S1 门控 prompt：输出 {status, reasoning, project_subject, is_power_generation_plant}。"""
@@ -34,6 +36,7 @@ def build_s1_prompt(title: str, content: str, date: str) -> str:
 - 无中企（标题和正文均无任何中国企业，或各环节参与者均非中企）→ status = "no_chinese_participation"。
 - ⚠️ **关键规则**：一篇「确是电力/发电项目、但没有中企参与」的新闻，**必须**判 "no_chinese_participation"，**绝不可**判 "irrelevant"。"irrelevant" 仅用于第一步判定的非电力主题。
 - 注意识别中方企业的简称、曾用名、子公司名（如「中材节能」属中国建材集团）。
+- 中企身份边界：{CHINESE_IDENTITY_RULE}
 - 例：「该光伏项目由一家中国企业中标承建」（未点名）→ chinese_unnamed_participation；「中国电建中标」（点名）→ valid_project；「设备由中国厂商供应」但无中企主体 → 视具体情况（多为 valid_project 设备供应商或 no_chinese）。
 
 ### 输出格式（严格 JSON，仅这些字段）

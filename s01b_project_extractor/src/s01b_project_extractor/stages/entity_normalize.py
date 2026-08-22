@@ -11,9 +11,37 @@
   - subsidiary 空  ⇔ implementing 即原文名（或 "Unknown"）
 """
 import logging
+import json
+from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
+
+from pydantic import BaseModel, Field
 
 logger = logging.getLogger(__name__)
+
+VERIFIED_CHINESE = "verified_chinese"
+VERIFIED_NON_CHINESE = "verified_non_chinese"
+UNMATCHED_NEEDS_REVIEW = "unmatched_needs_review"
+
+
+class _RegistryCompany(BaseModel):
+    """校验 developer_registry 中与企业国别门禁有关的最小字段。"""
+
+    canonical_cn: str
+    aliases: list[str] = Field(default_factory=list)
+    is_chinese: bool
+    parent_cn: str | None = None
+
+
+@dataclass(frozen=True)
+class EntityResolution:
+    """保存实体归一结果及是否具备可发布的中企身份证据。"""
+
+    implementing: str
+    subsidiary: str
+    verification_status: str
+    matched_source: str
 
 # 尾缀列表：剥离后做精确比对（两端均剥离，尾缀顺序从长到短避免贪心截断）
 _CORP_SUFFIXES = (
@@ -152,8 +180,85 @@ _stripped_index_cache: dict[str, tuple[str, str]] = {}
 
 def _load_hierarchy_v2() -> dict:
     """加载 company_hierarchy_v2.json（schema_version=2）；文件不在时返回空结构。"""
-    from s01b_project_extractor.tools.project_extractor_tool import _load_hierarchy_v2_data
-    return _load_hierarchy_v2_data()
+    hierarchy_path = Path(__file__).resolve().parents[4] / "supporting_docs" / "company_hierarchy_v2.json"
+    if not hierarchy_path.exists():
+        logger.error("中企层级表不存在: %s", hierarchy_path)
+        return {"groups": []}
+    try:
+        return json.loads(hierarchy_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        logger.error("中企层级表加载失败: %s | path=%s", exc, hierarchy_path)
+        raise
+
+
+@lru_cache(maxsize=1)
+def _nationality_index() -> dict[str, _RegistryCompany]:
+    """从受控登记册构建名称/别名到企业国别记录的确定性索引。"""
+    registry_path = Path(__file__).resolve().parents[4] / "developer_registry.json"
+    if not registry_path.exists():
+        logger.error("中企国别登记表不存在: %s", registry_path)
+        return {}
+    try:
+        payload = json.loads(registry_path.read_text(encoding="utf-8"))
+        companies = [_RegistryCompany(**item) for item in payload.get("companies", [])]
+    except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
+        logger.error("中企国别登记表加载失败: %s | path=%s", exc, registry_path)
+        raise
+    index: dict[str, _RegistryCompany] = {}
+    for company in companies:
+        for name in (company.canonical_cn, *company.aliases):
+            key = name.strip()
+            if not key:
+                continue
+            previous = index.get(key)
+            if previous and previous.canonical_cn != company.canonical_cn:
+                raise ValueError(
+                    f"中企国别登记表别名冲突: {key!r} → "
+                    f"{previous.canonical_cn} / {company.canonical_cn}"
+                )
+            index[key] = company
+    return index
+
+
+def resolve_entity(verbatim: str) -> EntityResolution:
+    """归一实体并给出三态国别结论；未命中不得作为已核实中企发布。"""
+    name = (verbatim or "").strip()
+    if not name or name == "Unknown":
+        return EntityResolution("Unknown", "", UNMATCHED_NEEDS_REVIEW, "unmatched")
+
+    registry_company = _nationality_index().get(name)
+    if registry_company is not None:
+        status = VERIFIED_CHINESE if registry_company.is_chinese else VERIFIED_NON_CHINESE
+        parent = (registry_company.parent_cn or "").strip()
+        if status == VERIFIED_CHINESE and parent:
+            return EntityResolution(parent, name, status, "registry")
+        return EntityResolution(registry_company.canonical_cn, "", status, "registry")
+
+    parent, sub, matched = _normalize_from_hierarchy(name)
+    if matched:
+        return EntityResolution(parent, sub, VERIFIED_CHINESE, "hierarchy")
+
+    logger.warning("entity_normalize 未命中（转人工复核）: %s", name)
+    return EntityResolution(name, "", UNMATCHED_NEEDS_REVIEW, "unmatched")
+
+
+def _normalize_from_hierarchy(name: str) -> tuple[str, str, bool]:
+    """只使用中企层级表归一名称，并显式返回是否命中。"""
+    idx = _hierarchy_index_v2()
+
+    if name in idx:
+        stored_canon, stored_sub = idx[name]
+        if stored_sub:
+            return stored_canon, name, True
+        if name == stored_canon:
+            return stored_canon, "", True
+        return stored_canon, name, True
+
+    stripped_input = _strip_suffix(name)
+    if stripped_input != name and stripped_input in _stripped_index_cache:
+        canon, _sub_key = _stripped_index_cache[stripped_input]
+        return canon, name, True
+    return name, "", False
 
 
 def normalize_entity(verbatim: str) -> tuple[str, str]:
@@ -168,40 +273,5 @@ def normalize_entity(verbatim: str) -> tuple[str, str]:
       3.  未命中              → (verbatim, "") + WARNING 日志
     不变量：subsidiary 非空 ⇔ verbatim；subsidiary 空 ⇔ implementing==verbatim。
     """
-    name = (verbatim or "").strip()
-    if not name:
-        return "Unknown", ""
-
-    idx = _hierarchy_index_v2()
-
-    # ── 层1：精确名匹配（canonical / sub name_cn / sub legal_full_name_cn）──
-    if name in idx:
-        stored_canon, stored_sub = idx[name]
-        if stored_sub:
-            # 子公司命中（路径1）：sub = verbatim（原文）
-            return stored_canon, name
-        else:
-            # 集团自身或别名精确命中
-            if name == stored_canon:
-                # 路径2a：verbatim == canonical
-                return stored_canon, ""
-            else:
-                # 路径2b：verbatim 是别名（≠ canonical）
-                return stored_canon, name
-
-    # ── 层2/3：去尾缀归一化精确比对（O(1) 预构索引查询）──────────────────────
-    stripped_input = _strip_suffix(name)
-    if stripped_input != name:  # 有实际剥除才搜索，避免退化为精确匹配重复
-        # 确保去尾缀索引已构建（调用 _hierarchy_index_v2 时会同时填充 _stripped_index_cache）
-        if stripped_input in _stripped_index_cache:
-            canon, sub_key = _stripped_index_cache[stripped_input]
-            if sub_key:
-                # 路径2d：去尾缀后命中子公司
-                return canon, name
-            else:
-                # 路径2c：去尾缀后命中集团 canonical 或别名，sub=verbatim（变体）
-                return canon, name
-
-    # ── 路径3：未命中 ─────────────────────────────────────────────────────────
-    logger.warning("entity_normalize 未命中（透传）: %s", name)
-    return name, ""
+    resolution = resolve_entity(verbatim)
+    return resolution.implementing, resolution.subsidiary

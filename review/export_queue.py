@@ -24,7 +24,13 @@ _FIELDS = [
     "source_link", "created_at", "state",
 ]
 # 排序：status_challenge（该不该收录，最高价值）在前，再 low_confidence_field，再其它
-_REASON_ORDER = {"status_challenge": 0, "low_confidence_field": 1, "unnamed_entity": 2}
+_REASON_ORDER = {
+    "status_challenge": 0,
+    "entity_identity": 1,
+    "entity_relation": 2,
+    "low_confidence_field": 3,
+    "unnamed_entity": 4,
+}
 
 
 def export_pending(review_db, projects_db, out_csv) -> int:

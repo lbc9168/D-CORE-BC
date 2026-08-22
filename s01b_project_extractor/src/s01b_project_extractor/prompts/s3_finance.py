@@ -1,5 +1,9 @@
 """S3 金融信息 prompt：投融资额/融资模式/融资方/分包额/投资日期；B.4 富融资信息保留。"""
 import bri_enums as enums
+from s01b_project_extractor.prompts.policy_fragments import (
+    FINANCING_MODEL_RULE,
+    PROJECT_EVIDENCE_BINDING_RULE,
+)
 
 
 def build_s3_prompt(title: str, content: str, project_name: str) -> str:
@@ -14,7 +18,9 @@ def build_s3_prompt(title: str, content: str, project_name: str) -> str:
 目标项目：{project_name}
 
 ### 规则
-- Financing Model 只能选 [{fin_list}]：贷款/融资/信贷/银团/买方信贷/优惠贷款→「信贷融资」；债券/公司债/点心债/绿色债券→「债券融资」；股权/股权投资→「股权融资」；同一项目同时含上述两类及以上→「混合融资」；无法判断→「Unknown」。
+- Financing Model 只能选 [{fin_list}]。{FINANCING_MODEL_RULE}
+- Financing Evidence 仅在 Financing Model 非 Unknown 时填写。{PROJECT_EVIDENCE_BINDING_RULE}
+- tool 只能选 credit/bond/equity/other；银团属于 credit。other 只用于明确归属于目标项目的赠款、资金援助或资助；组合层面援助仍填 Unknown。
 - **B.4 富融资信息保留**：若融资信息丰富（股权+债权+融资方+模式都有），把完整细节写进 Financing Model Details 与 Additional Remarks 原文保留，不要丢弃。
 - Total Project Investment (Million USD)：只填换算后的数字（百万美元）；无则留空。
 - Total Project Investment Raw：**逐字抄录**标题或正文中投资额的连续原始短语（如"约50亿元人民币"），不换算、不改写；未提及则留空且无需证据。
@@ -34,6 +40,9 @@ def build_s3_prompt(title: str, content: str, project_name: str) -> str:
   "Financing Amount (Million USD)": "数字或空",
   "Investment (or Financial Close) Date": "YYYY-MM-DD 或空",
   "Financing Model": "枚举或 Unknown",
+  "Financing Evidence": [
+    {{"tool": "credit|bond|equity|other", "quote": "连续原文引文", "project_anchor": "引文中的非泛化项目锚点"}}
+  ],
   "Financing Model Details": "融资方名称/明细或空",
   "Additional Remarks": "富融资原文细节或空"
 }}

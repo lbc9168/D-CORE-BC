@@ -893,6 +893,34 @@
       "parent_cn": null,
       "note": "current_en_cache为空；核实为德国西门子能源股份公司(Siemens Energy AG)，2020年从西门子集团分拆独立上市，非中国企业。",
       "source": "campaign_2026-07"
+    },
+    {
+      "canonical_cn": "Citaglobal Berhad",
+      "canonical_en": "Citaglobal Berhad",
+      "aliases": [
+        "Citaglobal",
+        "CitaGlobal",
+        "Citaglobal集团",
+        "马来西亚Citaglobal"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "马来西亚企业；中文译名、华人背景或香港相关资本市场信息均不能作为中企身份证据。用于阻止彭亨州2000MW光伏项目再次误发布。",
+      "source": "manual_audit_2026-08-21"
+    },
+    {
+      "canonical_cn": "BGMC Holdings Berhad",
+      "canonical_en": "BGMC Holdings Berhad",
+      "aliases": [
+        "BGMC Holdings",
+        "BGMC",
+        "璋利国际",
+        "璋利集团"
+      ],
+      "is_chinese": false,
+      "parent_cn": null,
+      "note": "总部、主要经营地和控制架构均在马来西亚；香港上市不能作为中企身份证据。",
+      "source": "manual_audit_2026-08-21"
     }
   ]
 }

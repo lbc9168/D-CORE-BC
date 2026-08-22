@@ -19,6 +19,27 @@ logger = logging.getLogger(__name__)
 # 主 CJK 区块（U+4E00–U+9FFF），用于「名称是否含中文」判断已足够
 _CHINESE_RE = re.compile(r"[一-鿿]")
 
+_PROJECT_NAME_EN_CONFUSABLES = {
+    "海四达": (("Hithium",), "Haisida"),
+    "天鹏": (("Tianneng",), "Tianpeng"),
+}
+
+
+def _repair_confusable_project_name_en(ci: dict) -> None:
+    """按已核实的中英文易混淆表修复项目英文名中的企业词元。"""
+    name_cn = str(ci.get("Project Name", "") or "")
+    name_en = str(ci.get("Project Name (EN)", "") or "")
+    repaired = name_en
+    for cn_token, (forbidden_tokens, canonical_en) in _PROJECT_NAME_EN_CONFUSABLES.items():
+        if cn_token not in name_cn:
+            continue
+        for forbidden in forbidden_tokens:
+            repaired = re.sub(re.escape(forbidden), canonical_en, repaired, flags=re.IGNORECASE)
+    if repaired != name_en:
+        logger.warning("项目英文名易混淆词元已修正: %s → %s", name_en, repaired)
+        ci["Project Name (EN)"] = repaired
+        ci["name_en_quality"] = "deterministic_corrected"
+
 
 def _apply_capacity_post_process(ci: dict) -> None:
     """S2 输出后处理：解析 Capacity (MW) 原文短语 → 数值，并将解析结果写入 common_info。
@@ -171,6 +192,7 @@ def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
         # in_scope 出口：S2 未给时默认在范围内（不误排除）；给了则原样透传
         p.setdefault("in_scope", True)
         p.setdefault("out_of_scope_reason", "")
+        _repair_confusable_project_name_en(ci)
         # 先确定能源分类，再按最终类别解析发电装机，确保储能容量永不混入 capacity_mw。
         _apply_energy_facts_post_process(ci)
         _apply_txmf_post_process(ci, title, content)

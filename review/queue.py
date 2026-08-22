@@ -4,7 +4,14 @@ import sqlite3
 
 logger = logging.getLogger(__name__)
 
-_REASON_TYPES = ("unnamed_entity", "low_confidence_field", "status_challenge", "exclude_suggested")
+_REASON_TYPES = (
+    "unnamed_entity",
+    "entity_identity",
+    "entity_relation",
+    "low_confidence_field",
+    "status_challenge",
+    "exclude_suggested",
+)
 
 
 def init_queue(db_path) -> None:
@@ -29,18 +36,44 @@ def init_queue(db_path) -> None:
 def add_item(db_path, *, canonical_id, source_link, reason_type, field, current_value,
              suggested_value, critic_confidence, evidence) -> None:
     """插入一条复核项；reason_type 必须合法，否则抛错（入口校验）。"""
-    if reason_type not in _REASON_TYPES:
-        raise ValueError(f"非法 reason_type={reason_type!r}，合法={_REASON_TYPES}")
-    # 低频路径：per-call 连接可接受
+    add_items(db_path, [{
+        "canonical_id": canonical_id,
+        "source_link": source_link,
+        "reason_type": reason_type,
+        "field": field,
+        "current_value": current_value,
+        "suggested_value": suggested_value,
+        "critic_confidence": critic_confidence,
+        "evidence": evidence,
+    }])
+
+
+def add_items(db_path, items: list[dict]) -> None:
+    """在单个事务中批量插入复核项，并在写库前校验全部 reason_type。"""
+    if not items:
+        return
+    for item in items:
+        reason_type = item.get("reason_type")
+        if reason_type not in _REASON_TYPES:
+            raise ValueError(f"非法 reason_type={reason_type!r}，合法={_REASON_TYPES}")
+    rows = [(
+        item.get("canonical_id"),
+        item.get("source_link"),
+        item["reason_type"],
+        item.get("field"),
+        item.get("current_value"),
+        item.get("suggested_value"),
+        item.get("critic_confidence"),
+        item.get("evidence"),
+    ) for item in items]
     conn = sqlite3.connect(str(db_path))
     try:
-        conn.execute(
+        conn.executemany(
             """INSERT INTO review_queue
                (canonical_id, source_link, reason_type, field, current_value,
                 suggested_value, critic_confidence, evidence, state, created_at)
                VALUES (?,?,?,?,?,?,?,?, 'pending', datetime('now'))""",
-            (canonical_id, source_link, reason_type, field, current_value,
-             suggested_value, critic_confidence, evidence),
+            rows,
         )
         conn.commit()
     finally:

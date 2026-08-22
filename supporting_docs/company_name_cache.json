@@ -7353,8 +7353,8 @@
   "江苏天鹏电源有限公司": {
     "en": "Jiangsu Tianpeng Power Co., Ltd.",
     "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "verified": true,
+    "source": "manual_audit_2026-08-21"
   },
   "湖北亿纬动力有限公司": {
     "en": "EVE Energy Co., Ltd.",
@@ -15321,8 +15321,8 @@
   "江苏海四达电源有限公司": {
     "en": "Jiangsu Haisida Power Co., Ltd.",
     "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "verified": true,
+    "source": "manual_audit_2026-08-21"
   },
   "天合储能有限公司": {
     "en": "TRINA STORAGE CO., LTD.",
@@ -15661,10 +15661,10 @@
     "source": "ai"
   },
   "海四达公司": {
-    "en": "Sifda Company",
-    "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "en": "Haisida",
+    "en_abbr": "Haisida",
+    "verified": true,
+    "source": "manual_audit_2026-08-21"
   },
   "东方菱日锅炉有限公司": {
     "en": "Dongfang Lingri Boiler Co., Ltd.",
@@ -16269,8 +16269,8 @@
   "天鹏电源": {
     "en": "Tianpeng Power",
     "en_abbr": null,
-    "verified": false,
-    "source": "ai"
+    "verified": true,
+    "source": "manual_audit_2026-08-21"
   },
   "苏州中材": {
     "en": "Suzhou Zhongcai",

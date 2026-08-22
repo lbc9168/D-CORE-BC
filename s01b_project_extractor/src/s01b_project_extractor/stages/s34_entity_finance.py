@@ -2,8 +2,9 @@
 import logging
 import bri_enums as enums
 from bri_parse import parse_number
-from s01b_project_extractor.stages.entity_normalize import normalize_entity
-from s01b_project_extractor.stages.s3_finance import AMOUNT_FIELDS
+from s01b_project_extractor.stages.entity_normalize import resolve_entity
+from s01b_project_extractor.stages.s3_finance import AMOUNT_FIELDS, enforce_financing_model_evidence
+from s01b_project_extractor.stages.s4_entity import enforce_entity_role_evidence
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ _FINANCE_KEYS = (
     "Financing Amount (Million USD)",
     "Investment (or Financial Close) Date",
     "Financing Model",
+    "Financing Evidence",
     "Financing Model Details",
     "Additional Remarks",
 )
@@ -31,13 +33,16 @@ def run_s34(title: str, content: str, project_name: str, category: str, *, llm,
         return {"chinese_entities": [], "finance": {}}
     # ── 实体部分：母子公司归一（与 run_s4 一致）──
     ents = out.get("chinese_entities", []) or []
+    enforce_entity_role_evidence(ents, title, content, project_name)
     for e in ents:
         raw = e.get("Implementing Chinese Entity", "")
-        parent, sub = normalize_entity(raw)
-        e["Implementing Chinese Entity"] = parent
+        resolution = resolve_entity(raw)
+        e["Implementing Chinese Entity"] = resolution.implementing
         # 无条件用 parser 输出覆盖 LLM 的 Subsidiary Name：
         # LLM 不可信（易幻觉），不变量"subsidiary 非空⇔原文名"只能由 parser 保证。
-        e["Subsidiary Name"] = sub
+        e["Subsidiary Name"] = resolution.subsidiary
+        e["_entity_verification_status"] = resolution.verification_status
+        e["_entity_matched_source"] = resolution.matched_source
     # ── 金融部分：切出 + 三类金额原文短语保留 + 数值经 bri_parse（与 run_s3 一致，见 AMOUNT_FIELDS 注释）──
     finance = {k: out[k] for k in _FINANCE_KEYS if k in out}
     for num_key, raw_key, phrase_key in AMOUNT_FIELDS:
@@ -46,6 +51,7 @@ def run_s34(title: str, content: str, project_name: str, category: str, *, llm,
         parsed = parse_number(finance.get(num_key, ""))
         if parsed is not None:
             finance[num_key] = parsed
+    enforce_financing_model_evidence(finance, title, content, project_name)
     return {"chinese_entities": ents, "finance": finance}
 
 
@@ -59,4 +65,6 @@ def validate_s34(out: dict) -> list[str]:
             errors.append(f"实体#{i} 参与方式不合法: {inv}")
         if not str(e.get("Implementing Chinese Entity", "")).strip():
             errors.append(f"实体#{i} Implementing Chinese Entity 为空")
+        if e.get("_participation_evidence_status") != "verified":
+            errors.append(f"实体#{i} 缺少目标项目—企业—角色绑定证据")
     return errors

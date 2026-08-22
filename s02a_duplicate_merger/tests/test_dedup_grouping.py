@@ -142,6 +142,33 @@ def test_location_anchor_requires_min_capacity_and_both_values():
     assert _find_duplicate_candidates([a, b]) == []
 
 
+def test_ac_dc_capacity_details_rescue_duplicate_candidate():
+    """光伏 AC/DC 代表值不同，但明细共享两种口径时仍应成为候选。"""
+    a = _proj(
+        project_name="LSS5 BSSB光伏项目", capacity_mw="300",
+        capacity_details="300MWac / 459.27MWp", source_links=["http://a"],
+    )
+    b = _proj(
+        project_name="LSS5 BSSB太阳能电站", capacity_mw="459.27",
+        capacity_details="300MWac / 459.27MWp", source_links=["http://b"],
+    )
+    assert len(_find_duplicate_candidates([a, b])) == 1
+
+
+def test_same_name_with_location_and_developer_conflict_is_not_auto_merged():
+    """名称高分也不得覆盖具体场址和开发商同时冲突。"""
+    a = _proj(
+        project_name="马来西亚30MW太阳能项目", location="霹雳州",
+        project_developer="Pekat", source_links=["http://a"],
+    )
+    b = _proj(
+        project_name="马来西亚30MW太阳能项目", location="雪兰莪州",
+        project_developer="BGMC", source_links=["http://b"],
+    )
+    merged = _deduplicate_projects(None, None, [a, b], [(0, 1, 100.0)])
+    assert len(merged) == 2
+
+
 # ───────────────────── P3 (b)：跨批次 canonical 匹配的地点辅助 ─────────────────────
 
 def _seed_canonical(conn, cid="PAK-WD-0001", name="信德风能项目", loc="达瓦德密", cap=50.0):

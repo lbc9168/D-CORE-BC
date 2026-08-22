@@ -70,11 +70,11 @@ s01a: raw_news.db
 
 主库为 SQLite 三表模型（`canonical_projects` / `project_events` / `chinese_entities`）+ `non_project_records`，并新增内部 `project_classification_shadow` 审计表。`energy_taxonomy_v2` 先在 shadow 记录差异；只有证据与 Terra/Sol 门禁通过的 resolved 项才写正式类别、技术标签和事件能源事实，未决项只写 `needs_review`，不会进入自动覆盖。
 
-### 2026-08-13：光储分类口径 v2 已落库
+### 当前光储分类口径 v2
 
 - 储能不再作为发电源：单一新能源配储回归光伏/风电等主类，多种新能源才归综合能源，独立储能归储能；组合信息改由 `technology_tags_json` 表达。
 - 809 个候选完成 Terra 全量重读，789 个风险项目完成 Sol 复核；594 个 resolved 项安全应用，215 个未决项只写 shadow。resolved 正式记录中旧 `综合能源/光储|其他` 子类为 0；57 个未决旧子类保持原值，但 s03/s04 不再导出。
-- 当前主库 canonical/event/entity 行数为 `4604/5451/6620`，另有 `non_project_records=1562`、`project_classification_shadow=3614`；SQLite integrity=`ok`、foreign-key errors=`0`。2025 年起网页可见 developer 审计回填 41 个事件后，当前主库 SHA-256=`5F87F9652520242A4DBFD91A0703E9DDC3C520C048DC853F28B1FA4069AB2F63`。
+- 当前主库 canonical/event/entity 行数为 `4601/5450/6607`，另有 `non_project_records=1562`、`project_classification_shadow=3611`；SQLite integrity=`ok`、foreign-key errors=`0`。网页全量审计纠错后，当前主库 SHA-256=`574FA2507C00E08C873B8D1D583E61BD2BEE13AC8D99E65E4A30C4C7B203FFB5`。
 - Golden Standard Studio 已暂停并按旧 guideline 原样封存；未用本轮 taxonomy 静默改写 Pilot、40 篇候选或人工草稿。
 
 ### 2026-08-15：封存 Gold-18 模型替换诊断

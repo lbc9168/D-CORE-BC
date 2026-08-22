@@ -6,6 +6,11 @@ import os
 import json
 from typing import Any
 import bri_enums as enums
+from s01b_project_extractor.stages.entity_normalize import (
+    UNMATCHED_NEEDS_REVIEW,
+    VERIFIED_CHINESE,
+    VERIFIED_NON_CHINESE,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +24,57 @@ _S1_STATUS_MAP = {
     "irrelevant": "irrelevant",
     "chinese_unnamed_participation": "chinese_unnamed",  # ← 唯一重命名项
 }
+
+
+def _apply_entity_publication_gate(project: dict, *, unnamed: bool = False) -> None:
+    """按中企身份及项目参与证据过滤实体，并阻止无有效中企关系的项目自动发布。"""
+    entities = project.get("chinese_entities", []) or []
+    if unnamed:
+        project["entity_gate_excluded"] = True
+        project["needs_review"] = True
+        project["entity_review_reason"] = "原文明示中企参与但未具名，待人工复核"
+        return
+
+    statuses = [e.get("_entity_verification_status") for e in entities]
+    unmatched_names = [
+        str(e.get("Implementing Chinese Entity", "")).strip()
+        for e in entities
+        if e.get("_entity_verification_status") == UNMATCHED_NEEDS_REVIEW
+    ]
+    missing_relation_names = [
+        str(e.get("Subsidiary Name") or e.get("Implementing Chinese Entity", "")).strip()
+        for e in entities
+        if e.get("_participation_evidence_status") != "verified"
+    ]
+    identity_filtered = [
+        e for e in entities
+        if e.get("_entity_verification_status") != VERIFIED_NON_CHINESE
+    ]
+    project["chinese_entities"] = [
+        e for e in identity_filtered
+        if e.get("_participation_evidence_status") == "verified"
+    ]
+    if UNMATCHED_NEEDS_REVIEW in statuses or not statuses:
+        project["entity_gate_excluded"] = True
+        project["needs_review"] = True
+        project["entity_review_reason"] = "中企名称未命中受控登记表，待人工复核"
+        project["entity_review_entities"] = "; ".join(name for name in unmatched_names if name)
+        project["entity_review_reason_type"] = "entity_identity"
+    elif VERIFIED_CHINESE not in statuses:
+        project["entity_gate_excluded"] = True
+        project["needs_review"] = False
+        project["entity_review_reason"] = "无已核实中国企业"
+    elif not project["chinese_entities"]:
+        project["entity_gate_excluded"] = True
+        project["needs_review"] = True
+        project["entity_review_reason"] = "没有通过目标项目—具体企业—参与角色证据绑定的中企关系"
+        project["entity_review_entities"] = "; ".join(name for name in missing_relation_names if name)
+        project["entity_review_reason_type"] = "entity_relation"
+    elif missing_relation_names:
+        project["needs_review"] = True
+        project["entity_review_reason"] = "部分中企关系缺少目标项目—企业—角色绑定证据，已从发布关系中移除"
+        project["entity_review_entities"] = "; ".join(name for name in missing_relation_names if name)
+        project["entity_review_reason_type"] = "entity_relation"
 
 
 def _run_stage_with_retry(run_fn, validate_fn, *, stage: str, max_attempts: int = 2) -> Any:
@@ -108,6 +164,7 @@ def extract_staged(title: str, content: str, date: str, *, llm) -> dict:
             fin = run_s3(title, content, pname, llm=llm)
             if fin:
                 proj.setdefault("common_info", {}).update({k: v for k, v in fin.items() if v not in ("", None)})
+        _apply_entity_publication_gate(proj, unnamed=is_unnamed)
         # ── S5：基于结构化结果生成摘要 + 高置信度枚举自检纠偏 ──
         apply_s5(proj, run_s5(proj, llm=llm))
     return {"analysis": analysis, "status": normalized_status, "projects": projects}

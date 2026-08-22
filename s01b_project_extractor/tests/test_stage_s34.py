@@ -20,14 +20,22 @@ class _StubLLM:
 def test_run_s34_splits_entities_and_finance_and_parses_number():
     # 旧断言：LLM 返回 "中国能建" 并断言归一 → 新实现中非正式简称不在 v2 索引会透传
     # 新断言：LLM 返回 canonical 全称，验证路径2a（集团精确命中 → sub=""）
+    content = "中国能源建设集团有限公司签署纳沃伊光伏项目EPC合同，项目获得银行贷款。"
     llm = _StubLLM({
         "chinese_entities": [{"Implementing Chinese Entity": "中国能源建设集团有限公司",
-                              "Type of involvement of Chinese Entities": "EPC总承包"}],
+                              "Type of involvement of Chinese Entities": "EPC总承包",
+                              "Participation Evidence": [{
+                                  "role": "EPC总承包", "quote": content,
+                                  "project_anchor": "纳沃伊光伏项目",
+                              }]}],
         "Total Project Investment (Million USD)": "1,200",
         "Financing Model": "信贷融资",
+        "Financing Evidence": [{
+            "tool": "credit", "quote": content, "project_anchor": "纳沃伊光伏项目",
+        }],
         "Additional Remarks": "",
     })
-    out = run_s34("t", "c", "项目", "光伏", llm=llm)
+    out = run_s34("t", content, "纳沃伊光伏项目", "光伏", llm=llm)
     assert out["finance"]["Total Project Investment (Million USD)"] == 1200.0
     assert out["finance"]["Financing Model"] == "信贷融资"
     assert out["chinese_entities"][0]["Type of involvement of Chinese Entities"] == "EPC总承包"
@@ -67,7 +75,8 @@ def test_validate_s34_flags_bad_involvement_and_empty_entity():
 
 def test_validate_s34_accepts_clean():
     assert validate_s34({"chinese_entities": [
-        {"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}) == []
+        {"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包",
+         "_participation_evidence_status": "verified"}]}) == []
 
 
 # ── #1 LLM subsidiary 不变量守护（stage 层无条件丢弃 LLM Subsidiary Name）──────

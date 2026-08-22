@@ -66,6 +66,26 @@ def test_run_s2_passes_through_in_scope_false():
     assert "油气" in projs[0]["out_of_scope_reason"]
 
 
+def test_run_s2_repairs_reviewed_company_name_confusables():
+    """项目英文名中的 Hithium/Haisida 和 Tianneng/Tianpeng 不得再次混淆。"""
+    llm = _StubLLM({"projects": [
+        {"common_info": {
+            "Project Name": "马来西亚海四达2.5GWh电池制造项目",
+            "Project Name (EN)": "Malaysia Hithium 2.5GWh Battery Plant",
+            "Category": "新能源制造业",
+        }},
+        {"common_info": {
+            "Project Name": "马来西亚天鹏电源制造项目",
+            "Project Name (EN)": "Malaysia Tianneng Power Manufacturing Project",
+            "Category": "新能源制造业",
+        }},
+    ]})
+    projects = run_s2("t", "c", "2025-01-01", llm=llm)
+    assert "Haisida" in projects[0]["common_info"]["Project Name (EN)"]
+    assert "Tianpeng" in projects[1]["common_info"]["Project Name (EN)"]
+    assert projects[0]["common_info"]["name_en_quality"] == "deterministic_corrected"
+
+
 def test_s2_prompt_tightens_integrated_energy_and_has_in_scope_output():
     """S2 prompt 明确 v2 综合能源口径并要求输出范围判定。"""
     from s01b_project_extractor.prompts.s2_basic import build_s2_prompt

@@ -12,6 +12,7 @@ import glob
 import json
 import logging
 import os
+import re
 import sqlite3
 import sys
 import time
@@ -214,6 +215,49 @@ def _clean(val: Any) -> str:
 def _parse_capacity(val: Any) -> Optional[float]:
     """提取装机容量数值，失败返回 None（复用单一可信源 bri_parse）。"""
     return bri_parse.parse_number(val)
+
+
+_CAPACITY_TOKEN_RE = re.compile(
+    r"(?<![\d.])(\d+(?:\.\d+)?)\s*(?:MW(?:ac|dc|p)?|兆瓦)", re.IGNORECASE
+)
+
+
+def _capacity_values(project: Dict) -> list[float]:
+    """收集项目的代表容量及 AC/DC 明细值，供去重时比较容量口径。"""
+    values: list[float] = []
+    for raw in (project.get("capacity_mw"), project.get("pv_capacity_mw")):
+        parsed = _parse_capacity(raw)
+        if parsed and parsed > 0:
+            values.append(parsed)
+    details = str(project.get("capacity_details") or "")
+    values.extend(float(match) for match in _CAPACITY_TOKEN_RE.findall(details))
+    return list(dict.fromkeys(values))
+
+
+def _capacity_pair_close(
+    a: Dict,
+    b: Dict,
+    tolerance: float,
+    *,
+    minimum_mw: float = 0,
+) -> bool:
+    """任一同口径容量值在阈值内即视为容量可兼容。"""
+    vals_a = [v for v in _capacity_values(a) if v >= minimum_mw]
+    vals_b = [v for v in _capacity_values(b) if v >= minimum_mw]
+    return any(abs(x - y) / max(x, y) <= tolerance for x in vals_a for y in vals_b)
+
+
+def _hard_identity_conflict(a: Dict, b: Dict) -> bool:
+    """地点与开发商同时明显冲突时，确定性阻止自动或传递合并。"""
+    loc_a, loc_b = _norm_location(a), _norm_location(b)
+    loc_conflict = bool(
+        loc_a and loc_b and loc_a not in loc_b and loc_b not in loc_a
+        and fuzz.ratio(loc_a, loc_b) < 60
+    )
+    dev_a = str(a.get("project_developer") or "").strip()
+    dev_b = str(b.get("project_developer") or "").strip()
+    dev_conflict = bool(dev_a and dev_b and fuzz.token_sort_ratio(dev_a, dev_b) < 45)
+    return loc_conflict and dev_conflict
 
 
 def _decode_generation_sources(raw: object) -> tuple[str, ...]:
@@ -901,15 +945,11 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
                 # 跨类别救援仅接受极强名称，或中强名称叠加同地点与相近容量。
                 if a.get("category") != b.get("category"):
                     loc_a, loc_b = _norm_location(a), _norm_location(b)
-                    cap_a = _parse_capacity(a.get("capacity_mw"))
-                    cap_b = _parse_capacity(b.get("capacity_mw"))
                     anchored = (
                         best_score >= CANONICAL_LLM_MIN_SCORE
                         and loc_a
                         and loc_a == loc_b
-                        and cap_a
-                        and cap_b
-                        and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_BROAD_TOLERANCE
+                        and _capacity_pair_close(a, b, CAPACITY_BROAD_TOLERANCE)
                     )
                     if best_score < CANONICAL_AUTO_MATCH_SCORE and not anchored:
                         continue
@@ -927,13 +967,8 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
                 # 无法通过 Signals 1-3，改用精确容量匹配作为触发条件
                 cross_lang_boost = False
                 if not name_ok and not entity_boost:
-                    cap_a = _parse_capacity(a.get("capacity_mw"))
-                    cap_b = _parse_capacity(b.get("capacity_mw"))
-                    if (
-                        cap_a and cap_b
-                        and cap_a >= CAPACITY_MIN_MW
-                        and cap_b >= CAPACITY_MIN_MW
-                        and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_EXACT_TOLERANCE
+                    if _capacity_pair_close(
+                        a, b, CAPACITY_EXACT_TOLERANCE, minimum_mw=CAPACITY_MIN_MW
                     ):
                         cross_lang_boost = True
 
@@ -942,13 +977,8 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
                 broad_llm_boost = False
                 if not name_ok and not entity_boost and not cross_lang_boost:
                     if best_score >= BROAD_LLM_SCORE:
-                        cap_a = _parse_capacity(a.get("capacity_mw"))
-                        cap_b = _parse_capacity(b.get("capacity_mw"))
-                        capacity_close = (
-                            cap_a and cap_b
-                            and cap_a >= CAPACITY_MIN_MW
-                            and cap_b >= CAPACITY_MIN_MW
-                            and abs(cap_a - cap_b) / max(cap_a, cap_b) <= CAPACITY_BROAD_TOLERANCE
+                        capacity_close = _capacity_pair_close(
+                            a, b, CAPACITY_BROAD_TOLERANCE, minimum_mw=CAPACITY_MIN_MW
                         )
                         if _entity_overlap(a, b) or capacity_close:
                             broad_llm_boost = True
@@ -964,13 +994,11 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
                 if not name_ok and not entity_boost and not cross_lang_boost and not broad_llm_boost:
                     loc_a, loc_b = _norm_location(a), _norm_location(b)
                     if loc_a and len(loc_a) >= 2 and loc_a == loc_b:
-                        cap_a = _parse_capacity(a.get("capacity_mw"))
-                        cap_b = _parse_capacity(b.get("capacity_mw"))
-                        if (
-                            cap_a and cap_b
-                            and cap_a >= LOCATION_ANCHOR_MIN_MW
-                            and cap_b >= LOCATION_ANCHOR_MIN_MW
-                            and abs(cap_a - cap_b) / max(cap_a, cap_b) <= LOCATION_ANCHOR_CAP_TOLERANCE
+                        if _capacity_pair_close(
+                            a,
+                            b,
+                            LOCATION_ANCHOR_CAP_TOLERANCE,
+                            minimum_mw=LOCATION_ANCHOR_MIN_MW,
                         ):
                             location_boost = True
                             print(
@@ -984,10 +1012,8 @@ def _find_duplicate_candidates(projects: List[Dict]) -> List[Tuple[int, int, flo
 
                 # ── 容量检查（名称高度相似时豁免；Signal 4/5/6 路径已验证容量）
                 if not cross_lang_boost and not broad_llm_boost and not location_boost and best_score < CAPACITY_BYPASS_SCORE:
-                    cap_a = _parse_capacity(a["capacity_mw"])
-                    cap_b = _parse_capacity(b["capacity_mw"])
-                    if cap_a and cap_b and cap_a > 0 and cap_b > 0:
-                        if abs(cap_a - cap_b) / max(cap_a, cap_b) > CAPACITY_TOLERANCE:
+                    if _capacity_values(a) and _capacity_values(b):
+                        if not _capacity_pair_close(a, b, CAPACITY_TOLERANCE):
                             continue
 
                 candidates.append((i, j, best_score))
@@ -1034,6 +1060,44 @@ def _fmt_entities(project: Dict) -> str:
     return "、".join(ents) if ents else "未知"
 
 
+_DEDUP_DECISION_RULES = """判断依据（按优先级）：
+1. 必须至少存在一个项目身份锚点：相同专名、项目公司/开发商、精确场址/项目用地，或信源明确说明是同一物理工程；同国、同省、容量相同/相近或同篇报道本身均不足以合并。
+2. 项目公司、开发商或具体场址明显冲突时不匹配；同一电站的不同建设期（Phase I/II 等）也不得合并。
+3. AC/DC 或 MWac/MWp 是同一光伏项目的不同容量口径，不因数值差异直接拆分；其他无法解释的容量差异大于 10% 时倾向不匹配。
+4. 签约、开工、竣工和投运可以是同一项目生命周期的不同事件；名称的简称、全称、中英混用和通用后缀差异不单独构成拆分依据。
+5. 同一仪式、框架协议、合作伙伴或部分地点重叠不等于同一项目；项目数量、总容量或地域组合不同的项目包应判 partial_overlap，不得合并。"""
+
+_DEDUP_RELATIONSHIPS = {
+    "exact_duplicate",
+    "same_project_different_event",
+    "partial_overlap",
+    "distinct",
+}
+_PROJECT_PACKAGE_RE = re.compile(
+    r"\d+\s*座|项目包|项目组合|一揽子|一批项目|portfolio|cluster|multiple projects|several projects",
+    re.IGNORECASE,
+)
+
+
+def _parse_dedup_relationship(result: dict) -> str:
+    """解析四态去重结论，并兼容旧版 same_project 布尔输出。"""
+    relationship = str(result.get("relationship", "") or "").strip()
+    if relationship in _DEDUP_RELATIONSHIPS:
+        return relationship
+    if result.get("same_project") is True:
+        return "same_project_different_event"
+    return "distinct"
+
+
+def _looks_like_project_package(project: Dict) -> bool:
+    """识别需跳过高分自动合并、交由四态判断的多项目包表述。"""
+    surface = " ".join(
+        str(project.get(key, "") or "")
+        for key in ("project_name", "project_name_en", "capacity_details", "project_summary")
+    )
+    return bool(_PROJECT_PACKAGE_RE.search(surface))
+
+
 def _llm_confirm_raising(
     client: genai.Client,
     config: types.GenerateContentConfig,
@@ -1051,9 +1115,11 @@ def _llm_confirm_raising(
 - 项目名称（英）：{a.get('project_name_en', '—')}
 - 国家：{a['country']}，省/地区/城市：{a['location'] or '未知'}
 - 能源类型：{a['category']}，装机容量：{a['capacity_mw'] or '未知'} MW
+- 容量明细：{a.get('capacity_details') or '未知'}
 - 项目阶段：{a['project_stage']}
 - 项目开发商：{a.get('project_developer') or '未知'}
 - 中方实体：{_fmt_entities(a)}
+- 项目摘要：{a.get('project_summary') or '未知'}
 - 信源：{src_a}
 
 记录B：
@@ -1061,23 +1127,17 @@ def _llm_confirm_raising(
 - 项目名称（英）：{b.get('project_name_en', '—')}
 - 国家：{b['country']}，省/地区/城市：{b['location'] or '未知'}
 - 能源类型：{b['category']}，装机容量：{b['capacity_mw'] or '未知'} MW
+- 容量明细：{b.get('capacity_details') or '未知'}
 - 项目阶段：{b['project_stage']}
 - 项目开发商：{b.get('project_developer') or '未知'}
 - 中方实体：{_fmt_entities(b)}
+- 项目摘要：{b.get('project_summary') or '未知'}
 - 信源：{src_b}
 
-判断依据（按优先级）：
-1. 如果两个项目均没有“location”和“capacity_mw”信息 → 不匹配
-2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
-    2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
-3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
-4. 装机容量差异较大（>10%）→ 倾向不匹配
-5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略“项目”“电站”等后缀）而不同，不应视为不同项目的依据
-6. 两条记录的项目阶段（指签约/开工/竣工/投运等生命周期事件）不同，不构成“不是同一项目”的依据；但若两条记录明确属于不同建设期（如一期 vs 二期），则按第 7 条处理
-7. 【重要】同一电站的不同建设期（一期/二期/三期、Phase I/II/III、first/second phase 等）属于不同物理项目，**不得合并**；但同一期的不同写法（如"XX光伏电站一期"与"XX一期光伏项目"）仍视为同一项目
+{_DEDUP_DECISION_RULES}
 
 严格返回 JSON（无其他内容）：
-{{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
+{{"relationship": "exact_duplicate|same_project_different_event|partial_overlap|distinct", "confidence": "high|medium|low", "reasoning": "一句话理由"}}
     """
     resp = _llm_call_with_retry(
         client.models.generate_content,
@@ -1086,9 +1146,12 @@ def _llm_confirm_raising(
     result = json.loads(resp.text)
     if isinstance(result, list):
         result = result[0]
-    if result.get("same_project") is True and result.get("confidence") != "low":
+    relationship = _parse_dedup_relationship(result)
+    if relationship == "partial_overlap":
+        logger.warning("去重候选为 partial_overlap，不合并并保留人工复核线索: %s", result.get("reasoning", ""))
+    if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") != "low":
         return True
-    if result.get("same_project") is True and result.get("confidence") == "low":
+    if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") == "low":
         print(f"    → [低置信度，不合并] {result.get('reasoning', '')}")
     return False
 
@@ -1116,6 +1179,9 @@ def _llm_confirm_canonical(
     db_name_en: str,
     db_location: str,
     db_capacity: str,
+    db_capacity_details: str = "",
+    db_developer: str = "",
+    db_entities: str = "",
 ) -> bool:
     """调用 Gemini 确认新记录是否与库中已有 canonical project 为同一物理项目。"""
     prompt = f"""
@@ -1126,28 +1192,26 @@ def _llm_confirm_canonical(
 - 项目名称（英）：{project.get('project_name_en', '—')}
 - 国家：{project['country']}，省/地区/城市：{project['location'] or '未知'}
 - 能源类型：{project['category']}，装机容量：{project['capacity_mw'] or '未知'} MW
+- 容量明细：{project.get('capacity_details') or '未知'}
 - 项目阶段：{project['project_stage']}
 - 项目开发商：{project.get('project_developer') or '未知'}
 - 中方实体：{_fmt_entities(project)}
+- 项目摘要：{project.get('project_summary') or '未知'}
 
 库中已有项目（ID: {db_id}）：
 - 项目名称（中）：{db_name}
 - 项目名称（英）：{db_name_en or '—'}
 - 国家：{project['country']}，省/地区/城市：{db_location or '未知'}
 - 能源类型：{project['category']}，装机容量（代表值）：{db_capacity or '未知'} MW
+- 容量明细：{db_capacity_details or '未知'}
+- 项目开发商：{db_developer or '未知'}
+- 中方实体：{db_entities or '未知'}
 
-判断依据（按优先级）：
-1. 如果两个项目均没有“location”和“capacity_mw”信息 → 不匹配
-2. 省/地区、能源类型、装机容量均一致 → 倾向匹配
-    2.1 比较省/地区/城市时，需要注意两个名称不同的location是否位于同一省/地区/城市，如相同则倾向匹配
-3. 项目开发商明显不同（非同一企业或集团）→ 倾向不匹配
-4. 装机容量差异较大（>10%）→ 倾向不匹配
-5. 项目名称仅因来源表述差异（简称/全称/中英混用/省略"项目""电站"等后缀）而不同，不应视为不同项目的依据
-6. 【重要】同一电站的不同建设期（一期/二期/三期、Phase I/II/III、first/second phase 等）属于不同物理项目，**不得合并**；但同一期的不同写法（如"XX光伏电站一期"与"XX一期光伏项目"）仍视为同一项目
+{_DEDUP_DECISION_RULES}
 
 
 严格返回 JSON（无其他内容）：
-{{"same_project": true或false, "confidence": "high/medium/low", "reasoning": "一句话理由"}}
+{{"relationship": "exact_duplicate|same_project_different_event|partial_overlap|distinct", "confidence": "high|medium|low", "reasoning": "一句话理由"}}
     """
     try:
         resp = _llm_call_with_retry(
@@ -1157,9 +1221,12 @@ def _llm_confirm_canonical(
         result = json.loads(resp.text)
         if isinstance(result, list):
             result = result[0]
-        if result.get("same_project") is True and result.get("confidence") != "low":
+        relationship = _parse_dedup_relationship(result)
+        if relationship == "partial_overlap":
+            logger.warning("canonical 候选为 partial_overlap，不合并: %s", result.get("reasoning", ""))
+        if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") != "low":
             return True
-        if result.get("same_project") is True and result.get("confidence") == "low":
+        if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") == "low":
             print(f"    → [低置信度，不匹配] {result.get('reasoning', '')}")
         return False
     except Exception as e:
@@ -1373,13 +1440,24 @@ def _deduplicate_projects(
     auto_pairs: List[Tuple[int, int]] = []
     llm_pairs: List[Tuple[int, int]] = []
     for i, j, best_score in candidates:
-        if best_score >= CANONICAL_AUTO_MATCH_SCORE:
+        cn_score = fuzz.token_sort_ratio(
+            projects[i].get("project_name", ""),
+            projects[j].get("project_name", ""),
+        )
+        package_candidate = _looks_like_project_package(projects[i]) or _looks_like_project_package(projects[j])
+        if best_score >= CANONICAL_AUTO_MATCH_SCORE and cn_score >= CANONICAL_AUTO_MATCH_SCORE and not package_candidate:
             auto_pairs.append((i, j))
         else:
             llm_pairs.append((i, j))
 
     for i, j in auto_pairs:
         a, b = projects[i], projects[j]
+        if _hard_identity_conflict(a, b):
+            print(
+                f"  [身份冲突，不合并] [{a['project_name'][:25]}] vs "
+                f"[{b['project_name'][:25]}]"
+            )
+            continue
         print(
             f"  [高分自动确认 score={score_map[(i, j)]:.0f}] "
             f"[{a['project_name'][:25]}] vs [{b['project_name'][:25]}]"
@@ -1389,7 +1467,7 @@ def _deduplicate_projects(
     if llm_pairs:
         verdicts = _confirm_llm_pairs(client, config, projects, llm_pairs, cache_db)
         for (pi, pj), same in verdicts.items():
-            if same:
+            if same and not _hard_identity_conflict(projects[pi], projects[pj]):
                 union(pi, pj)
 
     groups: Dict[int, List[int]] = defaultdict(list)
@@ -1437,7 +1515,7 @@ def _capacity_guard(
 
     # capacity_mw 现为 REAL，直接取数值列；代表容量优先取终态事件
     row = conn.execute(
-        f"""SELECT capacity_mw FROM project_events
+        f"""SELECT capacity_mw, capacity_details FROM project_events
            WHERE canonical_id = ? AND capacity_mw IS NOT NULL
            ORDER BY {_stage_order_sql('project_stage')} DESC
            LIMIT 1""",
@@ -1449,8 +1527,10 @@ def _capacity_guard(
     cap_db = _parse_capacity(row[0])
     if not cap_db or cap_db <= 0:
         return False
-
-    return abs(cap_new - cap_db) / max(cap_new, cap_db) > CANONICAL_CAP_GUARD_TOLERANCE
+    existing = {"capacity_mw": cap_db, "capacity_details": row[1] or ""}
+    return not _capacity_pair_close(
+        project, existing, CANONICAL_CAP_GUARD_TOLERANCE
+    )
 
 
 def _create_canonical(
@@ -1532,8 +1612,11 @@ def _find_or_create_canonical(
 
     best_id: Optional[str] = None
     best_score = 0
+    best_cn_score = 0
+    best_location = ""
     for row_id, row_name, row_name_en, _row_loc in rows:
-        score = fuzz.token_sort_ratio(name, row_name or "")
+        cn_score = fuzz.token_sort_ratio(name, row_name or "")
+        score = cn_score
         if incoming_en and row_name:
             score = max(score, fuzz.token_sort_ratio(incoming_en, row_name))
         if incoming_en and row_name_en:
@@ -1542,7 +1625,7 @@ def _find_or_create_canonical(
             score = max(score, fuzz.token_sort_ratio(name, row_name_en))
         # 收集满足 LLM 最低阈值的最高分候选（兼容降级模式）
         if score >= CANONICAL_LLM_MIN_SCORE and score > best_score:
-            best_id, best_score = row_id, score
+            best_id, best_score, best_cn_score, best_location = row_id, score, cn_score, (_row_loc or "")
 
     # ── P3b 地点辅助：名称分不足 70 时，同规范地名 + 容量守卫通过 → 仍送 LLM 确认 ──
     # 覆盖跨批次音译变体/异名同项目（名称分可能 <20，加权救不回，走独立通道）
@@ -1555,11 +1638,26 @@ def _find_or_create_canonical(
             if not _capacity_guard(conn, cand[0], project):
                 best_id = cand[0]
                 best_score = fuzz.token_sort_ratio(name, cand[1] or "")
+                best_cn_score = best_score
                 loc_assist = True
                 print(f"  [地点辅助] {best_id} 同规范地名「{incoming_loc}」，降门槛送 LLM (score={best_score})")
 
     if best_id:
-        if best_score >= CANONICAL_AUTO_MATCH_SCORE and not loc_assist:
+        incoming_loc_for_guard = _norm_location(project)
+        location_conflict = bool(
+            incoming_loc_for_guard
+            and best_location
+            and incoming_loc_for_guard not in best_location
+            and best_location not in incoming_loc_for_guard
+            and fuzz.ratio(incoming_loc_for_guard, best_location) < 60
+        )
+        if (
+            best_score >= CANONICAL_AUTO_MATCH_SCORE
+            and best_cn_score >= CANONICAL_AUTO_MATCH_SCORE
+            and not _looks_like_project_package(project)
+            and not loc_assist
+            and not location_conflict
+        ):
             if _capacity_guard(conn, best_id, project) and client is not None:
                 # 容量差异大，高分名称不足以自动匹配 → 降级 LLM 确认
                 print(
@@ -1583,26 +1681,43 @@ def _find_or_create_canonical(
                            WHERE pe.canonical_id = cp.id
                              AND pe.capacity_mw IS NOT NULL
                            ORDER BY {_stage_order_sql('pe.project_stage')} DESC
-                           LIMIT 1) AS capacity_mw
+                           LIMIT 1) AS capacity_mw,
+                          (SELECT pe.capacity_details FROM project_events pe
+                           WHERE pe.canonical_id = cp.id
+                           ORDER BY {_stage_order_sql('pe.project_stage')} DESC
+                           LIMIT 1) AS capacity_details,
+                          (SELECT pe.project_developer FROM project_events pe
+                           WHERE pe.canonical_id = cp.id
+                             AND COALESCE(pe.project_developer, '') <> ''
+                           ORDER BY {_stage_order_sql('pe.project_stage')} DESC
+                           LIMIT 1) AS project_developer,
+                          (SELECT GROUP_CONCAT(DISTINCT ce.implementing_entity)
+                           FROM chinese_entities ce
+                           WHERE ce.event_id IN (
+                             SELECT pe2.id FROM project_events pe2
+                             WHERE pe2.canonical_id = cp.id
+                           )) AS entities
                    FROM canonical_projects cp
                    WHERE cp.id = ?""",
                 (best_id,),
             ).fetchone()
-            db_name, db_name_en, db_location, db_capacity = (
-                db_row if db_row else ("", "", "", "")
+            (db_name, db_name_en, db_location, db_capacity,
+             db_capacity_details, db_developer, db_entities) = (
+                db_row if db_row else ("", "", "", "", "", "", "")
             )
             confirmed = _llm_confirm_canonical(
                 client, config, project,
                 best_id,
                 db_name or "", db_name_en or "",
                 db_location or "", db_capacity or "",
+                db_capacity_details or "", db_developer or "", db_entities or "",
             )
             if confirmed:
                 print(f"    → LLM 确认匹配 {best_id}")
                 return best_id, False
             else:
                 print(f"    → LLM 判断为不同项目，新建 canonical")
-        elif best_id and best_score >= FUZZY_THRESHOLD:
+        elif best_id and best_score >= FUZZY_THRESHOLD and not location_conflict:
             # 无 LLM 降级模式：保持原有 ≥ 85 自动匹配行为
             return best_id, False
 

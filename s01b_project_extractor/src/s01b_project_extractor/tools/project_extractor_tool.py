@@ -870,6 +870,7 @@ class ProjectExtractorTool:
 
         valid_rows, no_chinese_rows, discarded_rows, all_ai_results = [], [], [], []
         unnamed_review_links: list[str] = []  # source_link of chinese_unnamed articles for review_queue
+        entity_review_items: dict[tuple[str, str], dict] = {}
         total = len(df)
         print(f"开始处理 {total} 条数据（并发 {max_workers} 线程）...")
 
@@ -989,7 +990,7 @@ class ProjectExtractorTool:
                         "Record Type": _normalize_record_type(common.get("Record Type")),
                         "Project Name": common.get("Project Name", ""),
                         "Project Name (EN)": common.get("Project Name (EN)", ""),
-                        "Name EN Quality": "ai_translated",
+                        "Name EN Quality": common.get("name_en_quality", "ai_translated"),
                         "Country": country_name,
                         "Country ISO": meta["iso"],
                         "BRI country": meta["bri"],
@@ -1070,14 +1071,28 @@ class ProjectExtractorTool:
                         "Non-official website link": "",
                         "Additional Remarks": "",
                         "Project Summary": project_summary,
-                        # ── exclude 出口（来自 S2 的 in_scope 判定）──
-                        "_excluded": 0 if proj.get("in_scope", True) else 1,
-                        "_exclude_reason": "" if proj.get("in_scope", True) else str(proj.get("out_of_scope_reason", "")),
-                        "_exclude_source": "" if proj.get("in_scope", True) else "extraction",
+                        # ── exclude 出口：能源范围与中企身份门禁任一失败均不得自动发布 ──
+                        "_excluded": int(
+                            not proj.get("in_scope", True) or proj.get("entity_gate_excluded", False)
+                        ),
+                        "_exclude_reason": (
+                            str(proj.get("out_of_scope_reason", ""))
+                            if not proj.get("in_scope", True)
+                            else str(proj.get("entity_review_reason", ""))
+                        ),
+                        "_exclude_source": (
+                            "extraction" if not proj.get("in_scope", True)
+                            else ("entity_verification" if proj.get("entity_gate_excluded", False) else "")
+                        ),
+                        "_needs_review": int(bool(proj.get("needs_review", False))),
+                        "_entity_review_entities": str(proj.get("entity_review_entities", "")),
+                        "_entity_review_reason_type": str(
+                            proj.get("entity_review_reason_type", "entity_identity")
+                        ),
                     }
 
                     # ── Layer 0 确定性非能源兜底：LLM 判定不作数，命中即强制排除（2026-07-02 审计治本）──
-                    if not base["_excluded"]:
+                    if not base["_excluded"] or base.get("_exclude_source") == "entity_verification":
                         _guard_reason = check_nonenergy(
                             base["Project Name"], project_summary, base["Category"],
                             base["Capacity (MW)"], base["Capacity Details"],
@@ -1155,7 +1170,7 @@ class ProjectExtractorTool:
                         "Record Type": _normalize_record_type(common.get("Record Type")),
                         "Project Name": common.get("Project Name", ""),
                         "Project Name (EN)": common.get("Project Name (EN)", ""),
-                        "Name EN Quality": "ai_translated",
+                        "Name EN Quality": common.get("name_en_quality", "ai_translated"),
                         "Country": country_name,
                         "Country ISO": meta["iso"],
                         "BRI country": meta["bri"],
@@ -1236,14 +1251,25 @@ class ProjectExtractorTool:
                         "Project Summary": project_summary,
                         # 占位实体标记（写库时用于设置 is_unnamed_placeholder=1）
                         "_is_unnamed_placeholder": True,
-                        # ── exclude 出口（来自 S2 的 in_scope 判定；此前 unnamed 分支缺失，导致 in_scope=false 被静默丢弃）──
-                        "_excluded": 0 if proj.get("in_scope", True) else 1,
-                        "_exclude_reason": "" if proj.get("in_scope", True) else str(proj.get("out_of_scope_reason", "")),
-                        "_exclude_source": "" if proj.get("in_scope", True) else "extraction",
+                        # ── exclude 出口：未具名中企必须进入复核，不得自动发布 ──
+                        "_excluded": 1,
+                        "_exclude_reason": (
+                            str(proj.get("out_of_scope_reason", ""))
+                            if not proj.get("in_scope", True)
+                            else str(
+                                proj.get("entity_review_reason", "")
+                                or "原文明示中企参与但未具名，待人工复核"
+                            )
+                        ),
+                        "_exclude_source": (
+                            "extraction" if not proj.get("in_scope", True)
+                            else "entity_verification"
+                        ),
+                        "_needs_review": 1,
                     }
 
                     # ── Layer 0 确定性非能源兜底：LLM 判定不作数，命中即强制排除（2026-07-02 审计治本）──
-                    if not base["_excluded"]:
+                    if not base["_excluded"] or base.get("_exclude_source") == "entity_verification":
                         _guard_reason = check_nonenergy(
                             base["Project Name"], project_summary, base["Category"],
                             base["Capacity (MW)"], base["Capacity Details"],
@@ -1457,7 +1483,8 @@ class ProjectExtractorTool:
                        storage_power_mw_raw=?, storage_energy_mwh_raw=?, energy_composition_evidence=?,
                        voltage_kv_raw=?, voltage_kv=?, line_length_km_raw=?, line_length_km=?,
                        transmission_capacity_mw_raw=?, transmission_capacity_mw=?,
-                       production_capacity_raw=?, production_capacity_value=?, production_capacity_unit=?
+                       production_capacity_raw=?, production_capacity_value=?, production_capacity_unit=?,
+                       needs_review=?
                        WHERE id=?""",
                     (
                         row_data.get("_generation_sources_json", "[]"),
@@ -1474,9 +1501,24 @@ class ProjectExtractorTool:
                         row_data.get("_production_capacity_raw") or None,
                         row_data.get("_production_capacity_value"),
                         row_data.get("_production_capacity_unit"),
+                        int(row_data.get("_needs_review", 0)),
                         cursor.lastrowid,
                     ),
                 )
+                if row_data.get("_needs_review") and not row_data.get("_is_unnamed_placeholder"):
+                    review_key = (
+                        str(row_data.get("Source Link", "")),
+                        str(row_data.get("Project Name", "")),
+                    )
+                    entity_review_items.setdefault(review_key, {
+                        "canonical_id": str(cursor.lastrowid),
+                        "source_link": review_key[0],
+                        "reason_type": row_data.get("_entity_review_reason_type") or "entity_identity",
+                        "current_value": row_data.get("_entity_review_entities") or row_data.get(
+                            "Implementing Chinese Entity", ""
+                        ),
+                        "evidence": row_data.get("_exclude_reason", ""),
+                    })
             proj_conn.commit()
 
             global _last_batch_id
@@ -1523,24 +1565,43 @@ class ProjectExtractorTool:
                     logger.error("写入 discarded_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
             review_conn.commit()
 
-            # 写入 review_queue → chinese_unnamed 条目（待人工补录公司名）
-            if unnamed_review_links:
+            # 写入 review_queue：未具名与登记表未命中条目在单个事务中批量入队。
+            queue_items = [
+                {
+                    "canonical_id": None,
+                    "source_link": link,
+                    "reason_type": "unnamed_entity",
+                    "field": None,
+                    "current_value": None,
+                    "suggested_value": None,
+                    "critic_confidence": None,
+                    "evidence": "S1 判 chinese_unnamed，待补公司名",
+                }
+                for link in unnamed_review_links
+            ]
+            queue_items.extend(
+                {
+                    "canonical_id": item["canonical_id"],
+                    "source_link": item["source_link"],
+                    "reason_type": item["reason_type"],
+                    "field": (
+                        "involvement_type"
+                        if item["reason_type"] == "entity_relation"
+                        else "implementing_entity"
+                    ),
+                    "current_value": item["current_value"],
+                    "suggested_value": None,
+                    "critic_confidence": None,
+                    "evidence": item["evidence"],
+                }
+                for item in entity_review_items.values()
+            )
+            if queue_items:
                 review_queue.init_queue(review_db_path)  # 幂等建表
-                for link in unnamed_review_links:
-                    try:
-                        review_queue.add_item(
-                            review_db_path,
-                            canonical_id=None,
-                            source_link=link,
-                            reason_type="unnamed_entity",
-                            field=None,
-                            current_value=None,
-                            suggested_value=None,
-                            critic_confidence=None,
-                            evidence="S1 判 chinese_unnamed，待补公司名",
-                        )
-                    except (sqlite3.Error, ValueError) as e:
-                        logger.error("写入 review_queue 失败（已跳过）: %s | link=%s", e, link)
+                try:
+                    review_queue.add_items(review_db_path, queue_items)
+                except (sqlite3.Error, ValueError) as e:
+                    logger.error("批量写入 review_queue 失败（整批未写入）: %s", e)
         except Exception as e:
             fallback_path = _dump_failed_parse_results(str(e))
             raise RuntimeError(

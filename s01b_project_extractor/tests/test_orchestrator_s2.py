@@ -17,15 +17,27 @@ class _ScriptedLLM:
 
 def test_valid_uses_s2_then_s4_no_legacy(monkeypatch):
     monkeypatch.delenv("S01B_MERGE_S34", raising=False)  # 固定走 S3/S4 分开路径，使测试 hermetic
+    content = "中国能源建设集团有限公司签署肯尼亚光伏项目EPC合同，肯尼亚光伏项目获得银行贷款。"
     llm = _ScriptedLLM({
         "s1": {"status": "valid_project", "reasoning": "ok"},
         "s2": {"projects": [{"common_info": {"Project Name": "肯尼亚光伏项目", "Category": "光伏", "Project Stage": "在建"}}]},
         # 使用 v2 hierarchy 中的精确 canonical 名（旧测试用非正式简称"中国能建"，v2 中不在索引，会透传）
-        "s4": {"chinese_entities": [{"Implementing Chinese Entity": "中国能源建设集团有限公司", "Type of involvement of Chinese Entities": "EPC总承包"}]},
-        "s3": {"Financing Model": "信贷融资"},
+        "s4": {"chinese_entities": [{
+            "Implementing Chinese Entity": "中国能源建设集团有限公司",
+            "Type of involvement of Chinese Entities": "EPC总承包",
+            "Participation Evidence": [{
+                "role": "EPC总承包", "quote": content, "project_anchor": "肯尼亚光伏项目",
+            }],
+        }]},
+        "s3": {
+            "Financing Model": "信贷融资",
+            "Financing Evidence": [{
+                "tool": "credit", "quote": content, "project_anchor": "肯尼亚光伏项目",
+            }],
+        },
         "s5": {"project_summary": "肯尼亚光伏项目摘要", "corrections": []},
     })
-    out = extract_staged("t", "c", "2025-01-01", llm=llm)
+    out = extract_staged("t", content, "2025-01-01", llm=llm)
     assert out["status"] == "valid_project"
     assert "legacy_single" not in llm.stages
     assert llm.stages[:2] == ["s1", "s2"] and "s4" in llm.stages and "s3" in llm.stages and "s5" in llm.stages

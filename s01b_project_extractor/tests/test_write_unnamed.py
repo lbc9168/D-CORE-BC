@@ -79,6 +79,9 @@ def test_chinese_unnamed_writes_placeholder_entity(tmp_dbs):
     assert row["implementing_entity"] == "未具名中企", f"实际值: {row['implementing_entity']}"
     assert row["is_unnamed_placeholder"] == 1, f"is_unnamed_placeholder 应为1，实际: {row.get('is_unnamed_placeholder')}"
     assert row["project_name"] == "某国光伏项目"
+    assert row["excluded"] == 1
+    assert row["exclude_source"] == "entity_verification"
+    assert row["needs_review"] == 1
 
 
 def test_chinese_unnamed_enqueues_review_item(tmp_dbs):

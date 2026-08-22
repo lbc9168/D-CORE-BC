@@ -30,10 +30,16 @@ def _run(monkeypatch, tmp_path, status, proj):
                      review_db_path=str(tmp_path / "review.db"))
     conn = sqlite3.connect(pdb)
     row = conn.execute(
-        "SELECT excluded, exclude_source, exclude_reason, capacity_mw FROM extracted_projects"
+        "SELECT excluded, exclude_source, exclude_reason, capacity_mw, needs_review FROM extracted_projects"
     ).fetchone()
     conn.close()
-    return row
+    review_conn = sqlite3.connect(tmp_path / "review.db")
+    has_queue = review_conn.execute(
+        "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='review_queue'"
+    ).fetchone()[0]
+    review_count = review_conn.execute("SELECT COUNT(*) FROM review_queue").fetchone()[0] if has_queue else 0
+    review_conn.close()
+    return (*row, review_count)
 
 
 def test_valid_nonenergy_forced_excluded(tmp_path, monkeypatch, _patch_side_effects):
@@ -62,6 +68,24 @@ def test_valid_legit_energy_not_touched(tmp_path, monkeypatch, _patch_side_effec
                               "Type of involvement of Chinese Entities": "EPC总承包"}],
     })
     assert row[0] == 0
+
+
+def test_unmatched_entity_gate_is_persisted_as_review_only(tmp_path, monkeypatch, _patch_side_effects):
+    """编排器给出的未命中门禁必须写成 excluded=1、needs_review=1。"""
+    row = _run(monkeypatch, tmp_path, "valid_project", {
+        "project_summary": "", "in_scope": True, "out_of_scope_reason": "",
+        "entity_gate_excluded": True, "needs_review": True,
+        "entity_review_reason": "中企名称未命中受控登记表，待人工复核",
+        "common_info": {"Project Name": "马来西亚某光伏项目", "Category": "光伏",
+                        "Capacity (MW)": "30MW", "Capacity Details": "",
+                        "Country": "马来西亚", "Project Stage": "在建"},
+        "chinese_entities": [{"Implementing Chinese Entity": "某未登记企业",
+                              "Type of involvement of Chinese Entities": "Unknown"}],
+    })
+    assert row[0] == 1
+    assert row[1] == "entity_verification"
+    assert row[4] == 1
+    assert row[5] == 1
 
 
 def test_unnamed_in_scope_false_now_excluded(tmp_path, monkeypatch, _patch_side_effects):

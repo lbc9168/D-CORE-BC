@@ -35,16 +35,32 @@ def test_s1_no_chinese_short_circuits():
 
 def test_s1_valid_continues_to_s2_s4(monkeypatch):
     monkeypatch.delenv("S01B_MERGE_S34", raising=False)  # 固定走 S3/S4 分开路径，使测试 hermetic
+    content = "中国能建以EPC总承包方式建设测试项目；银行向测试项目提供银团贷款。"
     s2_payload = {"projects": [{"project_summary": "s", "common_info": {"Project Name": "测试项目", "Category": "光伏", "Project Stage": "在建"}}]}
-    s4_payload = {"chinese_entities": [{"Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "EPC总承包"}]}
-    s3_payload = {"Financing Model": "信贷融资"}
+    s4_payload = {"chinese_entities": [{
+        "Implementing Chinese Entity": "中国能建",
+        "Type of involvement of Chinese Entities": "EPC总承包",
+        "Participation Evidence": [{
+            "role": "EPC总承包",
+            "quote": "中国能建以EPC总承包方式建设测试项目",
+            "project_anchor": "测试项目",
+        }],
+    }]}
+    s3_payload = {
+        "Financing Model": "信贷融资",
+        "Financing Evidence": [{
+            "tool": "credit",
+            "quote": "银行向测试项目提供银团贷款",
+            "project_anchor": "测试项目",
+        }],
+    }
     s5_payload = {"project_summary": "测试摘要", "corrections": []}
     llm = _ScriptedLLM({"s1": {"status": "valid_project", "reasoning": "ok", "project_subject": "P"},
                         "s2": s2_payload,
                         "s4": s4_payload,
                         "s3": s3_payload,
                         "s5": s5_payload})
-    out = extract_staged("t", "c", "2025-01-01", llm=llm)
+    out = extract_staged("测试项目进展", content, "2025-01-01", llm=llm)
     assert out["status"] == "valid_project"
     assert llm.stages == ["s1", "s2", "s4", "s3", "s5"]
     assert len(out["projects"]) == 1

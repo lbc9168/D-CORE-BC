@@ -14,6 +14,7 @@
 
 import json
 import os
+import re
 import time
 from pathlib import Path
 from typing import Optional
@@ -25,6 +26,18 @@ from s03_data_exporter.admin1_lookup import build_admin1_dict
 
 GEMINI_MODEL = "gemini-2.5-flash-lite"
 BATCH_SIZE = 30  # 每次 API 调用处理的项目数
+
+
+def _cache_location_key(record: dict) -> str:
+    """以国家和规范化 location 构造省份缓存键，避免 canonical ID 重用串值。"""
+    iso = str(record.get("country_iso") or "UNK").strip().upper()
+    location = re.sub(r"[\s,，;；·._-]+", "", str(record.get("location") or "").strip()).casefold()
+    return f"location::{iso}::{location}"
+
+
+def _cache_fingerprint_key(project_id: str) -> str:
+    """构造项目 ID 对应位置指纹的审计键。"""
+    return f"fingerprint::{project_id}"
 
 
 def _load_cache(cache_path: Path) -> dict:
@@ -62,14 +75,25 @@ def extract_provinces(
     for rec in records:
         pid = rec["project_id"]
         loc = (rec.get("location") or "").strip()
+        location_key = _cache_location_key(rec)
+        fingerprint_key = _cache_fingerprint_key(pid)
         if not loc:
             result[pid] = None
-        elif pid in cache:
+        elif location_key in cache:
+            result[pid] = cache[location_key]
+            cache[fingerprint_key] = location_key
+        elif pid in cache and (
+            fingerprint_key not in cache or cache.get(fingerprint_key) == location_key
+        ):
+            # 旧缓存一次性迁移：当前数据已经过人工修正；迁移后 ID/位置不一致会失效。
             result[pid] = cache[pid]
+            cache[location_key] = cache[pid]
+            cache[fingerprint_key] = location_key
         else:
             to_process.append(rec)
 
     if not to_process:
+        _save_cache(cache_path, cache)
         return result
 
     # SKIP_PROVINCE_API=1 时跳过所有 API 调用，未缓存项目省份设为 null
@@ -125,6 +149,7 @@ def extract_provinces(
 {{"results": [{{"id": "项目ID", "province": "英文省份名或null"}}]}}"""
 
         success = False
+        batch_by_id = {str(item["project_id"]): item for item in batch}
         for attempt in range(1, 4):  # 最多重试 3 次
             try:
                 response = client.models.generate_content(
@@ -137,10 +162,15 @@ def extract_provinces(
                 )
                 parsed = json.loads(response.text)
                 for item in parsed.get("results", []):
-                    pid = item["id"]
+                    pid = str(item["id"])
+                    if pid not in batch_by_id:
+                        raise ValueError(f"省份模型返回未知项目 ID: {pid}")
                     province = item.get("province")  # None if null
                     result[pid] = province
                     cache[pid] = province
+                    location_key = _cache_location_key(batch_by_id[pid])
+                    cache[location_key] = province
+                    cache[_cache_fingerprint_key(pid)] = location_key
                 success = True
                 break
             except Exception as e:

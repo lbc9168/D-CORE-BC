@@ -101,6 +101,32 @@ def test_llm_confirm_wrapper_swallows(monkeypatch):
     assert dmt._llm_confirm(None, None, _min_proj("A"), _min_proj("B")) is False
 
 
+def test_partial_overlap_relationship_is_not_merged(monkeypatch):
+    """项目包部分重叠必须映射为不合并。"""
+    class _Response:
+        text = '{"relationship":"partial_overlap","confidence":"high","reasoning":"容量和项目数量不同"}'
+
+    monkeypatch.setattr(dmt, "_llm_call_with_retry", lambda *a, **k: _Response())
+    assert dmt._llm_confirm_raising(_FakeClient(), None, _min_proj("A"), _min_proj("B")) is False
+
+
+def test_dedup_prompt_uses_four_relationship_states(monkeypatch):
+    """去重调用必须要求四态输出而非仅返回 same_project 布尔值。"""
+    captured = {}
+
+    class _Response:
+        text = '{"relationship":"distinct","confidence":"high","reasoning":"不同项目"}'
+
+    def fake_call(*args, **kwargs):
+        captured["prompt"] = kwargs["contents"]
+        return _Response()
+
+    monkeypatch.setattr(dmt, "_llm_call_with_retry", fake_call)
+    assert dmt._llm_confirm_raising(_FakeClient(), None, _min_proj("A"), _min_proj("B")) is False
+    assert "partial_overlap" in captured["prompt"]
+    assert "项目数量、总容量或地域组合不同" in captured["prompt"]
+
+
 # ──────────────── Task 3：_deduplicate_projects 缓存集成 ────────────────
 
 def _proj_full(name, stage="在建", **kw):
@@ -157,6 +183,21 @@ def test_no_cache_db_unchanged(monkeypatch):
     monkeypatch.setattr(dmt, "_llm_confirm_raising", lambda cl, cf, x, y: True)
     merged = dmt._deduplicate_projects(object(), None, [a, b], [(0, 1, 60.0)])
     assert len(merged) == 1
+
+
+def test_high_score_project_packages_still_require_llm(monkeypatch):
+    """项目包即使名称高分也不得绕过四态 LLM 判断自动合并。"""
+    a = _proj_full("乌兹别克斯坦新能源项目包", project_summary="六座电站，总容量2.5GW")
+    b = _proj_full("乌兹别克斯坦新能源项目包", project_summary="五座电站，总容量2.3GW")
+    calls = []
+    monkeypatch.setattr(
+        dmt,
+        "_llm_confirm_raising",
+        lambda cl, cf, x, y: calls.append((x["project_summary"], y["project_summary"])) or False,
+    )
+    merged = dmt._deduplicate_projects(object(), None, [a, b], [(0, 1, 100.0)])
+    assert len(calls) == 1
+    assert len(merged) == 2
 
 
 # ──────────────── 并行组装：_assemble_multi_group ────────────────

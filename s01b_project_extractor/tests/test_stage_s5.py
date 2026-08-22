@@ -1,4 +1,4 @@
-"""S5 阶段测试：摘要写入与高置信纠偏应用（含 involvement_type）。"""
+"""S5 阶段测试：摘要写入与阶段纠偏，角色建议不得绕过证据门控。"""
 from s01b_project_extractor.stages.s5_summary import apply_s5
 
 
@@ -58,8 +58,8 @@ def test_apply_s5_no_summary_when_empty_string():
 
 # ── involvement_type 纠偏用例 ──
 
-def test_apply_s5_applies_high_conf_valid_involvement():
-    """高置信度(≥0.8)且合法的 involvement_type 纠偏应应用到所有 chinese_entities。"""
+def test_apply_s5_ignores_high_conf_valid_involvement():
+    """即使高置信且枚举合法，S5 也不得覆盖已经过证据门控的实体角色。"""
     p = {
         "common_info": {},
         "chinese_entities": [
@@ -74,7 +74,7 @@ def test_apply_s5_applies_high_conf_valid_involvement():
         ],
     })
     for ent in p["chinese_entities"]:
-        assert ent["Type of involvement of Chinese Entities"] == "融资方"
+        assert ent["Type of involvement of Chinese Entities"] == "EPC总承包"
 
 
 def test_apply_s5_ignores_low_conf_involvement():

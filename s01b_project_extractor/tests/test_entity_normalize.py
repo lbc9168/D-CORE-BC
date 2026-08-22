@@ -28,13 +28,20 @@ Real pairs from company_hierarchy_v2.json:
   KNOWN_PARENT_2   = "中国电力建设集团有限公司"
 """
 import pytest
-from s01b_project_extractor.stages.entity_normalize import normalize_entity
+from s01b_project_extractor.stages.entity_normalize import (
+    UNMATCHED_NEEDS_REVIEW,
+    VERIFIED_CHINESE,
+    VERIFIED_NON_CHINESE,
+    normalize_entity,
+    resolve_entity,
+)
 
 
 def _clear_cache():
     """清 v2 索引 lru_cache + 去尾缀预构索引，隔离测试。"""
     from s01b_project_extractor.stages import entity_normalize
     entity_normalize._hierarchy_index_v2.cache_clear()
+    entity_normalize._nationality_index.cache_clear()
     entity_normalize._stripped_index_cache = {}
 
 
@@ -103,3 +110,24 @@ def test_whitespace_returns_unknown():
     parent, sub = normalize_entity("   ")
     assert parent == "Unknown"
     assert sub == ""
+
+
+def test_malaysia_non_chinese_companies_are_explicitly_blocked():
+    """Citaglobal/BGMC 命中国别登记表后必须明确判为非中企。"""
+    assert resolve_entity("Citaglobal").verification_status == VERIFIED_NON_CHINESE
+    assert resolve_entity("BGMC Holdings").verification_status == VERIFIED_NON_CHINESE
+
+
+def test_reviewed_malaysia_parent_mappings_are_chinese_verified():
+    """中电国际和三峡发展（马）应分别归国家电投和三峡集团。"""
+    china_power = resolve_entity("中电国际")
+    assert china_power.verification_status == VERIFIED_CHINESE
+    assert china_power.implementing == "国家电力投资集团有限公司"
+    three_gorges = resolve_entity("三峡发展（马）公司")
+    assert three_gorges.verification_status == VERIFIED_CHINESE
+    assert three_gorges.implementing == "中国长江三峡集团有限公司"
+
+
+def test_unmatched_entity_requires_review():
+    """未命中任何受控表的名称不得作为已核实中企。"""
+    assert resolve_entity("某未登记海外企业").verification_status == UNMATCHED_NEEDS_REVIEW
