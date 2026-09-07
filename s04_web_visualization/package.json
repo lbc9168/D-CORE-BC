@@ -11,6 +11,7 @@
     "build": "vite build",
     "deploy": "gh-pages -d dist",
     "typecheck": "tsc -b",
+    "test:supply-flow": "node --experimental-strip-types --test tests/supplyFlow.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

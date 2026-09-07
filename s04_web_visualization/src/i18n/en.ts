@@ -10,6 +10,7 @@ const en: Translations = {
     reports: "Reports",
     updates: "Updates",
     about: "About",
+    lab: "Lab",
   },
   domain: {
     renewable: "Power Generation",

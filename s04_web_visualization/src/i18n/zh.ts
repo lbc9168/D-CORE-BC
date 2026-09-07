@@ -9,6 +9,7 @@ const zh = {
     reports: "研究报告",
     updates: "更新",
     about: "关于",
+    lab: "实验室",
   },
   // 页顶数据域（视角条；储能是发电域的度量透镜，非独立域）
   domain: {
