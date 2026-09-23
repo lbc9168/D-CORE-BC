@@ -10,6 +10,7 @@ const en: Translations = {
     reports: "Reports",
     updates: "Updates",
     about: "About",
+    lab: "Lab",
   },
   domain: {
     renewable: "Power Generation",
@@ -110,6 +111,10 @@ const en: Translations = {
     developerSection: "Project Developer",
     externalLinks: "External Links",
     subtype: "Subtype",
+    energyConfiguration: "Energy Configuration",
+    energyMix: "Energy Mix",
+    generationCapacity: "Total Generation Capacity",
+    storageStatus: "Storage Status",
     pvSubCapacity: "PV Sub-capacity",
     storagePower: "Storage Power",
     storageEnergy: "Storage Capacity",
@@ -118,6 +123,16 @@ const en: Translations = {
     lineLength: "Line Length (km)",
     transmissionCapacity: "Transmission (MW)",
     productionCapacity: "Production Capacity",
+  },
+  externalReferences: {
+    title: "External References",
+    event: "Event",
+    project: "Project background",
+    official: "Official source",
+    media: "Media",
+    reprint: "Reprint",
+    reprintedFrom: "Reprinted from {{publisher}}",
+    lastChecked: "Last checked",
   },
   // Overview dashboard
   overview: {

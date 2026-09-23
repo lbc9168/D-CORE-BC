@@ -4,6 +4,7 @@ import { CATEGORIES, VIZ_GROUPS } from "@/types";
 import { stageToGroup } from "@/utils/enums";
 import { TX_CATEGORY_KEY as TX_KEY, MF_CATEGORY_KEY as MF_KEY } from "@/utils/domains";
 import { Zap } from "lucide-react";
+import { formatProductionCapacity } from "@/utils/display";
 
 interface TxMfProjectListProps {
   projects: TxMfProject[];
@@ -21,7 +22,7 @@ export function txmfScaleLabel(p: TxMfProject): string | null {
     return parts.length ? parts.join(" · ") : null;
   }
   if (p.production_capacity_value != null) {
-    return `${p.production_capacity_value} ${p.production_capacity_unit ?? ""}`.trim();
+    return formatProductionCapacity(p.production_capacity_value, p.production_capacity_unit);
   }
   return null;
 }

@@ -268,3 +268,9 @@ export function formatCountryName(
   // Fallback: use the stored country field (Chinese for zh, raw for en)
   return fallback;
 }
+
+/** Public MF values are already normalized by s03; only format the number here. */
+export function formatProductionCapacity(value: number | null, unit: string | null): string {
+  if (value == null) return "";
+  return `${value.toLocaleString("en-US", { maximumFractionDigits: 20 })} ${unit ?? ""}`.trim();
+}

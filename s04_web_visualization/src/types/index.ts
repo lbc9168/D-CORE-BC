@@ -16,6 +16,24 @@ export interface Entity {
   is_central_soe: 0 | 1 | null;
 }
 
+/** Curated reading links; their scope does not imply verification of every project fact. */
+export interface ExternalReference {
+  reference_id: string;
+  url: string;
+  title: string;
+  publisher: string;
+  source_type: "official" | "media";
+  scope: "event" | "project";
+  event_id: string | null;
+  stage: string | null;
+  stage_en: string | null;
+  event_date: string | null;
+  checked_at: string;
+  valid_until: string;
+  is_reprint: boolean;
+  original_publisher: string | null;
+}
+
 export interface Project {
   project_id: string;
   display_order: number | null;   // s03 按最早事件日期升序赋值（老项目在前），稳定主键 project_id 不受影响
@@ -59,6 +77,7 @@ export interface Project {
   financing_model_en: string;
   official_website_links?: string[];
   non_official_website_links?: string[];
+  external_references?: ExternalReference[];
   primary_entity: string;
   primary_entity_en: string;
   project_developer: string;        // 业主中文
@@ -97,6 +116,7 @@ interface TxMfCommon {
   latest_stage_en: string;
   event_year: number | null;
   all_entities: Entity[];
+  external_references?: ExternalReference[];
   // ── 前端加载时派生（数据文件本身不含）──
   bri_country: string;      // 按 country_iso 查 countryMeta 静态表
   ldc: string;              // 同上
@@ -114,7 +134,7 @@ export interface TxProject extends TxMfCommon {
 export interface MfProject extends TxMfCommon {
   kind: "mf";
   production_capacity_value: number | null;
-  production_capacity_unit: string | null;  // enums mf_production_unit 受控枚举，原样透传
+  production_capacity_unit: string | null;  // Public export units: GW/year, GWh/year, t/year, Unknown
 }
 
 export type TxMfProject = TxProject | MfProject;

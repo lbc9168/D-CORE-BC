@@ -9,6 +9,7 @@ const zh = {
     reports: "研究报告",
     updates: "更新",
     about: "关于",
+    lab: "实验室",
   },
   // 页顶数据域（视角条；储能是发电域的度量透镜，非独立域）
   domain: {
@@ -115,6 +116,10 @@ const zh = {
     developerSection: "项目业主",
     externalLinks: "外部链接",
     subtype: "细分类型",
+    energyConfiguration: "能源配置",
+    energyMix: "能源组合",
+    generationCapacity: "发电总装机",
+    storageStatus: "储能状态",
     pvSubCapacity: "光伏子项装机",
     storagePower: "储能功率",
     storageEnergy: "储能容量",
@@ -123,6 +128,16 @@ const zh = {
     lineLength: "线路里程 (km)",
     transmissionCapacity: "输送容量 (MW)",
     productionCapacity: "产能",
+  },
+  externalReferences: {
+    title: "外部参考资料",
+    event: "事件",
+    project: "项目背景",
+    official: "官方来源",
+    media: "媒体",
+    reprint: "转载",
+    reprintedFrom: "转载自{{publisher}}",
+    lastChecked: "最近核查",
   },
   // 总览仪表盘
   overview: {

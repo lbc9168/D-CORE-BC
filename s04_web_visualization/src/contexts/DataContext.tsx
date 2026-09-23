@@ -22,8 +22,7 @@ import type {
 } from "@/types";
 import { ISO3_TO_REGION } from "@/utils/continentMapping";
 import { getDevStatus } from "@/utils/devStatus";
-import { isExcludedCategory, isHiddenCategory } from "@/utils/enums";
-import { hasCapacity } from "@/utils/capacityPolicy";
+import { CATEGORIES, isExcludedCategory, isHiddenCategory } from "@/utils/enums";
 import { metricValue, type MetricRow } from "@/utils/metrics";
 import { BRI_ISO3, LDC_ISO3 } from "@/utils/countryMeta";
 
@@ -40,6 +39,13 @@ function isUnknownText(value: string | null | undefined): boolean {
   return UNKNOWN_TEXTS.has(normalized);
 }
 
+/** 类别筛选兼容标准中文键与旧/异常导出中的英文类别值。 */
+function matchesSelectedCategory(p: Project, selected: string[]): boolean {
+  return selected.some((categoryKey) =>
+    p.category === categoryKey || p.category_en === CATEGORIES[categoryKey]?.en,
+  );
+}
+
 function shouldExcludeByPolicy(p: Project): boolean {
   const iso = (p.country_iso || "").toUpperCase();
   if (EXCLUDED_ISO3.has(iso)) return true;
@@ -48,7 +54,7 @@ function shouldExcludeByPolicy(p: Project): boolean {
   if (p.last_event_year < BASELINE_YEAR) return true;
   if (isExcludedCategory(p.category) || isHiddenCategory(p.category)) return true;
   if (isUnknownText(p.primary_entity)) return true;
-  if (hasCapacity(p.category) && p.capacity_mw == null) return true;
+  // Missing capacity does not invalidate accepted project participation.
   return false;
 }
 
@@ -98,7 +104,7 @@ function applyFilter(projects: Project[], f: FilterState): Project[] {
       const [start, end] = f.yearRange;
       if (p.last_event_year < start || p.first_event_year > end) return false;
     }
-    if (f.categories.length > 0 && !f.categories.includes(p.category)) return false;
+    if (f.categories.length > 0 && !matchesSelectedCategory(p, f.categories)) return false;
     // 项目形态子类筛选：当前仅光伏集中式/分布式。
     if (f.subcategories.length > 0 && !f.subcategories.includes(p.subcategory ?? "")) return false;
     // 按状态筛选：状态取范围结束年（end）的快照

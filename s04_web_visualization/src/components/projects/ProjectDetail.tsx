@@ -3,7 +3,10 @@ import type { Project } from "@/types";
 import { CATEGORIES, STAGES, STAGE_COLORS } from "@/types";
 import { useLang } from "@/contexts/LanguageContext";
 import { formatCountryName } from "@/utils/display";
+import { formatEnergyMix, formatStorageStatus } from "@/utils/energyComposition";
+import { HB_CATEGORY_KEY, isStorageLens } from "@/utils/domains";
 import EntityList from "./EntityList";
+import ExternalReferences from "./ExternalReferences";
 import TechnologyTagBadges from "./TechnologyTagBadges";
 
 interface ProjectDetailProps {
@@ -25,6 +28,10 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
   const { t } = useLang();
   const cat = CATEGORIES[p.category];
   const stageColor = STAGE_COLORS[p.latest_stage] ?? "#94a3b8";
+
+  const energyMix = formatEnergyMix(p);
+  const storageStatus = formatStorageStatus(p);
+  const showEnergyConfiguration = p.category === HB_CATEGORY_KEY || isStorageLens(p);
 
   const name = p.project_name_en || p.project_name;
 
@@ -155,6 +162,35 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           </dl>
         </section>
 
+        {/* 能源配置只展示结构化事实；综合能源与储能相关项目不从名称猜测组合或容量。 */}
+        {showEnergyConfiguration && (
+          <section>
+            <h4 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+              {t("projectDetail.energyConfiguration")}
+            </h4>
+            <dl className="bg-slate-50 rounded-xl px-3 py-1.5">
+              <Row label={t("projectDetail.energyMix")} value={energyMix} />
+              <Row
+                label={t("projectDetail.generationCapacity")}
+                value={p.capacity_mw != null ? `${p.capacity_mw.toFixed(1)} MW` : null}
+              />
+              <Row
+                label={t("projectDetail.pvSubCapacity")}
+                value={p.pv_capacity_mw != null ? `${p.pv_capacity_mw.toFixed(1)} MW` : null}
+              />
+              <Row label={t("projectDetail.storageStatus")} value={storageStatus} />
+              <Row
+                label={t("projectDetail.storagePower")}
+                value={p.storage_power_mw != null ? `${p.storage_power_mw.toFixed(1)} MW` : null}
+              />
+              <Row
+                label={t("projectDetail.storageEnergy")}
+                value={p.storage_energy_mwh != null ? `${p.storage_energy_mwh.toFixed(1)} MWh` : null}
+              />
+            </dl>
+          </section>
+        )}
+
         {/* 时间线：多事件用 timeline_notes（到月）；单事件回退显示该里程碑与月份 */}
         {(p.timeline_notes || p.event_month) && (
           <section>
@@ -252,7 +288,8 @@ export default function ProjectDetail({ project: p, onClose }: ProjectDetailProp
           );
         })()}
 
-        {/* 外部链接暂时隐藏，待链接数据完成核验后恢复。 */}
+        <ExternalReferences references={p.external_references} />
+        {/* 旧外链字段继续隐藏；新参考资料只使用独立核验字段。 */}
         {/* 信息来源（暂时隐藏，待 Bug 2 source_links JSON.parse 修复后重新启用） */}
       </div>
     </div>

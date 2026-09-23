@@ -3,9 +3,10 @@ import type { TxMfProject } from "@/types";
 import { CATEGORIES, VIZ_GROUPS } from "@/types";
 import { stageToGroup } from "@/utils/enums";
 import { useLang } from "@/contexts/LanguageContext";
-import { formatCountryName } from "@/utils/display";
+import { formatCountryName, formatProductionCapacity } from "@/utils/display";
 import { TX_CATEGORY_KEY as TX_KEY, MF_CATEGORY_KEY as MF_KEY } from "@/utils/domains";
 import EntityList from "./EntityList";
+import ExternalReferences from "./ExternalReferences";
 
 interface TxMfProjectDetailProps {
   project: TxMfProject;
@@ -24,7 +25,7 @@ function Row({ label, value }: { label: string; value?: string | number | null }
 
 /**
  * TX/MF 专表精简详情：只渲染专表实际有的信息（关键规格/基本信息/参与实体）。
- * 专表没有时间线/融资/开发商/外链字段——"字段不存在"直接不渲染区块，不是空态。
+ * 专表没有时间线/融资/开发商字段；可选参考资料无有效条目时不渲染。
  */
 export default function TxMfProjectDetail({ project: p, onClose }: TxMfProjectDetailProps) {
   const { t } = useLang();
@@ -92,7 +93,7 @@ export default function TxMfProjectDetail({ project: p, onClose }: TxMfProjectDe
               ) : (
                 <Row
                   label={t("projectDetail.productionCapacity")}
-                  value={`${p.production_capacity_value} ${p.production_capacity_unit ?? ""}`.trim()}
+                  value={formatProductionCapacity(p.production_capacity_value, p.production_capacity_unit)}
                 />
               )}
             </dl>
@@ -127,6 +128,7 @@ export default function TxMfProjectDetail({ project: p, onClose }: TxMfProjectDe
             <EntityList entities={p.all_entities} />
           </section>
         )}
+        <ExternalReferences references={p.external_references} />
       </div>
     </div>
   );

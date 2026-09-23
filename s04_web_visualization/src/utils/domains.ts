@@ -47,6 +47,7 @@ const keyByCode = (code: string): string =>
   Object.entries(CATEGORIES).find(([, m]) => m.code === code)?.[0] ?? "";
 
 export const ES_CATEGORY_KEY = keyByCode("ES");
+export const HB_CATEGORY_KEY = keyByCode("HB");
 export const PV_CATEGORY_KEY = keyByCode("PV");
 export const TX_CATEGORY_KEY = keyByCode("TX");
 export const MF_CATEGORY_KEY = keyByCode("MF");

@@ -192,7 +192,7 @@ export default function TablePage() {
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* 视角条（数据域切换；Table 页不消费地图度量，隐藏度量胶囊） */}
         <DomainSwitcher showMetrics={false} />
-        <FilterBar />
+        <FilterBar onReset={() => { setSearch(""); setPage(0); }} />
 
         {/* 工具栏 */}
         <div className="flex items-center gap-3 px-4 py-2.5 bg-white border-b border-slate-100 flex-shrink-0">

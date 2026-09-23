@@ -265,7 +265,12 @@ function YearRangeSlider({
   );
 }
 
-export default function FilterBar() {
+interface FilterBarProps {
+  onReset?: () => void;
+}
+
+/** 渲染跨页面筛选栏，并允许页面在统一重置时清理自己的局部状态。 */
+export default function FilterBar({ onReset }: FilterBarProps = {}) {
   const { filter, setFilter, resetFilter, availableYears } = useData();
   const { domain } = useDomain();
   const { t } = useLang();
@@ -368,7 +373,18 @@ export default function FilterBar() {
           label={t("filter.category")}
           options={categoryOptions}
           selected={filter.categories}
-          onChange={(v) => setFilter((f) => ({ ...f, categories: v }))}
+          onChange={(v) => {
+            const allowedSubcategories = new Set(
+              v
+                .filter((category) => CATEGORIES[category]?.code === "PV" && SUBCATEGORIES[category])
+                .flatMap((category) => Object.keys(SUBCATEGORIES[category].values)),
+            );
+            setFilter((f) => ({
+              ...f,
+              categories: v,
+              subcategories: f.subcategories.filter((subcategory) => allowedSubcategories.has(subcategory)),
+            }));
+          }}
           renderLabel={(k) => CATEGORIES[k]?.en ?? k}
           allLabel={t("filter.allCategories")}
         />
@@ -442,7 +458,13 @@ export default function FilterBar() {
       {/* 着色度量选择器已随 V3 视角条移入 DomainSwitcher（度量是域的属性，不是筛选条件） */}
 
       {/* 重置 */}
-      <button onClick={resetFilter} className="btn-ghost ml-auto text-xs">
+      <button
+        onClick={() => {
+          resetFilter();
+          onReset?.();
+        }}
+        className="btn-ghost ml-auto text-xs"
+      >
         <RotateCcw size={12} />
         {t("filter.reset")}
       </button>

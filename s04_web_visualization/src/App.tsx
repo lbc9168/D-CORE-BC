@@ -12,6 +12,7 @@ const TablePage = lazy(() => import("@/pages/TablePage"));
 const ReportsPage = lazy(() => import("@/pages/ReportsPage"));
 const UpdatesPage = lazy(() => import("@/pages/UpdatesPage"));
 const AboutPage = lazy(() => import("@/pages/AboutPage"));
+const LabPage = lazy(() => import("@/pages/LabPage"));
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path="reports" element={<ReportsPage />} />
                 <Route path="updates" element={<UpdatesPage />} />
                 <Route path="about" element={<AboutPage />} />
+                <Route path="lab" element={<LabPage />} />
               </Route>
             </Routes>
           </DomainProvider>

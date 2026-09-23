@@ -1,4 +1,5 @@
 node_modules/
+src/dev/reference-sample.json
 dist/
 .DS_Store
 
