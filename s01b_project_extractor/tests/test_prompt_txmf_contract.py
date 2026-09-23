@@ -12,7 +12,7 @@ from s01b_project_extractor.tools.project_extractor_tool import _build_prompt
 def test_s1_scope_distinguishes_power_storage_tx_and_mf():
     """S1 明确独立储能合法但非发电源，并写清 TX/MF 范围边界。"""
     prompt = build_s1_prompt("标题", "正文", "2026-08-14")
-    for phrase in ("电力项目（发电或独立储能）", "不是发电源", "不得另拆为 TX 项目", "传统蓄电池制造"):
+    for phrase in ("电力项目（发电或独立储能）", "不是发电源", "不得另拆为 TX 项目", "新能源制造业"):
         assert phrase in prompt
 
 

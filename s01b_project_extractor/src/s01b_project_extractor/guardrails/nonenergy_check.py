@@ -9,6 +9,56 @@ import re
 
 # exclude_source 标记：与 S2 in_scope 判定（"extraction"）区分，便于日后审计
 DETERMINISTIC_GUARD_SOURCE = "deterministic_guard"
+MF_SCOPE_POLICY_VERSION = "2026-09-06.1"
+
+# Only specific products qualify; corporate "新能源" branding and auxiliary PV do not.
+_MF_ACCEPTED_PRODUCTS = (
+    "光伏玻璃", "太阳能玻璃", "光伏铝", "太阳能铝", "光伏支架", "风电塔筒",
+    "磷酸铁锂", "正极", "负极", "前驱体", "多晶硅", "锂盐", "锂矿",
+    "碳酸锂", "盐湖提锂", "mariana盐湖", "sdla盐湖", "乌尤尼碳酸锂", "新能源汽车",
+    "电动汽车", "新能源乘用车", "宏发继电器", "富士智能厂房", "可持续航空燃料",
+    "生物燃料", "生物质黑颗粒", "极板", "天岳新材料基地",
+)
+_MF_ORDINARY_PRODUCTS = (
+    "烧碱", "氯碱", "纯碱", "溴素", "氢溴酸", "磷肥", "磷酸盐", "氮肥",
+    "化肥", "尿素", "厚板", "钢铁", "铝制品", "煤焦", "焦棚", "轮胎",
+    "印刷", "包装", "食品加工", "洗碗机", "家电", "造纸", "瓦楞纸",
+    "塑料管道", "通信光模块", "通讯光模块", "pcb", "玻纤",
+    "caustic soda", "soda ash", "chlor-alkali", "fertilizer", "tyre", "tire factory",
+    "paper mill", "dishwasher", "optical transceiver",
+)
+
+
+def _check_manufacturing_scope(name: str, summary: str):
+    """Use the name and name-anchored clauses, never unrelated article-wide energy terms.
+
+    Return (reason, protected). Unnamed/ambiguous factories stay for human review;
+    generic glass/aluminium/chemical terms alone are deliberately insufficient.
+    """
+    anchor = re.sub(r"(?:项目|工程)$", "", name).strip()
+    clauses = [clause for clause in re.split(r"[。；;\n]", summary)
+               if len(anchor) >= 4 and anchor in clause]
+    name_text = name.lower()
+    text = " ".join(clauses).lower()
+    # Product evidence in the same clause is required to override ordinary products.
+    # A solar-glass factory is different from a glass factory with rooftop PV.
+    if any(word in name_text for word in _MF_ACCEPTED_PRODUCTS):
+        return None, True
+    hit = next((word for word in _MF_ORDINARY_PRODUCTS if word in name_text), None)
+    if hit:
+        return f"普通工业制造（项目产品命中「{hit}」；MF口径{MF_SCOPE_POLICY_VERSION}）", False
+    # An opaque/generic plant name can be clarified by its own production evidence.
+    # Merely mentioning a client's solar products is not a manufacturing statement.
+    production_prefix = (re.escape(anchor.lower())
+                         + r"(?:项目|工程)?(?:将|主要|计划|拟|建成后|用于|已|建成)*"
+                         + r"(?:生产|制造|建设)[^，,。；;]{0,16}")
+    if any(re.search(production_prefix + re.escape(word), text)
+           for word in _MF_ACCEPTED_PRODUCTS):
+        return None, True
+    hit = next((word for word in _MF_ORDINARY_PRODUCTS if word in text), None)
+    if hit:
+        return f"普通工业制造（项目产品命中「{hit}」；MF口径{MF_SCOPE_POLICY_VERSION}）", False
+    return None, False
 
 # 非能源产业词（命中「项目名称」为强信号；源自审计 71 例归纳）
 _NONENERGY_WORDS = [
@@ -51,7 +101,7 @@ _POWER_WORDS = [
     "联合循环", "燃机",
     # 输变电语义（2026-07-04：TFM矿区供电/米桑油田132千伏电网等真输变电工程曾被
     # 「矿区/油田」词误杀——电网工程在录入范围（发电/新能源制造/输变电）内）
-    "电网", "千伏", "供电",
+    "电网", "千伏", "供电", "升压站",
     # 新能源制造/光伏建筑语义：多晶硅=光伏产业链硅料（AGO 冶金硅+多晶硅项目曾被「冶金」误杀）；
     # bipv 保护名称无中文发电词的光伏建筑一体化项目
     "多晶硅", "bipv",
@@ -60,7 +110,7 @@ _POWER_WORDS = [
 # 明确可再生能源种类词（绿氢规则用；用户判定规则 2026-07-02）
 _RE_TYPE_WORDS = ["光伏", "风电", "水电", "太阳能", "风能", "风光", "光热", "地热", "生物质", "可再生能源"]
 
-# 绿氢/电解类词：须同时有「明确 RE 种类 + 明确装机容量」才纳入
+# 绿氢/电解类词：须有明确 RE 种类；容量未知不是排除理由
 _HYDROGEN_WORDS = ["绿氢", "绿色氢", "绿氨", "绿色氨", "制氢", "电解槽", "电解水"]
 
 # 规则 3 豁免类别：这些类别以处理吨量计装机为正常口径（垃圾焚烧发电/生物质/余热），不按吨/年判非发电
@@ -95,7 +145,7 @@ def capacity_is_tonnage(capacity_raw, capacity_details) -> bool:
 def check_nonenergy(name, summary, category, capacity_mw, capacity_details):
     """确定性非能源判定：返回排除理由字符串（命中）或 None（放行）。
 
-    规则按序：⓪ 硬排除词（充换电站）；① 绿氢/电解类须同时有明确 RE 种类+装机容量；
+    规则按序：⓪ 硬排除词（充换电站）；① 绿氢/电解类须有明确 RE 种类，装机可未知；
     ② 名称命中非能源词且名称+容量明细无发电语义；③ 发电类别但容量只有吨/年（制造业豁免）；
     ④ Unknown 类别兜底——空项目名，或全文无发电语义且无装机（词表列不全的长尾民用项目）。
     """
@@ -111,11 +161,16 @@ def check_nonenergy(name, summary, category, capacity_mw, capacity_details):
         if w in name:
             return f"非发电设施（{w}）"
 
-    # 规则 1：绿氢/电解类——须同时有明确可再生能源种类 + 装机容量（用户规则 2026-07-02）
+    if category == "新能源制造业":
+        reason, protected = _check_manufacturing_scope(name, summary)
+        if reason or protected:
+            return reason
+
+    # 规则 1：能源来源与可选容量分开；设备方量不转换为MW（2026-09-23纠错口径）。
     if any(w in text for w in _HYDROGEN_WORDS):
-        if any(w in text for w in _RE_TYPE_WORDS) and _has_positive_mw(capacity_mw, name, details):
+        if any(w in text for w in _RE_TYPE_WORDS):
             return None  # 合法（如风光制氢）；类别归属由 S2 prompt 规则处理
-        return "绿氢/电解类项目缺明确可再生能源种类或装机容量（用户规则2026-07-02）"
+        return "绿氢/电解类目标项目缺明确可再生能源种类（项目摘要须绑定目标，不能借用其他项目背景）"
 
     # 规则 2：名称命中非能源产业词，且名称+容量明细无发电语义 → 排除
     hit = next((w for w in _NONENERGY_WORDS if w in name), None) or next(

@@ -262,6 +262,18 @@ def reparse_maindb(db_path: str, apply: bool = False, out_csv: str | None = None
 
     返回 dict 包含：changed, total, skipped_empty, bak_path(apply 时), plan(行列表)。
     """
+    if apply:
+        # 旧工具只更新显示名称，不能让新主体ID/集团ID/证据与名称分离。
+        connection = sqlite3.connect(Path(db_path).resolve().as_uri() + "?mode=ro", uri=True)
+        try:
+            columns = {row[1] for row in connection.execute("PRAGMA table_info(chinese_entities)")}
+            if "entity_id" in columns:
+                raise ValueError(
+                    "主库已采用企业主体ID；请用 entity_intake refresh 定向更新提取行后经 S02A 重放，"
+                    "旧名称全表回填不能同步主体ID与证据。"
+                )
+        finally:
+            connection.close()
     plan, stats = build_update_plan(db_path)
 
     # 输出 CSV（dry-run 也写，供报告使用）

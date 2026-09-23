@@ -20,7 +20,8 @@ from pathlib import Path
 from typing import Optional
 
 from google import genai
-from google.genai import types
+from google.genai import types, errors
+import httpx
 
 from s03_data_exporter.admin1_lookup import build_admin1_dict
 
@@ -56,6 +57,7 @@ def extract_provinces(
     records: list[dict],
     cache_path: Path,
     api_key: str,
+    *, allow_model_calls: bool = True, diagnostics: dict | None = None,
 ) -> dict[str, Optional[str]]:
     """
     批量提取省份，返回 {project_id: province_en_or_None}。
@@ -65,6 +67,8 @@ def extract_provinces(
         cache_path: province_cache.json 路径（运行时自动创建）
         api_key:    Gemini API Key
     """
+    if diagnostics is not None:
+        diagnostics.update(failed_ids=[], failures=[])
     # 加载 Natural Earth 省份约束表（模块级单例，首次调用时读取 zip）
     admin1_dict = build_admin1_dict()
 
@@ -97,7 +101,7 @@ def extract_provinces(
         return result
 
     # SKIP_PROVINCE_API=1 时跳过所有 API 调用，未缓存项目省份设为 null
-    if os.environ.get("SKIP_PROVINCE_API") == "1":
+    if not allow_model_calls or os.environ.get("SKIP_PROVINCE_API") == "1":
         print(f"  [跳过] SKIP_PROVINCE_API=1，{len(to_process)} 条未缓存记录省份设为 null")
         for rec in to_process:
             result[rec["project_id"]] = None
@@ -150,6 +154,7 @@ def extract_provinces(
 
         success = False
         batch_by_id = {str(item["project_id"]): item for item in batch}
+        last_error = ""
         for attempt in range(1, 4):  # 最多重试 3 次
             try:
                 response = client.models.generate_content(
@@ -160,12 +165,26 @@ def extract_provinces(
                         temperature=0,
                     ),
                 )
+                if not isinstance(response.text, str):
+                    raise ValueError("省份模型未返回JSON文本")
                 parsed = json.loads(response.text)
-                for item in parsed.get("results", []):
-                    pid = str(item["id"])
-                    if pid not in batch_by_id:
-                        raise ValueError(f"省份模型返回未知项目 ID: {pid}")
-                    province = item.get("province")  # None if null
+                if not isinstance(parsed, dict) or not isinstance(parsed.get("results"), list):
+                    raise ValueError("省份响应须包含results数组")
+                staged = {}
+                for item in parsed["results"]:
+                    if not isinstance(item, dict) or not isinstance(item.get("id"), str) or "province" not in item:
+                        raise ValueError("省份响应项须含字符串id及province")
+                    pid, province = item["id"], item["province"]
+                    if pid not in batch_by_id or pid in staged:
+                        raise ValueError(f"省份模型返回未知或重复项目 ID: {pid}")
+                    if province is not None and not isinstance(province, str):
+                        raise ValueError(f"省份须为字符串或null: {pid}")
+                    staged[pid] = province
+                if set(staged) != set(batch_by_id):
+                    raise ValueError(f"省份响应缺少项目ID: {sorted(set(batch_by_id) - set(staged))}")
+                # Commit to the cache only after the complete batch passes validation.
+                # A failed partial response must not poison later retries with nulls.
+                for pid, province in staged.items():
                     result[pid] = province
                     cache[pid] = province
                     location_key = _cache_location_key(batch_by_id[pid])
@@ -173,12 +192,17 @@ def extract_provinces(
                     cache[_cache_fingerprint_key(pid)] = location_key
                 success = True
                 break
-            except Exception as e:
+            except (ValueError, RuntimeError, OSError, errors.APIError, httpx.TransportError) as e:
+                last_error = f"{type(e).__name__}: {e}"
                 print(f"  [警告] 批次 {batch_num} 第 {attempt} 次尝试失败: {e}")
                 if attempt < 3:
                     time.sleep(2 ** attempt)  # 指数退避：2s, 4s
 
         if not success:
+            if diagnostics is not None:
+                ids = [str(rec["project_id"]) for rec in batch]
+                diagnostics["failed_ids"].extend(ids)
+                diagnostics["failures"].append({"project_ids": ids, "attempts": 3, "error": last_error})
             print(f"  [错误] 批次 {batch_num} 3 次重试均失败，该批次省份设为 null（下次运行可重试）")
             for rec in batch:
                 result[rec["project_id"]] = None

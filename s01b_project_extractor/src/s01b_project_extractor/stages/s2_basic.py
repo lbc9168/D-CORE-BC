@@ -4,6 +4,8 @@ import logging
 import re
 import bri_enums as enums
 from s01b_project_extractor.capacity_parser import parse_capacity_mw
+from s01b_project_extractor.stages.entity_response import EntityResponseError
+from s01b_project_extractor.stages.capacity_evidence import apply_capacity_evidence
 from s01b_project_extractor.energy_taxonomy_v2 import (
     GENERATION_SOURCES,
     STORAGE_STATUSES,
@@ -175,18 +177,44 @@ def _apply_txmf_post_process(ci: dict, title: str, content: str) -> None:
         ci["production_capacity_unit_normalized"] = None
 
 
-def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
+def run_s2(title: str, content: str, date: str, *, llm, retry_feedback: list[str] | None = None) -> list[dict]:
     """跑 S2，返回 projects 列表（每项含 common_info，容量字段已经过确定性后处理）。"""
     from s01b_project_extractor.prompts.s2_basic import build_s2_prompt
-    out = llm.complete(build_s2_prompt(title, content, date), stage="s2", json_mode=True)
-    if not isinstance(out, dict):
-        logger.error("S2 返回非 dict（按空项目列表处理）: %s", type(out))
-        return []
-    projects = out.get("projects", [])
+    prompt = build_s2_prompt(title, content, date)
+    if retry_feedback:
+        prompt += "\n上次输出未通过原文校验，请重新核对原文修正，勿编造证据或删除有效项目：\n" + "\n".join(retry_feedback)
+    out = llm.complete(prompt, stage="s2", json_mode=True)
+    if not isinstance(out, dict) or not isinstance(out.get("projects"), list):
+        raise EntityResponseError("s2: projects must be an explicit list", out)
+    projects = out["projects"]
+    # Validate model-owned fields before normalization or SQLite binding. Evidence
+    # objects are supported only by the explicitly declared Capacity Evidence field.
+    for index, project in enumerate(projects):
+        if not isinstance(project, dict) or not isinstance(project.get("common_info"), dict):
+            raise EntityResponseError(f"s2: project {index} needs common_info object", out)
+        if project.get("project_summary") is not None and not isinstance(project["project_summary"], str):
+            raise EntityResponseError(f"s2: project {index} summary must be a string", out)
+        for key, value in project["common_info"].items():
+            if key == "Project Context":
+                if not isinstance(value, dict) or not isinstance(value.get("source_name"), str) or not isinstance(value.get("context"), str) or type(value.get("is_current_event")) is not bool:
+                    raise EntityResponseError("s2: invalid Project Context", out)
+                if not isinstance(value.get("aliases"), list) or any(not isinstance(v, str) for v in value["aliases"]):
+                    raise EntityResponseError("s2: Project Context aliases must be strings", out)
+                continue
+            if key == "Capacity Evidence" or key.startswith("_"):
+                continue
+            if key == "Generation Sources" and isinstance(value, list) and all(isinstance(s, str) for s in value):
+                continue
+            if isinstance(value, (dict, list)):
+                raise EntityResponseError(f"s2: {key} must be a scalar, not {type(value).__name__}", out)
     # S2 不评估融资（融资由 S3 负责）；此处把缺省 Financing Model 置为「Unknown」（即「未确定」枚举），
     # 与多为 Unknown 的 gold 字段对齐；Phase 4 接入 S3 后会用真实融资值覆盖。
     for p in projects:
         ci = p.setdefault("common_info", {})
+        context = ci.get("Project Context", {})
+        if context.get("is_current_event") is False:
+            p["in_scope"] = False
+            p["out_of_scope_reason"] = "仅历史背景或未来组合，无本篇独立项目事件"
         if not str(ci.get("Financing Model", "")).strip():
             ci["Financing Model"] = "Unknown"
         # in_scope 出口：S2 未给时默认在范围内（不误排除）；给了则原样透传
@@ -197,14 +225,14 @@ def run_s2(title: str, content: str, date: str, *, llm) -> list[dict]:
         _apply_energy_facts_post_process(ci)
         _apply_txmf_post_process(ci, title, content)
         _apply_capacity_post_process(ci)
+        apply_capacity_evidence(ci, title, content)
     return projects
 
 
-def validate_s2(projects: list[dict]) -> list[str]:
-    """校验每个项目：category/stage 合法、Project Name 含中文。"""
-    errors = []
-    valid_cat = set(enums.valid_categories())
-    valid_stage = set(enums.valid_stages())
+def classify_s2_validation(projects: list[dict]) -> tuple[list[str], list[str]]:
+    """核心项目/分类歧义阻塞；已清空的不确定数值及名称格式只产生字段复核警告。"""
+    errors, warnings = [], []
+    valid_cat, valid_stage = set(enums.valid_categories()), set(enums.valid_stages())
     for i, p in enumerate(projects):
         ci = p.get("common_info", {}) or {}
         cat = str(ci.get("Category", "")).strip()
@@ -214,8 +242,10 @@ def validate_s2(projects: list[dict]) -> list[str]:
         if stage and stage not in valid_stage:
             errors.append(f"项目#{i} 阶段不合法: {stage}")
         pname = str(ci.get("Project Name", "")).strip()
-        if pname and not _CHINESE_RE.search(pname):
-            errors.append(f"项目#{i} 名称未含中文: {pname[:30]}")
+        if not pname:
+            errors.append(f"项目#{i} 项目名称缺失，无法确认项目身份")
+        elif not _CHINESE_RE.search(pname):
+            warnings.append(f"项目#{i} 名称未含中文: {pname[:30]}")
         sources = ci.get("Generation Sources", []) or []
         if isinstance(sources, str):
             sources = [part.strip() for part in re.split(r"[,，;；]", sources) if part.strip()]
@@ -225,6 +255,34 @@ def validate_s2(projects: list[dict]) -> list[str]:
         storage_status = str(ci.get("Storage Status", "not_mentioned") or "not_mentioned").strip()
         if storage_status not in STORAGE_STATUSES:
             errors.append(f"项目#{i} 储能状态不合法: {storage_status}")
-        for message in ci.get("_txmf_contract_errors", []) or []:
-            errors.append(f"项目#{i} {message}")
-    return errors
+        # Optional quantity evidence does not determine project identity. A cleared
+        # value is a field warning even when its quote/anchor could not be located.
+        nullable_generation = {
+            "conflicting project totals", "conflicting turbine counts or unit capacities",
+            "single-unit capacity lacks unambiguous complete project count",
+            "capacity value absent from supplied source quotation",
+            "capacity quotation has no bounded target-project context",
+            "capacity belongs to an unbound project context",
+        }
+        for message in dict.fromkeys((ci.get("_txmf_contract_errors", []) or []) +
+                                     (ci.get("capacity_evidence_errors", []) or [])):
+            field = ("storage_power_mw_parsed" if message.startswith("Storage Power:") else
+                     "storage_energy_mwh_parsed" if message.startswith("Storage Energy:") else
+                     "capacity_mw_parsed" if message in nullable_generation or message.startswith("Capacity Evidence:") else
+                     "voltage_kv_parsed" if message.startswith("TX Voltage Evidence") else
+                     "line_length_km_parsed" if message.startswith("TX Line Length Evidence") else
+                     "transmission_capacity_mw_parsed" if message.startswith("TX Transmission Capacity Evidence") else
+                     "production_capacity_value_parsed" if message.startswith("MF Production Capacity") else None)
+            safe_null = field is not None and field in ci and ci[field] is None
+            (warnings if safe_null else errors).append(f"项目#{i} {pname}: {message}")
+    return errors, warnings
+
+
+def validate_s2(projects: list[dict]) -> list[str]:
+    """兼容调用方的完整诊断；自动重试与发布门控使用阻塞项分类。"""
+    errors, warnings = classify_s2_validation(projects)
+    return errors + warnings
+
+
+def validate_s2_blocking(projects: list[dict]) -> list[str]:
+    return classify_s2_validation(projects)[0]

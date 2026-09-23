@@ -14,6 +14,7 @@
     7. 导出 events_export.csv（按事件拆条明细，供前端下载）
 """
 
+import argparse
 import os
 import sqlite3
 import sys
@@ -54,25 +55,40 @@ CACHE_PATH = _S03_ROOT / "data" / "province_cache.json"
 S04_DATA_DIR = _WORKSPACE / "s04_web_visualization" / "public" / "data"
 
 
-def run() -> None:
+def run(*, external_references: Path | None = None,
+        src_db: Path | str | None = None, dst_dir: Path | str | None = None,
+        web_data_dir: Path | str | None = None, province_cache: Path | str | None = None,
+        allow_model_calls: bool = True) -> dict:
     """完整导出流程：省份提取 → 扁平表 → 聚合统计 → Excel/CSV 导出"""
 
+    source = Path(src_db if src_db is not None else SRC_DB).resolve()
+    if source != SRC_DB.resolve() and (dst_dir is None or web_data_dir is None):
+        raise ValueError("自定义源库导出须显式指定dst_dir和web_data_dir，防止写入生产导出")
+    destination = Path(dst_dir if dst_dir is not None else DST_DIR).resolve()
+    web = Path(web_data_dir if web_data_dir is not None else S04_DATA_DIR).resolve()
+    exported = destination / "bri_re_export.db"
+    cache = Path(province_cache).resolve() if province_cache is not None else (
+        CACHE_PATH if source == SRC_DB.resolve() else destination / "province_cache.json")
+    if source in {exported, cache.resolve()}:
+        raise ValueError("源库、导出库、省份缓存必须分离")
+    warnings = []
     api_key = os.environ.get("GEMINI_API_KEY", "")
-    if not api_key:
+    if allow_model_calls and not api_key:
         raise RuntimeError("未找到 GEMINI_API_KEY，请在 .env 文件中配置")
 
-    if not SRC_DB.exists():
+    if not source.exists():
         raise FileNotFoundError(
-            f"源数据库不存在: {SRC_DB}\n"
+            f"源数据库不存在: {source}\n"
             "请先运行 s02a_duplicate_merger 生成数据库。"
         )
 
-    DST_DIR.mkdir(parents=True, exist_ok=True)
+    destination.mkdir(parents=True, exist_ok=True)
+    cache.parent.mkdir(parents=True, exist_ok=True)
 
     # ── Step 1: 省份提取 ──────────────────────────────────────────────────────
     print("\n[1/6] 提取省份信息（使用 Gemini + 本地缓存）...")
 
-    conn = sqlite3.connect(SRC_DB)
+    conn = sqlite3.connect(source.as_uri() + "?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     raw_projects = [
         dict(r)
@@ -92,39 +108,44 @@ def run() -> None:
         for r in raw_projects
     ]
 
-    province_map = extract_provinces(records, CACHE_PATH, api_key)
+    province_diagnostics = {}
+    province_map = extract_provinces(records, cache, api_key, allow_model_calls=allow_model_calls,
+                                    diagnostics=province_diagnostics)
+    if province_diagnostics.get("failed_ids"):
+        warnings.append(f"省份提取失败{len(province_diagnostics['failed_ids'])}项，可重试；本次以未知省份导出")
     non_null = sum(1 for v in province_map.values() if v)
     print(f"  提取完成：{non_null}/{len(province_map)} 个项目有省级信息")
 
     # ── Step 2: 构建 projects_flat ────────────────────────────────────────────
     print("\n[2/7] 构建 projects_flat...")
-    n_rows = build_flat(SRC_DB, DST_DB, province_map)
+    n_rows = build_flat(source, exported, province_map)
     print(f"  ✓ projects_flat: {n_rows} 个项目")
 
     # ── Step 3: 构建 tx_flat / mf_flat（任务 3.4：TX/MF 专用扁平表）───────────
     print("\n[3/7] 构建 tx_flat / mf_flat...")
-    n_tx = build_tx_flat(SRC_DB, DST_DB, province_map)
-    n_mf = build_mf_flat(SRC_DB, DST_DB, province_map)
+    n_tx = build_tx_flat(source, exported, province_map)
+    n_mf = build_mf_flat(source, exported, province_map)
     print(f"  ✓ tx_flat: {n_tx} 个项目, mf_flat: {n_mf} 个项目")
 
     # ── Step 4: 构建聚合统计表 ────────────────────────────────────────────────
     print("\n[4/7] 构建聚合统计表...")
-    build_stats(DST_DB)
+    build_stats(exported)
 
     # ── Step 5: 导出 Excel / CSV ──────────────────────────────────────────────
     print("\n[5/7] 导出 Excel / CSV...")
 
-    conn = sqlite3.connect(DST_DB)
+    conn = sqlite3.connect(exported)
     df = pd.read_sql("SELECT * FROM projects_flat", conn)
     conn.close()
 
-    xlsx_path = DST_DIR / "projects_flat.xlsx"
-    csv_path  = DST_DIR / "projects_flat.csv"
+    xlsx_path = destination / "projects_flat.xlsx"
+    csv_path  = destination / "projects_flat.csv"
 
     try:
         df.to_excel(xlsx_path, index=False)
         print(f"  ✓ Excel : {xlsx_path.name}  ({len(df)} 行)")
     except PermissionError:
+        warnings.append("Excel文件被占用，未更新")
         print(f"  ⚠ Excel 写入跳过（文件可能已在 Excel 中打开）: {xlsx_path.name}")
 
     df.to_csv(csv_path, index=False, encoding="utf-8-sig")
@@ -132,27 +153,44 @@ def run() -> None:
 
     # ── Step 6: 导出静态 JSON（供 s04 前端使用）──────────────────────────────
     print("\n[6/7] 导出静态 JSON 文件（供前端可视化）...")
-    export_json(DST_DB, DST_DIR, src_db=SRC_DB)
+    export_json(exported, destination, src_db=source, external_references=external_references)
 
     # 同时写入 s04 public/data/（自动同步，无需手动复制）
-    if S04_DATA_DIR.parent.exists():
-        S04_DATA_DIR.mkdir(parents=True, exist_ok=True)
-        export_json(DST_DB, S04_DATA_DIR, src_db=SRC_DB)
-        print(f"  ✓ 已同步到 s04: {S04_DATA_DIR}")
+    if web_data_dir is not None or web.parent.exists():
+        web.mkdir(parents=True, exist_ok=True)
+        export_json(exported, web, src_db=source, external_references=external_references)
+        print(f"  ✓ 已同步到 s04: {web}")
     else:
         print("  ℹ s04_web_visualization 目录不存在，跳过同步")
 
     # ── Step 7: 导出按事件拆条明细 CSV（供前端下载，结构锁定）──────────────────
     print("\n[7/7] 导出 events_export.csv（按事件拆条）...")
     n_ev = events_exporter.export_events_csv(
-        SRC_DB,
-        [DST_DIR / "events_export.csv", S04_DATA_DIR / "events_export.csv"],
-        flat_db=DST_DB,
+        source,
+        [destination / "events_export.csv", web / "events_export.csv"],
+        flat_db=exported,
         iso3_to_en=flat_builder.ISO3_TO_EN_NAME,
         province_map=province_map,
     )
     print(f"  ✓ events_export.csv: {n_ev} 行（→ s03 output + s04 public/data）")
 
-    print(f"\n✅ 导出完成 → {DST_DIR}")
-    print(f"   主数据库  : {DST_DB.name}")
-    print(f"   省份缓存  : {CACHE_PATH.name}（下次运行不重复调用 API）")
+    print(f"\n✅ 导出完成 → {destination}")
+    print(f"   主数据库  : {exported.name}")
+    print(f"   省份缓存  : {cache.name}（下次运行不重复调用 API）")
+
+    return {"status": "partial" if warnings else "completed", "source_db": str(source),
+            "output_db": str(exported), "output_dir": str(destination), "web_data_dir": str(web),
+            "project_rows": n_rows, "event_rows": n_ev, "warnings": warnings,
+            "allow_model_calls": allow_model_calls, "province_diagnostics": province_diagnostics}
+
+
+def main() -> None:
+    """Keep CLI arguments separate from pipeline callers of run()."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--external-references", type=Path, help="Optional s02e metadata snapshot; never triggers reference API calls")
+    args = parser.parse_args()
+    run(external_references=args.external_references)
+
+
+if __name__ == "__main__":
+    main()

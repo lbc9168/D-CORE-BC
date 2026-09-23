@@ -1,0 +1,198 @@
+{
+  "provenance": "Explicit reconstructed fixed fixture from saved article and postprocessed 2026-09-17 calls; NOT verbatim API response. Goldwind participation quote expands to preceding project paragraph; entity raw names restored from audit fields; Goldwind S5 summary corrected for fixture.",
+  "source": {
+    "id": 27690,
+    "title": "乌兹别克斯坦赛尔吉利储能电站成功“上线”",
+    "content": "近日，由中国电建承建的中乌能源合作典范工程，乌兹别克斯坦赛尔吉利储能电站项目一次并网成功。将有效增强塔什干州电网调峰能力，并助力深化中乌两国能源合作，推动当地能源绿色转型。\n赛尔吉利175兆瓦/350兆瓦时储能电站项目地处乌兹别克斯坦首都塔什干市郊，总装机容量175兆瓦，是中国电建目前在中亚在建单体规模最大的电化学储能项目。\n项目采用电化学储能系统及应用构网型技术，可在不依赖电网的条件下自主建立电压，具备惯量支撑、快速调频、黑启动等核心功能。整套系统配置电池管理、储能变流、能量管理一体化智能管控平台，可实时监测电池健康状态，采用模块化设计，调度运维更加便捷，系统整体安全性达到行业先进水平。\n建设期间，电建项目团队克服了复杂并网规范、双重内陆国运输障碍、不同国别技术标准差异等诸多挑战，通过科学统筹资源配置，高标准、高质量推进设备安装、电缆敷设、系统调试等关键工序，最终顺利实现并网目标。\n项目投运后，将为乌兹别克斯坦电网提供约2.19亿千瓦时的电力调节电量，惠及当地百万居民。同时，将能够有效优化电网运行方式，提升电网调节能力与供电稳定性，大幅提升该国可再生能源消纳能力，对助力乌兹别克斯坦实现绿色发展战略目标具有重要意义。\n作为闻名中外的“丝绸之路”古国，乌兹别克斯坦是我国共建“一带一路”倡议的重要合作伙伴。中国电建自1999年正式进入乌国市场以来，共计签约项目10余个，覆盖水利灌溉、水电、光伏、输变电、房建等领域。其中，承建的纳沃伊100兆瓦光伏项目是该国首个光伏项目，EPC总承包的泽拉夫善风电项目是该国首个大型风电项目。",
+    "publish_date": "2026-09-11 13:58:02",
+    "url": "https://news.goalfore.cn/topstories/detail/97757.html"
+  },
+  "responses": {
+    "s1": {
+      "status": "valid_project",
+      "project_subject": "乌兹别克斯坦赛尔吉利储能电站项目",
+      "is_power_generation_plant": false,
+      "reasoning": "第一步命中①电力项目（独立储能），第二步有中企（中国电建）参与。"
+    },
+    "s2": {
+      "projects": [
+        {
+          "project_summary": null,
+          "in_scope": true,
+          "out_of_scope_reason": "",
+          "common_info": {
+            "Record Type": "具体项目",
+            "Project Name": "乌兹别克斯坦赛尔吉利175兆瓦储能电站项目",
+            "Project Name (EN)": "Sergeli 175 MW Energy Storage Project, Uzbekistan",
+            "Country": "乌兹别克斯坦",
+            "Location(State)": "塔什干州",
+            "Category": "储能",
+            "Generation Sources": [],
+            "Storage Status": "confirmed",
+            "Storage Power": "175兆瓦",
+            "Storage Energy": "350兆瓦时",
+            "Energy Composition Evidence": "赛尔吉利175兆瓦/350兆瓦时储能电站项目",
+            "Capacity (MW)": null,
+            "Capacity Details": null,
+            "TX Voltage Evidence": "",
+            "TX Line Length Evidence": "",
+            "TX Transmission Capacity Evidence": "",
+            "MF Production Capacity Evidence": "",
+            "Project Stage": "投入运营",
+            "Project Developer": "中国电建",
+            "Project Developer Evidence": "由中国电建承建的中乌能源合作典范工程，乌兹别克斯坦赛尔吉利储能电站项目一次并网成功。",
+            "(Planned) Start Date": null,
+            "(Planned) Complete Date": null,
+            "Financing Model": "Unknown",
+            "generation_sources_json": "[]",
+            "storage_status_normalized": "confirmed",
+            "storage_power_mw_raw_phrase": "175兆瓦",
+            "storage_energy_mwh_raw_phrase": "350兆瓦时",
+            "storage_power_mw_parsed": 175.0,
+            "storage_energy_mwh_parsed": 350.0,
+            "energy_composition_evidence_normalized": "赛尔吉利175兆瓦/350兆瓦时储能电站项目",
+            "technology_tags_json": "[]",
+            "energy_taxonomy_version": "energy_taxonomy_v2.1",
+            "voltage_kv_raw_phrase": "",
+            "line_length_km_raw_phrase": "",
+            "transmission_capacity_mw_raw_phrase": "",
+            "production_capacity_raw_phrase": "",
+            "_txmf_contract_errors": [],
+            "voltage_kv_parsed": null,
+            "line_length_km_parsed": null,
+            "transmission_capacity_mw_parsed": null,
+            "production_capacity_value_parsed": null,
+            "production_capacity_unit_normalized": null,
+            "capacity_mw_parsed": null,
+            "capacity_mw_raw_phrase": "",
+            "capacity_details_note": null
+          },
+          "chinese_entities": [
+            {
+              "Implementing Chinese Entity": "中国电力建设集团有限公司",
+              "Subsidiary Name": "中国电建",
+              "Chinese Identity Evidence": "",
+              "Type of involvement of Chinese Entities": "Unknown",
+              "Participation Evidence": [
+                {
+                  "role": "设计/施工服务方",
+                  "quote": "由中国电建承建的中乌能源合作典范工程，乌兹别克斯坦赛尔吉利储能电站项目一次并网成功。",
+                  "project_anchor": "乌兹别克斯坦赛尔吉利储能电站项目"
+                },
+                {
+                  "role": "设计/施工服务方",
+                  "quote": "赛尔吉利175兆瓦/350兆瓦时储能电站项目地处乌兹别克斯坦首都塔什干市郊，总装机容量175兆瓦，是中国电建目前在中亚在建单体规模最大的电化学储能项目。",
+                  "project_anchor": "赛尔吉利175兆瓦/350兆瓦时储能电站项目"
+                }
+              ],
+              "Subcontract Amount (Million USD)": "",
+              "equipment_role": "未提及",
+              "equipment_items": "",
+              "equipment_supply_scope": "",
+              "_participation_evidence_status": "verified",
+              "_participation_evidence_reasons": [
+                "参与已确认，具体角色证据不足: 设计/施工服务方",
+                "未找到绑定当前企业和项目的肯定参与动作"
+              ],
+              "_entity_raw_name": "中国电建",
+              "_entity_verification_status": "verified_chinese",
+              "_entity_matched_source": "hierarchy",
+              "_entity_id": null,
+              "_entity_name": "中国电建",
+              "_group_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+              "_parent_entity_id": null,
+              "_identity_evidence_status": "missing_or_ambiguous",
+              "_identity_evidence_reasons": [
+                "身份证据不是连续原文"
+              ]
+            }
+          ],
+          "entity_candidates": [
+            {
+              "Implementing Chinese Entity": "中国电力建设集团有限公司",
+              "Subsidiary Name": "中国电建",
+              "Chinese Identity Evidence": "",
+              "Type of involvement of Chinese Entities": "Unknown",
+              "Participation Evidence": [
+                {
+                  "role": "设计/施工服务方",
+                  "quote": "由中国电建承建的中乌能源合作典范工程，乌兹别克斯坦赛尔吉利储能电站项目一次并网成功。",
+                  "project_anchor": "乌兹别克斯坦赛尔吉利储能电站项目"
+                },
+                {
+                  "role": "设计/施工服务方",
+                  "quote": "赛尔吉利175兆瓦/350兆瓦时储能电站项目地处乌兹别克斯坦首都塔什干市郊，总装机容量175兆瓦，是中国电建目前在中亚在建单体规模最大的电化学储能项目。",
+                  "project_anchor": "赛尔吉利175兆瓦/350兆瓦时储能电站项目"
+                }
+              ],
+              "Subcontract Amount (Million USD)": "",
+              "equipment_role": "未提及",
+              "equipment_items": "",
+              "equipment_supply_scope": "",
+              "_participation_evidence_status": "verified",
+              "_participation_evidence_reasons": [
+                "参与已确认，具体角色证据不足: 设计/施工服务方",
+                "未找到绑定当前企业和项目的肯定参与动作"
+              ],
+              "_entity_raw_name": "中国电建",
+              "_entity_verification_status": "verified_chinese",
+              "_entity_matched_source": "hierarchy",
+              "_entity_id": null,
+              "_entity_name": "中国电建",
+              "_group_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+              "_parent_entity_id": null,
+              "_identity_evidence_status": "missing_or_ambiguous",
+              "_identity_evidence_reasons": [
+                "身份证据不是连续原文"
+              ]
+            }
+          ],
+          "entity_gate_excluded": false,
+          "publication_status": "eligible",
+          "needs_review": true,
+          "entity_review_entities": "中国电建",
+          "entity_review_reason_type": "entity_identity",
+          "entity_review_reason": "已有中企参与证据；部分企业名称或身份待补录，已确认关系正常保留"
+        }
+      ]
+    },
+    "s34": {
+      "chinese_entities": [
+        {
+          "Implementing Chinese Entity": "中国电建",
+          "Subsidiary Name": "中国电建",
+          "Chinese Identity Evidence": "",
+          "Type of involvement of Chinese Entities": "Unknown",
+          "Participation Evidence": [
+            {
+              "role": "设计/施工服务方",
+              "quote": "由中国电建承建的中乌能源合作典范工程，乌兹别克斯坦赛尔吉利储能电站项目一次并网成功。",
+              "project_anchor": "乌兹别克斯坦赛尔吉利储能电站项目"
+            },
+            {
+              "role": "设计/施工服务方",
+              "quote": "赛尔吉利175兆瓦/350兆瓦时储能电站项目地处乌兹别克斯坦首都塔什干市郊，总装机容量175兆瓦，是中国电建目前在中亚在建单体规模最大的电化学储能项目。",
+              "project_anchor": "赛尔吉利175兆瓦/350兆瓦时储能电站项目"
+            }
+          ],
+          "Subcontract Amount (Million USD)": "",
+          "equipment_role": "未提及",
+          "equipment_items": "",
+          "equipment_supply_scope": ""
+        }
+      ],
+      "Total Project Investment (Million USD)": "",
+      "Contract Amount (Million USD)": "",
+      "Financing Amount (Million USD)": "",
+      "Investment (or Financial Close) Date": "",
+      "Financing Model": "Unknown",
+      "Financing Evidence": [],
+      "Financing Model Details": "",
+      "Additional Remarks": ""
+    },
+    "s5": {
+      "project_summary": "乌兹别克斯坦塔什干州赛尔吉利储能电站项目为独立储能项目，规模175 MW/350 MWh，由中国电建承建。项目阶段为投入运营，现有证据显示已一次并网成功。",
+      "corrections": []
+    }
+  }
+}

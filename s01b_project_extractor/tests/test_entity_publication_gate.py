@@ -1,4 +1,4 @@
-"""中企身份未核实的项目必须进入人工复核且不得自动发布。"""
+"""主体补录、身份与参与分别判断；单条未决关系不影响已确认参与。"""
 
 from s01b_project_extractor.stages.entity_normalize import (
     UNMATCHED_NEEDS_REVIEW,
@@ -62,3 +62,54 @@ def test_missing_participation_binding_is_removed_and_blocks_when_no_entity_rema
     assert project["entity_gate_excluded"] is True
     assert project["needs_review"] is True
     assert project["entity_review_reason_type"] == "entity_relation"
+
+
+def test_one_unmatched_member_does_not_block_known_chinese_participant():
+    known = {**_entity("已知中企", VERIFIED_CHINESE), "_entity_id": "C001"}
+    unknown = _entity("新企业", UNMATCHED_NEEDS_REVIEW)
+    project = {"chinese_entities": [known, unknown]}
+    _apply_entity_publication_gate(project)
+    assert project["chinese_entities"] == [known]
+    assert project["publication_status"] == "eligible"
+    assert project["needs_review"] and not project["entity_gate_excluded"]
+    assert project["entity_candidates"] == [known, unknown]
+
+
+def test_source_verified_new_chinese_company_is_retained_pending_registration():
+    entity = {**_entity("新中企", UNMATCHED_NEEDS_REVIEW),
+              "_identity_evidence_status": "verified"}
+    project = {"chinese_entities": [entity]}
+    _apply_entity_publication_gate(project)
+    assert project["chinese_entities"] == [entity]
+    assert project["publication_status"] == "eligible"
+    assert project["needs_review"] and not project["entity_gate_excluded"]
+
+
+def test_source_claim_cannot_override_known_foreign_or_ambiguous_registry():
+    for status, source in [(VERIFIED_NON_CHINESE, "registry"),
+                           (UNMATCHED_NEEDS_REVIEW, "ambiguous"),
+                           (UNMATCHED_NEEDS_REVIEW, "registry_needs_review")]:
+        entity = {**_entity("歧义名", status), "_identity_evidence_status": "verified",
+                  "_entity_matched_source": source}
+        project = {"chinese_entities": [entity]}
+        _apply_entity_publication_gate(project)
+        assert project["chinese_entities"] == []
+        assert project["publication_status"] != "eligible"
+
+
+def test_known_group_with_unknown_legal_entity_can_keep_participation():
+    entity = {**_entity("集团通称", VERIFIED_CHINESE), "_group_entity_id": "GROUP001"}
+    project = {"chinese_entities": [entity]}
+    _apply_entity_publication_gate(project)
+    assert project["publication_status"] == "eligible"
+    assert project["needs_review"]
+
+
+def test_missing_participation_is_retained_in_audit_candidates():
+    entity = {**_entity("某中企", VERIFIED_CHINESE),
+              "_participation_evidence_status": "missing_or_ambiguous",
+              "Participation Evidence": [{"quote": "未经验证的原文候选"}]}
+    project = {"chinese_entities": [entity]}
+    _apply_entity_publication_gate(project)
+    assert project["publication_status"] == "pending_review"
+    assert project["entity_candidates"][0]["Participation Evidence"]

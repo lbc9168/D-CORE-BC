@@ -79,3 +79,30 @@ def test_extract_staged_valid_merge_s34_path(monkeypatch):
     # s34 的金融字段已并入 common_info；实体路径2a 精确命中：implementing=canonical，sub=""
     assert out["projects"][0]["common_info"]["Financing Model"] == "信贷融资"
     assert out["projects"][0]["chinese_entities"][0]["Implementing Chinese Entity"] == "中国能源建设集团有限公司"
+
+
+def test_summary_failure_does_not_restart_or_discard_core_stages(monkeypatch):
+    monkeypatch.setenv("S01B_MERGE_S34", "1")
+    content = "中国能源建设集团有限公司签署测试光伏项目EPC合同。测试光伏项目总装机100MW。"
+    class SummaryFailureLLM(_FakeLLM):
+        def complete(self, prompt, *, stage, json_mode=True):
+            if stage == "s5":
+                self.stages.append(stage)
+                raise RuntimeError("LLM complete stage=s5 failed")
+            return super().complete(prompt, stage=stage, json_mode=json_mode)
+    llm = SummaryFailureLLM({
+        "s1": {"status": "valid_project", "reasoning": "r", "project_subject": "p"},
+        "s2": {"projects": [{"common_info": {"Project Name": "测试光伏项目", "Category": "光伏",
+             "Project Stage": "在建", "Capacity (MW)": "100MW", "Generation Sources": ["光伏"]}}]},
+        "s34": {"chinese_entities": [{"Implementing Chinese Entity": "中国能源建设集团有限公司",
+              "Type of involvement of Chinese Entities": "EPC总承包", "Participation Evidence": [
+                  {"role": "EPC总承包", "quote": content, "project_anchor": "测试光伏项目"}]}]},
+    })
+    out = extract_staged("测试光伏项目", content, "2026-01-01", llm=llm)
+    project = out["projects"][0]
+    assert llm.stages == ["s1", "s2", "s34", "s5"]
+    assert project["publication_status"] == "eligible"
+    assert project["common_info"]["capacity_mw_parsed"] == 100
+    assert project["chinese_entities"][0]["Implementing Chinese Entity"] == "中国能源建设集团有限公司"
+    assert "100MW" in project["project_summary"]
+    assert project["summary_warning"]["kind"] == "llm_failure"

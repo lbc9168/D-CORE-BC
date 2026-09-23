@@ -74,6 +74,10 @@ def _tcap_context_to_mw(value: float, unit: str) -> float:
 def _parse_voltage(text: str) -> Optional[float]:
     """多个不同千伏值取最大（线路电压等级）；无匹配返回 None。"""
     vals = {float(v) for v in _VOLTAGE_RE.findall(text)}
+    # Transformer ratios share a trailing unit: retain both sides, select the
+    # primary/highest voltage while the original full specification stays raw.
+    for match in re.finditer(r"(\d+(?:\.\d+)?(?:\s*[/／]\s*\d+(?:\.\d+)?)+)\s*(?:千伏(?!安)|kV(?![aA]))", text, re.I):
+        vals.update(float(v) for v in re.split(r"\s*[/／]\s*", match.group(1)))
     if not vals:
         return None
     return max(vals)

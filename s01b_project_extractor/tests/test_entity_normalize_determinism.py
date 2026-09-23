@@ -43,25 +43,12 @@ def test_index_identical_when_groups_shuffled():
         assert stripped == stripped_ref, f"第 {round_no} 轮洗牌后去尾缀索引不一致"
 
 
-def test_same_priority_tiebreak_is_canonical_lexicographic():
-    """合成用例：两组同优先级（sub 名）声明同一键，胜者=canonical 字典序最小（任意但确定），
-    与两组在列表中的先后无关。"""
-    grp_a = {
-        "canonical_name_cn": "乙集团有限公司",
-        "aliases": [],
-        "subsidiaries": [{"name_cn": "争议子公司有限公司", "legal_full_name_cn": "争议子公司有限公司"}],
-    }
-    grp_b = {
-        "canonical_name_cn": "甲集团有限公司",
-        "aliases": [],
-        "subsidiaries": [{"name_cn": "争议子公司有限公司", "legal_full_name_cn": "争议子公司有限公司"}],
-    }
-    expected_winner = min("乙集团有限公司", "甲集团有限公司")  # 字典序最小的 canonical
-    for order in ([grp_a, grp_b], [grp_b, grp_a]):
-        idx, _ = _build_index_v2(order)
-        canon, sub = idx["争议子公司有限公司"]
-        assert canon == expected_winner, (
-            f"同优先级并列应按 canonical 字典序决胜（期望 {expected_winner!r}），"
-            f"顺序 {[g['canonical_name_cn'] for g in order]} 下得到 {canon!r}"
-        )
-        assert sub == "争议子公司有限公司"
+def test_cross_group_ambiguity_never_chooses_lexicographic_winner():
+    """A stable arbitrary answer is still wrong: keep cross-group names unresolved."""
+    groups = [{"canonical_name_cn": name, "aliases": [], "subsidiaries": [
+        {"name_cn": "争议子公司有限公司", "legal_full_name_cn": "争议子公司有限公司"}
+    ]} for name in ("甲集团有限公司", "乙集团有限公司")]
+    for order in (groups, list(reversed(groups))):
+        exact, stripped = _build_index_v2(order)
+        assert "争议子公司有限公司" not in exact
+        assert "争议子公司" not in stripped

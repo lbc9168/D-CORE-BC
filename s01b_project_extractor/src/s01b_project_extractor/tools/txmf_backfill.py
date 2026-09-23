@@ -28,6 +28,7 @@ from s01b_project_extractor.txmf_spec_parser import (
     parse_tx_atomic,
     parse_tx_event,
 )
+from s01b_project_extractor.tools.field_validation import withheld_fields, record_repairs
 
 import bri_enums as enums
 
@@ -107,6 +108,7 @@ def _scan_events(db_path: str) -> tuple[list[dict], list[dict]]:
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     try:
+        withheld = withheld_fields(conn)
         existing = {row[1] for row in conn.execute("PRAGMA table_info(project_events)")}
         raw_select = ", ".join(
             f"e.{column}" if column in existing else f"NULL AS {column}"
@@ -146,7 +148,7 @@ def _scan_events(db_path: str) -> tuple[list[dict], list[dict]]:
             )
             change: dict[str, Any] = {"event_id": r["event_id"]}
             for col in _TX_COLUMNS:
-                if r[col] is None and parsed[col] is not None:
+                if r[col] is None and parsed[col] is not None and col not in withheld.get(r["event_id"], set()):
                     change[col] = parsed[col]
             if len(change) > 1:
                 plan.append(change)
@@ -166,7 +168,8 @@ def _scan_events(db_path: str) -> tuple[list[dict], list[dict]]:
             )
             change = {"event_id": r["event_id"]}
             # 成对填：value/unit 只要目标列现有值均为 NULL 且解析出新值就一起写
-            if (r["production_capacity_value"] is None and r["production_capacity_unit"] is None
+            if (not {"production_capacity_value", "production_capacity_unit"}.intersection(withheld.get(r["event_id"], set()))
+                    and r["production_capacity_value"] is None and r["production_capacity_unit"] is None
                     and (parsed["production_capacity_value"] is not None
                          or parsed["production_capacity_unit"] is not None)):
                 change["production_capacity_value"] = parsed["production_capacity_value"]
@@ -261,6 +264,7 @@ def _apply_plan(db_path: str, plan: list[dict]) -> None:
                 sql = f"UPDATE project_events SET {set_clause} WHERE id=?"
                 params = [tuple(ch[c] for c in cols) + (ch["event_id"],) for ch in changes]
                 conn.executemany(sql, params)
+            record_repairs(conn, plan, "txmf_backfill")
         logger.info("已落库 %d 条变更（%d 个列组合）", len(plan), len(groups))
     finally:
         conn.close()

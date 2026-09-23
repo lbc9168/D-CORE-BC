@@ -48,8 +48,8 @@ def test_build_warns_on_cross_group_ambiguous_key(caplog):
     assert any("乙股份有限公司" in w for w in warnings), (
         f"期望跨集团歧义键触发 WARNING，实际: {warnings}"
     )
-    # 优先级规则：canonical(0) 胜 sub_legal(1)
-    assert index["乙股份有限公司"] == ("乙股份有限公司", "")
+    # Contradictory group membership needs review, irrespective of key priority.
+    assert "乙股份有限公司" not in index
 
 
 def test_build_warns_contains_key_and_group_name(caplog):
@@ -70,7 +70,7 @@ def test_real_registry_has_no_cross_group_ambiguity(caplog):
         _hierarchy_index_v2()
     cross_group = [
         r.message for r in caplog.records
-        if r.levelno == logging.WARNING and "歧义键（跨集团）" in r.message
+        if r.levelno == logging.WARNING and "名称歧义键" in r.message
     ]
     assert cross_group == [], f"真实登记册仍有跨集团歧义键: {cross_group}"
 

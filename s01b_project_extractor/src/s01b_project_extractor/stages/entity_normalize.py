@@ -1,277 +1,377 @@
-"""纯查表实体解析器：verbatim → (implementing, subsidiary)，读 company_hierarchy_v2.json。
+"""Resolve trusted company names without conflating legal entities and group membership.
 
-三层匹配顺序（无包含匹配）：
-  1. 精确名（canonical/subsidiaries 全名 及 legal_full_name_cn）
-  2. 别名（aliases[] 与 subsidiaries[].legal_full_name_cn）
-  3. 去尾缀归一化（输入与表键都做同样的尾缀剥离后精确比对；预构索引，O(1) 查询）
-未命中：透传原文 + 写 WARNING 日志（供季度频次补录）。
-
-不变量（下游 ⑨-3 回填依赖）：
-  - subsidiary 非空 ⇔ 它是原文名（verbatim）
-  - subsidiary 空  ⇔ implementing 即原文名（或 "Unknown"）
+The legacy (implementing, subsidiary) projection is retained for existing consumers.
+New consumers use entity_id/entity_name; an unverified group-only mention deliberately
+has no legal-entity ID. Source membership does not establish a direct parent.
 """
-import logging
 import json
+import logging
+import re
+import unicodedata
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
+from uuid import NAMESPACE_URL, uuid5
+from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, StrictBool
 
 logger = logging.getLogger(__name__)
-
 VERIFIED_CHINESE = "verified_chinese"
 VERIFIED_NON_CHINESE = "verified_non_chinese"
 UNMATCHED_NEEDS_REVIEW = "unmatched_needs_review"
 
 
 class _RegistryCompany(BaseModel):
-    """校验 developer_registry 中与企业国别门禁有关的最小字段。"""
-
     canonical_cn: str
+    canonical_en: str = ""
     aliases: list[str] = Field(default_factory=list)
-    is_chinese: bool
+    review_names: list[str] = Field(default_factory=list)
+    is_chinese: StrictBool
     parent_cn: str | None = None
+    identity_status: Literal["confirmed", "needs_review"] = "confirmed"
+    entity_id: str | None = None
+
+
+class _SubsidiaryRecord(BaseModel):
+    name_cn: str = Field(min_length=1)
+    legal_full_name_cn: str | None = None
+    aliases: list[str] = Field(default_factory=list)
+    context_required_names: list[str] = Field(default_factory=list)
+    entity_id: str | None = Field(default=None, pattern=r"^ent_[0-9a-f]{20}$")
+    parent_entity_id: str | None = Field(default=None, pattern=r"^ent_[0-9a-f]{20}$")
+    is_chinese: StrictBool | None = None
+    legal_entity_status: Literal["confirmed", "needs_review"] = "confirmed"
+    group_membership_status: Literal["confirmed", "historical_only"] = "confirmed"
+
+
+class _GroupRecord(BaseModel):
+    canonical_name_cn: str = Field(min_length=1)
+    aliases: list[str] = Field(default_factory=list)
+    group_only_aliases: list[str] = Field(default_factory=list)
+    disputed_aliases: list[str] = Field(default_factory=list)
+    context_required_names: list[str] = Field(default_factory=list)
+    subsidiaries: list[_SubsidiaryRecord] = Field(default_factory=list)
+    entity_id: str | None = Field(default=None, pattern=r"^ent_[0-9a-f]{20}$")
+    parent_entity_id: str | None = Field(default=None, pattern=r"^ent_[0-9a-f]{20}$")
+    is_chinese: StrictBool | None = True
 
 
 @dataclass(frozen=True)
 class EntityResolution:
-    """保存实体归一结果及是否具备可发布的中企身份证据。"""
-
     implementing: str
     subsidiary: str
     verification_status: str
     matched_source: str
+    entity_id: str | None = None
+    entity_name: str = ""
+    group_id: str | None = None
+    parent_entity_id: str | None = None
+    raw_name: str = ""
 
-# 尾缀列表：剥离后做精确比对（两端均剥离，尾缀顺序从长到短避免贪心截断）
+
+@dataclass(frozen=True)
+class _Identity:
+    name: str
+    entity_id: str | None
+    group: str
+    group_id: str | None
+    parent_entity_id: str | None = None
+    is_chinese: bool | None = True
+
+
+def stable_entity_id(name: str) -> str:
+    """Bootstrap an ID once; persisted IDs must be retained when a name changes."""
+    return "ent_" + uuid5(NAMESPACE_URL, "dcore:company:" + name.strip()).hex[:20]
+
+
+def _name_key(name: str) -> str:
+    # Parentheses width and English case are typography, not corporate identity.
+    return re.sub(r"\s+", " ", unicodedata.normalize("NFKC", name).strip()).casefold()
+
+
 _CORP_SUFFIXES = (
-    "集团股份有限公司",
-    "集团有限责任公司",
-    "集团有限公司",
-    "股份有限公司",
-    "有限责任公司",
-    "有限公司",
-    "集团公司",
-    "集团",
+    "集团股份有限公司", "集团有限责任公司", "集团有限公司", "股份有限公司",
+    "有限责任公司", "有限公司", "集团公司", "集团",
 )
 
 
 def _strip_suffix(name: str) -> str:
-    """剥除常见公司尾缀后返回核心名（剥第一个匹配就停）。"""
-    for sfx in _CORP_SUFFIXES:
-        if name.endswith(sfx):
-            return name[: len(name) - len(sfx)]
-    return name
+    value = _name_key(name)
+    for suffix in _CORP_SUFFIXES:
+        if value.endswith(suffix) and len(value) > len(suffix) + 1:
+            return value[:-len(suffix)]
+    return re.sub(r"(?:,?\s+(?:co\.?[,]?\s+)?(?:ltd\.?|limited|inc\.?|corporation))$", "", value).strip()
 
 
-def _build_index_v2(
-    groups: list[dict],
-) -> tuple[dict[str, tuple[str, str]], dict[str, tuple[str, str]]]:
-    """纯函数：由 groups 列表构建 (精确索引, 去尾缀索引)，供 _hierarchy_index_v2 缓存复用。
+def _load_hierarchy_v2() -> dict:
+    path = Path(__file__).resolve().parents[4] / "supporting_docs" / "company_hierarchy_v2.json"
+    if not path.exists():
+        raise FileNotFoundError(f"中企层级表不存在: {path}")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if payload.get("schema_version") != 2 or not isinstance(payload.get("groups"), list):
+        raise ValueError(f"中企层级表结构不合法: {path}")
+    for group in payload["groups"]:
+        _GroupRecord.model_validate(group)
+    return payload
 
-    索引构建规则（显式优先级：canonical > sub_name_cn/sub_legal > alias）：
-      - 集团 canonical_name_cn      → (canonical, "")
-      - 子公司 name_cn              → (canonical, name_cn)   ── 路径1
-      - 子公司 legal_full_name_cn   → (canonical, legal_full_name_cn)  ── 注册为子公司别名
-      - 集团 aliases[]              → (canonical, "")  ── 路径2b：调用方在命中时设 sub=verbatim
-    同优先级并列时按 (canonical, sub 键) 字典序决胜（任意但确定，不依赖文件行序）。
-    歧义检测：同一键被多组声明时 → WARNING（列出键+两组名）。输出与 groups 排列顺序无关。
-    同时构建去尾缀预索引（_stripped_index），避免 normalize_entity 线性扫描（25k 行回填性能需求）。
-    """
-    index: dict[str, tuple[str, str]] = {}
 
-    # 第一遍：按优先级收集所有候选（key → list of (priority, canon, sub_key, role_desc)）
-    # priority: 0=canonical, 1=sub_name_cn/sub_legal, 2=alias
-    candidates: dict[str, list[tuple[int, str, str, str]]] = {}
+def _identity_candidates(groups: list[dict]) -> tuple[dict[str, list[_Identity]], dict[str, _Identity]]:
+    candidates: dict[str, list[_Identity]] = {}
+    by_id: dict[str, _Identity] = {}
+    conflicting_ids: set[str] = set()
+    for group in groups:
+        canonical = group["canonical_name_cn"].strip()
+        if not canonical:
+            raise ValueError("企业集团规范名不能为空")
+        group_id = group.get("entity_id") or stable_entity_id(canonical)
+        root = _Identity(group.get("legal_full_name_cn") or canonical, group_id, canonical,
+                         group_id, group.get("parent_entity_id"), group.get("is_chinese", True))
+        entries = [(group, root, [canonical, root.name])]
+        for sub in group.get("subsidiaries", []):
+            legal = (sub.get("legal_full_name_cn") or sub.get("name_cn") or "").strip()
+            if not legal:
+                raise ValueError(f"{canonical}: 子主体规范名不能为空")
+            identity_id = None if sub.get("legal_entity_status") == "needs_review" else (sub.get("entity_id") or stable_entity_id(legal))
+            identity = _Identity(legal, identity_id, canonical,
+                                 group_id, sub.get("parent_entity_id"), sub.get("is_chinese"))
+            if sub.get("group_membership_status") == "historical_only":
+                # Retain the historical filing location without asserting a current
+                # group after a reorganization. Nationality needs its own ruling.
+                identity = _Identity(legal, identity_id, legal, None, None, sub.get("is_chinese"))
+            entries.append((sub, identity, [sub.get("name_cn", ""), legal]))
+        for item, identity, names in entries:
+            prior = by_id.get(identity.entity_id) if identity.entity_id else None
+            if prior and prior != identity:
+                if item.get("entity_id"):
+                    raise ValueError(f"企业 ID 的规范名/归组/母公司冲突: {identity.entity_id}")
+                conflicting_ids.add(identity.entity_id)
+                by_id.pop(identity.entity_id, None)
+            if identity.entity_id and identity.entity_id not in conflicting_ids:
+                by_id[identity.entity_id] = identity
+            group_only = set(item.get("group_only_aliases", []))
+            disputed = set(item.get("disputed_aliases", []))
+            # A generic unit name (e.g. 中央研究院) is not a global company alias.
+            contextual = {_name_key(n) for n in item.get("context_required_names", [])}
+            for name in [*names, item.get("canonical_en", ""), *item.get("aliases", [])]:
+                if not isinstance(name, str) or not name.strip() or name in disputed:
+                    continue
+                if _name_key(name) in contextual:
+                    continue
+                resolved = identity
+                if name in group_only:
+                    resolved = _Identity(name, None, canonical, group_id, None, root.is_chinese)
+                candidates.setdefault(_name_key(name), []).append(resolved)
+    # Direct links are separate from the flat group membership; validate, never invent.
+    for identity in by_id.values():
+        seen: set[str] = set()
+        current = identity
+        while current.parent_entity_id:
+            if current.entity_id in seen:
+                raise ValueError(f"企业母子关系存在环: {identity.entity_id}")
+            seen.add(current.entity_id)
+            if current.parent_entity_id not in by_id:
+                raise ValueError(f"企业直接母公司不存在: {current.parent_entity_id}")
+            current = by_id[current.parent_entity_id]
+    return candidates, by_id
 
-    for grp in groups:
-        canon = grp["canonical_name_cn"]
 
-        # 优先级0：集团 canonical
-        candidates.setdefault(canon, []).append((0, canon, "", f"canonical of {canon}"))
-
-        # 优先级1：子公司 name_cn / legal_full_name_cn
-        for sub in grp.get("subsidiaries", []):
-            name_cn = sub.get("name_cn", "")
-            legal   = sub.get("legal_full_name_cn") or ""
-            if name_cn:
-                candidates.setdefault(name_cn, []).append((1, canon, name_cn, f"sub_name_cn of {canon}"))
-            if legal and legal != name_cn:
-                candidates.setdefault(legal, []).append((1, canon, legal, f"sub_legal of {canon}"))
-
-        # 优先级2：集团别名
-        for alias in grp.get("aliases", []):
-            if alias:
-                candidates.setdefault(alias, []).append((2, canon, "", f"alias of {canon}"))
-
-    # 第二遍：按优先级选胜者；同键多组声明 → WARNING
+def _unique_candidates(candidates: dict[str, list[_Identity]], *, label: str) -> tuple[dict[str, _Identity], set[str]]:
+    result: dict[str, _Identity] = {}
+    ambiguous: set[str] = set()
     for key, entries in candidates.items():
-        # 按 priority 升序；同优先级并列时按 (canonical, sub 键) 字典序取最小——
-        # 该决胜规则本身是任意的，但保证确定（索引不依赖登记册文件行序）；
-        # 数据侧应显式消歧（build_hierarchy_v2.py），此处仅为未来新数据保底。
-        entries_sorted = sorted(entries, key=lambda x: (x[0], x[1], x[2]))
-        winner_priority, winner_canon, winner_sub, winner_role = entries_sorted[0]
+        # Multiple spellings of the same legal entity are equivalent; group-only
+        # aliases remain unresolved legal subjects even when the group is known.
+        identities = {(e.entity_id, e.group_id) for e in entries}
+        if len(identities) != 1:
+            groups = {(e.group_id, e.group) for e in entries}
+            logger.warning("entity_normalize %s歧义键: %r → 待核实；集团=%s", label, key,
+                           sorted({e.group for e in entries}))
+            if len(groups) == 1:
+                group_id, group = next(iter(groups))
+                result[key] = _Identity(key, None, group, group_id, None, None)
+            else:
+                ambiguous.add(key)
+        else:
+            result[key] = min(entries, key=lambda e: (e.name, e.group))
+    return result, ambiguous
 
-        # 歧义检测：同一键被不同集团声明（winner_canon 不唯一）
-        canon_set = {canon for _, canon, _, _ in entries_sorted}
-        if len(canon_set) > 1:
-            other_roles = [role for pri, canon, sub, role in entries_sorted if canon != winner_canon]
-            logger.warning(
-                "entity_normalize 歧义键（跨集团）: %r → 采用 %s；冲突来源: %s",
-                key, winner_role, other_roles
-            )
-        elif len(entries_sorted) > 1 and entries_sorted[0][0] == entries_sorted[1][0]:
-            # 同级同集团多次注册（如 name_cn == legal_full_name_cn 重复 insert），静默（数据内部冗余）
-            pass
 
-        index[key] = (winner_canon, winner_sub)
+def _build_identity_index(groups: list[dict]):
+    candidates, by_id = _identity_candidates(groups)
+    exact, ambiguous = _unique_candidates(candidates, label="名称")
+    stripped_candidates: dict[str, list[_Identity]] = {}
+    for key, entries in candidates.items():
+        stripped_candidates.setdefault(_strip_suffix(key), []).extend(entries)
+    stripped, stripped_ambiguous = _unique_candidates(stripped_candidates, label="去尾缀碰撞")
+    return exact, stripped, ambiguous, stripped_ambiguous, by_id
 
-    # ── 构建去尾缀预索引（stripped_key → 胜者 index entry）────────────────────
-    # 同一 stripped_key 被多个原始键占用 → WARNING（跨集团时）
-    stripped: dict[str, tuple[str, str]] = {}
-    stripped_owners: dict[str, list[str]] = {}  # stripped_key → list of original keys（for warning）
 
-    for key in index:
-        sk = _strip_suffix(key)
-        if sk == key:
-            continue  # 无尾缀，不进去尾缀索引
-        stripped_owners.setdefault(sk, []).append(key)
+def _build_index_v2(groups: list[dict]) -> tuple[dict, dict]:
+    """Legacy index view; ambiguous identities are omitted, never chosen lexically."""
+    exact, stripped, _, _, _ = _build_identity_index(groups)
+    def projection(entry):
+        return (entry.group, "" if entry.name == entry.group else entry.name)
+    return ({key: projection(value) for key, value in exact.items()},
+            {key: projection(value) for key, value in stripped.items()})
 
-    # 检测去尾缀碰撞并选胜者：多个原始键竞争时按 (canon, sub 键, 原始键) 字典序取最小——
-    # 规则任意但确定，保证去尾缀索引同样不依赖登记册文件行序
-    for sk, orig_keys in stripped_owners.items():
-        winner_key = min(orig_keys, key=lambda k: (index[k][0], index[k][1], k))
-        stripped[sk] = index[winner_key]
-        canons_for_sk = {index[k][0] for k in orig_keys}
-        if len(canons_for_sk) > 1:
-            logger.warning(
-                "entity_normalize 去尾缀碰撞: 剥缀后 %r 被多组声明 → 按字典序决胜；原始键: %s",
-                sk, orig_keys
-            )
-        elif len(orig_keys) > 1:
-            # 同集团内去尾缀碰撞（如 canonical vs sub_name_cn 尾缀不同），也 warning
-            logger.warning(
-                "entity_normalize 去尾缀碰撞（同集团）: 剥缀后 %r 被同集团不同键声明 → 按字典序决胜；原始键: %s",
-                sk, orig_keys
-            )
 
-    return index, stripped
+_stripped_index_cache: dict[str, tuple[str, str]] = {}
+_identity_index_cache: dict[str, _Identity] = {}
+_identity_stripped_cache: dict[str, _Identity] = {}
+_ambiguous_keys: set[str] = set()
+_ambiguous_stripped: set[str] = set()
+_identities_by_id: dict[str, _Identity] = {}
 
 
 @lru_cache(maxsize=1)
 def _hierarchy_index_v2() -> dict[str, tuple[str, str]]:
-    """构建 v2 查表索引（进程级缓存）：「任意名称 → (集团 canonical, sub_name_or_empty)」；
-    同时把去尾缀索引写入模块级 _stripped_index_cache 供 normalize_entity O(1) 查询。"""
-    data = _load_hierarchy_v2()
-    groups = data.get("groups", [])
-    index, stripped = _build_index_v2(groups)
-
-    global _stripped_index_cache
-    _stripped_index_cache = stripped
-
-    logger.info("entity_normalize v2 索引已构建：%d 条目，去尾缀索引 %d 条（%d 个集团）",
-                len(index), len(stripped), len(groups))
-    return index
-
-
-# 去尾缀预构索引（由 _hierarchy_index_v2 构建，normalize_entity 直接查，O(1)）
-_stripped_index_cache: dict[str, tuple[str, str]] = {}
-
-
-def _load_hierarchy_v2() -> dict:
-    """加载 company_hierarchy_v2.json（schema_version=2）；文件不在时返回空结构。"""
-    hierarchy_path = Path(__file__).resolve().parents[4] / "supporting_docs" / "company_hierarchy_v2.json"
-    if not hierarchy_path.exists():
-        logger.error("中企层级表不存在: %s", hierarchy_path)
-        return {"groups": []}
-    try:
-        return json.loads(hierarchy_path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        logger.error("中企层级表加载失败: %s | path=%s", exc, hierarchy_path)
-        raise
+    global _identity_index_cache, _identity_stripped_cache, _ambiguous_keys
+    global _ambiguous_stripped, _identities_by_id, _stripped_index_cache
+    groups = _load_hierarchy_v2()["groups"]
+    (_identity_index_cache, _identity_stripped_cache, _ambiguous_keys,
+     _ambiguous_stripped, _identities_by_id) = _build_identity_index(groups)
+    def projection(entry):
+        return (entry.group, "" if entry.name == entry.group else entry.name)
+    _stripped_index_cache = {key: projection(value) for key, value in _identity_stripped_cache.items()}
+    return {key: projection(value) for key, value in _identity_index_cache.items()}
 
 
 @lru_cache(maxsize=1)
 def _nationality_index() -> dict[str, _RegistryCompany]:
-    """从受控登记册构建名称/别名到企业国别记录的确定性索引。"""
-    registry_path = Path(__file__).resolve().parents[4] / "developer_registry.json"
-    if not registry_path.exists():
-        logger.error("中企国别登记表不存在: %s", registry_path)
-        return {}
-    try:
-        payload = json.loads(registry_path.read_text(encoding="utf-8"))
-        companies = [_RegistryCompany(**item) for item in payload.get("companies", [])]
-    except (OSError, json.JSONDecodeError, TypeError, ValueError) as exc:
-        logger.error("中企国别登记表加载失败: %s | path=%s", exc, registry_path)
-        raise
+    path = Path(__file__).resolve().parents[4] / "developer_registry.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
     index: dict[str, _RegistryCompany] = {}
-    for company in companies:
-        for name in (company.canonical_cn, *company.aliases):
-            key = name.strip()
+    for item in payload["companies"]:
+        company = _RegistryCompany(**item)
+        review_names = company.review_names if company.identity_status == "needs_review" else []
+        for name in (company.canonical_cn, company.canonical_en, *company.aliases, *review_names):
+            key = _name_key(name)
             if not key:
                 continue
-            previous = index.get(key)
-            if previous and previous.canonical_cn != company.canonical_cn:
-                raise ValueError(
-                    f"中企国别登记表别名冲突: {key!r} → "
-                    f"{previous.canonical_cn} / {company.canonical_cn}"
-                )
+            prior = index.get(key)
+            if prior and prior.canonical_cn != company.canonical_cn:
+                raise ValueError(f"中企国别登记表别名冲突: {key}: {prior.canonical_cn}/{company.canonical_cn}")
             index[key] = company
     return index
 
 
+def _find_hierarchy(name: str) -> tuple[_Identity | None, str]:
+    _hierarchy_index_v2()
+    key = _name_key(name)
+    if key in _ambiguous_keys:
+        return None, "ambiguous"
+    if key in _identity_index_cache:
+        return _identity_index_cache[key], "hierarchy"
+    stripped = _strip_suffix(key)
+    if stripped in _ambiguous_stripped:
+        return None, "ambiguous"
+    return _identity_stripped_cache.get(stripped), "hierarchy_suffix"
+
+
+def _identity_is_chinese(identity: _Identity) -> bool | None:
+    current = identity
+    seen: set[str | None] = set()
+    while current.entity_id not in seen:
+        if current.is_chinese is not None:
+            return current.is_chinese
+        seen.add(current.entity_id)
+        # Prefer explicit direct parents; a confirmed group membership also
+        # permits inheritance, without asserting that group is the direct parent.
+        next_id = current.parent_entity_id or current.group_id
+        if next_id is None or next_id in seen:
+            break
+        next_identity = _identities_by_id.get(next_id)
+        if next_identity is None:
+            break
+        current = next_identity
+    return None
+
+
+def _resolved(identity: _Identity, raw: str, source: str) -> EntityResolution:
+    chinese = _identity_is_chinese(identity)
+    status = VERIFIED_CHINESE if chinese is True else (VERIFIED_NON_CHINESE if chinese is False else UNMATCHED_NEEDS_REVIEW)
+    return EntityResolution(identity.group, "" if raw == identity.group else raw, status, source,
+                            identity.entity_id, identity.name if identity.entity_id else raw,
+                            identity.group_id, identity.parent_entity_id, raw)
+
+
 def resolve_entity(verbatim: str) -> EntityResolution:
-    """归一实体并给出三态国别结论；未命中不得作为已核实中企发布。"""
+    """Return identity, group and nationality separately; no fuzzy or translation matching."""
     name = (verbatim or "").strip()
     if not name or name == "Unknown":
-        return EntityResolution("Unknown", "", UNMATCHED_NEEDS_REVIEW, "unmatched")
-
-    registry_company = _nationality_index().get(name)
-    if registry_company is not None:
-        status = VERIFIED_CHINESE if registry_company.is_chinese else VERIFIED_NON_CHINESE
-        parent = (registry_company.parent_cn or "").strip()
-        if status == VERIFIED_CHINESE and parent:
-            return EntityResolution(parent, name, status, "registry")
-        return EntityResolution(registry_company.canonical_cn, "", status, "registry")
-
-    parent, sub, matched = _normalize_from_hierarchy(name)
-    if matched:
-        return EntityResolution(parent, sub, VERIFIED_CHINESE, "hierarchy")
-
-    logger.warning("entity_normalize 未命中（转人工复核）: %s", name)
-    return EntityResolution(name, "", UNMATCHED_NEEDS_REVIEW, "unmatched")
+        return EntityResolution("Unknown", "", UNMATCHED_NEEDS_REVIEW, "unmatched", raw_name=name)
+    registry = _nationality_index().get(_name_key(name))
+    if registry is not None:
+        if registry.identity_status == "needs_review":
+            return EntityResolution(name, "", UNMATCHED_NEEDS_REVIEW, "registry_needs_review",
+                                    entity_name=name, raw_name=name)
+        # Foreign records retain their explicit ruling. A suspected wrong ruling
+        # must be amended with evidence, never overridden by a similar name.
+        identity, source = _find_hierarchy(registry.canonical_cn)
+        if registry.is_chinese and identity:
+            return _resolved(identity, name, "registry")
+        status = VERIFIED_CHINESE if registry.is_chinese else VERIFIED_NON_CHINESE
+        parent = (registry.parent_cn or "").strip()
+        parent_identity, _ = _find_hierarchy(parent) if parent else (None, "")
+        group_id = parent_identity.group_id if parent_identity else None
+        entity_id = registry.entity_id or stable_entity_id(registry.canonical_cn)
+        return EntityResolution(parent if registry.is_chinese and parent else registry.canonical_cn,
+                                name if registry.is_chinese and parent else "", status, "registry",
+                                entity_id, registry.canonical_cn, group_id,
+                                parent_identity.entity_id if parent_identity else None, name)
+    identity, source = _find_hierarchy(name)
+    if identity:
+        return _resolved(identity, name, source)
+    logger.warning("entity_normalize 未命中或歧义（待名称复核）: %s", name)
+    return EntityResolution(name, "", UNMATCHED_NEEDS_REVIEW,
+                            "ambiguous" if source == "ambiguous" else "unmatched",
+                            entity_name=name, raw_name=name)
 
 
 def _normalize_from_hierarchy(name: str) -> tuple[str, str, bool]:
-    """只使用中企层级表归一名称，并显式返回是否命中。"""
-    idx = _hierarchy_index_v2()
-
-    if name in idx:
-        stored_canon, stored_sub = idx[name]
-        if stored_sub:
-            return stored_canon, name, True
-        if name == stored_canon:
-            return stored_canon, "", True
-        return stored_canon, name, True
-
-    stripped_input = _strip_suffix(name)
-    if stripped_input != name and stripped_input in _stripped_index_cache:
-        canon, _sub_key = _stripped_index_cache[stripped_input]
-        return canon, name, True
+    identity, _ = _find_hierarchy(name)
+    if identity:
+        return identity.group, "" if name == identity.group else name, True
     return name, "", False
 
 
 def normalize_entity(verbatim: str) -> tuple[str, str]:
-    """将文中实体原文解析为 (implementing, subsidiary)；空 → ('Unknown','')；未命中透传。
-
-    契约（四路径）：
-      1. 子公司命中           → (集团 canonical, verbatim)
-      2a. 集团精确命中        → (canonical, "")
-      2b. 集团别名命中        → (canonical, verbatim)
-      2c. 去尾缀后集团命中   → (canonical, verbatim)
-      2d. 去尾缀后子公司命中 → (集团 canonical, verbatim)
-      3.  未命中              → (verbatim, "") + WARNING 日志
-    不变量：subsidiary 非空 ⇔ verbatim；subsidiary 空 ⇔ implementing==verbatim。
-    """
+    """Compatibility projection; new storage must use the structured resolver."""
     resolution = resolve_entity(verbatim)
     return resolution.implementing, resolution.subsidiary
+
+
+def verified_chinese_mentions(text: str) -> list[dict]:
+    """Find registered names for candidate recall, never project participation.
+
+    Longest registered spellings take precedence (including foreign/ambiguous
+    names); ASCII names require word boundaries. No fuzzy or invented aliases.
+    """
+    _hierarchy_index_v2()
+    names = set(_identity_index_cache) | _ambiguous_keys | set(_nationality_index())
+    surface = _name_key(text)
+    occupied: list[tuple[int, int]] = []
+    found = []
+    for name in sorted(names, key=lambda value: (-len(value), value)):
+        # Two-character Chinese abbreviations occur inside ordinary prose
+        # (外国投资者 contains 国投). Keep these for explicit entity resolution,
+        # but never use them for scanning an unsegmented article.
+        if len(name) < 2 or (len(name) < 3 and not name.isascii()):
+            continue
+        pattern = re.escape(name)
+        if name[0].isascii() and name[0].isalnum():
+            pattern = r"(?<![a-z0-9_])" + pattern
+        if name[-1].isascii() and name[-1].isalnum():
+            pattern += r"(?![a-z0-9_])"
+        hits = [match.span() for match in re.finditer(pattern, surface)
+                if not any(start < match.end() and match.start() < end
+                           for start, end in occupied)]
+        if not hits:
+            continue
+        occupied.extend(hits)
+        resolution = resolve_entity(name)
+        if resolution.verification_status == VERIFIED_CHINESE:
+            found.append({"name": name, "entity_name": resolution.entity_name,
+                          "entity_id": resolution.entity_id, "group": resolution.implementing})
+    return found

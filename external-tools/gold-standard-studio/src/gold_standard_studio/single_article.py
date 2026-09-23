@@ -10,7 +10,22 @@ from typing import Any
 
 ARTICLE_ID = 9027
 WORKTREE_ROOT = Path(__file__).resolve().parents[4]
-STABLE_ROOT = WORKTREE_ROOT.parents[2]
+
+
+def _stable_checkout(root: Path) -> Path:
+    """Resolve a linked checkout through Git metadata, not directory depth."""
+    marker = root / ".git"
+    if not marker.is_file():
+        return root
+    value = marker.read_text(encoding="utf-8").strip()
+    if not value.startswith("gitdir: "):
+        raise ValueError(f"Invalid worktree Git marker: {marker}")
+    gitdir = (root / value.removeprefix("gitdir: ")).resolve()
+    common = (gitdir / (gitdir / "commondir").read_text(encoding="utf-8").strip()).resolve()
+    return common.parent
+
+
+STABLE_ROOT = _stable_checkout(WORKTREE_ROOT)
 RAW_DB = STABLE_ROOT / "s01a_news_crawler" / "data" / "raw_news.db"
 EXTRACTION_DB = STABLE_ROOT / "s01b_project_extractor" / "data" / "projects.db"
 MAIN_DB = WORKTREE_ROOT / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"

@@ -19,6 +19,7 @@ import argparse
 import csv
 import logging
 import sqlite3
+from s01b_project_extractor.tools.field_validation import withheld_fields, record_repairs
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -100,6 +101,7 @@ def _scan(db_path: str) -> tuple[list[dict], list[dict], list[dict]]:
     conn = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
     try:
+        withheld = withheld_fields(conn)
         events = conn.execute(
             """
             SELECT e.id AS event_id, e.canonical_id, c.category,
@@ -145,9 +147,9 @@ def _scan(db_path: str) -> tuple[list[dict], list[dict], list[dict]]:
             )
             facts = extract_energy_facts(combined)
             pwr, eng = facts.storage_power_mw, facts.storage_energy_mwh
-            if r["storage_power_mw"] is None and pwr is not None:
+            if r["storage_power_mw"] is None and pwr is not None and "storage_power_mw" not in withheld.get(r["event_id"], set()):
                 change["storage_power_mw"] = pwr
-            if r["storage_energy_mwh"] is None and eng is not None:
+            if r["storage_energy_mwh"] is None and eng is not None and "storage_energy_mwh" not in withheld.get(r["event_id"], set()):
                 change["storage_energy_mwh"] = eng
             if (pwr is None and eng is None and r["category"] == _ES_CATEGORY and (details or "").strip()
                   and r["storage_power_mw"] is None and r["storage_energy_mwh"] is None):
@@ -159,7 +161,7 @@ def _scan(db_path: str) -> tuple[list[dict], list[dict], list[dict]]:
                 })
 
         # 步骤 1b：光伏子项 fill-if-null（仅 HB）
-        if r["category"] == _HB_CATEGORY and r["pv_capacity_mw"] is None:
+        if r["category"] == _HB_CATEGORY and r["pv_capacity_mw"] is None and "pv_capacity_mw" not in withheld.get(r["event_id"], set()):
             pv = extract_pv_capacity(details)
             if pv is not None:
                 change["pv_capacity_mw"] = pv
@@ -257,6 +259,7 @@ def _apply_plan(db_path: str, event_plan: list[dict], subcat_plan: list[dict]) -
                 sql = f"UPDATE project_events SET {set_clause} WHERE id=?"
                 params = [tuple(ch[c] for c in cols) + (ch["event_id"],) for ch in changes]
                 conn.executemany(sql, params)
+            record_repairs(conn, event_plan, "storage_subcat_backfill")
             if subcat_plan:
                 # 双保险：只更新仍为 NULL 的行（manual 值绝不覆盖）
                 conn.executemany(

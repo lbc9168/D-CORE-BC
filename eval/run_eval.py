@@ -61,7 +61,7 @@ def _default_extractor_version() -> str:
     provider_tag = json.dumps(_llm_routing_snapshot(), ensure_ascii=False, sort_keys=True)
     src = inspect.getsource(orchestrator) + (provider_tag or _DEFAULT_MODEL)
     # 各阶段 prompt 模块加入哈希（存在才纳入，便于逐 Phase 增量上线）
-    for modname in ("s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary", "s34_entity_finance"):
+    for modname in ("policy_fragments", "s1_relevance", "s2_basic", "s3_finance", "s4_entity", "s5_summary", "s34_entity_finance"):
         try:
             mod = __import__(f"s01b_project_extractor.prompts.{modname}", fromlist=["*"])
             src += inspect.getsource(mod)
@@ -69,8 +69,10 @@ def _default_extractor_version() -> str:
             pass
     # 确定性解析层（capacity_parser + s2_basic stage 后处理 + entity_normalize + s4/s5 stage）纳入哈希：
     # 解析器修复应使旧 eval 缓存失效（否则 parser-only 改动不能触发重跑）
-    for modname in ("capacity_parser", "energy_taxonomy", "energy_taxonomy_v2", "stages.s2_basic", "stages.entity_normalize",
-                    "stages.s4_entity", "stages.s5_summary"):
+    for modname in ("capacity_parser", "energy_taxonomy", "energy_taxonomy_v2", "stages.s1_relevance", "stages.s2_basic", "stages.entity_normalize",
+                    "stages.s4_entity", "stages.s34_entity_finance", "stages.evidence_binding",
+                    "stages.entity_response", "stages.capacity_evidence", "stages.orchestrator", "llm.client",
+                    "guardrails.developer_check", "stages.s5_summary"):
         try:
             mod = __import__(f"s01b_project_extractor.{modname}", fromlist=["*"])
             src += inspect.getsource(mod)
@@ -82,6 +84,9 @@ def _default_extractor_version() -> str:
         from s01b_project_extractor.tools.project_extractor_tool import _SUPPORTING_DOCS
         src += hashlib.sha1(
             (_SUPPORTING_DOCS / "company_hierarchy_v2.json").read_bytes()
+        ).hexdigest()
+        src += hashlib.sha1(
+            (_SUPPORTING_DOCS.parent / "developer_registry.json").read_bytes()
         ).hexdigest()
     except (ImportError, OSError):
         pass  # 与上方模块缺失同口径：文件/模块不可用时跳过，不阻塞 eval

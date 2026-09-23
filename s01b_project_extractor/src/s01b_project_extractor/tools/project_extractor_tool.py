@@ -3,7 +3,6 @@ import json
 import logging
 import os
 import re
-import shutil
 import sqlite3
 import sys
 import threading
@@ -29,6 +28,8 @@ from s01b_project_extractor.guardrails.nonenergy_check import (
 )
 from s01b_project_extractor.capacity_parser import parse_capacity_mw
 from s01b_project_extractor.guardrails.developer_check import clean_developer
+from s01b_project_extractor.prompts.policy_fragments import ENTITY_POLICY_VERSION
+from s01b_project_extractor.tools.field_validation import extraction_field_state
 
 logger = logging.getLogger(__name__)
 
@@ -46,6 +47,63 @@ def _merge_capacity_details(llm_details: str, parser_note: str | None) -> str:
     if a and b:
         return f"{a}；{b}"
     return a or b
+
+
+def _entity_record_metadata(entity: dict, project: dict, *, title: str = "", content: str = "") -> dict:
+    """持久化主体链接与未发布候选，避免名称门禁删除证据后只剩 Unknown。"""
+    raw_name = (entity.get("_entity_raw_name") or entity.get("Subsidiary Name")
+                or entity.get("Implementing Chinese Entity", ""))
+    identity = entity.get("_entity_verification_status", "unmatched_needs_review")
+    if identity == "unmatched_needs_review" and entity.get("_identity_evidence_status") == "verified":
+        identity = "source_chinese_pending_registry"
+    metadata = {
+        "_entity_id": entity.get("_entity_id"),
+        "_entity_name": entity.get("_entity_name") or raw_name,
+        "_group_entity_id": entity.get("_group_entity_id"),
+        "_raw_entity_name": raw_name,
+        "_identity_status": identity,
+        "_entity_evidence_json": json.dumps({
+            "project_assessment": project.get("project_assessment"),
+            "policy_version": ENTITY_POLICY_VERSION,
+            "entity": entity,
+            "common_info": project.get("common_info", {}),
+            "withheld_capacity_fields": project.get("common_info", {}).get("withheld_capacity_fields", []),
+            "field_validation": extraction_field_state(project.get("common_info", {})),
+            "source": {"title": title, "content": content},
+            "field_review_warnings": project.get("field_review_warnings", []),
+            "structure_validation_errors": project.get("structure_validation_errors", []),
+            "s5_ignored_corrections": project.get("s5_ignored_corrections", []),
+            "summary_warning": project.get("summary_warning"),
+            "candidates": project.get("entity_candidates", project.get("chinese_entities", [])),
+        }, ensure_ascii=False),
+    }
+    if "entity_candidates" in project and entity not in project.get("chinese_entities", []):
+        # 同一项目的已确认成员正常流转，未确认成员独立留在提取库，补录后可重放。
+        foreign = entity.get("_entity_verification_status") == "verified_non_chinese"
+        not_participating = entity.get("_participation_evidence_status") == "not_participating"
+        rejected = foreign or not_participating
+        metadata.update({
+            "_excluded": 1, "_exclude_source": "entity_verification",
+            "_publication_status": "excluded" if rejected else "pending_review",
+            "_needs_review": int(not rejected),
+            "_exclude_reason": ("已核实非中企" if foreign else "未参与当前目标项目" if not_participating
+                                else "企业身份或参与关系待核实"),
+        })
+    return metadata
+
+
+def _publication_status(row: dict) -> str:
+    """确定性范围排除优先；待核实与确认排除保持不同的下游含义。"""
+    if row.get("_excluded") and row.get("_exclude_source") in ("extraction", DETERMINISTIC_GUARD_SOURCE):
+        return "excluded"
+    status = row.get("_publication_status")
+    if status is not None:
+        if status not in {"eligible", "pending_review", "excluded"}:
+            raise ValueError(f"非法企业发布状态: {status!r}")
+        return status
+    if row.get("_excluded"):
+        return "pending_review" if row.get("_needs_review") else "excluded"
+    return "eligible"
 
 
 # 仓库根已在文件顶部 import guardrails 前插入 sys.path，这里直接导入枚举/解析单一可信源。
@@ -464,11 +522,20 @@ def _init_projects_db(db_path: str) -> sqlite3.Connection:
         "ALTER TABLE extracted_projects ADD COLUMN contract_amount_usd REAL",
         "ALTER TABLE extracted_projects ADD COLUMN financing_amount_usd_raw TEXT",
         "ALTER TABLE extracted_projects ADD COLUMN financing_amount_usd REAL",
+        "ALTER TABLE extracted_projects ADD COLUMN entity_id TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN entity_name TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN group_entity_id TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN raw_entity_name TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN identity_status TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN entity_evidence_json TEXT",
+        "ALTER TABLE extracted_projects ADD COLUMN publication_status TEXT",
     ]:
         try:
             conn.execute(col_def)
-        except sqlite3.OperationalError:
-            pass  # 列已存在（已知无害边界，按 CLAUDE.md 规则1 沉默）
+        except sqlite3.OperationalError as exc:
+            if "duplicate column name" not in str(exc).lower():
+                raise
+            # 已存在列是幂等迁移的预期边界；其他数据库错误必须中止。
     conn.commit()
     return conn
 
@@ -772,40 +839,47 @@ class ProjectExtractorTool:
         projects_db_path: str = _DEFAULT_PROJECTS_DB,
         review_db_path: str = _DEFAULT_REVIEW_DB,
         country_db_path: str = _DEFAULT_COUNTRY_DB,
+        raw_ids: list[int] | None = None,
+        max_workers: int = 4,
+        backup_existing: bool = True,
     ) -> str:
         """从 raw_news.db 读取新闻，调用 AI 提取项目信息并写入数据库。"""
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
-            return "错误：未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。"
+            raise RuntimeError("未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。")
 
         client = genai.Client(api_key=api_key)
         country_db = _load_country_db(country_db_path)
 
         try:
-            conn = sqlite3.connect(raw_news_db_path)
+            conn = sqlite3.connect(Path(raw_news_db_path).resolve().as_uri() + "?mode=ro", uri=True)
+            conditions, params = ["passed_keyword_filter=1"], []
             if batch_id:
-                rows = conn.execute(
-                    "SELECT url, title, content, publish_date FROM raw_news "
-                    "WHERE batch_id=? AND passed_keyword_filter=1 ORDER BY id",
-                    (batch_id,),
-                ).fetchall()
-            else:
-                rows = conn.execute(
-                    "SELECT url, title, content, publish_date FROM raw_news "
-                    "WHERE passed_keyword_filter=1 ORDER BY id",
-                ).fetchall()
+                conditions.append("batch_id=?")
+                params.append(batch_id)
+            if raw_ids is not None:
+                if not raw_ids or any(type(value) is not int or value <= 0 for value in raw_ids):
+                    raise ValueError("raw_ids 必须为非空正整数列表")
+                conditions.append("id IN (" + ",".join("?" for _ in raw_ids) + ")")
+                params.extend(raw_ids)
+            rows = conn.execute(
+                "SELECT url,title,content,publish_date FROM raw_news WHERE "
+                + " AND ".join(conditions) + " ORDER BY id", params,
+            ).fetchall()
             conn.close()
-        except Exception as e:
-            return f"错误：读取 raw_news.db 失败: {e}"
+        except sqlite3.Error as e:
+            raise RuntimeError(f"读取 raw_news.db 失败: {raw_news_db_path}: {e}") from e
 
         if not rows:
+            self.last_result = {"status": "completed", "batch_id": batch_id, "failed_urls": [], "input_articles": 0, "skipped_articles": 0}
             return f"raw_news.db 中无关键词匹配记录（batch_id={batch_id or '全部'}），跳过。"
 
         df = pd.DataFrame(rows, columns=["原文链接", "文章标题", "正文内容", "发布日期"])
-        ts = datetime.now().strftime("%Y%m%d_%H%M")
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
         effective_batch_id = batch_id or f"all_{ts}"
         return self._process_df(df, effective_batch_id, ts, client,
-                                country_db, projects_db_path, review_db_path)
+                                country_db, projects_db_path, review_db_path,
+                                max_workers=max_workers, backup_existing=backup_existing)
 
     def _run_from_db(
         self,
@@ -814,6 +888,9 @@ class ProjectExtractorTool:
         projects_db_path: str = _DEFAULT_PROJECTS_DB,
         review_db_path: str = _DEFAULT_REVIEW_DB,
         country_db_path: str = _DEFAULT_COUNTRY_DB,
+        raw_ids: list[int] | None = None,
+        max_workers: int = 4,
+        backup_existing: bool = True,
     ) -> str:
         """从 raw_news.db 按 batch_id 读取，供 run_bulk_extract 直接调用。"""
         return self._run(
@@ -822,6 +899,7 @@ class ProjectExtractorTool:
             projects_db_path=projects_db_path,
             review_db_path=review_db_path,
             country_db_path=country_db_path,
+            raw_ids=raw_ids, max_workers=max_workers, backup_existing=backup_existing,
         )
 
     # ── 核心处理逻辑 ────────────────────────────────────────────────────────
@@ -835,9 +913,22 @@ class ProjectExtractorTool:
         country_db: dict,
         projects_db_path: str,
         review_db_path: str,
-        max_workers: int = 24,  # 内层文章并发（v2.1 C1 全量重录入提速；原 4。Gemini 10k RPM / DeepSeek-flash 2500 足够）
+        max_workers: int = 4,
+        backup_existing: bool = True,
     ) -> str:
         """处理一个 DataFrame，执行 AI 提取并写入数据库。"""
+        # 备份必须先于 _init_* 的 schema 迁移；备份失败不得继续写库。
+        for db_path in ((projects_db_path, review_db_path) if backup_existing else ()):
+            source = Path(db_path).resolve()
+            if source.exists():
+                backup = source.with_name(source.name + datetime.now().strftime(".bak.%Y%m%d_%H%M%S_%f"))
+                try:
+                    with sqlite3.connect(source.as_uri() + "?mode=ro", uri=True) as src:
+                        with sqlite3.connect(str(backup)) as dest:
+                            src.backup(dest)
+                    logger.info("提取前备份 %s -> %s", source, backup)
+                except (OSError, sqlite3.Error) as exc:
+                    raise RuntimeError(f"提取前备份失败，已停止: {source}: {exc}") from exc
         # 加载已处理过的 URL（去重）
         already_processed: set[str] = set()
         try:
@@ -847,7 +938,7 @@ class ProjectExtractorTool:
             already_processed.update(r[0] for r in cur.fetchall())
             _chk.close()
         except sqlite3.Error as e:
-            logger.error("预加载 projects.db 已处理 URL 失败（跳过，增量去重将降级）: %s", e)
+            raise RuntimeError(f"预加载 projects.db 去重记录失败: {projects_db_path}: {e}") from e
         try:
             _chk2 = _init_review_db(review_db_path)
             cur2 = _chk2.cursor()
@@ -856,7 +947,7 @@ class ProjectExtractorTool:
             already_processed.update(r[0] for r in cur2.fetchall())
             _chk2.close()
         except sqlite3.Error as e:
-            logger.error("预加载 review.db 已处理 URL 失败（跳过，增量去重将降级）: %s", e)
+            raise RuntimeError(f"预加载 review.db 去重记录失败: {review_db_path}: {e}") from e
         if already_processed:
             print(f">>> 增量模式：已跳过 {len(already_processed)} 个已处理 URL")
 
@@ -894,6 +985,7 @@ class ProjectExtractorTool:
 
         _lock = threading.Lock()
         _skip_count = [0]  # 用列表包装以便在闭包中修改
+        failed_articles: list[dict] = []
         _fail_count = [0]  # worker 隔离的单篇异常计数（Design 1：失败篇不落任何表，仅记日志，重跑自动重试）
 
         def _process_article(row_num_row: tuple) -> None:
@@ -911,8 +1003,8 @@ class ProjectExtractorTool:
                         return
                     already_processed.add(orig_link)
 
-            # Python 端预筛，节省 API 调用
-            if not any(k in content for k in pre_filter_keywords):
+            # 标题也是本篇证据；仅看正文会漏掉标题明确能源对象的设备订单。
+            if not any(k in title + "\n" + content for k in pre_filter_keywords):
                 print(f"[{row_num}/{total}] Python预筛剔除: {title[:25]}...")
                 with _lock:
                     discarded_rows.append({
@@ -926,17 +1018,7 @@ class ProjectExtractorTool:
 
             print("--------------------------------")
             print(f"[{row_num}/{total}] AI处理中: {title[:25]}...")
-            try:
-                result = extract_one(title, content, pub_date, client=client)
-            except RuntimeError as e:
-                print(f"  -> 处理出错（已重试3次，放弃）: {e}")
-                with _lock:
-                    discarded_rows.append({
-                        "文章标题": title,
-                        "正文内容": content,
-                        "拒绝原因": f"程序异常: {e}",
-                    })
-                return
+            result = extract_one(title, content, pub_date, client=client)
 
             analysis  = result.get("analysis", {})
             status    = result.get("status")
@@ -971,7 +1053,7 @@ class ProjectExtractorTool:
             elif status == "valid_project":
                 for proj in result.get("projects", []):
                     common = proj.get("common_info", {})
-                    entities = proj.get("chinese_entities", [])
+                    entities = proj.get("entity_candidates", proj.get("chinese_entities", []))
                     project_summary = proj.get("project_summary", "")
                     country_name = common.get("Country", "")
                     meta = _get_country_meta(country_name, country_db)
@@ -981,6 +1063,7 @@ class ProjectExtractorTool:
                     dev_cn, dev_dropped = clean_developer(
                         common.get("Project Developer", ""), entities, common.get("Category", ""),
                         common.get("Project Developer Evidence", "") or "",
+                        title=title, content=content, project_name=common.get("Project Name", ""),
                     )
                     if dev_dropped:
                         logger.info("developer 守卫剔除 %s（项目=%s）",
@@ -1085,9 +1168,20 @@ class ProjectExtractorTool:
                             else ("entity_verification" if proj.get("entity_gate_excluded", False) else "")
                         ),
                         "_needs_review": int(bool(proj.get("needs_review", False))),
+                        "_publication_status": proj.get("publication_status"),
+                        "_entity_review_reason": str(proj.get("entity_review_reason") or "; ".join(proj.get("structure_validation_errors", []) + proj.get("field_review_warnings", []))),
+                        "_entity_evidence_json": json.dumps({
+                            "project_assessment": proj.get("project_assessment"),
+                            "policy_version": ENTITY_POLICY_VERSION,
+                            "candidates": proj.get("entity_candidates", entities),
+                            "field_review_warnings": proj.get("field_review_warnings", []),
+                            "structure_validation_errors": proj.get("structure_validation_errors", []),
+                            "s5_ignored_corrections": proj.get("s5_ignored_corrections", []),
+                            "summary_warning": proj.get("summary_warning"),
+                        }, ensure_ascii=False),
                         "_entity_review_entities": str(proj.get("entity_review_entities", "")),
                         "_entity_review_reason_type": str(
-                            proj.get("entity_review_reason_type", "entity_identity")
+                            proj.get("entity_review_reason_type") or ("project_fields" if proj.get("structure_validation_errors") or proj.get("field_review_warnings") else "entity_identity")
                         ),
                     }
 
@@ -1131,6 +1225,12 @@ class ProjectExtractorTool:
                                 entity_en = _resolve_entity_en(entity_cn, client)
                             sub_en    = _resolve_entity_en(sub_cn, client) if sub_cn else ""
                             row_data = base.copy()
+                            row_data.update(_entity_record_metadata(entity, proj, title=title, content=content))
+                            if base.get("_excluded") and base.get("_exclude_source") in (
+                                "extraction", DETERMINISTIC_GUARD_SOURCE,
+                            ):
+                                for key in ("_excluded", "_exclude_source", "_exclude_reason"):
+                                    row_data[key] = base[key]
                             row_data.update({
                                 "Implementing Chinese Entity": entity_cn,
                                 "Implementing Chinese Entity (EN)": entity_en,
@@ -1158,6 +1258,7 @@ class ProjectExtractorTool:
                         [],
                         common.get("Category", ""),
                         common.get("Project Developer Evidence", "") or "",
+                        title=title, content=content, project_name=common.get("Project Name", ""),
                     )
                     if dev_dropped:
                         logger.info(
@@ -1251,6 +1352,7 @@ class ProjectExtractorTool:
                         "Project Summary": project_summary,
                         # 占位实体标记（写库时用于设置 is_unnamed_placeholder=1）
                         "_is_unnamed_placeholder": True,
+                        "_publication_status": "pending_review",
                         # ── exclude 出口：未具名中企必须进入复核，不得自动发布 ──
                         "_excluded": 1,
                         "_exclude_reason": (
@@ -1308,6 +1410,7 @@ class ProjectExtractorTool:
                 row_num, row = row_num_row
                 with _lock:
                     _fail_count[0] += 1
+                    failed_articles.append({"url": str(row.get("原文链接", "")), "title": str(row.get("文章标题", "")), "error": str(e), "error_type": type(e).__name__})
                 logger.error(
                     "文章处理失败（已隔离跳过，不中断批次；未落库，重跑将重试）row=%s link=%s title=%s: %s",
                     row_num, str(row.get("原文链接", ""))[:120],
@@ -1352,17 +1455,6 @@ class ProjectExtractorTool:
             with open(json_path, "w", encoding="utf-8") as f:
                 json.dump(payload, f, ensure_ascii=False, indent=2)
             return str(json_path)
-
-        # ── 主库 schema 迁移前备份（仅对真实默认库，tmp 测试库不触发）──
-        _real_db_path = Path(projects_db_path).resolve()
-        _default_db_path = Path(_DEFAULT_PROJECTS_DB).resolve()
-        if _real_db_path == _default_db_path and _real_db_path.exists():
-            _bak = str(_real_db_path) + "." + datetime.now().strftime("bak.%Y%m%d_%H%M%S")
-            try:
-                shutil.copy2(str(_real_db_path), _bak)
-                logger.info("已备份主库至 %s（schema 迁移前保护）", _bak)
-            except OSError as e:
-                logger.error("主库备份失败，继续执行（风险：迁移如失败无法回滚）: %s", e)
 
         try:
             proj_conn = _init_projects_db(projects_db_path)
@@ -1484,7 +1576,8 @@ class ProjectExtractorTool:
                        voltage_kv_raw=?, voltage_kv=?, line_length_km_raw=?, line_length_km=?,
                        transmission_capacity_mw_raw=?, transmission_capacity_mw=?,
                        production_capacity_raw=?, production_capacity_value=?, production_capacity_unit=?,
-                       needs_review=?
+                       needs_review=?, entity_id=?, entity_name=?, group_entity_id=?,
+                       raw_entity_name=?, identity_status=?, entity_evidence_json=?, publication_status=?
                        WHERE id=?""",
                     (
                         row_data.get("_generation_sources_json", "[]"),
@@ -1502,6 +1595,13 @@ class ProjectExtractorTool:
                         row_data.get("_production_capacity_value"),
                         row_data.get("_production_capacity_unit"),
                         int(row_data.get("_needs_review", 0)),
+                        row_data.get("_entity_id"),
+                        row_data.get("_entity_name"),
+                        row_data.get("_group_entity_id"),
+                        row_data.get("_raw_entity_name"),
+                        row_data.get("_identity_status"),
+                        row_data.get("_entity_evidence_json"),
+                        _publication_status(row_data),
                         cursor.lastrowid,
                     ),
                 )
@@ -1514,13 +1614,16 @@ class ProjectExtractorTool:
                         "canonical_id": str(cursor.lastrowid),
                         "source_link": review_key[0],
                         "reason_type": row_data.get("_entity_review_reason_type") or "entity_identity",
-                        "current_value": row_data.get("_entity_review_entities") or row_data.get(
+                        "current_value": (row_data.get("Project Name", "") if row_data.get("_entity_review_reason_type") == "project_fields" else row_data.get("_entity_review_entities") or row_data.get(
                             "Implementing Chinese Entity", ""
-                        ),
-                        "evidence": row_data.get("_exclude_reason", ""),
+                        )),
+                        "evidence": json.dumps({
+                            "reason": row_data.get("_entity_review_reason") or row_data.get("_exclude_reason", ""),
+                            "project_name": row_data.get("Project Name", ""),
+                            "publication_status": _publication_status(row_data),
+                            "entity_evidence": json.loads(row_data.get("_entity_evidence_json") or "{}"),
+                        }, ensure_ascii=False),
                     })
-            proj_conn.commit()
-
             global _last_batch_id
             _last_batch_id = batch_id
 
@@ -1541,7 +1644,7 @@ class ProjectExtractorTool:
                     )
                 except sqlite3.Error as e:
                     # INSERT OR IGNORE 不应失败，记录异常供排查
-                    logger.error("写入 no_chinese_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
+                    raise RuntimeError(f"写入 no_chinese_records 失败: {e}") from e
             review_conn.commit()
 
             # 写入 review.db → discarded_records
@@ -1562,7 +1665,7 @@ class ProjectExtractorTool:
                     )
                 except sqlite3.Error as e:
                     # INSERT OR IGNORE 不应失败，记录异常供排查
-                    logger.error("写入 discarded_records 失败（行已跳过）: %s | 标题=%s", e, row.get("文章标题", ""))
+                    raise RuntimeError(f"写入 discarded_records 失败: {e}") from e
             review_conn.commit()
 
             # 写入 review_queue：未具名与登记表未命中条目在单个事务中批量入队。
@@ -1583,8 +1686,9 @@ class ProjectExtractorTool:
                 {
                     "canonical_id": item["canonical_id"],
                     "source_link": item["source_link"],
-                    "reason_type": item["reason_type"],
+                    "reason_type": "low_confidence_field" if item["reason_type"] == "project_fields" else item["reason_type"],
                     "field": (
+                        None if item["reason_type"] == "project_fields" else
                         "involvement_type"
                         if item["reason_type"] == "entity_relation"
                         else "implementing_entity"
@@ -1601,7 +1705,8 @@ class ProjectExtractorTool:
                 try:
                     review_queue.add_items(review_db_path, queue_items)
                 except (sqlite3.Error, ValueError) as e:
-                    logger.error("批量写入 review_queue 失败（整批未写入）: %s", e)
+                    raise RuntimeError(f"批量写入 review_queue 失败: {e}") from e
+            proj_conn.commit()
         except Exception as e:
             fallback_path = _dump_failed_parse_results(str(e))
             raise RuntimeError(
@@ -1631,7 +1736,7 @@ class ProjectExtractorTool:
                              batch_id, len(_fmt_errors), len(_batch_errors),
                              (_fmt_errors[:3] + _batch_errors[:3]))
         except sqlite3.Error as e:
-            logger.error("批 %s guardrail 校验读库失败: %s", batch_id, e)
+            raise RuntimeError(f"批 {batch_id} guardrail 校验读库失败: {e}") from e
 
         # AI 原始结果 JSON
         json_path_str = ""
@@ -1641,6 +1746,19 @@ class ProjectExtractorTool:
             with open(json_path, "w", encoding="utf-8") as f:
                 json.dump(all_ai_results, f, ensure_ascii=False, indent=2)
             json_path_str = f"\n  AI原始结果: {len(all_ai_results)} 条 → {json_path}"
+
+        self.last_result = {
+            "status": "partial" if failed_articles else "completed", "batch_id": batch_id,
+            "input_articles": total, "skipped_articles": _skip_count[0],
+            "failed_urls": [item["url"] for item in failed_articles], "failures": failed_articles,
+            "valid_rows": len(valid_rows), "no_chinese_rows": len(no_chinese_rows),
+            "discarded_rows": len(discarded_rows),
+            "projects_db_path": str(Path(projects_db_path).resolve()),
+            "review_db_path": str(Path(review_db_path).resolve()),
+        }
+        report_path = Path(projects_db_path).parent / f"extraction_batch_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}.json"
+        report_path.write_text(json.dumps(self.last_result, ensure_ascii=False, indent=2), encoding="utf-8")
+        self.last_result["report_path"] = str(report_path)
 
         if not valid_rows and not no_chinese_rows and not discarded_rows:
             return "处理完成，但未生成任何输出（无符合条件的数据）。"

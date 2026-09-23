@@ -22,7 +22,6 @@ MAX_RETRIES = 4            # 最大重试次数
 RETRY_BASE_DELAY = 3       # 指数退避基础等待秒数（×2^attempt）
 SLEEP_MIN = 1.0            # 翻页/详情页间隔最小秒数
 SLEEP_MAX = 3.0            # 翻页/详情页间隔最大秒数（加 jitter）
-LIST_PAGE_MAX_ERRORS = 5   # 列表页连续失败多少次后放弃
 CONSECUTIVE_DUP_MAX = 5    # 连续遇到已入库 URL 多少条后停止（避免重复爬取）
 
 # User-Agent 轮换列表（模拟不同浏览器/系统，降低爬虫特征识别率）
@@ -124,33 +123,46 @@ class NewsCrawlerTool:
     def _headers(self) -> dict:
         return {"User-Agent": random.choice(_USER_AGENTS)}
 
-    def _request_with_retry(self, url: str, label: str = "") -> Optional[requests.Response]:
-        """带指数退避重试的 GET 请求。失败 MAX_RETRIES 次后返回 None。"""
+    def _request_with_retry(self, url: str, label: str = "") -> requests.Response:
+        """有限重试瞬时故障；重试耗尽明确失败，调用方保留当前页断点。"""
+        last_error = None
         for attempt in range(1, MAX_RETRIES + 1):
+            wait = RETRY_BASE_DELAY * (2 ** (attempt - 1)) + random.uniform(0, 2)
             try:
                 resp = requests.get(url, headers=self._headers(), timeout=REQUEST_TIMEOUT)
+                resp.raise_for_status()
                 return resp
-            except requests.exceptions.Timeout:
-                wait = RETRY_BASE_DELAY * (2 ** (attempt - 1)) + random.uniform(0, 2)
-                print(f"    [超时{attempt}/{MAX_RETRIES}] {label or url[:60]} — {wait:.1f}s 后重试...")
-                if attempt < MAX_RETRIES:
-                    time.sleep(wait)
-            except requests.exceptions.ConnectionError as e:
-                wait = RETRY_BASE_DELAY * (2 ** (attempt - 1)) + random.uniform(0, 2)
-                print(f"    [连接错误{attempt}/{MAX_RETRIES}] {e} — {wait:.1f}s 后重试...")
-                if attempt < MAX_RETRIES:
-                    time.sleep(wait)
-            except Exception as e:
-                print(f"    [请求异常] {label or url[:60]}: {e}")
-                return None
-        print(f"    [放弃] {label or url[:60]} 已失败 {MAX_RETRIES} 次")
-        return None
+            except requests.exceptions.HTTPError as exc:
+                last_error = exc
+                response = exc.response
+                status = response.status_code if response is not None else None
+                if status != 429 and (status is None or status < 500):
+                    raise RuntimeError(f"采集 HTTP 失败 {label or url}: {status}") from exc
+                retry_after = response.headers.get("Retry-After") if response is not None else None
+                if retry_after:
+                    try:
+                        wait = max(wait, float(retry_after))
+                    except ValueError:
+                        from email.utils import parsedate_to_datetime
+                        from datetime import timezone
+                        try:
+                            wait = max(wait, (parsedate_to_datetime(retry_after) - datetime.now(timezone.utc)).total_seconds())
+                        except (TypeError, ValueError, OverflowError):
+                            pass  # 无效 Retry-After 使用有限指数退避。
+            except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
+                last_error = exc
+            except requests.exceptions.RequestException as exc:
+                raise RuntimeError(f"采集请求失败 {label or url}: {exc}") from exc
+            print(f"    [请求失败{attempt}/{MAX_RETRIES}] {label or url[:60]}: {last_error}")
+            if attempt < MAX_RETRIES:
+                time.sleep(wait)
+        raise RuntimeError(f"采集重试耗尽 {label or url}: {url}") from last_error
 
     def _get_article_details(self, url: str) -> tuple:
         """抓取详情页，返回 (title, author, publish_time, content)"""
         resp = self._request_with_retry(url, label="详情页")
         if resp is None:
-            return "NA", "NA", "NA", "NA"
+            raise RuntimeError(f"详情页请求失败: {url}")
         try:
             resp.encoding = resp.apparent_encoding
             soup = BeautifulSoup(resp.text, "html.parser")
@@ -186,11 +198,12 @@ class NewsCrawlerTool:
                         )
                         break
 
+            if not content or content == "NA":
+                raise ValueError("缺少 detail-content 正文，不能标记为已采集")
             return title, author, publish_time, content
 
-        except Exception as e:
-            print(f"    [详情页解析错误] {url}: {e}")
-            return "NA", "NA", "NA", "NA"
+        except (ValueError, TypeError, AttributeError) as e:
+            raise RuntimeError(f"详情页解析失败: {url}: {e}") from e
 
     # ── 主执行逻辑 ────────────────────────────────────────────────────────────
 
@@ -227,164 +240,154 @@ class NewsCrawlerTool:
         stop_crawling = False
         consecutive_old_count = 0
         consecutive_dup_count = 0   # 连续已存在 URL 计数
-        consecutive_list_errors = 0
         last_valid_date = None
 
         print(f">>> 任务启动：爬取 {start_date} 至 {end_date} 的新闻，起始页 {page}")
         print(f">>> 关键词过滤：{keyword_list}")
 
-        while not stop_crawling:
-            list_url = f"{source_url}?page={page}"
-            print(f"\n正在扫描第 {page} 页...")
+        try:
+            while not stop_crawling:
+                # 当前页开始前保存断点；页内任何详情/写库故障均重放本页。
+                _save_checkpoint(raw_db, batch_id, page)
+                list_url = f"{source_url}?page={page}"
+                print(f"\n正在扫描第 {page} 页...")
 
-            resp = self._request_with_retry(list_url, label=f"列表页 p{page}")
+                resp = self._request_with_retry(list_url, label=f"列表页 p{page}")
 
-            if resp is None:
-                consecutive_list_errors += 1
-                print(f"  [列表页失败] 连续失败 {consecutive_list_errors}/{LIST_PAGE_MAX_ERRORS} 次，跳过本页")
-                if consecutive_list_errors >= LIST_PAGE_MAX_ERRORS:
-                    print(f">>> 列表页连续失败 {LIST_PAGE_MAX_ERRORS} 次，终止任务。")
-                    break
-                page += 1
-                time.sleep(random.uniform(SLEEP_MIN * 2, SLEEP_MAX * 2))
-                continue
-
-            consecutive_list_errors = 0  # 成功则重置计数
-
-            try:
-                soup = BeautifulSoup(resp.text, "html.parser")
-                list_items = soup.find_all("li", class_="list")
-            except Exception as e:
-                print(f"  [列表页解析错误] {e}，跳过本页")
-                page += 1
-                time.sleep(random.uniform(SLEEP_MIN, SLEEP_MAX))
-                continue
-
-            if not list_items:
-                print("未发现更多条目，停止爬取。")
-                break
-
-            for item in list_items:
-                if not isinstance(item, Tag):
-                    continue
-                meta_div = item.find("div", class_="pull-left")
-                if not meta_div:
-                    continue
-
-                date_match = re.search(
-                    r"\d{4}-\d{2}-\d{2}", meta_div.get_text(strip=True)
-                )
-                if not date_match:
-                    continue
-
-                item_date = datetime.strptime(date_match.group(), "%Y-%m-%d")
-
-                if item_date > end_dt:
-                    consecutive_old_count = 0
-                    continue
-
-                if item_date < start_dt:
-                    consecutive_old_count += 1
-                    print(
-                        f"  [跳过] 日期过早: {item_date.date()} "
-                        f"(连续第{consecutive_old_count}条)"
-                    )
-                    if consecutive_old_count >= 5:
-                        print(">>> 连续检测到多条旧新闻，停止任务。")
-                        stop_crawling = True
-                        break
-                    continue
-
-                consecutive_old_count = 0
-
-                title_tag = item.find("a", href=True)
-                if not isinstance(title_tag, Tag):
-                    continue
-
-                link = str(title_tag["href"])
-                if not link.startswith("http"):
-                    from urllib.parse import urlparse
-                    parsed = urlparse(source_url)
-                    link = f"{parsed.scheme}://{parsed.netloc}{link}"
-
-                print(f"  [读取中] {title_tag.get_text(strip=True)[:40]} ({item_date.date()})")
-
-                d_title, d_author, d_time, d_content = self._get_article_details(link)
-
-                if not d_content or d_content == "NA":
-                    continue
-
-                is_relevant = any(
-                    k.upper() in d_content.upper() for k in keyword_list
-                )
-
-                # 前向填充日期（对所有文章，写入 DB 前处理）
-                if d_time == "NA" and last_valid_date:
-                    d_time = last_valid_date
-                elif d_time != "NA":
-                    last_valid_date = d_time
-
-                # 写入原始新闻备案 DB（URL 已存在则跳过，不覆盖）
+                if resp is None:
+                    raise RuntimeError(f"列表页请求失败: {list_url}")
                 try:
-                    cur = raw_db.execute(
-                        """INSERT OR IGNORE INTO raw_news
-                           (url, title, content, author, publish_date, crawl_time,
-                            passed_keyword_filter, batch_id)
-                           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-                        (
-                            link, d_title, d_content, d_author, d_time,
-                            datetime.now().isoformat(),
-                            1 if is_relevant else 0,
-                            batch_id,
-                        ),
+                    soup = BeautifulSoup(resp.text, "html.parser")
+                    list_items = soup.find_all("li", class_="list")
+                except (ValueError, TypeError) as e:
+                    raise RuntimeError(f"列表页解析失败: {list_url}: {e}") from e
+
+                if not list_items:
+                    print("未发现更多条目，停止爬取。")
+                    break
+
+                for item in list_items:
+                    if not isinstance(item, Tag):
+                        continue
+                    meta_div = item.find("div", class_="pull-left")
+                    if not meta_div:
+                        continue
+
+                    date_match = re.search(
+                        r"\d{4}-\d{2}-\d{2}", meta_div.get_text(strip=True)
                     )
-                    raw_db.commit()
-                    if cur.rowcount == 0:
-                        # URL 已存在于 DB，计数并判断是否停止
-                        consecutive_dup_count += 1
+                    if not date_match:
+                        continue
+
+                    item_date = datetime.strptime(date_match.group(), "%Y-%m-%d")
+
+                    if item_date > end_dt:
+                        consecutive_old_count = 0
+                        continue
+
+                    if item_date < start_dt:
+                        consecutive_old_count += 1
                         print(
-                            f"  [已存在] {link[:60]}... "
-                            f"(连续第{consecutive_dup_count}条)"
+                            f"  [跳过] 日期过早: {item_date.date()} "
+                            f"(连续第{consecutive_old_count}条)"
                         )
-                        if consecutive_dup_count >= CONSECUTIVE_DUP_MAX:
-                            print(
-                                f">>> 连续 {CONSECUTIVE_DUP_MAX} 条已在数据库中，"
-                                "停止任务。"
-                            )
+                        if consecutive_old_count >= 5:
+                            print(">>> 连续检测到多条旧新闻，停止任务。")
                             stop_crawling = True
                             break
-                    else:
-                        consecutive_dup_count = 0  # 新文章，重置计数
-                except Exception:
-                    pass  # DB 写入失败不影响主流程
+                        continue
 
-                if is_relevant:
-                    print("    -> [保留] 包含关键词")
-                    all_data.append(
-                        {
-                            "发布日期": d_time,
-                            "文章标题": d_title,
-                            "正文内容": d_content,
-                            "文章作者": d_author,
-                            "原文链接": link,
-                        }
+                    consecutive_old_count = 0
+
+                    title_tag = item.find("a", href=True)
+                    if not isinstance(title_tag, Tag):
+                        continue
+
+                    link = str(title_tag["href"])
+                    if not link.startswith("http"):
+                        from urllib.parse import urlparse
+                        parsed = urlparse(source_url)
+                        link = f"{parsed.scheme}://{parsed.netloc}{link}"
+
+                    print(f"  [读取中] {title_tag.get_text(strip=True)[:40]} ({item_date.date()})")
+
+                    d_title, d_author, d_time, d_content = self._get_article_details(link)
+
+                    if not d_content or d_content == "NA":
+                        raise RuntimeError(f"详情页正文为空，保留断点待重试: {link}")
+
+                    is_relevant = any(
+                        k.upper() in d_content.upper() for k in keyword_list
                     )
-                else:
-                    print("    -> [丢弃] 正文不含关键词")
 
-                time.sleep(random.uniform(SLEEP_MIN, SLEEP_MAX))
+                    # 前向填充日期（对所有文章，写入 DB 前处理）
+                    if d_time == "NA" and last_valid_date:
+                        d_time = last_valid_date
+                    elif d_time != "NA":
+                        last_valid_date = d_time
 
-            if not stop_crawling:
-                # 每页完成后保存断点
-                _save_checkpoint(raw_db, batch_id, page)
-                page += 1
-                time.sleep(random.uniform(SLEEP_MIN, SLEEP_MAX))
+                    # 写入原始新闻备案 DB（URL 已存在则跳过，不覆盖）
+                    try:
+                        cur = raw_db.execute(
+                            """INSERT OR IGNORE INTO raw_news
+                               (url, title, content, author, publish_date, crawl_time,
+                                passed_keyword_filter, batch_id)
+                               VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+                            (
+                                link, d_title, d_content, d_author, d_time,
+                                datetime.now().isoformat(),
+                                1 if is_relevant else 0,
+                                batch_id,
+                            ),
+                        )
+                        raw_db.commit()
+                        if cur.rowcount == 0:
+                            # URL 已存在于 DB，计数并判断是否停止
+                            consecutive_dup_count += 1
+                            print(
+                                f"  [已存在] {link[:60]}... "
+                                f"(连续第{consecutive_dup_count}条)"
+                            )
+                            if saved_page is None and consecutive_dup_count >= CONSECUTIVE_DUP_MAX:
+                                print(
+                                    f">>> 连续 {CONSECUTIVE_DUP_MAX} 条已在数据库中，"
+                                    "停止任务。"
+                                )
+                                stop_crawling = True
+                                break
+                        else:
+                            consecutive_dup_count = 0  # 新文章，重置计数
+                    except sqlite3.Error:
+                        raw_db.rollback()
+                        raise
+
+                    if is_relevant:
+                        print("    -> [保留] 包含关键词")
+                        all_data.append(
+                            {
+                                "发布日期": d_time,
+                                "文章标题": d_title,
+                                "正文内容": d_content,
+                                "文章作者": d_author,
+                                "原文链接": link,
+                            }
+                        )
+                    else:
+                        print("    -> [丢弃] 正文不含关键词")
+
+                    time.sleep(random.uniform(SLEEP_MIN, SLEEP_MAX))
+
+                if not stop_crawling:
+                    # 每页完成后保存断点
+                    _save_checkpoint(raw_db, batch_id, page)
+                    page += 1
+                    time.sleep(random.uniform(SLEEP_MIN, SLEEP_MAX))
+
+        finally:
+            raw_db.close()
 
         if not all_data:
-            raw_db.close()
             return "未抓取到符合条件的新闻。请检查 URL、日期范围和关键词设置。"
-
-        raw_db.close()
 
         if save_excel:
             file_name = f"Energy_News_Raw_{datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"

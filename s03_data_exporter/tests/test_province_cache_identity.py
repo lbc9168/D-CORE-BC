@@ -33,3 +33,45 @@ def test_reused_project_id_does_not_reuse_old_province(tmp_path, monkeypatch):
         "country": "马来西亚", "country_iso": "MYS",
     }
     assert extract_provinces([changed], cache_path, "unused") == {"MYS-PV-0001": None}
+
+
+import pytest
+from types import SimpleNamespace
+from unittest.mock import Mock
+from s03_data_exporter import province_extractor as module
+
+
+@pytest.mark.parametrize("bad", [{}, {"results": []}, {"results": [{"id": "A", "province": "Foo"}]},
+    {"results": [{"id": "A", "province": []}, {"id": "B", "province": None}]},
+    {"results": [{"id": "A", "province": None}, {"id": "A", "province": None}]}])
+def test_bad_province_batch_is_retryable_without_partial_cache(tmp_path, monkeypatch, bad):
+    client = Mock()
+    client.models.generate_content.return_value = SimpleNamespace(text=json.dumps(bad))
+    monkeypatch.setattr(module.genai, "Client", lambda **kw: client)
+    monkeypatch.setattr(module.time, "sleep", lambda _: None)
+    monkeypatch.setattr(module, "build_admin1_dict", lambda: {})
+    monkeypatch.delenv("SKIP_PROVINCE_API", raising=False)
+    records = [{"project_id": pid, "location": pid, "country_iso": "ARG", "country": "Argentina"} for pid in ("A", "B")]
+    cache = tmp_path / "cache.json"
+    report = {}
+    assert extract_provinces(records, cache, "test", diagnostics=report) == {"A": None, "B": None}
+    assert report["failed_ids"] == ["A", "B"]
+    assert report["failures"][0]["attempts"] == 3
+    assert json.loads(cache.read_text()) == {}
+    client.models.generate_content.return_value = SimpleNamespace(text=json.dumps({"results": [{"id": "A", "province": "Foo"}, {"id": "B", "province": None}]}))
+    assert extract_provinces(records, cache, "test", diagnostics=report) == {"A": "Foo", "B": None}
+    assert report["failed_ids"] == []
+    assert client.models.generate_content.call_count == 4
+
+
+def test_province_network_failure_is_reported(tmp_path, monkeypatch):
+    client = Mock()
+    client.models.generate_content.side_effect = RuntimeError("service unavailable")
+    monkeypatch.setattr(module.genai, "Client", lambda **kw: client)
+    monkeypatch.setattr(module.time, "sleep", lambda _: None)
+    monkeypatch.setattr(module, "build_admin1_dict", lambda: {})
+    monkeypatch.delenv("SKIP_PROVINCE_API", raising=False)
+    report = {}
+    extract_provinces([{"project_id": "A", "location": "Foo", "country": "Argentina"}], tmp_path / "cache.json", "test", diagnostics=report)
+    assert report["failed_ids"] == ["A"]
+    assert "service unavailable" in report["failures"][0]["error"]

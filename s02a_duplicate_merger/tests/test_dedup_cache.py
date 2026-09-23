@@ -95,10 +95,11 @@ def test_llm_confirm_raising_propagates(monkeypatch):
         dmt._llm_confirm_raising(_FakeClient(), None, _min_proj("A"), _min_proj("B"))
 
 
-def test_llm_confirm_wrapper_swallows(monkeypatch):
+def test_llm_confirm_wrapper_propagates(monkeypatch):
     monkeypatch.setattr(dmt, "_llm_confirm_raising",
                         lambda *a, **k: (_ for _ in ()).throw(RuntimeError("x")))
-    assert dmt._llm_confirm(None, None, _min_proj("A"), _min_proj("B")) is False
+    with pytest.raises(RuntimeError):
+        dmt._llm_confirm(None, None, _min_proj("A"), _min_proj("B"))
 
 
 def test_partial_overlap_relationship_is_not_merged(monkeypatch):
@@ -107,7 +108,9 @@ def test_partial_overlap_relationship_is_not_merged(monkeypatch):
         text = '{"relationship":"partial_overlap","confidence":"high","reasoning":"容量和项目数量不同"}'
 
     monkeypatch.setattr(dmt, "_llm_call_with_retry", lambda *a, **k: _Response())
-    assert dmt._llm_confirm_raising(_FakeClient(), None, _min_proj("A"), _min_proj("B")) is False
+    with pytest.raises(dmt.coordination.CoordinationRequired) as hold:
+        dmt._llm_confirm_raising(_FakeClient(), None, _min_proj("A"), _min_proj("B"))
+    assert hold.value.evidence["model_result"]["relationship"] == "partial_overlap"
 
 
 def test_dedup_prompt_uses_four_relationship_states(monkeypatch):
@@ -183,6 +186,63 @@ def test_no_cache_db_unchanged(monkeypatch):
     monkeypatch.setattr(dmt, "_llm_confirm_raising", lambda cl, cf, x, y: True)
     merged = dmt._deduplicate_projects(object(), None, [a, b], [(0, 1, 60.0)])
     assert len(merged) == 1
+
+
+def test_exhausted_confirmation_stops_and_resume_reuses_successful_pairs(monkeypatch, tmp_path):
+    projects = [_proj_full("甲"), _proj_full("乙"), _proj_full("丙")]
+    cache_db = str(tmp_path / "decisions.db")
+    calls = []
+    def failing(client, config, a, b):
+        calls.append(b["project_name"])
+        if b["project_name"] == "乙":
+            raise RuntimeError("provider unavailable")
+        return False
+    monkeypatch.setattr(dmt, "_llm_confirm_raising", failing)
+    with pytest.raises(RuntimeError, match="停止入库"):
+        dmt._confirm_llm_pairs(None, None, projects, [(0, 1), (0, 2)], cache_db)
+    assert calls.count("乙") == 2 and calls.count("丙") == 1
+    calls.clear()
+    monkeypatch.setattr(dmt, "_llm_confirm_raising", lambda cl, cfg, a, b: calls.append(b["project_name"]) or True)
+    assert dmt._confirm_llm_pairs(None, None, projects, [(0, 1), (0, 2)], cache_db) == {(0, 1): True, (0, 2): False}
+    assert calls == ["乙"]
+
+
+def test_invalid_verdict_is_not_a_negative_match():
+    for invalid in ({}, {"relationship": "unknown"}, {"same_project": "false"}, None):
+        with pytest.raises(ValueError):
+            dmt._parse_dedup_relationship(invalid)
+    assert dmt._parse_dedup_relationship({"same_project": False}) == "distinct"
+
+
+def test_cross_batch_confirmation_and_arbitration_failure_propagate(monkeypatch):
+    def unavailable(*args, **kwargs):
+        raise RuntimeError("provider unavailable")
+    monkeypatch.setattr(dmt, "_llm_call_with_retry", unavailable)
+    with pytest.raises(RuntimeError):
+        dmt._llm_confirm_canonical(_FakeClient(), None, _min_proj("甲"), "OLD", "乙", "", "", "100")
+    with pytest.raises(RuntimeError):
+        dmt._llm_choose_value(_FakeClient(), None, "capacity_mw", ["100", "900"], "甲")
+
+
+def test_failed_dedup_does_not_write_or_mark_imported(monkeypatch, tmp_path):
+    import pandas as pd
+    monkeypatch.setenv("GEMINI_API_KEY", "test-unused")
+    monkeypatch.setattr(dmt.genai, "Client", lambda **kwargs: _FakeClient())
+    monkeypatch.setattr(dmt, "_load_from_db", lambda path: (pd.DataFrame([{"id": 1}, {"id": 2}]), [1, 2]))
+    monkeypatch.setattr(dmt, "_group_into_logical_projects", lambda df: [_proj_full("甲"), _proj_full("乙")])
+    monkeypatch.setattr(dmt, "_infer_location_from_name", lambda *args: None)
+    monkeypatch.setattr(dmt, "_apply_location_norm", lambda *args: 0)
+    monkeypatch.setattr(dmt, "_find_duplicate_candidates", lambda rows: [(0, 1, 60)])
+    def unavailable(*args, **kwargs):
+        raise RuntimeError("provider unavailable")
+    monkeypatch.setattr(dmt, "_llm_confirm_raising", unavailable)
+    def forbidden(*args, **kwargs):
+        raise AssertionError("Failed dedup must not reach database writes or import marks")
+    monkeypatch.setattr(dmt, "_init_db", forbidden)
+    monkeypatch.setattr(dmt, "_mark_imported", forbidden)
+    with pytest.raises(RuntimeError, match="停止入库"):
+        dmt.DuplicateMergerTool()._run(input_db=str(tmp_path / "projects.db"), db_path=str(tmp_path / "main.db"))
+    assert list(tmp_path.glob("main.dedup-*.db"))
 
 
 def test_high_score_project_packages_still_require_llm(monkeypatch):

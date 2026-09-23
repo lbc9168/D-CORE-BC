@@ -5,8 +5,8 @@ from s01b_project_extractor.prompts.s2_basic import build_s2_prompt
 
 def test_s1_manufacturing_scope_limited_to_ne_equipment():
     p = build_s1_prompt("t", "c", "2026-01-01")
-    assert "仅限**新能源装备/材料**产能" in p
-    assert "钾肥、锂盐、氧化铝、甲醇、水泥、钢铁" in p
+    assert "普通工业的烧碱/PVC" in p
+    assert "用户确认纳入：锂资源与锂盐" in p
 
 
 def test_s1_mineral_products_excluded():

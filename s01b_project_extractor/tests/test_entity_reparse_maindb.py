@@ -55,6 +55,17 @@ def _make_db(tmp_path, rows: list[tuple]) -> str:
 
 # ── C1：模块可在任意深度导入（项目根健壮上溯）────────────────────────────────
 
+def test_legacy_apply_cannot_desynchronize_identity_schema(tmp_path):
+    from s01b_project_extractor.tools.entity_reparse_maindb import reparse_maindb
+    db = _make_db(tmp_path, [(1, "event", "中国电建", "PowerChina", "", "", "manual", 1)])
+    with sqlite3.connect(db) as connection:
+        connection.execute("ALTER TABLE chinese_entities ADD COLUMN entity_id TEXT")
+        connection.execute("UPDATE chinese_entities SET entity_id='persistent-entity'")
+    before = Path(db).read_bytes()
+    with pytest.raises(ValueError, match="企业主体ID"):
+        reparse_maindb(db, apply=True)
+    assert Path(db).read_bytes() == before
+
 def test_module_reimport_does_not_crash_at_any_depth():
     """模块级代码不得假设固定嵌套深度（旧 parents[7] 在主工作区 IndexError）：
     reload 重新执行模块级求值，不抛异常即通过。"""

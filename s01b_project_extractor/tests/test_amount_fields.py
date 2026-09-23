@@ -30,7 +30,7 @@ class _FakeLLM:
 # ── S3 stage 层 ──────────────────────────────────────────────────
 
 def test_run_s3_contract_and_financing_raw_phrases():
-    """run_s3：两类新金额的 Raw 字段逐字保留，数值经 bri_parse。"""
+    """旧响应保留原币短语，没有可复现汇率时不接受模型美元数值。"""
     llm = _FakeLLM({
         "Contract Amount Raw": "合同金额约12亿元人民币",
         "Contract Amount (Million USD)": "167",
@@ -40,9 +40,9 @@ def test_run_s3_contract_and_financing_raw_phrases():
     }, stage="s3")
     out = run_s3("t", "c", "项目", llm=llm)
     assert out.get("contract_amount_usd_raw_phrase") == "合同金额约12亿元人民币"
-    assert out["Contract Amount (Million USD)"] == 167.0
+    assert out["Contract Amount (Million USD)"] is None
     assert out.get("financing_amount_usd_raw_phrase") == "银团贷款35亿元"
-    assert out["Financing Amount (Million USD)"] == 486.0
+    assert out["Financing Amount (Million USD)"] is None
     # Raw 字段已 pop，不污染 common_info
     assert "Contract Amount Raw" not in out
     assert "Financing Amount Raw" not in out
@@ -56,8 +56,8 @@ def test_run_s3_missing_amount_fields_phrases_empty():
     assert out.get("financing_amount_usd_raw_phrase") == ""
 
 
-def test_run_s3_three_amounts_coexist():
-    """三类金额可同时有值（"总投资50亿其中银团贷款35亿"场景），互不覆盖。"""
+def test_run_s3_raw_amounts_coexist_without_inventing_conversion():
+    """不同金额的原始事实独立保留；原币未知汇率不生成美元。"""
     llm = _FakeLLM({
         "Total Project Investment Raw": "总投资50亿元",
         "Total Project Investment (Million USD)": "694",
@@ -66,8 +66,10 @@ def test_run_s3_three_amounts_coexist():
         "Financing Model": "信贷融资",
     }, stage="s3")
     out = run_s3("t", "c", "项目", llm=llm)
-    assert out["Total Project Investment (Million USD)"] == 694.0
-    assert out["Financing Amount (Million USD)"] == 486.0
+    assert out["Total Project Investment (Million USD)"] is None
+    assert out["Financing Amount (Million USD)"] is None
+    assert out["total_investment_usd_raw_phrase"] == "总投资50亿元"
+    assert out["financing_amount_usd_raw_phrase"] == "其中银团贷款35亿元"
     assert out.get("contract_amount_usd_raw_phrase") == ""
 
 

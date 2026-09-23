@@ -6,7 +6,9 @@
         （旧实现：包含匹配可能命中；新实现：v2 索引无该简称 → 透传）
     新：LLM 返回 v2 hierarchy 中精确 canonical 名 "中国能源建设集团有限公司"，断言路径2a
 """
+import pytest
 from s01b_project_extractor.stages.s34_entity_finance import run_s34, validate_s34
+from s01b_project_extractor.stages.entity_response import EntityResponseError
 
 
 class _StubLLM:
@@ -58,10 +60,10 @@ def test_run_s34_subsidiary_entity_normalization():
     assert e["Subsidiary Name"] == "中国葛洲坝集团有限公司"  # sub = verbatim（不变量）
 
 
-def test_run_s34_non_dict_returns_empty():
-    """S34 返回非 dict 时按空处理。"""
-    out = run_s34("t", "c", "项目", "光伏", llm=_StubLLM(["not a dict"]))
-    assert out == {"chinese_entities": [], "finance": {}}
+def test_run_s34_non_dict_is_visible_parse_failure():
+    """Malformed output must never masquerade as an explicit negative entity list."""
+    with pytest.raises(EntityResponseError):
+        run_s34("t", "c", "项目", "光伏", llm=_StubLLM(["not a dict"]))
 
 
 def test_validate_s34_flags_bad_involvement_and_empty_entity():

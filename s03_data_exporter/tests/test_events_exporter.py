@@ -1,6 +1,7 @@
 """S4.1：events_export.csv 一行一个 project_event，含 event_id + 4 大类映射列。"""
 import csv
 import sqlite3
+import pytest
 
 from s03_data_exporter import events_exporter
 
@@ -41,9 +42,8 @@ def test_baseline_excludes_unknown_primary_entity():
     assert events_exporter.passes_baseline({**_OK, "primary_entity": ""}) is False
 
 
-def test_baseline_excludes_missing_capacity_for_capacity_category():
-    # 光伏 应有容量，capacity 缺失 → 排除
-    assert events_exporter.passes_baseline({**_OK, "capacity_mw": None}) is False
+def test_baseline_accepts_missing_optional_capacity():
+    assert events_exporter.passes_baseline({**_OK, "capacity_mw": None}) is True
 
 
 def test_baseline_allows_no_capacity_category_without_capacity():
@@ -268,7 +268,12 @@ def test_txmf_baseline_pure():
     assert events_exporter.passes_txmf_baseline({**ok, "event_year": None}) is False
 
 
-def test_txmf_included_sorted_with_new_columns(tmp_path):
+@pytest.mark.parametrize("source_value, source_unit, public_value, public_unit", [
+    (5.0, "GW/年", "5.0", "GW/year"),
+    (12.0, "GWh/年", "12.0", "GWh/year"),
+    (3.0, "万吨/年", "30000.0", "t/year"),
+])
+def test_txmf_included_sorted_with_new_columns(tmp_path, source_value, source_unit, public_value, public_unit):
     """TX/MF 经 tx_flat/mf_flat 基线并入；5 新列有值；行序 主表→TX→MF。"""
     src, flat, out = tmp_path / "s.db", tmp_path / "f.db", tmp_path / "events_export.csv"
     _mk(str(src), str(flat))
@@ -293,7 +298,7 @@ def test_txmf_included_sorted_with_new_columns(tmp_path):
               "VALUES('EGY-MF-0001','Factory F','EGY','新能源制造业',0)")
     c.execute("INSERT INTO project_events(id, canonical_id, project_stage, publish_date, "
               "production_capacity_value, production_capacity_unit) "
-              "VALUES('EGY-MF-0001-01','EGY-MF-0001','签约','2024-02-01',5.0,'GW/年')")
+              "VALUES('EGY-MF-0001-01','EGY-MF-0001','签约','2024-02-01',?,?)", (source_value, source_unit))
     c.commit()
     c.close()
 
@@ -329,7 +334,47 @@ def test_txmf_included_sorted_with_new_columns(tmp_path):
     assert tx["voltage_kv"] == "400.0" and tx["line_length_km"] == "270.0"
     assert tx["entity_en"] == "PowerChina" and tx["category_en"] == "Transmission & Distribution"
     mf = next(r for r in rows if r["canonical_id"] == "EGY-MF-0001")
-    assert mf["production_capacity_value"] == "5.0" and mf["production_capacity_unit"] == "GW/年"
+    assert mf["production_capacity_value"] == public_value and mf["production_capacity_unit"] == public_unit
     # 主表行的 TX/MF 专属列为空串
     pv = next(r for r in rows if r["canonical_id"] == "IND-PV-0001")
     assert pv["voltage_kv"] == "" and pv["production_capacity_unit"] == ""
+
+@pytest.mark.parametrize('status', ['excluded', 'pending_review'])
+def test_reviewed_event_does_not_hide_valid_sibling_or_leak(tmp_path, status):
+    from s03_data_exporter.flat_builder import build_flat
+    src, flat, out = tmp_path / 'source.db', tmp_path / 'oldflat.db', tmp_path / 'events.csv'
+    _mk(str(src), str(flat))
+    with sqlite3.connect(src) as c:
+        c.execute('ALTER TABLE project_events ADD COLUMN publication_status TEXT')
+        c.execute('UPDATE project_events SET publication_status=? WHERE id=?', (status, 'IND-PV-0001-02'))
+    # Newer operating event is withheld; legacy NULL signed event remains usable.
+    rebuilt = tmp_path / 'rebuilt.db'
+    build_flat(src, rebuilt, {})
+    with sqlite3.connect(rebuilt) as c:
+        row = c.execute("SELECT latest_stage, all_entities FROM projects_flat WHERE project_id='IND-PV-0001'").fetchone()
+    assert row[0] == '签约'
+    assert '中国电建' in row[1]
+    events_exporter.export_events_csv(src, [out], flat_db=rebuilt)
+    with out.open(encoding='utf-8-sig', newline='') as f:
+        rows = list(csv.DictReader(f))
+    assert {r['event_id'] for r in rows} == {'IND-PV-0001-01'}
+    assert len(rows) == 2
+
+
+def test_relation_hold_preserves_valid_sibling(tmp_path):
+    from s03_data_exporter.flat_builder import build_flat
+    src, oldflat, out = tmp_path / "s.db", tmp_path / "old.db", tmp_path / "e.csv"
+    _mk(str(src), str(oldflat))
+    with sqlite3.connect(src) as c:
+        c.execute("ALTER TABLE chinese_entities ADD COLUMN publication_status TEXT")
+        c.execute("UPDATE chinese_entities SET publication_status='excluded' WHERE implementing_entity='中国能建'")
+    flat = tmp_path / "new.db"
+    build_flat(src, flat, {})
+    with sqlite3.connect(flat) as c:
+        entities = c.execute("SELECT all_entities FROM projects_flat WHERE project_id='IND-PV-0001'").fetchone()[0]
+    assert '中国电建' in entities and '中国能建' not in entities
+    events_exporter.export_events_csv(src, [out], flat_db=oldflat)
+    with out.open(encoding='utf-8-sig', newline='') as f:
+        rows = list(csv.DictReader(f))
+    assert any(r['entity_cn'] == '中国电建' for r in rows)
+    assert all(r['entity_cn'] != '中国能建' for r in rows)

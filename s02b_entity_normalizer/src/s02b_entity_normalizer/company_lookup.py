@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import re
+import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional
@@ -34,6 +35,7 @@ class _Company(BaseModel):
     parent_cn: Optional[str] = None
     note: Optional[str] = None
     source: str = ""
+    identity_status: str = "confirmed"
 
     @field_validator("canonical_cn", "canonical_en")
     @classmethod
@@ -57,6 +59,7 @@ class LookupIndex:
     hierarchy_map: Dict[str, str]         # 名/别名 → 该实体自身规范名（不上卷）
     misses: List[str] = field(default_factory=list)
     _seen_miss: set = field(default_factory=set)
+    ambiguous: set = field(default_factory=set)
 
 
 def _load_registry(path: Path) -> List[_Company]:
@@ -65,59 +68,72 @@ def _load_registry(path: Path) -> List[_Company]:
     return [_Company(**c) for c in data["companies"]]
 
 
+def _name_key(value: str) -> str:
+    return re.sub(r"\s+", " ", unicodedata.normalize("NFKC", value).strip()).casefold()
+
+
 def build_index(registry_path: Optional[str] = None,
                 hierarchy_path: Optional[str] = None) -> LookupIndex:
     """构建两层索引；registry 别名全册冲突抛 ValueError；hierarchy 缺失时降级只用 registry。"""
     reg_map: Dict[str, tuple] = {}
     for c in _load_registry(Path(registry_path) if registry_path else DEFAULT_REGISTRY):
-        for name in [c.canonical_cn, *c.aliases]:
-            key = name.strip()
+        if c.identity_status == "needs_review":
+            continue
+        for name in [c.canonical_cn, c.canonical_en, *c.aliases]:
+            key = _name_key(name)
             if key in reg_map and reg_map[key][0] != c.canonical_cn:
                 raise ValueError(f"registry 别名冲突: {key!r} → {reg_map[key][0]} / {c.canonical_cn}")
             reg_map[key] = (c.canonical_cn, c.canonical_en)
 
     hier_map: Dict[str, str] = {}
+    ambiguous: set[str] = set()
     hpath = Path(hierarchy_path) if hierarchy_path else DEFAULT_HIERARCHY
     if hierarchy_path is None and not hpath.exists():
         logger.warning("hierarchy 文件缺失 %s，降级仅 registry 查表", hpath)
     elif hierarchy_path is not None or hpath.exists():
         groups = json.loads(hpath.read_text(encoding="utf-8"))["groups"]
+        candidates: Dict[str, set[str]] = {}
         for g in groups:
-            canon = g["canonical_name_cn"].strip()
-            for a in g.get("aliases", []) or []:
-                hier_map.setdefault(a.strip(), canon)  # 集团别名→集团自身
+            canon = (g.get("legal_full_name_cn") or g["canonical_name_cn"]).strip()
+            excluded = set(g.get("group_only_aliases", [])) | set(g.get("disputed_aliases", []))
+            contextual = {_name_key(n) for n in g.get("context_required_names", [])}
+            for a in [g["canonical_name_cn"], canon, g.get("canonical_en", ""), *(g.get("aliases", []) or [])]:
+                if a and a not in excluded and _name_key(a) not in contextual:
+                    candidates.setdefault(_name_key(a), set()).add(canon)
             for sub in g.get("subsidiaries", []) or []:
+                if sub.get("legal_entity_status") == "needs_review":
+                    continue
                 name_cn = (sub.get("name_cn") or "").strip()
                 legal = (sub.get("legal_full_name_cn") or "").strip()
-                # 该子公司自身的规范名：优先取 legal_full_name_cn（真实文件里 name_cn
-                # 本身可能就是讹变/简称键，legal_full_name_cn 才是重复出现的规范全称）；
-                # legal 缺失时退回 name_cn 自身。
-                sub_canon = legal or name_cn
+                sub_canon = legal or name_cn  # old fixtures remain supported
                 if not sub_canon:
                     continue
-                variants = [name_cn, legal, *(sub.get("aliases", []) or [])]
+                variants = [name_cn, legal, sub.get("canonical_en", ""), *(sub.get("aliases", []) or [])]
+                contextual = {_name_key(n) for n in sub.get("context_required_names", [])}
                 for v in variants:
-                    v = (v or "").strip()
-                    if v and v != sub_canon:
-                        hier_map.setdefault(v, sub_canon)  # 变体→子公司自身，绝不上卷
-                hier_map.setdefault(sub_canon, sub_canon)  # 规范名本身也可直接命中
-    return LookupIndex(registry_map=reg_map, hierarchy_map=hier_map)
+                    if v and _name_key(v) not in contextual:
+                        candidates.setdefault(_name_key(v), set()).add(sub_canon)
+        ambiguous = {key for key, names in candidates.items() if len(names) > 1}
+        hier_map = {key: next(iter(names)) for key, names in candidates.items() if key not in ambiguous}
+
+    return LookupIndex(registry_map=reg_map, hierarchy_map=hier_map, ambiguous=ambiguous)
 
 
 def lookup(part: str, index: LookupIndex) -> LookupResult:
     """单部件三层查找。未命中记 miss（进程内去重保序）。"""
-    key = (part or "").strip()
+    raw = (part or "").strip()
+    key = _name_key(raw)
     if not key:
         return LookupResult(part, None, False, "passthrough")
     if key in index.registry_map:
         cn, en = index.registry_map[key]
         return LookupResult(cn, en, True, "registry")
-    if _CJK_RE.search(key) and key in index.hierarchy_map:
+    if key in index.hierarchy_map:
         return LookupResult(index.hierarchy_map[key], None, True, "hierarchy")
     if key not in index._seen_miss:
         index._seen_miss.add(key)
-        index.misses.append(key)
-    return LookupResult(key, None, False, "passthrough")
+        index.misses.append(raw)
+    return LookupResult(raw, None, False, "ambiguous" if key in index.ambiguous else "passthrough")
 
 
 def collect_misses(index: LookupIndex) -> List[str]:

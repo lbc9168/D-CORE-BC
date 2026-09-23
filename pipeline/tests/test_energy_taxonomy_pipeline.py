@@ -51,6 +51,7 @@ def test_energy_taxonomy_stages_write_shadow_report_without_reclassification(tmp
     csv_reports = list(reports.glob("energy_taxonomy_shadow_*.csv"))
     assert canonical == ("ITA-PV-0001", "综合能源", "光储")
     assert shadow[0] == "光伏"
-    assert json.loads(shadow[1]) == ["光储", "含储能"]
+    # 与现行 energy_taxonomy_v2.1 一致；“含储能”已不属于技术标签枚举。
+    assert json.loads(shadow[1]) == ["光储"]
     assert result["shadow"]["would_change"] == 1
     assert len(json_reports) == 1 and len(csv_reports) == 1

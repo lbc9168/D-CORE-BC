@@ -26,6 +26,19 @@ def _records() -> list[dict]:
     ]
 
 
+def test_pilot_stable_checkout_supports_main_and_arbitrary_worktree_depth(tmp_path):
+    from gold_standard_studio.single_article import _stable_checkout
+    stable = tmp_path / "stable"
+    metadata = stable / ".git" / "worktrees" / "linked"
+    metadata.mkdir(parents=True)
+    linked = tmp_path / "linked"
+    linked.mkdir()
+    (linked / ".git").write_text(f"gitdir: {metadata.as_posix()}\n", encoding="utf-8")
+    (metadata / "commondir").write_text("../..\n", encoding="utf-8")
+    assert _stable_checkout(stable) == stable
+    assert _stable_checkout(linked) == stable
+
+
 def test_stratified_sample_is_reproducible_and_covers_negative_statuses():
     """同一 seed 产生同一样本，并为两个负状态各保留至少一篇。"""
     first = select_stratified_sample(_records(), 6, 42)

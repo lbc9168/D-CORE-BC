@@ -9,6 +9,7 @@
 """
 
 import glob
+import hashlib
 import json
 import logging
 import os
@@ -17,6 +18,7 @@ import sqlite3
 import sys
 import time
 from collections import defaultdict
+from copy import deepcopy
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
@@ -25,7 +27,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import pandas as pd
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
+from google.genai import types, errors as genai_errors
 from pydantic import BaseModel, Field
 from rapidfuzz import fuzz
 
@@ -49,6 +51,7 @@ from s01b_project_extractor.energy_taxonomy_v2 import (
 )
 
 from s02a_duplicate_merger.tools import dedup_cache  # 同包：去重判断结果缓存（断点续跑）
+from s02a_duplicate_merger.tools import coordination
 
 load_dotenv()
 
@@ -210,6 +213,74 @@ def _clean(val: Any) -> str:
     """转为字符串并清理 NA / nan 值。"""
     s = str(val).strip()
     return "" if s in ("nan", "None", "NA", "N/A", "<NA>", "NaN") else s
+
+
+ENTITY_IDENTITY_FIELDS = (
+    "entity_id", "entity_name", "group_entity_id", "raw_entity_name",
+    "identity_status", "entity_evidence_json",
+)
+
+
+def _entity_identity_key(entity: Dict) -> tuple:
+    """法律主体 ID 优先；旧格式保留集团、具体子公司和角色，不能只按集团合并。"""
+    role = _clean(entity.get("involvement_type"))
+    entity_id = _clean(entity.get("entity_id"))
+    if entity_id:
+        return ("id", entity_id, role)
+    return ("legacy", _clean(entity.get("implementing_entity")),
+            _clean(entity.get("subsidiary_name")), role)
+
+
+def _find_existing_entity(conn: sqlite3.Connection, event_id: str, entity: Dict):
+    """Find one relation without guessing between namesakes or merging different IDs.
+
+    After intake approval an unlinked raw name can acquire a parent/group name.
+    Its exact stored raw mention bridges that change only within this event/role.
+    """
+    entity_id = _clean(entity.get("entity_id"))
+    role = _clean(entity.get("involvement_type"))
+    select = ("SELECT id,entity_id,implementing_entity,subsidiary_name FROM chinese_entities "
+              "WHERE event_id=? AND COALESCE(involvement_type,'')=? AND ")
+
+    def unique(condition: str, parameters: tuple):
+        matches = conn.execute(select + condition, (event_id, role, *parameters)).fetchall()
+        if len(matches) > 1:
+            raise ValueError(f"Ambiguous entity replay: event={event_id} role={role} "
+                             f"entity_id={entity_id!r} rows={[row[0] for row in matches]}")
+        return matches[0] if matches else None
+
+    if entity_id:
+        match = unique("entity_id=?", (entity_id,))
+        if match:
+            return match
+    match = unique(
+        "(COALESCE(entity_id,'')='' OR ?='') AND implementing_entity=? "
+        "AND COALESCE(subsidiary_name,'')=?",
+        (entity_id, _clean(entity.get("implementing_entity")), _clean(entity.get("subsidiary_name"))),
+    )
+    if match:
+        return match
+    raw_name = _clean(entity.get("raw_entity_name"))
+    if entity_id and raw_name:
+        return unique("COALESCE(entity_id,'')='' AND raw_entity_name=?", (raw_name,))
+    return None
+
+
+def _pending_publication(record: Dict) -> bool:
+    """待复核记录留在源库等待定向重解析；旧身份门禁也不得自动放行。"""
+    status = _clean(record.get("publication_status"))
+    return status == "pending_review" or (
+        not status
+        and _clean(record.get("exclude_source")) == "entity_verification"
+        and _clean(record.get("needs_review")) in {"1", "1.0", "True", "true"}
+    )
+
+
+def _excluded_publication(record: Dict) -> bool:
+    """明确排除只留源库审计，不向有效项目传播排除状态或业务事实。"""
+    return _clean(record.get("publication_status")) == "excluded" or _clean(
+        record.get("excluded")
+    ) in {"1", "1.0", "True", "true"}
 
 
 def _parse_capacity(val: Any) -> Optional[float]:
@@ -426,7 +497,15 @@ def _init_db(db_path: str) -> sqlite3.Connection:
         os.makedirs(parent, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.executescript(SCHEMA_SQL)
+    existing_entity_columns = {row[1] for row in conn.execute("PRAGMA table_info(chinese_entities)")}
+    for column in ENTITY_IDENTITY_FIELDS:
+        if column not in existing_entity_columns:
+            conn.execute(f"ALTER TABLE chinese_entities ADD COLUMN {column} TEXT")
     for col_def in [
+        # Explicit historical adjudications are narrower than canonical exclusion.
+        # NULL preserves legacy behavior; optional field warnings do not set this.
+        "ALTER TABLE project_events ADD COLUMN publication_status TEXT CHECK(publication_status IN ('eligible','pending_review','excluded'))",
+        "ALTER TABLE chinese_entities ADD COLUMN publication_status TEXT CHECK(publication_status IN ('eligible','pending_review','excluded'))",
         "ALTER TABLE project_events ADD COLUMN project_summary TEXT",
         "ALTER TABLE project_events ADD COLUMN official_website_links TEXT",
         "ALTER TABLE project_events ADD COLUMN non_official_website_links TEXT",
@@ -528,12 +607,24 @@ def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
     df = pd.read_sql(
         "SELECT * FROM extracted_projects WHERE imported_to_s02a = 0", conn
     )
+    held = coordination.held_ids(conn)
+    if held:
+        df = df.loc[~df["id"].isin(held)].copy()
     conn.close()
 
     if df.empty:
         return df, []
 
+    pending = df.apply(_pending_publication, axis=1)
+    if pending.any():
+        logger.info("保留 %s 条企业待复核记录，未导入且不标记 imported_to_s02a", int(pending.sum()))
+        df = df.loc[~pending].copy()
+
     record_ids: list[int] = df["id"].tolist()
+    excluded = df.apply(_excluded_publication, axis=1) if not df.empty else pd.Series(dtype=bool)
+    if excluded.any():
+        logger.info("%s 条明确排除记录仅在源库保留审计，并标记已处理", int(excluded.sum()))
+        df = df.loc[~excluded].copy()
 
     # 将 SQLite 列名映射回 s02a 内部期望的 Excel 列名格式
     df = df.rename(columns={
@@ -609,8 +700,8 @@ def _mark_imported(input_db: str, record_ids: list[int]) -> None:
         )
         conn.commit()
         print(f"  已标记 {len(record_ids)} 条记录为 imported_to_s02a=1")
-    except Exception as e:
-        raise RuntimeError(f"标记 imported_to_s02a 失败: {e}") from e
+    except sqlite3.Error as e:
+        raise RuntimeError(f"标记 imported_to_s02a 失败: {input_db}: {e}") from e
     finally:
         conn.close()
 
@@ -620,6 +711,9 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
     将扁平化 Excel 行归组为逻辑项目。
     同一信源 + 同一项目基本信息 → 一个逻辑项目（含多家实体）。
     """
+    if df.empty:
+        return []
+    df = df.loc[~df.apply(lambda row: _pending_publication(row) or _excluded_publication(row), axis=1)].copy()
     key_cols = [
         "Source Link", "Project Name", "Country",
         "Category", "Capacity (MW)", "Project Stage",
@@ -643,22 +737,20 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
         seen_entities: set = set()
         entities: List[Dict] = []
         for _, row in rows.iterrows():
-            ent_key = (
-                _clean(row.get("Implementing Chinese Entity", "")),
-                _clean(row.get("Subsidiary Name", "")),
-                _clean(row.get("Type of involvement of Chinese Entities", "")),
-            )
-            if ent_key[0] and ent_key not in seen_entities:
-                seen_entities.add(ent_key)
-                entities.append({
-                    "implementing_entity":    ent_key[0],
+            entity = {
+                    "implementing_entity":    _clean(row.get("Implementing Chinese Entity", "")),
                     "implementing_entity_en": _clean(row.get("Implementing Chinese Entity (EN)", "")),
-                    "subsidiary_name":        ent_key[1],
+                    "subsidiary_name":        _clean(row.get("Subsidiary Name", "")),
                     "subsidiary_name_en":     _clean(row.get("Subsidiary Name (EN)", "")),
-                    "involvement_type":       ent_key[2],
+                    "involvement_type":       _clean(row.get("Type of involvement of Chinese Entities", "")),
                     "subcontract_amount":     _clean(row.get("Subcontract Amount (Million USD)", "")),
                     "is_central_soe":         row.get("is_central_soe"),
-                })
+                    **{field: _clean(row.get(field)) for field in ENTITY_IDENTITY_FIELDS},
+            }
+            ent_key = _entity_identity_key(entity)
+            if entity["implementing_entity"] and ent_key not in seen_entities:
+                seen_entities.add(ent_key)
+                entities.append(entity)
 
         src = _clean(first.get("Source Link", ""))
 
@@ -673,19 +765,8 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
                     result_links.append(v)
             return result_links
 
-        # ── exclude 传播（OR 语义：组内任一成员被排除 → 逻辑项目被排除）──
-        def _truthy_excl(v) -> bool:
-            return str(v).strip() in ("1", "1.0", "True", "true")
-        grp_excluded = 1 if any(_truthy_excl(r.get("excluded", "")) for _, r in rows.iterrows()) else 0
-        grp_excl_reason = ""
-        if grp_excluded:
-            for _, r in rows.iterrows():
-                if _truthy_excl(r.get("excluded", "")):
-                    grp_excl_reason = _clean(r.get("exclude_reason", ""))
-                    if grp_excl_reason:
-                        break
-
         logical_projects.append({
+            "_source_record_ids": [int(v) for v in rows["id"]] if "id" in rows else [],
             "record_type":          _clean(first.get("Record Type", "具体项目")) or "具体项目",
             "project_name":         _clean(first.get("Project Name", "")),
             "project_name_en":      _clean(first.get("Project Name (EN)", "")),
@@ -743,8 +824,8 @@ def _group_into_logical_projects(df: pd.DataFrame) -> List[Dict]:
             "publish_date":         _clean(first.get("Publish Date", "")),
             "additional_remarks":   _clean(first.get("Additional Remarks", "")),
             "project_summary":      _clean(first.get("project_summary", "")),
-            "excluded":             grp_excluded,
-            "exclude_reason":       grp_excl_reason,
+            "excluded":             0,
+            "exclude_reason":       "",
             "entities":             entities,
         })
 
@@ -1081,12 +1162,16 @@ _PROJECT_PACKAGE_RE = re.compile(
 
 def _parse_dedup_relationship(result: dict) -> str:
     """解析四态去重结论，并兼容旧版 same_project 布尔输出。"""
+    if not isinstance(result, dict):
+        raise ValueError("去重响应必须为对象")
     relationship = str(result.get("relationship", "") or "").strip()
     if relationship in _DEDUP_RELATIONSHIPS:
         return relationship
     if result.get("same_project") is True:
         return "same_project_different_event"
-    return "distinct"
+    if result.get("same_project") is False:
+        return "distinct"
+    raise ValueError("去重响应缺少有效relationship或显式same_project布尔值")
 
 
 def _looks_like_project_package(project: Dict) -> bool:
@@ -1147,8 +1232,13 @@ def _llm_confirm_raising(
     if isinstance(result, list):
         result = result[0]
     relationship = _parse_dedup_relationship(result)
-    if relationship == "partial_overlap":
-        logger.warning("去重候选为 partial_overlap，不合并并保留人工复核线索: %s", result.get("reasoning", ""))
+    if relationship == "partial_overlap" or (relationship != "distinct" and result.get("confidence") == "low"):
+        raise coordination.CoordinationRequired({
+            "kind": "batch_identity", "model_result": result, "raw_response": resp.text,
+            "reason": result.get("reasoning", ""),
+            "source_record_ids": sorted(set(a.get("_source_record_ids", []) + b.get("_source_record_ids", []))),
+            "incoming": deepcopy(a), "candidate": deepcopy(b),
+        })
     if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") != "low":
         return True
     if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") == "low":
@@ -1162,12 +1252,8 @@ def _llm_confirm(
     a: Dict,
     b: Dict,
 ) -> bool:
-    """调用 Gemini 确认两条记录是否为同一物理项目（阶段可不同）；吞错返回 False（兼容旧调用）。"""
-    try:
-        return _llm_confirm_raising(client, config, a, b)
-    except Exception as e:
-        print(f"    [LLM 确认失败] {e}")
-        return False
+    """Compatibility entry point; an unavailable verdict is never a negative match."""
+    return _llm_confirm_raising(client, config, a, b)
 
 
 def _llm_confirm_canonical(
@@ -1213,25 +1299,33 @@ def _llm_confirm_canonical(
 严格返回 JSON（无其他内容）：
 {{"relationship": "exact_duplicate|same_project_different_event|partial_overlap|distinct", "confidence": "high|medium|low", "reasoning": "一句话理由"}}
     """
-    try:
-        resp = _llm_call_with_retry(
-            client.models.generate_content,
-            model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
-        )
-        result = json.loads(resp.text)
-        if isinstance(result, list):
-            result = result[0]
-        relationship = _parse_dedup_relationship(result)
-        if relationship == "partial_overlap":
-            logger.warning("canonical 候选为 partial_overlap，不合并: %s", result.get("reasoning", ""))
-        if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") != "low":
-            return True
-        if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") == "low":
-            print(f"    → [低置信度，不匹配] {result.get('reasoning', '')}")
-        return False
-    except Exception as e:
-        print(f"    [LLM canonical 确认失败] {e}")
-        return False
+    resp = _llm_call_with_retry(
+        client.models.generate_content,
+        model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
+    )
+    result = json.loads(resp.text)
+    if isinstance(result, list):
+        result = result[0]
+    relationship = _parse_dedup_relationship(result)
+    historical = dict(project_name=db_name, project_name_en=db_name_en, location=db_location,
+                      capacity_mw=db_capacity, capacity_details=db_capacity_details,
+                      project_developer=db_developer, entities=db_entities)
+    hard_conflict = _hard_identity_conflict(project, historical)
+    if relationship == "partial_overlap" or (relationship != "distinct" and (result.get("confidence") == "low" or hard_conflict)):
+        raise coordination.CoordinationRequired({
+            "kind": "historical_identity", "candidate_canonical_id": db_id,
+            "model_result": result, "raw_response": resp.text,
+            "reason": result.get("reasoning", ""), "historical": historical,
+            "conflict_fields": {k: {"incoming": project.get(k), "historical": historical[k]}
+                                for k in ("project_name", "location", "capacity_mw", "capacity_details", "project_developer")
+                                if str(project.get(k) or "") != str(historical[k] or "")},
+        })
+    if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") != "low":
+        return True
+    if relationship in {"exact_duplicate", "same_project_different_event"} and result.get("confidence") == "low":
+        print(f"    → [低置信度，不匹配] {result.get('reasoning', '')}")
+    return False
+
 
 
 def _llm_choose_value(
@@ -1249,14 +1343,15 @@ def _llm_choose_value(
 请选择最可信或最完整的值。
 严格返回 JSON：{{"chosen": "选择的值", "reasoning": "一句话理由"}}
     """
-    try:
-        resp = _llm_call_with_retry(
-            client.models.generate_content,
-            model=GEMINI_MODEL, contents=prompt, config=config,
-        )
-        return json.loads(resp.text).get("chosen", values[0])
-    except Exception:
-        return values[0]
+    resp = _llm_call_with_retry(
+        client.models.generate_content,
+        model=GEMINI_MODEL, contents=prompt, config=config,
+    )
+    result = json.loads(resp.text)
+    if not isinstance(result, dict) or result.get("chosen") not in values:
+        raise ValueError("冲突仲裁必须返回候选集合中的明确值")
+    return result["chosen"]
+
 
 
 def _merge_group(
@@ -1265,7 +1360,14 @@ def _merge_group(
     records: List[Dict],
 ) -> Dict:
     """将一组确认重复的记录合并为一条。"""
+    eligible = [r for r in records if not _pending_publication(r) and not _excluded_publication(r)]
+    if not eligible:
+        # 调用方写库守卫仍会跳过；不能伪造有效项目。
+        return records[0].copy()
+    records = eligible
     base = records[0].copy()
+    base["_source_record_ids"] = sorted({i for r in records for i in r.get("_source_record_ids", [])})
+    base["_coordination_conflicts"] = [e for r in records for e in r.get("_coordination_conflicts", [])]
 
     # 合并信源链接（保序去重）
     seen_links: set = set()
@@ -1277,10 +1379,8 @@ def _merge_group(
                 merged_links.append(link)
     base["source_links"] = merged_links
 
-    # exclude OR：任一被合并记录被排除 → 合并结果被排除
-    base["excluded"] = 1 if any(r.get("excluded") for r in records) else 0
-    if base["excluded"]:
-        base["exclude_reason"] = next((r.get("exclude_reason") for r in records if r.get("excluded") and r.get("exclude_reason")), "")
+    base["excluded"] = 0
+    base["exclude_reason"] = ""
 
     # 合并官方/非官方网站链接（保序去重）
     for link_key in ("official_website_links", "non_official_website_links"):
@@ -1293,12 +1393,12 @@ def _merge_group(
                     merged_wl.append(link)
         base[link_key] = merged_wl
 
-    # 合并中方实体（按 implementing_entity + involvement_type 去重）
+    # 合并中方实体：同法人别名可合并，集团内不同子公司必须保留。
     seen_ent: set = set()
     merged_entities: List[Dict] = []
     for r in records:
         for e in r["entities"]:
-            key = (e["implementing_entity"], e["involvement_type"])
+            key = _entity_identity_key(e)
             if e["implementing_entity"] and key not in seen_ent:
                 seen_ent.add(key)
                 merged_entities.append(e)
@@ -1345,14 +1445,22 @@ def _run_confirm_batches(client, config, projects, todo, cache_db, cache) -> Non
             pi, pj, k = item
             try:
                 same = _llm_confirm_raising(client, config, projects[pi], projects[pj])
-                return k, (1 if same else 0), "done"
-            except Exception as e:  # 持久失败（socket 等）→ 标 failed 待重跑
+                return k, (1 if same else 0), "done", None, (pi, pj)
+            except coordination.CoordinationRequired as e:
+                # Business holds are reusable decisions, not retryable API failures.
+                return k, None, "pending", e.evidence, (pi, pj)
+            except (RuntimeError, ValueError, OSError, genai_errors.APIError) as e:
                 logging.error("确认失败 pair_key=%s: %s", k, e)
-                return k, None, "failed"
+                return k, None, "failed", None, (pi, pj)
 
         rows = []
         with ThreadPoolExecutor(max_workers=DEDUP_WORKERS) as exe:
-            for k, same, status in exe.map(_confirm, batch):
+            for k, same, status, evidence, indices in exe.map(_confirm, batch):
+                if evidence:
+                    if cache_db:
+                        dedup_cache.save_evidence(cache_db, k, evidence)
+                    for index in indices:
+                        projects[index].setdefault("_coordination_conflicts", []).append(evidence)
                 rows.append((k, same, status))
                 cache[k] = (same, status)
         if cache_db:
@@ -1369,7 +1477,12 @@ def _confirm_llm_pairs(client, config, projects, llm_pairs, cache_db) -> Dict[Tu
         dedup_cache.init_cache(cache_db)
         cache = dedup_cache.load_cache(cache_db)
 
-    todo = [(pi, pj, k) for pi, pj, k in keyed if cache.get(k, (None, "none"))[1] != "done"]
+    for pi, pj, k in keyed:
+        if cache.get(k, (None, "none"))[1] == "pending":
+            evidence = dedup_cache.load_evidence(cache_db, k)
+            for index in (pi, pj):
+                projects[index].setdefault("_coordination_conflicts", []).append(evidence)
+    todo = [(pi, pj, k) for pi, pj, k in keyed if cache.get(k, (None, "none"))[1] not in {"done", "pending"}]
     print(f"  LLM 核验 {len(llm_pairs)} 对（已缓存 {len(llm_pairs) - len(todo)} / 待确认 {len(todo)}"
           f" / workers={DEDUP_WORKERS} / batch={DEDUP_BATCH_SIZE}）…")
     _run_confirm_batches(client, config, projects, todo, cache_db, cache)
@@ -1381,7 +1494,7 @@ def _confirm_llm_pairs(client, config, projects, llm_pairs, cache_db) -> Dict[Tu
 
     still = sum(1 for _, _, k in keyed if cache.get(k, (None, "none"))[1] == "failed")
     if still:
-        logging.warning("仍有 %d 对确认失败，按「不合并」处理（缓存保留 failed，将来重跑可补）", still)
+        raise RuntimeError(f"仍有 {still} 对去重确认失败；停止入库，保留未导入状态及已完成缓存，续跑重试")
 
     out: Dict[Tuple[int, int], bool] = {}
     for pi, pj, k in keyed:
@@ -1571,6 +1684,7 @@ def _find_or_create_canonical(
     client: Optional[genai.Client] = None,
     config: Optional[types.GenerateContentConfig] = None,
     canonical_cache: Optional[Dict[Tuple[str, str], List]] = None,
+    _rejected_ids: Tuple[str, ...] = (),
 ) -> Tuple[str, bool]:
     """
     查找已有的 canonical_project，或新建一条。
@@ -1585,7 +1699,8 @@ def _find_or_create_canonical(
       score ≥ CANONICAL_AUTO_MATCH_SCORE (97) → 自动匹配（容量守卫：差异 > 20% 且有 LLM 时降级确认）
       CANONICAL_LLM_MIN_SCORE (70) ≤ score < 97 且 client 非空 → LLM 确认
       client 为空时降级：score ≥ FUZZY_THRESHOLD (85) → 自动匹配
-      地点辅助（P3b）：score < 70 但规范地名相同 + 容量守卫通过 → 降门槛送 LLM 确认
+      地点辅助（P3b）：score < 70 但同类、地点相同/包含 + 容量守卫通过 → 仅送 LLM 确认
+      同地点候选优先；LLM拒绝后至多再核验2个候选，不因第一个错误候选即漏掉真实项目
       其余 → 新建
 
     返回 (canonical_id, is_new)。
@@ -1614,7 +1729,12 @@ def _find_or_create_canonical(
     best_score = 0
     best_cn_score = 0
     best_location = ""
+    incoming_loc = _norm_location(project)
+    best_rank = (-1, -1.0)
+    loc_assist = False
     for row_id, row_name, row_name_en, _row_loc in rows:
+        if row_id in _rejected_ids:
+            continue
         cn_score = fuzz.token_sort_ratio(name, row_name or "")
         score = cn_score
         if incoming_en and row_name:
@@ -1623,24 +1743,25 @@ def _find_or_create_canonical(
             score = max(score, fuzz.token_sort_ratio(incoming_en, row_name_en))
         if name and row_name_en:
             score = max(score, fuzz.token_sort_ratio(name, row_name_en))
-        # 收集满足 LLM 最低阈值的最高分候选（兼容降级模式）
-        if score >= CANONICAL_LLM_MIN_SCORE and score > best_score:
+        # Place context ranks candidates before boilerplate name similarity. A
+        # descriptive prefix (e.g. coastal + district) must not hide the same site.
+        row_loc = (_row_loc or "").strip()
+        same_place = bool(len(incoming_loc) >= 2 and len(row_loc) >= 2 and (
+            incoming_loc.casefold() in row_loc.casefold()
+            or row_loc.casefold() in incoming_loc.casefold()
+        ))
+        assisted = False
+        if score < CANONICAL_LLM_MIN_SCORE and same_place and client is not None:
+            row_category = conn.execute("SELECT category FROM canonical_projects WHERE id=?", (row_id,)).fetchone()
+            assisted = bool(row_category and row_category[0] == cat
+                            and not _capacity_guard(conn, row_id, project))
+        rank = (int(same_place), score)
+        if (score >= CANONICAL_LLM_MIN_SCORE or assisted) and rank > best_rank:
             best_id, best_score, best_cn_score, best_location = row_id, score, cn_score, (_row_loc or "")
+            best_rank, loc_assist = rank, assisted
 
-    # ── P3b 地点辅助：名称分不足 70 时，同规范地名 + 容量守卫通过 → 仍送 LLM 确认 ──
-    # 覆盖跨批次音译变体/异名同项目（名称分可能 <20，加权救不回，走独立通道）
-    loc_assist = False
-    incoming_loc = _norm_location(project)
-    if best_id is None and client is not None and len(incoming_loc) >= 2:
-        loc_rows = [r for r in rows if (r[3] or "") == incoming_loc]
-        if loc_rows:
-            cand = max(loc_rows, key=lambda r: fuzz.token_sort_ratio(name, r[1] or ""))
-            if not _capacity_guard(conn, cand[0], project):
-                best_id = cand[0]
-                best_score = fuzz.token_sort_ratio(name, cand[1] or "")
-                best_cn_score = best_score
-                loc_assist = True
-                print(f"  [地点辅助] {best_id} 同规范地名「{incoming_loc}」，降门槛送 LLM (score={best_score})")
+    if loc_assist:
+        print(f"  [地点辅助] {best_id} 地点一致/包含「{incoming_loc}」，降门槛送 LLM (score={best_score})")
 
     if best_id:
         incoming_loc_for_guard = _norm_location(project)
@@ -1658,7 +1779,10 @@ def _find_or_create_canonical(
             and not loc_assist
             and not location_conflict
         ):
-            if _capacity_guard(conn, best_id, project) and client is not None:
+            if _capacity_guard(conn, best_id, project):
+                if client is None:
+                    raise coordination.CoordinationRequired({"kind": "historical_identity", "candidate_canonical_id": best_id,
+                        "reason": "Strong name match but unresolved capacity conflict; confirmation unavailable"})
                 # 容量差异大，高分名称不足以自动匹配 → 降级 LLM 确认
                 print(
                     f"  [容量守卫] {best_id} vs [{name[:25]}] "
@@ -1716,7 +1840,12 @@ def _find_or_create_canonical(
                 print(f"    → LLM 确认匹配 {best_id}")
                 return best_id, False
             else:
-                print(f"    → LLM 判断为不同项目，新建 canonical")
+                print(f"    → LLM 判断为不同项目，检查剩余候选")
+                if len(_rejected_ids) < 2:
+                    return _find_or_create_canonical(
+                        conn, project, client, config, canonical_cache,
+                        _rejected_ids + (best_id,),
+                    )
         elif best_id and best_score >= FUZZY_THRESHOLD and not location_conflict:
             # 无 LLM 降级模式：保持原有 ≥ 85 自动匹配行为
             return best_id, False
@@ -1731,6 +1860,11 @@ def _write_to_db(
     client: Optional[genai.Client] = None,
     config: Optional[types.GenerateContentConfig] = None,
     trust_dedup: bool = False,
+    *,
+    commit: bool = True,
+    on_hold=None,
+    resolved_canonical_id: Optional[str] = None,
+    resolved_distinct: bool = False,
 ) -> Dict[str, int]:
     """将合并后的逻辑项目写入三张 SQLite 表，返回各表新增条数。
 
@@ -1752,12 +1886,34 @@ def _write_to_db(
     # 同一 dedup_group_id（去重阶段确认的跨阶段同项目）强制共用 canonical，跳过名称匹配
     # gid 仅在单次运行内有效；跨批次低名称分场景由 _find_or_create_canonical 的地点辅助通道兜底
     group_canonical: Dict[str, str] = {}
+    group_holds: Dict[str, list] = {}
+    for project in projects:
+        if project.get("dedup_group_id") and project.get("_coordination_conflicts"):
+            group_holds[project["dedup_group_id"]] = project["_coordination_conflicts"]
+    if (resolved_canonical_id or resolved_distinct) and len(projects) != 1:
+        raise ValueError("A reviewed identity resolution must target one logical project")
 
     for project in projects:
+        if _pending_publication(project) or _excluded_publication(project):
+            logger.info("跳过未获准发布的项目记录: %s", project.get("project_name", ""))
+            continue
         _apply_incoming_energy_taxonomy(project)
         # ── canonical_projects ──────────────────────────────────────────────
         gid = project.get("dedup_group_id")
-        if gid and gid in group_canonical:
+        conflicts = project.get("_coordination_conflicts") or group_holds.get(gid)
+        if conflicts and not (resolved_canonical_id or resolved_distinct):
+            if on_hold is None:
+                raise coordination.CoordinationRequired({"reason": "Unresolved batch identity", "conflicts": conflicts})
+            on_hold(project, conflicts)
+            continue
+        if resolved_canonical_id:
+            existing = conn.execute("SELECT country_iso FROM canonical_projects WHERE id=?", (resolved_canonical_id,)).fetchone()
+            if not existing or existing[0] != project["country_iso"]:
+                raise ValueError("Reviewed canonical missing or belongs to another country")
+            canonical_id, is_new = resolved_canonical_id, False
+        elif resolved_distinct:
+            canonical_id, is_new = _create_canonical(conn, project, canonical_cache), True
+        elif gid and gid in group_canonical:
             canonical_id, is_new = group_canonical[gid], False
         elif trust_dedup:
             # 从空库全局重建：dedup 已全局比过，直接建新 canonical（跳过 LLM 重匹配）
@@ -1765,19 +1921,19 @@ def _write_to_db(
             if gid:
                 group_canonical[gid] = canonical_id
         else:
-            canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
+            try:
+                canonical_id, is_new = _find_or_create_canonical(conn, project, client, config, canonical_cache)
+            except coordination.CoordinationRequired as e:
+                if on_hold is None:
+                    raise
+                on_hold(project, [e.evidence])
+                if gid:
+                    group_holds[gid] = [e.evidence]
+                continue
             if gid:
                 group_canonical[gid] = canonical_id
         if is_new:
             cnt["canonical_new"] += 1
-
-        # ── exclude 传播到 canonical（OR：任一成员排除即排除；可逆、幂等）──
-        if project.get("excluded"):
-            conn.execute(
-                "UPDATE canonical_projects SET excluded=1, "
-                "excluded_reason=COALESCE(NULLIF(excluded_reason,''), ?) WHERE id=?",
-                (project.get("exclude_reason", "") or None, canonical_id),
-            )
 
         # ── project_events ─────────────────────────────────────────────────
         # 同阶段事件是否已存在（支持重复运行的幂等性）
@@ -1953,25 +2109,17 @@ def _write_to_db(
         for ent in project.get("entities", []):
             if not ent.get("implementing_entity"):
                 continue
-            dupe = conn.execute(
-                """SELECT 1 FROM chinese_entities
-                   WHERE event_id = ? AND implementing_entity = ?
-                     AND COALESCE(subsidiary_name, '') = COALESCE(?, '')
-                     AND involvement_type = ?""",
-                (
-                    event_id,
-                    ent["implementing_entity"],
-                    ent.get("subsidiary_name", ""),
-                    ent["involvement_type"],
-                ),
-            ).fetchone()
+            entity_id = _clean(ent.get("entity_id"))
+            dupe = _find_existing_entity(conn, event_id, ent)
             if not dupe:
                 conn.execute(
                     """INSERT INTO chinese_entities
                        (event_id, implementing_entity, implementing_entity_en,
                         subsidiary_name, subsidiary_name_en, entity_en_quality,
-                        involvement_type, subcontract_amount_raw, subcontract_amount, is_central_soe)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                        involvement_type, subcontract_amount_raw, subcontract_amount, is_central_soe,
+                        entity_id, entity_name, group_entity_id, raw_entity_name,
+                        identity_status, entity_evidence_json)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
                     (
                         event_id,
                         ent["implementing_entity"],
@@ -1983,11 +2131,42 @@ def _write_to_db(
                         ent["subcontract_amount"],
                         bri_parse.parse_number(ent["subcontract_amount"]),
                         ent.get("is_central_soe"),
+                        *(_clean(ent.get(field)) or None for field in ENTITY_IDENTITY_FIELDS),
                     ),
                 )
                 cnt["entity_new"] += 1
+            else:
+                if entity_id and not _clean(dupe[1]):
+                    # First approved registry link replaces provisional identity facts in place.
+                    # A translated old raw/group name cannot label a different new canonical name.
+                    logger.info("Link reviewed entity in place: event=%s relation=%s entity_id=%s old=%s/%s new=%s/%s",
+                                event_id, dupe[0], entity_id, dupe[2], dupe[3],
+                                ent["implementing_entity"], ent.get("subsidiary_name", ""))
+                    conn.execute(
+                        "UPDATE chinese_entities SET implementing_entity=?, subsidiary_name=?, "
+                        "implementing_entity_en=CASE WHEN COALESCE(implementing_entity,'')<>? THEN ? ELSE implementing_entity_en END, "
+                        "subsidiary_name_en=CASE WHEN COALESCE(subsidiary_name,'')<>? THEN ? ELSE subsidiary_name_en END, "
+                        "entity_en_quality=CASE WHEN COALESCE(implementing_entity,'')<>? OR COALESCE(subsidiary_name,'')<>? "
+                        "THEN ? ELSE entity_en_quality END, "
+                        "entity_id=?, entity_name=?, group_entity_id=?, identity_status=?, entity_evidence_json=? "
+                        "WHERE id=?",
+                        (ent["implementing_entity"], _clean(ent.get("subsidiary_name")),
+                         ent["implementing_entity"], _clean(ent.get("implementing_entity_en")),
+                         _clean(ent.get("subsidiary_name")), _clean(ent.get("subsidiary_name_en")),
+                         ent["implementing_entity"], _clean(ent.get("subsidiary_name")),
+                         ent.get("entity_en_quality", "ai_translated"), entity_id,
+                         _clean(ent.get("entity_name")) or None, _clean(ent.get("group_entity_id")) or None,
+                         _clean(ent.get("identity_status")) or None, _clean(ent.get("entity_evidence_json")) or None,
+                         dupe[0]),
+                    )
+                assignments = ", ".join(f"{field}=COALESCE(NULLIF({field}, ''), ?)" for field in ENTITY_IDENTITY_FIELDS)
+                conn.execute(
+                    f"UPDATE chinese_entities SET {assignments} WHERE id=?",
+                    (*(_clean(ent.get(field)) or None for field in ENTITY_IDENTITY_FIELDS), dupe[0]),
+                )
 
-    conn.commit()
+    if commit:
+        conn.commit()
     return cnt
 
 
@@ -2021,7 +2200,8 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
     ent_rows = conn.execute("""
         SELECT implementing_entity, implementing_entity_en,
                subsidiary_name, subsidiary_name_en, entity_en_quality,
-               involvement_type, subcontract_amount_raw, is_central_soe
+               involvement_type, subcontract_amount_raw, is_central_soe,
+               entity_id, entity_name, group_entity_id, raw_entity_name, identity_status, entity_evidence_json
         FROM chinese_entities WHERE event_id = ?
     """, (event_id,)).fetchall()
 
@@ -2035,6 +2215,7 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
             "involvement_type":       r[5] or "",
             "subcontract_amount":     r[6] or "",
             "is_central_soe":         r[7],
+            **dict(zip(ENTITY_IDENTITY_FIELDS, (value or "" for value in r[8:]))),
         }
         for r in ent_rows
     ]
@@ -2092,11 +2273,14 @@ def _fetch_event_as_dict(conn: sqlite3.Connection, event_id: str) -> Dict:
 def _write_non_project_records(
     conn: sqlite3.Connection,
     records: List[Dict],
+    *, commit: bool = True,
 ) -> int:
     """将设备订单、一般合作类记录写入 non_project_records 表（扁平化，一实体一行）。"""
     now = datetime.now().isoformat()
     count = 0
     for rec in records:
+        if _pending_publication(rec) or _excluded_publication(rec):
+            continue
         entities = rec.get("entities", [])
         src = rec["source_links"][0] if rec["source_links"] else ""
         if not entities:
@@ -2151,7 +2335,8 @@ def _write_non_project_records(
                     ),
                 )
                 count += 1
-    conn.commit()
+    if commit:
+        conn.commit()
     return count
 
 
@@ -2178,24 +2363,35 @@ class DuplicateMergerTool:
         cache_db: Optional[str] = None,
         trust_dedup: bool = False,
     ) -> str:
-        # 初始化 Gemini
-        api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
-            return "错误：未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。"
-
-        client = genai.Client(api_key=api_key)
-        gen_config = types.GenerateContentConfig(
-            response_mime_type="application/json",
-            temperature=0.1,
-        )
+        self.last_result = {"status": "running", "input_db": os.path.abspath(input_db),
+                            "db_path": os.path.abspath(db_path)}
+        if cache_db is None:
+            # Keep confirmations across recoverable batch failures. Code/model changes
+            # use another cache file rather than silently reusing a stale decision.
+            version = hashlib.sha256(Path(__file__).read_bytes() + LLM_CONFIRM_MODEL.encode()).hexdigest()[:12]
+            target = Path(db_path).resolve()
+            cache_db = str(target.with_name(f"{target.stem}.dedup-{version}.db"))
+        self.last_result["cache_db"] = cache_db
 
         # ── 阶段一：加载 & 归组 ──────────────────────────────────────────────
         print(f"\n>>> [阶段一] 加载数据：{input_db}")
         df, record_ids = _load_from_db(input_db)
+        pending_tasks = coordination.pending_count(input_db) if Path(input_db).exists() else 0
         if df.empty:
-            return f"未发现待处理记录（{input_db} 中 imported_to_s02a=0 的记录为零）。"
+            _mark_imported(input_db, record_ids)
+            self.last_result.update(status="partial" if pending_tasks else "completed", input_rows=0, imported_rows=len(record_ids),
+                                    coordination_pending=pending_tasks, coordination_created=0,
+                                    counts={"canonical_new": 0, "event_new": 0, "entity_new": 0,
+                                            "event_cross_merged": 0, "non_project_new": 0})
+            return f"未发现可发布记录（{len(record_ids)} 条明确排除记录已标记处理；待复核记录仍保留未导入）。"
         raw_count = len(df)
         print(f"  原始行数: {raw_count}")
+
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            raise RuntimeError("未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。")
+        client = genai.Client(api_key=api_key)
+        gen_config = types.GenerateContentConfig(response_mime_type="application/json", temperature=0.1)
 
         all_projects = _group_into_logical_projects(df)
         print(f"  归组后逻辑记录数: {len(all_projects)}")
@@ -2234,13 +2430,25 @@ class DuplicateMergerTool:
         # ── 阶段四：SQLite 写入 ──────────────────────────────────────────────
         print(f"\n>>> [阶段四] 写入 SQLite：{db_path}")
         conn = _init_db(db_path)
-        counts = _write_to_db(conn, merged, client, gen_config, trust_dedup=trust_dedup)
-        non_project_count = _write_non_project_records(conn, non_projects)
         conn.close()
-
-        # ── 阶段五：标记已导入记录 ───────────────────────────────────────────
-        print(f"\n>>> [阶段五] 标记 projects.db 中已导入记录...")
-        _mark_imported(input_db, record_ids)
+        held_rows = set()
+        task_ids = []
+        # Source flags, identity holds and business rows share one atomic commit.
+        # A technical exception rolls all of them back; confirmed pair cache survives.
+        with coordination.attached_transaction(input_db, db_path) as conn:
+            def on_hold(project, evidence):
+                task_ids.append(coordination.save_hold(conn, project, evidence))
+                held_rows.update(project["_source_record_ids"])
+            counts = _write_to_db(conn, merged, client, gen_config, trust_dedup=trust_dedup,
+                                  commit=False, on_hold=on_hold)
+            non_project_count = _write_non_project_records(conn, non_projects, commit=False)
+            imported_ids = sorted(set(record_ids) - held_rows)
+            conn.executemany("UPDATE extracted.extracted_projects SET imported_to_s02a=1 WHERE id=?", [(i,) for i in imported_ids])
+        pending_tasks = coordination.pending_count(input_db)
+        self.last_result.update(status="partial" if pending_tasks else "completed", input_rows=raw_count, imported_rows=len(imported_ids),
+                                coordination_pending=pending_tasks, coordination_created=len(set(task_ids)),
+                                coordination_task_ids=sorted(set(task_ids)),
+                                counts={**counts, "non_project_new": non_project_count})
 
         db_abs = os.path.abspath(db_path)
         return (

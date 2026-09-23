@@ -19,6 +19,7 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums  # noqa: E402
 from . import flat_builder
+from .production_capacity import public_production_capacity
 
 BASELINE_YEAR = 2022
 _EXCLUDED_ISO3 = {"CHN", "HKG", "MAC", "TWN"}
@@ -85,8 +86,7 @@ def passes_baseline(p: dict) -> bool:
         return False
     if _is_unknown_text(p.get("primary_entity")):
         return False
-    if category and not enums.is_no_capacity(category) and p.get("capacity_mw") is None:
-        return False
+    # Capacity is optional: accepted participation remains publishable with a null value.
     return True
 
 
@@ -163,13 +163,16 @@ def export_events_csv(
         projects = {r["id"]: dict(r) for r in con.execute("SELECT * FROM canonical_projects")}
         entities_by_event: dict[str, list[dict]] = {}
         for e in con.execute("SELECT * FROM chinese_entities"):
-            entities_by_event.setdefault(e["event_id"], []).append(dict(e))
+            if flat_builder.record_is_publishable(dict(e)):
+                entities_by_event.setdefault(e["event_id"], []).append(dict(e))
         events = [dict(r) for r in con.execute("SELECT * FROM project_events")]
     finally:
         con.close()
 
     rows: list[dict] = []
     for ev in events:
+        if not flat_builder.record_is_publishable(ev):
+            continue
         proj = projects.get(ev["canonical_id"])
         if proj is None or proj.get("excluded", 0):
             continue
@@ -201,6 +204,9 @@ def export_events_csv(
             v = ev.get(col)
             return v if v is not None else ""
 
+        production_value, production_unit = public_production_capacity(
+            ev.get("production_capacity_value"), ev.get("production_capacity_unit")
+        )
         base = {
             "canonical_id": ev["canonical_id"],
             "event_id": ev["id"],
@@ -230,8 +236,8 @@ def export_events_csv(
             "voltage_kv": _num("voltage_kv"),
             "line_length_km": _num("line_length_km"),
             "transmission_capacity_mw": _num("transmission_capacity_mw"),
-            "production_capacity_value": _num("production_capacity_value"),
-            "production_capacity_unit": ev.get("production_capacity_unit") or "",
+            "production_capacity_value": production_value if production_value is not None else "",
+            "production_capacity_unit": production_unit or "",
             "total_investment_usd": _num("total_investment_usd"),
             "contract_amount_usd": _num("contract_amount_usd"),
             "financing_amount_usd": _num("financing_amount_usd"),

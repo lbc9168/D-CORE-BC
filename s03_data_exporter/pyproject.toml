@@ -13,8 +13,8 @@ dependencies = [
 ]
 
 [project.scripts]
-s03_data_exporter = "s03_data_exporter.main:run"
-run_export        = "s03_data_exporter.main:run"
+s03_data_exporter = "s03_data_exporter.main:main"
+run_export        = "s03_data_exporter.main:main"
 
 [build-system]
 requires = ["hatchling"]

@@ -16,7 +16,7 @@ class StubLLM:
 
 def test_s2_deterministically_reclassifies_solar_storage():
     """模型旧口径输出综合能源时，原子事实必须把光储改回光伏并保留独立容量。"""
-    projects = run_s2("t", "c", "2026-01-01", llm=StubLLM({
+    projects = run_s2("肯尼亚光储项目", "肯尼亚光储项目总装机100MW，配套20MW/40MWh储能系统。", "2026-01-01", llm=StubLLM({
         "Project Name": "肯尼亚光储项目",
         "Category": "综合能源",
         "Generation Sources": ["光伏"],

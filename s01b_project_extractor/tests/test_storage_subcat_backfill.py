@@ -78,6 +78,21 @@ def test_dry_run_does_not_write(tmp_path):
     assert row == (None, None), "dry-run 不应写库"
 
 
+@pytest.mark.parametrize("summary", [
+    "发电装机容量为4.5MW。中方企业已确认参与。项目储能功率、储能电量暂无已核实数据。",
+    "光伏装机100MW，储能功率未披露。",
+    "Generation capacity 4.5MW. BESS capacity unknown.",
+])
+def test_summary_unknown_storage_cannot_borrow_generation_capacity(tmp_path, summary):
+    db = _make_db(tmp_path, [("PHL-GT-0001", "余热发电项目", "地热及余热", 0, None)],
+                  [("PHL-GT-0001-01", "PHL-GT-0001", "", summary, "", None, None, None)])
+    report = run(db, apply=True)
+    assert report["would_change"]["storage_power_mw"] == 0
+    assert report["would_change"]["storage_energy_mwh"] == 0
+    with sqlite3.connect(db) as connection:
+        assert connection.execute("SELECT storage_power_mw,storage_energy_mwh FROM project_events").fetchone() == (None, None)
+
+
 # ── apply 正确回填 ────────────────────────────────────────────────────────
 
 def test_apply_fills_storage_for_es_event(tmp_path):

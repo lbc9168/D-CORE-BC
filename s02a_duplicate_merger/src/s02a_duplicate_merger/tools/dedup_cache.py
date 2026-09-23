@@ -3,6 +3,7 @@
 判断（每对项目是否同一）互相独立，故可分批落盘；键用两个项目的对称内容哈希，跨运行稳定。
 """
 import hashlib
+import json
 import os
 import sqlite3
 from typing import Dict, List, Optional, Tuple
@@ -34,6 +35,7 @@ def init_cache(db_path: str) -> None:
             "CREATE TABLE IF NOT EXISTS pair_verdicts ("
             "pair_key TEXT PRIMARY KEY, same INTEGER, status TEXT NOT NULL)"
         )
+        conn.execute("CREATE TABLE IF NOT EXISTS coordination_evidence (pair_key TEXT PRIMARY KEY, evidence_json TEXT NOT NULL)")
         conn.commit()
     finally:
         conn.close()
@@ -62,3 +64,17 @@ def upsert(db_path: str, items: List[Tuple[str, Optional[int], str]]) -> None:
             )
     finally:
         conn.close()
+
+
+def save_evidence(db_path: str, key: str, evidence: dict) -> None:
+    with sqlite3.connect(db_path) as conn:
+        conn.execute("INSERT OR REPLACE INTO coordination_evidence VALUES (?,?)",
+                     (key, json.dumps(evidence, ensure_ascii=False)))
+
+
+def load_evidence(db_path: str, key: str) -> dict:
+    with sqlite3.connect(db_path) as conn:
+        row = conn.execute("SELECT evidence_json FROM coordination_evidence WHERE pair_key=?", (key,)).fetchone()
+    if not row:
+        raise ValueError("Cached identity hold has no evidence")
+    return json.loads(row[0])

@@ -217,3 +217,31 @@ def test_capacity_is_tonnage():
 
 def test_guard_source_constant():
     assert DETERMINISTIC_GUARD_SOURCE == "deterministic_guard"
+
+
+def test_mining_substation_is_energy_but_mine_with_background_substation_is_not():
+    assert check_nonenergy(
+        "刚果（金）矿区源网荷储项目一期网架II标升压站主变压器吊装就位",
+        "首台200MVA主变压器吊装就位。", "输变电建设", None, "",
+    ) is None
+    assert check_nonenergy(
+        "刚果（金）铜矿采选项目", "附近升压站可为矿区供电。", "综合能源", None, "",
+    ) is not None
+
+
+def test_hydrogen_supply_order_with_unknown_mw_keeps_energy_scope():
+    # Constructed guard case, not a model rerun. Device throughput is not MW.
+    assert check_nonenergy(
+        "肯尼亚地热制氢电源设备订单", "英特利中标制氢电源订单。",
+        "地热及余热", None, "1000方级制氢电源",
+    ) is None
+    assert check_nonenergy(
+        "肯尼亚制氢电源设备订单", "该目标项目采用地热能源。供应商中标电源订单。",
+        "地热及余热", None, "1000方级制氢电源",
+    ) is None
+    assert check_nonenergy(
+        "肯尼亚普通化肥厂", "企业另有地热制氢业务。", "新能源制造业", None, "",
+    ) is not None
+    assert check_nonenergy(
+        "肯尼亚制氢电源设备订单", "英特利中标制氢电源订单。", "Unknown", None, "1000方级",
+    ) is not None

@@ -79,3 +79,47 @@ def test_real_files_anchor():
     assert r.matched and "海外投资" in r.canonical_cn
     assert r.canonical_cn == "中国电建集团海外投资有限公司"
     assert r.canonical_cn != "中国电力建设集团有限公司"  # 绝不上卷母公司
+
+
+def test_group_only_alias_does_not_promote_developer_to_parent(tmp_path):
+    """A confirmed group link is not evidence that the group itself is developer."""
+    import json
+    from s02b_entity_normalizer.company_lookup import build_index, lookup
+    registry = tmp_path / "registry.json"
+    registry.write_text(json.dumps({"companies": []}), encoding="utf-8")
+    hierarchy = tmp_path / "hierarchy.json"
+    hierarchy.write_text(json.dumps({"groups": [{
+        "canonical_name_cn": "中国集团有限公司",
+        "aliases": ["海外品牌"], "group_only_aliases": ["海外品牌"],
+        "subsidiaries": [{"name_cn": "子公司简称", "legal_full_name_cn": "海外子公司有限公司",
+                          "aliases": ["Overseas Child"]}],
+    }]}), encoding="utf-8")
+    index = build_index(str(registry), str(hierarchy))
+    result = lookup("海外品牌", index)
+    assert not result.matched and result.canonical_cn == "海外品牌"
+    assert lookup("子公司简称", index).canonical_cn == "海外子公司有限公司"
+    assert lookup("overseas child", index).canonical_cn == "海外子公司有限公司"
+
+
+def test_conflicting_legal_names_are_not_first_seen_wins(tmp_path):
+    import json
+    from s02b_entity_normalizer.company_lookup import build_index, lookup
+    registry = tmp_path / "registry.json"
+    registry.write_text(json.dumps({"companies": []}), encoding="utf-8")
+    hierarchy = tmp_path / "hierarchy.json"
+    hierarchy.write_text(json.dumps({"groups": [
+        {"canonical_name_cn": "甲集团", "aliases": ["共用简称"]},
+        {"canonical_name_cn": "乙集团", "aliases": ["共用简称"]},
+    ]}), encoding="utf-8")
+    result = lookup("共用简称", build_index(str(registry), str(hierarchy)))
+    assert not result.matched and result.source == "ambiguous"
+
+
+def test_verified_names_do_not_turn_generic_departments_into_developers():
+    index = build_index()
+    for name in ("核电集团", "上海三菱", "中央研究院", "金融集团", "石油工程建设公司", "贵州工程公司"):
+        result = lookup(name, index)
+        assert not result.matched and result.canonical_cn == name
+    assert lookup("电气风电", index).canonical_cn == "上海电气风电集团股份有限公司"
+    assert lookup("Recurrent Energy", index).canonical_cn == "Recurrent Energy"
+    assert lookup("Recurrent Energy, LLC", index).canonical_cn == "Recurrent Energy, LLC"

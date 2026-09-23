@@ -92,9 +92,11 @@ def test_s2_prompt_tightens_integrated_energy_and_has_in_scope_output():
     p = build_s2_prompt("t", "c", "2026-01-01")
     assert "in_scope" in p and "out_of_scope_reason" in p
     assert "只有两种及以上非备用发电源组合才归「综合能源」" in p
-    assert "严禁把 BESS MW 加入发电装机" in p
-    assert "不是综合能源" in p or "不应成为项目" in p
-    assert "可再生能源" not in p
+    assert "储能MW不得加到发电MW" in p
+    assert "非发电民用或工业设施" in p and "纯运维检修不提取" in p
+    # Renewable-energy prose is valid; it must not become a new category enum.
+    category_contract = next(line for line in p.splitlines() if '"Category":' in line)
+    assert "可再生能源" not in category_contract
 
 
 def test_run_s2_normalizes_energy_facts_and_overwrites_model_category():
@@ -108,7 +110,7 @@ def test_run_s2_normalizes_energy_facts_and_overwrites_model_category():
         "Storage Energy": "40MWh",
         "Energy Composition Evidence": "光伏电站配套20MW/40MWh储能",
     }}]})
-    project = run_s2("t", "c", "2026-01-01", llm=llm)[0]
+    project = run_s2("意大利光储项目", "意大利光储项目配套20MW/40MWh储能系统。", "2026-01-01", llm=llm)[0]
     common = project["common_info"]
     assert common["Category"] == "光伏"
     assert common["generation_sources_json"] == '["光伏"]'

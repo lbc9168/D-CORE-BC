@@ -63,6 +63,17 @@ def test_extract_confirmed_storage_pair_and_generation_source():
     assert facts.storage_energy_mwh == 40.0
 
 
+@pytest.mark.parametrize(("text", "power", "energy"), [
+    ("储能25兆瓦/125兆瓦时", 25.0, 125.0),
+    ("81.5MW/6.9小时储能", 81.5, None),
+    ("918MWh储能项目", None, 918.0),
+    ("2MW/10MWh储能电站", 2.0, 10.0),
+])
+def test_storage_quantities_survive_local_clause_guard(text, power, energy):
+    facts = extract_energy_facts(text)
+    assert (facts.storage_power_mw, facts.storage_energy_mwh) == (power, energy)
+
+
 def test_aggregate_prefers_most_informative_event_with_same_status():
     """同为 confirmed 时，空容量事件不能遮蔽另一事件的明确储能容量。"""
     facts = aggregate_energy_facts([

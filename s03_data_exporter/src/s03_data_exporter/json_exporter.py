@@ -10,12 +10,16 @@
   stats_timeline.json — 时间维度聚合（终态分布）
 """
 
+import argparse
 import json
 import sqlite3
 from pathlib import Path
 
+from .external_references import load_references, references_for_row
+from .production_capacity import public_production_capacity
 
-def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> None:
+
+def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None, *, external_references: Path | None = None) -> dict:
     """
     从 dst_db 中读取四张表，导出为 JSON 文件。
 
@@ -23,14 +27,17 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
         dst_db:     s03 导出数据库（bri_re_export.db）
         output_dir: JSON 文件输出目录
         src_db:     s02a 原始数据库路径，用于查询 last_updated（可选）
+        external_references: 可选s02e核验元数据快照；缺失或单条失败不影响项目导出
     """
+    references, reference_audit = load_references(external_references, src_db)
     output_dir.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(dst_db)
+    conn = sqlite3.connect(dst_db.resolve().as_uri() + "?mode=ro", uri=True)
     conn.row_factory = sqlite3.Row
 
     # ── projects_flat ─────────────────────────────────────────────────────────
     rows = [dict(r) for r in conn.execute("SELECT * FROM projects_flat").fetchall()]
     for row in rows:
+        row["external_references"] = references_for_row(row, references, reference_audit)
         # JSON 字符串字段反序列化为列表
         for json_field, default in [
             ("all_entities", []),
@@ -59,6 +66,11 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
     for table in ["tx_flat", "mf_flat"]:
         txmf_rows = [dict(r) for r in conn.execute(f"SELECT * FROM {table}").fetchall()]
         for row in txmf_rows:
+            if table == "mf_flat" and "production_capacity_value" in row:
+                row["production_capacity_value"], row["production_capacity_unit"] = public_production_capacity(
+                    row.get("production_capacity_value"), row.get("production_capacity_unit")
+                )
+            row["external_references"] = references_for_row(row, references, reference_audit)
             raw = row.get("all_entities")
             if raw:
                 try:
@@ -85,7 +97,7 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
     # ── metadata.json（last_updated 来自 s02a project_events.publish_date）───
     last_updated = ""
     if src_db and src_db.exists():
-        src_conn = sqlite3.connect(src_db)
+        src_conn = sqlite3.connect(src_db.resolve().as_uri() + "?mode=ro", uri=True)
         row = src_conn.execute("SELECT MAX(publish_date) FROM project_events").fetchone()
         src_conn.close()
         if row and row[0]:
@@ -96,3 +108,23 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None) -> N
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False)
     print(f"  ✓ metadata.json : last_updated={last_updated or '(unknown)'}")
+    return {"reference_audit": reference_audit}
+
+
+def main() -> None:
+    """Export an existing database to an explicit directory, without rebuilding or using APIs."""
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--db", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--source-db", type=Path)
+    parser.add_argument("--external-references", type=Path)
+    parser.add_argument("--reference-audit", type=Path, help="Optional private candidate-status report; keep outside public/data")
+    args = parser.parse_args()
+    result = export_json(args.db, args.output, args.source_db, external_references=args.external_references)
+    if args.reference_audit:
+        args.reference_audit.parent.mkdir(parents=True, exist_ok=True)
+        args.reference_audit.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

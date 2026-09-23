@@ -1,74 +1,96 @@
-"""s02a: extracted_projects.excluded 应以 OR 语义传播到 canonical_projects.excluded。"""
-import sys
-from pathlib import Path
+"""Publication review does not mutate existing canonical scope or business facts."""
+import hashlib
+import sqlite3
+
 import pandas as pd
 
-_root = next(p for p in Path(__file__).resolve().parents if (p / "bri_enums.py").exists())
-if str(_root) not in sys.path:
-    sys.path.insert(0, str(_root))
-
 from s02a_duplicate_merger.tools.duplicate_merger_tool import (
-    _group_into_logical_projects, _init_db, _write_to_db,
+    _group_into_logical_projects, _init_db, _write_to_db, _load_from_db,
+    _mark_imported, _merge_group, _write_non_project_records,
 )
 
 
-def _df(rows):
-    """rows: list of dict（DB 列名）→ 模拟 _load_from_db 后已 rename 的 df。"""
-    return pd.DataFrame(rows)
+def _row(**changes):
+    return {
+        "Source Link": "https://example.test/a", "Project Name": "X项目",
+        "Country": "肯尼亚", "Country ISO": "KEN", "Category": "光伏",
+        "Capacity (MW)": "50", "Project Stage": "在建",
+        "Implementing Chinese Entity": "中国电建",
+        "Type of involvement of Chinese Entities": "EPC总承包",
+        "excluded": 0, **changes,
+    }
 
 
-def test_group_ors_excluded_within_group():
-    """同组（同信源/名/国/类/容量/阶段）多成员，任一 excluded=1 → 逻辑项目 excluded=1。"""
-    df = _df([
-        {"Source Link": "http://a", "Project Name": "X项目", "Country": "肯尼亚", "Category": "光伏",
-         "Capacity (MW)": "50", "Project Stage": "在建", "Country ISO": "KEN",
-         "Implementing Chinese Entity": "中国电建", "Type of involvement of Chinese Entities": "EPC总承包",
-         "excluded": "0", "exclude_reason": ""},
-        {"Source Link": "http://a", "Project Name": "X项目", "Country": "肯尼亚", "Category": "光伏",
-         "Capacity (MW)": "50", "Project Stage": "在建", "Country ISO": "KEN",
-         "Implementing Chinese Entity": "中国能建", "Type of involvement of Chinese Entities": "设备供应商",
-         "excluded": "1", "exclude_reason": "油气"},
+def _project():
+    return _group_into_logical_projects(pd.DataFrame([_row()]))[0]
+
+
+def test_group_does_not_merge_excluded_facts():
+    projects = _group_into_logical_projects(pd.DataFrame([
+        _row(), _row(excluded=1, exclude_reason="油气", **{"Implementing Chinese Entity": "不应入库"}),
+    ]))
+    assert len(projects) == 1
+    assert projects[0]["excluded"] == 0
+    assert [e["implementing_entity"] for e in projects[0]["entities"]] == ["中国电建"]
+
+
+def test_pending_or_excluded_never_creates_or_poison_canonical(tmp_path):
+    conn = _init_db(str(tmp_path / "main.db"))
+    valid = _project()
+    excluded = {**valid, "excluded": 1, "exclude_reason": "油气"}
+    pending = {**valid, "publication_status": "pending_review"}
+    assert _write_to_db(conn, [excluded, pending])["canonical_new"] == 0
+    _write_to_db(conn, [valid])
+    before = conn.execute("SELECT * FROM canonical_projects").fetchall()
+    event_before = conn.execute("SELECT * FROM project_events").fetchall()
+    _write_to_db(conn, [excluded, pending])
+    assert conn.execute("SELECT * FROM canonical_projects").fetchall() == before
+    assert conn.execute("SELECT * FROM project_events").fetchall() == event_before
+    assert _write_non_project_records(conn, [{**excluded, "record_type": "设备订单"}]) == 0
+    conn.close()
+
+
+def test_merge_excluded_record_cannot_supply_business_facts():
+    valid = _project()
+    bad = {**valid, "excluded": 1, "project_developer": "没有证据的业主", "entities": []}
+    merged = _merge_group(None, None, [bad, valid])
+    assert merged["excluded"] == 0
+    assert merged["project_developer"] == ""
+    assert merged["entities"] == valid["entities"]
+
+
+def test_load_keeps_review_pending_retryable_and_legacy_compatible(tmp_path):
+    path = tmp_path / "source.db"
+    conn = sqlite3.connect(path)
+    conn.execute("CREATE TABLE extracted_projects (id INTEGER PRIMARY KEY, imported_to_s02a INTEGER, "
+                 "project_name TEXT, excluded INTEGER, publication_status TEXT, exclude_source TEXT, needs_review INTEGER)")
+    conn.executemany("INSERT INTO extracted_projects VALUES (?,0,?,?,?,?,?)", [
+        (1, "legacy valid", 0, None, None, 0),
+        (2, "new pending", 1, "pending_review", "entity_verification", 1),
+        (3, "old pending", 1, None, "entity_verification", 1),
+        (4, "scope excluded", 1, "excluded", "scope", 0),
+        (5, "source verified new company", 0, "eligible", None, 1),
     ])
-    projs = _group_into_logical_projects(df)
-    assert len(projs) == 1
-    assert projs[0]["excluded"] == 1
-    assert "油气" in (projs[0]["exclude_reason"] or "")
+    conn.commit()
+    before = hashlib.sha256(path.read_bytes()).hexdigest()
+    df, ids = _load_from_db(str(path))
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == before
+    assert ids == [1, 4, 5]
+    assert df["id"].tolist() == [1, 5]
+    _mark_imported(str(path), ids)
+    assert conn.execute("SELECT id FROM extracted_projects WHERE imported_to_s02a=0").fetchall() == [(2,), (3,)]
+    conn.execute("UPDATE extracted_projects SET publication_status='eligible', excluded=0 WHERE id=2")
+    conn.commit()
+    df, ids = _load_from_db(str(path))
+    assert ids == [2]
+    assert df["id"].tolist() == [2]
+    conn.close()
 
 
-def test_group_excluded_zero_when_all_in_scope():
-    df = _df([
-        {"Source Link": "http://b", "Project Name": "Y项目", "Country": "肯尼亚", "Category": "光伏",
-         "Capacity (MW)": "10", "Project Stage": "在建", "Country ISO": "KEN",
-         "Implementing Chinese Entity": "中国电建", "Type of involvement of Chinese Entities": "EPC总承包",
-         "excluded": "0", "exclude_reason": ""},
-    ])
-    projs = _group_into_logical_projects(df)
-    assert projs[0]["excluded"] == 0
-
-
-def test_write_propagates_excluded_to_canonical(tmp_path):
-    """_write_to_db（无 LLM 降级）应把 excluded 写进 canonical_projects。"""
-    db = str(tmp_path / "bri.db")
-    conn = _init_db(db)
-    try:
-        proj = {
-            "record_type": "具体项目", "project_name": "某油气电站", "project_name_en": "",
-            "name_en_quality": "ai_translated", "country": "肯尼亚", "country_iso": "KEN",
-            "bri_country": "Yes", "ldc": "No", "location": "", "category": "光伏",
-            "capacity_mw": "50", "capacity_details": "", "project_stage": "在建",
-            "project_developer": "", "planned_start_date": "", "planned_complete_date": "",
-            "total_investment_usd": "", "investment_date": "", "financing_model": "Unknown",
-            "financing_details": "", "source_links": ["http://a"],
-            "official_website_links": [], "non_official_website_links": [],
-            "publish_date": "2026-01-01", "additional_remarks": "", "project_summary": "",
-            "entities": [{"implementing_entity": "中国电建", "implementing_entity_en": "",
-                          "subsidiary_name": "", "subsidiary_name_en": "", "involvement_type": "EPC总承包",
-                          "subcontract_amount": "", "is_central_soe": 0}],
-            "excluded": 1, "exclude_reason": "油气管道，非发电",
-        }
-        _write_to_db(conn, [proj], client=None, config=None)
-        row = conn.execute("SELECT excluded, excluded_reason FROM canonical_projects").fetchone()
-        assert row[0] == 1
-        assert "油气" in (row[1] or "")
-    finally:
-        conn.close()
+def test_load_only_excluded_returns_ids_for_marking(tmp_path):
+    path = tmp_path / "source.db"
+    with sqlite3.connect(path) as conn:
+        conn.execute("CREATE TABLE extracted_projects (id INTEGER, imported_to_s02a INTEGER, excluded INTEGER)")
+        conn.execute("INSERT INTO extracted_projects VALUES (1,0,1)")
+    df, ids = _load_from_db(str(path))
+    assert df.empty and ids == [1]

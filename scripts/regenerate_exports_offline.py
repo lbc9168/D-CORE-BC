@@ -77,6 +77,7 @@ def regenerate(
     output_dir: Path,
     public_dir: Path,
     province_seed_db: Path | None = None,
+    external_references: Path | None = None,
 ) -> dict[str, int]:
     """Rebuild flat tables, JSON, CSV, and XLSX without making any model or network call."""
     export_db = output_dir / "bri_re_export.db"
@@ -91,9 +92,9 @@ def regenerate(
     frame.to_excel(output_dir / "projects_flat.xlsx", index=False)
     frame.to_csv(output_dir / "projects_flat.csv", index=False, encoding="utf-8-sig")
 
-    export_json(export_db, output_dir, src_db=main_db)
+    export_json(export_db, output_dir, src_db=main_db, external_references=external_references)
     public_dir.mkdir(parents=True, exist_ok=True)
-    export_json(export_db, public_dir, src_db=main_db)
+    export_json(export_db, public_dir, src_db=main_db, external_references=external_references)
     event_count = events_exporter.export_events_csv(
         main_db,
         [output_dir / "events_export.csv", public_dir / "events_export.csv"],
@@ -126,6 +127,7 @@ def main() -> None:
         type=Path,
         help="可选：从另一工作区的既有 bri_re_export.db 补回已审 province 映射",
     )
+    parser.add_argument("--external-references", type=Path, help="可选s02e核验元数据快照；缺失/失败候选保持空链接")
     args = parser.parse_args()
     province_seed_db = args.province_seed_db.resolve() if args.province_seed_db else None
     print(
@@ -134,6 +136,7 @@ def main() -> None:
             args.output.resolve(),
             args.public.resolve(),
             province_seed_db,
+            args.external_references,
         )
     )
 

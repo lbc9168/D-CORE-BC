@@ -180,17 +180,25 @@ def _storage_status(text: str) -> str:
 
 
 def _nearest_measure(pattern: re.Pattern, text: str, anchor: int) -> Optional[re.Match]:
-    """返回距离储能关键词最近的容量短语，避免误取同段发电装机。"""
+    """兼容回填只读储能锚点附近同分句数值，不跨句借用发电装机。"""
     matches = list(pattern.finditer(text))
     if not matches:
         return None
-    following = [match for match in matches if anchor <= match.start() <= anchor + 24]
+    def same_clause(start: int, end: int) -> bool:
+        # A duration between the power and storage anchor may contain a decimal (6.9 h).
+        return not re.search(r"[。；;！？!?，,\n]|(?<!\d)\.|\.(?!\d)", text[start:end])
+
+    following = [match for match in matches
+                 if anchor <= match.start() <= anchor + 24
+                 and same_clause(anchor, match.start())]
     if following:
         return min(following, key=lambda match: match.start())
-    preceding = [match for match in matches if match.end() <= anchor]
+    preceding = [match for match in matches
+                 if anchor - 24 <= match.end() <= anchor
+                 and same_clause(match.end(), anchor)]
     if preceding:
         return max(preceding, key=lambda match: match.end())
-    return min(matches, key=lambda match: abs(match.start() - anchor))
+    return None
 
 
 def parse_storage_measurements(

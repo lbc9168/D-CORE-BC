@@ -6,15 +6,16 @@ import pandas as pd
 from s01b_project_extractor.tools import project_extractor_tool as pet
 
 
-def _run_process_df(monkeypatch, tmp_path, fake_result):
+def _run_process_df(monkeypatch, tmp_path, fake_result, content="正文含发电 50MW 内容"):
     """跑一遍 _process_df（单篇文章、假 extract_one、零 API），返回 projects.db 连接。"""
     monkeypatch.setattr(pet, "_load_name_cache", lambda: {})
     monkeypatch.setattr(pet, "_save_name_cache", lambda c: None)
     monkeypatch.setattr(pet, "_resolve_is_central_soe", lambda *a, **k: 0)
+    monkeypatch.setattr(pet, "_resolve_entity_en", lambda *a, **k: "Test EN")
     monkeypatch.setattr(pet, "extract_one",
                         lambda title, content, date, *, client, model="x": fake_result)
     df = pd.DataFrame([{"原文链接": "http://x1", "文章标题": "标题",
-                        "正文内容": "正文含发电 50MW 内容", "发布日期": "2026-01-01"}])
+                        "正文内容": content, "发布日期": "2026-01-01"}])
     tool = pet.ProjectExtractorTool()
     tool._process_df(df, batch_id="b1", ts="20260704_t", client=None,
                      country_db={}, projects_db_path=str(tmp_path / "p.db"),
@@ -50,13 +51,14 @@ def test_contractor_developer_blanked_before_write(monkeypatch, tmp_path):
 
 
 def test_invest_developer_survives_write(monkeypatch, tmp_path):
-    """developer=同事件股权投资方 → 原样写库（守卫不误伤）。"""
+    """原文明示目标项目的业主，独立于参与角色标签保留。"""
+    quote = "肯尼亚50MW光伏项目的业主是国家电投。"
     result = _valid_project(
-        {"Project Developer": "国家电投", "Project Developer Evidence": "国家电投持有项目股权"},
+        {"Project Developer": "国家电投", "Project Developer Evidence": quote},
         [{"Implementing Chinese Entity": "国家电投",
           "Type of involvement of Chinese Entities": "股权投资方"}],
     )
-    conn = _run_process_df(monkeypatch, tmp_path, result)
+    conn = _run_process_df(monkeypatch, tmp_path, result, quote)
     dev = conn.execute("SELECT project_developer FROM extracted_projects").fetchone()[0]
     conn.close()
     assert dev == "国家电投"
@@ -86,14 +88,15 @@ def test_developer_evidence_persisted_unnamed_path(monkeypatch, tmp_path):
                                             "Capacity (MW)": "50", "Country": "肯尼亚",
                                             "Project Stage": "在建",
                                             "Project Developer": "肯尼亚电力公司",
-                                            "Project Developer Evidence": "由肯尼亚电力公司投资建设"},
+                                            "Project Developer Evidence": "肯尼亚50MW光伏项目的业主是肯尼亚电力公司。"},
                             "chinese_entities": []}]}
-    conn = _run_process_df(monkeypatch, tmp_path, result)
+    quote = "肯尼亚50MW光伏项目的业主是肯尼亚电力公司。"
+    conn = _run_process_df(monkeypatch, tmp_path, result, quote)
     dev, ev = conn.execute(
         "SELECT project_developer, project_developer_evidence FROM extracted_projects").fetchone()
     conn.close()
     assert dev == "肯尼亚电力公司"
-    assert ev == "由肯尼亚电力公司投资建设"
+    assert ev == quote
 
 
 def test_candidate_list_developer_blanked_before_write(monkeypatch, tmp_path):

@@ -229,6 +229,42 @@ def test_canonical_location_assist_blocked_by_capacity_guard(monkeypatch, tmp_pa
     conn.close()
 
 
+def test_historical_candidate_prefers_same_place_over_generic_name_score(monkeypatch, tmp_path):
+    conn = _init_db(str(tmp_path / "main.db"))
+    _seed_canonical(conn, "PAK-WD-0001", "测试国来兴府垃圾焚烧发电项目", "来兴府")
+    _seed_canonical(conn, "PAK-WD-0002", "测试国佛统府550吨/日垃圾焚烧发电项目", "佛统府")
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_canonical", lambda *args: calls.append(args[3]) or True)
+    project = _full_proj(project_name="测试国佛统府垃圾焚烧发电项目", category="风电", capacity_mw="", location="佛统府")
+    assert dmt._find_or_create_canonical(conn, project, client=object()) == ("PAK-WD-0002", False)
+    assert calls == ["PAK-WD-0002"]
+    conn.close()
+
+
+def test_location_description_containment_only_assists_model_confirmation(monkeypatch, tmp_path):
+    conn = _init_db(str(tmp_path / "main.db"))
+    _seed_canonical(conn, name="120MW历史名称", loc="东部沿海Jalan Bani Bu Ali地区", cap=120)
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_canonical", lambda *args: calls.append(args[3]) or True)
+    project = _full_proj(project_name="JBB ALI变电站土建工程", category="风电", capacity_mw="123", location="Jalan Bani Bu Ali地区")
+    assert dmt._find_or_create_canonical(conn, project, client=object()) == ("PAK-WD-0001", False)
+    assert calls == ["PAK-WD-0001"]
+    conn.close()
+
+
+def test_rejected_historical_candidates_are_bounded_and_do_not_force_merge(monkeypatch, tmp_path):
+    conn = _init_db(str(tmp_path / "main.db"))
+    for i in range(1, 6):
+        _seed_canonical(conn, f"PAK-WD-{i:04}", f"测试国某府风电工程第{i}期", "某府")
+    calls = []
+    monkeypatch.setattr(dmt, "_llm_confirm_canonical", lambda *args: calls.append(args[3]) or False)
+    project = _full_proj(project_name="测试国某府风电建设项目", category="风电", capacity_mw="50", location="某府")
+    cid, is_new = dmt._find_or_create_canonical(conn, project, client=object())
+    assert is_new and cid == "PAK-WD-0006"
+    assert len(calls) == 3 and len(set(calls)) == 3
+    conn.close()
+
+
 def test_cross_category_exact_name_reuses_immutable_canonical_id(tmp_path):
     """同一项目分类变化后应复用原 ID，而不是因 category 不同创建重复 canonical。"""
     conn = _init_db(str(tmp_path / "t.db"))

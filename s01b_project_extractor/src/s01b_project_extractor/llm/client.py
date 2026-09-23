@@ -9,6 +9,14 @@ from functools import lru_cache
 logger = logging.getLogger(__name__)
 
 
+class LLMResponseParseError(RuntimeError):
+    """A received response failed parsing; preserve it separately from transport errors."""
+
+    def __init__(self, message, payload):
+        super().__init__(message)
+        self.payload = payload
+
+
 @dataclass
 class LLMConfig:
     """LLM 调用配置；provider∈{gemini,deepseek,openai}，可被各阶段单独覆盖 model。"""
@@ -219,14 +227,19 @@ class LLMClient:
     def complete(self, prompt: str, *, stage: str, json_mode: bool = True):
         """跑一次补全：失败按 max_retries 指数退避；json_mode 时解析为 dict；全失败抛 RuntimeError（不静默）。"""
         last_error = ""
+        last_exception = None
+        text = None
         for attempt in range(1, self.cfg.max_retries + 1):
             try:
                 text = self._raw_call(prompt, json_mode)
                 return json.loads(text) if json_mode else text
             except _retryable_errors() as e:  # 指定可重试异常类型（解析/网络/SDK），并记录上下文
+                last_exception = e
                 last_error = f"{type(e).__name__}: {e}"
                 logger.error("LLM complete 失败 stage=%s attempt=%d/%d error=%s",
                              stage, attempt, self.cfg.max_retries, last_error)
                 if attempt < self.cfg.max_retries and self.cfg.backoff_base:
                     time.sleep(self.cfg.backoff_base ** attempt)
+        if isinstance(last_exception, json.JSONDecodeError):
+            raise LLMResponseParseError(f"LLM complete stage={stage} JSON解析失败: {last_error}", text) from last_exception
         raise RuntimeError(f"LLM complete stage={stage} 失败(重试{self.cfg.max_retries}次): {last_error}")

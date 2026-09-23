@@ -1,0 +1,18 @@
+{
+  "provenance": "Explicit reconstructed fixed fixture from saved article and postprocessed 2026-09-17 calls; NOT verbatim API response. Goldwind participation quote expands to preceding project paragraph; entity raw names restored from audit fields; Goldwind S5 summary corrected for fixture.",
+  "source": {
+    "id": 27680,
+    "title": "北马其顿Alcazar 396MW风电场一期获1.8亿欧元融资",
+    "content": "项目融资落地\nAlcazar Energy Partners 已获得\n1.8 亿欧元贷款\n，用于北马其顿什蒂普（Štip）风电场项目一期工程。该项目预计将成为\n西巴尔干地区最大的风电场\n。一期装机容量为 131 兆瓦，整个项目规划装机容量为 396 兆瓦。\nAlcazar 联合创始人兼管理合伙人 Daniel Calderon 表示，什蒂普风电场一期的融资由\n欧洲复兴开发银行（EBRD）、国际金融公司（IFC）、Erste Bank 以及 Sparkasse Bank\n共同提供。\n欧洲复兴开发银行提供 4200 万欧元，什蒂普项目是\n北马其顿首个无国家补贴的私营公用事业规模风电项目\n。\n贷款方表示，该项目以与一家领先国际购电方签订的长期企业可再生能源协议为支撑。不过，该公司身份尚未披露。\n据 Alcazar 管理层透露，一期融资关闭标志着投资进入下一阶段，项目总投资额估计\n超过 5 亿美元\n。\n剩余阶段融资将很快落实\nCalderon 表示，位于卡尔宾齐（Karbinci）和拉多维什（Radoviš）市镇的剩余阶段融资也将很快落实。什蒂普风电场规划覆盖三个市镇的辖区——什蒂普、卡尔宾齐和拉多维什，位于首都斯科普里（Skopje）东南方向。\n一期工程位于什蒂普市镇，将安装\n21 台风力发电机组\n，整个风电场将安装\n54 台\n。\n项目建成后，风电场将为\n14.8 万户家庭\n提供足够电力，每年减少\n57 万吨二氧化碳排放\n，并创造近\n300 个就业岗位\n。\n项目预计在\n三年内完工\n，计划年发电量为\n1 太瓦时\n。奠基仪式已于 2025 年 7 月举行。\n北马其顿总理 Hristijan Mickoski、能源、矿业和矿产资源部长 Sanja Božinovska、其他政府官员以及融资机构代表出席了庆祝一期融资关闭的活动。",
+    "publish_date": "2026-09-11 15:40:03",
+    "url": "https://news.goalfore.cn/topstories/detail/97784.html"
+  },
+  "responses": {
+    "s1": {
+      "status": "no_chinese_participation",
+      "project_subject": "北马其顿396MW风电场项目融资",
+      "is_power_generation_plant": true,
+      "reasoning": "第一步：命中电力项目（风电场）。第二步：新闻中未提及任何中国企业参与。"
+    }
+  }
+}

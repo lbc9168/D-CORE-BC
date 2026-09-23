@@ -94,16 +94,15 @@ def test_write_path_uses_developer_split(tmp_path, monkeypatch):
                                     "Capacity (MW)": "50", "Capacity Details": "",
                                     "Country": "肯尼亚", "Project Stage": "在建",
                                     "Project Developer": "中国电建;阳光电源",
-                                    "Project Developer Evidence": "项目由中国电建与阳光电源共同投资建设"},
-                    # 角色用股权投资方：developer 守卫（developer_check）对投资类重名放行，
-                    # 本测试只考拆串翻译写库路径，不测守卫语义
+                                    "Project Developer Evidence": "肯尼亚50MW光伏项目由中国电建与阳光电源共同开发。"},
+                    # 业主来自项目原文，角色标签不能代替证据。
                     "chinese_entities": [{"Implementing Chinese Entity": "中国电建",
                                           "Type of involvement of Chinese Entities": "股权投资方"}],
                 }]}
     monkeypatch.setattr(pet, "extract_one", fake_extract_one)
 
     df = pd.DataFrame([{"原文链接": "http://x1", "文章标题": "标题",
-                        "正文内容": "正文含发电 50MW 内容", "发布日期": "2026-01-01"}])
+                        "正文内容": "肯尼亚50MW光伏项目由中国电建与阳光电源共同开发。", "发布日期": "2026-01-01"}])
     tool = pet.ProjectExtractorTool()
     tool._process_df(df, batch_id="b1", ts="20260704_t", client=None,
                      country_db={}, projects_db_path=str(tmp_path / "p.db"),

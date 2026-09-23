@@ -154,6 +154,16 @@ def _stage_rank(stage: str) -> int:
     return enums.stage_priority(stage or "")
 
 
+def record_is_publishable(event: dict) -> bool:
+    """A reviewed event or relation can be withheld without hiding its canonical.
+
+    NULL/absent preserves legacy behavior; optional field warnings never set this
+    status. Only an explicit participation/scope adjudication withholds an event.
+    """
+    status = event.get("publication_status")
+    return status is None or status == "eligible"
+
+
 def _parse_month(date_str: Optional[str]) -> Optional[str]:
     if not date_str:
         return None
@@ -208,8 +218,8 @@ def build_flat(
     src_conn.row_factory = sqlite3.Row
 
     projects = [dict(r) for r in src_conn.execute("SELECT * FROM canonical_projects").fetchall()]
-    events   = [dict(r) for r in src_conn.execute("SELECT * FROM project_events").fetchall()]
-    entities = [dict(r) for r in src_conn.execute("SELECT * FROM chinese_entities").fetchall()]
+    events   = [dict(r) for r in src_conn.execute("SELECT * FROM project_events").fetchall() if record_is_publishable(dict(r))]
+    entities = [dict(r) for r in src_conn.execute("SELECT * FROM chinese_entities").fetchall() if record_is_publishable(dict(r))]
     src_conn.close()
 
     # 构建查找索引
@@ -545,8 +555,8 @@ def _load_source_tables(src_db: Path) -> tuple[list[dict], dict[str, list[dict]]
     src_conn = sqlite3.connect(src_db)
     src_conn.row_factory = sqlite3.Row
     projects = [dict(r) for r in src_conn.execute("SELECT * FROM canonical_projects").fetchall()]
-    events   = [dict(r) for r in src_conn.execute("SELECT * FROM project_events").fetchall()]
-    entities = [dict(r) for r in src_conn.execute("SELECT * FROM chinese_entities").fetchall()]
+    events   = [dict(r) for r in src_conn.execute("SELECT * FROM project_events").fetchall() if record_is_publishable(dict(r))]
+    entities = [dict(r) for r in src_conn.execute("SELECT * FROM chinese_entities").fetchall() if record_is_publishable(dict(r))]
     src_conn.close()
 
     events_by_project: dict[str, list[dict]] = {}
