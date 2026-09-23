@@ -1,0 +1,62 @@
+{
+  "checked_on": "2026-09-17",
+  "scope": "2 flagged records; related legal identities separately verified",
+  "records": [
+    {
+      "original_name": "中矿资源集团股份有限公司",
+      "decision": "confirmed_legal_and_control; correct_ownership_type",
+      "canonical_candidate": "中矿资源集团股份有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "中色矿业集团有限公司是其控股股东，两者不是同一法人。",
+        "控股股东为境内非国有法人，不能标为央企。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-10/1225089390.PDF",
+          "date": "2026-04-10",
+          "locator": "2025年报摘要，股东表及一致行动说明，第7、9页"
+        }
+      ],
+      "missing_evidence": [],
+      "proposed_edit": "删除集团同法人别名及争议标记；登记独立子法人和已确认直接控股关系；中色矿业is_central_soe=false。"
+    },
+    {
+      "original_name": "Recurrent Energy",
+      "decision": "confirmed_platform_and_group; preserve_user_research_scope",
+      "canonical_candidate": null,
+      "entity_kind": "business_platform",
+      "confirmed_facts": [
+        "Canadian Solar Inc.旗下平台，与CSI Solar区分。",
+        "Recurrent Energy, LLC（美国）及Recurrent Energy B.V.（荷兰）是不同法人。",
+        "BlackRock优先股及转换权意味着不能只读附表100%就断言全部经济权益100%。",
+        "Canadian Solar Inc.按用户历史研究决定纳入；这不是中国注册地结论。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1375877/000110465926041976/csiq-20251231xex8d1.htm",
+          "date": "2026-04-10",
+          "locator": "2025-12-31主要子公司列表及***脚注"
+        },
+        {
+          "url": "https://recurrentenergy.com/recurrent-energy-announces-closing-of-500-million-investment-from-blackrock/",
+          "date": "2024-10-03"
+        },
+        {
+          "url": "https://recurrentenergy.com/",
+          "date": null
+        },
+        {
+          "url": "https://investors.canadiansolar.com/static-files/482e97bd-68b7-4851-99b5-c35659a8b4ce",
+          "date": "2026-04-10"
+        }
+      ],
+      "policy_source": "docs/changes/2026-W34.md:105 用户保留Canadian Solar/阿特斯与CKI的研究口径",
+      "missing_evidence": [
+        "平台泛称在某项目中究竟对应LLC、B.V.或其他法人，仍须项目原文。",
+        "子公司列表不单独证明逐层直接母公司，不填未经核实中间链。"
+      ],
+      "proposed_edit": "新增Canadian Solar Inc.集团并记录研究口径；Recurrent泛称仅集团映射；LLC/B.V.独立ID；Registry确认研究身份但不把平台当唯一法人。"
+    }
+  ]
+}

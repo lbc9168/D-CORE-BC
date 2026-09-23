@@ -1,0 +1,788 @@
+{
+  "reviewed_at": "2026-09-17",
+  "scope": "21 个名称的公开一手证据核验；仅提出名录修订，不修改生产数据或自动重写历史主体",
+  "rules": [
+    "集团归属、直接股东、同一法人及项目角色是不同断言；本文件不确认任何项目 developer/EPC 角色。",
+    "无唯一法人证据的品牌仅 group_only；同集团不等于同法人。",
+    "当前网页证明当前观察状态，不证明历史全期间；收购签约不视为交割。",
+    "search_index 表示官方来源被搜索引擎索引的文本，本次未取得可稳定打开的完整页面；保留该限制。",
+    "Canadian Solar 的研究纳入口径由项目决策另行记录，不将加拿大注册自动改为中国注册。"
+  ],
+  "items": [
+    {
+      "original_name": "远景储能",
+      "decision": "group_only",
+      "canonical_candidate": "远景能源（储能业务）",
+      "entity_kind": "business_brand",
+      "confirmed_facts": [
+        "官网将储能列在远景能源业务之内，并将远景动力、远景智能单列；远景储能不足以唯一识别签约法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.envisioncn.com/en/energy.html",
+          "title": "Envision Energy",
+          "date": null,
+          "access": "search_index",
+          "supports": "远景能源业务包含储能"
+        },
+        {
+          "url": "https://www.envisioncn.com/",
+          "title": "远景科技集团官网",
+          "date": null,
+          "access": "search_index",
+          "supports": "远景能源、远景动力、远景智能是不同业务板块"
+        }
+      ],
+      "missing_evidence": [
+        "项目签约法人的注册全称、注册号及其直接股东"
+      ],
+      "proposed_edit": {
+        "group_only": true,
+        "entity_id": null,
+        "group_candidate": "远景科技集团",
+        "alias_scope": "储能品牌，不同于远景动力法人",
+        "direct_parent": null
+      }
+    },
+    {
+      "original_name": "浙江正泰新能源开发有限公司",
+      "decision": "confirm_legal_entity_and_group",
+      "canonical_candidate": "浙江正泰新能源开发有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "官网公司介绍明确使用该全称，成立于2009年，并称其为正泰集团旗下公司。",
+        "同页标题及正文使用正泰新能源简称；网站群将正泰新能、正泰安能另列。"
+      ],
+      "sources": [
+        {
+          "url": "https://energy.chint.com/about/",
+          "title": "正泰新能源公司介绍",
+          "date": null,
+          "access": "full_page",
+          "supports": "法人全称、简称和正泰集团归属"
+        }
+      ],
+      "missing_evidence": [
+        "当前直接股东及股权比例；该页面不支持填写直接母公司关系"
+      ],
+      "proposed_edit": {
+        "group_only": false,
+        "aliases": [
+          "正泰新能源"
+        ],
+        "group_candidate": "正泰集团",
+        "direct_parent": null,
+        "do_not_merge": [
+          "正泰新能",
+          "正泰安能"
+        ]
+      }
+    },
+    {
+      "original_name": "正泰新能源",
+      "decision": "confirm_controlled_alias",
+      "canonical_candidate": "浙江正泰新能源开发有限公司",
+      "entity_kind": "legal_entity_alias",
+      "confirmed_facts": [
+        "公司官网在正泰新能源简介之下明确介绍浙江正泰新能源开发有限公司，支持该简称映射。"
+      ],
+      "sources": [
+        {
+          "url": "https://energy.chint.com/about/",
+          "title": "正泰新能源公司介绍",
+          "date": null,
+          "access": "full_page",
+          "supports": "官网自称简称与法人对应"
+        }
+      ],
+      "missing_evidence": [
+        "如项目原文点名境外子公司，仍应保留该子公司的独立法人，不以本简称覆盖"
+      ],
+      "proposed_edit": {
+        "alias_of": "浙江正泰新能源开发有限公司",
+        "group_candidate": "正泰集团",
+        "direct_parent": null
+      }
+    },
+    {
+      "original_name": "天合跟踪",
+      "decision": "group_only",
+      "canonical_candidate": "TrinaTracker（天合跟踪）",
+      "entity_kind": "business_brand",
+      "confirmed_facts": [
+        "天合官方2020年公告说明收购Nclave剩余股权后，将Nclave业务品牌更名为天合跟踪/TrinaTracker。",
+        "品牌更名不是其所有中国、西班牙、巴西等经营主体合为一个法人的证明。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.trinasolar.com/cn/20201120-1954/",
+          "title": "天合跟踪品牌发布公告",
+          "date": "2020-11-20",
+          "access": "search_index",
+          "supports": "Nclave收购及业务品牌更名"
+        },
+        {
+          "url": "https://www.trinasolar.com/cn/resources/newsroom/thu-20250220-1500/",
+          "title": "天合跟踪业务新闻",
+          "date": "2025-02-19",
+          "access": "search_index",
+          "supports": "业务跨多个国家生产经营"
+        }
+      ],
+      "missing_evidence": [
+        "具体事件的签约法人名称、Nclave对应法律主体及各子公司的直接母公司"
+      ],
+      "proposed_edit": {
+        "group_only": true,
+        "entity_id": null,
+        "group_candidate": "天合光能股份有限公司",
+        "brand_aliases": [
+          "TrinaTracker"
+        ],
+        "direct_parent": null
+      }
+    },
+    {
+      "original_name": "e-STORAGE",
+      "decision": "group_only_under_csi_solar",
+      "canonical_candidate": "CSI Solar e-STORAGE业务",
+      "entity_kind": "business_brand",
+      "confirmed_facts": [
+        "Canadian Solar官方2023年更名公告将CSI Energy Storage改为e-STORAGE，置于CSI Solar业务之下。",
+        "2025年20-F将e-STORAGE定义为CSI Solar的储能品牌业务；Canadian Solar Inc.与CSI Solar不是同一法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://investors.canadiansolar.com/news-releases/news-release-details/canadian-solar-announces-rebranding-its-csi-solar-energy-storage",
+          "title": "Canadian Solar Announces Rebranding of its CSI Solar Energy Storage Business",
+          "date": "2023-07-10",
+          "access": "search_index",
+          "supports": "e-STORAGE品牌及CSI Solar业务归属"
+        },
+        {
+          "url": "https://www.sec.gov/Archives/edgar/data/1375877/000110465926041976/csiq-20251231x20f.htm",
+          "title": "Canadian Solar 2025 Form 20-F",
+          "date": "2026",
+          "access": "search_index",
+          "supports": "Canadian Solar与CSI Solar不同主体及e-STORAGE业务定义"
+        }
+      ],
+      "missing_evidence": [
+        "具体交易由哪一国家的哪一e-STORAGE法人履约；品牌不能充当单一法人ID"
+      ],
+      "proposed_edit": {
+        "group_only": true,
+        "entity_id": null,
+        "group_candidate": "CSI Solar Co., Ltd.",
+        "preserve_existing_csi_group_id": true,
+        "direct_parent": null,
+        "do_not_merge": [
+          "Canadian Solar Inc.",
+          "Recurrent Energy"
+        ]
+      }
+    },
+    {
+      "original_name": "阿特斯储能",
+      "decision": "group_only_under_csi_solar",
+      "canonical_candidate": "CSI Solar储能业务（e-STORAGE候选品牌）",
+      "entity_kind": "business_description",
+      "confirmed_facts": [
+        "官方存在CSI Solar旗下e-STORAGE储能业务；泛称阿特斯储能不足以唯一确定法人与注册辖区。"
+      ],
+      "sources": [
+        {
+          "url": "https://investors.canadiansolar.com/news-releases/news-release-details/canadian-solar-announces-rebranding-its-csi-solar-energy-storage",
+          "title": "CSI Solar储能业务更名公告",
+          "date": "2023-07-10",
+          "access": "search_index",
+          "supports": "储能业务及品牌归属，不直接证明每次中文简称均为该法人"
+        }
+      ],
+      "missing_evidence": [
+        "原文是否特指e-STORAGE，以及签约法人全称"
+      ],
+      "proposed_edit": {
+        "group_only": true,
+        "entity_id": null,
+        "group_candidate": "CSI Solar Co., Ltd.",
+        "preserve_existing_csi_group_id": true,
+        "direct_parent": null,
+        "no_global_legal_alias": true
+      }
+    },
+    {
+      "original_name": "山西建投国际投资有限公司",
+      "decision": "confirm_legal_entity_group_hold_direct_parent",
+      "canonical_candidate": "山西建投国际投资有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "2026-01-14上市公告精确列明该中国法人。签约时股东为山西建设投资集团（香港）有限公司40%、山西建投国际建设集团有限公司30%、山西省安装集团股份有限公司30%。",
+        "山西安装拟收购其余70%；公告明确全资子公司状态以交易完成为前提。各股东方均在山西建投集团范围内。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0114/2026011401160_c.pdf",
+          "title": "山西安装：收购目标公司70%股权",
+          "date": "2026-01-14",
+          "access": "full_document",
+          "supports": "法人全称、交易前持股结构、拟收购及集团关系"
+        },
+        {
+          "url": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0120/2026012000821_c.pdf",
+          "title": "收购目标公司70%股权进一步公告",
+          "date": "2026-01-20",
+          "access": "search_index",
+          "supports": "收购估值补充，不是已交割证明"
+        }
+      ],
+      "missing_evidence": [
+        "工商股权变更或交割完成日期；不得将拟收购状态回填历史"
+      ],
+      "proposed_edit": {
+        "group_candidate": "山西建设投资集团有限公司",
+        "direct_parent": null,
+        "ownership_as_of": "2026-01-14",
+        "no_historical_reparenting": true,
+        "do_not_merge": [
+          "山西建投国际建设集团有限公司",
+          "山西建设投资集团（香港）有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "山西建投国际投资公司",
+      "decision": "candidate_short_alias_group_confirmed",
+      "canonical_candidate": "山西建投国际投资有限公司",
+      "entity_kind": "abbreviated_legal_name",
+      "confirmed_facts": [
+        "官方存在完整名称山西建投国际投资有限公司，集团归属可确认；本次找到的一手公告用全称而非去掉有限的短写。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0114/2026011401160_c.pdf",
+          "title": "山西安装收购公告",
+          "date": "2026-01-14",
+          "access": "full_document",
+          "supports": "规范全称及集团关系"
+        }
+      ],
+      "missing_evidence": [
+        "原始新闻上下文或官网对该短称的明确定义"
+      ],
+      "proposed_edit": {
+        "group_only_until_alias_review": true,
+        "group_candidate": "山西建设投资集团有限公司",
+        "candidate_alias_of": "山西建投国际投资有限公司",
+        "direct_parent": null
+      }
+    },
+    {
+      "original_name": "英辰新能源",
+      "decision": "group_only",
+      "canonical_candidate": "英利集团英辰新能源品牌",
+      "entity_kind": "business_brand",
+      "confirmed_facts": [
+        "英辰官网自述是英利集团旗下品牌。2026年官方新闻另将英辰（雄安）能源科技有限公司列为英利集团全资子公司。",
+        "政府名单另有英辰新能源科技有限公司；这说明仅据品牌名不能确定两个法律主体中的哪一个。"
+      ],
+      "sources": [
+        {
+          "url": "https://cn.ycsolar.com/",
+          "title": "英辰新能源官网",
+          "date": null,
+          "access": "search_index",
+          "supports": "英利集团旗下品牌"
+        },
+        {
+          "url": "https://cn.ycsolar.com/news_details/70.html",
+          "title": "英辰（雄安）合作新闻",
+          "date": "2026-05-18",
+          "access": "search_index",
+          "supports": "英辰（雄安）能源科技有限公司及英利集团归属"
+        },
+        {
+          "url": "https://gxt.hebei.gov.cn/sme/tzgg45/2025042122160480292/2023091816413752261.pdf",
+          "title": "河北省绿色制造名单",
+          "date": "2023",
+          "access": "search_index",
+          "supports": "英辰新能源科技有限公司全称存在，不证明品牌唯一对应"
+        }
+      ],
+      "missing_evidence": [
+        "各项目使用的具体签约法人；两家公司的直接股东及相互关系"
+      ],
+      "proposed_edit": {
+        "group_only": true,
+        "entity_id": null,
+        "group_candidate": "英利集团",
+        "direct_parent": null,
+        "do_not_merge": [
+          "英辰新能源科技有限公司",
+          "英辰（雄安）能源科技有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "惠生工程",
+      "decision": "confirm_corporate_alias_with_project_scope_caution",
+      "canonical_candidate": "惠生工程技术服务有限公司",
+      "entity_kind": "listed_company_alias",
+      "confirmed_facts": [
+        "惠生工程官方新闻明确以惠生工程技术服务有限公司为全称、惠生工程为简称，对应2236.HK。",
+        "集团同时存在工程与清洁能源板块；工程中国经营子公司也有独立全称，项目实际主体不应由上市简称替代。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.wison-engineering.com/tc/newsinfo/72.html",
+          "title": "惠生工程官方合作新闻",
+          "date": "2022-01-05",
+          "access": "search_index",
+          "supports": "惠生工程技术服务有限公司的明确简称"
+        },
+        {
+          "url": "https://jb.wison.com/about_us",
+          "title": "惠生集团关于我们",
+          "date": null,
+          "access": "search_index",
+          "supports": "工程与清洁能源分属业务板块"
+        },
+        {
+          "url": "https://www.wison-engineering.com/uploads/cn_download/202509/cesr%282%29.pdf",
+          "title": "惠生工程2024环境社会管治报告",
+          "date": "2025",
+          "access": "search_index",
+          "supports": "独立经营主体惠生工程（中国）有限公司"
+        }
+      ],
+      "missing_evidence": [
+        "项目若仅写惠生工程，需要判断指上市集团还是其执行子公司；直接控股链待补"
+      ],
+      "proposed_edit": {
+        "controlled_alias_of": "惠生工程技术服务有限公司",
+        "group_candidate": "惠生集团",
+        "direct_parent": null,
+        "allow_project_group_only": true,
+        "do_not_merge": [
+          "惠生工程（中国）有限公司",
+          "惠生清洁能源科技集团股份有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "惠生清洁能源科技集团股份有限公司",
+      "decision": "confirm_legal_entity_and_former_name",
+      "canonical_candidate": "惠生清洁能源科技集团股份有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "公司官方环保验收报告列明现全称及原名惠生（南通）重工有限公司，支持名称变更关系。",
+        "集团官网将清洁能源与工程分为不同板块，不可将这两个板块的法人合并。"
+      ],
+      "sources": [
+        {
+          "url": "https://cn.wison-energies.com/upfiles/attachments/6385250358808146644231991.pdf",
+          "title": "LNG高端装备产品升级改造项目（二阶段）竣工环保验收监测报告",
+          "date": null,
+          "document_temporal_context": "报告内记载2024年2月调试及2024年3月启动验收",
+          "access": "search_index",
+          "supports": "现名和原惠生（南通）重工有限公司名称连续性"
+        },
+        {
+          "url": "https://jb.wison.com/about_us",
+          "title": "惠生集团关于我们",
+          "date": null,
+          "access": "search_index",
+          "supports": "集团清洁能源板块归属"
+        }
+      ],
+      "missing_evidence": [
+        "工商更名生效日、统一社会信用代码和直接股东；报告链接本次完整抓取超时"
+      ],
+      "proposed_edit": {
+        "former_names": [
+          "惠生（南通）重工有限公司"
+        ],
+        "group_candidate": "惠生集团",
+        "direct_parent": null,
+        "former_name_effective_date": null,
+        "do_not_merge": [
+          "惠生工程技术服务有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "惠生（南通）重工有限公司",
+      "decision": "confirm_former_name",
+      "canonical_candidate": "惠生清洁能源科技集团股份有限公司",
+      "entity_kind": "former_legal_name",
+      "confirmed_facts": [
+        "公司官网环保验收文件在现名称后注明原惠生（南通）重工有限公司，可建立曾用名关系而不另造同集团子公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://cn.wison-energies.com/upfiles/attachments/6385250358808146644231991.pdf",
+          "title": "公司LNG装备项目环保验收报告",
+          "date": null,
+          "document_temporal_context": "2024年验收事项",
+          "access": "search_index",
+          "supports": "官方文件声明的曾用名"
+        }
+      ],
+      "missing_evidence": [
+        "更名精确生效日和注册号；不可据当前名称覆盖历史原文名称"
+      ],
+      "proposed_edit": {
+        "former_name_of": "惠生清洁能源科技集团股份有限公司",
+        "preserve_raw_historical_name": true,
+        "former_name_effective_date": null
+      }
+    },
+    {
+      "original_name": "川投国际",
+      "decision": "candidate_alias_legal_name_confirmed_group_time_bound",
+      "canonical_candidate": "川投国际有限公司",
+      "entity_kind": "company_short_name",
+      "confirmed_facts": [
+        "四川省投资集团2023年所属企业名单列川投国际有限公司，并另列川投国际（开曼）有限公司，两者不能合并。",
+        "2025年四川能源发展集团报告列川投国际有限公司为香港国际贸易子公司；该新集团范围不应自动追溯替换历史川投归属。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.invest.com.cn/Public/Upload/file/2023/1124/20231124093035141.pdf",
+          "title": "四川省投资集团各级企业名单",
+          "date": "2023-11-24",
+          "access": "search_index",
+          "supports": "川投国际有限公司及不同开曼主体"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2025-08-29/242270_20250829_YBY5.pdf",
+          "title": "四川能源发展集团2025半年度报告",
+          "date": "2025-08-29",
+          "access": "search_index",
+          "supports": "2025集团范围内香港注册川投国际有限公司"
+        }
+      ],
+      "missing_evidence": [
+        "原文川投国际简称的唯一指向；集团重组的生效日期及直接股东；官方网站scigi.ge本次抓取不稳定"
+      ],
+      "proposed_edit": {
+        "candidate_alias_of": "川投国际有限公司",
+        "historical_group_candidate": "四川省投资集团有限责任公司",
+        "current_group_candidate": "四川能源发展集团",
+        "direct_parent": null,
+        "no_historical_reparenting": true,
+        "do_not_merge": [
+          "川投国际（开曼）有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "川投国际（香港）有限公司",
+      "decision": "pending_exact_legal_name",
+      "canonical_candidate": "川投国际有限公司",
+      "entity_kind": "unverified_expanded_name",
+      "confirmed_facts": [
+        "一手财务资料将川投国际有限公司列为香港公司；本次未找到将含（香港）的扩写确认为法定名称或受控别名的一手文件。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2025-08-29/242270_20250829_YBY5.pdf",
+          "title": "四川能源发展集团2025半年度报告",
+          "date": "2025-08-29",
+          "access": "search_index",
+          "supports": "可核验的名称为川投国际有限公司，注册地香港"
+        }
+      ],
+      "missing_evidence": [
+        "香港公司注册处资料或企业自述明确该扩写等同于川投国际有限公司"
+      ],
+      "proposed_edit": {
+        "candidate_alias_of": "川投国际有限公司",
+        "entity_id": null,
+        "do_not_auto_merge": true,
+        "no_historical_reparenting": true
+      }
+    },
+    {
+      "original_name": "中天科技",
+      "decision": "confirm_controlled_listed_company_alias",
+      "canonical_candidate": "江苏中天科技股份有限公司",
+      "entity_kind": "listed_company_alias",
+      "confirmed_facts": [
+        "公司2025半年报封面明确公司简称中天科技及代码600522；年度报告另列中天科技集团有限公司为集团主体，股份与集团不是同一法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2025-08-26/1224564534.PDF",
+          "title": "江苏中天科技股份有限公司2025半年度报告",
+          "date": "2025-08-26",
+          "access": "search_index",
+          "supports": "中天科技为600522上市公司简称"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-25/1225177318.PDF",
+          "title": "江苏中天科技股份有限公司2025年度报告",
+          "date": "2026-04-25",
+          "access": "full_document",
+          "supports": "公司全称与集团区别"
+        }
+      ],
+      "missing_evidence": [
+        "泛称项目新闻如实际指中天储能等子公司，须另取项目主体证据"
+      ],
+      "proposed_edit": {
+        "controlled_alias_of": "江苏中天科技股份有限公司",
+        "group_candidate": "中天科技集团有限公司",
+        "allow_project_group_only_if_ambiguous": true,
+        "do_not_merge": [
+          "中天科技集团有限公司",
+          "中天储能科技有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "江苏中天科技股份有限公司",
+      "decision": "confirm_legal_entity_and_group",
+      "canonical_candidate": "江苏中天科技股份有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "上市公司披露确认该全称、简称中天科技及股票代码600522；其控股股东为中天科技集团有限公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2026-04-25/1225177318.PDF",
+          "title": "江苏中天科技股份有限公司2025年度报告",
+          "date": "2026-04-25",
+          "access": "full_document",
+          "supports": "法人、控股股东及2025年末状态"
+        },
+        {
+          "url": "https://m.ztt.cn/tools/download.ashx?id=1669&site=zttmobile",
+          "title": "中天科技官方披露文件",
+          "date": null,
+          "access": "search_index",
+          "supports": "股份公司与控股股东中天科技集团的区别"
+        }
+      ],
+      "missing_evidence": [
+        "若需2026-09-17即时持股比例，应补最新变动公告；此处不填比例"
+      ],
+      "proposed_edit": {
+        "aliases": [
+          "中天科技"
+        ],
+        "group_candidate": "中天科技集团有限公司",
+        "direct_parent": "中天科技集团有限公司",
+        "relationship_type": "controlling_shareholder",
+        "relationship_as_of": "2025-12-31"
+      }
+    },
+    {
+      "original_name": "山东泰开电力建设工程有限公司",
+      "decision": "confirm_legal_entity_and_group",
+      "canonical_candidate": "山东泰开电力建设工程有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "公司官网使用该全称、TKEC简称，并称为泰开集团下属全资子公司；集团官网使用全称泰开集团有限公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.tk-electric.com/Home.html",
+          "title": "山东泰开电力建设工程有限公司官网",
+          "date": null,
+          "access": "search_index",
+          "supports": "法人、TKEC简称及泰开集团全资关系"
+        },
+        {
+          "url": "https://www.taikai.cn/aboutus.html",
+          "title": "泰开集团关于我们",
+          "date": null,
+          "access": "search_index",
+          "supports": "集团规范名称泰开集团有限公司"
+        }
+      ],
+      "missing_evidence": [
+        "集团下属全资不当然等于由集团法人直接持股；直接股东待股权文件"
+      ],
+      "proposed_edit": {
+        "aliases": [
+          "TKEC"
+        ],
+        "group_candidate": "泰开集团有限公司",
+        "direct_parent": null,
+        "relationship_type": "wholly_owned_within_group",
+        "do_not_merge": [
+          "山东泰开电力工程有限公司"
+        ]
+      }
+    },
+    {
+      "original_name": "中集安瑞科控股有限公司",
+      "decision": "confirm_legal_entity_and_group",
+      "canonical_candidate": "中集安瑞科控股有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "公司官网列明中英文名称CIMC Enric Holdings Limited、港股代码3899，并自述隶属中国国际海运集装箱（集团）股份有限公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.enricgroup.com/about",
+          "title": "中集安瑞科关于我们",
+          "date": null,
+          "access": "full_page_initial_fetch_retry_timeout",
+          "supports": "法人中英文名、上市代码及集团归属"
+        },
+        {
+          "url": "https://www.cimc.com.cn/index.php?a=lists&c=index&catid=29&m=content",
+          "title": "中集集团成员企业",
+          "date": null,
+          "access": "search_index",
+          "supports": "中集集团成员关系"
+        }
+      ],
+      "missing_evidence": [
+        "直接持股中间公司及最新比例；集团隶属不等同于直接母公司"
+      ],
+      "proposed_edit": {
+        "aliases": [
+          "CIMC Enric Holdings Limited",
+          "中集安瑞科"
+        ],
+        "group_candidate": "中国国际海运集装箱（集团）股份有限公司",
+        "direct_parent": null
+      }
+    },
+    {
+      "original_name": "天津泰达环保有限公司",
+      "decision": "confirm_legal_entity_and_controlled_subsidiary",
+      "canonical_candidate": "天津泰达环保有限公司",
+      "entity_kind": "legal_entity",
+      "confirmed_facts": [
+        "公司及上市公司官网使用天津泰达环保有限公司全称。2023年上市披露称其为天津泰达股份有限公司控股子公司。",
+        "上市公司当前官网使用天津泰达资源循环集团股份有限公司名称；不能把当前母公司名称自动回写历史。",
+        "当前上市公司官网明确泰达控股为实控人，并列泰达环保；集团归属得到补充确认。集团法定名含（集团）。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.tedahb.com/",
+          "title": "天津泰达环保有限公司官网",
+          "date": null,
+          "access": "search_index",
+          "supports": "公司规范全称"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2023-03-18/1216149502.PDF",
+          "title": "天津泰达股份有限公司公告",
+          "date": "2023-03-18",
+          "access": "search_index",
+          "supports": "当时控股子公司关系"
+        },
+        {
+          "url": "https://www.tedastock.com/index/index/cause.html",
+          "title": "泰达上市公司业务介绍",
+          "date": null,
+          "access": "search_index",
+          "supports": "当前上市公司名称及环保子公司介绍"
+        },
+        {
+          "url": "https://www.tedastock.com/index.php/index/index/about/cid/189.html",
+          "title": "上市公司信息公开专栏",
+          "date": null,
+          "access": "search_index",
+          "supports": "集团法人名称、控制关系、环保子公司"
+        }
+      ],
+      "missing_evidence": [
+        "上市公司更名生效日、直接持股比例和更上层集团控制链"
+      ],
+      "proposed_edit": {
+        "aliases": [
+          "泰达环保"
+        ],
+        "direct_parent_candidate": "天津泰达资源循环集团股份有限公司",
+        "historical_parent_name": "天津泰达股份有限公司",
+        "relationship_type": "controlled_subsidiary",
+        "no_historical_reparenting": true
+      }
+    },
+    {
+      "original_name": "威顿控股马来西亚有限公司",
+      "decision": "pending_official_legal_identity",
+      "canonical_candidate": "Weidun Holdings Malaysia Sdn. Bhd.",
+      "entity_kind": "unverified_foreign_subsidiary_name",
+      "confirmed_facts": [
+        "威顿官网确认其在马来西亚有能源业务，但本次官网来源未明确出现所查全称。",
+        "2025-07-22新闻转载提供该中英文名称及全资关系，是待追溯线索，不能代替正式股权证据。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.iweidun.com/case_list/show/id/523.html",
+          "title": "威顿马来西亚19MWp光伏项目",
+          "date": "2024-04-19",
+          "access": "search_index",
+          "supports": "仅确认集团在马来西亚业务，不确认法人"
+        },
+        {
+          "url": "https://en.iweidun.com/about/index.html",
+          "title": "Weidun公司介绍",
+          "date": null,
+          "access": "search_index",
+          "supports": "集团国际业务及成员SATRIA IMPIAN SDN.BHD.，不得据此混同"
+        },
+        {
+          "url": "https://finance.sina.com.cn/roll/2025-07-22/doc-infhicsw7410874.shtml?froms=ggmp",
+          "title": "威顿控股马来西亚生物质项目转载",
+          "date": "2025-07-22",
+          "access": "search_index",
+          "source_type": "secondary_lead_only",
+          "supports": "提供待核的中英文法人及全资说法"
+        }
+      ],
+      "missing_evidence": [
+        "马来西亚SSM登记资料、公司原始公告或股权文件，确认全称及中方控制关系"
+      ],
+      "proposed_edit": {
+        "entity_id": null,
+        "candidate_group": "威顿控股集团",
+        "do_not_auto_add_legal_entity": true,
+        "do_not_auto_merge": true,
+        "direct_parent": null
+      }
+    },
+    {
+      "original_name": "威顿马来西亚能源有限公司",
+      "decision": "pending_exact_legal_identity",
+      "canonical_candidate": null,
+      "entity_kind": "unverified_name",
+      "confirmed_facts": [
+        "本次官方网页查询只证实威顿有马来西亚能源业务，没有证实该精确公司名称，也没有证实其与威顿控股马来西亚有限公司为同一法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.iweidun.com/case_list/show/id/523.html",
+          "title": "威顿马来西亚光伏项目",
+          "date": "2024-04-19",
+          "access": "search_index",
+          "supports": "仅为集团业务背景"
+        },
+        {
+          "url": "https://en.iweidun.com/yewu/index/cid/11.html",
+          "title": "威顿新能源业务",
+          "date": null,
+          "access": "search_index",
+          "supports": "仅为马来西亚投资业务背景"
+        }
+      ],
+      "missing_evidence": [
+        "该名称的原始来源、英文法定名称及注册号；与Weidun Holdings Malaysia Sdn. Bhd.是否相同或关联"
+      ],
+      "proposed_edit": {
+        "entity_id": null,
+        "candidate_group": "威顿控股集团",
+        "do_not_auto_add_legal_entity": true,
+        "do_not_auto_merge": true,
+        "direct_parent": null
+      }
+    }
+  ]
+}

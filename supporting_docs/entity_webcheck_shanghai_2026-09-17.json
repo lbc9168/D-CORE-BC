@@ -1,0 +1,755 @@
+{
+  "review_date": "2026-09-17",
+  "scope": "上海电气13个needs_review条目，逐项公开一手资料补查；不更改主表",
+  "group_id": "ent_2d85682b9f585f1b9dd7",
+  "coverage": {
+    "requested": 13,
+    "reviewed": 13,
+    "full_truth_verification_claimed": false
+  },
+  "source_access_limits": [
+    "上海电气官网多个URL在web.open返回Internal Error，直接HTTP PDF返回521；使用官方搜索索引并以港交所披露PDF或政府一手资料交叉验证。",
+    "巨潮2025上海机电年报直接HTTP403，记录索引证据；没有使用不明镜像phuerland.com作为来源。",
+    "通用裸称不允许凭现有挂组表独立证明文章中的企业身份；本报告组织归属结论限定上海电气上下文。"
+  ],
+  "identity_id_policy": "已扫描两份现行名录；候选完整法人名未发现现有非空ID。原13条均entity_id=null；研究报告不分配ID，整合时须重扫去重。",
+  "records": [
+    {
+      "original_name": "电站集团",
+      "decision": "retain_group_only",
+      "canonical_candidate": "上海电气电站集团",
+      "entity_kind": "industrial_management_group",
+      "confirmed_facts": [
+        "官方资料将其表述为电气股份旗下电站产业集团，涵盖设备制造与工程等多个单位。",
+        "2025年报履历将电站集团职务与上海电气集团股份有限公司电站分公司负责人并列；不足以证明这两个名称在所有项目中严格同主体。"
+      ],
+      "evidence": [
+        {
+          "source_id": "power",
+          "url": "https://www.shanghai-electric.com/group/upload/resources/file/2024/11/11/104695.pdf",
+          "title": "上海电站辅机厂2024公司介绍",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2024",
+          "short_excerpt": "电气股份旗下的电站集团"
+        },
+        {
+          "source_id": "annual25",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033001358_c.pdf",
+          "title": "上海电气2025年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2025-12-31",
+          "short_excerpt": "控制",
+          "locator": "第117、178、203、204、242页"
+        }
+      ],
+      "missing_evidence": [
+        "未取得电站集团本身独立法人登记或其与电站分公司一对一等同的正式声明。"
+      ],
+      "proposed_edit": [
+        "保留集团归属及entity_id=null；规范展示可用上海电气电站集团。",
+        "不要映射为已存在ID的上海电气电站工程公司，也不要仅凭管理关系赋上市公司法人ID。",
+        "裸称电站集团须上下文绑定，不应全局匹配。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": null,
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "2024-2025资料确认组织使用，不推定设立/终止日期",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气电站集团",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "核电集团",
+      "decision": "confirm_qualified_legal_entity_contextual_alias",
+      "canonical_candidate": "上海电气核电集团有限公司",
+      "entity_kind": "legal_company",
+      "confirmed_facts": [
+        "国家核安全局以公司名称向其发文；上海市国资委2025年明确其为上海电气旗下公司并给出上海电气核电集团简称。",
+        "2020年交易所披露清单列上海电气持有其100%股权。",
+        "它与上海电气核电设备有限公司是不同主体，不能相互当别名。"
+      ],
+      "evidence": [
+        {
+          "source_id": "nuclear",
+          "url": "https://www.shanghai.gov.cn/nw31406/20250708/80b7da48e47a41ec8426ed02eeb23d8c.html",
+          "title": "上海市国资委：节能领域新实践",
+          "access": "全文已打开",
+          "as_of": "2025-07-08",
+          "short_excerpt": "上海电气旗下"
+        },
+        {
+          "source_id": "nuclear_license",
+          "url": "https://www.mee.gov.cn/xxgk2018/xxgk/xxgk09/202011/t20201106_806873.html",
+          "title": "国家核安全局关于上海电气核电集团有限公司试运行的通知",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2020-11-06",
+          "short_excerpt": "你公司"
+        },
+        {
+          "source_id": "nuclear_parent",
+          "url": "https://static.sse.com.cn/stock/disclosure/announcement/c/202009/000588_20200909_CQX1.pdf",
+          "title": "上海电气风电IPO审核问询函回复（2020年9月）",
+          "access": "完整PDF已打开；内存提取核对",
+          "as_of": "2020-09-09",
+          "short_excerpt": "上海电气持有其100%股权",
+          "locator": "PDF第182页序号87；第314页确认上海电气为上市公司控股股东全称"
+        }
+      ],
+      "missing_evidence": [
+        "2020直接持股关系未获得更新的完整股权表；2025官方只确认集团归属。"
+      ],
+      "proposed_edit": [
+        "可为完整法人名及上海电气核电集团建立同主体映射。",
+        "核电集团单独出现须上下文证据；有时间模型时记录2020直接母关系，当前无时间模型可仅保集团而将parent留空。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海电气集团股份有限公司",
+        "relationship": "direct_100_percent",
+        "as_of": "2020-09-09",
+        "current_reverification": false
+      },
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "法人名称至少2020已存在；集团归属更新至2025-07",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气核电集团有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "电气风电",
+      "decision": "confirm_legal_entity_alias",
+      "canonical_candidate": "上海电气风电集团股份有限公司",
+      "entity_kind": "listed_legal_company",
+      "confirmed_facts": [
+        "电气风电为上市主体明确证券简称，对应688660。",
+        "上海电气2025年报列直接59.41%、间接0.60%持股，不能把此前比例当最新。"
+      ],
+      "evidence": [
+        {
+          "source_id": "wind24",
+          "url": "https://static.cninfo.com.cn/finalpage/2025-03-25/1222880362.PDF",
+          "title": "电气风电2024年年度报告",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2024-12-31",
+          "short_excerpt": "电气风电"
+        },
+        {
+          "source_id": "esg22",
+          "url": "https://www.shanghai-electric.com/listed/upload/resources/file/2023/05/05//95915.pdf",
+          "title": "上海电气2022年度环境、社会及治理报告",
+          "access": "官方URL搜索索引片段；官网PDF直取受阻",
+          "as_of": "2022-12-31",
+          "short_excerpt": "公司简称一览表",
+          "locator": "第1页"
+        },
+        {
+          "source_id": "annual25",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033001358_c.pdf",
+          "title": "上海电气2025年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2025-12-31",
+          "short_excerpt": "控制",
+          "locator": "第117、178、203、204、242页"
+        }
+      ],
+      "missing_evidence": [
+        "未核对2026年中最新持股比例；不影响已确认主体及控制集团。"
+      ],
+      "proposed_edit": [
+        "将该待确认条目转为完整法人名称，电气风电保留同主体别名，分配一次持久ID。",
+        "直接母公司可填上海电气，持股事实标2025-12-31。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海电气集团股份有限公司",
+        "relationship": "direct_controlling_shareholder",
+        "as_of": "2025-12-31"
+      },
+      "alias_scope": "明确证券简称，可全局精确匹配；不得子串扩展",
+      "time_boundary": "现法人名称及简称已见2022-2025正式报告",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气风电集团股份有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "输配电集团",
+      "decision": "retain_ambiguous_management_alias",
+      "canonical_candidate": [
+        "上海电气输配电集团有限公司",
+        "上海电气集团输配电装备有限公司"
+      ],
+      "entity_kind": "industrial_group_with_multiple_legal_vehicles",
+      "confirmed_facts": [
+        "旧合资主体上海电气输配电集团有限公司仍列于2025合并报告。",
+        "青浦官方记载2023-11-13新注册上海电气集团输配电装备有限公司，实现核心业务法人实体化。",
+        "两者是不同完整名称，不能将新设解释成旧法人更名；产业管理名与法人层需分开。"
+      ],
+      "evidence": [
+        {
+          "source_id": "td_new",
+          "url": "https://www.shqp.gov.cn/shqp/qpyw/20260305/1353394.html",
+          "title": "青浦区政府：输配电试验中心项目二次选择青浦",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2026-03-05",
+          "short_excerpt": "2023年11月13日"
+        },
+        {
+          "source_id": "annual25",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033001358_c.pdf",
+          "title": "上海电气2025年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2025-12-31",
+          "short_excerpt": "控制",
+          "locator": "第117、178、203、204、242页"
+        },
+        {
+          "source_id": "esg22",
+          "url": "https://www.shanghai-electric.com/listed/upload/resources/file/2023/05/05//95915.pdf",
+          "title": "上海电气2022年度环境、社会及治理报告",
+          "access": "官方URL搜索索引片段；官网PDF直取受阻",
+          "as_of": "2022-12-31",
+          "short_excerpt": "公司简称一览表",
+          "locator": "第1页"
+        }
+      ],
+      "missing_evidence": [
+        "未取得能把每一个历史输配电集团提及唯一落实到具体法人的协议/项目证据。"
+      ],
+      "proposed_edit": [
+        "保留裸短名为上下文待解析；两个完整法人名可分别建主体，但不能共用ID。",
+        "绝不与现有上海电气输配电工程成套有限公司（ent_4ed0e91747f75db3a030）合并。",
+        "2023之前新闻不得回填2023新设法人。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": null,
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "2023-11-13是新平台设立日期；历史合资公司与现平台须分开",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气输配电集团有限公司",
+          "matching_ids": []
+        },
+        {
+          "candidate": "上海电气集团输配电装备有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "自动化集团",
+      "decision": "confirm_qualified_legal_entity_contextual_alias",
+      "canonical_candidate": "上海电气自动化集团有限公司",
+      "entity_kind": "legal_company_with_predecessor_management_division",
+      "confirmed_facts": [
+        "2016刊物记载撤销自动化事业部成立自动化集团，这是管理组织沿革。",
+        "2023发行人公告给出法人2019-01-28成立、信用代码91310117MA1J3CB727、上海电气100%持股。",
+        "2024年报再次明确自动化集团有限公司为全资子公司，2025母公司长期股权投资仍列其名。"
+      ],
+      "evidence": [
+        {
+          "source_id": "finance_formation",
+          "url": "https://www.shanghai-electric.com/group/upload/resources/file/2019/09/03/68775.pdf",
+          "title": "上海电气2016年11月刊总第6期：金融集团及自动化集团成立",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2016-11",
+          "short_excerpt": "撤销金融服务部"
+        },
+        {
+          "source_id": "automation_notice",
+          "url": "https://paper.cnstock.com/html/2023-12/05/content_1849911.htm",
+          "title": "上海电气董事会五届八十六次会议决议及担保公告",
+          "access": "发行人公告在法定披露媒体的全文索引",
+          "as_of": "2023-12-05",
+          "short_excerpt": "100%股权"
+        },
+        {
+          "source_id": "annual24",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2025/0328/2025032803042_c.pdf",
+          "title": "上海电气2024年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2024-12-31",
+          "short_excerpt": "全资子公司",
+          "locator": "第198、202、203、242页"
+        },
+        {
+          "source_id": "annual25",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033001358_c.pdf",
+          "title": "上海电气2025年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2025-12-31",
+          "short_excerpt": "控制",
+          "locator": "第117、178、203、204、242页"
+        }
+      ],
+      "missing_evidence": [
+        "2016管理集团与2019公司全部权利义务的承继法律文件未核验。"
+      ],
+      "proposed_edit": [
+        "完整法人可新增/升格条目并设直接母上海电气；上海电气自动化集团限2019后且语境明确的简称。",
+        "裸自动化集团不作全局别名；2019之前管理组织不可直接套新法人ID。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海电气集团股份有限公司",
+        "relationship": "wholly_owned_subsidiary",
+        "as_of": "2024-12-31"
+      },
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "2016组织成立；2019-01-28法人成立，不能混为一个成立日",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气自动化集团有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "轨道交通集团",
+      "decision": "retain_group_only",
+      "canonical_candidate": "上海电气轨道交通集团",
+      "entity_kind": "industrial_management_platform",
+      "confirmed_facts": [
+        "2020官方刊物将2019成立的轨交集团描述为产业统一推动与管理平台。",
+        "官网联系方式并列上海电气自动化集团/上海电气轨道交通集团，不能从并列推出两个名称是同一法人。"
+      ],
+      "evidence": [
+        {
+          "source_id": "rail_platform",
+          "url": "https://www.shanghai-electric.com/group/upload/resources/file/2020/11/02/88015.pdf",
+          "title": "上海电气2020年刊：轨道交通集团平台职责",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2020-11",
+          "short_excerpt": "统一管理平台"
+        },
+        {
+          "source_id": "rail_joint",
+          "url": "https://www.shanghai-electric.com/group/c/2019-09-26/578376.shtml",
+          "title": "上海电气智慧政务：联系方式",
+          "access": "官方URL搜索索引片段；页面日期不作为组织设立日期",
+          "as_of": null,
+          "short_excerpt": "上海电气自动化集团/上海电气轨道交通集团"
+        }
+      ],
+      "missing_evidence": [
+        "未获得轨交集团自身独立法人登记或与自动化公司法定同主体声明。"
+      ],
+      "proposed_edit": [
+        "entity_id保留空；标准组织展示名带上海电气前缀。",
+        "不要映射上海电气自动化集团有限公司或上海电气泰雷兹交通自动化系统有限公司。",
+        "裸轨道交通集团在其他城市同样使用，必须上下文识别。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": null,
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "2019设立来自2020刊物相对年份；不推定具体月份",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气轨道交通集团",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "环保集团",
+      "decision": "retain_group_only",
+      "canonical_candidate": "上海电气环保集团",
+      "entity_kind": "industrial_management_group",
+      "confirmed_facts": [
+        "上海国资委2019改革文明确本部采用事业部制，并管理分布各地的多个法人项目公司。",
+        "上海电气2021公告确认旗下环保集团使用此组织称呼。"
+      ],
+      "evidence": [
+        {
+          "source_id": "environment",
+          "url": "https://www.gzw.sh.gov.cn/shgzw_xxgk_cyggcz/20190717/0054-92073.html",
+          "title": "上海国资委：双百行动激发上海电气环保集团内生动力",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2019-07-17",
+          "short_excerpt": "本部基于事业部制"
+        },
+        {
+          "source_id": "environment_current",
+          "url": "https://www.shanghai-electric.com/group/c/2021-10-16/563080.shtml",
+          "title": "上海电气与上海城投战略合作",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2021-10-16",
+          "short_excerpt": "旗下环保集团"
+        }
+      ],
+      "missing_evidence": [
+        "未取得上海电气环保集团独立法人注册全称或营业执照；事业部制本身也不能断言集团必然无法人。"
+      ],
+      "proposed_edit": [
+        "保留管理组织及集团归属，不能将某个环保工程或安徽投资法人强设为其同主体。",
+        "裸环保集团全局高度歧义，应改为上下文名称。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": null,
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "证据2019-2021；组织仍须与法人法律状态分开",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气环保集团",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "上海三菱",
+      "decision": "confirm_legal_entity_with_business_context",
+      "canonical_candidate": "上海三菱电梯有限公司",
+      "entity_kind": "chinese_controlled_joint_venture",
+      "confirmed_facts": [
+        "发行人历史公告明确上海三菱简称指电梯有限公司。",
+        "三菱方2026-05-11一手公告列上海机电52%、中国机械进出口8%、三菱电机32%、三菱电机楼宇解决方案8%。",
+        "直接控制母公司是上海机电股份有限公司；上海电气为上层集团。",
+        "上海三菱电机·上菱空调等其他主体存在，不能将所有含上海三菱名称并入电梯公司。"
+      ],
+      "evidence": [
+        {
+          "source_id": "mitsubishi",
+          "url": "https://www.mebs.co.jp/press/260511.html",
+          "title": "三菱电机楼宇解决方案：上海三菱电梯合资合同续期",
+          "access": "全文已打开",
+          "as_of": "2026-05-11",
+          "short_excerpt": "上海機電股分有限公司 52％",
+          "locator": "SMEC社概要"
+        },
+        {
+          "source_id": "mitsubishi_alias",
+          "url": "https://static.cninfo.com.cn/finalpage/2006-04-24/16962018.PDF",
+          "title": "上海机电董事会决议公告",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2006-04-24",
+          "short_excerpt": "以下简称：上海三菱"
+        }
+      ],
+      "missing_evidence": [
+        "裸上海三菱在脱离电梯/已有集团名录语境时仍需排除其他三菱在沪法人。"
+      ],
+      "proposed_edit": [
+        "可确认完整法人与上海三菱电梯简称；上海三菱裸称宜附电梯业务/既有集团上下文条件。",
+        "建上海机电主体后将其ID设为直接母；不要直接设上海电气为母。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海机电股份有限公司",
+        "relationship": "direct_52_percent_control",
+        "as_of": "2026-05-11"
+      },
+      "alias_scope": "电梯业务或明确简称定义；其他三菱在沪公司不得模糊并入",
+      "time_boundary": "直接股权核实至2026-05-11；历史2006转让公告不替代生效证据",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海三菱电梯有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "上海集优",
+      "decision": "retain_temporal_alias_ambiguity",
+      "canonical_candidate": [
+        "上海集优机械股份有限公司",
+        "上海集优铭宇机械科技有限公司"
+      ],
+      "entity_kind": "distinct_legal_entities_in_absorption_merger",
+      "confirmed_facts": [
+        "2020公告分别命名要约人集优铭宇与目标上海集优机械股份有限公司，交易为吸收合并私有化，不能写成普通更名。",
+        "2021-01-20旧上海集优H股退市；退市日不等于法律注销/全部承继完成日。",
+        "2024上海机电拟收购集优铭宇100%股权的议案于2024-06-24未获股东大会通过。",
+        "上海电气2025报列集优铭宇直接87.68%、间接7.88%；不得设其直接母公司为上海机电。"
+      ],
+      "evidence": [
+        {
+          "source_id": "prime_merger",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2020/1015/2020101500948_c.pdf",
+          "title": "上海电气董事会关于集优铭宇吸收合并上海集优的公告",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2020-10-15",
+          "short_excerpt": "吸收合并"
+        },
+        {
+          "source_id": "prime_2021",
+          "url": "https://www.chinamoney.com.cn/dqs/cm-s-notice-query/fileDownLoad.do?contentId=2433594&mode=open&priority=0",
+          "title": "上海电气控股集团披露文件：集优私有化及退市",
+          "access": "官方披露渠道搜索索引片段",
+          "as_of": "2022",
+          "short_excerpt": "上市地位正式撤销",
+          "locator": "第17页，记载2021-01-20退市"
+        },
+        {
+          "source_id": "prime_rejected",
+          "url": "https://www.shanghai-electric.com/listed/upload/resources/file/2025/03/21/110304.pdf",
+          "title": "上海机电2024年年度报告",
+          "access": "官方URL搜索索引片段；同报告官网另一URL直取521",
+          "as_of": "2024-12-31",
+          "short_excerpt": "议案未获通过",
+          "locator": "第22页，2024-06-24股东大会"
+        },
+        {
+          "source_id": "annual25",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033001358_c.pdf",
+          "title": "上海电气2025年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2025-12-31",
+          "short_excerpt": "控制",
+          "locator": "第117、178、203、204、242页"
+        }
+      ],
+      "missing_evidence": [
+        "尚缺旧法人工商注销/吸收合并完成生效日，以及两种简称准确切换日期。"
+      ],
+      "proposed_edit": [
+        "两个完整法人分设ID并记录前后继关系候选；上海集优短名需时间/原文定义，不设无时间的唯一alias。",
+        "当前集优铭宇直接控股母公司上海电气可按2025年报记录。",
+        "原needs_review条目不应简单替换旧名并把所有历史共用一个ID。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海电气集团股份有限公司",
+        "relationship": "direct_controlling_shareholder_of_mingyu",
+        "as_of": "2025-12-31"
+      },
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "2020议案、2021退市、2024交易否决、2025现股权分开保留",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海集优机械股份有限公司",
+          "matching_ids": []
+        },
+        {
+          "candidate": "上海集优铭宇机械科技有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "上海机电",
+      "decision": "confirm_legal_entity_alias",
+      "canonical_candidate": "上海机电股份有限公司",
+      "entity_kind": "listed_legal_company",
+      "confirmed_facts": [
+        "公司名称和证券简称由自身2025年报确认。",
+        "上海电气2025年报列持股43.81%，并解释在低于50%下仍具有实质控制；不能因少于50%改判集团归属。"
+      ],
+      "evidence": [
+        {
+          "source_id": "mechanical25",
+          "url": "https://static.cninfo.com.cn/finalpage/2026-03-21/1225021828.PDF",
+          "title": "上海机电2025年年度报告",
+          "access": "官方URL搜索索引片段；直接HTTP访问403",
+          "as_of": "2025-12-31",
+          "short_excerpt": "上海机电"
+        },
+        {
+          "source_id": "annual25",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0330/2026033001358_c.pdf",
+          "title": "上海电气2025年年度报告",
+          "access": "完整PDF读取（requests + PyMuPDF，内存处理）",
+          "as_of": "2025-12-31",
+          "short_excerpt": "控制",
+          "locator": "第117、178、203、204、242页"
+        }
+      ],
+      "missing_evidence": [
+        "未独立检查2026-06最新股权比例，仅将2025-12-31作为已核实日期。"
+      ],
+      "proposed_edit": [
+        "将条目规范为完整法人与上海机电精确简称，创建持久ID；直接母公司可记上海电气。",
+        "该ID供上海三菱直接母关系引用。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海电气集团股份有限公司",
+        "relationship": "direct_controlling_shareholder_43_81_percent",
+        "as_of": "2025-12-31"
+      },
+      "alias_scope": "明确上市简称，可全局精确匹配",
+      "time_boundary": "控制关系按2025年报；不沿用2024的48.81%",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海机电股份有限公司",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "金融集团",
+      "decision": "retain_group_only",
+      "canonical_candidate": "上海电气金融集团",
+      "entity_kind": "industrial_financial_management_platform",
+      "confirmed_facts": [
+        "2016官方刊物记载撤金融服务部、成立金融集团，其管理对象包括财务、租赁、保险经纪、投资及香港平台等多个法人。",
+        "管理平台不是上海电气集团财务有限责任公司的同主体别名。"
+      ],
+      "evidence": [
+        {
+          "source_id": "finance_formation",
+          "url": "https://www.shanghai-electric.com/group/upload/resources/file/2019/09/03/68775.pdf",
+          "title": "上海电气2016年11月刊总第6期：金融集团及自动化集团成立",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2016-11",
+          "short_excerpt": "撤销金融服务部"
+        },
+        {
+          "source_id": "finance_invest_2021",
+          "url": "https://www.shanghai-electric.com/listed/upload/resources/file/2021/12/13/92452.pdf",
+          "title": "上海电气投资有限公司信息公开内容（2021年版）",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2021",
+          "short_excerpt": "2013年划归",
+          "locator": "历史沿革；与2016组建新闻时间口径有差别，不强行裁定法律沿革"
+        }
+      ],
+      "missing_evidence": [
+        "独立法人登记或单一法人载体同一性未获确认；另有官网2021投资公司沿革称2013划归金融集团，时间叙述存在差异，不能用单篇设立年份定法律沿革。"
+      ],
+      "proposed_edit": [
+        "保持entity_id=null及上海电气组织归属；不合并财务公司、投资公司、融资租赁公司。",
+        "裸金融集团不能全局指向上海电气。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": null,
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "2016组织重组有公告；不能推定所有前称与法律沿革",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气金融集团",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "中央研究院",
+      "decision": "retain_organizational_unit",
+      "canonical_candidate": "上海电气集团股份有限公司中央研究院",
+      "entity_kind": "research_organization_not_confirmed_separate_legal_person",
+      "confirmed_facts": [
+        "官方集团披露明确完整组织名及上海电气中央研究院简称。",
+        "上海国资委2024把它定位为集团研发机构。"
+      ],
+      "evidence": [
+        {
+          "source_id": "central",
+          "url": "https://www.gzw.sh.gov.cn/shgzw_zxzx_gqdt/20240321/9290b6a5943a4fe6917e9635dcfcda38.html",
+          "title": "上海国资委：上海电气中央研究院为中国制造创新",
+          "access": "官方URL搜索索引片段",
+          "as_of": "2024-03-21",
+          "short_excerpt": "研发机构"
+        },
+        {
+          "source_id": "central_name",
+          "url": "https://www.shanghai-electric.com/listed/c/2022-11-25/566523.shtml",
+          "title": "上海电气知识产权主题沙龙",
+          "access": "官方搜索索引载原文及精确目标URL",
+          "as_of": "2022-11-25",
+          "short_excerpt": "上海电气中央研究院"
+        },
+        {
+          "source_id": "esg22",
+          "url": "https://www.shanghai-electric.com/listed/upload/resources/file/2023/05/05//95915.pdf",
+          "title": "上海电气2022年度环境、社会及治理报告",
+          "access": "官方URL搜索索引片段；官网PDF直取受阻",
+          "as_of": "2022-12-31",
+          "short_excerpt": "公司简称一览表",
+          "locator": "第1页"
+        }
+      ],
+      "missing_evidence": [
+        "未确认独立法人资格；名称含股份有限公司并不意味着该研究院是独立公司。"
+      ],
+      "proposed_edit": [
+        "标准展示可填完整研究院名，entity_id仍空，组织隶属上海电气。",
+        "不要给研究院强套上市公司法人ID；裸中央研究院高度歧义，不作全局匹配。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": null,
+      "alias_scope": "上海电气集团明确上下文",
+      "time_boundary": "完整组织名2022已用；研发机构定位2024确认",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气集团股份有限公司中央研究院",
+          "matching_ids": []
+        }
+      ]
+    },
+    {
+      "original_name": "电气新能源",
+      "decision": "confirm_legal_entity_alias",
+      "canonical_candidate": "上海电气新能源发展有限公司",
+      "entity_kind": "legal_joint_venture",
+      "confirmed_facts": [
+        "2022-12-05正式公告逐字定义电气新能源简称，并给出2022-07-04设立日和信用代码。",
+        "当时直接股东上海电气66.67%、电气风电33.33%，应记录直接控股母上海电气，不应挂风电集团为直接母。"
+      ],
+      "evidence": [
+        {
+          "source_id": "newenergy",
+          "url": "https://www.hkexnews.hk/listedco/listconews/sehk/2022/1205/2022120501707_c.pdf",
+          "title": "上海电气关于控股子公司提供履约保函公告",
+          "access": "完整PDF已打开",
+          "as_of": "2022-12-05",
+          "short_excerpt": "电气新能源",
+          "locator": "PDF第2-3页；统一社会信用代码91310120MABT00C0X8"
+        }
+      ],
+      "missing_evidence": [
+        "2026当前持股比例未作工商实时验证；2024风电年报同一持股结构可交叉参照。"
+      ],
+      "proposed_edit": [
+        "完整法人及电气新能源可建立精确同主体别名；确认上下文指该简称且报道日期不早于法人成立。",
+        "保留其与上海电气集团能源有限公司、上海电气国轩新能源科技有限公司的区别。"
+      ],
+      "group_name": "上海电气集团股份有限公司",
+      "group_id": "ent_2d85682b9f585f1b9dd7",
+      "parent_candidate": {
+        "name": "上海电气集团股份有限公司",
+        "relationship": "direct_66_67_percent_control",
+        "as_of": "2022-12-05"
+      },
+      "alias_scope": "明确简称/上海电气业务语境，拒绝更长公司名称的子串匹配",
+      "time_boundary": "2022-07-04成立；更早提及不可自动归为该法人",
+      "existing_entity_id": null,
+      "existing_candidate_ids": [
+        {
+          "candidate": "上海电气新能源发展有限公司",
+          "matching_ids": []
+        }
+      ]
+    }
+  ]
+}

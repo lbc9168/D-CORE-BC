@@ -1,0 +1,1519 @@
+{
+  "checked_on": "2026-09-17",
+  "scope": "央国企未决企业名录；仅公开证据核查建议，不写主表、不回填数据库",
+  "master_snapshot_sha256": "27f15ad5293e4f5d544afff69f425218b05a0a3a935035fdc89327e7fbecf6e8",
+  "record_count": 37,
+  "methodology": [
+    "官网/监管机构/交易所发行人披露优先；sources.access 明确网页全文或搜索索引；未成功打开全文的页面不能声称已全文核验。",
+    "current_groups是本工作树精确原名出现的当前组，不构成独立证据；suggested_group与direct_parent_candidate分开。",
+    "法人全名得到证实，不代表原始简称在所有上下文都唯一；decision及missing_evidence限制自动修改范围。",
+    "branch、representative_office、department不能误建独立法人；若schema不能表达组织单位，保持group_only/review。",
+    "日期为明确发布/报告/事件日期；未获日期置空，页面迁移时间不视为成立日期。",
+    "本报告不证明任何项目developer/EPC/融资角色，不改变项目参与证据要求。"
+  ],
+  "records": [
+    {
+      "original_name": "中国能建",
+      "decision": "group_only",
+      "canonical_candidate": null,
+      "entity_kind": "group_brand",
+      "current_groups": [
+        "中国能源建设集团有限公司"
+      ],
+      "suggested_group": "中国能源建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "中国能建同时用于集团品牌及上市股份公司证券简称，不能凭简称指定集团母公司为项目签约法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "supports": "集团及所属企业名录",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://dataclouds.cninfo.com.cn/shgonggao/2024/2024-06-13/e793690628ab11efbc1cfa163e26e5de.pdf",
+          "supports": "上市公司证券简称中国能建",
+          "date": "2024-06-13",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "具体项目主体是集团有限公司、股份有限公司或其他下属企业"
+      ],
+      "proposed_edit": "保留 group_only_alias；不生成具体 entity_id。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国能源建设集团福建公司",
+      "decision": "needs_review",
+      "canonical_candidate": null,
+      "entity_kind": "unresolved",
+      "current_groups": [
+        "中国能源建设集团有限公司"
+      ],
+      "suggested_group": null,
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "查询能建官方成员目录未能确认此精确法人名称；检索出现电建福建、国家能源福建等不同企业，不能拼接替代。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "supports": "核查能建成员目录；未找到精确名不构成不存在的证明",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "原项目全文、合同主体全称、登记资料、能建归属直接证据"
+      ],
+      "proposed_edit": "完整疑似名保留 needs_review；裸福建公司不得创建全局别名；不能将既存分组当成本次确证。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "福建公司",
+      "decision": "needs_review",
+      "canonical_candidate": null,
+      "entity_kind": "unresolved",
+      "current_groups": [],
+      "suggested_group": null,
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "查询能建官方成员目录未能确认此精确法人名称；检索出现电建福建、国家能源福建等不同企业，不能拼接替代。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "supports": "核查能建成员目录；未找到精确名不构成不存在的证明",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "原项目全文、合同主体全称、登记资料、能建归属直接证据"
+      ],
+      "proposed_edit": "完整疑似名保留 needs_review；裸福建公司不得创建全局别名；不能将既存分组当成本次确证。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "中能建葛洲坝工程科技有限公司",
+      "decision": "confirm_name_group_parent_pending",
+      "canonical_candidate": "中能建葛洲坝工程科技有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国能源建设集团有限公司"
+      ],
+      "suggested_group": "中国能源建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "葛洲坝官网使用完整法人名，介绍其所属试验检测公司；确认葛洲坝体系及能建集团层面的归属。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.cggc.ceec.net.cn/art/2025/11/30/art_7370_2528913.html",
+          "supports": "完整名称及葛洲坝工程科技公司的下属试验检测公司",
+          "date": "2025-11-30",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=17381B3CCB7D16B7E06397BE0A0AF3CD",
+          "supports": "国家标准起草单位完整名称",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接股东及完整层级、名称启用日期"
+      ],
+      "proposed_edit": "登记完整法人名及独立 ID；短名仅作为已由原文限定的简称；parent_entity_id 留空，不把能建集团直接当股东。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中能建葛洲坝工程科技",
+      "decision": "confirm_name_group_parent_pending",
+      "canonical_candidate": "中能建葛洲坝工程科技有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [],
+      "suggested_group": "中国能源建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "葛洲坝官网使用完整法人名，介绍其所属试验检测公司；确认葛洲坝体系及能建集团层面的归属。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.cggc.ceec.net.cn/art/2025/11/30/art_7370_2528913.html",
+          "supports": "完整名称及葛洲坝工程科技公司的下属试验检测公司",
+          "date": "2025-11-30",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://std.samr.gov.cn/gb/search/gbDetailed?id=17381B3CCB7D16B7E06397BE0A0AF3CD",
+          "supports": "国家标准起草单位完整名称",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接股东及完整层级、名称启用日期"
+      ],
+      "proposed_edit": "登记完整法人名及独立 ID；短名仅作为已由原文限定的简称；parent_entity_id 留空，不把能建集团直接当股东。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "中国水电建设集团",
+      "decision": "historical_name_requires_date",
+      "canonical_candidate": null,
+      "entity_kind": "historical_group_name",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "电建集团于2011年重组形成；其重组前身包括中国水利水电建设集团公司，与当今集团不是同一名称关系。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.powerchina.cn/zjdj/gsjj/jtgs/index.html",
+          "supports": "电建集团2011年重组及前身",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.powerchina.cn/Portals/0/wenjian/601669_2011_n.pdf",
+          "supports": "2011年中国水利水电建设集团公司与电建集团为不同层级主体",
+          "date": "2012",
+          "access": "primary_source_search_index",
+          "locator": "2011年报",
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "原文是否确指中国水利水电建设集团公司或其他国际公司；项目时点"
+      ],
+      "proposed_edit": "保留电建集团归属提示，禁止将历史简称直接规范为现母公司法人；补项目日期后再建历史名称映射。",
+      "effective_period": "2011年前后结构变化需分期",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国水电（马来西亚）有限公司",
+      "decision": "confirm_name_group_parent_pending",
+      "canonical_candidate": "中国水电（马来西亚）有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "中国水电建设集团国际工程有限公司披露的合并子公司清单列有该企业及100%持股/表决权；不能从合并清单自行推定直接母公司。",
+        "马来西亚中资企业商会列对应英文 Sinohydro Corporation (M) Sdn Bhd。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2026-04-30/244038_20260430_GLJX.pdf",
+          "supports": "合并清单：马来西亚公司、三级、100%",
+          "date": "2026-04-30",
+          "access": "primary_source_search_index",
+          "locator": "财务附注清单，搜索索引可读；整份PDF超过web工具大小限制",
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://ceccm.com.my/wp-content/uploads/2026/04/2026-Committee-List-7_04_2026.xlsx-1-1.pdf",
+          "supports": "会员中英名对应",
+          "date": "2026-04-07",
+          "access": "chamber_member_primary_list",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接持股主体、当地登记编号、持股历史"
+      ],
+      "proposed_edit": "从母公司 group_only_alias 移到独立子法人；附英文名为商会自报证据；parent 留空。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国电建阿根廷分公司",
+      "decision": "confirm_branch_parent_pending",
+      "canonical_candidate": "中国电建阿根廷分公司",
+      "entity_kind": "branch",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "电建国际官网2022年明确该分公司签署IBA​RETA 100MW光伏项目合同。",
+        "公开合同披露另出现 POWERCHINA LTD. SUCURSAL ARGENTINA；本次未取得将所有中文新闻名称与该登记主体唯一对应的证明。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.powerchina-intl.com/show/9/2781.html",
+          "supports": "分公司主体签署阿根廷项目",
+          "date": "2022-12-14",
+          "access": "primary_page_opened",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/stock/disclosure/announcement/c/202303/000961_20230321_ENGB.pdf",
+          "supports": "2018合同中的英文阿根廷分支主体",
+          "date": "2023-03-21",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "分支所属法律实体与阿根廷注册号"
+      ],
+      "proposed_edit": "保留 branch 节点及原始名称；不当独立法人，不用电建集团entity_id冒充分公司；直接parent待证。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "湖北工程公司工程建设公司",
+      "decision": "needs_review",
+      "canonical_candidate": null,
+      "entity_kind": "operating_unit_unresolved",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "电建官方报刊以此称呼格鲁吉亚项目承包单位；该称呼证明业务单位，不足以确认法人全名或独立公司地位。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.powerchina.cn/attach/0/44c7801fd9a94736bca635c960ae0e51.pdf",
+          "supports": "湖北工程公司工程建设公司项目活动",
+          "date": "2018-06-14",
+          "access": "primary_source_search_index",
+          "locator": "电建报",
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "工程建设公司工商名称、是否分公司或事业部、直接隶属关系"
+      ],
+      "proposed_edit": "仅保留电建集团归属；不得据工程建设公司后缀生成法人 ID。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国电建集团贵州工程公司",
+      "decision": "confirm_historical_short_name",
+      "canonical_candidate": "中国电建集团贵州工程有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "企业招聘简介记载：2015-11-27组建，2017-09-29批准更名，2017-12-22完成工商登记为中国电建集团贵州工程有限公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://jy.ncut.edu.cn/front/zph.jspa?tid=9918",
+          "supports": "企业自述组建及更名日期",
+          "date": null,
+          "access": "university_hosted_employer_profile",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://career.hebut.edu.cn/home/company/index/id/16733.html",
+          "supports": "企业提交简介交叉确认法人名称",
+          "date": null,
+          "access": "university_hosted_employer_profile",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2022-06-27/122194_20220627_1_VAdJVCjI.pdf",
+          "supports": "电建披露目标公司包含贵州工程有限公司",
+          "date": "2022-06-27",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接母公司当前股权层级；裸贵州工程公司在具体原文中的唯一性"
+      ],
+      "proposed_edit": "完整旧名可记录有效期及新名；裸简称仍需电建上下文，不作跨集团通用名称匹配。",
+      "effective_period": "2017-12-22起现法人名称；此前名称需保留",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "贵州工程公司",
+      "decision": "confirm_historical_short_name",
+      "canonical_candidate": "中国电建集团贵州工程有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "企业招聘简介记载：2015-11-27组建，2017-09-29批准更名，2017-12-22完成工商登记为中国电建集团贵州工程有限公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://jy.ncut.edu.cn/front/zph.jspa?tid=9918",
+          "supports": "企业自述组建及更名日期",
+          "date": null,
+          "access": "university_hosted_employer_profile",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://career.hebut.edu.cn/home/company/index/id/16733.html",
+          "supports": "企业提交简介交叉确认法人名称",
+          "date": null,
+          "access": "university_hosted_employer_profile",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2022-06-27/122194_20220627_1_VAdJVCjI.pdf",
+          "supports": "电建披露目标公司包含贵州工程有限公司",
+          "date": "2022-06-27",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接母公司当前股权层级；裸贵州工程公司在具体原文中的唯一性"
+      ],
+      "proposed_edit": "完整旧名可记录有效期及新名；裸简称仍需电建上下文，不作跨集团通用名称匹配。",
+      "effective_period": "2017-12-22起现法人名称；此前名称需保留",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国电建集团尼日利亚代表处",
+      "decision": "confirm_representative_office",
+      "canonical_candidate": null,
+      "entity_kind": "representative_office",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "电建国际官网使用中国电建尼日利亚代表处；与在当地执行项目的成员企业并列，不能替代各承包法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.powerchina-intl.com/show/9/3587.html",
+          "supports": "湖南商务厅到电建尼日利亚代表处调研",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.powerchina-intl.com/show/9/461.html",
+          "supports": "代表处与在尼成员企业区分",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "负责该代表处的具体法人、分支登记；裸地名简称的企业上下文"
+      ],
+      "proposed_edit": "完整名称可作组织单位/group_only；裸尼日利亚代表处不得全局归电建。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "尼日利亚代表处",
+      "decision": "confirm_representative_office",
+      "canonical_candidate": null,
+      "entity_kind": "representative_office",
+      "current_groups": [],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "电建国际官网使用中国电建尼日利亚代表处；与在当地执行项目的成员企业并列，不能替代各承包法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.powerchina-intl.com/show/9/3587.html",
+          "supports": "湖南商务厅到电建尼日利亚代表处调研",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.powerchina-intl.com/show/9/461.html",
+          "supports": "代表处与在尼成员企业区分",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "负责该代表处的具体法人、分支登记；裸地名简称的企业上下文"
+      ],
+      "proposed_edit": "完整名称可作组织单位/group_only；裸尼日利亚代表处不得全局归电建。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "中电国际",
+      "decision": "confirm_entity_parent",
+      "canonical_candidate": "中国电力国际有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "国家电力投资集团有限公司"
+      ],
+      "suggested_group": "国家电力投资集团有限公司",
+      "direct_parent_candidate": "国家电力投资集团有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "发行人明确中电国际对应中国电力国际有限公司；2025年半年报明确其为国家电投全资子公司。",
+        "中国电力国际发展有限公司是另一个法律主体，不应因同属国家电投合并。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2023-04-28/1216697793.pdf",
+          "supports": "释义中电国际=中国电力国际有限公司",
+          "date": "2023-04-28",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2025-08-29/138862_20250829_685Y.pdf",
+          "supports": "中国电力国际有限公司为国家电投全资子公司",
+          "date": "2025-08-29",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [],
+      "proposed_edit": "创建中国电力国际有限公司独立主体及国家电投直接parent；删除它与国家电投母公司同法人别名的等价关系。",
+      "effective_period": "2022/2025报告期支持，不自动覆盖更早集团重组前",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "国家电投中电国际",
+      "decision": "confirm_entity_parent",
+      "canonical_candidate": "中国电力国际有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "国家电力投资集团有限公司"
+      ],
+      "suggested_group": "国家电力投资集团有限公司",
+      "direct_parent_candidate": "国家电力投资集团有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "发行人明确中电国际对应中国电力国际有限公司；2025年半年报明确其为国家电投全资子公司。",
+        "中国电力国际发展有限公司是另一个法律主体，不应因同属国家电投合并。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2023-04-28/1216697793.pdf",
+          "supports": "释义中电国际=中国电力国际有限公司",
+          "date": "2023-04-28",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2025-08-29/138862_20250829_685Y.pdf",
+          "supports": "中国电力国际有限公司为国家电投全资子公司",
+          "date": "2025-08-29",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [],
+      "proposed_edit": "创建中国电力国际有限公司独立主体及国家电投直接parent；删除它与国家电投母公司同法人别名的等价关系。",
+      "effective_period": "2022/2025报告期支持，不自动覆盖更早集团重组前",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "大唐海外投资公司",
+      "decision": "confirm_name_parent_with_shortname_context",
+      "canonical_candidate": "中国大唐集团海外投资有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [],
+      "suggested_group": "中国大唐集团有限公司",
+      "direct_parent_candidate": "中国大唐集团有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "公司官网企业简介及大唐品牌页明确完整名称、2007年8月成立、集团全资子公司；网站页眉省略集团二字不能当正式改名依据。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.china-cdto.com/dthwtz/gywm/jj/A067002010Gone1.html",
+          "supports": "现企业简介完整名、全资关系及成立年月",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.china-cdt.com/dtwz/zywh/dtpp/2025/5/I1372860406954983424.html",
+          "supports": "集团品牌页完整名及全资关系",
+          "date": "2025-05",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.china-cdto.com/dthwtz/xwzx/gsxw/2025/3/I1354419300676403203.html",
+          "supports": "大唐海外投资公司会议正文使用完整法律名称",
+          "date": "2025-03",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "无上下文历史简称是否指境外持股公司；法定名称变更证明"
+      ],
+      "proposed_edit": "以中国大唐集团海外投资有限公司建主体；本公司官网使用的短称可映射；历史香港持股公司不合并。",
+      "effective_period": "成立2007-08；现名见2025-2026官网，不能据页眉推导更名",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "国网宁波供电公司",
+      "decision": "confirm_branch",
+      "canonical_candidate": "国网浙江省电力有限公司宁波供电公司",
+      "entity_kind": "branch",
+      "current_groups": [
+        "国家电网有限公司"
+      ],
+      "suggested_group": "国家电网有限公司",
+      "direct_parent_candidate": "国网浙江省电力有限公司",
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "能源监管机构供电许可名单使用完整名称，属于浙江省电力公司宁波供电单位。"
+      ],
+      "sources": [
+        {
+          "url": "https://zjb.nea.gov.cn/dtyw/xkgsgg/202412/t20241217_274025.html",
+          "supports": "2024-06-21至27供电许可名单完整机构名",
+          "date": "2024-12-17",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://zjb.nea.gov.cn/dtyw/xkgsgg/202403/t20240308_257812.html",
+          "supports": "2023年供电许可名单同一完整名",
+          "date": "2024-03-08",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "如需独立组织ID，应补分支登记号；不能将供电许可证当独立法人资格"
+      ],
+      "proposed_edit": "记录 branch/隶属浙江省电力公司，不以国家电网母公司实体替代，也不称独立法人。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "东方电气",
+      "decision": "group_only",
+      "canonical_candidate": null,
+      "entity_kind": "ambiguous_group_or_listed_company",
+      "current_groups": [
+        "中国东方电气集团有限公司"
+      ],
+      "suggested_group": "中国东方电气集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "集团官网区分中国东方电气集团有限公司与东方电气股份有限公司；后者证券简称同为东方电气。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.dongfang.com/gyjt/fzlc.htm",
+          "supports": "集团历史及股份上市主体不同",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2024-04-13/1219596618.PDF",
+          "supports": "股份有限公司证券简称东方电气",
+          "date": "2024-04-13",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "具体原文签约主体或完整名称"
+      ],
+      "proposed_edit": "继续 group_only；完整股份公司另建ID，不因证券简称强制绑定集团法人。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "国机工程集团",
+      "decision": "confirm_entity_group_parent_pending",
+      "canonical_candidate": "中国机械工业工程集团有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国机械工业集团有限公司"
+      ],
+      "suggested_group": "中国机械工业集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "国机官网明确国机工程集团的完整名称，2021-12-28揭牌；整合中设集团、中工国际等业务。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.sinomach.com.cn/xwzx/jtdt/2021_jtyw/202112/t20211229_326283.html",
+          "supports": "全称及简称、成立活动",
+          "date": "2021-12-29",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.sinomach.com.cn/xwzx/jtdt/2022_jtyw/202205/t20220513_369024.html",
+          "supports": "国机所属中国机械工业工程集团有限公司",
+          "date": "2022-05-13",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接股东/股比；揭牌不等于工商成立日期"
+      ],
+      "proposed_edit": "新增独立法人，不作为中国机械工业集团有限公司同法人别名；确认国机集团归属，parent待股权证明。",
+      "effective_period": "至少2021-12起官方使用，不回写此前项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "国机工程集团总部（中设集团）",
+      "decision": "needs_review",
+      "canonical_candidate": null,
+      "entity_kind": "headquarters_designation",
+      "current_groups": [
+        "中国机械工业集团有限公司"
+      ],
+      "suggested_group": "中国机械工业集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "国机官网2024-07报道使用该复合组织称呼；总部、中设集团、中国机械工业工程集团有限公司并不能据括号证明是一个法人。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.sinomach.com.cn/synr/flash/index_47.html",
+          "supports": "2024-07-05丁宏祥赴国机工程集团总部（中设集团）调研",
+          "date": "2024-07-05",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "具体业务事件签约主体；CMEC或工程集团哪一法律实体承担义务"
+      ],
+      "proposed_edit": "复合称呼保留 group_only/review；不要同时绑定CMEC和国机工程集团ID。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "苏美达能源",
+      "decision": "confirm_entity_group_parent_pending",
+      "canonical_candidate": "江苏苏美达能源控股有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国机械工业集团有限公司"
+      ],
+      "suggested_group": "中国机械工业集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "国机2026年新闻明确江苏苏美达能源控股有限公司简称苏美达能源公司；这是独立于集团母公司的企业。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.sinomach.com.cn/xwzx/zgsdt/2026_qydt/202601/t20260105_610213.html",
+          "supports": "全称、简称及国机下属企业",
+          "date": "2026-01-05",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-02-25/1212452097.PDF",
+          "supports": "苏美达上市披露控股子公司江苏苏美达能源控股有限公司",
+          "date": "2022-02-25",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "苏美达体系内当前直接持股公司，不得只凭新闻来源署名指定"
+      ],
+      "proposed_edit": "录为独立主体、国机归属；补齐直接股东前parent置空。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国建筑国际集团有限公司",
+      "decision": "confirm_entity_group_parent_pending",
+      "canonical_candidate": "中国建筑国际集团有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国建筑集团有限公司"
+      ],
+      "suggested_group": "中国建筑集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "中国建筑官网列示香港03311上市公司；中建国际投资官网明确其母公司为中国建筑国际集团有限公司，证明该主体不能并成中建集团同法人别名。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.cscec.com.cn/",
+          "supports": "上市公司板块03311中国建筑国际集团有限公司",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.csiil.cn/cn/aboutus/general/",
+          "supports": "中建国际投资与中国建筑国际集团母子关系",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "该香港上市公司的直接控股股东及控制链当前股比"
+      ],
+      "proposed_edit": "从集团别名拆成独立法人；中建集团归属保留，直接parent不得猜为中国建筑集团有限公司。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中建安装",
+      "decision": "confirm_entity_parent",
+      "canonical_candidate": "中建安装集团有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国建筑集团有限公司"
+      ],
+      "suggested_group": "中国建筑集团有限公司",
+      "direct_parent_candidate": "中国建筑股份有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "中建安装官网公司简介明确完整名称及简称，称其为中国建筑股份有限公司旗下二级专业化集团；上市公司股东大会材料确认全资关系。"
+      ],
+      "sources": [
+        {
+          "url": "https://inco.cscec.com/gyzj/gsjj/",
+          "supports": "公司全称/简称及股份公司下属关系",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.cscec.com.cn/tzzgxnew/tzgg_new/gsgg2022/202206/P020220620026102882192.pdf",
+          "supports": "中国建筑上市公司中建安装全资关系",
+          "date": "2022-06-20",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "若用于更早项目须核对安装集团改名前名称"
+      ],
+      "proposed_edit": "中建安装对应独立子法人；parent中国建筑股份有限公司，group中国建筑集团有限公司。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "西电国际",
+      "decision": "confirm_entity_parent",
+      "canonical_candidate": "西安西电国际工程有限责任公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国电气装备集团有限公司"
+      ],
+      "suggested_group": "中国电气装备集团有限公司",
+      "direct_parent_candidate": "中国西电电气股份有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "西电集团官网2024年招聘明确全称/简称及中国电气装备—中国西电股份层级；股份公司2023年公告明确全资子公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.xd.com.cn/info/1031/13108.htm",
+          "supports": "西电国际全称、股份平台和电气装备集团层级",
+          "date": "2024-11-27",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2023-12-02/1218497678.PDF",
+          "supports": "西电国际为中国西电电气股份有限公司全资子公司",
+          "date": "2023-12-02",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "中国电气装备成立前的历史最终母集团有效期"
+      ],
+      "proposed_edit": "登记独立法人及中国西电股份parent，现最终集团中国电气装备；若库统计仍保留中国西电子集团，应独立记录统计归组与最终控股链，勿自动改历史。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国机械进出口（集团）有限公司",
+      "decision": "confirm_entity_correct_legal_separation",
+      "canonical_candidate": "中国机械进出口（集团）有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国通用技术（集团）控股有限责任公司"
+      ],
+      "suggested_group": "中国通用技术（集团）控股有限责任公司",
+      "direct_parent_candidate": "通用技术集团国际控股有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "CMC官网明确1998年成为通用技术集团全资子公司，和CMEC中设集团不同。",
+        "2026-06-01中成股份发行人公告明确通用技术集团通过通用技术集团国际控股有限公司间接持有CMC 100%。",
+        "当前本工作树已将该原名放在通用技术组，但仍是集团别名；需要修正的是同法人等价，不是转到国机。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.cmc.com.cn/gywm/zzry/index.html",
+          "supports": "完整名称、简称中机公司、1998通用技术集团归属",
+          "date": null,
+          "access": "primary_page_opened",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://paper.cnstock.com/html/2026-06/01/content_2225738.htm",
+          "supports": "发行人公告披露直接/间接持股链",
+          "date": "2026-06-01",
+          "access": "issuer_disclosure_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "1998至2026之间直接股东变动有效期"
+      ],
+      "proposed_edit": "从通用技术母公司 group_only_alias 拆为独立法人；现parent通用技术集团国际控股有限公司；绝不能归国机或当作CMEC。",
+      "effective_period": "1998集团归属已确认；当前直接股东链证据为2026-06-01",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国交建尼日利亚公司",
+      "decision": "confirm_candidate_alias_context_required",
+      "canonical_candidate": "中国交建尼日利亚股份有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国交通建设集团有限公司"
+      ],
+      "suggested_group": "中国交通建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "中交集团2023年债券年报合并清单列中国交建尼日利亚股份有限公司、三级、100%权益；可确认法人候选，不能据合并清单确定直接parent。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.sse.com.cn/disclosure/bond/announcement/company/c/new/2024-04-30/122175_20240430_FFRG.pdf",
+          "supports": "三级合并企业中国交建尼日利亚股份有限公司及100%权益",
+          "date": "2024-04-30",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.ccccltd.cn/tzzgx/ggth/ag/202209/P020220907591176180977.pdf",
+          "supports": "中国交建董事会批准设立尼日利亚子公司",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": "文件正文为历史董事会事项，URL迁移日期不是成立日",
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "原项目短称是否指该股份公司、登记英文及直接股东"
+      ],
+      "proposed_edit": "新增完整法人证据；原名先作待确认别名或限定上下文映射，不当成尼日利亚分公司。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国石化石油工程建设公司",
+      "decision": "confirm_candidate_alias_context_required",
+      "canonical_candidate": "中石化石油工程建设有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国石油化工集团有限公司"
+      ],
+      "suggested_group": "中国石油化工集团有限公司",
+      "direct_parent_candidate": "中石化石油工程技术服务股份有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "中石化石油工程2022/2023年报明确中石化石油工程建设有限公司为全资子公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://ssc.sinopec.com/sosc/investor/interim_report/Documents/20240326/doc_20240326_633502135198.pdf",
+          "supports": "2023年报子公司名称和100%持股",
+          "date": "2024-03-26",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://ssc.sinopec.com/sosc/investor/interim_report/Documents/20230328/doc_20230328_615981541261.pdf",
+          "supports": "2022年报全资子公司",
+          "date": "2023-03-28",
+          "access": "primary_source_search_index",
+          "locator": "第69页",
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "原项目中国石化石油工程建设公司简写与正式名称的直接对应原文"
+      ],
+      "proposed_edit": "记录独立法人和已证parent；只对中国石化限定且可确认上下文的简称做映射；裸石油工程建设公司禁止全局别名。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中远海运工程物流有限公司",
+      "decision": "confirm_name_group_parent_pending",
+      "canonical_candidate": "中远海运工程物流有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国远洋海运集团有限公司"
+      ],
+      "suggested_group": "中国远洋海运集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "中远海控官方财报多次列示完整关联企业名称；与海控同受最终控制方控制，不代表海控直接持有该公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://hold.coscoshipping.com/cms_files/jcms1/web32/site/attach/0/d8ace682881049339555ac290c633802.pdf",
+          "supports": "相关企业中远海运工程物流有限公司同受最终控制方控制",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://hold.coscoshipping.com/cms_files/filemanager/1631/attach/20248/6913AE31161AB12E5657DEE7455AA5D5.pdf",
+          "supports": "2024半年报关联方中远海运工程物流有限公司",
+          "date": "2024-08",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接股东、注册号、与上海中远海运工程物流有限公司的区别"
+      ],
+      "proposed_edit": "独立保留完整公司名；不要与带上海前缀法人或工程物流事业部并为同法人；parent待核。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中远海运物流供应链工程物流事业部",
+      "decision": "confirm_department_parent_name_pending",
+      "canonical_candidate": null,
+      "entity_kind": "department",
+      "current_groups": [
+        "中国远洋海运集团有限公司"
+      ],
+      "suggested_group": "中国远洋海运集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "活动主办方报道使用中远海运物流供应链有限公司工程物流事业部/分公司称谓；现有证据只支持组织单位，不能证明其等同中远海运工程物流有限公司。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.zgyd1921.com/information/news/7be917b76a1f4d6abb484253a317af6a.html",
+          "supports": "2022年企业部门参观活动参与单位",
+          "date": "2022-06-30",
+          "access": "event_host_primary_report",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.csust.edu.cn/tmjz/info/1269/17847.htm",
+          "supports": "企业工程物流事业部及区域工程物流部参与活动",
+          "date": null,
+          "access": "event_host_primary_report",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "公司正式组织架构、部门所属法律实体；事业部与分公司是否同一机构"
+      ],
+      "proposed_edit": "保留department原称及集团归属；不自动发法人ID，不与工程物流有限公司互当别名。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "湖南云箭集团",
+      "decision": "confirm_entity_temporal_parent_pending",
+      "canonical_candidate": "湖南云箭集团有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国兵器装备集团有限公司"
+      ],
+      "suggested_group": "中国兵器装备集团有限公司（历史已证；当前最终归属需分期核实）",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "完整法人名有发行人及国资委一手披露；历史属兵器装备体系。",
+        "2026招聘署名兵器工业与2025重组资料提示控制链变化风险；文章来源不等于完整已完成股权关系证明。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-01-14/1212171055.PDF",
+          "supports": "中光学发行人披露湖南云箭集团有限公司及兵器装备体系",
+          "date": "2022-01-14",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://wap.sasac.gov.cn/n2588035/n2588325/c35375585/content.html",
+          "supports": "湖南云箭集团有限公司招聘；来源署名兵器工业集团",
+          "date": "2026-03-18",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2025-06-05/1223770614.pdf",
+          "supports": "长安汽车公告披露兵器装备汽车分立及其余股权拟注入兵器工业重组方案",
+          "date": "2025-06-05",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2026-04-30/136756_20260430_BGAI.pdf",
+          "supports": "2025年报确认2025-07-29汽车业务分立工商手续完成，不单独证明湖南云箭当前股权过户",
+          "date": "2026-04-30",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接股东、兵器工业重组过户完成及生效日期"
+      ],
+      "proposed_edit": "将湖南云箭作为独立法人；先保留历史兵器装备归组，不把它当母集团同法人别名；当前最终集团暂待时态补证，不能回溯覆盖历史。 主表必须另标历史归组/当前控制待核实，不得将本次查询写作现集团已核实。",
+      "effective_period": "2022历史兵器装备；2025-2026重组核实中",
+      "coverage_scope": "baseline_unresolved",
+      "current_control_status": "pending_temporal_verification"
+    },
+    {
+      "original_name": "湖南云箭集团有限公司",
+      "decision": "confirm_entity_temporal_parent_pending",
+      "canonical_candidate": "湖南云箭集团有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国兵器装备集团有限公司"
+      ],
+      "suggested_group": "中国兵器装备集团有限公司（历史已证；当前最终归属需分期核实）",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "完整法人名有发行人及国资委一手披露；历史属兵器装备体系。",
+        "2026招聘署名兵器工业与2025重组资料提示控制链变化风险；文章来源不等于完整已完成股权关系证明。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-01-14/1212171055.PDF",
+          "supports": "中光学发行人披露湖南云箭集团有限公司及兵器装备体系",
+          "date": "2022-01-14",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://wap.sasac.gov.cn/n2588035/n2588325/c35375585/content.html",
+          "supports": "湖南云箭集团有限公司招聘；来源署名兵器工业集团",
+          "date": "2026-03-18",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2025-06-05/1223770614.pdf",
+          "supports": "长安汽车公告披露兵器装备汽车分立及其余股权拟注入兵器工业重组方案",
+          "date": "2025-06-05",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://static.sse.com.cn/disclosure/bond/announcement/company/c/new/2026-04-30/136756_20260430_BGAI.pdf",
+          "supports": "2025年报确认2025-07-29汽车业务分立工商手续完成，不单独证明湖南云箭当前股权过户",
+          "date": "2026-04-30",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "直接股东、兵器工业重组过户完成及生效日期"
+      ],
+      "proposed_edit": "将湖南云箭作为独立法人；先保留历史兵器装备归组，不把它当母集团同法人别名；当前最终集团暂待时态补证，不能回溯覆盖历史。 主表必须另标历史归组/当前控制待核实，不得将本次查询写作现集团已核实。",
+      "effective_period": "2022历史兵器装备；2025-2026重组核实中",
+      "coverage_scope": "baseline_unresolved",
+      "current_control_status": "pending_temporal_verification"
+    },
+    {
+      "original_name": "湖南云箭有限公司",
+      "decision": "needs_review",
+      "canonical_candidate": null,
+      "entity_kind": "unresolved",
+      "current_groups": [],
+      "suggested_group": null,
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "本次找到的一手证据均为湖南云箭集团有限公司，缺集团二字的名称未获同法人证明。"
+      ],
+      "sources": [
+        {
+          "url": "https://static.cninfo.com.cn/finalpage/2022-01-14/1212171055.PDF",
+          "supports": "中光学发行人披露湖南云箭集团有限公司及兵器装备体系",
+          "date": "2022-01-14",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://wap.sasac.gov.cn/n2588035/n2588325/c35375585/content.html",
+          "supports": "湖南云箭集团有限公司招聘；来源署名兵器工业集团",
+          "date": "2026-03-18",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "完整工商名或原项目对简称的定义"
+      ],
+      "proposed_edit": "如原始数据确有这一名称，保留review；不要由相似性直接绑定湖南云箭集团有限公司。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "中国通信服务集团沙特分公司",
+      "decision": "needs_review",
+      "canonical_candidate": null,
+      "entity_kind": "overseas_unit_legal_form_unresolved",
+      "current_groups": [
+        "中国电信集团有限公司"
+      ],
+      "suggested_group": null,
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "税务机关投资指南列中国通信服务沙特公司，但未明确该中文项目名称是否当地法人、分支或营销称呼。",
+        "China Communications Services和其他名称相近CCSC/CCCS沙特企业不可混配。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.chinatax.gov.cn/chinatax/n810219/n810744/n1671176/n1671206/c2581441/5116188/files/3f04b15238b2459c9a128523e6a62238.pdf",
+          "supports": "投资指南企业名单：中国通信服务沙特公司",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://segg.sh.gov.cn/zxfw/yjbg/gbbg/index/c2f60b2f76ca49529398c01cc70941e7.pdf",
+          "supports": "投资指南同一企业称呼",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "沙特注册名/编号、法人还是分支、具体持股链、中国电信最终控制对应证据"
+      ],
+      "proposed_edit": "当前名录中国电信归组仅保留为待验证候选；不从分公司字样推断所属法律实体，不生成电信母公司ID。",
+      "effective_period": "仅确认所列来源时点；不得无证据回溯到全部历史项目",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国信保四川分公司",
+      "decision": "confirm_branch",
+      "canonical_candidate": "中国出口信用保险公司四川分公司",
+      "entity_kind": "branch",
+      "current_groups": [],
+      "suggested_group": "中国出口信用保险公司",
+      "direct_parent_candidate": "中国出口信用保险公司",
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "信保官网换领金融许可证公告明确机构全名及受中国出口信用保险公司授权；批准成立2002-11-26，2026-06-30发证。"
+      ],
+      "sources": [
+        {
+          "url": "https://gd.sinosure.com.cn/gywm/gsjj/xxpl/xxgg/2026/07/220567.shtml",
+          "supports": "完整机构名、授权主体、许可日期与机构编码000011510000",
+          "date": "2026-06-30",
+          "access": "primary_page_opened",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://sx.sinosure.com.cn/gywm/gsjj/xxpl/xxgg/2021/07/215317.shtml",
+          "supports": "2021年许可证同名机构",
+          "date": "2021-07",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [],
+      "proposed_edit": "记录branch及所属信保公司；可留组织ID但不当独立法人；身份归集团不带出融资/保险角色，项目角色仍须原文证据。",
+      "effective_period": "批准成立2002-11-26；证照资料2021和2026",
+      "coverage_scope": "additional_variant"
+    },
+    {
+      "original_name": "中国电建",
+      "decision": "group_only",
+      "canonical_candidate": null,
+      "entity_kind": "group_brand",
+      "current_groups": [
+        "中国电力建设集团有限公司"
+      ],
+      "suggested_group": "中国电力建设集团有限公司",
+      "direct_parent_candidate": null,
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": false,
+      "confirmed_facts": [
+        "集团简介称中国电力建设集团有限公司简称中国电建；股份公司简介使用同一证券简称，且集团下属企业在报道中亦使用该品牌。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.powerchina.cn/zjdj/gsjj/jtgs/index.html",
+          "supports": "集团完整名及中国电建简称",
+          "date": null,
+          "access": "primary_source_search_index",
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.powerchina.cn/zjdj/gsjj/gfgs/index.html",
+          "supports": "股份公司独立主体及中国电建证券简称",
+          "date": null,
+          "access": "primary_source_search_index",
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "具体项目签约或参与企业的完整名称"
+      ],
+      "proposed_edit": "保留 group_only_alias；不得指定为集团母公司或股份公司同法人别名；项目已有参与事实可保留，主体ID待补。",
+      "effective_period": "现集团与股份公司同时存在；无上下文不能唯一化",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国大唐集团海外投资公司",
+      "decision": "confirm_name_parent_with_shortname_context",
+      "canonical_candidate": "中国大唐集团海外投资有限公司",
+      "entity_kind": "legal_entity",
+      "current_groups": [
+        "中国大唐集团有限公司"
+      ],
+      "suggested_group": "中国大唐集团有限公司",
+      "direct_parent_candidate": "中国大唐集团有限公司",
+      "legal_name_confirmed": true,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "公司官网企业简介及大唐品牌页明确完整名称、2007年8月成立、集团全资子公司；网站页眉省略集团二字不能当正式改名依据。"
+      ],
+      "sources": [
+        {
+          "url": "https://www.china-cdto.com/dthwtz/gywm/jj/A067002010Gone1.html",
+          "supports": "现企业简介完整名、全资关系及成立年月",
+          "date": null,
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.china-cdt.com/dtwz/zywh/dtpp/2025/5/I1372860406954983424.html",
+          "supports": "集团品牌页完整名及全资关系",
+          "date": "2025-05",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://www.china-cdto.com/dthwtz/xwzx/gsxw/2025/3/I1354419300676403203.html",
+          "supports": "大唐海外投资公司会议正文使用完整法律名称",
+          "date": "2025-03",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [
+        "无上下文历史简称是否指境外持股公司；法定名称变更证明"
+      ],
+      "proposed_edit": "以中国大唐集团海外投资有限公司建主体；本公司官网使用的短称可映射；历史香港持股公司不合并。",
+      "effective_period": "成立2007-08；现名见2025-2026官网，不能据页眉推导更名",
+      "coverage_scope": "baseline_unresolved"
+    },
+    {
+      "original_name": "中国出口信用保险公司四川分公司",
+      "decision": "confirm_branch",
+      "canonical_candidate": "中国出口信用保险公司四川分公司",
+      "entity_kind": "branch",
+      "current_groups": [
+        "中国出口信用保险公司"
+      ],
+      "suggested_group": "中国出口信用保险公司",
+      "direct_parent_candidate": "中国出口信用保险公司",
+      "legal_name_confirmed": false,
+      "direct_parent_confirmed": true,
+      "confirmed_facts": [
+        "信保官网换领金融许可证公告明确机构全名及受中国出口信用保险公司授权；批准成立2002-11-26，2026-06-30发证。"
+      ],
+      "sources": [
+        {
+          "url": "https://gd.sinosure.com.cn/gywm/gsjj/xxpl/xxgg/2026/07/220567.shtml",
+          "supports": "完整机构名、授权主体、许可日期与机构编码000011510000",
+          "date": "2026-06-30",
+          "access": "primary_page_opened",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        },
+        {
+          "url": "https://sx.sinosure.com.cn/gywm/gsjj/xxpl/xxgg/2021/07/215317.shtml",
+          "supports": "2021年许可证同名机构",
+          "date": "2021-07",
+          "access": "primary_source_search_index",
+          "locator": null,
+          "checked_on": "2026-09-17"
+        }
+      ],
+      "missing_evidence": [],
+      "proposed_edit": "记录branch及所属信保公司；可留组织ID但不当独立法人；身份归集团不带出融资/保险角色，项目角色仍须原文证据。",
+      "effective_period": "批准成立2002-11-26；证照资料2021和2026",
+      "coverage_scope": "baseline_unresolved"
+    }
+  ],
+  "baseline_record_count": 30,
+  "additional_variant_count": 7
+}

@@ -1,11 +1,12 @@
 """
-一次性转换脚本：合并旧 company_hierarchy.json（19 组）与草稿 company_hierarchy_draft_2026-07-05.json
-（97 新组 + 14 追加），生成正式 company_hierarchy_v2.json（schema_version=2）。
+企业主表维护入口：默认校验现行表，保留后补裁决。
+旧版一次性转换逻辑仅作为历史初始化快照导出保留。
 
-运行：python supporting_docs/build_hierarchy_v2.py
-可复跑、确定性输出（不依赖外部状态）。
+运行：python supporting_docs/build_hierarchy_v2.py（仅校验现行主表，不重建覆盖）。
+旧输入仅供 --bootstrap-output NEW_PATH 导出历史初始化快照，不能再生现行主表。
 """
 
+import argparse
 import json
 import logging
 import sys
@@ -259,8 +260,8 @@ def find_provenance_buling(groups: list[dict]) -> list[str]:
     return result
 
 
-def main() -> None:
-    """主函数：加载两份源文件，转换合并，冲突检查，输出 v2。"""
+def build_legacy_snapshot() -> dict:
+    """Historical bootstrap only; current reviewed master data is authoritative."""
     logger.info("加载源文件...")
     legacy_data = load_json(LEGACY_FILE)
     draft_data = load_json(DRAFT_FILE)
@@ -419,14 +420,76 @@ def main() -> None:
         "groups": groups_list,
     }
 
-    with OUTPUT_FILE.open("w", encoding="utf-8") as f:
-        json.dump(output, f, ensure_ascii=False, indent=1)
-
-    logger.info(f"已输出: {OUTPUT_FILE}")
+    logger.info("历史初始化快照已在内存构建；不覆盖现行企业主表")
     logger.info(
         f"最终统计: 总组数={total_groups}, 子公司数={total_subs}, "
         f"别名数={total_aliases}, 央企组数={central_soe_count}"
     )
+
+    return output
+
+
+def validate_current_master(payload: dict) -> None:
+    """Validate persistent identities and explicit parents without changing records."""
+    if payload.get("schema_version") != 2 or not isinstance(payload.get("groups"), list):
+        raise ValueError("Invalid company master schema")
+    check_conflicts(payload["groups"])
+    if not payload.get("identity_schema_version"):
+        return  # Historical v2 remains readable; it has no identity contract yet.
+    entities: dict[str, tuple[str, str, str | None]] = {}
+    for group in payload["groups"]:
+        canonical = group["canonical_name_cn"]
+        aliases = set(group.get("aliases", []))
+        for key in ("group_only_aliases", "disputed_aliases"):
+            if not set(group.get(key, [])).issubset(aliases):
+                raise ValueError(f"{canonical}: {key} must reference existing aliases")
+        for item in (group, *group.get("subsidiaries", [])):
+            entity_id = item.get("entity_id")
+            if not entity_id:
+                if item is group or item.get("legal_entity_status") != "needs_review":
+                    raise ValueError(f"Missing entity ID without pending status: {canonical}")
+                continue
+            legal = item.get("legal_full_name_cn") or item.get("canonical_name_cn")
+            if not legal:
+                raise ValueError(f"Missing legal name: {entity_id}")
+            signature = (legal, canonical, item.get("parent_entity_id"))
+            if entity_id in entities and entities[entity_id] != signature:
+                raise ValueError(f"Conflicting persistent entity ID: {entity_id}")
+            entities[entity_id] = signature
+    for entity_id in entities:
+        seen: set[str] = set()
+        current = entity_id
+        while current:
+            if current in seen:
+                raise ValueError(f"Parent cycle: {entity_id}")
+            if current not in entities:
+                raise ValueError(f"Missing parent entity: {current}")
+            seen.add(current)
+            current = entities[current][2]
+
+
+def main(argv: list[str] | None = None) -> None:
+    """Validate the maintained master; historical bootstrap is explicit and isolated.
+
+    The legacy inputs predate reviewed additions, IDs and relationship decisions.
+    They cannot be treated as regeneration sources for the current master.
+    """
+    parser = argparse.ArgumentParser(description="Validate company master without overwriting reviewed updates")
+    parser.add_argument("--bootstrap-output", type=Path, help="Write historical bootstrap to a NEW separate file")
+    args = parser.parse_args(argv)
+    if args.bootstrap_output is None:
+        current = load_json(OUTPUT_FILE)
+        validate_current_master(current)
+        logger.info("现行企业主表校验通过；保留全部后补条目、ID和关系裁决，不写文件。")
+        return
+    target = args.bootstrap_output.resolve()
+    if target == OUTPUT_FILE.resolve() or target.exists():
+        raise ValueError("历史 bootstrap 仅允许写入不存在的独立文件，禁止覆盖现行主表")
+    payload = build_legacy_snapshot()
+    with target.open("x", encoding="utf-8") as handle:
+        json.dump(payload, handle, ensure_ascii=False, indent=1)
+        handle.write("\n")
+    logger.info("历史快照已写入独立文件: %s；不是当前企业主表", target)
 
 
 if __name__ == "__main__":

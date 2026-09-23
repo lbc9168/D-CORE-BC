@@ -31,21 +31,22 @@ def test_v2_file_exists():
 
 
 def test_build_script_is_idempotent(tmp_path):
-    """转换脚本可重复运行，输出确定性（两次运行结果相同）。"""
-    # 第一次已运行生成了 v2 文件，再跑一次检查结果一致
+    """默认维护入口仅校验，现行主表及后补裁决保持逐字不变。"""
+    # 历史初始化来源不能覆盖已确认的后补裁决。
     first_run = V2_FILE.read_text(encoding="utf-8")
     result = subprocess.run(
-        [sys.executable, str(BUILD_SCRIPT)],
+        [sys.executable, "-X", "utf8", "-B", str(BUILD_SCRIPT)],
         capture_output=True,
         text=True,
+        encoding="utf-8",
     )
     assert result.returncode == 0, f"脚本第二次运行失败:\n{result.stderr}"
     second_run = V2_FILE.read_text(encoding="utf-8")
     assert first_run == second_run, "两次运行结果不一致，脚本非幂等"
 
 
-def test_group_count_equals_legacy_plus_new_groups():
-    """总组数 = 旧 19 组（全部保留）+ 草稿 97 新组 = 116。"""
+def test_group_count_retains_bootstrap_and_requires_evidence_for_later_groups():
+    """历史组数保留；核实后新组必须有来源，不能由旧生成器计数锁死。"""
     data = load_v2()
     with LEGACY_FILE.open(encoding="utf-8") as f:
         legacy = json.load(f)
@@ -56,10 +57,9 @@ def test_group_count_equals_legacy_plus_new_groups():
     expected_new = len(draft["new_groups"])       # 97
     expected_total = expected_legacy + expected_new  # 116
 
-    actual = len(data["groups"])
-    assert actual == expected_total, (
-        f"总组数应为 {expected_total}（旧{expected_legacy}+新{expected_new}），实际={actual}"
-    )
+    reviewed = [g for g in data["groups"] if g.get("provenance") == "web_verified_2026-09-17"]
+    assert len(data["groups"]) == expected_total + len(reviewed)
+    assert all(g.get("verification") and g.get("sources") for g in reviewed)
 
 
 def test_no_duplicate_canonical_names():
@@ -161,10 +161,50 @@ def test_all_additions_merged():
         for sub in add.get("subsidiaries", []):
             if (canonical, sub["name_cn"]) in dropped:
                 continue
+            if canonical == "阿特斯阳光电力集团股份有限公司" and sub["name_cn"] == "Recurrent Energy, LLC":
+                assert any(d.get("fact") == "removed_false_alias_and_CSI_Solar_parent_link"
+                           and d.get("source", "").startswith("https://www.sec.gov/")
+                           for d in target.get("identity_evidence", []))
+                registry = json.loads((SUPPORTING_DOCS.parent / "developer_registry.json").read_text(encoding="utf-8"))
+                recurrent = next(c for c in registry["companies"] if c["canonical_cn"] == "Recurrent Energy")
+                assert recurrent["identity_status"] == "confirmed"
+                canadian = groups_map["Canadian Solar Inc."]
+                assert any(s["name_cn"] == sub["name_cn"] for s in canadian["subsidiaries"])
+                assert recurrent["entity_id"] is None
+                continue
             assert sub["name_cn"] in target_sub_names, (
                 f"addition 子公司 {sub['name_cn']!r} 未并入 {canonical!r}"
             )
         for alias in add.get("aliases", []):
+            if canonical == "阿特斯阳光电力集团股份有限公司" and alias == "Recurrent Energy":
+                assert any(d.get("fact") == "removed_false_alias_and_CSI_Solar_parent_link"
+                           and d.get("source", "").startswith("https://www.sec.gov/")
+                           for d in target.get("identity_evidence", []))
+                assert alias not in target_aliases
+                continue
+            if canonical == "中国长江三峡集团有限公司" and alias == "中水对外":
+                # The historical bootstrap is superseded by an evidenced 2023 handover.
+                decisions = target.get("identity_evidence", [])
+                assert any(d.get("fact") == "historical_group_link_ended"
+                           and d.get("source", "").startswith("https://www.ctg.com.cn/")
+                           for d in decisions)
+                cccc = groups_map["中国交通建设集团有限公司"]
+                matches = [s for s in cccc["subsidiaries"]
+                           if alias in s.get("aliases", [])]
+                assert len(matches) == 1
+                assert matches[0]["legal_full_name_cn"] == "中国水利电力对外有限公司"
+                assert matches[0]["parent_entity_id"] == cccc["entity_id"]
+                assert matches[0].get("identity_evidence")
+                continue
+            if alias not in target_aliases:
+                moved = [s for s in target.get("subsidiaries", [])
+                         if alias in s.get("aliases", []) or alias == s.get("legal_full_name_cn")]
+                if moved:
+                    assert len(moved) == 1
+                    assert moved[0].get("legal_full_name_cn")
+                    assert moved[0].get("entity_id") != target.get("entity_id")
+                    assert moved[0].get("identity_evidence") or moved[0].get("verification", {}).get("sources"), "Alias-to-child correction requires source evidence"
+                    continue
             assert alias in target_aliases, (
                 f"addition 别名 {alias!r} 未并入 {canonical!r}"
             )
