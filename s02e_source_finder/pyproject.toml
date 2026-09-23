@@ -1,0 +1,23 @@
+[project]
+name = "s02e-source-finder"
+version = "0.1.0"
+description = "Evidence-based external references and bounded thirty-event calibration"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "pydantic>=2.11,<3",
+    "requests>=2.32,<3",
+    "beautifulsoup4>=4.12,<5",
+    "pypdf>=5,<7",
+    "python-dotenv>=1,<2",
+    "pandas>=2,<3",
+]
+
+[project.scripts]
+source-finder-sample = "s02e_source_finder.sample:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/s02e_source_finder"]
