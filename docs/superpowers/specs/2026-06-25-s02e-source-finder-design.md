@@ -1,5 +1,7 @@
 # s02e_source_finder 设计方案（中文外链 + 交叉验证）
 
+> 历史设计：2026-09-06 已由用户确认的新流程替代（旧链全部核验、独立验证存储、只读主库、可信媒体可用）。不按本文直接回填链接或跳过非空旧链。当前实现与阶段门槛见 [s02e 状态](../../status/s02e.md) 及 [模块 README](../../../s02e_source_finder/README.md)。下文保留历史原文。
+>
 > 日期：2026-06-25
 > 状态：设计已定（经 grill-me 逐条确认；含 baseline 简化修订），待写实施计划
 > 关联：取代 `s02c_cross_verification`（保留弃用）；复用 `external-tools/external-link-adder/fill_links.py` 的搜索/判定原语

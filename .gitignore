@@ -82,3 +82,10 @@ s04_web_visualization/frontend/dist/
 s04_web_visualization/backend/.venv/
 # SDD 执行台账（本地 scratch，不入库）
 .superpowers/
+
+# Local worktree snapshots and reproducible run artifacts (kept on disk)
+.codex/worktrees/
+.db-recovery-*/
+/output/
+/tmp/
+/scripts/oneoff/logs/

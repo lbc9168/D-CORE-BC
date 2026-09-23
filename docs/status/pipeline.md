@@ -1,13 +1,21 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-08-16（中方实体模糊写库退役，2B 改为默认关闭的只读建议）
+> 最后更新：2026-09-23（纠错恢复在生产副本实施；生产与公开文件未再次修改）
+
+2026-09-23召回恢复代码采用显式全文语义判断，将企业参与、中企判断与规范身份匹配分开；名录未命中、角色Unknown、容量为空不阻止已接受关系流转。S01B写库、S02A、S02B回填及S03/前端过滤已同步。固定14篇正例由旧基线1/14恢复至最新结果14/14（17目标观察、去重后16物理项目）；5篇预留样本首轮2/3正例成功，修复可选null解析后3/3。累计274请求，25篇、单篇单轮最多11次，重复运行零请求。当时历史副本匹配1/2；现已依据本地原文裁决阿曼旧业主字段错误，在纠错副本复用原ID。逐篇与字段限制见`output/pipeline-recall-restoration-20260923-123237/report.md`。上述为召回诊断结果；另批8篇已受控写入生产（4新项目/5事件/7关系），缓存和公开导出未更新，正常增量不会自动修复历史pending。
+
+当前8篇真实运行40请求（39成功/1 SSL失败）后，已进一步获批并完成生产精确写入：4新canonical/5事件/7关系及源/复核/协调状态。应用入口`scripts/oneoff/apply_production_pilot_20260923.py`先在四库副本验证DDL/行/sequence回滚、准确增量和重复already_applied；备份后同一attached事务生产提交，旧行与ID不变。7条复核源指针已映射，3个数值按旧TEXT列规范化并同步协调snapshot；这一步0外部调用。生产的Sarimay协调、肯尼亚status_challenge、茂物旧排除尚未改变；对应纠错在独立生产副本完成，公开文件/缓存和metadata未变。事实与备份：`output/production-pilot-commit-20260923-161131-v2/report.md`。公开更新/历史排除恢复/部署不在本次执行内。
 
 ---
 
 ## 职责
 
 `pipeline/` 用一条命令把各阶段子项目串成完整流水线（纯 Python 顺序编排，无 crewAI）。
-阶段之间靠 SQLite 文件接力（不依赖内存状态），可按需跳过任意阶段。s01b 内部实体处理采用“S4 逐字抄原文名 → 写库前 entity_normalize 确定性查表解析（company_hierarchy_v2.json）”两步，是中方实体正式归类的唯一入口；s02b 不再二次模糊改写该结果。
+阶段之间靠 SQLite 文件接力（不依赖内存状态），可按需跳过任意阶段。s01b 内部实体处理采用“S4 逐字抄原文名 → 写库前 entity_normalize 确定性查表解析（company_hierarchy_v2.json）”两步，只负责规范身份补充；模型支持但名录未命中的参与关系保留原文名及空ID；s02b 不再二次模糊改写该结果。参与资格由S4/S34显式语义证据判断，不由查表命中决定。
+
+2026-09-17 企业身份修复及受控名录召回已接入根目录 main 工作区。S1 名称线索只用于继续提取，S4/S34 仍核验目标项目参与。普通增量按已处理URL去重，不会自动重算历史无中企/待核实记录；补录刷新与历史定向试跑见 [s01b.md](s01b.md)。本地13个历史误排除项目已恢复并重导出，试跑发现的其他待核实结果仍保持隔离。
+
+企业修复验证入口 `scripts/oneoff/entity_recovery_validation.py` 只在新建output目录执行固定回放/最多10篇真实调用及S01B写库→S02A合并，保存源库不变性和重复全行不变证据。扩大运行以批次可完成、技术失败可恢复、错误不冒充排除及写库可核验为门槛；个别语义待复核不阻塞其他记录。历史更正须有备份和明确旧新ID映射；不得删除旧review判断或清空import标志绕过去重。该验证只涉及隔离结果；当前生产另有8篇已审增量，公开导出仍为原快照。验证结果见 `output/entity-recovery-20260923/`。
 
 ---
 
@@ -20,7 +28,9 @@
 ```
 阶段一A 新闻采集    ← cfg.skip_s01a=True 时跳过（→ s01a.run_single）
    ↓
-阶段一B AI 提取     ← 始终执行（→ s01b.run_bulk_extract，仅传 raw_news_db_path）
+阶段一B AI 提取     ← 始终执行（→ s01b.run_bulk_extract，透传raw/projects/review及可选raw_ids）
+   ↓
+阶段一B-2 企业待补录清单 ← cfg.run_entity_intake=True（默认）；只读导出、不自动更新名录
    ↓
 阶段二A 去重合并入库 ← 始终执行（→ 直调 DuplicateMergerTool()._run(input_db, db_path)，绝对路径）
    ↓
@@ -47,6 +57,19 @@
 
 > 「串某几段」= 构造对应的 `PipelineConfig` 再调 `run_pipeline(cfg)`；「单独跑某段」进对应子项目 `uv run sNN_xxx`。
 
+### 批次结果与恢复
+
+- S01B返回结构化`completed/partial`、文章ID/URL、失败清单、输出路径及唯一JSON报告；技术失败不写业务排除表。成功URL保持去重，重跑只补失败文章；`raw_ids`可精确限定范围，`max_extract_workers`控制文章并发，跨批次串行写共享库。
+- 上游库/关键表与路径在阶段边界校验，不能用错误路径或空建库冒充产物。备份或写库失败立即停止，已有工作可保留续跑。合法无命中/零可发布记录正常退出。
+- S02A明确完成结果与计数；去重确认或冲突仲裁调用失败不当作“不同项目”，不继续标记已导入。默认按代码/模型版本保存批内确认缓存，续跑复用已成功判断。`partial_overlap`等未决身份保存在提取库协调队列，实际跳过业务写入，源行保持未导入且正常重跑不再挑选；同批正常项目继续。主库写入、协调任务及源导入标记使用同一双库事务。S02A业务partial不会中断S02B/S03，但pipeline总体保持partial；协调定向恢复见[s02a.md](s02a.md)。
+- 可选摘要失败使用结构化事实降级，不重做核心提取。字段警告、技术失败和业务排除分开；省份/翻译/Excel等非关键步骤失败可继续，但总体为partial并保存诊断。
+- 配置`run_export=True`时S03使用本轮`db_path`。非默认主库必须明确`export_dir`及`export_web_dir`，省份缓存可指定`export_cache_path`；`export_allow_model_calls=False`允许离线导出。旧S02C入口尚未参数化，自定义主库开启它会明确拒绝。
+- 增量日期默认读取`metadata.last_updated`次日，截止默认今天；日志区分请求区间与尚未证实的覆盖范围，不用“程序返回”冒充逐日完整抓取。
+
+### 定向历史处理
+
+先用`run_bulk_extract(raw_ids=[...], raw_news_db_path=..., projects_db_path=隔离新库, review_db_path=隔离复核库)`重提取，再在同一隔离路径运行S02A；失败后使用相同目录/ID范围续跑，成功URL不重复调用。正式更正由`python -m bri_pipeline.historical_reprocess plan/apply`处理，详见[s02a.md](s02a.md)。不能把隔离新ID直接覆盖生产ID。
+
 ### 支持路径
 
 ```
@@ -59,6 +82,7 @@
 | 参数 | 类型 | 默认 | 说明 |
 |------|------|------|------|
 | `skip_s01a` | bool | False | 跳过爬虫（用已有 raw_news.db，即路径二） |
+| `run_entity_intake` | bool | True | S01B后读取input_db，按候选企业汇总原文证据与受影响行，输出同级reports/entity_intake_时间戳.json |
 | `run_entity_suggestions` | bool | False | 是否只读导出中方实体疑似别名审核 CSV |
 | `run_entity_normalize` | bool | False | 旧配置名兼容位；True 也只生成建议，不再写库 |
 | `run_location_normalize` | bool | True | 是否执行地点归一化（写 location_norm） |
@@ -70,9 +94,9 @@
 | `run_energy_taxonomy_shadow` | bool | True | 是否执行版本化影子分类并生成内部差异报告 |
 | `run_cross_verification` | bool | False | 是否执行 s02c 交叉验证（预留） |
 | `run_export` | bool | False | 是否执行 s03 导出（预留） |
-| `start_date` / `end_date` | str | 见代码 | s01a 爬取日期范围 |
+| `start_date` / `end_date` | str/None | metadata次日 / 本地今天 | 显式指定时保留；无新增日期不抓取，仍可继续待处理数据 |
 | `raw_news_db_path` | str | s01a/data/raw_news.db | s01a 输出 / s01b 输入 |
-| `input_db` | str | s01b/data/projects.db | s02a 输入 |
+| `input_db` | str/None | None | 旧配置别名；与projects_db_path必须一致，不能从另一库接力 |
 | `db_path` | str | s02a/data/db/bri_re_database.db | s02a 输出（主库），同时作 s02b 入参 |
 
 ---

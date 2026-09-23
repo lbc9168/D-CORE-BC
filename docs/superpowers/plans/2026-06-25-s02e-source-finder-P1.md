@@ -1,5 +1,7 @@
 # s02e_source_finder P1（中文外链）实施计划
 
+> 历史计划，已由 2026-09-06 用户确认的新流程替代，不继续执行本文的直接写主库方案。当前为真实单项目产品验收阶段，见 [s02e 状态](../../status/s02e.md) 与 [模块 README](../../../s02e_source_finder/README.md)。下文仅保留历史依据。
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** 新建可选子项目 `s02e_source_finder`，按事件给"网站可见 + 当前无链接"的项目事件用 Serper(中文)+Gemini 找一个中文参考源、写进 `project_events` 的链接字段；并让 s03/s04 按事件展示这些链接。
