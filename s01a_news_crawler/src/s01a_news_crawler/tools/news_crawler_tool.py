@@ -113,6 +113,8 @@ class NewsCrawlerInput(BaseModel):
         default=_DEFAULT_RAW_NEWS_DB,
         description="原始新闻备案数据库路径（SQLite，跨批次持久化，URL 唯一去重）",
     )
+    stop_on_existing: bool = True
+    reuse_news_db_path: str | None = None
 
 
 class NewsCrawlerTool:
@@ -217,10 +219,18 @@ class NewsCrawlerTool:
         output_dir: str = "data/raw",
         raw_news_db_path: str = _DEFAULT_RAW_NEWS_DB,
         save_excel: bool = True,
+        stop_on_existing: bool = True,
+        reuse_news_db_path: str | None = None,
     ) -> str:
         start_dt = datetime.strptime(start_date, "%Y-%m-%d")
         end_dt = datetime.strptime(end_date, "%Y-%m-%d")
         keyword_list = [k.strip() for k in keywords.split(",") if k.strip()]
+        reuse_db = None
+        if reuse_news_db_path:
+            reuse_path = Path(reuse_news_db_path).resolve(strict=True)
+            reuse_db = sqlite3.connect(reuse_path.as_uri() + "?mode=ro", uri=True)
+            # A malformed cache is an input error, never permission to silently refetch it.
+            reuse_db.execute("SELECT url,title,author,publish_date,content FROM raw_news LIMIT 0")
 
         os.makedirs(output_dir, exist_ok=True)
 
@@ -311,7 +321,28 @@ class NewsCrawlerTool:
 
                     print(f"  [读取中] {title_tag.get_text(strip=True)[:40]} ({item_date.date()})")
 
-                    d_title, d_author, d_time, d_content = self._get_article_details(link)
+                    # 重叠日期核验需继续越过旧 URL；成功全文直接复用，避免再次下载。
+                    existing = raw_db.execute(
+                        "SELECT content, publish_date FROM raw_news WHERE url = ?", (link,)
+                    ).fetchone()
+                    if existing and existing[0] and existing[0] != "NA":
+                        consecutive_dup_count += 1
+                        if existing[1] and existing[1] != "NA":
+                            last_valid_date = existing[1]
+                        print(f"  [复用] {link}")
+                        if stop_on_existing and saved_page is None and consecutive_dup_count >= CONSECUTIVE_DUP_MAX:
+                            stop_crawling = True
+                            break
+                        continue
+
+                    cached = reuse_db.execute(
+                        "SELECT title,author,publish_date,content FROM raw_news WHERE url=?", (link,)
+                    ).fetchone() if reuse_db else None
+                    if cached and cached[3] and cached[3] != "NA":
+                        d_title, d_author, d_time, d_content = cached
+                        print(f"  [复用全文缓存] {link}")
+                    else:
+                        d_title, d_author, d_time, d_content = self._get_article_details(link)
 
                     if not d_content or d_content == "NA":
                         raise RuntimeError(f"详情页正文为空，保留断点待重试: {link}")
@@ -348,7 +379,7 @@ class NewsCrawlerTool:
                                 f"  [已存在] {link[:60]}... "
                                 f"(连续第{consecutive_dup_count}条)"
                             )
-                            if saved_page is None and consecutive_dup_count >= CONSECUTIVE_DUP_MAX:
+                            if stop_on_existing and saved_page is None and consecutive_dup_count >= CONSECUTIVE_DUP_MAX:
                                 print(
                                     f">>> 连续 {CONSECUTIVE_DUP_MAX} 条已在数据库中，"
                                     "停止任务。"
@@ -385,6 +416,8 @@ class NewsCrawlerTool:
 
         finally:
             raw_db.close()
+            if reuse_db is not None:
+                reuse_db.close()
 
         if not all_data:
             return "未抓取到符合条件的新闻。请检查 URL、日期范围和关键词设置。"

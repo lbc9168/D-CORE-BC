@@ -53,6 +53,7 @@ class Page(StrictModel):
     http_status: int | None = None
     title: str = ""
     site_name: str = ""
+    identity_text: str = ""  # Visible masthead/footer identity, separate from article facts.
     publish_date: str | None = None
     text: str = ""
     text_hash: str = ""
@@ -90,7 +91,7 @@ def validate_evidence(verdict: Judgement, page: Page) -> list[str]:
         errors.append("identity_language_or_conflict")
     if verdict.source_type == "unknown" or not verdict.publisher.strip():
         errors.append("publisher_unconfirmed")
-    visible_text = "\n".join([page.title, page.site_name, page.text] + [item.evidence for item in page.source_statements])
+    visible_text = "\n".join([page.title, page.site_name, page.identity_text, page.text] + [item.evidence for item in page.source_statements])
     if not verdict.publisher_evidence.strip() or verdict.publisher_evidence not in visible_text:
         errors.append("publisher_evidence_not_located")
     # HTML inline elements can insert layout whitespace inside otherwise exact quotations.

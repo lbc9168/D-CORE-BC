@@ -14,7 +14,7 @@ from s02e_source_finder.targets import SEEN_EVENT, SPLITS, TargetConfig, _assign
 
 class LiveBaselineTests(unittest.TestCase):
     def test_live_projection_uses_s03_dual_baseline_and_deduplicates_entities(self):
-        """TX planning survives its own baseline; hidden/excluded/old main rows do not."""
+        """TX planning survives; missing-capacity generation belongs to the separate pool."""
         with tempfile.TemporaryDirectory(dir=MODULE / "data") as directory:
             folder = Path(directory)
             main = folder / "main.db"
@@ -42,9 +42,9 @@ class LiveBaselineTests(unittest.TestCase):
                 conn.execute("INSERT INTO project_events VALUES (?,?,?,?,?,?,?,?)", ("A-PV-00", "A-PV", "签约", "2021-01-01", 100, "[]", "[]", "[]"))
             before = file_hash(main)
             rows, metadata = build_live_targets(main, folder)
-            self.assertEqual({t["event_id"] for t in rows}, {"A-PV-01", "D-PV-01", "E-TX-01", "F-MF-01"})
+            self.assertEqual({t["event_id"] for t in rows}, {"A-PV-01", "E-TX-01", "F-MF-01"})
             self.assertEqual({t["domain"] for t in rows}, {"main", "TX", "MF"})
-            self.assertEqual(metadata["projection_counts"]["event_entity_rows"], 5)
+            self.assertEqual(metadata["projection_counts"]["event_entity_rows"], 4)
             self.assertEqual(file_hash(main), before)
 
 

@@ -55,6 +55,9 @@ class LoopInputs(StrictModel):
     max_search_calls: int = Field(default=10, ge=0, le=10)
     max_model_calls: int = Field(default=24, ge=0, le=24)
     max_new_candidates_per_event: int = Field(default=4, ge=1, le=4)
+    extraction_provider: str = Field(default="deepseek", pattern=r"^(deepseek|gemini|openai)$")
+    extraction_model: str | None = None
+    reasoning_effort: str | None = Field(default=None, pattern=r"^(none|low|medium|high|xhigh|max)$")
 
     @model_validator(mode="after")
     def bound_targets(self):
@@ -111,26 +114,29 @@ def service_blocked(error: object) -> bool:
 def evaluate_page(inputs: LoopInputs, registry: PublisherRegistry, seed: SeedPage, store: PilotStore, key: str) -> dict:
     """Reuse exact prior extraction when possible and avoid paid validation of unverified sources."""
     context, card, page = inputs.contexts[seed.event_id], inputs.cards[seed.event_id], seed.page
+    options = {key: value for key, value in {"model": inputs.extraction_model, "reasoning_effort": inputs.reasoning_effort}.items() if value is not None}
+    spec = structured_client.request_spec(model_payload(context, page), inputs.extraction_provider, **options)
+    request_sha = digest(spec)
     case_id = digest([seed.event_id, page.final_url, page.text_hash, page.source_statements])[:20] if not page.source_statements else digest([seed.event_id, page.model_dump()])[:20]
     previous = store.conn.execute("SELECT status,result_json FROM attempts WHERE run_key=? AND case_id=?", (key, case_id)).fetchone()
     if previous:
         prior = json.loads(previous["result_json"]) if previous["result_json"] else {"case_id": case_id, "event_id": seed.event_id, "decision": "pending", "processing_status": "pending", "reason_codes": ["reserved_attempt_unresolved"], "url": page.final_url, "title": page.title}
+        if previous["result_json"] and prior.get("request_identity") != request_sha:
+            raise ValueError("same_run_request_identity_changed_or_unverified")
         if any(service_blocked(code) for code in prior.get("reason_codes", [])):
             store.validation_blocked = True
         return prior
     source = verify_publisher(page, registry)
     fingerprint = prompt_hash(context, page)
     reusable = inputs.reusable_extractions.get(fingerprint)
-    request_sha = digest(structured_client.request_spec(model_payload(context, page), "deepseek"))
+    if reusable:
+        call = reusable.get("call", {})
+        # Old explicit reusable files were DeepSeek-only. They can never become Luna observations.
+        legacy_deepseek = inputs.extraction_provider == "deepseek" and not options and not call.get("provider")
+        exact = call.get("request_sha256") == request_sha
+        if not exact and not (legacy_deepseek and call.get("prompt_sha256") == fingerprint):
+            reusable = None
     cached = store.cached_request(request_sha) if not reusable else None
-    if cached is None and not reusable:
-        # Rule/schema changes can rejudge already extracted facts without buying new facts.
-        # Bind legacy responses to the exact target and page, not a broad prompt substring.
-        for old in store.conn.execute("SELECT run_key,result_json FROM attempts WHERE case_id=? AND result_json IS NOT NULL ORDER BY rowid DESC", (case_id,)):
-            candidate = json.loads(old["result_json"])
-            if candidate.get("context_fingerprint") == context.fingerprint() and candidate.get("page") == page.model_dump() and (candidate.get("extraction") or candidate.get("extraction_failed")):
-                cached = candidate | {"parent_run": old["run_key"]}
-                break
     if cached and any(service_blocked(code) for code in cached.get("reason_codes", [])):
         store.validation_blocked = True
     called = not page.problem and not reusable and cached is None and not source["problem"] and not getattr(store, "validation_blocked", False)
@@ -143,7 +149,7 @@ def evaluate_page(inputs: LoopInputs, registry: PublisherRegistry, seed: SeedPag
         called, deferred = False, "model_budget_exhausted"
         store.reserve(key, case_id, requested=False)
     result = {"case_id": case_id, "event_id": seed.event_id, "project_id": context.project_id, "url": page.final_url, "title": page.title, "origin": seed.origin, "page": page.model_dump(),
-              "decision": "pending", "reason_codes": [], "source": source, "model_called": called, "context_fingerprint": context.fingerprint(), "source_registry_checked": True}
+              "decision": "pending", "reason_codes": [], "source": source, "model_called": called, "context_fingerprint": context.fingerprint(), "source_registry_checked": True, "request_identity": request_sha}
     if page.problem:
         permanent = page.problem in {"not_chinese", "http_404", "http_410", "goalfore_not_external", "unsafe_url", "redirect_to_homepage"}
         result.update(decision="rejected" if permanent else "pending", reason_codes=[page.problem])
@@ -164,7 +170,7 @@ def evaluate_page(inputs: LoopInputs, registry: PublisherRegistry, seed: SeedPag
                 extraction = Extraction.model_validate(cached["extraction"])
                 result.update(call=cached.get("call", {}), reused_request=True, reused_from_run=cached.get("parent_run"))
             else:
-                extraction, call = extract(model_payload(context, page), "deepseek")
+                extraction, call = extract(model_payload(context, page), inputs.extraction_provider, **options)
                 result["call"] = call
             result["extraction"] = extraction.model_dump()
             result.update(decide(context, card, page, extraction, registry))
@@ -194,9 +200,11 @@ def project_reference(context: EventContext, row: dict, registry: PublisherRegis
     """Project independently verified results into the existing public reference metadata contract."""
     if row["decision"] not in ACCEPTED:
         return None
+    if row.get("extraction", {}).get("language", "zh") != "zh":
+        return None
     page = Page.model_validate(row["page"])
     source = row["source"]
-    visible = "\n".join([page.title, page.site_name, page.text] + [item.evidence for item in page.source_statements])
+    visible = "\n".join([page.title, page.site_name, page.identity_text, page.text] + [item.evidence for item in page.source_statements])
     proofs = source["evidence"] + [name for record in registry.records for name in [record.name] + record.aliases if record.name == source["publisher"]]
     publisher_evidence = next((quote for quote in proofs if quote and quote in visible), None)
     if not publisher_evidence:
@@ -242,7 +250,7 @@ def run(inputs_path: Path, registry_path: Path, *, execute: bool = False) -> dic
     try:
         with closing(PilotStore(inputs_path.parent / "loop.sqlite")) as store:
             store.begin(search_key, snapshot["input_sha256"], snapshot["registry_sha256"], "gemini_google_search", inputs.max_search_calls)
-            store.begin(model_key, snapshot["input_sha256"], snapshot["registry_sha256"], "deepseek", inputs.max_model_calls)
+            store.begin(model_key, snapshot["input_sha256"], snapshot["registry_sha256"], inputs.extraction_provider, inputs.max_model_calls)
             for event_id, context in inputs.contexts.items():
                 rows = []
                 for seed in [item for item in inputs.seeds if item.event_id == event_id]:

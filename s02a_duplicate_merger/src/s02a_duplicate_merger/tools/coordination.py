@@ -41,10 +41,30 @@ def held_ids(conn):
     return {r[0] for r in conn.execute("SELECT source_id FROM s02a_coordination_sources")}
 
 
-def pending_count(path):
+def validate_source_urls(source_urls):
+    """None retains the legacy scope; an explicit empty selection means no rows."""
+    if source_urls is None:
+        return None
+    if not isinstance(source_urls, list) or any(not isinstance(url, str) or not url.strip() for url in source_urls):
+        raise ValueError("source_urls must be a list of non-empty strings")
+    return sorted(set(source_urls))
+
+
+def pending_count(path, source_urls=None):
+    source_urls = validate_source_urls(source_urls)
+    if source_urls == []:
+        return 0
     with closing(sqlite3.connect(Path(path).resolve().as_uri() + "?mode=ro", uri=True)) as conn:
         if not conn.execute("SELECT 1 FROM sqlite_master WHERE name='s02a_coordination'").fetchone():
             return 0
+        if source_urls is not None:
+            placeholders = ",".join("?" for _ in source_urls)
+            return conn.execute(
+                "SELECT COUNT(DISTINCT q.task_id) FROM s02a_coordination q "
+                "JOIN s02a_coordination_sources s ON s.task_id=q.task_id "
+                "JOIN extracted_projects p ON p.id=s.source_id "
+                f"WHERE q.status='pending' AND p.source_link IN ({placeholders})", source_urls
+            ).fetchone()[0]
         return conn.execute("SELECT COUNT(*) FROM s02a_coordination WHERE status='pending'").fetchone()[0]
 
 

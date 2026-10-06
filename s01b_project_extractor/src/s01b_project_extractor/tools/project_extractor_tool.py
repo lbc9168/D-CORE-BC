@@ -1,5 +1,6 @@
 import concurrent.futures
 import json
+import hashlib
 import logging
 import os
 import re
@@ -7,6 +8,7 @@ import sqlite3
 import sys
 import threading
 import time
+from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
 import pandas as pd
@@ -27,6 +29,7 @@ from s01b_project_extractor.guardrails.nonenergy_check import (
     check_nonenergy, DETERMINISTIC_GUARD_SOURCE,
 )
 from s01b_project_extractor.capacity_parser import parse_capacity_mw
+from s01b_project_extractor.backups import backup_databases
 from s01b_project_extractor.guardrails.developer_check import clean_developer
 from s01b_project_extractor.prompts.policy_fragments import ENTITY_POLICY_VERSION
 from s01b_project_extractor.tools.field_validation import extraction_field_state
@@ -802,6 +805,42 @@ def extract_one(title: str, content: str, date: str, *, client, model: str = "ge
     return extract_staged(title, content, date, llm=router)
 
 
+def _load_recorded_results(path: str | None) -> dict[str, dict]:
+    """Validate recorded extraction output; source fingerprints replace old row IDs."""
+    if path is None:
+        return {}
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    if not isinstance(payload, dict) or payload.get("version") != "s01b-recorded-results-v1" or not isinstance(payload.get("articles"), list):
+        raise ValueError("Invalid s01b-recorded-results-v1 cache")
+    recorded = {}
+    for item in payload["articles"]:
+        if not isinstance(item, dict) or set(item) != {"source", "result"}:
+            raise ValueError("Recorded article must contain source and result without database IDs")
+        source, result = item["source"], item["result"]
+        if not isinstance(source, dict) or set(source) != {"url", "title", "publish_date", "content_sha256"} or any(not isinstance(value, str) for value in source.values()):
+            raise ValueError("Invalid recorded article source")
+        if not source["url"].strip() or not source["title"].strip() or not re.fullmatch(r"[0-9a-f]{64}", source["content_sha256"]):
+            raise ValueError("Recorded source requires URL, title and content SHA256")
+        try:
+            if not re.match(r"^\d{4}-\d{2}-\d{2}(?:$|[T ])", source["publish_date"]):
+                raise ValueError("Non-ISO publication date")
+            datetime.fromisoformat(source["publish_date"])
+        except ValueError as exc:
+            raise ValueError("Recorded source publish_date must be an ISO date or datetime") from exc
+        if source["url"] in recorded:
+            raise ValueError(f"Duplicate recorded source URL: {source['url']}")
+        if not isinstance(result, dict) or set(result) != {"status", "analysis", "projects"} or not isinstance(result["status"], str) or result["status"] not in {"valid_project", "chinese_unnamed", "no_chinese_participation", "irrelevant"}:
+            raise ValueError("Invalid recorded extraction result status or fields")
+        if not isinstance(result["analysis"], dict) or not isinstance(result["projects"], list) or any(not isinstance(project, dict) for project in result["projects"]):
+            raise ValueError("Recorded analysis/projects have invalid types")
+        if result["status"] in {"valid_project", "chinese_unnamed"} and not result["projects"]:
+            raise ValueError("Recorded project result must contain projects")
+        if any(set(project) & {"id", "canonical_id", "event_id", "extracted_project_id", "imported_to_s02a"} for project in result["projects"]):
+            raise ValueError("Recorded projects must not contain old database IDs")
+        recorded[source["url"]] = item
+    return recorded
+
+
 # ── Input Schema ──────────────────────────────────────────────────────────────
 
 class ProjectExtractorInput(BaseModel):
@@ -842,8 +881,10 @@ class ProjectExtractorTool:
         raw_ids: list[int] | None = None,
         max_workers: int = 4,
         backup_existing: bool = True,
+        cached_results_path: str | None = None,
     ) -> str:
         """从 raw_news.db 读取新闻，调用 AI 提取项目信息并写入数据库。"""
+        _load_recorded_results(cached_results_path)
         api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise RuntimeError("未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。")
@@ -871,7 +912,7 @@ class ProjectExtractorTool:
             raise RuntimeError(f"读取 raw_news.db 失败: {raw_news_db_path}: {e}") from e
 
         if not rows:
-            self.last_result = {"status": "completed", "batch_id": batch_id, "failed_urls": [], "input_articles": 0, "skipped_articles": 0}
+            self.last_result = {"status": "completed", "batch_id": batch_id, "failed_urls": [], "input_articles": 0, "skipped_articles": 0, "reused_cached_articles": 0}
             return f"raw_news.db 中无关键词匹配记录（batch_id={batch_id or '全部'}），跳过。"
 
         df = pd.DataFrame(rows, columns=["原文链接", "文章标题", "正文内容", "发布日期"])
@@ -879,7 +920,8 @@ class ProjectExtractorTool:
         effective_batch_id = batch_id or f"all_{ts}"
         return self._process_df(df, effective_batch_id, ts, client,
                                 country_db, projects_db_path, review_db_path,
-                                max_workers=max_workers, backup_existing=backup_existing)
+                                max_workers=max_workers, backup_existing=backup_existing,
+                                cached_results_path=cached_results_path)
 
     def _run_from_db(
         self,
@@ -891,6 +933,7 @@ class ProjectExtractorTool:
         raw_ids: list[int] | None = None,
         max_workers: int = 4,
         backup_existing: bool = True,
+        cached_results_path: str | None = None,
     ) -> str:
         """从 raw_news.db 按 batch_id 读取，供 run_bulk_extract 直接调用。"""
         return self._run(
@@ -900,6 +943,7 @@ class ProjectExtractorTool:
             review_db_path=review_db_path,
             country_db_path=country_db_path,
             raw_ids=raw_ids, max_workers=max_workers, backup_existing=backup_existing,
+            cached_results_path=cached_results_path,
         )
 
     # ── 核心处理逻辑 ────────────────────────────────────────────────────────
@@ -915,20 +959,16 @@ class ProjectExtractorTool:
         review_db_path: str,
         max_workers: int = 4,
         backup_existing: bool = True,
+        cached_results_path: str | None = None,
     ) -> str:
         """处理一个 DataFrame，执行 AI 提取并写入数据库。"""
+        recorded_results = _load_recorded_results(cached_results_path)
         # 备份必须先于 _init_* 的 schema 迁移；备份失败不得继续写库。
-        for db_path in ((projects_db_path, review_db_path) if backup_existing else ()):
-            source = Path(db_path).resolve()
-            if source.exists():
-                backup = source.with_name(source.name + datetime.now().strftime(".bak.%Y%m%d_%H%M%S_%f"))
-                try:
-                    with sqlite3.connect(source.as_uri() + "?mode=ro", uri=True) as src:
-                        with sqlite3.connect(str(backup)) as dest:
-                            src.backup(dest)
-                    logger.info("提取前备份 %s -> %s", source, backup)
-                except (OSError, sqlite3.Error) as exc:
-                    raise RuntimeError(f"提取前备份失败，已停止: {source}: {exc}") from exc
+        if backup_existing:
+            try:
+                backup_databases([projects_db_path, review_db_path])
+            except (OSError, sqlite3.Error, ValueError) as exc:
+                raise RuntimeError(f"提取前备份失败，已停止: {exc}") from exc
         # 加载已处理过的 URL（去重）
         already_processed: set[str] = set()
         try:
@@ -985,6 +1025,7 @@ class ProjectExtractorTool:
 
         _lock = threading.Lock()
         _skip_count = [0]  # 用列表包装以便在闭包中修改
+        _reused_count = [0]
         failed_articles: list[dict] = []
         _fail_count = [0]  # worker 隔离的单篇异常计数（Design 1：失败篇不落任何表，仅记日志，重跑自动重试）
 
@@ -1018,7 +1059,18 @@ class ProjectExtractorTool:
 
             print("--------------------------------")
             print(f"[{row_num}/{total}] AI处理中: {title[:25]}...")
-            result = extract_one(title, content, pub_date, client=client)
+            cached = recorded_results.get(orig_link)
+            if cached is not None:
+                source = cached["source"]
+                if source["title"] != title or source["publish_date"] != pub_date or source["content_sha256"] != hashlib.sha256(content.encode("utf-8")).hexdigest():
+                    raise ValueError(f"Recorded source fingerprint mismatch: {orig_link}; model fallback blocked")
+                result = deepcopy(cached["result"])
+                audit_result = deepcopy(result)
+                with _lock:
+                    _reused_count[0] += 1
+            else:
+                result = extract_one(title, content, pub_date, client=client)
+                audit_result = result
 
             analysis  = result.get("analysis", {})
             status    = result.get("status")
@@ -1395,7 +1447,7 @@ class ProjectExtractorTool:
                     local_unnamed_review.append(orig_link)
 
             with _lock:
-                all_ai_results.append({"index": row_num, "title": title, "result": result})
+                all_ai_results.append({"index": row_num, "title": title, "result": audit_result})
                 valid_rows.extend(local_valid)
                 no_chinese_rows.extend(local_no_chinese)
                 discarded_rows.extend(local_discarded)
@@ -1750,6 +1802,7 @@ class ProjectExtractorTool:
         self.last_result = {
             "status": "partial" if failed_articles else "completed", "batch_id": batch_id,
             "input_articles": total, "skipped_articles": _skip_count[0],
+            "reused_cached_articles": _reused_count[0],
             "failed_urls": [item["url"] for item in failed_articles], "failures": failed_articles,
             "valid_rows": len(valid_rows), "no_chinese_rows": len(no_chinese_rows),
             "discarded_rows": len(discarded_rows),

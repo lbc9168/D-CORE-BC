@@ -8,7 +8,8 @@ from pathlib import Path
 
 import pytest
 
-from s03_data_exporter.external_references import load_references
+from s03_data_exporter import external_references as reference_module
+from s03_data_exporter.external_references import load_references, resolve_reference_snapshot
 from s03_data_exporter.json_exporter import export_json
 
 
@@ -92,13 +93,16 @@ def test_mixed_batch_exports_three_tables_preserves_legacy_fields_and_database_b
     assert (_hash(source), _hash(exported)) == before
 
 
-def test_missing_sidecar_and_stale_export_identity_hide_only_references(tmp_path, databases):
+def test_missing_sidecar_fails_before_overwrite_and_stale_identity_hides_only_references(tmp_path, databases):
     source, exported = databases
     output = tmp_path / "missing"
-    result = export_json(exported, output, source, external_references=tmp_path / "absent.json")
-    assert result["reference_audit"][0]["reason"] == "reference_snapshot_unavailable"
-    for table in ("projects_flat", "tx_flat", "mf_flat"):
-        assert all(row["external_references"] == [] for row in json.loads((output / (table + ".json")).read_text(encoding="utf-8")))
+    sidecar = _write(tmp_path / "references.json", {"version": "external-references-v1", "candidates": [_candidate()]})
+    export_json(exported, output, source, external_references=sidecar)
+    before_files = {p.name: p.read_bytes() for p in output.glob("*.json")}
+    for missing in (tmp_path / "absent.json", _write(tmp_path / "invalid.json", {"version": "wrong"})):
+        with pytest.raises(ValueError, match="reference_snapshot_unavailable"):
+            export_json(exported, output, source, external_references=missing)
+        assert {p.name: p.read_bytes() for p in output.glob("*.json")} == before_files
     with sqlite3.connect(exported) as conn:
         conn.execute("UPDATE tx_flat SET project_name='changed in flat DB'")
     before = (_hash(source), _hash(exported))
@@ -108,6 +112,56 @@ def test_missing_sidecar_and_stale_export_identity_hide_only_references(tmp_path
     assert json.loads((tmp_path / "stale-flat/tx_flat.json").read_text(encoding="utf-8"))[0]["external_references"] == []
     assert len(json.loads((tmp_path / "stale-flat/mf_flat.json").read_text(encoding="utf-8"))[0]["external_references"]) == 1
     assert (_hash(source), _hash(exported)) == before
+
+
+def test_source_bound_pointer_defaults_override_and_language_guard(tmp_path, databases, monkeypatch):
+    source, exported = databases
+    english = _candidate(case="english") | {"evidence_language": "en", "private_evidence": "English body"}
+    chinese = _candidate(case="chinese") | {"evidence_language": "zh"}
+    sidecar = _write(tmp_path / "references.json", {"version": "external-references-v1",
+                                                        "candidates": [_candidate(), english, chinese]})
+    config = _write(tmp_path / "pointer.json", {"version": "external-reference-config-v1",
+                  "source_db": source.name, "snapshot": sidecar.name})
+    monkeypatch.setattr(reference_module, "DEFAULT_SOURCE_DB", source)
+    monkeypatch.setattr(reference_module, "DEFAULT_REFERENCE_CONFIG", config)
+    assert resolve_reference_snapshot(source) == sidecar
+    assert resolve_reference_snapshot(tmp_path / "isolated.db") is None
+    with pytest.raises(ValueError, match="source_mismatch"):
+        resolve_reference_snapshot(tmp_path / "isolated.db", reference_config=config)
+    with pytest.raises(ValueError, match="not both"):
+        resolve_reference_snapshot(source, sidecar, config)
+    assert resolve_reference_snapshot(source, sidecar) == sidecar
+    for output in (tmp_path / "first", tmp_path / "repeat"):
+        report = export_json(exported, output, source)
+        assert report["reference_summary"]["success"] == 2
+        assert report["reference_summary"]["reasons"]["reference_evidence_not_chinese"] == 1
+        public = (output / "projects_flat.json").read_text(encoding="utf-8")
+        assert "english" not in public and "English body" not in public
+        assert len(json.loads(public)[0]["external_references"]) == 2
+    assert {p.name: p.read_bytes() for p in (tmp_path / "first").glob("*.json")} == {p.name: p.read_bytes() for p in (tmp_path / "repeat").glob("*.json")}
+
+
+@pytest.mark.parametrize("failure", ["config_missing", "config_format", "snapshot_missing", "snapshot_format", "source_mismatch"])
+def test_configured_snapshot_failures_keep_existing_public_bytes(tmp_path, databases, failure):
+    source, exported = databases
+    snapshot = _write(tmp_path / "references.json", {"version": "external-references-v1", "candidates": [_candidate()]})
+    output = tmp_path / "public"
+    export_json(exported, output, source, external_references=snapshot)
+    before = {p.name: p.read_bytes() for p in output.glob("*.json")}
+    config = _write(tmp_path / "pointer.json", {"version": "external-reference-config-v1", "source_db": source.name, "snapshot": snapshot.name})
+    if failure == "config_missing":
+        config.unlink()
+    elif failure == "config_format":
+        _write(config, {"version": "wrong"})
+    elif failure == "snapshot_missing":
+        snapshot.unlink()
+    elif failure == "snapshot_format":
+        _write(snapshot, {"version": "wrong"})
+    else:
+        _write(config, {"version": "external-reference-config-v1", "source_db": "other.db", "snapshot": snapshot.name})
+    with pytest.raises(ValueError, match="reference_"):
+        export_json(exported, output, source, reference_config=config)
+    assert {p.name: p.read_bytes() for p in output.glob("*.json")} == before
 
 
 def test_s02e_review_handoff_runs_through_s03_without_api(tmp_path, databases, monkeypatch):

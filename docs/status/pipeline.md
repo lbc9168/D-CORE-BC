@@ -1,12 +1,14 @@
 # pipeline · 流水线编排与批量采集
 
-> 最后更新：2026-09-23（纠错恢复已获批生产回填；公开文件仍未更新）
+> 最后更新：2026-10-05（现有Workflow完成本地增量运行）
 
-生产回填正式回执：`output/correction-recovery-20260923/production-commit-20260923-authorized-v2/report.md`。四库完整快照匹配批准候选，故障回滚/重复零写入/157源URL映射/旧13项目不变通过；两条地点冲突源保持pending_review/import=0。新增外部调用0；网页metadata仍2026-09-15。
+正常范围更新使用原`run_pipeline(PipelineConfig(...))`；显式raw_ids只读映射URL并传同一范围给S02A，cached_results_path复用来源指纹匹配结果，经原writer/guard，不迁移隔离ID。
 
-2026-09-23召回恢复代码采用显式全文语义判断，将企业参与、中企判断与规范身份匹配分开；名录未命中、角色Unknown、容量为空不阻止已接受关系流转。S01B写库、S02A、S02B回填及S03/前端过滤已同步。固定14篇正例由旧基线1/14恢复至最新结果14/14（17目标观察、去重后16物理项目）；5篇预留样本首轮2/3正例成功，修复可选null解析后3/3。累计274请求，25篇、单篇单轮最多11次，重复运行零请求。当时历史副本匹配1/2；现已依据本地原文裁决阿曼旧业主字段错误，已在生产复用原ID。逐篇与字段限制见`output/pipeline-recall-restoration-20260923-123237/report.md`。上述为召回诊断结果；另批8篇已受控写入生产（4新项目/5事件/7关系），缓存和公开导出未更新，正常增量不会自动修复历史pending。
+本次2026-09-22—09-30含首尾正常增量已沿既有Workflow运行到生产入库及本地导出。新增54项目、60事件、112关系，生产canonical/event/关系4811/5680/6917。1身份协调任务阻断2源行，另16条pending_review未入正式业务，最终status=partial。现有成功及13篇结果缓存复用，最终文章级技术失败0；重复原入口请求0且四库SHA256不变。详见`output/incremental-20260922-20260930-20261004/report.md`。
 
-当前8篇真实运行40请求（39成功/1 SSL失败）后，已进一步获批并完成生产精确写入：4新canonical/5事件/7关系及源/复核/协调状态。应用入口`scripts/oneoff/apply_production_pilot_20260923.py`先在四库副本验证DDL/行/sequence回滚、准确增量和重复already_applied；备份后同一attached事务生产提交，旧行与ID不变。7条复核源指针已映射，3个数值按旧TEXT列规范化并同步协调snapshot；这一步0外部调用。生产的Sarimay协调、肯尼亚status_challenge、茂物旧排除已随后续获批纠错精确修正，公开文件/缓存和metadata未变。事实与备份：`output/production-pilot-commit-20260923-161131-v2/report.md`。公开更新与部署仍未执行；历史排除恢复已在后续授权中完成。
+本批独立SDK请求账本累计444（提取320/翻译46/去重78），5请求失败，可见usage 1,772,569 token；旧274/40账本未变。用户后续明确要求直接运行，按现有重试续跑；一次SSL中断事务回滚后复用响应完成。原可选全库地点/业主/残余翻译LLM回填关闭以限定范围，确定性回填保留；S03禁止省份模型调用。
+
+当前本地metadata.last_updated=2026-09-30（只表示最新已入库事件日期）；projects_flat3745、TX474、MF161、事件CSV3689行。默认发电/储能1600、输变电/制造业492。S03离线省份缓存导出完成无警告，npm build及本地地图/表格检查通过；预览http://127.0.0.1:5178/，未推送或远程部署。已发现药厂/LAB两条普通工业项目误归MF并进入网页/CSV，以及伊塞克湖垃圾发电疑似漏并；保留检查证据，尚未另起纠错。备份、ID/URL映射、原始响应和剩余待办见`output/incremental-20260922-20260930-20261004/report.md`。
 
 ---
 
@@ -17,7 +19,7 @@
 
 2026-09-17 企业身份修复及受控名录召回已接入根目录 main 工作区。S1 名称线索只用于继续提取，S4/S34 仍核验目标项目参与。普通增量按已处理URL去重，不会自动重算历史无中企/待核实记录；补录刷新与历史定向试跑见 [s01b.md](s01b.md)。本地13个历史误排除项目已恢复并重导出，试跑发现的其他待核实结果仍保持隔离。
 
-企业修复验证入口 `scripts/oneoff/entity_recovery_validation.py` 只在新建output目录执行固定回放/最多10篇真实调用及S01B写库→S02A合并，保存源库不变性和重复全行不变证据。扩大运行以批次可完成、技术失败可恢复、错误不冒充排除及写库可核验为门槛；个别语义待复核不阻塞其他记录。历史更正须有备份和明确旧新ID映射；不得删除旧review判断或清空import标志绕过去重。该验证只涉及隔离结果；当前生产另有8篇已审增量，公开导出仍为原快照。验证结果见 `output/entity-recovery-20260923/`。
+企业修复验证入口 `scripts/oneoff/entity_recovery_validation.py` 只在新建output目录执行固定回放/最多10篇真实调用及S01B写库→S02A合并，保存源库不变性和重复全行不变证据。扩大运行以批次可完成、技术失败可恢复、错误不冒充排除及写库可核验为门槛；个别语义待复核不阻塞其他记录。历史更正须有备份和明确旧新ID映射；不得删除旧review判断或清空import标志绕过去重。该验证只涉及历史隔离结果；当前生产与本地导出以本文件上方最新批次摘要为准。验证结果见 `output/entity-recovery-20260923/`。
 
 ---
 
@@ -52,20 +54,22 @@
    ↓
 阶段二B-8 能源分类影子汇总 ← cfg.run_energy_taxonomy_shadow=False 时跳过（默认写 shadow 表并生成内部 CSV/JSON；正式类别/子类/ID 不变）
    ↓
-预留（默认关，置标志位启用，函数内延迟 import）：
-   阶段二C 交叉验证  ← cfg.run_cross_verification=True
-   阶段三   导出     ← cfg.run_export=True
+阶段二C 交叉验证    ← cfg.run_cross_verification=True 时启用（默认关闭）
+   ↓
+阶段二E 外部参考发现 ← cfg.run_source_finder=True（默认）；持久队列处理新增/变更及到期事件，累计授权预算内调用，数据库保存参考与合格容量补空
+   ↓
+阶段三   导出       ← cfg.run_export=True 时启用（默认关闭）
 ```
 
 > 「串某几段」= 构造对应的 `PipelineConfig` 再调 `run_pipeline(cfg)`；「单独跑某段」进对应子项目 `uv run sNN_xxx`。
 
 ### 批次结果与恢复
 
-- S01B返回结构化`completed/partial`、文章ID/URL、失败清单、输出路径及唯一JSON报告；技术失败不写业务排除表。成功URL保持去重，重跑只补失败文章；`raw_ids`可精确限定范围，`max_extract_workers`控制文章并发，跨批次串行写共享库。
+- S01B支持`cached_results_path`（`s01b-recorded-results-v1`），先跳过成功URL，缓存命中严格比较URL/标题/原发布日期/正文SHA256，来源不符为技术失败且不回退模型；未命中保持原提取。返回`reused_cached_articles`及结构化`completed/partial`、文章ID/URL、失败清单、输出路径及唯一JSON报告；技术失败不写业务排除表。成功URL保持去重，重跑只补失败文章；`raw_ids`可精确限定范围，`max_extract_workers`控制文章并发，跨批次串行写共享库。
 - 上游库/关键表与路径在阶段边界校验，不能用错误路径或空建库冒充产物。备份或写库失败立即停止，已有工作可保留续跑。合法无命中/零可发布记录正常退出。
 - S02A明确完成结果与计数；去重确认或冲突仲裁调用失败不当作“不同项目”，不继续标记已导入。默认按代码/模型版本保存批内确认缓存，续跑复用已成功判断。`partial_overlap`等未决身份保存在提取库协调队列，实际跳过业务写入，源行保持未导入且正常重跑不再挑选；同批正常项目继续。主库写入、协调任务及源导入标记使用同一双库事务。S02A业务partial不会中断S02B/S03，但pipeline总体保持partial；协调定向恢复见[s02a.md](s02a.md)。
 - 可选摘要失败使用结构化事实降级，不重做核心提取。字段警告、技术失败和业务排除分开；省份/翻译/Excel等非关键步骤失败可继续，但总体为partial并保存诊断。
-- 配置`run_export=True`时S03使用本轮`db_path`。非默认主库必须明确`export_dir`及`export_web_dir`，省份缓存可指定`export_cache_path`；`export_allow_model_calls=False`允许离线导出。旧S02C入口尚未参数化，自定义主库开启它会明确拒绝。
+- 配置`run_export=True`时S03使用本轮`db_path`。非默认主库必须明确`export_dir`及`export_web_dir`，省份缓存可指定`export_cache_path`；`export_allow_model_calls=False`允许离线导出。`export_external_references`（显式元数据快照）与`export_reference_config`（绑定本轮源库的指针）互斥并透传S03。正式源库省略这两项时自动使用`supporting_docs/external_references_config.json`；隔离源库不会自动绑定正式快照。快照文件/配置失效会在S03重建前失败；单条过期、身份变化或非中文证据被隐藏，导出阶段报告含明确原因计数。`run_export_only`同样继承S03正式源库指针；不触发找源API。旧S02C入口尚未参数化，自定义主库开启它会明确拒绝。
 - 增量日期默认读取`metadata.last_updated`次日，截止默认今天；日志区分请求区间与尚未证实的覆盖范围，不用“程序返回”冒充逐日完整抓取。
 
 ### 定向历史处理
@@ -95,6 +99,8 @@
 | `run_storage_subcat_backfill` | bool | True | 是否执行严格储能事实与光伏形态回填（不新增 HB/光储） |
 | `run_energy_taxonomy_shadow` | bool | True | 是否执行版本化影子分类并生成内部差异报告 |
 | `run_cross_verification` | bool | False | 是否执行 s02c 交叉验证（预留） |
+| `run_source_finder` | bool | True | S02E常态找源；未授权/耗尽预算保留待处理并继续导出 |
+| `source_finder_config` | str/None | None | 默认生产绑定supporting_docs/source_finder_config.json；隔离库须显式配置 |
 | `run_export` | bool | False | 是否执行 s03 导出（预留） |
 | `start_date` / `end_date` | str/None | metadata次日 / 本地今天 | 显式指定时保留；无新增日期不抓取，仍可继续待处理数据 |
 | `raw_news_db_path` | str | s01a/data/raw_news.db | s01a 输出 / s01b 输入 |

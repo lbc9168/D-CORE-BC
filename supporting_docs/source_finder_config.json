@@ -1,0 +1,22 @@
+{
+  "version": "recurring-references-v1",
+  "source_db": "../s02a_duplicate_merger/data/db/bri_re_database.db",
+  "raw_db": "../s01a_news_crawler/data/raw_news.db",
+  "state_dir": "../s02e_source_finder/data/recurring",
+  "publisher_registry": "source_finder_publishers.json",
+  "legacy_snapshot": "../s02e_source_finder/data/export-development-validation-v1/external-references.json",
+  "enabled": true,
+  "source_review_enabled": true,
+  "source_review_min_urls": 6,
+  "budget_usd": null,
+  "max_search_calls": null,
+  "max_model_calls": null,
+  "max_targets_per_run": 25,
+  "workers": 6,
+  "max_candidates_per_event": 4,
+  "search_rounds": 2,
+  "refresh_days": 80,
+  "dns_mode": "https",
+  "local_proxy": "http://127.0.0.1:7897",
+  "authorization_note": "User authorized 2026-10-05: remove all local cumulative cost, search-call, and model-call ceilings; continue the remaining queue. Preserve calls.sqlite for accounting, queues, caches, source admission, and backups; do not replay unknown calls. After the daily search quota reset and 17 stable batches at 4 workers, increase to 6 workers and monitor errors and throughput."
+}

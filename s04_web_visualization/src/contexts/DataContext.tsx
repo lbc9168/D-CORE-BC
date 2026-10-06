@@ -23,6 +23,7 @@ import type {
 import { ISO3_TO_REGION } from "@/utils/continentMapping";
 import { getDevStatus } from "@/utils/devStatus";
 import { CATEGORIES, isExcludedCategory, isHiddenCategory } from "@/utils/enums";
+import { hasCapacity } from "@/utils/capacityPolicy";
 import { metricValue, type MetricRow } from "@/utils/metrics";
 import { BRI_ISO3, LDC_ISO3 } from "@/utils/countryMeta";
 
@@ -54,7 +55,8 @@ function shouldExcludeByPolicy(p: Project): boolean {
   if (p.last_event_year < BASELINE_YEAR) return true;
   if (isExcludedCategory(p.category) || isHiddenCategory(p.category)) return true;
   if (isUnknownText(p.primary_entity)) return true;
-  // Missing capacity does not invalidate accepted project participation.
+  // Public display requires generation capacity; extraction eligibility remains independent.
+  if (hasCapacity(p.category) && p.capacity_mw == null) return true;
   return false;
 }
 

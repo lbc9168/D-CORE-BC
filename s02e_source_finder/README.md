@@ -1,8 +1,52 @@
-# 外部参考来源核验：样本校准
+# 外部参考来源核验与常态更新
 
-当前目标是项目详情页逐条展示正确、可用、属于该项目的参考链接；覆盖率不设硬门槛。支持结构化抽取、离线重判、有限搜索及可续跑账本。已支持s03可选元数据导出接入，生产数据及流水线尚未启用，源库只读，原文和历史结果保留在私有data目录。已有13候选只作开发验证。
+## 常态生产入口
 
-## Google搜索到参考：当前开发闭环
+正常Pipeline默认在S02B之后、S03之前运行`recurring`。私有找源范围从2018年开始，网页仍以2022年为基线；当前参考池2654项目，缺发电容量池311项目，共3665事件。只读生成名单复用真实S03筛选，不排除已有链接或曾进入试点的项目。
+
+```powershell
+# 仅同步待处理队列/预览，不请求API、不写主库
+uv run --project pipeline python -m s02e_source_finder.recurring
+# 执行一批（默认25事件）；重复运行继续队列并共享累计预算
+uv run --project pipeline python -m s02e_source_finder.recurring --execute
+```
+
+配置：`supporting_docs/source_finder_config.json`。2026-10-05用户取消本地累计费用、搜索次数和模型调用次数上限，授权继续处理全部剩余事件；持久账本仍记录调用和保守费用，不清零。正式配置当前为4路并发；首次尝试每事件最多2搜索/4正文。公开项目名/国家/参与方用于Google找源，相关目标身份和候选正文发送给既有DeepSeek核验，原始新闻整篇不用于搜索。
+
+主库保存`external_reference_candidates`；队列、请求、全文、结果、日志和备份在`data/recurring/`。已有有效合格来源的任务跳过，其他候选失败不影响结束。无合格来源的事件第二遍先重试最多4个旧网页一次，仍无结果则最多两轮新搜索，每轮验证最多4个新网页；跨轮排除已尝试URL及同篇文章变体，任一合格即入库并结束，两轮均无合格结果则记录`no_reference_found`并终止本轮。旧版完成但无来源的事件也适用此一次性补搜。新版结果独立命名，`results/*-bounded-source-search-v1.progress.json`保存第二遍恢复位置；首次应用自动备份队列。批次`found_reference`和`exhausted`分别报告成功和耗尽，`processed`为两者合计。预算、认证、余额和限流暂停保留待续跑，未知结果调用不自动重发；事实变化或80天到期重验。没有合格中文来源就留空。缺容量只顺带检查同批正文，空数值且空raw、项目/单位/期次/事件证据完整才补空并审计，其他值保留。
+
+生产配置的`source_review_enabled=true`启用GPT-6 Luna Low来源审核：未登记域名、原发布者待定及平台页面先抓取身份/出处证据，再逐页判断；通过即可继续项目审核。`source_review_min_urls=6`表示同完整hostname出现6个不同文章URL且机构归属核验通过后自动登记，重复Activity/URL不增次数，共享平台不整体放行，转载仍显示原出处。动态名单在`source-admission.sqlite/admitted_hosts`，手工51机构名单不覆盖，自动登记最多80天有效。Luna接收公开候选页面和来源信息，共用原调用账本。新规则优先重审旧来源拦截，复用旧URL、成功搜索和抽取；缺少页眉页脚字段的旧网页缓存会更新。其他项目/事件/容量门禁不变。
+
+`external_references_config.json`优先读取已经生成的常态快照，未生成时保留旧样本快照。S03仍逐候选核验，正常完整更新可直接带到本地网页，单独找源命令只写主库/快照，不执行站点部署。
+
+以下为保留的历史校准与单项审核入口；其中旧试点预算和生产写入门槛不替代上述常态入口。
+
+当前提供中文公开参考核验及发电容量补空候选。双语正文可作私有容量证据，公开参考仅限中文；覆盖率不设硬门槛。DeepSeek 仍为默认，GPT-6 Luna Low 仅用于有预算的配对试点。所有旧样本均为开发材料，代理标签不是人工金标准。
+
+## Luna Low 与容量补充试点
+
+`enrichment_targets` 从当前 s03 展示基线生成参考名单，另生成仅放开发电容量条件的名单；原新闻中可追溯的中方参与和待审排除仍生效。`enrichment_trial` 共用冻结页面，分别运行 DeepSeek 与 OpenAI，正文、目标、模型、effort、prompt、schema 均进入请求身份。搜索和抽取共用持久账本，未知费用全额占用预留，不自动重试或切模型。新试点固定5个参考项目和5个缺容量项目，最多20次搜索、每项目4页、80次新抽取；旧13候选最多26次抽取，合计不超过5美元保守预算。
+
+```powershell
+# 已安装模块环境；默认预览不请求模型
+& s02e_source_finder/.venv/Scripts/python.exe -m s02e_source_finder.enrichment_targets --help
+& s02e_source_finder/.venv/Scripts/python.exe -m s02e_source_finder.enrichment_trial discover
+& s02e_source_finder/.venv/Scripts/python.exe -m s02e_source_finder.enrichment_trial evaluate --split new --registry s02e_source_finder/data/luna-capacity-pilot-20261005/new-publisher-registry.json --labels s02e_source_finder/data/luna-capacity-pilot-20261005/new-labels.json
+& s02e_source_finder/.venv/Scripts/python.exe -m s02e_source_finder.enrichment_trial budget
+# 离线生成逐项审核与配对统计（不请求模型）
+& s02e_source_finder/.venv/Scripts/python.exe -m s02e_source_finder.enrichment_report capacity --input s02e_source_finder/data/luna-capacity-pilot-20261005 --main-db s02a_duplicate_merger/data/db/bri_re_database.db --report-dir s02e_source_finder/data/luna-capacity-pilot-20261005/review/provenance-corrected
+& s02e_source_finder/.venv/Scripts/python.exe -m s02e_source_finder.enrichment_report metrics --input s02e_source_finder/data/luna-capacity-pilot-20261005
+```
+
+授权预算内的实际请求另加 `--execute`。OpenAI 使用 `OPENAI_API_KEY` 或既有 `GPT_API_KEY`，可选 `OPENAI_BASE_URL`，默认 `gpt-6-luna` / `reasoning_effort=low`；不修改 `.env`。发送项目身份、参与方、量值和候选正文，不发送独立标签。试点文件位于私有 `data/luna-capacity-pilot-20261005/`，不得复制完整正文或英文证据到 public。
+
+本次新样本使用 `new-publisher-registry.json`，旧样本使用 `old-publisher-registry.json`。已生成且内容不同的审核文件不覆盖，修改规则后的离线审核须指定新的 `--report-dir`；本次繁体来源修复后的审核在 `review/provenance-corrected/`，冻结模型比较保持原样。可读总报告为 `review/report.html`。
+
+容量流程使用 `capacity_apply {prepare,rehearse,apply}`（各命令 `--help` 查看参数）。候选须明确数值、原单位、设施/期次和既有事件；只补原数值和 raw 均为空的发电容量。批准文件绑定完整候选 manifest hash 和具体 candidate ID。`developer_rehearsal` 仅可写隔离副本；生产必须是用户逐条确认的 `human` 批准、精确 plan hash 与 `--allow-production`。锁内重新校验、验证备份、单事务审计、整批漂移拒绝和幂等复用均为必经步骤。合并模块保留本流程已确认容量，并将新冲突写入私有复核表。
+
+普通 s03、离线重建和流水线通过 `supporting_docs/external_references_config.json` 使用绑定主库的参考快照；缺失或无效快照明确失败。隔离数据库不会隐式读取生产指针，需显式提供快照。未请求线上发布。
+
+## 既有 Google 搜索开发入口与历史样例
 
 过程与下一步见[实施计划](../docs/superpowers/plans/2026-09-06-s02e-google-search-to-reference-plan.md)，本地逐条结果见`data/google-source-loop-v1/report.md`。机构身份与文章对应关系分别判断：未知网站、未知原发布者、平台托管、内部署名、外部转载分别记录；页头来源控件与正文分开保留。日期、实际动作和指定子设施须在相同动作分句得到支持。旧Page与公开参考格式兼容。
 

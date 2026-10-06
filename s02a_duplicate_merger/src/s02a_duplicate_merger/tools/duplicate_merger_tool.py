@@ -52,6 +52,7 @@ from s01b_project_extractor.energy_taxonomy_v2 import (
 
 from s02a_duplicate_merger.tools import dedup_cache  # 同包：去重判断结果缓存（断点续跑）
 from s02a_duplicate_merger.tools import coordination
+from s02a_duplicate_merger.tools.capacity_review_guard import capture_reviewed_capacity, restore_reviewed_capacity
 
 load_dotenv()
 
@@ -593,20 +594,24 @@ def _gen_event_id(conn: sqlite3.Connection, canonical_id: str) -> str:
 
 # ── 阶段一：加载 & 归组为逻辑项目 ─────────────────────────────────────────────
 
-def _load_from_db(input_db: str) -> tuple[pd.DataFrame, list[int]]:
+def _load_from_db(input_db: str, source_urls: list[str] | None = None) -> tuple[pd.DataFrame, list[int]]:
     """从 s01 projects.db 读取未导入记录（imported_to_s02a=0）。
 
     Returns:
         (DataFrame with Excel-style column names, list of record IDs to mark later)
     """
+    source_urls = coordination.validate_source_urls(source_urls)
+    if source_urls == []:
+        return pd.DataFrame(), []
     if not os.path.exists(input_db):
         print(f"  [警告] 未找到 projects.db: {input_db}")
         return pd.DataFrame(), []
 
     conn = sqlite3.connect(input_db)
-    df = pd.read_sql(
-        "SELECT * FROM extracted_projects WHERE imported_to_s02a = 0", conn
-    )
+    query = "SELECT * FROM extracted_projects WHERE imported_to_s02a = 0"
+    if source_urls is not None:
+        query += " AND source_link IN (" + ",".join("?" for _ in source_urls) + ")"
+    df = pd.read_sql(query, conn, params=source_urls)
     held = coordination.held_ids(conn)
     if held:
         df = df.loc[~df["id"].isin(held)].copy()
@@ -1942,8 +1947,10 @@ def _write_to_db(
             (canonical_id, project["project_stage"]),
         ).fetchone()
 
+        reviewed_capacity = None
         if existing_event:
             event_id = existing_event[0]
+            reviewed_capacity = capture_reviewed_capacity(conn, event_id, project)
 
             if client is not None:
                 # ── 跨批次完整合并（有 LLM 时）──────────────────────────────
@@ -1966,10 +1973,10 @@ def _write_to_db(
                            publish_date = ?, additional_remarks = ?
                        WHERE id = ?""",
                     (
-                        merged_rec["capacity_mw"],
-                        bri_parse.parse_number(merged_rec["capacity_mw"]),
-                        "original",
-                        merged_rec["capacity_details"],
+                        reviewed_capacity["capacity_mw_raw"] if reviewed_capacity else merged_rec["capacity_mw"],
+                        reviewed_capacity["capacity_mw"] if reviewed_capacity else bri_parse.parse_number(merged_rec["capacity_mw"]),
+                        "manual" if reviewed_capacity else "original",
+                        reviewed_capacity["capacity_details"] if reviewed_capacity else merged_rec["capacity_details"],
                         merged_rec["project_developer"],
                         merged_rec.get("project_developer_en", ""),
                         merged_rec["planned_start_date"],
@@ -2103,6 +2110,7 @@ def _write_to_db(
             ),
         )
 
+        restore_reviewed_capacity(conn, event_id, reviewed_capacity)
         _refresh_canonical_energy_taxonomy(conn, canonical_id)
 
         # ── chinese_entities ───────────────────────────────────────────────
@@ -2351,6 +2359,7 @@ class DuplicateMergerInput(BaseModel):
         default="data/db/bri_re_database.db",
         description="输出 SQLite 数据库文件路径",
     )
+    source_urls: list[str] | None = Field(default=None, description="仅处理这些源URL；空列表不处理任何记录")
 
 
 class DuplicateMergerTool:
@@ -2362,7 +2371,9 @@ class DuplicateMergerTool:
         db_path: str = "data/db/bri_re_database.db",
         cache_db: Optional[str] = None,
         trust_dedup: bool = False,
+        source_urls: list[str] | None = None,
     ) -> str:
+        source_urls = coordination.validate_source_urls(source_urls)
         self.last_result = {"status": "running", "input_db": os.path.abspath(input_db),
                             "db_path": os.path.abspath(db_path)}
         if cache_db is None:
@@ -2375,12 +2386,13 @@ class DuplicateMergerTool:
 
         # ── 阶段一：加载 & 归组 ──────────────────────────────────────────────
         print(f"\n>>> [阶段一] 加载数据：{input_db}")
-        df, record_ids = _load_from_db(input_db)
-        pending_tasks = coordination.pending_count(input_db) if Path(input_db).exists() else 0
+        df, record_ids = _load_from_db(input_db, source_urls=source_urls)
+        pending_tasks = coordination.pending_count(input_db, source_urls=source_urls) if Path(input_db).exists() else 0
+        pending_overall = coordination.pending_count(input_db) if Path(input_db).exists() else 0
         if df.empty:
             _mark_imported(input_db, record_ids)
             self.last_result.update(status="partial" if pending_tasks else "completed", input_rows=0, imported_rows=len(record_ids),
-                                    coordination_pending=pending_tasks, coordination_created=0,
+                                    coordination_pending=pending_tasks, coordination_pending_overall=pending_overall, coordination_created=0,
                                     counts={"canonical_new": 0, "event_new": 0, "entity_new": 0,
                                             "event_cross_merged": 0, "non_project_new": 0})
             return f"未发现可发布记录（{len(record_ids)} 条明确排除记录已标记处理；待复核记录仍保留未导入）。"
@@ -2444,9 +2456,10 @@ class DuplicateMergerTool:
             non_project_count = _write_non_project_records(conn, non_projects, commit=False)
             imported_ids = sorted(set(record_ids) - held_rows)
             conn.executemany("UPDATE extracted.extracted_projects SET imported_to_s02a=1 WHERE id=?", [(i,) for i in imported_ids])
-        pending_tasks = coordination.pending_count(input_db)
+        pending_tasks = coordination.pending_count(input_db, source_urls=source_urls)
+        pending_overall = coordination.pending_count(input_db)
         self.last_result.update(status="partial" if pending_tasks else "completed", input_rows=raw_count, imported_rows=len(imported_ids),
-                                coordination_pending=pending_tasks, coordination_created=len(set(task_ids)),
+                                coordination_pending=pending_tasks, coordination_pending_overall=pending_overall, coordination_created=len(set(task_ids)),
                                 coordination_task_ids=sorted(set(task_ids)),
                                 counts={**counts, "non_project_new": non_project_count})
 

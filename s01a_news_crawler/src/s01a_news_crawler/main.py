@@ -34,6 +34,8 @@ def run_single(
     keywords: str = "能源,电力,电站,MW,GW,风电,水电,光伏,储能",
     raw_data_dir: str | None = None,
     raw_news_db_path: str | None = None,
+    stop_on_existing: bool = True,
+    reuse_news_db_path: str | None = None,
 ) -> str:
     """
     单批次爬取（直接调用 tool，不经过 LLM agent，参数精确透传）。
@@ -49,6 +51,8 @@ def run_single(
         output_dir=raw_data_dir or str(_S01A_ROOT / "data" / "raw"),
         raw_news_db_path=raw_news_db_path or str(_S01A_ROOT / "data" / "raw_news.db"),
         save_excel=False,
+        stop_on_existing=stop_on_existing,
+        reuse_news_db_path=reuse_news_db_path,
     )
 
 

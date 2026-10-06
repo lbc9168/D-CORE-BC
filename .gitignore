@@ -88,4 +88,5 @@ s04_web_visualization/backend/.venv/
 .db-recovery-*/
 /output/
 /tmp/
+/s01b_project_extractor/backup/
 /scripts/oneoff/logs/

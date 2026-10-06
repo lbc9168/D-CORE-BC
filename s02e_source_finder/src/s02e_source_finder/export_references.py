@@ -36,6 +36,7 @@ def export_references(inputs_path: Path, reviewed_path: Path, output: Path) -> d
             "event_id": context.event_id,
             "target": {"project_name": context.project.get("project_name"), "country_iso": context.project.get("country_iso")},
             "decision": decision,
+            "evidence_language": row.get("evidence_language", row.get("extraction", {}).get("language", "zh")),
             "reason": row.get("reason", ""),
             "reference": row.get("external_reference") if decision in ("event_reference", "project_reference") else None,
         })

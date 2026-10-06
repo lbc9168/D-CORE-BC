@@ -147,7 +147,7 @@ def run(inputs_path: Path, registry_path: Path, *, execute: bool = False) -> dic
     try:
         with closing(PilotStore(inputs_path.parent / "acceptance.sqlite")) as store:
             store.begin(search_key, snapshot["input_sha256"], snapshot["registry_sha256"], "gemini_google_search", inputs.max_search_calls)
-            store.begin(model_key, snapshot["input_sha256"], snapshot["registry_sha256"], "deepseek", inputs.max_model_calls)
+            store.begin(model_key, snapshot["input_sha256"], snapshot["registry_sha256"], inputs.extraction_provider, inputs.max_model_calls)
             for seed in inputs.seeds:
                 result = evaluate_page(inputs, registry, seed, store, model_key)
                 results.append(result)

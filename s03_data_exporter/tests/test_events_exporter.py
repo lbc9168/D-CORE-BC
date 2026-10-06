@@ -42,8 +42,8 @@ def test_baseline_excludes_unknown_primary_entity():
     assert events_exporter.passes_baseline({**_OK, "primary_entity": ""}) is False
 
 
-def test_baseline_accepts_missing_optional_capacity():
-    assert events_exporter.passes_baseline({**_OK, "capacity_mw": None}) is True
+def test_baseline_excludes_missing_generation_capacity():
+    assert events_exporter.passes_baseline({**_OK, "capacity_mw": None}) is False
 
 
 def test_baseline_allows_no_capacity_category_without_capacity():

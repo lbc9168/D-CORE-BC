@@ -228,7 +228,7 @@ def test_failed_dedup_does_not_write_or_mark_imported(monkeypatch, tmp_path):
     import pandas as pd
     monkeypatch.setenv("GEMINI_API_KEY", "test-unused")
     monkeypatch.setattr(dmt.genai, "Client", lambda **kwargs: _FakeClient())
-    monkeypatch.setattr(dmt, "_load_from_db", lambda path: (pd.DataFrame([{"id": 1}, {"id": 2}]), [1, 2]))
+    monkeypatch.setattr(dmt, "_load_from_db", lambda path, **kwargs: (pd.DataFrame([{"id": 1}, {"id": 2}]), [1, 2]))
     monkeypatch.setattr(dmt, "_group_into_logical_projects", lambda df: [_proj_full("甲"), _proj_full("乙")])
     monkeypatch.setattr(dmt, "_infer_location_from_name", lambda *args: None)
     monkeypatch.setattr(dmt, "_apply_location_norm", lambda *args: 0)

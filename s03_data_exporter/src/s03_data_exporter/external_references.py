@@ -12,6 +12,55 @@ from urllib.parse import urlsplit, urlunsplit
 
 logger = logging.getLogger(__name__)
 FIELDS = ("reference_id", "url", "title", "publisher", "source_type", "scope", "event_id", "stage", "stage_en", "event_date", "checked_at", "valid_until", "is_reprint", "original_publisher")
+WORKSPACE = Path(__file__).resolve().parents[3]
+DEFAULT_SOURCE_DB = WORKSPACE / "s02a_duplicate_merger/data/db/bri_re_database.db"
+DEFAULT_REFERENCE_CONFIG = WORKSPACE / "supporting_docs/external_references_config.json"
+
+
+def resolve_reference_snapshot(source_db: Path | None, external_references: Path | None = None,
+                               reference_config: Path | None = None) -> Path | None:
+    """Use the project pointer only for its bound source, never for arbitrary isolated databases.
+
+    Pointer paths are relative to the config directory. Explicit snapshots override the pointer;
+    both are validated before any export output is changed. This does not fetch or refresh evidence.
+    """
+    if external_references is not None and reference_config is not None:
+        raise ValueError("Specify external_references or reference_config, not both")
+    if external_references is not None:
+        return Path(external_references).resolve()
+    if reference_config is None:
+        if source_db is None or Path(source_db).resolve() != DEFAULT_SOURCE_DB.resolve():
+            return None
+        reference_config = DEFAULT_REFERENCE_CONFIG
+    config_path = Path(reference_config).resolve()
+    try:
+        config = json.loads(config_path.read_text(encoding="utf-8"))
+    except (OSError, ValueError) as exc:
+        raise ValueError(f"reference_config_unavailable: {config_path}") from exc
+    if (not isinstance(config, dict) or config.get("version") != "external-reference-config-v1"
+            or not _text(config.get("source_db")) or not _text(config.get("snapshot"))):
+        raise ValueError(f"reference_config_format_invalid: {config_path}")
+    bound_source = (config_path.parent / config["source_db"]).resolve()
+    if source_db is None or Path(source_db).resolve() != bound_source:
+        raise ValueError(f"reference_config_source_mismatch: {config_path}")
+    recurring = config.get("recurring_snapshot")
+    if recurring is not None:
+        if not _text(recurring):
+            raise ValueError(f"reference_config_recurring_snapshot_invalid: {config_path}")
+        recurring_path = (config_path.parent / recurring).resolve()
+        if recurring_path.exists():
+            return recurring_path
+    return (config_path.parent / config["snapshot"]).resolve()
+
+
+def summarize_reference_audit(audit: list[dict]) -> dict:
+    """Return explicit hidden-candidate counts without leaking private evidence to public files."""
+    summary = {"total": len(audit), "success": 0, "pending": 0, "excluded": 0, "reasons": {}}
+    for item in audit:
+        summary[item["status"]] += 1
+        reason = item["reason"]
+        summary["reasons"][reason] = summary["reasons"].get(reason, 0) + 1
+    return summary
 
 
 def _text(value: object) -> bool:
@@ -68,8 +117,9 @@ def _reference(value: object, now: datetime) -> dict:
     return ref
 
 
-def load_references(path: Path | None, source_db: Path | None, *, now: datetime | None = None) -> tuple[dict[str, list[dict]], list[dict]]:
-    """Isolate every bad candidate; missing sidecars leave all projects exportable."""
+def load_references(path: Path | None, source_db: Path | None, *, now: datetime | None = None,
+                    strict: bool = False) -> tuple[dict[str, list[dict]], list[dict]]:
+    """Isolate bad candidates; export entrypoints require available configured snapshot files."""
     if path is None:
         return {}, []
     try:
@@ -77,10 +127,14 @@ def load_references(path: Path | None, source_db: Path | None, *, now: datetime 
         if not isinstance(data, dict) or data.get("version") != "external-references-v1" or not isinstance(data.get("candidates"), list):
             raise ValueError("reference_snapshot_format_invalid")
     except (OSError, ValueError) as exc:
+        if strict:
+            raise ValueError(f"reference_snapshot_unavailable: {path}") from exc
         logger.warning("external_references_unavailable type=%s", type(exc).__name__)
         return {}, [{"status": "pending", "reason": "reference_snapshot_unavailable"}]
     current = now or datetime.now(timezone.utc)
     if source_db is None or not source_db.is_file():
+        if strict:
+            raise ValueError("reference_source_db_missing")
         return {}, [{"status": "pending", "reason": "reference_source_db_missing"}]
     with closing(sqlite3.connect(source_db.resolve().as_uri() + "?mode=ro", uri=True)) as conn:
         owners = {row[0]: row[1:] for row in conn.execute("SELECT e.id,e.canonical_id,e.project_stage,p.project_name,p.country_iso FROM project_events e JOIN canonical_projects p ON p.id=e.canonical_id")}
@@ -90,6 +144,9 @@ def load_references(path: Path | None, source_db: Path | None, *, now: datetime 
         try:
             if not isinstance(candidate, dict):
                 raise ValueError("candidate_format_invalid")
+            # v1 verified snapshots predate this field; explicit new language metadata is binding.
+            if "evidence_language" in candidate and candidate["evidence_language"] not in ("zh", "zh-CN", "zh-TW"):
+                raise ValueError("reference_evidence_not_chinese")
             decision = candidate.get("decision")
             if decision not in ("event_reference", "project_reference"):
                 audit.append(item | {"status": "excluded" if decision == "rejected" else "pending", "reason": candidate.get("reason") or "candidate_not_qualified"})

@@ -22,6 +22,7 @@ from s03_data_exporter import events_exporter, flat_builder  # noqa: E402
 from s03_data_exporter.flat_builder import build_flat, build_mf_flat, build_tx_flat  # noqa: E402
 from s03_data_exporter.json_exporter import export_json  # noqa: E402
 from s03_data_exporter.stats_builder import build_stats  # noqa: E402
+from s03_data_exporter.external_references import load_references, resolve_reference_snapshot  # noqa: E402
 
 
 def _clean_province(value: object) -> str | None:
@@ -78,9 +79,12 @@ def regenerate(
     public_dir: Path,
     province_seed_db: Path | None = None,
     external_references: Path | None = None,
-) -> dict[str, int]:
+    reference_config: Path | None = None,
+) -> dict:
     """Rebuild flat tables, JSON, CSV, and XLSX without making any model or network call."""
     export_db = output_dir / "bri_re_export.db"
+    snapshot = resolve_reference_snapshot(main_db, external_references, reference_config)
+    load_references(snapshot, main_db, strict=True)
     province_map = _resolve_province_map(export_db, province_seed_db)
     project_count = build_flat(main_db, export_db, province_map)
     tx_count = build_tx_flat(main_db, export_db, province_map)
@@ -92,9 +96,9 @@ def regenerate(
     frame.to_excel(output_dir / "projects_flat.xlsx", index=False)
     frame.to_csv(output_dir / "projects_flat.csv", index=False, encoding="utf-8-sig")
 
-    export_json(export_db, output_dir, src_db=main_db, external_references=external_references)
+    reference_report = export_json(export_db, output_dir, src_db=main_db, external_references=snapshot)
     public_dir.mkdir(parents=True, exist_ok=True)
-    export_json(export_db, public_dir, src_db=main_db, external_references=external_references)
+    export_json(export_db, public_dir, src_db=main_db, external_references=snapshot)
     event_count = events_exporter.export_events_csv(
         main_db,
         [output_dir / "events_export.csv", public_dir / "events_export.csv"],
@@ -107,6 +111,7 @@ def regenerate(
         "tx_flat": tx_count,
         "mf_flat": mf_count,
         "events_export": event_count,
+        **reference_report,
     }
 
 
@@ -127,7 +132,8 @@ def main() -> None:
         type=Path,
         help="可选：从另一工作区的既有 bri_re_export.db 补回已审 province 映射",
     )
-    parser.add_argument("--external-references", type=Path, help="可选s02e核验元数据快照；缺失/失败候选保持空链接")
+    parser.add_argument("--external-references", type=Path, help="显式s02e核验元数据快照；文件缺失/无效则拒绝覆盖")
+    parser.add_argument("--reference-config", type=Path, help="绑定源库的元数据指针；路径相对配置目录")
     args = parser.parse_args()
     province_seed_db = args.province_seed_db.resolve() if args.province_seed_db else None
     print(
@@ -137,6 +143,7 @@ def main() -> None:
             args.public.resolve(),
             province_seed_db,
             args.external_references,
+            args.reference_config,
         )
     )
 

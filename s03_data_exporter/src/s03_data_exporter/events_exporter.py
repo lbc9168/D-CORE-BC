@@ -86,7 +86,9 @@ def passes_baseline(p: dict) -> bool:
         return False
     if _is_unknown_text(p.get("primary_entity")):
         return False
-    # Capacity is optional: accepted participation remains publishable with a null value.
+    # Public display/download gate only; unknown capacity does not invalidate ingestion.
+    if not enums.is_no_capacity(category) and p.get("capacity_mw") is None:
+        return False
     return True
 
 

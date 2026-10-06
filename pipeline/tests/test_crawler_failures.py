@@ -75,6 +75,33 @@ def test_detail_failure_resume_passes_five_duplicate_urls(tmp_path, monkeypatch)
     with sqlite3.connect(tmp_path / "raw.db") as conn:
         assert conn.execute("SELECT COUNT(*) FROM raw_news").fetchone() == (6,)
     assert "https://example.test/article/6" in calls
+    assert not any(url.endswith(f"/{i}") for url in calls for i in range(1, 6))
+
+
+def test_overlap_scan_reuses_content_and_reaches_gap(tmp_path, monkeypatch):
+    monkeypatch.setattr(crawler.time, "sleep", lambda *a: None)
+    with crawler._init_raw_news_db(str(tmp_path / "raw.db")) as conn:
+        conn.executemany(
+            "INSERT INTO raw_news(url,content,publish_date,passed_keyword_filter) VALUES (?,?,?,1)",
+            [(f"https://example.test/article/{i}", "已保存风电全文", "2026-09-23") for i in range(1, 6)],
+        )
+    tool = crawler.NewsCrawlerTool()
+    calls = []
+    def request(url, **kw):
+        calls.append(url)
+        if "?page=1" in url:
+            return response(listing(range(1, 7)))
+        if "?page=" in url:
+            return response("<html></html>")
+        return article()
+    monkeypatch.setattr(tool, "_request_with_retry", request)
+    tool._run(source_url="https://example.test/news", start_date="2026-09-23",
+              end_date="2026-09-23", keywords="风电", output_dir=str(tmp_path / "raw"),
+              raw_news_db_path=str(tmp_path / "raw.db"), save_excel=False, stop_on_existing=False)
+    assert calls == ["https://example.test/news?page=1", "https://example.test/article/6",
+                     "https://example.test/news?page=2"]
+    with sqlite3.connect(tmp_path / "raw.db") as conn:
+        assert conn.execute("SELECT COUNT(*) FROM raw_news").fetchone() == (6,)
 
 
 def test_database_write_failure_propagates(tmp_path, monkeypatch):
@@ -93,6 +120,29 @@ def test_database_write_failure_propagates(tmp_path, monkeypatch):
     with sqlite3.connect(tmp_path / "raw.db") as conn:
         assert conn.execute("SELECT COUNT(*) FROM raw_news").fetchone() == (0,)
         assert conn.execute("SELECT last_page FROM crawler_checkpoints").fetchone() == (1,)
+
+
+def test_reuses_readonly_fulltext_cache_through_normal_crawler(tmp_path, monkeypatch):
+    monkeypatch.setattr(crawler.time, "sleep", lambda *a: None)
+    cache = tmp_path / "cached.db"
+    with crawler._init_raw_news_db(str(cache)) as conn:
+        conn.execute("INSERT INTO raw_news(url,title,author,publish_date,content) VALUES (?,?,?,?,?)",
+                     ("https://example.test/article/1", "缓存风电", "author", "2026-09-23", "中国企业风电全文"))
+    import hashlib
+    before = hashlib.sha256(cache.read_bytes()).hexdigest()
+    tool = crawler.NewsCrawlerTool()
+    calls = []
+    def request(url, **kw):
+        calls.append(url)
+        assert "?page=" in url, "cached article must not be downloaded"
+        return response(listing([1]) if "?page=1" in url else "<html></html>")
+    monkeypatch.setattr(tool, "_request_with_retry", request)
+    tool._run(source_url="https://example.test/news", start_date="2026-09-23", end_date="2026-09-23",
+              keywords="风电", output_dir=str(tmp_path / "raw"), raw_news_db_path=str(tmp_path / "raw.db"),
+              save_excel=False, stop_on_existing=False, reuse_news_db_path=str(cache))
+    with sqlite3.connect(tmp_path / "raw.db") as conn:
+        assert conn.execute("SELECT title,content FROM raw_news").fetchone() == ("缓存风电", "中国企业风电全文")
+    assert hashlib.sha256(cache.read_bytes()).hexdigest() == before
 
 
 def test_http_403_is_not_empty_success(monkeypatch):

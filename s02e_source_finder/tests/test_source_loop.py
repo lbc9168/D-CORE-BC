@@ -44,6 +44,15 @@ class SourceLoopTests(unittest.TestCase):
         self.assertEqual(result["original_publisher"], "人民日报")
         self.assertTrue(result["is_reprint"])
 
+    def test_traditional_chinese_and_english_origins_do_not_become_original_articles(self):
+        for label in ("（來源：人民日报）", "資料來源：人民日报", "(Source: 人民日报)"):
+            with self.subTest(label=label):
+                page = self.page.model_copy(update={"text": "项目正文。\n" + label})
+                result = verify_publisher(page, self.registry)
+                self.assertTrue(result["is_reprint"])
+                self.assertEqual(result["original_publisher"], "人民日报")
+                self.assertIsNone(result["problem"])
+
     def test_unknown_source_is_distinct_from_unregistered_host(self):
         """Distinguish unresolved authorship from an unreviewed hosting institution."""
         unknown = self.page.model_copy(update={"text": self.page.text.replace("来源：甲院", "来源：走出去情报")})

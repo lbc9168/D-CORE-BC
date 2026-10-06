@@ -113,6 +113,19 @@ def parse_content(body: bytes, content_type: str, encoding: str | None) -> tuple
     return title.strip(), site_name.strip(), publish_date, text
 
 
+def publisher_identity_text(body: bytes, content_type: str, encoding: str | None) -> str:
+    """Keep bounded visible site ownership labels without mixing them into project facts."""
+    if "html" not in content_type:
+        return ""
+    soup = BeautifulSoup(body, "html.parser", from_encoding=encoding)
+    values = []
+    for node in soup.select("header, footer, .copyright, #copyright, .footer, #footer"):
+        value = node.get_text(" ", strip=True)
+        if value and value not in values:
+            values.append(value[:1000])
+    return "\n".join(values)[:4000]
+
+
 def source_statements(body: bytes, content_type: str, encoding: str | None) -> list[SourceStatement]:
     """Retain known visible publisher labels that article-only extraction would discard."""
     if "html" not in content_type:
@@ -130,10 +143,11 @@ def source_statements(body: bytes, content_type: str, encoding: str | None) -> l
 class PublicFetcher:
     """Apply finite retry, redirect and response-size limits for one sample run."""
 
-    def __init__(self, *, session=None, sleeper=time.sleep, dns_mode: str = "system"):
+    def __init__(self, *, session=None, sleeper=time.sleep, dns_mode: str = "system", allow_english: bool = False):
         if dns_mode not in {"system", "https"}:
             raise ValueError("unsupported_dns_mode")
         self.dns_mode = dns_mode
+        self.allow_english = allow_english
         self.session = session or requests.Session()
         if session is None:
             self.session.trust_env = False
@@ -207,6 +221,7 @@ class PublicFetcher:
                         payload = b"".join(chunks)
                         page.title, page.site_name, page.publish_date, page.text = parse_content(payload, content_type, encoding)
                         page.source_statements = source_statements(payload, content_type, encoding)
+                        page.identity_text = publisher_identity_text(payload, content_type, encoding)
                         page.text_hash = hashlib.sha256(page.text.encode("utf-8")).hexdigest()
                         if re.search(r"404|页面不存在|网页不存在|访问验证|人机验证|验证码|access denied|page not found|sign in|登录", page.title, re.I):
                             page.problem = "error_or_access_page"
@@ -214,7 +229,7 @@ class PublicFetcher:
                             page.problem = "insufficient_content"
                         elif len(page.text) > MAX_TEXT:
                             page.problem = "article_too_long_for_sample"
-                        elif len(re.findall(r"[\u3400-\u9fff]", page.text)) < 20:
+                        elif not self.allow_english and len(re.findall(r"[\u3400-\u9fff]", page.text)) < 20:
                             page.problem = "not_chinese"
                         return page
                 else:

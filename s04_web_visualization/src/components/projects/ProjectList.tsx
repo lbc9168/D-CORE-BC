@@ -127,14 +127,15 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
                 )}
               </div>
 
-              {/* 业主/开发商（无值或 unknown 显示 —）*/}
+              {/* 业主/开发商：仅在有有效信息时显示整行 */}
               {(() => {
                 const dev = (p.project_developer_en || "").trim();
                 const isUnknown =
                   !dev || ["unknown", "未知", "未披露", "n/a", "na", "-", "—"].includes(dev.toLowerCase());
+                if (isUnknown) return null;
                 return (
                   <div className="text-slate-500 mt-0.5" style={{ fontSize: "11px" }}>
-                    {isUnknown ? "—" : dev}
+                    {dev}
                   </div>
                 );
               })()}

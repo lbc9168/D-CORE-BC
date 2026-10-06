@@ -172,3 +172,46 @@ def test_batch_overlap_evidence_survives_cached_retry(tmp_path, monkeypatch):
     fresh = m._group_into_logical_projects(frame)
     assert m._confirm_llm_pairs(client, None, fresh, [(0, 1)], cache) == verdict
     assert all(p["_coordination_conflicts"] for p in fresh) and not calls
+
+
+def test_source_scope_preserves_history_reuses_imported_and_repeats_without_writes(tmp_path, monkeypatch):
+    projects, main, calls, _ = setup(tmp_path, monkeypatch)
+    with sqlite3.connect(projects) as c:
+        c.execute("INSERT INTO extracted_projects SELECT 3,'https://example.org/pending',project_name,country,country_iso,category,capacity_mw,project_stage,location,project_developer,implementing_entity,involvement_type,'pending_review',0 FROM extracted_projects WHERE id=1")
+        c.execute("INSERT INTO extracted_projects SELECT 4,'https://example.org/old',project_name,country,country_iso,category,capacity_mw,project_stage,location,project_developer,implementing_entity,involvement_type,'eligible',1 FROM extracted_projects WHERE id=1")
+        coordination.init_queue(c)
+        c.execute("INSERT INTO s02a_coordination VALUES ('outside-task','pending','{}','[]','[]','test',NULL,NULL)")
+        c.execute("INSERT INTO s02a_coordination_sources VALUES (3,'outside-task')")
+    before = rows(projects, "extracted_projects")
+    old_business = {t: rows(main, t) for t in ("canonical_projects", "project_events", "chinese_entities")}
+    kwargs = dict(input_db=str(projects), db_path=str(main), source_urls=["https://example.org/new", "https://example.org/old"])
+    tool = m.DuplicateMergerTool()
+    tool._run(**kwargs)
+    result = tool.last_result
+    assert result["status"] == "completed" and result["imported_rows"] == 1
+    assert result["coordination_pending"] == 0 and result["coordination_pending_overall"] == 1
+    assert result["counts"]["canonical_new"] == result["counts"]["event_new"] == result["counts"]["entity_new"] == 1
+    after = rows(projects, "extracted_projects")
+    assert [r for r in after if r[0] != 2] == [r for r in before if r[0] != 2]
+    assert next(r[-1] for r in after if r[0] == 2) == 1
+    for table, existing in old_business.items():
+        assert all(row in rows(main, table) for row in existing)
+    snapshot = {t: rows(main, t) for t in old_business}
+    calls.clear()
+    tool._run(**kwargs)
+    assert tool.last_result["input_rows"] == tool.last_result["imported_rows"] == 0 and not calls
+    assert snapshot == {t: rows(main, t) for t in snapshot}
+    assert after == rows(projects, "extracted_projects")
+    tool._run(input_db=str(projects), db_path=str(main), source_urls=[])
+    assert tool.last_result["status"] == "completed" and tool.last_result["coordination_pending"] == 0
+    assert snapshot == {t: rows(main, t) for t in snapshot} and not calls
+    with sqlite3.connect(main) as c:
+        assert c.execute("PRAGMA foreign_key_check").fetchall() == []
+
+
+@pytest.mark.parametrize("source_urls", ["https://example.org/new", [""], [" "], [None], [1]])
+def test_invalid_source_scope_is_rejected_before_opening_database(tmp_path, source_urls):
+    path = tmp_path / "missing.db"
+    with pytest.raises(ValueError, match="source_urls"):
+        m.DuplicateMergerTool()._run(input_db=str(path), source_urls=source_urls)
+    assert not path.exists()

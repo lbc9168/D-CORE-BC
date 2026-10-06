@@ -1,0 +1,6 @@
+{
+  "version": "external-reference-config-v1",
+  "source_db": "../s02a_duplicate_merger/data/db/bri_re_database.db",
+  "snapshot": "../s02e_source_finder/data/export-development-validation-v1/external-references.json",
+  "recurring_snapshot": "../s02e_source_finder/data/recurring/external-references.json"
+}

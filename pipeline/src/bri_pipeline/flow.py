@@ -21,8 +21,10 @@ BRI RE Database — 完整流水线编排（纯 Python 顺序编排）
 """
 
 import json
+import logging
 import shutil
 import sqlite3
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -80,16 +82,23 @@ class PipelineConfig:
     run_storage_subcat_backfill: bool = True  # False=跳过严格储能容量与光伏形态回填（不再新增“综合能源/光储”）
     run_energy_taxonomy_shadow: bool = True  # False=跳过能源构成影子分类与内部差异报告
     run_cross_verification: bool = False   # True=跑 s02c（预留段）
+    run_source_finder:      bool = True    # 持久队列发现新增/变更事件；无预算仅登记待处理
+    source_finder_config: str | None = None
     run_export:             bool = False   # True=跑 s03 导出（预留段）
 
     raw_ids: list[int] | None = None
+    cached_results_path: str | None = None
     max_extract_workers: int = 4
     export_dir: str | None = None
     export_web_dir: str | None = None
     export_cache_path: str | None = None
     export_allow_model_calls: bool = True
+    export_external_references: str | None = None
+    export_reference_config: str | None = None
 
     def __post_init__(self):
+        if self.export_external_references is not None and self.export_reference_config is not None:
+            raise ValueError("只指定 export_external_references 或 export_reference_config 之一")
         for field in ("start_date", "end_date"):
             value = getattr(self, field)
             if value is not None:
@@ -152,12 +161,14 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> dict:
             print(f"\n[Pipeline] s01a 返回: {result}；覆盖未自动确认，保守续接起点 {collection['next_start']}。")
 
     _validate_database(cfg.raw_news_db_path, {"raw_news": 1}, "S01B 输入")
+    source_urls = _source_urls_for_raw_ids(cfg.raw_news_db_path, cfg.raw_ids)
 
     # 阶段一B：提取；真实输出与下游输入共用一条路径契约。
     _print_stage_header("1B", "项目信息 AI 提取")
     extraction = _run_s01b(raw_news_db_path=cfg.raw_news_db_path,
                           projects_db_path=cfg.projects_db_path, review_db_path=cfg.review_db_path,
-                          raw_ids=cfg.raw_ids, max_extract_workers=cfg.max_extract_workers)
+                          raw_ids=cfg.raw_ids, max_extract_workers=cfg.max_extract_workers,
+                          cached_results_path=cfg.cached_results_path)
     if not isinstance(extraction, dict) or extraction.get("status") not in {"completed", "partial"}:
         raise RuntimeError(f"S01B 未提供有效阶段完成结果: {extraction!r}")
     if Path(extraction.get("projects_db_path", "")).resolve() != Path(cfg.input_db).resolve():
@@ -184,7 +195,7 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> dict:
         _validate_database(cfg.db_path, {"canonical_projects": 0, "project_events": 0, "chinese_entities": 0}, "S02A 既有主库")
         main_backup = _backup_database(cfg.db_path)
     merger = DuplicateMergerTool()
-    merge_message = merger._run(input_db=cfg.input_db, db_path=cfg.db_path)
+    merge_message = merger._run(input_db=cfg.input_db, db_path=cfg.db_path, source_urls=source_urls)
     merge_result = getattr(merger, "last_result", None)
     if not isinstance(merge_result, dict) or merge_result.get("status") not in {"completed", "partial"}:
         raise RuntimeError(f"S02A 未提供有效阶段完成结果: {merge_message!r}")
@@ -259,17 +270,44 @@ def run_pipeline(cfg: "PipelineConfig | None" = None) -> dict:
         _print_stage_header("2C", "外部信源交叉验证（GDELT）")
         _run_s02c()
 
+    # S02E 自行比较持久业务指纹，失败重跑仍能发现已经由 S02A 提交的事件。
+    if cfg.run_source_finder:
+        from s02e_source_finder.recurring import run_incremental
+        _print_stage_header("2E", "增量参考链接与容量候选")
+        try:
+            source_finder = run_incremental(
+                main_db=Path(cfg.db_path), raw_db=Path(cfg.raw_news_db_path),
+                config_path=Path(cfg.source_finder_config) if cfg.source_finder_config else None,
+            )
+            if not isinstance(source_finder, dict) or source_finder.get("status") not in {"completed", "partial", "awaiting_budget"}:
+                raise RuntimeError("S02E 未提供有效阶段完成结果")
+        except (OSError, ValueError, RuntimeError, sqlite3.Error) as exc:
+            # 参考链接失败不会撤销已提交数据；持久队列在下轮恢复，导出继续使用已核验快照。
+            logging.getLogger(__name__).error("S02E incomplete error_type=%s", type(exc).__name__)
+            source_finder = {"status": "partial", "reason": "source_finder_failed",
+                             "error_type": type(exc).__name__, "reference_snapshot": None}
+        stage_reports["s02e"] = source_finder
+        print(f"[Pipeline] 参考链接 status={source_finder['status']}")
+
     # 阶段三：导出（预留段，默认关）
     if cfg.run_export:
         from s03_data_exporter.main import run as _run_s03
         _print_stage_header("3", "数据库整理与前端导出")
+        # 用户显式指定的快照/配置优先；否则使用本轮汇总，再由 S03 处理默认指针。
+        reference_snapshot = cfg.export_external_references
+        if not reference_snapshot and not cfg.export_reference_config:
+            reference_snapshot = stage_reports.get("s02e", {}).get("reference_snapshot")
         stage_reports["export"] = _run_s03(src_db=cfg.db_path, dst_dir=cfg.export_dir, web_data_dir=cfg.export_web_dir,
-                 province_cache=cfg.export_cache_path, allow_model_calls=cfg.export_allow_model_calls)
+                 province_cache=cfg.export_cache_path, allow_model_calls=cfg.export_allow_model_calls,
+                 external_references=Path(reference_snapshot) if reference_snapshot else None,
+                 reference_config=Path(cfg.export_reference_config) if cfg.export_reference_config else None)
 
     status = extraction["status"]
     if merge_result.get("status") == "partial":
         status = "partial"
     if stage_reports.get("residual_translate", {}).get("parts_failed", 0):
+        status = "partial"
+    if stage_reports.get("s02e", {}).get("status") in {"partial", "awaiting_budget"}:
         status = "partial"
     export_result = stage_reports.get("export")
     if isinstance(export_result, dict) and export_result.get("status") == "partial":
@@ -316,6 +354,22 @@ def _resolve_crawl_window(cfg: PipelineConfig, *, today: date | None = None) -> 
         "coverage_confirmed": False, "next_start": start.isoformat(),
         "next_start_if_complete": (end + timedelta(days=1)).isoformat() if start <= end else start.isoformat(),
     }
+
+
+def _source_urls_for_raw_ids(raw_db: str, raw_ids: list[int] | None) -> list[str] | None:
+    """Carry the selected source scope into S02A, including previously extracted rows."""
+    if raw_ids is None:
+        return None
+    if not raw_ids:
+        return []
+    ids = sorted(set(raw_ids))
+    with closing(sqlite3.connect(Path(raw_db).resolve().as_uri() + "?mode=ro", uri=True)) as conn:
+        rows = conn.execute("SELECT id,url FROM raw_news WHERE id IN (" + ",".join("?" for _ in ids) + ")", ids).fetchall()
+    if {row[0] for row in rows} != set(ids):
+        raise ValueError("raw_ids contains articles missing from raw_news")
+    if any(not isinstance(url, str) or not url.strip() for _, url in rows):
+        raise ValueError("Selected raw_news articles must have non-empty URLs")
+    return sorted({url for _, url in rows})
 
 
 def _backup_database(db_path: str) -> str:

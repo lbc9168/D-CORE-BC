@@ -70,6 +70,7 @@ def run_bulk_extract(
     review_db_path: str | None = None,
     batch_ids: list[str] | None = None,
     raw_ids: list[int] | None = None,
+    cached_results_path: str | None = None,
 ) -> dict:
     """提取指定批次/文章，返回可恢复结果；技术失败不混入业务排除。
 
@@ -78,7 +79,9 @@ def run_bulk_extract(
     """
     import json
     import sqlite3
-    from s01b_project_extractor.tools.project_extractor_tool import ProjectExtractorTool
+    from s01b_project_extractor.tools.project_extractor_tool import ProjectExtractorTool, _load_recorded_results
+
+    _load_recorded_results(cached_results_path)
 
     if type(max_extract_workers) is not int or not 1 <= max_extract_workers <= 24:
         raise ValueError("max_extract_workers 必须是 1 到 24 的文章并发数")
@@ -112,7 +115,7 @@ def run_bulk_extract(
     result = {"status": "completed", "raw_news_db_path": str(raw_path),
               "projects_db_path": str(projects_path), "review_db_path": str(review_path),
               "articles": articles, "batches": [], "failed_urls": [], "failed_batches": [],
-              "log_path": str(log_path)}
+              "log_path": str(log_path), "reused_cached_articles": 0}
     projects_path.parent.mkdir(parents=True, exist_ok=True)
     for batch_index, bid in enumerate(selected_batches):
         tool = ProjectExtractorTool()
@@ -120,11 +123,13 @@ def run_bulk_extract(
             tool._run_from_db(batch_id=bid, raw_news_db_path=str(raw_path),
                 projects_db_path=str(projects_path), review_db_path=str(review_path),
                 country_db_path=str(_S01B_ROOT / "WorldCountryList.json"), raw_ids=raw_ids,
-                max_workers=max_extract_workers, backup_existing=batch_index == 0)
+                max_workers=max_extract_workers, backup_existing=batch_index == 0,
+                cached_results_path=cached_results_path)
             batch_result = tool.last_result
             if batch_result.get("status") not in {"completed", "partial"}:
                 raise RuntimeError(f"S01B 批次缺少有效完成状态: {bid}")
             result["batches"].append(batch_result)
+            result["reused_cached_articles"] += batch_result.get("reused_cached_articles", 0)
             result["failed_urls"].extend(batch_result.get("failed_urls", []))
             if batch_result["status"] == "partial":
                 result["status"] = "partial"

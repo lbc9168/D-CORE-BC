@@ -1,0 +1,1120 @@
+{
+  "version": "publisher-registry-v1",
+  "reviewed_at": "2026-10-05",
+  "reviewer": "Merged independent reference and capacity publisher identity reviews",
+  "human_confirmed": false,
+  "records": [
+    {
+      "publisher_id": "ceec",
+      "name": "中国能源建设股份有限公司",
+      "aliases": [
+        "中国能建",
+        "中国能源建设"
+      ],
+      "hosts": [
+        "www.ceec.net.cn",
+        "ceec.net.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中国电力工程顾问集团华北电力设计院有限公司"
+        }
+      ]
+    },
+    {
+      "publisher_id": "ncpe",
+      "name": "中国电力工程顾问集团华北电力设计院有限公司",
+      "aliases": [
+        "华北院",
+        "中国能建华北院"
+      ],
+      "hosts": [
+        "www.ncpe.ceec.net.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中国电力工程顾问集团华北电力设计院有限公司"
+        },
+        {
+          "url": "http://www.ncpe.ceec.net.cn/col/col11269/index.html",
+          "quote": "公司是中国电力工程顾问集团有限公司全资子公司"
+        },
+        {
+          "url": "https://www.ncpe.ceec.net.cn/",
+          "quote": "中国能建华北院"
+        }
+      ]
+    },
+    {
+      "publisher_id": "ceec-international",
+      "name": "中国能源建设集团国际工程有限公司",
+      "aliases": [
+        "中国能建国际工程公司"
+      ],
+      "hosts": [
+        "www.intl.ceec.net.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中国能源建设集团国际工程有限公司"
+        },
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中国电力工程顾问集团华北电力设计院有限公司"
+        },
+        {
+          "url": "https://www.gjjt.ceec.net.cn/art/2026/4/18/art_58915_3795.html",
+          "quote": "西北非区域总部副总经济师（6-2级）"
+        },
+        {
+          "url": "http://www.intl.ceec.net.cn/art/2023/7/25/art_58497_2512563.html",
+          "quote": "西北非区域总部、海外分支机构、项目部副职及以上视频参会"
+        }
+      ]
+    },
+    {
+      "publisher_id": "ceec-nwafrica",
+      "name": "中国能建国际集团西北非区域总部",
+      "aliases": [
+        "西北非区域总部"
+      ],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.gjjt.ceec.net.cn/art/2026/4/18/art_58915_3795.html",
+          "quote": "西北非区域总部副总经济师（6-2级）"
+        },
+        {
+          "url": "http://www.intl.ceec.net.cn/art/2023/7/25/art_58497_2512563.html",
+          "quote": "西北非区域总部、海外分支机构、项目部副职及以上视频参会"
+        }
+      ]
+    },
+    {
+      "publisher_id": "norinco",
+      "name": "中国北方工业有限公司",
+      "aliases": [
+        "北方工业",
+        "北方公司"
+      ],
+      "hosts": [
+        "www.norinco.com"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "http://www.norinco.com/col/col5268/index.html",
+          "quote": "中国北方工业有限公司是我国军贸事业的开拓者和领先者"
+        },
+        {
+          "url": "http://www.norinco.com/script/0/1808281700437618.js",
+          "quote": "中国北方工业有限公司　版权所有"
+        },
+        {
+          "url": "http://www.norinco.com/col/col5344/index.html",
+          "quote": "中国北方工业有限公司,北方工业,北方公司"
+        }
+      ]
+    },
+    {
+      "publisher_id": "peoples-daily",
+      "name": "人民日报",
+      "aliases": [
+        "人民日报社"
+      ],
+      "hosts": [],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.people.com.cn/GB/50142/104580/index.html",
+          "quote": "人民日报是中国共产党中央委员会机关报。"
+        }
+      ]
+    },
+    {
+      "publisher_id": "economic-daily",
+      "name": "经济日报",
+      "aliases": [
+        "经济日报社"
+      ],
+      "hosts": [],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://finance.ce.cn/sub/2013zt/jjrbgflt/jj/201304/08/t20130408_17090865.shtml",
+          "quote": "以报道经济新闻为主的综合性中央级报纸"
+        },
+        {
+          "url": "https://www.ce.cn/ad/?bj=wei37",
+          "quote": "中国经济网由经济日报社主办"
+        }
+      ]
+    },
+    {
+      "publisher_id": "in-en",
+      "name": "国际能源网",
+      "aliases": [
+        "国际储能网",
+        "北京优能网信息技术有限公司"
+      ],
+      "hosts": [
+        "www.in-en.com",
+        "in-en.com",
+        "mchuneng.in-en.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.in-en.com/about/index.html",
+          "quote": "由北京优能网信息技术有限公司建设与运营"
+        },
+        {
+          "url": "https://www.in-en.com/about/index.html",
+          "quote": "国际储能网"
+        },
+        {
+          "url": "https://www.in-en.com/about/service.html",
+          "quote": "专业的能源行业资讯信息服务"
+        }
+      ]
+    },
+    {
+      "publisher_id": "dc-se",
+      "name": "数智元网",
+      "aliases": [
+        "数智元",
+        "《数智元》杂志"
+      ],
+      "hosts": [
+        "www.dc-se.com",
+        "dc-se.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "http://www.dc-se.com/gyszy/flsm.html",
+          "quote": "数智元 - 行业门户网站!"
+        },
+        {
+          "url": "http://www.dc-se.com/gyszy/flsm.html",
+          "quote": "版权所有：《数智元》杂志"
+        },
+        {
+          "url": "http://www.dc-se.com/",
+          "quote": "支持媒体：《数智元》杂志社"
+        }
+      ]
+    },
+    {
+      "publisher_id": "sungrow",
+      "name": "阳光电源股份有限公司",
+      "aliases": [
+        "阳光电源",
+        "Sungrow"
+      ],
+      "hosts": [
+        "cn.sungrowpower.com",
+        "www.sungrowpower.com"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://cn.sungrowpower.com/storage/notice/dlrE8rZDLbUJYAsFSFSHHY1Qs6JbLUhF9DqWX434.pdf",
+          "quote": "阳光电源股份有限公司"
+        }
+      ]
+    },
+    {
+      "publisher_id": "powerchina",
+      "name": "中国电力建设集团有限公司",
+      "aliases": [
+        "中国电建",
+        "中国电力建设集团",
+        "PowerChina"
+      ],
+      "hosts": [
+        "www.powerchina.cn",
+        "powerchina.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.powerchina.cn/xxgk/index.html",
+          "quote": "中国电力建设集团有限公司"
+        }
+      ]
+    },
+    {
+      "publisher_id": "sina-platform",
+      "name": "新浪财经（含托管内容）",
+      "aliases": [
+        "新浪财经",
+        "新浪网"
+      ],
+      "hosts": [
+        "finance.sina.com.cn"
+      ],
+      "source_type": "platform",
+      "evidence": [
+        {
+          "url": "https://finance.sina.com.cn/stock/relnews/cn/2026-02-26/doc-inhpaxnw1641966.shtml",
+          "quote": "走出去情报"
+        }
+      ]
+    },
+    {
+      "publisher_id": "qq-platform",
+      "name": "腾讯新闻（含托管内容）",
+      "aliases": [
+        "腾讯新闻",
+        "QQ新闻"
+      ],
+      "hosts": [
+        "news.qq.com"
+      ],
+      "source_type": "platform",
+      "evidence": [
+        {
+          "url": "https://news.qq.com/rain/a/20260226A01YG500",
+          "quote": "储能见闻"
+        }
+      ]
+    },
+    {
+      "publisher_id": "netease-platform",
+      "name": "网易订阅",
+      "aliases": [
+        "网易号",
+        "网易"
+      ],
+      "hosts": [
+        "www.163.com"
+      ],
+      "source_type": "platform",
+      "evidence": [
+        {
+          "url": "https://www.163.com/dy/article/KN960QHK05568W0A.html",
+          "quote": "为自媒体平台“网易号”用户上传并发布，本平台仅提供信息存储服务"
+        }
+      ]
+    },
+    {
+      "publisher_id": "ceec-intl-group",
+      "name": "中能建国际建设集团有限公司",
+      "aliases": [
+        "中国能建国际集团"
+      ],
+      "hosts": [
+        "www.gjjt.ceec.net.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中能建国际建设集团有限公司"
+        }
+      ]
+    },
+    {
+      "publisher_id": "xinhua",
+      "name": "新华网",
+      "aliases": [
+        "新华社"
+      ],
+      "hosts": [
+        "www.xinhuanet.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.xinhuanet.com/company/",
+          "quote": "新华网是国家通讯社新华社主办的综合新闻信息服务门户网站"
+        }
+      ]
+    },
+    {
+      "publisher_id": "people_online",
+      "name": "人民网",
+      "aliases": [
+        "人民网-国际频道"
+      ],
+      "hosts": [
+        "world.people.com.cn"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.people.com.cn/GB/50142/104580/index.html",
+          "quote": "主管主办国家重点新闻网站人民网"
+        }
+      ]
+    },
+    {
+      "publisher_id": "cnfin",
+      "name": "中国金融信息网",
+      "aliases": [
+        "新华财经"
+      ],
+      "hosts": [
+        "www.cnfin.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://search.cnfin.com/",
+          "quote": "新华通讯社主管\n中国经济信息社有限公司主办"
+        }
+      ]
+    },
+    {
+      "publisher_id": "bri_portal",
+      "name": "中国一带一路网",
+      "aliases": [],
+      "hosts": [
+        "www.yidaiyilu.gov.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.yidaiyilu.gov.cn/p/178715.html",
+          "quote": "中国一带一路网是由国家发展改革委和新华社共同指导，新华社中国经济信息社与国家信息中心共同主办的推进“一带一路”建设官方网站。"
+        }
+      ]
+    },
+    {
+      "publisher_id": "sasac",
+      "name": "国务院国有资产监督管理委员会",
+      "aliases": [
+        "国务院国资委"
+      ],
+      "hosts": [
+        "www.sasac.gov.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.sasac.gov.cn/",
+          "quote": "网站管理：国务院国资委宣传局"
+        }
+      ]
+    },
+    {
+      "publisher_id": "ceeia",
+      "name": "中国电器工业协会",
+      "aliases": [
+        "中电协"
+      ],
+      "hosts": [
+        "www.ceeia.com"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.ceeiagjb.com/about.php?id=1",
+          "quote": "中国电器工业协会网址：http://www.ceeia.com"
+        }
+      ]
+    },
+    {
+      "publisher_id": "seetao",
+      "name": "见道网",
+      "aliases": [],
+      "hosts": [
+        "www.seetao.com"
+      ],
+      "source_type": "platform",
+      "evidence": [
+        {
+          "url": "https://www.seetao.com/index.php/user/agreement",
+          "quote": "对于您发布在“见道”中可公开获取的公司信息、产品信息或其他信息"
+        }
+      ]
+    },
+    {
+      "publisher_id": "sgcc",
+      "name": "国家电网有限公司",
+      "aliases": [
+        "国家电网"
+      ],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://wap.sasac.gov.cn/n2588035/n2588325/n2588350/c35354295/content.html",
+          "quote": "国家电网有限公司2026年第二批招聘高校毕业生公告"
+        }
+      ]
+    },
+    {
+      "publisher_id": "spic",
+      "name": "国家电力投资集团有限公司",
+      "aliases": [
+        "国家电投集团"
+      ],
+      "hosts": [
+        "www.spic.com.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.spic.com.cn/2021/gywm/jtjj/",
+          "quote": "国家电力投资集团有限公司（简称“国家电投集团”）"
+        },
+        {
+          "url": "https://www.spic.com.cn/",
+          "quote": "Copyright ©国家电力投资集团有限公司版权"
+        },
+        {
+          "url": "https://www.spic.com.cn/",
+          "quote": "网站技术服务：中国能源传媒集团新媒体事业部"
+        }
+      ]
+    },
+    {
+      "publisher_id": "spic-unit-1",
+      "name": "国家电投集团中国电力",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.spic.com.cn/",
+          "quote": "国家电投集团中国电力"
+        }
+      ]
+    },
+    {
+      "publisher_id": "spic-unit-2",
+      "name": "国家电投集团上海电力",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.spic.com.cn/",
+          "quote": "国家电投集团上海电力"
+        }
+      ]
+    },
+    {
+      "publisher_id": "jinkosolar",
+      "name": "晶科能源股份有限公司",
+      "aliases": [
+        "晶科能源",
+        "Jinko Solar"
+      ],
+      "hosts": [
+        "www.jinkosolar.com"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.jinkosolar.com/site/aboutus",
+          "quote": "晶科能源股份有限公司（简称“晶科能源”，股票代码：688223）"
+        },
+        {
+          "url": "https://www.jinkosolar.com/site/esg_policy",
+          "quote": "All rights reserved © 2026 Jinko Solar."
+        }
+      ]
+    },
+    {
+      "publisher_id": "jinkosolar-unit-1",
+      "name": "晶科能源全球营销中心",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.jinkosolar.com/site/global",
+          "quote": "晶科能源全球营销中心"
+        }
+      ]
+    },
+    {
+      "publisher_id": "goldwind",
+      "name": "金风科技股份有限公司",
+      "aliases": [
+        "金风科技",
+        "Goldwind Science&Technology Co.,Ltd."
+      ],
+      "hosts": [
+        "www.goldwind.com"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.goldwind.com/cn/term/",
+          "quote": "本网站均由金风科技股份有限公司（简称：金风科技）所有和经营"
+        },
+        {
+          "url": "https://www.goldwind.com/cn/about/",
+          "quote": "金风科技股份有限公司"
+        },
+        {
+          "url": "https://www.goldwind.com/cn/about/",
+          "quote": "Goldwind Science&Technology Co.,Ltd."
+        }
+      ]
+    },
+    {
+      "publisher_id": "goldwind-unit-1",
+      "name": "金风南美",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.goldwind.com/cn/about/",
+          "quote": "金风南美"
+        }
+      ]
+    },
+    {
+      "publisher_id": "powerchina-international",
+      "name": "中国电建集团国际工程有限公司",
+      "aliases": [
+        "电建国际"
+      ],
+      "hosts": [
+        "www.powerchina-intl.com"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "中国电建集团国际工程有限公司"
+        },
+        {
+          "url": "https://www.powerchina-intl.com/list/2.html",
+          "quote": "中国电力建设集团有限公司（以下简称“中国电建”）的国际业务领军企业"
+        },
+        {
+          "url": "https://www.powerchina-intl.com/list/2.html",
+          "quote": "电建国际"
+        },
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "欧亚区域总部（贝尔格莱德）"
+        }
+      ]
+    },
+    {
+      "publisher_id": "powerchina-international-unit-1",
+      "name": "欧亚区域总部",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "欧亚区域总部（贝尔格莱德）"
+        }
+      ]
+    },
+    {
+      "publisher_id": "powerchina-international-unit-2",
+      "name": "中东北非区域总部",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "中东北非区域总部（迪拜）"
+        }
+      ]
+    },
+    {
+      "publisher_id": "powerchina-international-unit-3",
+      "name": "中西非区域总部",
+      "aliases": [],
+      "hosts": [],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "中西非区域总部（阿比让）"
+        }
+      ]
+    },
+    {
+      "publisher_id": "powerchina-fujian",
+      "name": "中国电建集团福建工程有限公司",
+      "aliases": [
+        "福建电建"
+      ],
+      "hosts": [
+        "fjec.powerchina.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://fjec.powerchina.cn/col/col8240/index.html",
+          "quote": "版权所有：中国电建集团福建工程有限公司"
+        },
+        {
+          "url": "https://fjec.powerchina.cn/col/col8240/index.html",
+          "quote": "福建电建"
+        },
+        {
+          "url": "https://fjec.powerchina.cn/col/col8240/index.html",
+          "quote": "中国电建集团福建工程有限公司隶属于中国电力建设集团有限公司。"
+        }
+      ]
+    },
+    {
+      "publisher_id": "energytrend",
+      "name": "集邦新能源网",
+      "aliases": [
+        "EnergyTrend",
+        "集邦咨询集邦新能源网"
+      ],
+      "hosts": [
+        "www.energytrend.cn"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.energytrend.cn/advertise/",
+          "quote": "集邦新能源网网站介绍"
+        },
+        {
+          "url": "https://www.energytrend.cn/interview/20230605-127089.html",
+          "quote": "集邦咨询旗下新能源研究中心集邦新能源网EnergyTrend"
+        },
+        {
+          "url": "https://www.energytrend.cn/interview/20230605-127089.html",
+          "quote": "来源：集邦咨询集邦新能源网"
+        }
+      ]
+    },
+    {
+      "publisher_id": "ctg",
+      "name": "中国长江三峡集团有限公司",
+      "aliases": [
+        "中国三峡集团",
+        "三峡集团"
+      ],
+      "hosts": [
+        "www.ctg.com.cn",
+        "ctg.com.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.ctg.com.cn/sxjt/xwzx55/zhxw23/1519057/index.html",
+          "quote": "版权所有：中国长江三峡集团有限公司"
+        }
+      ]
+    },
+    {
+      "publisher_id": "wuhan-government",
+      "name": "武汉市人民政府",
+      "aliases": [
+        "武汉市人民政府门户网站"
+      ],
+      "hosts": [
+        "www.wuhan.gov.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.wuhan.gov.cn/",
+          "quote": "武汉市人民政府主办 武汉市数据局承办"
+        }
+      ]
+    },
+    {
+      "publisher_id": "cri",
+      "name": "国际在线",
+      "aliases": [
+        "中央广电总台国际在线",
+        "中央广播电视总台国际在线"
+      ],
+      "hosts": [
+        "www.cri.cn",
+        "hb.cri.cn"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://hb.cri.cn/2025-05-14/e686c5bf-62cf-231b-16a0-e89aff58ace3.html",
+          "quote": "中央广播电视总台\n国际在线\n版权所有"
+        }
+      ]
+    },
+    {
+      "publisher_id": "sneia",
+      "name": "上海新能源行业协会",
+      "aliases": [
+        "SNEIA",
+        "Shanghai New Energy Industry Association"
+      ],
+      "hosts": [
+        "sneia.org"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://sneia.org/",
+          "quote": "上海新能源行业协会（英文名为Shanghai New Energy Industry Association，英文缩写：SNEIA）"
+        }
+      ]
+    },
+    {
+      "publisher_id": "in-en-solar",
+      "name": "国际太阳能光伏网",
+      "aliases": [],
+      "hosts": [
+        "msolar.in-en.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://msolar.in-en.com/html/solar-2300856.shtml",
+          "quote": "凡注明“来源：国际太阳能光伏网”的所有作品，版权均属于国际太阳能光伏网"
+        }
+      ]
+    },
+    {
+      "publisher_id": "panorama",
+      "name": "全景网",
+      "aliases": [
+        "深圳市全景网络有限公司"
+      ],
+      "hosts": [
+        "www.p5w.net"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.p5w.net/about/",
+          "quote": "所有原创内容版权归深圳市全景网络有限公司所有，未经书面授权禁止使用"
+        }
+      ]
+    },
+    {
+      "publisher_id": "caixin",
+      "name": "财新网",
+      "aliases": [
+        "财新传媒"
+      ],
+      "hosts": [
+        "database.caixin.com",
+        "www.caixin.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://database.caixin.com/2018-01-17/101198915.html?sourceEntityId=101203953",
+          "quote": "Copyright 财新网 All Rights Reserved 版权所有 复制必究"
+        }
+      ]
+    },
+    {
+      "publisher_id": "china-press",
+      "name": "中國報",
+      "aliases": [
+        "中国报",
+        "China Press",
+        "中国报 China Press"
+      ],
+      "hosts": [
+        "www.chinapress.com.my",
+        "perak.chinapress.com.my"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://perak.chinapress.com.my/20241214/%E9%9C%B9%E9%9B%B3%E5%A4%B4%E6%9D%A1%EF%BD%9C24-5%E5%85%86%E7%93%A6%E6%B0%B4%E7%94%B5%E9%A1%B9%E7%9B%AE%E5%A5%A0%E5%9F%BA-%E6%96%992027%E5%B9%B4%E5%AE%8C%E6%88%90-%E6%B7%BB150%E5%B0%B1/",
+          "quote": "霹雳头条｜24.5兆瓦水电项目奠基       料2027年完成    添150就业机会 | 中國報 China Press"
+        }
+      ]
+    },
+    {
+      "publisher_id": "sinoma-ec",
+      "name": "Sinoma Energy Conservation Co., Ltd",
+      "aliases": [
+        "Sinoma Energy Conservation Ltd"
+      ],
+      "hosts": [
+        "www.sinoma-ec.cn"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "http://www.sinoma-ec.cn/en/",
+          "quote": "Copyright: Sinoma Energy Conservation Co., Ltd"
+        }
+      ]
+    },
+    {
+      "publisher_id": "civicrete",
+      "name": "Civicrete Engineering Company Limited",
+      "aliases": [
+        "Civicrete Engineering",
+        "Civicrete"
+      ],
+      "hosts": [
+        "www.civicreteengineering.co.ke"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.civicreteengineering.co.ke/",
+          "quote": "© 2026 Civicrete Engineering Company Limited. All rights reserved."
+        }
+      ]
+    },
+    {
+      "publisher_id": "metro-tv",
+      "name": "Metro TV",
+      "aliases": [
+        "美都新闻网",
+        "Metrotvnews.com"
+      ],
+      "hosts": [
+        "www.metrotvnews.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.metrotvnews.com/about",
+          "quote": "METRO TV merupakan televisi berita pertama di Indonesia yang mulai mengudara sejak 25 November 2000."
+        }
+      ]
+    },
+    {
+      "publisher_id": "forum-macao",
+      "name": "中國—葡語國家經貿合作論壇（澳門）常設秘書處",
+      "aliases": [
+        "中葡論壇",
+        "中葡论坛",
+        "Forum Macao"
+      ],
+      "hosts": [
+        "www.forumchinaplp.org.mo"
+      ],
+      "source_type": "official",
+      "evidence": [
+        {
+          "url": "https://www.forumchinaplp.org.mo/about/forum-introduction",
+          "quote": "由中國中央政府發起、中國商務部主辦、澳門特別行政區政府承辦"
+        }
+      ]
+    },
+    {
+      "publisher_id": "canalenergia",
+      "name": "Agência CanalEnergia",
+      "aliases": [
+        "Canal Energia",
+        "CanalEnergia",
+        "Portal CanalEnergia",
+        "巴西能源管道網",
+        "巴西能源管道网"
+      ],
+      "hosts": [
+        "www.canalenergia.com.br"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.canalenergia.com.br/noticias/53110031/agencia-canalenergia-ganha-premio-internacional-de-jornalismo",
+          "quote": "A Agência CanalEnergia conquistou seu primeiro prêmio de jornalismo internacional."
+        },
+        {
+          "url": "https://www.forumchinaplp.org.mo/en/economic_trade/view/1923",
+          "quote": "(Source: Canal Energia)"
+        }
+      ]
+    },
+    {
+      "publisher_id": "kazinform",
+      "name": "哈萨克国际通讯社",
+      "aliases": [
+        "哈通社",
+        "Kazinform",
+        "Qazinform"
+      ],
+      "hosts": [
+        "cn.inform.kz",
+        "qazinform.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://cn.inform.kz/about",
+          "quote": "哈萨克国际通讯社（简称“哈通社”）是哈萨克斯坦第一家获得国际地位的领先国家通讯社。"
+        }
+      ]
+    },
+    {
+      "publisher_id": "cnal",
+      "name": "世铝网",
+      "aliases": [
+        "cnal.com"
+      ],
+      "hosts": [
+        "news.cnal.com",
+        "www.cnal.com"
+      ],
+      "source_type": "media",
+      "evidence": [
+        {
+          "url": "https://www.cnal.com/about/",
+          "quote": "世铝网(cnal.com) 系河南中原有色信息有限公司运营的铝行业信息平台"
+        }
+      ]
+    }
+  ],
+  "affiliations": [
+    {
+      "owner_id": "ceec",
+      "signatory_id": "ncpe",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中国电力工程顾问集团华北电力设计院有限公司"
+        },
+        {
+          "url": "http://www.ncpe.ceec.net.cn/col/col11269/index.html",
+          "quote": "公司是中国电力工程顾问集团有限公司全资子公司"
+        }
+      ]
+    },
+    {
+      "owner_id": "ceec-international",
+      "signatory_id": "ceec-nwafrica",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://www.gjjt.ceec.net.cn/art/2026/4/18/art_58915_3795.html",
+          "quote": "西北非区域总部副总经济师（6-2级）"
+        },
+        {
+          "url": "http://www.intl.ceec.net.cn/art/2023/7/25/art_58497_2512563.html",
+          "quote": "西北非区域总部、海外分支机构、项目部副职及以上视频参会"
+        }
+      ]
+    },
+    {
+      "owner_id": "ceec",
+      "signatory_id": "ceec-intl-group",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://www.ceec.net.cn/col/col52771/index.html",
+          "quote": "中能建国际建设集团有限公司"
+        }
+      ]
+    },
+    {
+      "owner_id": "spic",
+      "signatory_id": "spic-unit-1",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://www.spic.com.cn/",
+          "quote": "国家电投集团中国电力"
+        }
+      ]
+    },
+    {
+      "owner_id": "spic",
+      "signatory_id": "spic-unit-2",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://www.spic.com.cn/",
+          "quote": "国家电投集团上海电力"
+        }
+      ]
+    },
+    {
+      "owner_id": "jinkosolar",
+      "signatory_id": "jinkosolar-unit-1",
+      "relationship": "internal_department",
+      "evidence": [
+        {
+          "url": "https://www.jinkosolar.com/site/global",
+          "quote": "晶科能源全球营销中心"
+        }
+      ]
+    },
+    {
+      "owner_id": "goldwind",
+      "signatory_id": "goldwind-unit-1",
+      "relationship": "internal_department",
+      "evidence": [
+        {
+          "url": "https://www.goldwind.com/cn/about/",
+          "quote": "金风南美"
+        }
+      ]
+    },
+    {
+      "owner_id": "powerchina-international",
+      "signatory_id": "powerchina-international-unit-1",
+      "relationship": "internal_department",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "欧亚区域总部（贝尔格莱德）"
+        }
+      ]
+    },
+    {
+      "owner_id": "powerchina-international",
+      "signatory_id": "powerchina-international-unit-2",
+      "relationship": "internal_department",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "中东北非区域总部（迪拜）"
+        }
+      ]
+    },
+    {
+      "owner_id": "powerchina-international",
+      "signatory_id": "powerchina-international-unit-3",
+      "relationship": "internal_department",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/",
+          "quote": "中西非区域总部（阿比让）"
+        }
+      ]
+    },
+    {
+      "owner_id": "powerchina",
+      "signatory_id": "powerchina-international",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://www.powerchina-intl.com/list/2.html",
+          "quote": "中国电力建设集团有限公司（以下简称“中国电建”）的国际业务领军企业"
+        }
+      ]
+    },
+    {
+      "owner_id": "powerchina",
+      "signatory_id": "powerchina-fujian",
+      "relationship": "same_group",
+      "evidence": [
+        {
+          "url": "https://fjec.powerchina.cn/col/col8240/index.html",
+          "quote": "中国电建集团福建工程有限公司隶属于中国电力建设集团有限公司。"
+        }
+      ]
+    }
+  ]
+}

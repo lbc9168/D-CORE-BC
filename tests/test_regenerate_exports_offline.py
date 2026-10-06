@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
+import json
 import sqlite3
 from pathlib import Path
 
@@ -44,3 +46,47 @@ def test_resolve_province_map_fills_from_seed_without_overwriting_current(tmp_pa
         "B": "Current State",
         "C": "Seed Region",
     }
+
+
+def test_reference_preflight_preserves_existing_offline_export(tmp_path, monkeypatch):
+    output = tmp_path / "export"
+    output.mkdir()
+    exported = output / "bri_re_export.db"
+    exported.write_bytes(b"prior reviewed export")
+    monkeypatch.setattr(MODULE, "_resolve_province_map", lambda *a: pytest.fail("rebuild started"))
+    with pytest.raises(ValueError, match="reference_snapshot_unavailable"):
+        MODULE.regenerate(tmp_path / "source.db", output, tmp_path / "public",
+                          external_references=tmp_path / "missing.json")
+    assert exported.read_bytes() == b"prior reviewed export"
+
+
+def test_offline_regeneration_retains_configured_reference_and_source_bytes(tmp_path):
+    from datetime import datetime, timedelta, timezone
+    from s02a_duplicate_merger.tools.duplicate_merger_tool import _init_db
+    source = tmp_path / "main.db"
+    connection = _init_db(str(source))
+    with connection:
+        connection.execute("INSERT INTO canonical_projects(id,project_name,country,country_iso,category) VALUES ('P','风电项目','阿根廷','ARG','风电')")
+        connection.execute("INSERT INTO project_events(id,canonical_id,project_stage,capacity_mw,publish_date,source_links) VALUES ('P-01','P','投入运营',9,'2026-09-01','[]')")
+    connection.close()
+    output, public = tmp_path / "output", tmp_path / "public"
+    output.mkdir()
+    _write_export(output / "bri_re_export.db", [("P", "Reviewed province")])
+    now = datetime.now(timezone.utc)
+    snapshot = tmp_path / "snapshot.json"
+    snapshot.write_text(json.dumps({"version": "external-references-v1", "candidates": [{
+        "case_id": "reviewed", "project_id": "P", "event_id": "P-01",
+        "target": {"project_name": "风电项目", "country_iso": "ARG"}, "decision": "project_reference", "evidence_language": "zh",
+        "reference": {"reference_id": "reviewed", "url": "https://www.spic.com.cn/project", "title": "项目新闻", "publisher": "国家电投",
+                      "source_type": "official", "scope": "project", "event_id": None, "stage": None, "stage_en": None,
+                      "event_date": None, "checked_at": (now-timedelta(days=1)).isoformat(), "valid_until": (now+timedelta(days=20)).isoformat(),
+                      "is_reprint": False, "original_publisher": None}}]}), encoding="utf-8")
+    config = tmp_path / "config.json"
+    config.write_text(json.dumps({"version": "external-reference-config-v1", "source_db": source.name, "snapshot": snapshot.name}), encoding="utf-8")
+    before = hashlib.sha256(source.read_bytes()).hexdigest()
+    for _ in range(2):
+        report = MODULE.regenerate(source, output, public, reference_config=config)
+        assert report["reference_summary"]["success"] == 1
+        assert len(json.loads((public / "projects_flat.json").read_text(encoding="utf-8"))[0]["external_references"]) == 1
+        assert (output / "projects_flat.json").read_bytes() == (public / "projects_flat.json").read_bytes()
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == before

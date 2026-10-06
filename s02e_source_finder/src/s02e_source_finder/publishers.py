@@ -1,6 +1,9 @@
 """Evidence-backed publisher identities, separate from article and project decisions."""
 
 import re
+import hashlib
+import json
+from datetime import datetime, timezone
 from typing import Literal
 from urllib.parse import urlsplit
 
@@ -33,6 +36,27 @@ class Affiliation(StrictModel):
     evidence: list[PublisherEvidence] = Field(min_length=1)
 
 
+def page_identity(page: Page) -> str:
+    """Bind source decisions to the actual page, including visible attribution labels."""
+    facts = [page.final_url, page.title, page.site_name, page.identity_text, page.text,
+             [item.model_dump() for item in page.source_statements]]
+    return hashlib.sha256(json.dumps(facts, sort_keys=True, ensure_ascii=False).encode()).hexdigest()
+
+
+class ReviewedPublisher(StrictModel):
+    """A model-reviewed page source; it never grants trust to a whole hosting platform."""
+    page_sha256: str
+    host: str
+    publisher: str
+    source_type: Literal["official", "media"]
+    is_reprint: bool
+    original_publisher: str | None = None
+    evidence: list[str] = Field(min_length=1)
+    valid_until: str
+    review_id: str
+    model: str
+
+
 class PublisherRegistry(StrictModel):
     """Freeze reviewed organizations and affiliations without event-specific allowlists."""
     version: Literal["publisher-registry-v1"]
@@ -41,6 +65,8 @@ class PublisherRegistry(StrictModel):
     human_confirmed: bool = False
     records: list[PublisherRecord]
     affiliations: list[Affiliation] = Field(default_factory=list)
+    page_reviews: list[ReviewedPublisher] = Field(default_factory=list)
+    learned_hosts: list[PublisherRecord] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def unambiguous(self):
@@ -60,7 +86,8 @@ class PublisherRegistry(StrictModel):
 def stated_origins(page: Page) -> list[dict[str, str]]:
     """Collect source labels from the body and separately preserved visible source controls."""
     origins = [{"name": row.name.strip(), "evidence": row.evidence, "locator": row.selector} for row in page.source_statements]
-    for match in re.finditer(r"(?:^\s*(?:信息|文章)?来源\s*[:：]\s*|[（(|｜]\s*(?:信息|文章)?来源\s*[:：]\s*)([^\n）)]+)", page.text, flags=re.M):
+    label = r"(?:(?:信息|文章|資料|资料)?(?:来源|來源)|source)"
+    for match in re.finditer(r"(?:^\s*" + label + r"\s*[:：]\s*|[（(|｜]\s*" + label + r"\s*[:：]\s*)([^\n）)]+)", page.text, flags=re.M | re.I):
         name = re.split(r"\s*(?:发布时间|发布日期|作者|编辑)\s*[:：]", match[1])[0].strip()
         if 1 < len(name) <= 100 and name not in {row["name"] for row in origins}:
             origins.append({"name": name, "evidence": match[0].strip(), "locator": "article_source_label"})
@@ -82,16 +109,22 @@ def stated_origins(page: Page) -> list[dict[str, str]]:
 def verify_publisher(page: Page, registry: PublisherRegistry) -> dict:
     """Resolve publisher ownership and explicit attribution, keeping unresolved origins pending."""
     host = (urlsplit(page.final_url).hostname or "").lower()
-    names = {name: record for record in registry.records for name in [record.name] + record.aliases}
-    owner = next((record for record in registry.records if host in record.hosts), None)
+    names = {name: record for record in registry.records + registry.learned_hosts for name in [record.name] + record.aliases}
+    owner = next((record for record in registry.learned_hosts + registry.records if host in record.hosts), None)
     claims = stated_origins(page)
     result = {"host": host, "publisher": owner.name if owner else None, "source_type": owner.source_type if owner and owner.source_type != "platform" else "unknown", "is_reprint": False,
               "original_publisher": None, "evidence": [], "origin_chain": claims, "institution_evidence": [], "problem": None, "registry_version": registry.version}
+    for review in registry.page_reviews:
+        if review.host == host and review.page_sha256 == page_identity(page) and datetime.fromisoformat(review.valid_until) > datetime.now(timezone.utc):
+            result.update(publisher=review.publisher, source_type=review.source_type, is_reprint=review.is_reprint,
+                          original_publisher=review.original_publisher, evidence=review.evidence,
+                          review_id=review.review_id, review_model=review.model, admission="model_page_review")
+            return result
     if not owner:
         result["problem"] = "publisher_not_registered"
         return result
     result["institution_evidence"] = [item.model_dump() for item in owner.evidence]
-    result["evidence"] = [f"registered_host:{host}"]
+    result["evidence"] = [f"registered_host:{host}", owner.name] + owner.aliases
     members = {item.signatory_id for item in registry.affiliations if item.owner_id == owner.publisher_id}
     originals = []
     unknown = []

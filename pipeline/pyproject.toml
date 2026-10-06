@@ -3,7 +3,7 @@ name = "bri-re-pipeline"
 version = "0.1.0"
 description = "BRI RE Database — Full Pipeline Orchestration (pure Python)"
 authors = [{ name = "Your Name", email = "you@example.com" }]
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.14"
 dependencies = [
     "python-dotenv>=1.0.0",
     "s01a_news_crawler",
@@ -11,6 +11,7 @@ dependencies = [
     "s02a_duplicate_merger",
     "s02b_entity_normalizer",
     "s02c_cross_verification",
+    "s02e_source_finder",
     "s03_data_exporter",
 ]
 
@@ -25,6 +26,7 @@ s01b_project_extractor = { path = "../s01b_project_extractor", editable = true }
 s02a_duplicate_merger  = { path = "../s02a_duplicate_merger",  editable = true }
 s02b_entity_normalizer = { path = "../s02b_entity_normalizer", editable = true }
 s02c_cross_verification = { path = "../s02c_cross_verification", editable = true }
+s02e_source_finder     = { path = "../s02e_source_finder",     editable = true }
 s03_data_exporter      = { path = "../s03_data_exporter",      editable = true }
 
 [tool.hatch.build.targets.wheel]
@@ -41,5 +43,6 @@ extraPaths = [
     "../s02a_duplicate_merger/src",
     "../s02b_entity_normalizer/src",
     "../s02c_cross_verification/src",
+    "../s02e_source_finder/src",
     "../s03_data_exporter/src",
 ]

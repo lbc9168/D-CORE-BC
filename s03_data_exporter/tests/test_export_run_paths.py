@@ -14,6 +14,22 @@ def test_custom_source_requires_both_destinations(tmp_path):
         main.run(src_db=tmp_path / "isolated.db", allow_model_calls=False)
 
 
+def test_invalid_reference_snapshot_stops_before_rebuilding_artifacts(tmp_path, monkeypatch):
+    source = tmp_path / "main.db"
+    _init_db(str(source)).close()
+    output = tmp_path / "export"
+    output.mkdir()
+    current = output / "bri_re_export.db"
+    current.write_bytes(b"prior reviewed export")
+    before = hashlib.sha256(source.read_bytes()).hexdigest()
+    monkeypatch.setattr(main, "build_flat", lambda *a: pytest.fail("export rebuild before reference preflight"))
+    with pytest.raises(ValueError, match="reference_snapshot_unavailable"):
+        main.run(src_db=source, dst_dir=output, web_data_dir=tmp_path / "web",
+                 external_references=tmp_path / "absent.json", allow_model_calls=False)
+    assert current.read_bytes() == b"prior reviewed export"
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == before
+
+
 @pytest.mark.parametrize("provider_failure", [False, True])
 def test_isolated_export_without_model_calls_preserves_source(tmp_path, monkeypatch, provider_failure):
     source = tmp_path / "main.db"
