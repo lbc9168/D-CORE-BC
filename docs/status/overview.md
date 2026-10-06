@@ -1,6 +1,6 @@
 # BRI_RE_Database_v2 项目概述
 
-> 最后更新：2026-10-05（指定日期增量生产入库、本地网页更新；部分待复核）
+> 最后更新：2026-10-06（S01B/S02A/S02B 模型路由与 S02C 嵌入迁移；生产数据快照截至此前批次）
 
 本次2026-09-22—09-30含首尾正常增量已沿既有Workflow运行到生产入库及本地导出。新增54项目、60事件、112关系，生产canonical/event/关系4811/5680/6917。1身份协调任务阻断2源行，另16条pending_review未入正式业务，最终status=partial。现有成功及13篇结果缓存复用，最终文章级技术失败0；重复原入口请求0且四库SHA256不变。详见`output/incremental-20260922-20260930-20261004/report.md`。
 
@@ -97,8 +97,8 @@ s01a: raw_news.db
 | 组件 | 技术 |
 |------|------|
 | 编排 | 纯 Python 顺序编排（无 crewAI） |
-| LLM（主） | Gemini gemini-2.5-flash-lite；s01b 分阶段可路由 DeepSeek（见 `rules_and_plans/eval.md`） |
-| LLM（嵌入） | Gemini text-embedding-004（s02c） |
+| LLM（主） | S01B S1/S2、S02A 身份确认/字段仲裁/地点推断/批内地点归一、S02B 业主归一/地点归一/剩余英文翻译：GPT-6 Luna（按任务使用 Low/Medium，见模块状态）；S01B S3/S4/S5/S34：DeepSeek；其他 Gemini 路由保持原设置 |
+| LLM（嵌入） | Gemini Embedding 2（`gemini-embedding-2`，s02c；旧向量缓存不兼容，需重建） |
 | AI SDK | google-genai |
 | 外部数据源 | GDELT 国际新闻数据库（s02c，免费无 Key） |
 | 模糊匹配 | rapidfuzz |

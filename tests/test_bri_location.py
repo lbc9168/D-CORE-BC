@@ -123,6 +123,26 @@ def test_build_location_mapping_per_country():
     assert result == {"巴基斯坦": {"达旺德米": "达瓦德密"}}
 
 
+def test_build_location_mapping_supports_openai_text_generator():
+    """注入 JSON 文本生成器时，沿相同地点确认与 Union-Find 流程运行。"""
+    prompts = []
+
+    def generate_text(prompt):
+        prompts.append(prompt)
+        return json.dumps({"results": [
+            {"id": 0, "is_same": True, "canonical_name": "达瓦德密"}
+        ]}, ensure_ascii=False)
+
+    result = bri_location.build_location_mapping(
+        {"巴基斯坦": [("达瓦德密", 3), ("达旺德米", 1)]},
+        None,
+        generate_text=generate_text,
+    )
+    assert result == {"巴基斯坦": {"达旺德米": "达瓦德密"}}
+    assert len(prompts) == 1
+    assert '"results": [' in prompts[0]
+
+
 def test_llm_failure_is_conservative(monkeypatch):
     """LLM 三次全挂 → 保守不合并，映射为空（sleep 打桩避免真实退避等待）。"""
     monkeypatch.setattr(bri_location.time, "sleep", lambda s: None)

@@ -75,30 +75,28 @@ def _build_dev_confirm_prompt(batch: List[Dict]) -> str:
 【候选对】
 {pairs_text}
 
-请以 JSON 数组返回，每个元素格式：
-{{"id": <编号>, "is_same": <true|false>, "canonical_name": "<规范名；is_same=false时留空>"}}
+请以 JSON 对象返回，格式：
+{{"results": [{{"id": <编号>, "is_same": <true|false>, "canonical_name": "<规范名；is_same=false时留空>"}}]}}
 
 只返回 JSON，不要有其他文字。"""
 
 
-def _llm_confirm_batch_dev(client, batch: List[Dict]) -> List[Dict]:
-    """Gemini 批量确认（业主保守口径提示词）；调用/解析机制同 entity_normalizer，仅 prompt 不同。"""
+def _llm_confirm_batch_dev(api_key: str, batch: List[Dict]) -> List[Dict]:
+    """Use GPT-6 Luna to conservatively confirm developer-name variants."""
     import json as _json
     import time as _time
-    from google.genai import types as _types
+    from s02b_entity_normalizer.openai_gateway import chat_completion_json
     prompt = _build_dev_confirm_prompt(batch)
     for attempt in range(3):
         try:
-            resp = client.models.generate_content(
-                model="gemini-2.5-flash-lite", contents=prompt,
-                config=_types.GenerateContentConfig(temperature=0, response_mime_type="application/json"),
+            raw = chat_completion_json(
+                prompt, model=os.getenv("S02B_DEVELOPER_MODEL", "gpt-6-luna").strip(),
+                effort=os.getenv("S02B_DEVELOPER_EFFORT", "medium").strip().lower(),
+                api_key=api_key,
             )
-            raw = resp.text.strip()
-            if raw.startswith("```"):
-                raw = raw.split("```")[1]
-                if raw.startswith("json"):
-                    raw = raw[4:]
             results = _json.loads(raw)
+            if isinstance(results, dict):
+                results = results.get("results", [])
             result_map = {r["id"]: r for r in results}
             for p in batch:
                 info = result_map.get(p["id"], {})
@@ -313,16 +311,14 @@ def run(db_path: Optional[str] = None, preview: bool = False, apply: bool = Fals
             print(f">>> [preview] would-change {len(pairs)} 个值；候选对已写 {out_csv}（LLM 未调用）")
             return
 
-        api_key = os.environ.get("GEMINI_API_KEY", "")
+        api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GPT_API_KEY", "")
         if not api_key:
-            raise RuntimeError("未找到 GEMINI_API_KEY（.env）")
-        from google import genai
-        client = genai.Client(api_key=api_key)
+            raise RuntimeError("未找到 OPENAI_API_KEY 或 GPT_API_KEY（.env）")
         confirmed = []
         for i in range(0, len(candidates), BATCH_SIZE):
             batch = candidates[i:i + BATCH_SIZE]
             print(f">>> LLM 确认批次 {i // BATCH_SIZE + 1}/{(len(candidates) - 1) // BATCH_SIZE + 1}")
-            confirmed.extend(_llm_confirm_batch_dev(client, batch))
+            confirmed.extend(_llm_confirm_batch_dev(api_key, batch))
             time.sleep(0.5)
 
         if use_registry:

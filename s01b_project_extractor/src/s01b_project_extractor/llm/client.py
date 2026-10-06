@@ -41,7 +41,7 @@ def _request_timeout_from_env() -> float:
     return value if value > 0 else 90.0
 
 
-def _config_for_provider(provider: str, model_override: str = "") -> LLMConfig:
+def _config_for_provider(provider: str, model_override: str = "", effort_override: str = "") -> LLMConfig:
     """按 provider 名从对应环境变量构建配置，并允许实验路由覆盖单个阶段的模型。"""
     provider = (provider or "gemini").strip().lower()
     if provider == "deepseek":
@@ -58,7 +58,7 @@ def _config_for_provider(provider: str, model_override: str = "") -> LLMConfig:
             provider="openai",
             model=(model_override or os.getenv("OPENAI_MODEL") or os.getenv("GPT_MODEL") or "gpt-5.4-nano").strip(),
             temperature=None,
-            reasoning_effort=os.getenv("OPENAI_REASONING_EFFORT", "").strip(),
+            reasoning_effort=(effort_override or os.getenv("OPENAI_REASONING_EFFORT", "")).strip(),
             base_url=os.getenv("OPENAI_BASE_URL", "").strip(),
             _api_key=(os.getenv("OPENAI_API_KEY") or os.getenv("GPT_API_KEY") or "").strip(),
             request_timeout_seconds=_request_timeout_from_env(),
@@ -96,6 +96,11 @@ def _parse_stage_models(raw: str) -> dict[str, str]:
     return _parse_stage_providers(raw)
 
 
+def _parse_stage_efforts(raw: str) -> dict[str, str]:
+    """解析 S01B_STAGE_EFFORTS（如 ``s1:low,s2:medium``）为阶段推理强度映射。"""
+    return _parse_stage_providers(raw)
+
+
 class StageRouter:
     """按阶段把 complete() 路由到不同 provider 的 client；接口与 LLMClient 兼容（drop-in，供 extract_staged 直接用）。"""
 
@@ -117,13 +122,14 @@ def build_stage_router_from_env(*, _client_factory=None, default_client=None) ->
     default_provider = os.getenv("S01B_PROVIDER", "gemini").strip().lower()
     overrides = _parse_stage_providers(os.getenv("S01B_STAGE_PROVIDERS", ""))
     model_overrides = _parse_stage_models(os.getenv("S01B_STAGE_MODELS", ""))
+    effort_overrides = _parse_stage_efforts(os.getenv("S01B_STAGE_EFFORTS", ""))
     default_cfg = _config_for_provider(default_provider)
-    clients: dict[tuple[str, str], object] = {}
+    clients: dict[tuple[str, str, str], object] = {}
 
-    def client_for(provider: str, model: str = ""):
-        """返回指定 provider/model 的复用客户端。"""
-        cfg = _config_for_provider(provider, model)
-        key = (cfg.provider, cfg.model)
+    def client_for(provider: str, model: str = "", effort: str = ""):
+        """返回指定 provider/model/effort 的复用客户端。"""
+        cfg = _config_for_provider(provider, model, effort)
+        key = (cfg.provider, cfg.model, cfg.reasoning_effort)
         if key not in clients:
             clients[key] = factory(cfg)
         return clients[key]
@@ -131,19 +137,23 @@ def build_stage_router_from_env(*, _client_factory=None, default_client=None) ->
     # 生产入口可能已建立 Gemini client；仅在默认路由确为 Gemini 且未覆盖默认模型时复用。
     if default_client is not None and default_provider == "gemini":
         default = default_client
-        clients[(default_cfg.provider, default_cfg.model)] = default_client
+        clients[(default_cfg.provider, default_cfg.model, default_cfg.reasoning_effort)] = default_client
     else:
         default = client_for(default_provider)
 
     by_stage = {}
-    for stage in sorted(set(overrides) | set(model_overrides)):
+    for stage in sorted(set(overrides) | set(model_overrides) | set(effort_overrides)):
         provider = overrides.get(stage, default_provider)
         model = model_overrides.get(stage, "")
-        cfg = _config_for_provider(provider, model)
+        effort = effort_overrides.get(stage, "")
+        cfg = _config_for_provider(provider, model, effort)
         if cfg.provider == default_cfg.provider and cfg.model == default_cfg.model:
-            by_stage[stage] = default
+            if cfg.reasoning_effort == default_cfg.reasoning_effort:
+                by_stage[stage] = default
+            else:
+                by_stage[stage] = client_for(provider, model, effort)
         else:
-            by_stage[stage] = client_for(provider, model)
+            by_stage[stage] = client_for(provider, model, effort)
     return StageRouter(default=default, by_stage=by_stage)
 
 

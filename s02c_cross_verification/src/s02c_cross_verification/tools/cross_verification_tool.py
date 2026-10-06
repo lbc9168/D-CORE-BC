@@ -28,7 +28,12 @@ load_dotenv()
 # ── 常量 ──────────────────────────────────────────────────────────────────────
 
 GEMINI_MODEL    = "gemini-2.5-flash-lite"
-EMBEDDING_MODEL = "text-embedding-004"
+EMBEDDING_MODEL = "gemini-embedding-2"
+EMBEDDING_TASK_PREFIX = "task: sentence similarity | query: "
+EMBEDDING_CACHE_SIGNATURE = {
+    "model": EMBEDDING_MODEL,
+    "task_prefix": EMBEDDING_TASK_PREFIX,
+}
 GDELT_API_URL   = "https://api.gdeltproject.org/api/v2/doc/doc"
 NEWS_API_URL    = "https://newsapi.org/v2/everything"
 
@@ -98,14 +103,12 @@ def _cosine_similarity(a: List[float], b: List[float]) -> float:
 def _get_embedding(
     client: genai.Client,
     text: str,
-    task_type: str = "RETRIEVAL_QUERY",
 ) -> Optional[List[float]]:
-    """调用 Gemini text-embedding-004 获取多语言向量。"""
+    """使用统一的语义相似度任务前缀调用 Gemini Embedding 2。"""
     try:
         result = client.models.embed_content(
             model=EMBEDDING_MODEL,
-            content=text,
-            config=types.EmbedContentConfig(task_type=task_type),
+            content=f"{EMBEDDING_TASK_PREFIX}{text}",
         )
         return list(result.embedding.values)
     except Exception as e:
@@ -312,18 +315,27 @@ def _load_or_build_article_embeddings(
     cache_dir: str,
 ) -> Dict[str, List[Tuple[Dict, List[float]]]]:
     """
-    为每个分组中的文章生成嵌入向量（使用 RETRIEVAL_DOCUMENT 任务类型）。
-    嵌入结果缓存到 article_embeddings.json，避免重复计算。
+    为文章生成语义相似度向量；缓存签名确保模型或任务格式变化时不复用旧向量。
     返回：{group_key: [(article_dict, embedding_vector), ...]}
     """
-    emb_cache_file = os.path.join(cache_dir, "article_embeddings.json")
+    emb_cache_file = os.path.join(
+        cache_dir, "article_embeddings_gemini-embedding-2.json"
+    )
 
-    # 加载已有嵌入缓存（格式：{key: [[title, url, emb_vector], ...]}）
+    # 只读写带模型与任务签名的新格式；旧 article_embeddings.json 不可跨模型复用。
     raw_cache: Dict[str, List] = {}
     if os.path.exists(emb_cache_file):
         with open(emb_cache_file, encoding="utf-8") as f:
-            raw_cache = json.load(f)
-        print(f"  已加载文章嵌入缓存，共 {len(raw_cache)} 个分组")
+            cache_payload = json.load(f)
+        if (
+            isinstance(cache_payload, dict)
+            and cache_payload.get("signature") == EMBEDDING_CACHE_SIGNATURE
+            and isinstance(cache_payload.get("articles"), dict)
+        ):
+            raw_cache = cache_payload["articles"]
+            print(f"  已加载文章嵌入缓存，共 {len(raw_cache)} 个分组")
+        else:
+            print("  文章嵌入缓存签名不匹配，将重新生成向量")
 
     result: Dict[str, List[Tuple[Dict, List[float]]]] = {}
     cache_updated = False
@@ -341,7 +353,7 @@ def _load_or_build_article_embeddings(
                 art_text = _build_article_text(art)
                 if not art_text.strip():
                     continue
-                emb = _get_embedding(client, art_text, "RETRIEVAL_DOCUMENT")
+                emb = _get_embedding(client, art_text)
                 if emb:
                     embedded.append((art, emb))
                     new_entries.append([art.get("title", ""), url, emb])
@@ -357,7 +369,11 @@ def _load_or_build_article_embeddings(
 
     if cache_updated:
         with open(emb_cache_file, "w", encoding="utf-8") as f:
-            json.dump(raw_cache, f, ensure_ascii=False)
+            json.dump(
+                {"signature": EMBEDDING_CACHE_SIGNATURE, "articles": raw_cache},
+                f,
+                ensure_ascii=False,
+            )
 
     return result
 
@@ -384,7 +400,7 @@ def _find_candidate_pairs(
             continue
 
         proj_text = _build_project_text(proj)
-        proj_emb  = _get_embedding(client, proj_text, "RETRIEVAL_QUERY")
+        proj_emb  = _get_embedding(client, proj_text)
         if not proj_emb:
             continue
         time.sleep(0.3)

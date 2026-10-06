@@ -11,7 +11,7 @@ if str(_s02b_src) not in sys.path:
     sys.path.insert(0, str(_s02b_src))
 
 from s02b_entity_normalizer.location_normalizer import (
-    _load_locations_by_country, _write_location_norm,
+    _load_locations_by_country, _write_location_norm, run,
 )
 
 
@@ -52,4 +52,28 @@ def test_write_location_norm_only_touches_mapped_rows(tmp_path):
     assert conn.execute("SELECT location FROM canonical_projects WHERE id='PAK-WD-0002'").fetchone()[0] == "达旺德米"
     # 幂等：重复写不报错（ALTER 已存在列被沉默）
     assert _write_location_norm(db, {"PAK": {"达旺德米": "达瓦德密"}}) == 1
+    conn.close()
+
+
+def test_location_normalizer_uses_configured_gpt_effort(tmp_path, monkeypatch):
+    db = _make_db(tmp_path)
+    monkeypatch.setenv("GPT_API_KEY", "test-only")
+    monkeypatch.setenv("S02B_LOCATION_MODEL", "gpt-6-luna")
+    monkeypatch.setenv("S02B_LOCATION_EFFORT", "medium")
+    calls = []
+
+    def fake_chat_completion_json(prompt, *, model, effort, api_key=""):
+        calls.append((model, effort, api_key, prompt))
+        return '{"results":[{"id":0,"is_same":true,"canonical_name":"达瓦德密"}]}'
+
+    from s02b_entity_normalizer import openai_gateway
+    monkeypatch.setattr(openai_gateway, "chat_completion_json", fake_chat_completion_json)
+
+    run(db_path=db)
+
+    assert calls and calls[0][:3] == ("gpt-6-luna", "medium", "test-only")
+    conn = sqlite3.connect(db)
+    assert conn.execute(
+        "SELECT location_norm FROM canonical_projects WHERE id='PAK-WD-0002'"
+    ).fetchone()[0] == "达瓦德密"
     conn.close()

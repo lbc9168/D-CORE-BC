@@ -5,13 +5,13 @@
   - s02a duplicate_merger：去重前对批内 location 做 in-memory 归一（写 project["location_norm"]）
   - s02b location_normalizer：对 canonical_projects.location 做落库归一（写 location_norm 列）
 
-模块顶层不依赖 google-genai：client 以鸭子类型传入（任何带 .models.generate_content 的对象），
-LLM 失败保守不合并并 logging.error 记录。
+模块顶层不依赖 google-genai：可传入带 `.models.generate_content` 的 client，
+或注入 `generate_text` 回调（如 OpenAI 路由）；LLM 失败保守不合并并 logging.error 记录。
 """
 import json
 import logging
 import time
-from typing import Dict, List, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 from rapidfuzz import fuzz
 
@@ -124,7 +124,12 @@ def find_location_candidates(names_with_counts: List[Tuple[str, int]]) -> List[D
     return candidates
 
 
-def llm_confirm_locations(client, batch: List[Dict], country: str = "") -> List[Dict]:
+def llm_confirm_locations(
+    client,
+    batch: List[Dict],
+    country: str = "",
+    generate_text: Optional[Callable[[str], str]] = None,
+) -> List[Dict]:
     """LLM 批量判断候选地名对是否同一地点的不同写法；3 次重试后保守置 is_same=False。"""
     pairs_text = "\n".join(
         f"{p['id']}. 「{p['name_a']}」(出现{p['count_a']}次)"
@@ -141,20 +146,27 @@ def llm_confirm_locations(client, batch: List[Dict], country: str = "") -> List[
 【候选对】
 {pairs_text}
 
-请以 JSON 数组返回，每个元素格式：
-{{"id": <编号>, "is_same": <true|false>, "canonical_name": "<规范地名；is_same=false 时留空>"}}
+请严格以 JSON 对象返回，使用 results 数组：
+{{"results": [{{"id": <编号>, "is_same": <true|false>, "canonical_name": "<规范地名；is_same=false 时留空>"}}]}}
 只返回 JSON，不要有其他文字。"""
 
     for attempt in range(3):
         try:
-            resp = client.models.generate_content(model=LLM_MODEL, contents=prompt)
-            raw = (resp.text or "").strip()
+            if generate_text is not None:
+                raw = generate_text(prompt).strip()
+            else:
+                resp = client.models.generate_content(model=LLM_MODEL, contents=prompt)
+                raw = (resp.text or "").strip()
             # 有时模型返回 ```json ... ``` 包裹，需去除
             if raw.startswith("```"):
                 raw = raw.split("```")[1]
                 if raw.startswith("json"):
                     raw = raw[4:]
             results = json.loads(raw)
+            if isinstance(results, dict):
+                results = results.get("results", [])
+            if not isinstance(results, list):
+                raise ValueError("地名确认响应必须包含 results 数组")
             result_map = {r["id"]: r for r in results}
             for p in batch:
                 info = result_map.get(p["id"], {})
@@ -214,6 +226,8 @@ def build_union_mapping(
 def build_location_mapping(
     locations_by_country: Dict[str, List[Tuple[str, int]]],
     client,
+    *,
+    generate_text: Optional[Callable[[str], str]] = None,
 ) -> Dict[str, Dict[str, str]]:
     """按国家独立归一地名（国家间互不串改）。
 
@@ -232,7 +246,12 @@ def build_location_mapping(
         confirmed: List[Dict] = []
         for i in range(0, len(candidates), LLM_BATCH_SIZE):
             confirmed.extend(
-                llm_confirm_locations(client, candidates[i:i + LLM_BATCH_SIZE], country)
+                llm_confirm_locations(
+                    client,
+                    candidates[i:i + LLM_BATCH_SIZE],
+                    country,
+                    generate_text=generate_text,
+                )
             )
         mapping = build_union_mapping(names_with_counts, confirmed)
         if mapping:

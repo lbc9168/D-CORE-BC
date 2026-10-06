@@ -303,20 +303,27 @@ def test_cross_category_same_country_and_capacity_without_name_match_stays_separ
 
 def test_apply_location_norm_sets_norm_per_country(monkeypatch):
     import bri_location
+
+    def fake_build_location_mapping(grouped, client, *, generate_text=None):
+        assert callable(generate_text)
+        assert generate_text("{}") == "{}"
+        return {"巴基斯坦": {"达旺德米": "达瓦德密"}}
+
+    monkeypatch.setattr(dmt, "_llm_call_with_retry", lambda fn, prompt, **kwargs: prompt)
     monkeypatch.setattr(
         bri_location, "build_location_mapping",
-        lambda grouped, client: {"巴基斯坦": {"达旺德米": "达瓦德密"}},
+        fake_build_location_mapping,
     )
     a = _proj(location="达旺德米")
     b = _proj(location="达瓦德密")
     c = _proj(location="达旺德米", country="肯尼亚")   # 别国同名地名不受巴基斯坦映射影响
-    n = dmt._apply_location_norm([a, b, c], client=object())
+    n = dmt._apply_location_norm([a, b, c], client=None)
     assert n == 1
     assert a["location_norm"] == "达瓦德密"
     assert "location_norm" not in b and "location_norm" not in c
 
 
-def test_apply_location_norm_noop_without_client():
+def test_apply_location_norm_noop_without_candidate_pair():
     a = _proj(location="达旺德米")
     assert dmt._apply_location_norm([a], client=None) == 0
     assert "location_norm" not in a

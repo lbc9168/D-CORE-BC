@@ -3,7 +3,7 @@
 
 四阶段处理：
 1. 候选筛查：Python 端 fuzzy matching 找潜在跨源重复对
-2. LLM 确认：Gemini 确认是否为同一物理项目（阶段可不同）
+2. LLM 确认：独立 provider 路由判断是否为同一物理项目（阶段可不同）
 3. 字段仲裁：LLM 解决冲突字段，合并实体列表
 4. SQLite 写入：规范化三表结构（canonical_projects / project_events / chinese_entities）
 """
@@ -23,8 +23,10 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
+from urllib.parse import urlsplit
 
 import pandas as pd
+import requests
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types, errors as genai_errors
@@ -75,9 +77,17 @@ CANONICAL_LLM_MIN_SCORE    = 70  # 跨批次：[70, 97) → LLM 确认是否匹�
 CANONICAL_CAP_GUARD_TOLERANCE = 0.20  # ≥97分自动匹配时的容量安全检查阈值（20%）
 LOCATION_ANCHOR_CAP_TOLERANCE = 0.15  # Signal 6 容量"接近"判定（15% 以内）
 LOCATION_ANCHOR_MIN_MW = 10           # Signal 6 最低容量门槛（地点相等已是强约束，可低于 Signal 4 的 50）
-GEMINI_MODEL      = "gemini-2.5-flash-lite"  # 字段仲裁等非关键 LLM 调用
-# 项目合并确认模型：默认稳定版；要换更强模型用环境变量覆盖，不改代码（P3 收口，原写死 preview 版）
-LLM_CONFIRM_MODEL = os.getenv("S02A_LLM_CONFIRM_MODEL", "gemini-2.5-flash-lite")
+# S02A 中 OpenAI 路由按子任务设 effort：显式地点提取用 low；字段冲突选择、
+# 身份判断和地点同一性确认用 medium，兼顾字段语义和误归并的传播风险。
+LLM_CONFIRM_PROVIDER = os.getenv("S02A_LLM_CONFIRM_PROVIDER", "gemini").strip().lower()
+LLM_CONFIRM_MODEL = os.getenv("S02A_LLM_CONFIRM_MODEL", "gemini-2.5-flash-lite").strip()
+LLM_CONFIRM_EFFORT = os.getenv("S02A_LLM_CONFIRM_EFFORT", "medium").strip().lower()
+S02A_FIELD_MODEL = os.getenv("S02A_FIELD_MODEL", "gpt-6-luna").strip()
+S02A_FIELD_EFFORT = os.getenv("S02A_FIELD_EFFORT", "medium").strip().lower()
+S02A_LOCATION_MODEL = os.getenv("S02A_LOCATION_MODEL", "gpt-6-luna").strip()
+S02A_LOCATION_EFFORT = os.getenv("S02A_LOCATION_EFFORT", "low").strip().lower()
+S02A_LOCATION_NORM_MODEL = os.getenv("S02A_LOCATION_NORM_MODEL", "gpt-6-luna").strip()
+S02A_LOCATION_NORM_EFFORT = os.getenv("S02A_LOCATION_NORM_EFFORT", "medium").strip().lower()
 # 去重并行 LLM 核验线程数：默认 3 保守；Gemini 限额大时用环境变量调高（库写仍在主线程串行，线程安全）
 DEDUP_WORKERS = int(os.getenv("S02A_DEDUP_WORKERS", "3"))
 # 去重确认每批对数：每批跑完即 commit 缓存（断点续跑粒度）
@@ -906,7 +916,7 @@ def _infer_location_from_name(
     """从项目名推断 location，原地回填空 location 字段。
 
     仅处理 location 为空的记录。提取不出则保持空字符串，不强行填写。
-    使用轻量模型 GEMINI_MODEL 批量调用（每批 batch_size 条）。
+    使用 GPT-6 Luna 低 effort 批量提取（每批 batch_size 条）。
     """
     targets = [p for p in projects if not _clean(p.get("location", ""))]
     if not targets:
@@ -934,12 +944,13 @@ def _infer_location_from_name(
         )
 
         try:
-            resp = client.models.generate_content(
-                model=GEMINI_MODEL,
-                contents=prompt,
-                config=config,
+            raw = _llm_call_with_retry(
+                _openai_json_content,
+                prompt,
+                model=S02A_LOCATION_MODEL,
+                effort=S02A_LOCATION_EFFORT,
             )
-            result = json.loads(resp.text)
+            result = json.loads(raw)
             for entry in result.get("results", []):
                 idx = entry.get("id")
                 loc = _clean(entry.get("location", ""))
@@ -958,8 +969,6 @@ def _apply_location_norm(projects: List[Dict], client) -> int:
     让 Signal 6 锚点能命中音译变体；失败仅记日志，锚点回退原 location，不阻塞主流程。
     返回应用条数。
     """
-    if client is None:
-        return 0
     by_country: Dict[str, Dict[str, int]] = defaultdict(lambda: defaultdict(int))
     for p in projects:
         loc = _clean(p.get("location", ""))
@@ -969,7 +978,16 @@ def _apply_location_norm(projects: List[Dict], client) -> int:
     if not grouped:
         return 0
     try:
-        mapping = bri_location.build_location_mapping(grouped, client)
+        mapping = bri_location.build_location_mapping(
+            grouped,
+            client,
+            generate_text=lambda prompt: _llm_call_with_retry(
+                _openai_json_content,
+                prompt,
+                model=S02A_LOCATION_NORM_MODEL,
+                effort=S02A_LOCATION_NORM_EFFORT,
+            ),
+        )
     except Exception as e:
         logging.error("批内地点归一化失败，Signal 6 锚点将回退原 location: %s", e)
         return 0
@@ -1136,6 +1154,67 @@ def _llm_call_with_retry(fn, *args, max_retries: int = 5, **kwargs):
                 raise
 
 
+def _openai_confirm_content(prompt: str) -> str:
+    """Call the configured OpenAI-compatible model for project identity confirmation."""
+    return _openai_json_content(
+        prompt,
+        model=LLM_CONFIRM_MODEL,
+        effort=LLM_CONFIRM_EFFORT,
+    )
+
+
+def _openai_json_content(prompt: str, *, model: str, effort: str) -> str:
+    """Call GPT through the configured OpenAI-compatible endpoint for a JSON task."""
+    key = os.getenv("OPENAI_API_KEY") or os.getenv("GPT_API_KEY", "")
+    if not key:
+        raise RuntimeError("OpenAI key missing: set OPENAI_API_KEY or GPT_API_KEY")
+    base = (os.getenv("OPENAI_BASE_URL") or "https://api.openai.com/v1").rstrip("/")
+    parsed = urlsplit(base)
+    if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
+        raise ValueError("invalid_openai_base_url")
+    if effort not in {"low", "medium", "high"}:
+        raise ValueError("invalid_reasoning_effort")
+    response = requests.post(
+        f"{base}/chat/completions",
+        headers={"Authorization": f"Bearer {key}"},
+        json={
+            "model": model,
+            "reasoning_effort": effort,
+            "max_completion_tokens": 4096,
+            "response_format": {"type": "json_object"},
+            "messages": [{"role": "user", "content": prompt}],
+        },
+        timeout=(10, 90),
+    )
+    if response.status_code != 200:
+        status = response.status_code
+        if status == 429 or 500 <= status < 600:
+            raise RuntimeError(f"OpenAI temporary HTTP {status}")
+        raise RuntimeError(f"OpenAI request failed HTTP {status}")
+    body = response.json()
+    choices = body.get("choices") if isinstance(body, dict) else None
+    if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+        raise ValueError("OpenAI confirmation returned an invalid response")
+    message = choices[0].get("message")
+    content = message.get("content") if isinstance(message, dict) else None
+    if choices[0].get("finish_reason") != "stop" or not isinstance(content, str) or not content.strip():
+        raise ValueError("OpenAI confirmation returned an incomplete response")
+    return content
+
+
+def _llm_confirm_content(client, config, prompt: str) -> str:
+    """Dispatch project-identity confirmations through the configured provider."""
+    if LLM_CONFIRM_PROVIDER == "openai":
+        return _llm_call_with_retry(_openai_confirm_content, prompt)
+    if LLM_CONFIRM_PROVIDER != "gemini":
+        raise ValueError(f"unsupported S02A confirmation provider: {LLM_CONFIRM_PROVIDER}")
+    response = _llm_call_with_retry(
+        client.models.generate_content,
+        model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
+    )
+    return response.text
+
+
 def _fmt_entities(project: Dict) -> str:
     """格式化中方实体列表为可读字符串。"""
     ents = [
@@ -1229,17 +1308,14 @@ def _llm_confirm_raising(
 严格返回 JSON（无其他内容）：
 {{"relationship": "exact_duplicate|same_project_different_event|partial_overlap|distinct", "confidence": "high|medium|low", "reasoning": "一句话理由"}}
     """
-    resp = _llm_call_with_retry(
-        client.models.generate_content,
-        model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
-    )
-    result = json.loads(resp.text)
+    raw_response = _llm_confirm_content(client, config, prompt)
+    result = json.loads(raw_response)
     if isinstance(result, list):
         result = result[0]
     relationship = _parse_dedup_relationship(result)
     if relationship == "partial_overlap" or (relationship != "distinct" and result.get("confidence") == "low"):
         raise coordination.CoordinationRequired({
-            "kind": "batch_identity", "model_result": result, "raw_response": resp.text,
+            "kind": "batch_identity", "model_result": result, "raw_response": raw_response,
             "reason": result.get("reasoning", ""),
             "source_record_ids": sorted(set(a.get("_source_record_ids", []) + b.get("_source_record_ids", []))),
             "incoming": deepcopy(a), "candidate": deepcopy(b),
@@ -1304,11 +1380,8 @@ def _llm_confirm_canonical(
 严格返回 JSON（无其他内容）：
 {{"relationship": "exact_duplicate|same_project_different_event|partial_overlap|distinct", "confidence": "high|medium|low", "reasoning": "一句话理由"}}
     """
-    resp = _llm_call_with_retry(
-        client.models.generate_content,
-        model=LLM_CONFIRM_MODEL, contents=prompt, config=config,
-    )
-    result = json.loads(resp.text)
+    raw_response = _llm_confirm_content(client, config, prompt)
+    result = json.loads(raw_response)
     if isinstance(result, list):
         result = result[0]
     relationship = _parse_dedup_relationship(result)
@@ -1319,7 +1392,7 @@ def _llm_confirm_canonical(
     if relationship == "partial_overlap" or (relationship != "distinct" and (result.get("confidence") == "low" or hard_conflict)):
         raise coordination.CoordinationRequired({
             "kind": "historical_identity", "candidate_canonical_id": db_id,
-            "model_result": result, "raw_response": resp.text,
+            "model_result": result, "raw_response": raw_response,
             "reason": result.get("reasoning", ""), "historical": historical,
             "conflict_fields": {k: {"incoming": project.get(k), "historical": historical[k]}
                                 for k in ("project_name", "location", "capacity_mw", "capacity_details", "project_developer")
@@ -1340,7 +1413,7 @@ def _llm_choose_value(
     values: List[str],
     project_name: str,
 ) -> str:
-    """LLM 从多个冲突值中选择最可信的一个。"""
+    """GPT-6 Luna medium effort 从有限候选值中仲裁项目事实字段。"""
     prompt = f"""项目：{project_name}
 字段：{field}
 候选值：{values}
@@ -1348,11 +1421,13 @@ def _llm_choose_value(
 请选择最可信或最完整的值。
 严格返回 JSON：{{"chosen": "选择的值", "reasoning": "一句话理由"}}
     """
-    resp = _llm_call_with_retry(
-        client.models.generate_content,
-        model=GEMINI_MODEL, contents=prompt, config=config,
+    raw = _llm_call_with_retry(
+        _openai_json_content,
+        prompt,
+        model=S02A_FIELD_MODEL,
+        effort=S02A_FIELD_EFFORT,
     )
-    result = json.loads(resp.text)
+    result = json.loads(raw)
     if not isinstance(result, dict) or result.get("chosen") not in values:
         raise ValueError("冲突仲裁必须返回候选集合中的明确值")
     return result["chosen"]
@@ -1454,7 +1529,7 @@ def _run_confirm_batches(client, config, projects, todo, cache_db, cache) -> Non
             except coordination.CoordinationRequired as e:
                 # Business holds are reusable decisions, not retryable API failures.
                 return k, None, "pending", e.evidence, (pi, pj)
-            except (RuntimeError, ValueError, OSError, genai_errors.APIError) as e:
+            except (RuntimeError, ValueError, OSError, requests.RequestException, genai_errors.APIError) as e:
                 logging.error("确认失败 pair_key=%s: %s", k, e)
                 return k, None, "failed", None, (pi, pj)
 
@@ -2379,7 +2454,12 @@ class DuplicateMergerTool:
         if cache_db is None:
             # Keep confirmations across recoverable batch failures. Code/model changes
             # use another cache file rather than silently reusing a stale decision.
-            version = hashlib.sha256(Path(__file__).read_bytes() + LLM_CONFIRM_MODEL.encode()).hexdigest()[:12]
+            model_route = "|".join((
+                f"identity={LLM_CONFIRM_PROVIDER}:{LLM_CONFIRM_MODEL}:{LLM_CONFIRM_EFFORT}",
+                f"location={S02A_LOCATION_MODEL}:{S02A_LOCATION_EFFORT}",
+                f"location_norm={S02A_LOCATION_NORM_MODEL}:{S02A_LOCATION_NORM_EFFORT}",
+            ))
+            version = hashlib.sha256(Path(__file__).read_bytes() + model_route.encode()).hexdigest()[:12]
             target = Path(db_path).resolve()
             cache_db = str(target.with_name(f"{target.stem}.dedup-{version}.db"))
         self.last_result["cache_db"] = cache_db
@@ -2400,20 +2480,19 @@ class DuplicateMergerTool:
         print(f"  原始行数: {raw_count}")
 
         api_key = os.getenv("GEMINI_API_KEY")
-        if not api_key:
+        if LLM_CONFIRM_PROVIDER == "gemini" and not api_key:
             raise RuntimeError("未找到 GEMINI_API_KEY 环境变量，请检查 .env 文件。")
-        client = genai.Client(api_key=api_key)
+        client = genai.Client(api_key=api_key) if api_key else None
         gen_config = types.GenerateContentConfig(response_mime_type="application/json", temperature=0.1)
 
         all_projects = _group_into_logical_projects(df)
         print(f"  归组后逻辑记录数: {len(all_projects)}")
 
         # ── 从项目名推断空 location（Stage 1 后置补全）─────────────────────────
-        if client is not None:
-            _infer_location_from_name(
-                client, gen_config,
-                [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"],
-            )
+        _infer_location_from_name(
+            client, gen_config,
+            [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"],
+        )
 
         # 按 record_type 分流
         projects = [p for p in all_projects if p.get("record_type", "具体项目") == "具体项目"]

@@ -102,16 +102,30 @@ def run(db_path: Optional[str] = None, preview: bool = False) -> None:
         print("  无候选对，无需归一化。")
         return
 
-    # 延迟导入：preview 模式与单测不需要 genai/dotenv
+    # 延迟导入：preview 模式无需 OpenAI 凭据，也不触发模型调用。
     from dotenv import load_dotenv
-    from google import genai
+    from s02b_entity_normalizer.openai_gateway import chat_completion_json
     load_dotenv(_S02B_ROOT / ".env")
     load_dotenv()
-    api_key = os.environ.get("GEMINI_API_KEY", "")
+    location_model = os.getenv("S02B_LOCATION_MODEL", "gpt-6-luna").strip()
+    location_effort = os.getenv("S02B_LOCATION_EFFORT", "medium").strip().lower()
+    api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GPT_API_KEY", "")
     if not api_key:
-        raise RuntimeError("未找到 GEMINI_API_KEY，请在 .env 文件中配置")
+        raise RuntimeError("未找到 OPENAI_API_KEY 或 GPT_API_KEY，请在 .env 文件中配置")
 
-    mapping_by_country = bri_location.build_location_mapping(by_country, genai.Client(api_key=api_key))
+    def generate_text(prompt: str) -> str:
+        return chat_completion_json(
+            prompt,
+            model=location_model,
+            effort=location_effort,
+            api_key=api_key,
+        )
+
+    mapping_by_country = bri_location.build_location_mapping(
+        by_country,
+        None,
+        generate_text=generate_text,
+    )
     for iso, mapping in sorted(mapping_by_country.items()):
         for alias, canon in sorted(mapping.items()):
             print(f"    [{iso}] {alias}  →  {canon}")

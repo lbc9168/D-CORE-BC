@@ -14,6 +14,12 @@ from bri_pipeline.historical_reprocess import build_coordination_plan, apply_coo
 from s02a_duplicate_merger.tools import duplicate_merger_tool as m, coordination
 
 
+@pytest.fixture(autouse=True)
+def _keep_confirmation_tests_offline(monkeypatch):
+    """Keep unit tests on their stubbed Gemini route regardless of local model settings."""
+    monkeypatch.setattr(m, "LLM_CONFIRM_PROVIDER", "gemini")
+
+
 def source(path, normal=True):
     with sqlite3.connect(path) as c:
         c.execute("""CREATE TABLE extracted_projects (

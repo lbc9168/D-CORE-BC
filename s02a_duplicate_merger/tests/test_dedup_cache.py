@@ -12,6 +12,12 @@ from s02a_duplicate_merger.tools import dedup_cache as dc
 import s02a_duplicate_merger.tools.duplicate_merger_tool as dmt
 
 
+@pytest.fixture(autouse=True)
+def _keep_confirmation_tests_offline(monkeypatch):
+    """Keep unit tests on the stubbed Gemini route even when a local .env selects OpenAI."""
+    monkeypatch.setattr(dmt, "LLM_CONFIRM_PROVIDER", "gemini")
+
+
 # ─────────────────────────── Task 1：dedup_cache 模块 ───────────────────────────
 
 def _p(name, **kw):

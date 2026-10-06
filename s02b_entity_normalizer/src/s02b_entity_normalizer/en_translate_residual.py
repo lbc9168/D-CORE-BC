@@ -42,7 +42,8 @@ load_dotenv()
 
 DEFAULT_RESIDUAL_CACHE = str(_ROOT / "supporting_docs" / "residual_translation_cache.json")
 _CJK_RE = re.compile(r"[一-鿿]")
-_TRANSLATE_MODEL = "gemini-2.5-flash-lite"
+_TRANSLATE_MODEL = os.getenv("S02B_TRANSLATE_MODEL", "gpt-6-luna").strip()
+_TRANSLATE_EFFORT = os.getenv("S02B_TRANSLATE_EFFORT", "low").strip().lower()
 _BATCH_SIZE = 20
 _CACHE_KEY_MAX_LEN = 60  # 超长键多为提取残渣，不固化进缓存（与 s01b 垃圾键守卫同旨）
 
@@ -150,31 +151,30 @@ def _write_new_csv(path: str, new_entries: Dict[str, str]) -> None:
     """本次新增翻译写 CSV（utf-8-sig 便于 Excel 抽检，喂季度 campaign 升级 registry）。"""
     with open(path, "w", newline="", encoding="utf-8-sig") as f:
         w = csv.writer(f)
-        w.writerow(["cn", "en", "model", "date"])
+        w.writerow(["cn", "en", "model", "reasoning_effort", "date"])
         today = datetime.now().strftime("%Y-%m-%d")
         for cn_part, en in new_entries.items():
-            w.writerow([cn_part, en, _TRANSLATE_MODEL, today])
+            w.writerow([cn_part, en, _TRANSLATE_MODEL, _TRANSLATE_EFFORT, today])
 
 
-def _build_gemini_translate(api_key: str) -> Callable[[List[str]], Dict[str, str]]:
-    """构造真实批量翻译函数：一批若干名称 → JSON 数组返回 {id, en}；3 次退避重试，全败返回空 dict。"""
-    from google import genai
-    from google.genai import types as _types
-    client = genai.Client(api_key=api_key)
+def _build_openai_translate(api_key: str) -> Callable[[List[str]], Dict[str, str]]:
+    """Build the GPT-6 Luna batch translator; retry failures three times."""
+    from s02b_entity_normalizer.openai_gateway import chat_completion_json
 
     def translate(names: List[str]) -> Dict[str, str]:
         numbered = "\n".join(f"{i + 1}. {n}" for i, n in enumerate(names))
         prompt = (
             "请将下列中国企业/机构名称翻译为英文官方名称（如有官方英文名优先使用，否则给出简洁合理译名）。\n"
-            '以 JSON 数组返回，每个元素格式 {"id": <编号>, "en": "<英文名>"}，只返回 JSON，不要其他文字：\n'
+            '以 JSON 对象返回，格式 {"translations": [{"id": <编号>, "en": "<英文名>"}]}，只返回 JSON，不要其他文字：\n'
             + numbered)
         for attempt in range(3):
             try:
-                resp = client.models.generate_content(
-                    model=_TRANSLATE_MODEL, contents=prompt,
-                    config=_types.GenerateContentConfig(temperature=0, response_mime_type="application/json"),
+                raw = chat_completion_json(
+                    prompt, model=_TRANSLATE_MODEL, effort=_TRANSLATE_EFFORT, api_key=api_key,
                 )
-                data = json.loads(resp.text)
+                data = json.loads(raw)
+                if isinstance(data, dict):
+                    data = data.get("translations", [])
                 out: Dict[str, str] = {}
                 for item in data:
                     i = int(item.get("id", 0)) - 1
@@ -259,10 +259,10 @@ def run_residual_translate(db_path: str, cache_path: Optional[str] = None,
     new_entries: Dict[str, str] = {}
     if missing_parts:
         if translate_fn is None:
-            api_key = os.environ.get("GEMINI_API_KEY", "")
+            api_key = os.environ.get("OPENAI_API_KEY") or os.environ.get("GPT_API_KEY", "")
             if not api_key:
-                raise RuntimeError("未找到 GEMINI_API_KEY（.env）")
-            translate_fn = _build_gemini_translate(api_key)
+                raise RuntimeError("未找到 OPENAI_API_KEY 或 GPT_API_KEY（.env）")
+            translate_fn = _build_openai_translate(api_key)
         for i in range(0, len(missing_parts), _BATCH_SIZE):
             batch = missing_parts[i:i + _BATCH_SIZE]
             got = translate_fn(batch) or {}
@@ -277,6 +277,7 @@ def run_residual_translate(db_path: str, cache_path: Optional[str] = None,
             today = datetime.now().strftime("%Y-%m-%d")
             for cn_part, en in new_entries.items():
                 residual[cn_part] = {"en": en, "source": "llm_auto", "model": _TRANSLATE_MODEL,
+                                     "reasoning_effort": _TRANSLATE_EFFORT,
                                      "date": today, "verified": False}
             _save_residual(residual_path, residual)
             ts = datetime.now().strftime("%Y%m%d_%H%M%S")

@@ -61,8 +61,7 @@ def test_end_to_end_registry_apply(tmp_path, monkeypatch):
     supporting_docs.mkdir()
     monkeypatch.setattr(dn, "_SUPPORTING_DOCS", supporting_docs)
     monkeypatch.setattr(dn, "build_index", lambda: build_index(str(rp), None))
-    monkeypatch.setenv("GEMINI_API_KEY", "dummy")
-    monkeypatch.setattr("google.genai.Client", lambda api_key: object())
+    monkeypatch.setenv("GPT_API_KEY", "dummy")
     monkeypatch.setattr(dn, "_llm_confirm_batch_dev", lambda client, batch: [])
 
     dn.run(db_path=db, apply=True, use_registry=True)
@@ -98,10 +97,9 @@ def _mk_ascii_db(path):
 
 
 def _patch_llm_off(monkeypatch, dn, rp):
-    """打桩 build_index(迷你册)/GEMINI_API_KEY/genai.Client/LLM 批确认，端到端不真调 Gemini。"""
+    """打桩 build_index(迷你册)/GPT_API_KEY/LLM 批确认，端到端不发起模型请求。"""
     monkeypatch.setattr(dn, "build_index", lambda: build_index(str(rp), None))
-    monkeypatch.setenv("GEMINI_API_KEY", "dummy")
-    monkeypatch.setattr("google.genai.Client", lambda api_key: object())
+    monkeypatch.setenv("GPT_API_KEY", "dummy")
     monkeypatch.setattr(dn, "_llm_confirm_batch_dev", lambda client, batch: [])
 
 
