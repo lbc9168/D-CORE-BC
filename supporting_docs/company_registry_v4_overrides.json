@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "generated_on": "2026-10-21",
+  "notes": [
+    "V3 已核实的关系优先于 tree 的结构化推断；每条 override 必须写明原因。",
+    "只允许覆盖 parent_entity_id 或 historical_only，不允许修改 entity_id/名称。",
+    "tree 与 V3 的其余冲突会在 company_registry_v4_changes.json 的 tree_v3_parent_conflicts 中列出，供后续裁决。"
+  ],
+  "overrides": [
+    {
+      "entity_id": "ent_9d2682cd130457bf8ef2",
+      "parent_entity_id": "ent_36ac391bc81b5d438be2",
+      "reason": "中国水利电力对外有限公司：V3 2026-09-17 依据三峡移交与中交年报核实为 CCCC 下属；tree 误挂到中国电力建设股份有限公司，保留 V3。"
+    },
+    {
+      "entity_id": "ent_29d46875263751799bac",
+      "parent_entity_id": "ent_6810a59fc6bb5e30b51a",
+      "reason": "上海三菱电梯有限公司：V3 核实直接母公司为上海机电股份有限公司；tree 只挂到上海电气集团，保留更具体的 V3 父链。"
+    },
+    {
+      "entity_id": "ent_dfe3fb0d67265683a271",
+      "parent_entity_id": null,
+      "reason": "Recurrent Energy, LLC：V3 明确 SEC 集团列表不构成直接母关系；tree 将其挂到 Canadian Solar，保留 parent=null。"
+    },
+    {
+      "entity_id": "ent_6ad0740cacbc591d8b7d",
+      "parent_entity_id": null,
+      "historical_only": true,
+      "reason": "湖南云箭集团有限公司：V3 标记 historical_only，历史归组不应用于当前解析；保留无当前 group/parent。"
+    }
+  ]
+}

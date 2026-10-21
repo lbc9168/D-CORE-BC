@@ -1,7 +1,7 @@
 """全库重解析回填 CLI：用 v2 确定性解析器重解析 chinese_entities 存量行。
 
 背景：主库 chinese_entities 存量行是旧归一逻辑产物（含 1697 能建国际、121 电建海投讹变名等
-错误归属）。本工具用 normalize_entity（entity_normalize.py，读 company_hierarchy_v3.json）
+错误归属）。本工具用 normalize_entity（entity_normalize.py，读当前企业登记册，默认 v4）
 统一重解析并回填 implementing_entity / subsidiary_name / is_central_soe；
 en 列一致性规则：CN 变 → en 置 NULL（下次 en_backfill 流水线回填），CN 不变 → en 不动。
 

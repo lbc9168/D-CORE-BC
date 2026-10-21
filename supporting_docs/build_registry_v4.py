@@ -24,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_V3 = ROOT / "supporting_docs" / "company_hierarchy_v3.json"
 DEFAULT_TREE = ROOT / "supporting_docs" / "company_hierarchy_tree.json"
 DEFAULT_ADDITIONS = ROOT / "supporting_docs" / "company_registry_v4_additions.json"
+DEFAULT_OVERRIDES = ROOT / "supporting_docs" / "company_registry_v4_overrides.json"
 DEFAULT_OUT = ROOT / "supporting_docs"
 DEFAULT_REPORT = ROOT / "output" / "company-registry-v4" / "p0"
 
@@ -80,6 +81,7 @@ class Entity:
     context_required_names: list[str] = field(default_factory=list)
     group_only_aliases: list[str] = field(default_factory=list)
     disputed_aliases: list[str] = field(default_factory=list)
+    historical_only: bool = False
     candidate_ids: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
 
@@ -165,6 +167,19 @@ def build_v3(doc: dict) -> tuple[dict[str, Entity], dict[str, set[str]], list[di
         for sub in group.get("subsidiaries") or []:
             legal_sub = (sub.get("legal_full_name_cn") or sub.get("name_cn") or "").strip()
             if sub.get("legal_entity_status") == "needs_review" or not sub.get("entity_id"):
+                # Preserve the V3 behaviour: such names are group-only hints, not
+                # legal entities. They must never receive an identity ID.
+                group_entity = entities.get(group_id)
+                if group_entity is not None:
+                    contextual = {name_key(n) for n in (sub.get("context_required_names") or [])}
+                    group_only_names = [
+                        sub.get("name_cn") or "", legal_sub,
+                        *(sub.get("aliases") or []),
+                    ]
+                    group_entity.group_only_aliases = dedupe([
+                        *group_entity.group_only_aliases,
+                        *[n for n in group_only_names if n and name_key(n) not in contextual],
+                    ])
                 unresolved.append({
                     "group": canonical,
                     "name": sub.get("name_cn"),
@@ -193,6 +208,7 @@ def build_v3(doc: dict) -> tuple[dict[str, Entity], dict[str, set[str]], list[di
                 disputed_aliases=dedupe(sub.get("disputed_aliases") or []),
                 origin="v3",
                 status="v3_only",
+                historical_only=historical,
             )
             if historical:
                 sub_entity.notes.append("V3 historical_only：不继承当前集团/父链")
@@ -270,6 +286,30 @@ def load_additions(
                 )
             index[key].add(entity.entity_id)
     return approved, index, []
+
+
+def load_overrides(
+    path: Path,
+    v3: dict[str, Entity],
+    approved: dict[str, Entity],
+) -> dict[str, dict]:
+    """Load audited V3-over-tree decisions (parent or historical-only)."""
+    if not path.exists():
+        return {}
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    if doc.get("schema_version") != "1.0" or not isinstance(doc.get("overrides"), list):
+        raise ValueError(f"override 文件结构不合法: {path}")
+    overrides: dict[str, dict] = {}
+    for item in doc["overrides"]:
+        entity_id = item.get("entity_id")
+        if entity_id not in v3 and entity_id not in approved:
+            raise ValueError(f"override 目标不存在: {entity_id}")
+        if not (item.get("reason") or "").strip():
+            raise ValueError(f"override 缺少 reason: {entity_id}")
+        if "parent_entity_id" not in item and not item.get("historical_only"):
+            raise ValueError(f"override 没有任何操作: {entity_id}")
+        overrides[entity_id] = item
+    return overrides
 
 
 def collect_tree(doc: dict) -> dict[str, dict]:
@@ -415,6 +455,7 @@ def match_tree(
 def build_entities(
     v3: dict[str, Entity],
     approved: dict[str, Entity],
+    overrides: dict[str, dict],
     tree_nodes: dict[str, dict],
     tree_to_entity: dict[str, str],
     matched: list[dict],
@@ -439,19 +480,7 @@ def build_entities(
         entity.level = node["level"]
         entity.ownership_type = node["ownership_type"]
         entity.sources = node["sources"]
-        entity.name_en = entity.name_en or node["name_en"]
         entity.name_en_abbr = entity.name_en_abbr or node["name_en_abbr"]
-        tree_names = [node["name_cn"], *node["aliases"]]
-        for alias in tree_names:
-            key = name_key(alias)
-            if not key:
-                continue
-            owners = name_index.get(key, set())
-            if owners and entity.entity_id not in owners:
-                entity.notes.append(f"tree 名称指向其他主体，未并入别名: {alias}")
-                continue
-            if key != name_key(entity.name_cn):
-                entity.aliases = dedupe([*entity.aliases, alias])
         if node["is_central_soe"] is not None:
             entity.is_central_soe = node["is_central_soe"]
         if entity.origin == "approved":
@@ -512,6 +541,24 @@ def build_entities(
             mapped = tree_to_entity.get(entity.tree_parent_id) if entity.tree_parent_id else None
             entity.parent_entity_id = mapped
 
+    # Explicit audited V3-over-tree decisions. These are intentionally narrow:
+    # they preserve a verified parent or historical-only status that the tree
+    # cannot reconstruct from ownership alone.
+    for entity_id, override in overrides.items():
+        entity = entities.get(entity_id)
+        if entity is None:
+            continue
+        if "parent_entity_id" in override:
+            parent = override["parent_entity_id"]
+            if parent and parent not in entities:
+                raise ValueError(f"override 父节点不存在: {entity_id} -> {parent}")
+            entity.parent_entity_id = parent
+            entity.notes.append(f"override parent: {override['reason']}")
+        if override.get("historical_only"):
+            entity.historical_only = True
+            entity.parent_entity_id = None
+            entity.notes.append(f"override historical_only: {override['reason']}")
+
     # Root calculation + cycle detection.
     def root_of(start: str) -> str:
         seen: list[str] = []
@@ -556,11 +603,28 @@ def build_v4_view(entities: dict[str, Entity]) -> dict:
 
     children: dict[str, list[str]] = defaultdict(list)
     roots: list[str] = []
+    group_members_without_parent: list[str] = []
     for entity_id, entity in included.items():
         if entity.parent_entity_id:
             children[entity.parent_entity_id].append(entity_id)
+        elif (
+            entity.v3_group_id
+            and entity.v3_group_id in included
+            and entity.v3_group_id != entity_id
+        ):
+            # A group member can have no asserted direct parent (e.g. Recurrent
+            # Energy, LLC). Keep it inside its group instead of promoting it to L1.
+            group_members_without_parent.append(entity_id)
         else:
             roots.append(entity_id)
+
+    def group_root(group_id: str) -> str:
+        seen: set[str] = set()
+        current = group_id
+        while current in included and included[current].parent_entity_id and current not in seen:
+            seen.add(current)
+            current = included[current].parent_entity_id
+        return current
 
     def descendants(root_id: str) -> list[str]:
         result: list[str] = []
@@ -569,6 +633,9 @@ def build_v4_view(entities: dict[str, Entity]) -> dict:
             current = stack.pop()
             result.append(current)
             stack.extend(children.get(current, []))
+        for member_id in group_members_without_parent:
+            if group_root(included[member_id].v3_group_id) == root_id:
+                result.append(member_id)
         return result
 
     groups: list[dict] = []
@@ -581,6 +648,7 @@ def build_v4_view(entities: dict[str, Entity]) -> dict:
                 "name_cn": child.name_cn,
                 "legal_full_name_cn": child.name_cn,
                 "name_en": child.name_en,
+                "canonical_en": child.name_en,
                 "name_en_abbr": child.name_en_abbr,
                 "aliases": [a for a in child.aliases if name_key(a) != name_key(child.name_cn)],
                 "context_required_names": child.context_required_names,
@@ -605,6 +673,7 @@ def build_v4_view(entities: dict[str, Entity]) -> dict:
             "entity_id": root.entity_id,
             "parent_entity_id": None,
             "level": 1,
+            "historical_only": root.historical_only,
             "is_central_soe": root.is_central_soe,
             "ownership_type": root.ownership_type,
             "sources": root.sources,
@@ -667,6 +736,7 @@ def validate(
 def build_changes(
     v3: dict[str, Entity],
     approved: dict[str, Entity],
+    overrides: dict[str, dict],
     entities: dict[str, Entity],
     matched: list[dict],
     ambiguous: list[dict],
@@ -715,6 +785,16 @@ def build_changes(
 
     status_counts = Counter(entity.status for entity in entities.values())
     level_counts = Counter(entity.level for entity in entities.values() if entity.level)
+    accepted_roots = {
+        entity.entity_id for entity in entities.values()
+        if accepted(entity)
+        and not entity.parent_entity_id
+        and not (
+            entity.v3_group_id
+            and entity.v3_group_id in entities
+            and entity.v3_group_id != entity.entity_id
+        )
+    }
     root_counts = Counter(
         entities[entity.root_entity_id].name_cn
         for entity in entities.values()
@@ -727,9 +807,10 @@ def build_changes(
         "metrics": {
             "v3_entity_ids": len(v3),
             "approved_additions": len(approved),
+            "overrides_applied": len(overrides),
             "registry_entities": len(entities),
             "accepted_entities": sum(1 for e in entities.values() if accepted(e)),
-            "accepted_roots": len({e.root_entity_id for e in entities.values() if accepted(e)}),
+            "accepted_roots": len(accepted_roots),
             "status": dict(status_counts),
             "levels": {str(k): v for k, v in sorted(level_counts.items())},
             "tree_nodes": len(matched) + len(ambiguous) + len(new_nodes),
@@ -756,6 +837,16 @@ def build_changes(
             for entity in approved.values()
         ],
         "reparented": reparented,
+        "overrides_applied": [
+            {
+                "entity_id": entity_id,
+                "name_cn": entities[entity_id].name_cn if entity_id in entities else None,
+                "parent_entity_id": override.get("parent_entity_id"),
+                "historical_only": bool(override.get("historical_only")),
+                "reason": override.get("reason"),
+            }
+            for entity_id, override in overrides.items()
+        ],
         "ambiguous": ambiguous,
         "new_nodes": new_nodes,
         "alias_conflicts": alias_conflicts,
@@ -859,6 +950,7 @@ def main() -> int:
     parser.add_argument("--v3", type=Path, default=DEFAULT_V3)
     parser.add_argument("--tree", type=Path, default=DEFAULT_TREE)
     parser.add_argument("--additions", type=Path, default=DEFAULT_ADDITIONS)
+    parser.add_argument("--overrides", type=Path, default=DEFAULT_OVERRIDES)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--check", action="store_true", help="validate only; write nothing")
@@ -868,6 +960,7 @@ def main() -> int:
     tree_doc = json.loads(args.tree.read_text(encoding="utf-8"))
     v3, name_index, unresolved_v3 = build_v3(v3_doc)
     approved, approved_index, _ = load_additions(args.additions, v3, name_index)
+    overrides = load_overrides(args.overrides, v3, approved)
     combined_index = {key: set(value) for key, value in name_index.items()}
     for key, ids in approved_index.items():
         combined_index.setdefault(key, set()).update(ids)
@@ -876,7 +969,7 @@ def main() -> int:
         tree_nodes, v3, name_index, approved, approved_index
     )
     entities, issues = build_entities(
-        v3, approved, tree_nodes, tree_to_entity, matched, ambiguous, new_nodes, combined_index
+        v3, approved, overrides, tree_nodes, tree_to_entity, matched, ambiguous, new_nodes, combined_index
     )
     view = build_v4_view(entities)
     errors = validate(v3, approved, entities, view, issues)
@@ -890,8 +983,13 @@ def main() -> int:
             "path": str(args.additions),
             "sha256": sha256(args.additions),
         }
+    if args.overrides.exists():
+        files["overrides"] = {
+            "path": str(args.overrides),
+            "sha256": sha256(args.overrides),
+        }
     changes = build_changes(
-        v3, approved, entities, matched, ambiguous, new_nodes, unresolved_v3, issues, files
+        v3, approved, overrides, entities, matched, ambiguous, new_nodes, unresolved_v3, issues, files
     )
 
     print("== P0 registry v4 ==")

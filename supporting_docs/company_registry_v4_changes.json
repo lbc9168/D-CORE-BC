@@ -13,11 +13,16 @@
   "additions": {
    "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_registry_v4_additions.json",
    "sha256": "e946a976d82938e85cbe5ba7f8c2c1fa7f91dad1e36db7ed91ccc686a34b1ad9"
+  },
+  "overrides": {
+   "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_registry_v4_overrides.json",
+   "sha256": "f9e3d6678b518c6d16279b4534ea95cd9e5bd12960742d1f216c6424216e1f9f"
   }
  },
  "metrics": {
   "v3_entity_ids": 563,
   "approved_additions": 6,
+  "overrides_applied": 4,
   "registry_entities": 688,
   "accepted_entities": 569,
   "accepted_roots": 150,
@@ -38,7 +43,7 @@
   "crosswalk_id_changes": 153,
   "ambiguous": 0,
   "provisional_new": 119,
-  "reparented": 53,
+  "reparented": 52,
   "alias_conflicts": 0,
   "v3_unresolved_entries": 14,
   "issues": 0
@@ -1987,16 +1992,6 @@
    "v4_root_name": "中国电力建设集团有限公司"
   },
   {
-   "entity_id": "ent_29d46875263751799bac",
-   "name": "上海三菱电梯有限公司",
-   "v3_parent": "ent_6810a59fc6bb5e30b51a",
-   "v3_parent_name": "上海机电股份有限公司",
-   "v4_parent": "ent_2d85682b9f585f1b9dd7",
-   "v4_parent_name": "上海电气集团股份有限公司",
-   "v4_root": "ent_2d85682b9f585f1b9dd7",
-   "v4_root_name": "上海电气集团股份有限公司"
-  },
-  {
    "entity_id": "ent_2451abec5391535d87c4",
    "name": "中国建筑第四工程局有限公司",
    "v3_parent": "ent_1b1ed33eb2f55782a890",
@@ -2097,16 +2092,6 @@
    "v4_root_name": "中国交通建设集团有限公司"
   },
   {
-   "entity_id": "ent_9d2682cd130457bf8ef2",
-   "name": "中国水利电力对外有限公司",
-   "v3_parent": "ent_36ac391bc81b5d438be2",
-   "v3_parent_name": "中国交通建设集团有限公司",
-   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
-   "v4_parent_name": "中国电力建设股份有限公司",
-   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
-   "v4_root_name": "中国电力建设集团有限公司"
-  },
-  {
    "entity_id": "ent_f876dd21adac5238b409",
    "name": "中国土木工程集团有限公司",
    "v3_parent": "ent_2d0b0262d84d5786a44c",
@@ -2155,6 +2140,46 @@
    "v4_parent_name": "晶科能源股份有限公司",
    "v4_root": "ent_724ced2b9edc56a0a02b",
    "v4_root_name": "晶科能源股份有限公司"
+  },
+  {
+   "entity_id": "ent_dfe3fb0d67265683a271",
+   "name": "Recurrent Energy, LLC",
+   "v3_parent": "ent_373f225e11cd58deaeb0",
+   "v3_parent_name": "Canadian Solar Inc.",
+   "v4_parent": null,
+   "v4_parent_name": null,
+   "v4_root": "ent_dfe3fb0d67265683a271",
+   "v4_root_name": "Recurrent Energy, LLC"
+  }
+ ],
+ "overrides_applied": [
+  {
+   "entity_id": "ent_9d2682cd130457bf8ef2",
+   "name_cn": "中国水利电力对外有限公司",
+   "parent_entity_id": "ent_36ac391bc81b5d438be2",
+   "historical_only": false,
+   "reason": "中国水利电力对外有限公司：V3 2026-09-17 依据三峡移交与中交年报核实为 CCCC 下属；tree 误挂到中国电力建设股份有限公司，保留 V3。"
+  },
+  {
+   "entity_id": "ent_29d46875263751799bac",
+   "name_cn": "上海三菱电梯有限公司",
+   "parent_entity_id": "ent_6810a59fc6bb5e30b51a",
+   "historical_only": false,
+   "reason": "上海三菱电梯有限公司：V3 核实直接母公司为上海机电股份有限公司；tree 只挂到上海电气集团，保留更具体的 V3 父链。"
+  },
+  {
+   "entity_id": "ent_dfe3fb0d67265683a271",
+   "name_cn": "Recurrent Energy, LLC",
+   "parent_entity_id": null,
+   "historical_only": false,
+   "reason": "Recurrent Energy, LLC：V3 明确 SEC 集团列表不构成直接母关系；tree 将其挂到 Canadian Solar，保留 parent=null。"
+  },
+  {
+   "entity_id": "ent_6ad0740cacbc591d8b7d",
+   "name_cn": "湖南云箭集团有限公司",
+   "parent_entity_id": null,
+   "historical_only": true,
+   "reason": "湖南云箭集团有限公司：V3 标记 historical_only，历史归组不应用于当前解析；保留无当前 group/parent。"
   }
  ],
  "ambiguous": [],
@@ -3083,7 +3108,7 @@
  "issues": [],
  "root_counts": {
   "中国能源建设集团有限公司": 76,
-  "中国电力建设集团有限公司": 50,
+  "中国电力建设集团有限公司": 49,
   "国家能源投资集团有限责任公司": 33,
   "中国机械工业集团有限公司": 21,
   "中国南方电网有限责任公司": 18,
@@ -3102,12 +3127,12 @@
   "中国建筑集团有限公司": 9,
   "中国建材集团有限公司": 8,
   "中国电气装备集团有限公司": 8,
-  "中国交通建设集团有限公司": 6,
+  "中国交通建设集团有限公司": 7,
   "中国通用技术（集团）控股有限责任公司": 5,
-  "Canadian Solar Inc.": 5,
   "中国化学工程集团有限公司": 5,
   "正泰集团股份有限公司": 4,
   "中国铁道建筑集团有限公司": 4,
+  "Canadian Solar Inc.": 4,
   "特变电工股份有限公司": 3,
   "中国兵器工业集团有限公司": 3,
   "中国宝武钢铁集团有限公司": 3,

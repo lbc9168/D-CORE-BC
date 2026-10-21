@@ -6,6 +6,7 @@ has no legal-entity ID. Source membership does not establish a direct parent.
 """
 import json
 import logging
+import os
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -55,6 +56,7 @@ class _GroupRecord(BaseModel):
     entity_id: str | None = Field(default=None, pattern=r"^ent_[0-9a-f]{20}$")
     parent_entity_id: str | None = Field(default=None, pattern=r"^ent_[0-9a-f]{20}$")
     is_chinese: StrictBool | None = True
+    historical_only: StrictBool = False
 
 
 @dataclass(frozen=True)
@@ -104,8 +106,18 @@ def _strip_suffix(name: str) -> str:
     return re.sub(r"(?:,?\s+(?:co\.?[,]?\s+)?(?:ltd\.?|limited|inc\.?|corporation))$", "", value).strip()
 
 
+def hierarchy_path() -> Path:
+    """Return the active registry file; COMPANY_HIERARCHY can pin V3 for rollback."""
+    override = os.environ.get("COMPANY_HIERARCHY", "").strip()
+    root = Path(__file__).resolve().parents[4] / "supporting_docs"
+    if override:
+        candidate = Path(override)
+        return candidate if candidate.is_absolute() else root / candidate
+    return root / "company_hierarchy_v4.json"
+
+
 def _load_hierarchy_v2() -> dict:
-    path = Path(__file__).resolve().parents[4] / "supporting_docs" / "company_hierarchy_v3.json"
+    path = hierarchy_path()
     if not path.exists():
         raise FileNotFoundError(f"中企层级表不存在: {path}")
     payload = json.loads(path.read_text(encoding="utf-8"))
@@ -127,6 +139,9 @@ def _identity_candidates(groups: list[dict]) -> tuple[dict[str, list[_Identity]]
         group_id = group.get("entity_id") or stable_entity_id(canonical)
         root = _Identity(group.get("legal_full_name_cn") or canonical, group_id, canonical,
                          group_id, group.get("parent_entity_id"), group.get("is_chinese", True))
+        if group.get("historical_only"):
+            # Historical filing location, not a current group assertion.
+            root = _Identity(root.name, group_id, root.name, None, None, root.is_chinese)
         entries = [(group, root, [canonical, root.name])]
         for sub in group.get("subsidiaries", []):
             legal = (sub.get("legal_full_name_cn") or sub.get("name_cn") or "").strip()
@@ -153,7 +168,10 @@ def _identity_candidates(groups: list[dict]) -> tuple[dict[str, list[_Identity]]
             disputed = set(item.get("disputed_aliases", []))
             # A generic unit name (e.g. 中央研究院) is not a global company alias.
             contextual = {_name_key(n) for n in item.get("context_required_names", [])}
-            for name in [*names, item.get("canonical_en", ""), *item.get("aliases", [])]:
+            for name in [
+                *names, item.get("canonical_en", ""), *item.get("aliases", []),
+                *item.get("group_only_aliases", []),
+            ]:
                 if not isinstance(name, str) or not name.strip() or name in disputed:
                     continue
                 if _name_key(name) in contextual:

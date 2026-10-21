@@ -4,7 +4,7 @@ import json
 import hashlib
 from pathlib import Path
 
-from s01b_project_extractor.stages.entity_normalize import verified_chinese_mentions
+from s01b_project_extractor.stages.entity_normalize import hierarchy_path, verified_chinese_mentions
 
 S1_IDENTITY_RECALL_VERSION = "2026-09-23.4-semantic-candidate"
 
@@ -41,8 +41,11 @@ def run_s1(title: str, content: str, date: str, *, llm) -> dict:
             out["status"] = "valid_project"
             out["reasoning"] = str(out.get("reasoning", "")) + "；显式语义候选仍有可能中企，继续逐项目提取"
     root = Path(__file__).resolve().parents[4]
-    registry_hashes = {name: hashlib.sha256((root / name).read_bytes()).hexdigest()
-                       for name in ("developer_registry.json", "supporting_docs/company_hierarchy_v3.json")}
+    registry = hierarchy_path()
+    registry_hashes = {
+        "developer_registry.json": hashlib.sha256((root / "developer_registry.json").read_bytes()).hexdigest(),
+        registry.name: hashlib.sha256(registry.read_bytes()).hexdigest(),
+    }
     out["identity_recall"] = {"version": S1_IDENTITY_RECALL_VERSION,
                               "registry_hashes": registry_hashes,
                               "original_status": original_status, "mentions": mentions,

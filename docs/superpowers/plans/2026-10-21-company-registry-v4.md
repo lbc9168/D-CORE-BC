@@ -1,7 +1,7 @@
 # Company Registry V4：V3 主体 ID + 四级树层级落地计划
 
 日期：2026-10-21
-状态：P0 已完成（2026-10-21），P1 待 125 个新节点裁决
+状态：P0/P1 已完成（2026-10-21），P2 待数据库回填
 工作区：`E:\Projects\BRI_RE_Database_v2\.agents\worktrees\company-registry-v4`
 分支：`company-registry-v4`
 基线：`7db5875`（V3 运行时切换已合入 main）
@@ -194,12 +194,13 @@ P0 的 37 条 `parent_unresolved` 不是关系不明，而是 **V3 缺了三个�
 - 原先 37 个 `parent_unresolved` 全部归零；没有写数据库；`provisional_new` 未进入运行时视图。
 - 剩余 119 个 provisional：38 个 L2、71 个 L3、10 个 L4；下一步按“真实法人 / 品牌泛称 / 只做展示”逐类裁决。
 
-### P1 运行时切换（P0 验收后）
+### P1 运行时切换（已完成）
 
-- 新增 `entity_normalize` / `company_lookup` 的 V4 路径，保留 `COMPANY_HIERARCHY` 环境变量回退 V3；
-- `EntityResolution` 增加 `parent_name`、`level`、`path`；
-- S01B/S02B 单测全绿；关键集团解析抽查；
-- 不写库。
+- `entity_normalize` / `company_lookup` / S1 hash / eval / T3 默认路径切到 `company_hierarchy_v4.json`；
+- 保留 `COMPANY_HIERARCHY=company_hierarchy_v3.json` 回退；实测 v4 下 CMEC→国机、v3 下 CMEC→自身；
+- `EntityResolution` 的 `parent_entity_id` 已可用；`parent_name` / `level` / `path` 的展示字段留到 P3；
+- 验证：S01B 全量 1012 passed、1 个环境相关旧失败；S02B 55 passed；实体/S1 定向 91 passed；V4 结构契约 5 passed；
+- 6 个审批新增、4 条 override 生效；119 个 provisional 不进入运行时；不写库。
 
 ### P2 数据库回填（P1 验收后）
 

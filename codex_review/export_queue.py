@@ -51,7 +51,7 @@ _DEFAULT_AUDIT_CSV = Path(
 )
 # T2 MF 边界扫描关键词（来自项目计划原文，不自行扩充）
 _MF_KEYWORDS = frozenset(["锂矿", "电解铝", "蓝氨"])
-_DEFAULT_REGISTRY = _WORKTREE_ROOT / "supporting_docs" / "company_hierarchy_v3.json"
+_DEFAULT_REGISTRY = _WORKTREE_ROOT / "supporting_docs" / "company_hierarchy_v4.json"
 _DEFAULT_OUT_DIR = _MODULE_DIR / "runs"
 _DEFAULT_LEDGER = _MODULE_DIR / "ledger.json"
 _GUIDES_DIR = _MODULE_DIR / "guides"
@@ -928,7 +928,7 @@ def _build_parser() -> argparse.ArgumentParser:
     p.add_argument(
         "--registry",
         default=str(_DEFAULT_REGISTRY),
-        help="集团层级 JSON（company_hierarchy_v3.json）",
+        help="集团层级 JSON（company_hierarchy_v4.json）",
     )
     p.add_argument("--out-dir", default=str(_DEFAULT_OUT_DIR), help="输出根目录")
     p.add_argument("--ledger", default=str(_DEFAULT_LEDGER), help="台账 JSON 路径")

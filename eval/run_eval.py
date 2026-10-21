@@ -78,13 +78,12 @@ def _default_extractor_version() -> str:
             src += inspect.getsource(mod)
         except (ImportError, OSError):
             pass
-    # 实体登记册数据文件纳入哈希：company_hierarchy_v3.json 决定 entity_normalize 的解析结果，
+    # 实体登记册数据文件纳入哈希：当前 registry 决定 entity_normalize 的解析结果，
     # 登记册内容变更（消歧/补录）同样必须使旧 eval 缓存失效
     try:
+        from s01b_project_extractor.stages.entity_normalize import hierarchy_path
         from s01b_project_extractor.tools.project_extractor_tool import _SUPPORTING_DOCS
-        src += hashlib.sha1(
-            (_SUPPORTING_DOCS / "company_hierarchy_v3.json").read_bytes()
-        ).hexdigest()
+        src += hashlib.sha1(hierarchy_path().read_bytes()).hexdigest()
         src += hashlib.sha1(
             (_SUPPORTING_DOCS.parent / "developer_registry.json").read_bytes()
         ).hexdigest()

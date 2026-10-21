@@ -110,12 +110,13 @@ def test_stripped_index_warns_on_collision(caplog):
 
 
 def test_canonical_priority_over_sub_legal():
-    """中国机械设备工程股份有限公司：既是自己的 canonical 也是中国机械工业集团的 sub_legal。
-    应以 canonical 优先 → (自身, "")，而不是作为子公司归到 中国机械工业集团。"""
+    """中国机械设备工程股份有限公司：V4 已按股权层级挂到国机集团下。
+    因此它不再作为独立 canonical 返回，而是 normalizer 的 (集团, 子公司)。"""
     from s01b_project_extractor.stages.entity_normalize import normalize_entity
     parent, sub = normalize_entity("中国机械设备工程股份有限公司")
-    # canonical 优先 → 路径2a：(canonical, "")
-    assert parent == "中国机械设备工程股份有限公司", (
-        f"canonical 应优先于 sub_legal，期望 parent='中国机械设备工程股份有限公司'，得到: {parent!r}"
+    assert parent == "中国机械工业集团有限公司", (
+        f"V4 中 CMEC 应归一到国机集团，得到: {parent!r}"
     )
-    assert sub == "", f"canonical 路径2a 的 sub 应为空，得到: {sub!r}"
+    assert sub == "中国机械设备工程股份有限公司", (
+        f"CMEC 应作为具体子公司保留，得到: {sub!r}"
+    )
