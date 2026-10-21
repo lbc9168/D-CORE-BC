@@ -82,7 +82,7 @@ def test_path2a_invariant_implementing_equals_verbatim_when_sub_empty():
 def test_path2b_group_alias_returns_canonical_and_verbatim():
     """集团别名命中 → implementing=canonical，subsidiary=verbatim（路径2b 硬断言）。
 
-    实际别名例：国家电投 → 国家电力投资集团有限公司（company_hierarchy_v2.json 真实数据）。
+    实际别名例：国家电投 → 国家电力投资集团有限公司（company_hierarchy_v3.json 真实数据）。
     """
     from s01b_project_extractor.stages.entity_normalize import normalize_entity
     # "国家电投" 是 "国家电力投资集团有限公司" 的别名（aliases 字段）

@@ -42,7 +42,7 @@ def run_s1(title: str, content: str, date: str, *, llm) -> dict:
             out["reasoning"] = str(out.get("reasoning", "")) + "；显式语义候选仍有可能中企，继续逐项目提取"
     root = Path(__file__).resolve().parents[4]
     registry_hashes = {name: hashlib.sha256((root / name).read_bytes()).hexdigest()
-                       for name in ("developer_registry.json", "supporting_docs/company_hierarchy_v2.json")}
+                       for name in ("developer_registry.json", "supporting_docs/company_hierarchy_v3.json")}
     out["identity_recall"] = {"version": S1_IDENTITY_RECALL_VERSION,
                               "registry_hashes": registry_hashes,
                               "original_status": original_status, "mentions": mentions,

@@ -1,7 +1,7 @@
 """company_lookup —— developer 名称三层查表引擎：registry → hierarchy(只读) → 透传+miss。
 
 数据文件：根目录 developer_registry.json（本引擎唯一可写建议来源，但引擎本身零写盘）；
-supporting_docs/company_hierarchy_v2.json 只读复用（别名→该实体自身规范名，绝不上卷母公司，spec D2）。
+supporting_docs/company_hierarchy_v3.json 只读复用（别名→该实体自身规范名，绝不上卷母公司，spec D2）。
 
 真实 hierarchy 文件的 subsidiary 挂法：条目形如 {"name_cn": <出现过的名字，可能是讹变/简称>,
 "legal_full_name_cn": <该子公司法定全称，重复出现即为规范名>}；当两者不同时，
@@ -22,7 +22,7 @@ from pydantic import BaseModel, field_validator
 logger = logging.getLogger(__name__)
 _ROOT = Path(__file__).resolve().parents[3]
 DEFAULT_REGISTRY = _ROOT / "developer_registry.json"
-DEFAULT_HIERARCHY = _ROOT / "supporting_docs" / "company_hierarchy_v2.json"
+DEFAULT_HIERARCHY = _ROOT / "supporting_docs" / "company_hierarchy_v3.json"
 _CJK_RE = re.compile(r"[一-鿿]")
 
 

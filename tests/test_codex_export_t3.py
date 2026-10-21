@@ -335,7 +335,7 @@ def test_idempotent(tmp_path):
 
 _WORKTREE = Path(__file__).resolve().parent.parent
 _REAL_CSV = _WORKTREE / "supporting_docs" / "entity_reparse_misses_20260706_023835.csv"
-_REAL_REGISTRY = _WORKTREE / "supporting_docs" / "company_hierarchy_v2.json"
+_REAL_REGISTRY = _WORKTREE / "supporting_docs" / "company_hierarchy_v3.json"
 
 
 @pytest.mark.skipif(

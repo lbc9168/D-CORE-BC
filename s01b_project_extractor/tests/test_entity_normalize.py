@@ -1,6 +1,6 @@
 """母子公司归一测试（已按 v2 契约重写）：子公司/别名/集团自身 → 规范顶级集团。
 
-数据源：company_hierarchy_v2.json（schema_version=2）。
+数据源：company_hierarchy_v3.json（schema_version=2）。
 
 旧断言变更清单（按新契约重写）：
   1. test_known_subsidiary_maps_to_parent
@@ -20,7 +20,7 @@
   6. test_empty_returns_unknown / test_whitespace_returns_unknown
        不变
 
-Real pairs from company_hierarchy_v2.json:
+Real pairs from company_hierarchy_v3.json:
   KNOWN_SUBSIDIARY = "中国葛洲坝集团有限公司"   # sub of 中国能源建设集团有限公司
   KNOWN_PARENT     = "中国能源建设集团有限公司"   # top-level group
   KNOWN_SUB3       = "中国葛洲坝集团（甘肃）工程有限公司" # direct sub of 中国能源建设集团有限公司（v2 扁平化）
@@ -52,7 +52,7 @@ def auto_clear():
     _clear_cache()
 
 
-# Real values from company_hierarchy_v2.json
+# Real values from company_hierarchy_v3.json
 KNOWN_SUBSIDIARY = "中国葛洲坝集团有限公司"           # sub of 中国能源建设集团有限公司
 KNOWN_PARENT     = "中国能源建设集团有限公司"           # top-level group
 KNOWN_SUB3       = "中国葛洲坝集团（甘肃）工程有限公司"  # direct sub (v2 扁平化) under KNOWN_PARENT

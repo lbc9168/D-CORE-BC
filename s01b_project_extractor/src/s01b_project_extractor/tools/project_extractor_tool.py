@@ -208,18 +208,18 @@ def _load_hierarchy_data() -> dict:
 
 
 def _load_hierarchy_v2_data() -> dict:
-    """加载 company_hierarchy_v2.json（schema_version=2）原始数据（带缓存）。"""
+    """加载 company_hierarchy_v3.json（schema_version=2）原始数据（带缓存）。"""
     global _hierarchy_v2_data_cache
     if _hierarchy_v2_data_cache:
         return _hierarchy_v2_data_cache
     try:
         _hierarchy_v2_data_cache = json.loads(
-            (_SUPPORTING_DOCS / "company_hierarchy_v2.json").read_text(encoding="utf-8")
+            (_SUPPORTING_DOCS / "company_hierarchy_v3.json").read_text(encoding="utf-8")
         )
         n = len(_hierarchy_v2_data_cache.get("groups", []))
-        logger.info("已加载 company_hierarchy_v2.json：%d 组", n)
+        logger.info("已加载 company_hierarchy_v3.json：%d 组", n)
     except Exception as e:
-        logger.error("无法加载 company_hierarchy_v2.json: %s", e)
+        logger.error("无法加载 company_hierarchy_v3.json: %s", e)
         _hierarchy_v2_data_cache = {"schema_version": 2, "groups": []}
     return _hierarchy_v2_data_cache
 
@@ -283,7 +283,7 @@ def _save_name_cache(cache: dict) -> None:
 def _resolve_is_central_soe(entity_cn: str) -> int:
     """Python 端确定性判断是否央企（不依赖 LLM）。
 
-    优先级：① v2 登记册（company_hierarchy_v2.json 命中组的 is_central_soe）
+    优先级：① v3 登记册（company_hierarchy_v3.json 命中组的 is_central_soe）
              → ② soe.md 名单兜底（透传实体也需要值）
              → ③ 0（未命中，非央企）
     """

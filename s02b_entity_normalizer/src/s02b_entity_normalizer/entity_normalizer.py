@@ -1,6 +1,6 @@
 """中国实体别名候选发现器：只读扫描主库，输出人工审核 CSV。
 
-正式实体归类由 s01b 的 ``company_hierarchy_v2.json`` 确定性解析器负责。本模块只用
+正式实体归类由 s01b 的 ``company_hierarchy_v3.json`` 确定性解析器负责。本模块只用
 字符串相似度发现登记册可能遗漏的别名，不调用 LLM、不构造传递闭包，也不更新数据库。
 """
 
@@ -27,7 +27,7 @@ _S02B_ROOT = Path(__file__).resolve().parents[2]
 _PROJECT_ROOT = _S02B_ROOT.parent
 
 DEFAULT_DB = _PROJECT_ROOT / "s02a_duplicate_merger" / "data" / "db" / "bri_re_database.db"
-DEFAULT_HIERARCHY = _PROJECT_ROOT / "supporting_docs" / "company_hierarchy_v2.json"
+DEFAULT_HIERARCHY = _PROJECT_ROOT / "supporting_docs" / "company_hierarchy_v3.json"
 
 FUZZY_TOKEN_THRESHOLD = 80
 FUZZY_PARTIAL_THRESHOLD = 90
@@ -278,7 +278,7 @@ def generate_suggestions(
 def _update_db(*_args, **_kwargs) -> tuple[int, int]:
     """拒绝旧式模糊映射写库，防止母子公司及历史记录再次被全表改写。"""
     raise RuntimeError(
-        "旧式实体模糊映射写库已禁用；请审核建议并更新 company_hierarchy_v2.json，"
+        "旧式实体模糊映射写库已禁用；请审核建议并更新 company_hierarchy_v3.json，"
         "再使用 S01B 确定性解析器处理明确记录。"
     )
 

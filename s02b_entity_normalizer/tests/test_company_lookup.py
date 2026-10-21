@@ -67,18 +67,21 @@ def test_alias_conflict_raises(tmp_path):
 
 
 def test_real_files_anchor():
-    """真实文件锚点：Masdar 在册（Task1 bootstrap）；电建海投讹变在 hierarchy 可解。
+    """真实文件锚点：Masdar 在册；电建海投讹变在 V3 中是 context-required，不得全局解析。
 
-    真实 hierarchy 里该讹变的实际挂法：groups[中国电力建设集团有限公司].subsidiaries 中
-    有一条 name_cn="中国能源海外投资有限公司"（讹变本身就是条目名，非 aliases 字段），
-    其 legal_full_name_cn="中国电建集团海外投资有限公司" 才是该子公司的规范名。
+    V3 CHG-023 把 groups[中国电力建设集团有限公司].subsidiaries 里的
+    name_cn="中国能源海外投资有限公司" 加入 context_required_names，避免与能建海投
+    跨集团误伤。规范法人名本身仍应可解。
     """
     idx = build_index()  # 缺省路径=根目录真实文件
     assert lookup("Masdar", idx).canonical_cn == "阿布扎比未来能源公司"
     r = lookup("中国能源海外投资有限公司", idx)
-    assert r.matched and "海外投资" in r.canonical_cn
-    assert r.canonical_cn == "中国电建集团海外投资有限公司"
-    assert r.canonical_cn != "中国电力建设集团有限公司"  # 绝不上卷母公司
+    assert not r.matched
+    assert r.source == "passthrough"
+    canonical = lookup("中国电建集团海外投资有限公司", idx)
+    assert canonical.matched
+    assert canonical.canonical_cn == "中国电建集团海外投资有限公司"
+    assert canonical.canonical_cn != "中国电力建设集团有限公司"  # 绝不上卷母公司
 
 
 def test_group_only_alias_does_not_promote_developer_to_parent(tmp_path):

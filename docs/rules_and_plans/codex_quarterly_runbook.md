@@ -99,7 +99,7 @@ uv run --no-sync python -m codex_review.quarterly apply --quarter 2026Q3 --apply
 T3 的 apply 不直接写数据库/registry，只是把 gated verdicts 按 `new_group`/`additions_to_existing_groups` 两类整理进 `codex_review/runs/<quarter>/registry_additions_<quarter>.json`（`quarterly apply` 已包含 T3，无需单独跑）。之后需要人工三步（**不代劳，用户自己做**）：
 
 1. 把 `registry_additions_2026Q3.json` 里的内容合并进 `supporting_docs/company_hierarchy_draft_*.json`（人工编辑合并，判断是否真要收录）。
-2. 重跑 `uv run supporting_docs/build_hierarchy_v2.py`（把 draft 编译成正式 `company_hierarchy_v2.json`）。
+2. 重跑 `uv run supporting_docs/build_hierarchy_v2.py` 生成 v2 基线；当前运行时是 `company_hierarchy_v3.json`，新增内容须按 `company_hierarchy_v3_changes.json` 的口径合并进 v3（或另起新版本），不要直接覆盖 v3。
 3. 在 s01b 跑 `entity_reparse_maindb --apply`（主库 gated 操作，让新收录的集团/别名在主库实体名上生效）。
 
 ---
@@ -155,7 +155,7 @@ uv run --no-sync python -m codex_review.export_queue --task T3 --quarter 2026Q3 
   "
   ```
 - T3 `--misses-csv` 手工找最新：`ls -t supporting_docs/entity_reparse_misses_*.csv | head -1`（worktree 里的 `supporting_docs/` 是独立副本，按 worktree 自己目录里最新的来）。
-- T1/T2 的 `--db` 默认指向主库；T3 的 `--registry` 默认 `supporting_docs/company_hierarchy_v2.json`。
+- T1/T2 的 `--db` 默认指向主库；T3 的 `--registry` 默认 `supporting_docs/company_hierarchy_v3.json`。
 - 台账幂等（`is_settled(ledger, key)` 为真的条目不再入队）三任务通用。
 
 ### 回收校验（对应 `quarterly ingest` 内部依次调用）

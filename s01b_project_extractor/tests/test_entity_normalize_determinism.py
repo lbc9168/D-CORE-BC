@@ -9,7 +9,7 @@ from s01b_project_extractor.stages.entity_normalize import _build_index_v2, _loa
 
 
 def _real_groups() -> list[dict]:
-    """加载真实登记册 groups（company_hierarchy_v2.json）。"""
+    """加载真实登记册 groups（company_hierarchy_v3.json）。"""
     groups = _load_hierarchy_v2().get("groups", [])
     assert len(groups) > 100, "真实登记册应有 100+ 组，加载失败？"
     return groups

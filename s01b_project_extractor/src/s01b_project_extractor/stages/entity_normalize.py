@@ -105,7 +105,7 @@ def _strip_suffix(name: str) -> str:
 
 
 def _load_hierarchy_v2() -> dict:
-    path = Path(__file__).resolve().parents[4] / "supporting_docs" / "company_hierarchy_v2.json"
+    path = Path(__file__).resolve().parents[4] / "supporting_docs" / "company_hierarchy_v3.json"
     if not path.exists():
         raise FileNotFoundError(f"中企层级表不存在: {path}")
     payload = json.loads(path.read_text(encoding="utf-8"))
