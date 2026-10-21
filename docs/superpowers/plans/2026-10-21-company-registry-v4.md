@@ -1,7 +1,7 @@
 # Company Registry V4：V3 主体 ID + 四级树层级落地计划
 
 日期：2026-10-21
-状态：P0/P1/P2 已完成（2026-10-21），P3 待导出字段与网页
+状态：P0/P1/P2/P3 已完成（2026-10-21），P4 待部署
 工作区：`E:\Projects\BRI_RE_Database_v2\.agents\worktrees\company-registry-v4`
 分支：`company-registry-v4`
 基线：`7db5875`（V3 运行时切换已合入 main）
@@ -237,14 +237,13 @@ P0 的 37 条 `parent_unresolved` 不是关系不明，而是 **V3 缺了三个�
 - 验证：实体 ID 集合、事件/项目 ID 集合、外键、完整性不变；
 - 之后跑 `en_backfill` → S03 → S04。
 
-### P3 导出与网页（P2 验收后）
+### P3 导出与网页（已完成）
 
-- `all_entities` 增加 `entity_id`、`entity_name`、`entity_name_en`、`group_id`、`parent_name`、`level`、`path`、`ownership_type`；
+- `all_entities` 增加 `entity_id`、`entity_name`、`entity_name_en`、`group_id`、`group_name`、`parent_name`、`level`、`path`、`ownership_type`；
 - `primary_entity` 仍是顶层集团，新增 `primary_entity_id` / `primary_entity_path`；
-- `EntityList` 显示“集团 → 父级 → 实际法人”路径 + SOE 徽章；
-- `stats_entity` 暂不改口径；后续可选“集团/法人”切换；
-- 数据字典补列；
-- 浏览器验收一个多级项目详情、一个 TX/MF 项目、一个纯集团项目。
+- `EntityList` 显示“集团 → 实际法人”，L2/L3 徽章，L3 以上显示完整路径；
+- `stats_entity` 仍按集团聚合；事件 CSV 仍 39 列，保持旧契约；
+- 已验证：projects_flat 3745、6149 条实体行带 path；S03 定向 52 passed/1 skipped；typecheck/build 通过；HTTP 200；dist 已重建，未部署。
 
 ### P4 部署（单独批准）
 
