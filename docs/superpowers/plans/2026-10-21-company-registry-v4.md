@@ -1,7 +1,7 @@
 # Company Registry V4：V3 主体 ID + 四级树层级落地计划
 
 日期：2026-10-21
-状态：P0/P1 已完成（2026-10-21），P2 待数据库回填
+状态：P0/P1/P2 已完成（2026-10-21），P3 待导出字段与网页
 工作区：`E:\Projects\BRI_RE_Database_v2\.agents\worktrees\company-registry-v4`
 分支：`company-registry-v4`
 基线：`7db5875`（V3 运行时切换已合入 main）
@@ -221,6 +221,15 @@ P0 的 37 条 `parent_unresolved` 不是关系不明，而是 **V3 缺了三个�
 3. **P2c**：其余 94 行长尾变化逐类确认，涉及 historical_only 的先跳过；
 4. **P2d**：1677 行未匹配保持原值，不写 `entity_id`，另出补录清单；
 5. apply 前备份、单事务、审计 CSV、ID/外键/完整性校验；二次运行 0 变更。
+
+**P2 已应用（2026-10-21）：**
+
+- 生产库备份 `bri_re_database.db.bak.20261021_215256`；818 行变更（816 更新 + 2 行湖南云箭置空）。
+- `entity_id` 非空 16→832，`group_entity_id` 836，`is_central_soe=1` 4039；行数 6917 不变。
+- 非目标行 SHA256 与备份一致；`foreign_key_check=[]`、`integrity_check=ok`；二次 dry-run 0 变更。
+- en_backfill：主库 3911 行/37 值，projects 1498 行/247 值。
+- S03 离线重导出：3745 项目 / 474 TX / 161 MF / 3678 事件，status=completed，已同步 s04 public data；未构建 dist、未部署。
+- 剩余：P3 导出字段与网页层级展示；1677 行未匹配保持原值。
 
 - 新脚本 `scripts/migrate_entity_hierarchy_v4.py`：默认 dry-run，按 `entity_id` 重算 `group_entity_id` / `implementing_entity` / `entity_name` / `is_central_soe`；
 - 无 `entity_id` 的行按名称唯一匹配；歧义留报告；
