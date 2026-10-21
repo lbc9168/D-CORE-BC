@@ -1296,6 +1296,34 @@
    ],
    "subsidiaries": [
     {
+     "name_cn": "中国交通建设股份有限公司",
+     "legal_full_name_cn": "中国交通建设股份有限公司",
+     "name_en": "China Communications Construction Company Limited",
+     "name_en_abbr": "CCCC",
+     "aliases": [
+      "中交股份",
+      "中国交建股份",
+      "01800.HK",
+      "601800.SH"
+     ],
+     "context_required_names": [],
+     "group_only_aliases": [],
+     "disputed_aliases": [],
+     "entity_id": "ent_d3b1bba2d9c05cf7969f",
+     "parent_entity_id": "ent_36ac391bc81b5d438be2",
+     "level": 2,
+     "is_central_soe": true,
+     "ownership_type": "中央企业控股上市公司",
+     "sources": [
+      {
+       "authority": "上交所及港交所年报披露",
+       "description": "股权与组织架构官方凭证",
+       "url": null
+      }
+     ],
+     "tree_entity_id": "ent_461cc47ac7bb5b495711"
+    },
+    {
      "name_cn": "中交第一航务工程局有限公司",
      "legal_full_name_cn": "中交第一航务工程局有限公司",
      "name_en": "CCCC First Harbor Engineering Co., Ltd.",
@@ -1308,7 +1336,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_b32739157ce45efd8074",
-     "parent_entity_id": "ent_36ac391bc81b5d438be2",
+     "parent_entity_id": "ent_d3b1bba2d9c05cf7969f",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -1320,32 +1348,6 @@
       }
      ],
      "tree_entity_id": "ent_b32739157ce45efd8074"
-    },
-    {
-     "name_cn": "中国水利电力对外有限公司",
-     "legal_full_name_cn": "中国水利电力对外有限公司",
-     "name_en": "China Water & Electric Corporation",
-     "name_en_abbr": "CWE",
-     "aliases": [
-      "中水对外",
-      "中水公司"
-     ],
-     "context_required_names": [],
-     "group_only_aliases": [],
-     "disputed_aliases": [],
-     "entity_id": "ent_9d2682cd130457bf8ef2",
-     "parent_entity_id": "ent_36ac391bc81b5d438be2",
-     "level": 3,
-     "is_central_soe": true,
-     "ownership_type": "中央企业下属专业工程局/设计院",
-     "sources": [
-      {
-       "authority": "中国电建历年年报重要子公司披露",
-       "description": "股权与组织架构官方凭证",
-       "url": null
-      }
-     ],
-     "tree_entity_id": "ent_9d2682cd130457bf8ef2"
     },
     {
      "name_cn": "中国港湾工程有限责任公司",
@@ -1361,7 +1363,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_d87089ec4dd5520ba228",
-     "parent_entity_id": "ent_36ac391bc81b5d438be2",
+     "parent_entity_id": "ent_d3b1bba2d9c05cf7969f",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业骨干出海子集团",
@@ -1388,7 +1390,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_abb856c7858950c6a04c",
-     "parent_entity_id": "ent_36ac391bc81b5d438be2",
+     "parent_entity_id": "ent_d3b1bba2d9c05cf7969f",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业骨干出海子集团",
@@ -4287,6 +4289,33 @@
    ],
    "subsidiaries": [
     {
+     "name_cn": "中国电力建设股份有限公司",
+     "legal_full_name_cn": "中国电力建设股份有限公司",
+     "name_en": "Power Construction Corporation of China, Ltd.",
+     "name_en_abbr": "POWERCHINA LTD",
+     "aliases": [
+      "中国电建股份",
+      "电建股份",
+      "601669.SH"
+     ],
+     "context_required_names": [],
+     "group_only_aliases": [],
+     "disputed_aliases": [],
+     "entity_id": "ent_181f4c7a5bf45c1c8b96",
+     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "level": 2,
+     "is_central_soe": true,
+     "ownership_type": "中央企业控股上市公司",
+     "sources": [
+      {
+       "authority": "上交所上市公告与年报",
+       "description": "601669.SH，中国电建核心上市公司平台与直管工程实体控股方",
+       "url": null
+      }
+     ],
+     "tree_entity_id": "ent_652c6980bba295cd3b42"
+    },
+    {
      "name_cn": "中国电建集团国际工程有限公司",
      "legal_full_name_cn": "中国电建集团国际工程有限公司",
      "name_en": "PowerChina International Group Limited",
@@ -4388,7 +4417,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_239e01f29a6f563d81fe",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4414,7 +4443,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_cc054319724e52678d2c",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4440,7 +4469,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_f0988e6b5eba5915a0c3",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4466,7 +4495,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_ba8b913c76c850f3bee7",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4492,7 +4521,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_a364485bad235ec0b2fd",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4518,7 +4547,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_81117dde8aa65f86ab0a",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4544,7 +4573,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_2fc1abd40f355f708653",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4570,7 +4599,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_d29beba1bb9d5d228b37",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4600,7 +4629,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_7f835962e58d59538cde",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4626,7 +4655,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_d66cb2ffdad055d4be45",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4652,7 +4681,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_2e8676960d90538ea199",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4678,7 +4707,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_bb2b187ae92952e8a31f",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4704,7 +4733,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_676a420f77695a83a6e4",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4730,7 +4759,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_d18da197618d59f699a2",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4742,6 +4771,32 @@
       }
      ],
      "tree_entity_id": "ent_d18da197618d59f699a2"
+    },
+    {
+     "name_cn": "中国水利电力对外有限公司",
+     "legal_full_name_cn": "中国水利电力对外有限公司",
+     "name_en": "China Water & Electric Corporation",
+     "name_en_abbr": "CWE",
+     "aliases": [
+      "中水对外",
+      "中水公司"
+     ],
+     "context_required_names": [],
+     "group_only_aliases": [],
+     "disputed_aliases": [],
+     "entity_id": "ent_9d2682cd130457bf8ef2",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
+     "level": 3,
+     "is_central_soe": true,
+     "ownership_type": "中央企业下属专业工程局/设计院",
+     "sources": [
+      {
+       "authority": "中国电建历年年报重要子公司披露",
+       "description": "股权与组织架构官方凭证",
+       "url": null
+      }
+     ],
+     "tree_entity_id": "ent_9d2682cd130457bf8ef2"
     },
     {
      "name_cn": "中国电建市政建设集团有限公司",
@@ -4757,7 +4812,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_ee491a72531059bbb8ec",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4783,7 +4838,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_c0a8bfd3e95b5edda9d8",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4810,7 +4865,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_08f60b5c13e151d9931d",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4836,7 +4891,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_1a6da52931cd583c82ec",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4862,7 +4917,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_9f6257f52dff596386d0",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4889,7 +4944,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_80dcf202aff75d099fc7",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4917,7 +4972,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_82cc0dd039f95b7f8199",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4943,7 +4998,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_1dff25d342335803be11",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -4969,7 +5024,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_d60df57898af5007a7c1",
-     "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+     "parent_entity_id": "ent_181f4c7a5bf45c1c8b96",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程局/设计院",
@@ -5802,6 +5857,34 @@
      "tree_entity_id": "ent_e8fc1600db6c555b8fd0"
     },
     {
+     "name_cn": "中国能源建设股份有限公司",
+     "legal_full_name_cn": "中国能源建设股份有限公司",
+     "name_en": "China Energy Engineering Corporation Limited",
+     "name_en_abbr": "Energy China",
+     "aliases": [
+      "中国能建股份",
+      "能建股份",
+      "03996.HK",
+      "601868.SH"
+     ],
+     "context_required_names": [],
+     "group_only_aliases": [],
+     "disputed_aliases": [],
+     "entity_id": "ent_38cfb8bfb59c509f9985",
+     "parent_entity_id": "ent_405cdb1433d45008b11d",
+     "level": 2,
+     "is_central_soe": true,
+     "ownership_type": "中央企业控股上市公司",
+     "sources": [
+      {
+       "authority": "中国能建上市公告书与年报",
+       "description": "A+H两地上市旗舰平台",
+       "url": null
+      }
+     ],
+     "tree_entity_id": "ent_27a62192e59200812096"
+    },
+    {
      "name_cn": "中国能源建设集团华东建设投资有限公司",
      "legal_full_name_cn": "中国能源建设集团华东建设投资有限公司",
      "name_en": "China Energy Engineering Group East China Construction Investment Co., Ltd.",
@@ -6122,7 +6205,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_6eebcf9c05535e7c9956",
-     "parent_entity_id": "ent_405cdb1433d45008b11d",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6148,7 +6231,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_8c666fcabc8555519e7c",
-     "parent_entity_id": "ent_405cdb1433d45008b11d",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6174,7 +6257,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_8a13dc37daf95b7aadba",
-     "parent_entity_id": "ent_3d8eb7a5fea850b4bb28",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6202,7 +6285,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_dc8f042cebe85672864b",
-     "parent_entity_id": "ent_405cdb1433d45008b11d",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6228,7 +6311,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_bc5716d27fe858b2987d",
-     "parent_entity_id": "ent_405cdb1433d45008b11d",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6255,7 +6338,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_a6dcfc9478d1502aa6c6",
-     "parent_entity_id": "ent_3d8eb7a5fea850b4bb28",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6281,7 +6364,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_3e0514e95e3f54ad8b59",
-     "parent_entity_id": "ent_3d8eb7a5fea850b4bb28",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6307,7 +6390,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_997a81ce8a845c8b8430",
-     "parent_entity_id": "ent_3d8eb7a5fea850b4bb28",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6333,7 +6416,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_fafd36588ab25c58acbe",
-     "parent_entity_id": "ent_3d8eb7a5fea850b4bb28",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -6358,7 +6441,7 @@
      "group_only_aliases": [],
      "disputed_aliases": [],
      "entity_id": "ent_fe3b35146f14568eac27",
-     "parent_entity_id": "ent_3d8eb7a5fea850b4bb28",
+     "parent_entity_id": "ent_38cfb8bfb59c509f9985",
      "level": 3,
      "is_central_soe": true,
      "ownership_type": "中央企业下属专业工程公司/设计院",
@@ -10753,6 +10836,73 @@
       }
      ],
      "tree_entity_id": "ent_4eed783fd18a54d3aec4"
+    }
+   ]
+  },
+  {
+   "canonical_name_cn": "招商局集团有限公司",
+   "legal_full_name_cn": "招商局集团有限公司",
+   "canonical_en": "China Merchants Group Limited",
+   "aliases": [
+    "招商局",
+    "招商局集团",
+    "China Merchants"
+   ],
+   "context_required_names": [],
+   "group_only_aliases": [],
+   "disputed_aliases": [],
+   "entity_id": "ent_35437a0d0e025dfc8b67",
+   "parent_entity_id": null,
+   "level": 1,
+   "is_central_soe": true,
+   "ownership_type": "中央企业",
+   "sources": [
+    {
+     "authority": "国务院国资委",
+     "description": "股权与组织架构官方凭证",
+     "url": null
+    }
+   ],
+   "subsidiaries": [
+    {
+     "name_cn": "招商局港口控股有限公司",
+     "legal_full_name_cn": "招商局港口控股有限公司",
+     "name_en": "China Merchants Port Holdings Company Limited",
+     "name_en_abbr": "CMPort",
+     "aliases": [
+      "招商局港口",
+      "00144.HK"
+     ],
+     "context_required_names": [],
+     "group_only_aliases": [],
+     "disputed_aliases": [],
+     "entity_id": "ent_f32888e2f6c75a6d9ed1",
+     "parent_entity_id": "ent_35437a0d0e025dfc8b67",
+     "level": 2,
+     "is_central_soe": true,
+     "ownership_type": "中央企业全球港口投资运营平台",
+     "sources": [],
+     "tree_entity_id": "ent_43a7678a8629d4ab6c6b"
+    },
+    {
+     "name_cn": "招商局轮船有限公司",
+     "legal_full_name_cn": "招商局轮船有限公司",
+     "name_en": "China Merchants Energy Shipping Co., Ltd.",
+     "name_en_abbr": "CMES",
+     "aliases": [
+      "招商轮船",
+      "601872.SH"
+     ],
+     "context_required_names": [],
+     "group_only_aliases": [],
+     "disputed_aliases": [],
+     "entity_id": "ent_9e3c182615665371b37e",
+     "parent_entity_id": "ent_35437a0d0e025dfc8b67",
+     "level": 2,
+     "is_central_soe": true,
+     "ownership_type": "中央企业油气散运上市旗舰",
+     "sources": [],
+     "tree_entity_id": "ent_6841acd5a37adb33d26d"
     }
    ]
   },

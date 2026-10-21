@@ -9,18 +9,23 @@
   "tree": {
    "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_hierarchy_tree.json",
    "sha256": "11ffe3b235bdf6c495b606a2c80bdd5555e83168b60e2a68a2f7db42366d42c1"
+  },
+  "additions": {
+   "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_registry_v4_additions.json",
+   "sha256": "e946a976d82938e85cbe5ba7f8c2c1fa7f91dad1e36db7ed91ccc686a34b1ad9"
   }
  },
  "metrics": {
   "v3_entity_ids": 563,
+  "approved_additions": 6,
   "registry_entities": 688,
-  "accepted_entities": 563,
-  "accepted_roots": 149,
+  "accepted_entities": 569,
+  "accepted_roots": 150,
   "status": {
-   "matched": 276,
+   "matched": 313,
    "v3_only": 250,
-   "parent_unresolved": 37,
-   "provisional_new": 125
+   "approved": 6,
+   "provisional_new": 119
   },
   "levels": {
    "1": 149,
@@ -29,11 +34,11 @@
    "4": 10
   },
   "tree_nodes": 438,
-  "matched": 313,
+  "matched": 319,
   "crosswalk_id_changes": 153,
   "ambiguous": 0,
-  "provisional_new": 125,
-  "reparented": 16,
+  "provisional_new": 119,
+  "reparented": 53,
   "alias_conflicts": 0,
   "v3_unresolved_entries": 14,
   "issues": 0
@@ -1570,6 +1575,56 @@
    ]
   }
  ],
+ "approved_additions": [
+  {
+   "entity_id": "ent_38cfb8bfb59c509f9985",
+   "name_cn": "中国能源建设股份有限公司",
+   "parent_entity_id": "ent_405cdb1433d45008b11d",
+   "parent_name_cn": "中国能源建设集团有限公司",
+   "level": 2,
+   "reason": "approved in company_registry_v4_additions.json"
+  },
+  {
+   "entity_id": "ent_181f4c7a5bf45c1c8b96",
+   "name_cn": "中国电力建设股份有限公司",
+   "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+   "parent_name_cn": "中国电力建设集团有限公司",
+   "level": 2,
+   "reason": "approved in company_registry_v4_additions.json"
+  },
+  {
+   "entity_id": "ent_d3b1bba2d9c05cf7969f",
+   "name_cn": "中国交通建设股份有限公司",
+   "parent_entity_id": "ent_36ac391bc81b5d438be2",
+   "parent_name_cn": "中国交通建设集团有限公司",
+   "level": 2,
+   "reason": "approved in company_registry_v4_additions.json"
+  },
+  {
+   "entity_id": "ent_35437a0d0e025dfc8b67",
+   "name_cn": "招商局集团有限公司",
+   "parent_entity_id": null,
+   "parent_name_cn": null,
+   "level": 1,
+   "reason": "approved in company_registry_v4_additions.json"
+  },
+  {
+   "entity_id": "ent_f32888e2f6c75a6d9ed1",
+   "name_cn": "招商局港口控股有限公司",
+   "parent_entity_id": "ent_35437a0d0e025dfc8b67",
+   "parent_name_cn": "招商局集团有限公司",
+   "level": 2,
+   "reason": "approved in company_registry_v4_additions.json"
+  },
+  {
+   "entity_id": "ent_9e3c182615665371b37e",
+   "name_cn": "招商局轮船有限公司",
+   "parent_entity_id": "ent_35437a0d0e025dfc8b67",
+   "parent_name_cn": "招商局集团有限公司",
+   "level": 2,
+   "reason": "approved in company_registry_v4_additions.json"
+  }
+ ],
  "reparented": [
   {
    "entity_id": "ent_8df60b2f2b2752249ff9",
@@ -1578,6 +1633,26 @@
    "v3_parent_name": "中国能源建设集团有限公司",
    "v4_parent": "ent_6b4b8e1a64b457a2ae08",
    "v4_parent_name": "中国葛洲坝集团有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_8c666fcabc8555519e7c",
+   "name": "中国能源建设集团天津电力建设有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_bc5716d27fe858b2987d",
+   "name": "中国能源建设集团广东火电工程有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
    "v4_root": "ent_405cdb1433d45008b11d",
    "v4_root_name": "中国能源建设集团有限公司"
   },
@@ -1600,6 +1675,316 @@
    "v4_parent_name": "中国葛洲坝集团有限公司",
    "v4_root": "ent_405cdb1433d45008b11d",
    "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_dc8f042cebe85672864b",
+   "name": "中国能源建设集团山西省电力勘测设计院有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_6eebcf9c05535e7c9956",
+   "name": "中国能源建设集团云南省电力设计院有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_a6dcfc9478d1502aa6c6",
+   "name": "中国能源建设集团广东省电力设计研究院有限公司",
+   "v3_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v3_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_3e0514e95e3f54ad8b59",
+   "name": "中国能源建设集团江苏省电力设计院有限公司",
+   "v3_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v3_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_997a81ce8a845c8b8430",
+   "name": "中国能源建设集团浙江省电力设计院有限公司",
+   "v3_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v3_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_8a13dc37daf95b7aadba",
+   "name": "中国能源建设集团安徽省电力设计院有限公司",
+   "v3_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v3_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_fafd36588ab25c58acbe",
+   "name": "中国能源建设集团湖南省电力设计院有限公司",
+   "v3_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v3_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_fe3b35146f14568eac27",
+   "name": "中国能源建设集团黑龙江省电力设计院有限公司",
+   "v3_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v3_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_parent": "ent_38cfb8bfb59c509f9985",
+   "v4_parent_name": "中国能源建设股份有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_ee491a72531059bbb8ec",
+   "name": "中国电建市政建设集团有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_239e01f29a6f563d81fe",
+   "name": "上海电力建设有限责任公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_08f60b5c13e151d9931d",
+   "name": "中国电建集团华东勘测设计研究院有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_1dff25d342335803be11",
+   "name": "中国电建集团西北勘测设计研究院有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_c0a8bfd3e95b5edda9d8",
+   "name": "中国电建集团中南勘测设计研究院有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_1a6da52931cd583c82ec",
+   "name": "中国电建集团成都勘测设计研究院有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_d60df57898af5007a7c1",
+   "name": "中国电建集团贵阳勘测设计研究院有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_9f6257f52dff596386d0",
+   "name": "中国电建集团昆明勘测设计研究院有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_cc054319724e52678d2c",
+   "name": "中国水利水电第一工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_ba8b913c76c850f3bee7",
+   "name": "中国水利水电第三工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_d18da197618d59f699a2",
+   "name": "中国水利水电第四工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_81117dde8aa65f86ab0a",
+   "name": "中国水利水电第五工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_d29beba1bb9d5d228b37",
+   "name": "中国水利水电第六工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_f0988e6b5eba5915a0c3",
+   "name": "中国水利水电第七工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_2fc1abd40f355f708653",
+   "name": "中国水利水电第八工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_a364485bad235ec0b2fd",
+   "name": "中国水利水电第九工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_676a420f77695a83a6e4",
+   "name": "中国水利水电第十工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_7f835962e58d59538cde",
+   "name": "中国水利水电第十一工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_d66cb2ffdad055d4be45",
+   "name": "中国水利水电第十二工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_bb2b187ae92952e8a31f",
+   "name": "中国水利水电第十四工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_2e8676960d90538ea199",
+   "name": "中国水利水电第十六工程局有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_82cc0dd039f95b7f8199",
+   "name": "中国电建集团湖北工程有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_80dcf202aff75d099fc7",
+   "name": "中国电建集团江西省电力建设有限公司",
+   "v3_parent": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_parent_name": "中国电力建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
   },
   {
    "entity_id": "ent_29d46875263751799bac",
@@ -1682,6 +2067,46 @@
    "v4_root_name": "中国电气装备集团有限公司"
   },
   {
+   "entity_id": "ent_d87089ec4dd5520ba228",
+   "name": "中国港湾工程有限责任公司",
+   "v3_parent": "ent_36ac391bc81b5d438be2",
+   "v3_parent_name": "中国交通建设集团有限公司",
+   "v4_parent": "ent_d3b1bba2d9c05cf7969f",
+   "v4_parent_name": "中国交通建设股份有限公司",
+   "v4_root": "ent_36ac391bc81b5d438be2",
+   "v4_root_name": "中国交通建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_b32739157ce45efd8074",
+   "name": "中交第一航务工程局有限公司",
+   "v3_parent": "ent_36ac391bc81b5d438be2",
+   "v3_parent_name": "中国交通建设集团有限公司",
+   "v4_parent": "ent_d3b1bba2d9c05cf7969f",
+   "v4_parent_name": "中国交通建设股份有限公司",
+   "v4_root": "ent_36ac391bc81b5d438be2",
+   "v4_root_name": "中国交通建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_abb856c7858950c6a04c",
+   "name": "中国路桥工程有限责任公司",
+   "v3_parent": "ent_36ac391bc81b5d438be2",
+   "v3_parent_name": "中国交通建设集团有限公司",
+   "v4_parent": "ent_d3b1bba2d9c05cf7969f",
+   "v4_parent_name": "中国交通建设股份有限公司",
+   "v4_root": "ent_36ac391bc81b5d438be2",
+   "v4_root_name": "中国交通建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_9d2682cd130457bf8ef2",
+   "name": "中国水利电力对外有限公司",
+   "v3_parent": "ent_36ac391bc81b5d438be2",
+   "v3_parent_name": "中国交通建设集团有限公司",
+   "v4_parent": "ent_181f4c7a5bf45c1c8b96",
+   "v4_parent_name": "中国电力建设股份有限公司",
+   "v4_root": "ent_c2e4a0dbc10c5a5ead87",
+   "v4_root_name": "中国电力建设集团有限公司"
+  },
+  {
    "entity_id": "ent_f876dd21adac5238b409",
    "name": "中国土木工程集团有限公司",
    "v3_parent": "ent_2d0b0262d84d5786a44c",
@@ -1734,13 +2159,6 @@
  ],
  "ambiguous": [],
  "new_nodes": [
-  {
-   "tree_entity_id": "ent_652c6980bba295cd3b42",
-   "tree_name": "中国电力建设股份有限公司",
-   "tree_level": 2,
-   "parent_tree_id": "ent_56befd7faed50938097c",
-   "provisional_id": "prov_b1fe8127188451e792b4"
-  },
   {
    "tree_entity_id": "ent_10b8af547971c48a29a6",
    "tree_name": "中国水利水电第二工程局有限公司",
@@ -1824,13 +2242,6 @@
    "tree_level": 2,
    "parent_tree_id": "ent_56befd7faed50938097c",
    "provisional_id": "prov_6f99df2cd1da5d5f8cf4"
-  },
-  {
-   "tree_entity_id": "ent_27a62192e59200812096",
-   "tree_name": "中国能源建设股份有限公司",
-   "tree_level": 2,
-   "parent_tree_id": "ent_b2996e8707f86b2d2fc1",
-   "provisional_id": "prov_c389a8fdc2b750cd81c6"
   },
   {
    "tree_entity_id": "ent_237f6167c83dedf6d220",
@@ -2211,13 +2622,6 @@
    "provisional_id": "prov_51363cbe76f254f2ac92"
   },
   {
-   "tree_entity_id": "ent_461cc47ac7bb5b495711",
-   "tree_name": "中国交通建设股份有限公司",
-   "tree_level": 2,
-   "parent_tree_id": "ent_2000e5d3685a46c2b7f1",
-   "provisional_id": "prov_d6922047801a5731b4c7"
-  },
-  {
    "tree_entity_id": "ent_56fdc8df167724604c68",
    "tree_name": "中交第一公路工程局有限公司",
    "tree_level": 3,
@@ -2391,27 +2795,6 @@
    "tree_level": 2,
    "parent_tree_id": "ent_54d8e632be58b004b334",
    "provisional_id": "prov_57b52fd5609e57409981"
-  },
-  {
-   "tree_entity_id": "ent_1554913c7eea6bb8a6b8",
-   "tree_name": "招商局集团有限公司",
-   "tree_level": 1,
-   "parent_tree_id": null,
-   "provisional_id": "prov_0661556b7de15d9aa533"
-  },
-  {
-   "tree_entity_id": "ent_43a7678a8629d4ab6c6b",
-   "tree_name": "招商局港口控股有限公司",
-   "tree_level": 2,
-   "parent_tree_id": "ent_1554913c7eea6bb8a6b8",
-   "provisional_id": "prov_85cf9cc3211357e2b7f9"
-  },
-  {
-   "tree_entity_id": "ent_6841acd5a37adb33d26d",
-   "tree_name": "招商局轮船有限公司",
-   "tree_level": 2,
-   "parent_tree_id": "ent_1554913c7eea6bb8a6b8",
-   "provisional_id": "prov_122f94ea6e395ecfb818"
   },
   {
    "tree_entity_id": "ent_9573465288ee2688447e",
@@ -2699,8 +3082,8 @@
  ],
  "issues": [],
  "root_counts": {
-  "中国能源建设集团有限公司": 75,
-  "中国电力建设集团有限公司": 48,
+  "中国能源建设集团有限公司": 76,
+  "中国电力建设集团有限公司": 50,
   "国家能源投资集团有限责任公司": 33,
   "中国机械工业集团有限公司": 21,
   "中国南方电网有限责任公司": 18,

@@ -23,6 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_V3 = ROOT / "supporting_docs" / "company_hierarchy_v3.json"
 DEFAULT_TREE = ROOT / "supporting_docs" / "company_hierarchy_tree.json"
+DEFAULT_ADDITIONS = ROOT / "supporting_docs" / "company_registry_v4_additions.json"
 DEFAULT_OUT = ROOT / "supporting_docs"
 DEFAULT_REPORT = ROOT / "output" / "company-registry-v4" / "p0"
 
@@ -204,6 +205,73 @@ def build_v3(doc: dict) -> tuple[dict[str, Entity], dict[str, set[str]], list[di
     return entities, name_index, unresolved
 
 
+def load_additions(
+    path: Path,
+    v3: dict[str, Entity],
+    v3_name_index: dict[str, set[str]],
+) -> tuple[dict[str, Entity], dict[str, set[str]], list[dict]]:
+    """Load human-approved new entities; validate IDs, names and parents."""
+    if not path.exists():
+        return {}, {}, []
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    if doc.get("schema_version") != "1.0" or not isinstance(doc.get("companies"), list):
+        raise ValueError(f"新增主体文件结构不合法: {path}")
+
+    approved: dict[str, Entity] = {}
+    for item in doc["companies"]:
+        name = (item.get("name_cn") or "").strip()
+        if not name:
+            raise ValueError("新增主体缺少 name_cn")
+        entity_id = item.get("entity_id") or stable_entity_id(name)
+        if not re.fullmatch(r"ent_[0-9a-f]{20}", entity_id):
+            raise ValueError(f"新增主体 ID 格式不合法: {entity_id}")
+        if entity_id in v3:
+            raise ValueError(f"新增主体 ID 与 V3 冲突: {entity_id} ({name})")
+        if entity_id in approved:
+            raise ValueError(f"新增主体 ID 重复: {entity_id}")
+        level = item.get("level")
+        if level not in (1, 2, 3, 4):
+            raise ValueError(f"新增主体 level 不合法: {name} -> {level}")
+        if not (item.get("reason") or "").strip():
+            raise ValueError(f"新增主体缺少 reason: {name}")
+        approved[entity_id] = Entity(
+            entity_id=entity_id,
+            name_cn=name,
+            name_en=(item.get("name_en") or "").strip(),
+            name_en_abbr=(item.get("name_en_abbr") or "").strip(),
+            aliases=dedupe(item.get("aliases") or []),
+            level=level,
+            parent_entity_id=item.get("parent_entity_id"),
+            is_central_soe=item.get("is_central_soe"),
+            ownership_type=item.get("ownership_type"),
+            sources=item.get("sources") or [],
+            origin="approved",
+            status="approved",
+            context_required_names=dedupe(item.get("context_required_names") or []),
+        )
+
+    for entity in approved.values():
+        parent = entity.parent_entity_id
+        if parent and parent not in v3 and parent not in approved:
+            raise ValueError(f"新增主体父节点不存在: {entity.name_cn} -> {parent}")
+        if parent and parent in approved and approved[parent].level >= entity.level:
+            raise ValueError(f"新增主体层级不递增: {entity.name_cn}")
+
+    index: dict[str, set[str]] = defaultdict(set)
+    for entity in approved.values():
+        for value in [entity.name_cn, *entity.aliases]:
+            key = name_key(value)
+            if not key:
+                continue
+            existing = v3_name_index.get(key, set())
+            if existing and entity.entity_id not in existing:
+                raise ValueError(
+                    f"新增主体名称与 V3 冲突: {value} -> {sorted(existing)}"
+                )
+            index[key].add(entity.entity_id)
+    return approved, index, []
+
+
 def collect_tree(doc: dict) -> dict[str, dict]:
     """Flatten hierarchy_trees, keeping the first occurrence of a duplicate ID."""
     nodes: dict[str, dict] = {}
@@ -248,6 +316,8 @@ def match_tree(
     tree_nodes: dict[str, dict],
     v3: dict[str, Entity],
     name_index: dict[str, set[str]],
+    approved: dict[str, Entity],
+    approved_index: dict[str, set[str]],
 ) -> tuple[dict[str, str], list[dict], list[dict], list[dict]]:
     """Return tree_id -> entity_id, matched, ambiguous, new nodes."""
     tree_to_entity: dict[str, str] = {}
@@ -256,6 +326,34 @@ def match_tree(
     new_nodes: list[dict] = []
 
     for tree_id, node in tree_nodes.items():
+        approved_candidates = set(approved_index.get(name_key(node["name_cn"]), set()))
+        if len(approved_candidates) == 1:
+            entity_id = next(iter(approved_candidates))
+            matched.append({
+                "tree_entity_id": tree_id,
+                "tree_name": node["name_cn"],
+                "entity_id": entity_id,
+                "v3_name": approved[entity_id].name_cn,
+                "match_type": "approved",
+                "hit_keys": [node["name_cn"]],
+            })
+            tree_to_entity[tree_id] = entity_id
+            continue
+        if len(approved_candidates) > 1:
+            prov = provisional_id(node["name_cn"])
+            tree_to_entity[tree_id] = prov
+            ambiguous.append({
+                "tree_entity_id": tree_id,
+                "tree_name": node["name_cn"],
+                "tree_level": node["level"],
+                "tree_parent_id": node["parent_tree_id"],
+                "candidate_ids": sorted(approved_candidates),
+                "candidate_names": sorted(approved[c].name_cn for c in approved_candidates),
+                "hit_keys": [node["name_cn"]],
+                "provisional_id": prov,
+            })
+            continue
+
         name_candidates = set(name_index.get(name_key(node["name_cn"]), set()))
         candidates: set[str] = set(name_candidates)
         hit_keys: list[str] = []
@@ -316,6 +414,7 @@ def match_tree(
 
 def build_entities(
     v3: dict[str, Entity],
+    approved: dict[str, Entity],
     tree_nodes: dict[str, dict],
     tree_to_entity: dict[str, str],
     matched: list[dict],
@@ -324,6 +423,8 @@ def build_entities(
     name_index: dict[str, set[str]],
 ) -> tuple[dict[str, Entity], list[dict]]:
     entities: dict[str, Entity] = {key: Entity(**asdict(value)) for key, value in v3.items()}
+    for key, value in approved.items():
+        entities[key] = Entity(**asdict(value))
     issues: list[dict] = []
 
     # Attach tree hierarchy to matched entities.
@@ -353,8 +454,11 @@ def build_entities(
                 entity.aliases = dedupe([*entity.aliases, alias])
         if node["is_central_soe"] is not None:
             entity.is_central_soe = node["is_central_soe"]
-        entity.origin = "v3+tree"
-        entity.status = "matched"
+        if entity.origin == "approved":
+            entity.origin = "approved+tree"
+        else:
+            entity.origin = "v3+tree"
+            entity.status = "matched"
 
     # Provisional/ambiguous tree nodes are isolated from the runtime view.
     for row in [*new_nodes, *ambiguous]:
@@ -385,10 +489,13 @@ def build_entities(
     # Resolve parents. Matched entities use a mapped tree parent only when that
     # parent is already a canonical V3 entity; otherwise fall back to V3 parent.
     for entity in entities.values():
-        if entity.status in {"matched", "parent_unresolved"} and entity.tree_parent_id:
+        if entity.status in {"matched", "parent_unresolved", "approved"} and entity.tree_parent_id:
             mapped = tree_to_entity.get(entity.tree_parent_id)
             if mapped and mapped.startswith("ent_") and mapped in entities:
                 entity.parent_entity_id = mapped
+            elif entity.status == "approved":
+                # Approval already carries a validated parent; keep it.
+                pass
             else:
                 entity.parent_entity_id = entity.v3_parent or (
                     entity.v3_group_id
@@ -433,7 +540,7 @@ def build_entities(
 
 
 def accepted(entity: Entity) -> bool:
-    return entity.status in {"matched", "v3_only", "parent_unresolved"} and entity.entity_id.startswith("ent_")
+    return entity.status in {"matched", "v3_only", "parent_unresolved", "approved"} and entity.entity_id.startswith("ent_")
 
 
 def build_v4_view(entities: dict[str, Entity]) -> dict:
@@ -519,6 +626,7 @@ def build_v4_view(entities: dict[str, Entity]) -> dict:
 
 def validate(
     v3: dict[str, Entity],
+    approved: dict[str, Entity],
     entities: dict[str, Entity],
     view: dict,
     issues: list[dict],
@@ -528,8 +636,9 @@ def validate(
     missing = v3_ids - set(entities)
     if missing:
         errors.append(f"V3 ID 丢失 {len(missing)} 个: {sorted(missing)[:5]}")
-    if len(entities) != len(set(entities)):
-        errors.append("registry 存在重复 entity_id")
+    missing_approved = set(approved) - set(entities)
+    if missing_approved:
+        errors.append(f"审批新增 ID 丢失 {len(missing_approved)} 个: {sorted(missing_approved)[:5]}")
     if issues:
         errors.append(f"图谱问题 {len(issues)} 条: {issues[:3]}")
 
@@ -557,6 +666,7 @@ def validate(
 
 def build_changes(
     v3: dict[str, Entity],
+    approved: dict[str, Entity],
     entities: dict[str, Entity],
     matched: list[dict],
     ambiguous: list[dict],
@@ -567,7 +677,7 @@ def build_changes(
 ) -> dict:
     crosswalk = [
         row for row in matched
-        if row["tree_entity_id"] != row["entity_id"]
+        if row["match_type"] != "approved" and row["tree_entity_id"] != row["entity_id"]
     ]
     reparented = []
     for entity_id, before in v3.items():
@@ -616,6 +726,7 @@ def build_changes(
         "sources": files,
         "metrics": {
             "v3_entity_ids": len(v3),
+            "approved_additions": len(approved),
             "registry_entities": len(entities),
             "accepted_entities": sum(1 for e in entities.values() if accepted(e)),
             "accepted_roots": len({e.root_entity_id for e in entities.values() if accepted(e)}),
@@ -632,6 +743,18 @@ def build_changes(
             "issues": len(issues),
         },
         "id_crosswalk": crosswalk,
+        "approved_additions": [
+            {
+                "entity_id": entity.entity_id,
+                "name_cn": entity.name_cn,
+                "parent_entity_id": entity.parent_entity_id,
+                "parent_name_cn": entities.get(entity.parent_entity_id).name_cn
+                if entity.parent_entity_id in entities else None,
+                "level": entity.level,
+                "reason": "approved in company_registry_v4_additions.json",
+            }
+            for entity in approved.values()
+        ],
         "reparented": reparented,
         "ambiguous": ambiguous,
         "new_nodes": new_nodes,
@@ -659,6 +782,8 @@ def write_review_csv(path: Path, tree_nodes: dict[str, dict], matched: list[dict
         rows.append(row)
 
     for row in matched:
+        if row["match_type"] == "approved":
+            continue
         node = tree_nodes[row["tree_entity_id"]]
         if row["tree_entity_id"] != row["entity_id"]:
             add({
@@ -733,6 +858,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--v3", type=Path, default=DEFAULT_V3)
     parser.add_argument("--tree", type=Path, default=DEFAULT_TREE)
+    parser.add_argument("--additions", type=Path, default=DEFAULT_ADDITIONS)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT)
     parser.add_argument("--report-dir", type=Path, default=DEFAULT_REPORT)
     parser.add_argument("--check", action="store_true", help="validate only; write nothing")
@@ -741,17 +867,32 @@ def main() -> int:
     v3_doc = json.loads(args.v3.read_text(encoding="utf-8"))
     tree_doc = json.loads(args.tree.read_text(encoding="utf-8"))
     v3, name_index, unresolved_v3 = build_v3(v3_doc)
+    approved, approved_index, _ = load_additions(args.additions, v3, name_index)
+    combined_index = {key: set(value) for key, value in name_index.items()}
+    for key, ids in approved_index.items():
+        combined_index.setdefault(key, set()).update(ids)
     tree_nodes = collect_tree(tree_doc)
-    tree_to_entity, matched, ambiguous, new_nodes = match_tree(tree_nodes, v3, name_index)
-    entities, issues = build_entities(v3, tree_nodes, tree_to_entity, matched, ambiguous, new_nodes, name_index)
+    tree_to_entity, matched, ambiguous, new_nodes = match_tree(
+        tree_nodes, v3, name_index, approved, approved_index
+    )
+    entities, issues = build_entities(
+        v3, approved, tree_nodes, tree_to_entity, matched, ambiguous, new_nodes, combined_index
+    )
     view = build_v4_view(entities)
-    errors = validate(v3, entities, view, issues)
+    errors = validate(v3, approved, entities, view, issues)
 
     files = {
         "v3": {"path": str(args.v3), "sha256": sha256(args.v3)},
         "tree": {"path": str(args.tree), "sha256": sha256(args.tree)},
     }
-    changes = build_changes(v3, entities, matched, ambiguous, new_nodes, unresolved_v3, issues, files)
+    if args.additions.exists():
+        files["additions"] = {
+            "path": str(args.additions),
+            "sha256": sha256(args.additions),
+        }
+    changes = build_changes(
+        v3, approved, entities, matched, ambiguous, new_nodes, unresolved_v3, issues, files
+    )
 
     print("== P0 registry v4 ==")
     for key, value in changes["metrics"].items():

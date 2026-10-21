@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "generated_on": "2026-10-21",
+  "notes": [
+    "人工批准新增的正式主体；ID 使用项目统一的 stable_entity_id(name) 规则，不沿用 tree 的临时 ID。",
+    "每条必须带 reason；parent 必须是 V3 已有主体或本文件中的其他新增主体。",
+    "本文件只增加主体，不修改 V3 既有 ID、名称或父链。"
+  ],
+  "companies": [
+    {
+      "name_cn": "中国能源建设股份有限公司",
+      "entity_id": "ent_38cfb8bfb59c509f9985",
+      "parent_entity_id": "ent_405cdb1433d45008b11d",
+      "level": 2,
+      "is_central_soe": true,
+      "ownership_type": "中央企业控股上市公司",
+      "aliases": ["中国能建股份", "能建股份"],
+      "sources": [
+        {
+          "authority": "中国能建上市公告书与年报",
+          "description": "A+H 两地上市旗舰平台",
+          "url": null
+        }
+      ],
+      "reason": "V3 缺失的中国能建 A+H 上市平台；tree 将中国能源建设集团各工程局/设计院挂在其下，补齐后 10 条子节点可直接归位。"
+    },
+    {
+      "name_cn": "中国电力建设股份有限公司",
+      "entity_id": "ent_181f4c7a5bf45c1c8b96",
+      "parent_entity_id": "ent_c2e4a0dbc10c5a5ead87",
+      "level": 2,
+      "is_central_soe": true,
+      "ownership_type": "中央企业控股上市公司",
+      "aliases": ["中国电建股份", "电建股份"],
+      "sources": [
+        {
+          "authority": "上交所上市公告与年报",
+          "description": "601669.SH，中国电建核心上市公司平台与直管工程实体控股方",
+          "url": null
+        }
+      ],
+      "reason": "V3 缺失的中国电建 A 股上市平台；tree 将中国电建各工程局/设计院挂在其下，补齐后 24 条子节点可直接归位。"
+    },
+    {
+      "name_cn": "中国交通建设股份有限公司",
+      "entity_id": "ent_d3b1bba2d9c05cf7969f",
+      "parent_entity_id": "ent_36ac391bc81b5d438be2",
+      "level": 2,
+      "is_central_soe": true,
+      "ownership_type": "中央企业控股上市公司",
+      "aliases": ["中交股份", "中国交建股份"],
+      "sources": [
+        {
+          "authority": "上交所及港交所年报披露",
+          "description": "A+H 上市平台，中交集团核心工程资产控股方",
+          "url": null
+        }
+      ],
+      "reason": "V3 缺失的中交 A+H 上市平台；tree 将中国港湾、中交一航局、中国路桥挂在其下，补齐后 3 条子节点可直接归位。"
+    },
+    {
+      "name_cn": "招商局集团有限公司",
+      "entity_id": "ent_35437a0d0e025dfc8b67",
+      "parent_entity_id": null,
+      "level": 1,
+      "is_central_soe": true,
+      "ownership_type": "中央企业",
+      "aliases": ["招商局", "招商局集团", "China Merchants"],
+      "sources": [
+        {
+          "authority": "国务院国资委",
+          "description": "中央企业集团总部",
+          "url": "http://www.sasac.gov.cn/"
+        }
+      ],
+      "reason": "V3 完全缺失的招商局集团总部；tree 中有完整 L1 节点及两个上市平台，需先补集团才能挂接其 L2。"
+    },
+    {
+      "name_cn": "招商局港口控股有限公司",
+      "entity_id": "ent_f32888e2f6c75a6d9ed1",
+      "parent_entity_id": "ent_35437a0d0e025dfc8b67",
+      "level": 2,
+      "is_central_soe": true,
+      "ownership_type": "中央企业全球港口投资运营平台",
+      "aliases": ["招商局港口"],
+      "sources": [],
+      "reason": "招商局集团 L2 上市港口平台；tree 明确 parent 为招商局集团有限公司。"
+    },
+    {
+      "name_cn": "招商局轮船有限公司",
+      "entity_id": "ent_9e3c182615665371b37e",
+      "parent_entity_id": "ent_35437a0d0e025dfc8b67",
+      "level": 2,
+      "is_central_soe": true,
+      "ownership_type": "中央企业油气散运上市旗舰",
+      "aliases": ["招商轮船"],
+      "sources": [],
+      "reason": "招商局集团 L2 上市航运平台；tree 明确 parent 为招商局集团有限公司。"
+    }
+  ]
+}

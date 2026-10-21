@@ -186,13 +186,13 @@ P0 的 37 条 `parent_unresolved` 不是关系不明，而是 **V3 缺了三个�
 
 **P0 结果（2026-10-21）：**
 
-- 产物：`supporting_docs/company_registry_v4.json`（688 主体）、`company_hierarchy_v4.json`（149 组 / 414 子 / 563 行）、`company_registry_v4_changes.json`、`output/company-registry-v4/p0/review.csv`（315 行）。
-- V3 563 个 ID 全部保留；`company_hierarchy_v4.json` 经 S01B `_GroupRecord` 与 `_build_identity_index` 校验：563 个主体、0 个 exact 歧义。
-- 438 个 tree 节点：313 个匹配（153 个同名但 ID 不同，已进 crosswalk）、125 个 provisional（1 个 L1、43 个 L2、71 个 L3、10 个 L4）、0 个 ambiguous。
-- 16 个主体发生 parent 变化：中电工程→能建、CMEC→国机、阿特斯→Canadian Solar、葛洲坝→能建，以及中建工程局→中建股份、中铁/铁建工程局→上市平台等。
-- 37 个已匹配主体的 tree 父节点仍是 provisional（主要是 V3 缺失的“中国能源建设股份有限公司”“中国电力建设股份有限公司”等 L2 平台），当前回退 V3 父链并列入 `confirm_tree_parent`。
-- 没有写数据库；`provisional_new` 未进入运行时视图。
-- 关键待决：125 个新节点里包含多个关键 L2/L3（如中国能源建设股份有限公司、中国电力建设股份有限公司、招商局集团有限公司），P1 必须先决定这些节点是新增正式主体、映射到已有主体，还是只作为展示层级。
+- 产物：`supporting_docs/company_registry_v4.json`（688 主体）、`company_hierarchy_v4.json`（150 组 / 419 子 / 569 行）、`company_registry_v4_changes.json`、`company_registry_v4_additions.json`、`output/company-registry-v4/p0/review.csv`（272 行）。
+- V3 563 个 ID 全部保留；`company_hierarchy_v4.json` 经 S01B `_GroupRecord` 与 `_build_identity_index` 校验：569 个主体、0 个 exact 歧义。
+- 438 个 tree 节点：319 个匹配（含 6 个审批新增）、119 个 provisional、0 个 ambiguous。153 个同名但 tree ID 不同，已进 crosswalk。
+- 6 个审批新增主体：中国能源建设股份有限公司、中国电力建设股份有限公司、中国交通建设股份有限公司、招商局集团有限公司、招商局港口控股有限公司、招商局轮船有限公司；均使用 `stable_entity_id(name)`，parent 已校验。
+- 53 个主体发生 parent 变化：中电工程→能建、CMEC→国机、阿特斯→Canadian Solar、葛洲坝→能建，以及 37 个能建/电建/中交工程局与设计院→对应上市股份公司。
+- 原先 37 个 `parent_unresolved` 全部归零；没有写数据库；`provisional_new` 未进入运行时视图。
+- 剩余 119 个 provisional：38 个 L2、71 个 L3、10 个 L4；下一步按“真实法人 / 品牌泛称 / 只做展示”逐类裁决。
 
 ### P1 运行时切换（P0 验收后）
 
