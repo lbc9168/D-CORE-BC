@@ -44,6 +44,7 @@ def export_json(dst_db: Path, output_dir: Path, src_db: Path | None = None, *, e
         # JSON 字符串字段反序列化为列表
         for json_field, default in [
             ("all_entities", []),
+            ("primary_entity_path", []),
             ("official_website_links", []),
             ("non_official_website_links", []),
             ("stage_events", []),

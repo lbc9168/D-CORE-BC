@@ -14,6 +14,16 @@ export interface Entity {
   involvement_type: string;
   involvement_type_en: string;
   is_central_soe: 0 | 1 | null;
+  // s03 hierarchy fields (optional for older static data)
+  entity_id?: string;
+  entity_name?: string;
+  entity_name_en?: string;
+  group_id?: string;
+  group_name?: string;
+  parent_name?: string;
+  level?: number | null;
+  path?: string[];
+  ownership_type?: string;
 }
 
 /** Curated reading links; their scope does not imply verification of every project fact. */
@@ -80,6 +90,8 @@ export interface Project {
   external_references?: ExternalReference[];
   primary_entity: string;
   primary_entity_en: string;
+  primary_entity_id?: string;
+  primary_entity_path?: string[];
   project_developer: string;        // 业主中文
   project_developer_en: string;     // 业主英文
   all_entities: Entity[];

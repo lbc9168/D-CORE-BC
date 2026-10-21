@@ -12,6 +12,7 @@ import json
 import logging
 import sqlite3
 import sys
+from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
@@ -23,6 +24,8 @@ if str(_root) not in sys.path:
     sys.path.insert(0, str(_root))
 import bri_enums as enums
 import bri_parse
+
+logger = logging.getLogger(__name__)
 
 # ── 国家英文名查找表（从 WorldCountryList.json 加载） ──────────────────────────
 # parents: flat_builder.py 在 s03_data_exporter/src/s03_data_exporter/ 下，parents[3] = 仓库根
@@ -88,6 +91,8 @@ CREATE TABLE IF NOT EXISTS projects_flat (
     financing_model_en  TEXT,
     primary_entity      TEXT,
     primary_entity_en   TEXT,
+    primary_entity_id   TEXT,
+    primary_entity_path TEXT,
     project_developer    TEXT,
     project_developer_en TEXT,
     all_entities        TEXT,
@@ -317,29 +322,14 @@ def build_flat(
         last_event_year = _stage_events[-1]["year"] if _stage_events else None
 
         # 实体：所有事件合并去重（按最终状态 → 其他顺序），primary 取最终状态第一个
-        all_entities_list: list[dict] = []
-        seen_entities: set[str] = set()
-        for ev in sorted_events:
-            for ent in entities_by_event.get(ev["id"], []):
-                name = (ent.get("implementing_entity") or "").strip()
-                if name and name not in seen_entities:
-                    seen_entities.add(name)
-                    inv_type = ent.get("involvement_type") or ""
-                    all_entities_list.append(
-                        {
-                            "name":               name,
-                            "name_en":            ent.get("implementing_entity_en") or "",
-                            "subsidiary":         ent.get("subsidiary_name") or "",
-                            "subsidiary_en":      ent.get("subsidiary_name_en") or "",
-                            "involvement_type":   inv_type,
-                            "involvement_type_en": enums.involvement_en(inv_type) or inv_type,
-                            "is_central_soe":     ent.get("is_central_soe"),
-                        }
-                    )
+        all_entities_list = _build_entities_list(sorted_events, entities_by_event)
 
         latest_entities = entities_by_event.get(latest["id"], [])
-        primary_entity    = (latest_entities[0].get("implementing_entity") or "").strip() if latest_entities else ""
-        primary_entity_en = (latest_entities[0].get("implementing_entity_en") or "").strip() if latest_entities else ""
+        primary_row = _entity_row(latest_entities[0], _load_hierarchy_map()) if latest_entities else None
+        primary_entity    = primary_row["name"] if primary_row else ""
+        primary_entity_en = primary_row["name_en"] if primary_row else ""
+        primary_entity_id = primary_row["group_id"] if primary_row else ""
+        primary_entity_path = json.dumps(primary_row["path"] if primary_row else [], ensure_ascii=False)
 
         # 业主：优先代表(终态)事件，缺则取首个有值事件（cn/en 同源于该事件）
         _dev_ev = latest if (latest.get("project_developer") or "").strip() else next(
@@ -484,6 +474,8 @@ def build_flat(
                 "financing_model_en":  enums.financing_en(financing_model) or financing_model,
                 "primary_entity":      primary_entity,
                 "primary_entity_en":   primary_entity_en,
+                "primary_entity_id":   primary_entity_id,
+                "primary_entity_path": primary_entity_path,
                 "project_developer":    project_developer,
                 "project_developer_en": project_developer_en,
                 "all_entities":        json.dumps(all_entities_list, ensure_ascii=False),
@@ -570,27 +562,136 @@ def _load_source_tables(src_db: Path) -> tuple[list[dict], dict[str, list[dict]]
     return projects, events_by_project, entities_by_event
 
 
+@lru_cache(maxsize=1)
+def _load_hierarchy_map() -> dict[str, dict]:
+    """Load v4 hierarchy rows for entity_id -> group/parent/path metadata."""
+    path = _root / "supporting_docs" / "company_hierarchy_v4.json"
+    if not path.exists():
+        return {}
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        logger.warning("无法加载企业层级表 %s: %s", path, exc)
+        return {}
+
+    rows: dict[str, dict] = {}
+    for group in doc.get("groups") or []:
+        group_id = (group.get("entity_id") or "").strip()
+        if not group_id:
+            continue
+        group_name = (group.get("canonical_name_cn") or "").strip()
+        rows[group_id] = {
+            "name": group_name,
+            "name_en": group.get("canonical_en") or "",
+            "level": 1,
+            "parent_id": None,
+            "group_id": group_id,
+            "group_name": group_name,
+            "ownership_type": group.get("ownership_type") or "",
+            "path": [group_name] if group_name else [],
+            "parent_name": "",
+        }
+        for sub in group.get("subsidiaries") or []:
+            sub_id = (sub.get("entity_id") or "").strip()
+            if not sub_id:
+                continue
+            rows[sub_id] = {
+                "name": (sub.get("name_cn") or "").strip(),
+                "name_en": sub.get("canonical_en") or "",
+                "level": sub.get("level") or 2,
+                "parent_id": sub.get("parent_entity_id"),
+                "group_id": group_id,
+                "group_name": group_name,
+                "ownership_type": sub.get("ownership_type") or "",
+                "path": None,
+                "parent_name": "",
+            }
+
+    def fill_path(entity_id: str, seen: set[str]) -> list[str]:
+        row = rows[entity_id]
+        if row.get("path") is not None:
+            return row["path"]
+        if entity_id in seen:
+            return [row["group_name"], row["name"]]
+        seen.add(entity_id)
+        parent_id = row.get("parent_id")
+        base = fill_path(parent_id, seen) if parent_id in rows else [row["group_name"]]
+        path = [part for part in base if part]
+        if not path:
+            path = [row["group_name"]]
+        if row["name"] and path[-1] != row["name"]:
+            path.append(row["name"])
+        row["path"] = path
+        row["parent_name"] = rows[parent_id]["name"] if parent_id in rows else row["group_name"]
+        return path
+
+    for entity_id in list(rows):
+        fill_path(entity_id, set())
+    return rows
+
+
+def _entity_row(ent: dict, hierarchy: dict[str, dict]) -> dict:
+    """Project one chinese_entities row with v4 hierarchy metadata."""
+    entity_id = (ent.get("entity_id") or "").strip()
+    hint = hierarchy.get(entity_id, {}) if entity_id else {}
+    group_name = (ent.get("implementing_entity") or "").strip()
+    subsidiary = (ent.get("subsidiary_name") or "").strip()
+    entity_name = hint.get("name") or (ent.get("entity_name") or "").strip() or subsidiary or group_name
+    entity_name_en = (
+        (ent.get("subsidiary_name_en") or "").strip()
+        or hint.get("name_en")
+        or ((ent.get("implementing_entity_en") or "").strip() if entity_name == group_name else "")
+    )
+    group_id = hint.get("group_id") or (ent.get("group_entity_id") or "").strip()
+    parent_name = hint.get("parent_name") or (
+        group_name if subsidiary and subsidiary != group_name else ""
+    )
+    level = hint.get("level") or (2 if subsidiary and subsidiary != group_name else 1)
+    path = list(hint.get("path") or [])
+    if not path:
+        path = [group_name] + ([entity_name] if entity_name and entity_name != group_name else [])
+    path = [part for part in path if part]
+    inv_type = ent.get("involvement_type") or ""
+    return {
+        "name": group_name,
+        "name_en": ent.get("implementing_entity_en") or (hint.get("name_en") if entity_name == group_name else "") or "",
+        "subsidiary": subsidiary,
+        "subsidiary_en": ent.get("subsidiary_name_en") or "",
+        "entity_id": entity_id,
+        "entity_name": entity_name,
+        "entity_name_en": entity_name_en,
+        "group_id": group_id,
+        "group_name": group_name,
+        "parent_name": parent_name,
+        "level": level,
+        "path": path,
+        "ownership_type": hint.get("ownership_type") or "",
+        "involvement_type": inv_type,
+        "involvement_type_en": enums.involvement_en(inv_type) or inv_type,
+        "is_central_soe": ent.get("is_central_soe"),
+    }
+
+
 def _build_entities_list(sorted_events: list[dict], entities_by_event: dict[str, list[dict]]) -> list[dict]:
-    """按 sorted_events 顺序合并去重实体，形式与 projects_flat.all_entities 一致。"""
+    """按 sorted_events 顺序合并去重实体，项目详情消费的层级字段在此生成。"""
+    hierarchy = _load_hierarchy_map()
     all_entities_list: list[dict] = []
-    seen_entities: set[str] = set()
+    seen_entities: set[tuple] = set()
     for ev in sorted_events:
         for ent in entities_by_event.get(ev["id"], []):
-            name = (ent.get("implementing_entity") or "").strip()
-            if name and name not in seen_entities:
-                seen_entities.add(name)
-                inv_type = ent.get("involvement_type") or ""
-                all_entities_list.append(
-                    {
-                        "name":               name,
-                        "name_en":            ent.get("implementing_entity_en") or "",
-                        "subsidiary":         ent.get("subsidiary_name") or "",
-                        "subsidiary_en":      ent.get("subsidiary_name_en") or "",
-                        "involvement_type":   inv_type,
-                        "involvement_type_en": enums.involvement_en(inv_type) or inv_type,
-                        "is_central_soe":     ent.get("is_central_soe"),
-                    }
-                )
+            row = _entity_row(ent, hierarchy)
+            if not row["name"] and not row["entity_name"]:
+                continue
+            key = (
+                row["entity_id"] or "",
+                row["name"],
+                row["subsidiary"],
+                row["involvement_type"],
+            )
+            if key in seen_entities:
+                continue
+            seen_entities.add(key)
+            all_entities_list.append(row)
     return all_entities_list
 
 
