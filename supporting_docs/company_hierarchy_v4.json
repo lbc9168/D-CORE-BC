@@ -11094,6 +11094,32 @@
    "subsidiaries": []
   },
   {
+   "canonical_name_cn": "晶科电力科技股份有限公司",
+   "legal_full_name_cn": "晶科电力科技股份有限公司",
+   "canonical_en": "",
+   "aliases": [
+    "晶科电力",
+    "晶科科技股份有限公司"
+   ],
+   "context_required_names": [],
+   "group_only_aliases": [],
+   "disputed_aliases": [],
+   "entity_id": "ent_20de9705f4515a8a9d08",
+   "parent_entity_id": null,
+   "level": 1,
+   "historical_only": false,
+   "is_central_soe": false,
+   "ownership_type": "新能源民营领军企业控股子公司",
+   "sources": [
+    {
+     "authority": "证券交易所年报与官方披露",
+     "description": "股权与组织架构官方凭证",
+     "url": null
+    }
+   ],
+   "subsidiaries": []
+  },
+  {
    "canonical_name_cn": "晶科能源股份有限公司",
    "legal_full_name_cn": "晶科能源股份有限公司",
    "canonical_en": "",
@@ -11140,33 +11166,6 @@
       }
      ],
      "tree_entity_id": "ent_26e58b71cc92553c87ac"
-    },
-    {
-     "name_cn": "晶科电力科技股份有限公司",
-     "legal_full_name_cn": "晶科电力科技股份有限公司",
-     "name_en": "",
-     "canonical_en": "",
-     "name_en_abbr": "Jinko Power",
-     "aliases": [
-      "晶科电力",
-      "晶科科技股份有限公司"
-     ],
-     "context_required_names": [],
-     "group_only_aliases": [],
-     "disputed_aliases": [],
-     "entity_id": "ent_20de9705f4515a8a9d08",
-     "parent_entity_id": "ent_724ced2b9edc56a0a02b",
-     "level": 2,
-     "is_central_soe": false,
-     "ownership_type": "新能源民营领军企业控股子公司",
-     "sources": [
-      {
-       "authority": "证券交易所年报与官方披露",
-       "description": "股权与组织架构官方凭证",
-       "url": null
-      }
-     ],
-     "tree_entity_id": "ent_862ec299f1a46c1a8417"
     }
    ]
   },

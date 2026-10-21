@@ -117,7 +117,7 @@ s01a: raw_news.db
 | `bri_enums.py` | 枚举加载器（Python）；s04 构建期经 `scripts/copy-enums.mjs` 拷入前端 |
 | `bri_parse.py` | 数值字段（容量/投资额等）的统一解析 |
 | `bri_location.py` | 地点名归一化的匹配规则（s02b 地点归一用） |
-| `supporting_docs/company_hierarchy_v4.json` | 四级母子公司层级 + 央企标记（150 组 / 419 子 / 569 个已接受主体：V3 563 ID + 6 个审批新增；119 个 provisional 不进入运行时；`COMPANY_HIERARCHY` 可回退 `company_hierarchy_v3.json`；tree 为层级源，V3 为 ID 权威） |
+| `supporting_docs/company_hierarchy_v4.json` | 四级母子公司层级 + 央企标记（151 组 / 418 子 / 569 个已接受主体：V3 563 ID + 6 个审批新增；119 个 provisional 不进入运行时；`COMPANY_HIERARCHY` 可回退 `company_hierarchy_v3.json`；tree 为层级源，V3 为 ID 权威） |
 | `developer_registry.json` | developer 名称登记册（73 家：canonical_cn/en + 跨语言别名；s02b 业主归一与英文名回填的最高优先档） |
 | `supporting_docs/company_name_cache.json` | 公司英文名主缓存（人工核实口径，en_abbr 优先）；`residual_translation_cache.json` 为 2B-6 的 LLM 长尾翻译缓存（llm_auto 口径，与主缓存隔离） |
 | `supporting_docs/soe.md` | 官方央企名录（央企判断兜底） |

@@ -27,6 +27,11 @@
       "parent_entity_id": null,
       "historical_only": true,
       "reason": "湖南云箭集团有限公司：V3 标记 historical_only，历史归组不应用于当前解析；保留无当前 group/parent。"
+    },
+    {
+      "entity_id": "ent_20de9705f4515a8a9d08",
+      "parent_entity_id": null,
+      "reason": "晶科电力科技股份有限公司：V3 与用户 W34 裁决明确晶科能源与晶科电力是两家独立上市公司；tree 将其挂到晶科能源，保留独立 L1。"
     }
   ]
 }

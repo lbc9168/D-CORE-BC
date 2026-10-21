@@ -186,7 +186,7 @@ P0 的 37 条 `parent_unresolved` 不是关系不明，而是 **V3 缺了三个�
 
 **P0 结果（2026-10-21）：**
 
-- 产物：`supporting_docs/company_registry_v4.json`（688 主体）、`company_hierarchy_v4.json`（150 组 / 419 子 / 569 行）、`company_registry_v4_changes.json`、`company_registry_v4_additions.json`、`output/company-registry-v4/p0/review.csv`（272 行）。
+- 产物：`supporting_docs/company_registry_v4.json`（688 主体）、`company_hierarchy_v4.json`（151 组 / 418 子 / 569 行）、`company_registry_v4_changes.json`、`company_registry_v4_additions.json`、`company_registry_v4_overrides.json`、`output/company-registry-v4/p0/review.csv`（272 行）。
 - V3 563 个 ID 全部保留；`company_hierarchy_v4.json` 经 S01B `_GroupRecord` 与 `_build_identity_index` 校验：569 个主体、0 个 exact 歧义。
 - 438 个 tree 节点：319 个匹配（含 6 个审批新增）、119 个 provisional、0 个 ambiguous。153 个同名但 tree ID 不同，已进 crosswalk。
 - 6 个审批新增主体：中国能源建设股份有限公司、中国电力建设股份有限公司、中国交通建设股份有限公司、招商局集团有限公司、招商局港口控股有限公司、招商局轮船有限公司；均使用 `stable_entity_id(name)`，parent 已校验。

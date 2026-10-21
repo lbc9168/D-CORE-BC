@@ -17,7 +17,7 @@
   },
   "overrides": {
    "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_registry_v4_overrides.json",
-   "sha256": "f9e3d6678b518c6d16279b4534ea95cd9e5bd12960742d1f216c6424216e1f9f"
+   "sha256": "ea4f83c8072e34ef3aa357cbf01cf57cf73dfb67e9f6e8cd17320a91ea7f55ac"
   }
  },
  "entities": [
@@ -13094,8 +13094,8 @@
     "晶科科技股份有限公司"
    ],
    "level": 2,
-   "parent_entity_id": "ent_724ced2b9edc56a0a02b",
-   "root_entity_id": "ent_724ced2b9edc56a0a02b",
+   "parent_entity_id": null,
+   "root_entity_id": "ent_20de9705f4515a8a9d08",
    "is_central_soe": false,
    "ownership_type": "新能源民营领军企业控股子公司",
    "sources": [
@@ -13117,7 +13117,9 @@
    "disputed_aliases": [],
    "historical_only": false,
    "candidate_ids": [],
-   "notes": []
+   "notes": [
+    "override parent: 晶科电力科技股份有限公司：V3 与用户 W34 裁决明确晶科能源与晶科电力是两家独立上市公司；tree 将其挂到晶科能源，保留独立 L1。"
+   ]
   },
   {
    "entity_id": "ent_0df34cb2ba585e11b064",

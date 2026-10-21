@@ -16,16 +16,16 @@
   },
   "overrides": {
    "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_registry_v4_overrides.json",
-   "sha256": "f9e3d6678b518c6d16279b4534ea95cd9e5bd12960742d1f216c6424216e1f9f"
+   "sha256": "ea4f83c8072e34ef3aa357cbf01cf57cf73dfb67e9f6e8cd17320a91ea7f55ac"
   }
  },
  "metrics": {
   "v3_entity_ids": 563,
   "approved_additions": 6,
-  "overrides_applied": 4,
+  "overrides_applied": 5,
   "registry_entities": 688,
   "accepted_entities": 569,
-  "accepted_roots": 150,
+  "accepted_roots": 151,
   "status": {
    "matched": 313,
    "v3_only": 250,
@@ -43,7 +43,7 @@
   "crosswalk_id_changes": 153,
   "ambiguous": 0,
   "provisional_new": 119,
-  "reparented": 52,
+  "reparented": 51,
   "alias_conflicts": 0,
   "v3_unresolved_entries": 14,
   "issues": 0
@@ -2132,16 +2132,6 @@
    "v4_root_name": "Canadian Solar Inc."
   },
   {
-   "entity_id": "ent_20de9705f4515a8a9d08",
-   "name": "晶科电力科技股份有限公司",
-   "v3_parent": null,
-   "v3_parent_name": null,
-   "v4_parent": "ent_724ced2b9edc56a0a02b",
-   "v4_parent_name": "晶科能源股份有限公司",
-   "v4_root": "ent_724ced2b9edc56a0a02b",
-   "v4_root_name": "晶科能源股份有限公司"
-  },
-  {
    "entity_id": "ent_dfe3fb0d67265683a271",
    "name": "Recurrent Energy, LLC",
    "v3_parent": "ent_373f225e11cd58deaeb0",
@@ -2180,6 +2170,13 @@
    "parent_entity_id": null,
    "historical_only": true,
    "reason": "湖南云箭集团有限公司：V3 标记 historical_only，历史归组不应用于当前解析；保留无当前 group/parent。"
+  },
+  {
+   "entity_id": "ent_20de9705f4515a8a9d08",
+   "name_cn": "晶科电力科技股份有限公司",
+   "parent_entity_id": null,
+   "historical_only": false,
+   "reason": "晶科电力科技股份有限公司：V3 与用户 W34 裁决明确晶科能源与晶科电力是两家独立上市公司；tree 将其挂到晶科能源，保留独立 L1。"
   }
  ],
  "ambiguous": [],

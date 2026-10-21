@@ -32,7 +32,7 @@ def test_v4_shape_and_v3_ids_are_preserved():
     v4 = load(V4_FILE)
     v3 = load(V3_FILE)
     assert v4["schema_version"] == 2
-    assert len(v4["groups"]) == 150
+    assert len(v4["groups"]) == 151
     assert len(rows(v4)) == 569
     v3_ids = {
         row.get("entity_id")
@@ -60,6 +60,7 @@ def test_v3_overrides_are_preserved():
     assert index["ent_9d2682cd130457bf8ef2"]["parent_entity_id"] == "ent_36ac391bc81b5d438be2"  # CWE -> CCCC
     assert index["ent_29d46875263751799bac"]["parent_entity_id"] == "ent_6810a59fc6bb5e30b51a"  # 上海三菱 -> 上海机电
     assert index["ent_dfe3fb0d67265683a271"]["parent_entity_id"] is None  # Recurrent LLC no direct parent
+    assert index["ent_20de9705f4515a8a9d08"]["parent_entity_id"] is None  # 晶科电力 independent from 晶科能源
 
     v4 = load(V4_FILE)
     canadian = next(g for g in v4["groups"] if g["entity_id"] == "ent_373f225e11cd58deaeb0")
