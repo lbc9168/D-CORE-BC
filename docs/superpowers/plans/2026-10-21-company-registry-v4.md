@@ -204,6 +204,24 @@ P0 的 37 条 `parent_unresolved` 不是关系不明，而是 **V3 缺了三个�
 
 ### P2 数据库回填（P1 验收后）
 
+**P2 预检（2026-10-21，只读）：**
+
+- `chinese_entities` 共 6917 行，**只有 16 行有 `entity_id`**（13 个唯一 ID）；绝大多数历史行只能按名称解析。
+- 名称解析结果：5096 行可唯一解析，128 行只能到 group-only，**1677 行无法唯一解析**（24.2%）。
+- 按 v4 计算：813 行集团归属会变化，78 行 SOE 标记会变化，合并后 818 行有 diff。
+- 主要变化：CPECC→能建 513 行、CMEC→国机 175 行、阿特斯→Canadian Solar 31 行；其余 94 行为长尾别名/集团规范化。
+- 已把“晶科电力→晶科能源”24 行从 diff 中剔除（V3/W34 明确两家独立上市，tree 错误嵌套，已加 override）。
+- 待人工裁决：湖南云箭相关 2 行（historical_only 不应把旧兵装行改到云箭）；1677 行未匹配需保留原值。
+- 逐行 diff：`output/company-registry-v4/p2/impact.csv`。
+
+**P2 分阶段建议：**
+
+1. **P2a**：只处理 16 行有 `entity_id` 的记录（按 ID 重算，最高置信度）；
+2. **P2b**：处理 719 行三大集团重挂（CPECC 513 + CMEC 175 + CSI 31），先人工抽查 20 行；
+3. **P2c**：其余 94 行长尾变化逐类确认，涉及 historical_only 的先跳过；
+4. **P2d**：1677 行未匹配保持原值，不写 `entity_id`，另出补录清单；
+5. apply 前备份、单事务、审计 CSV、ID/外键/完整性校验；二次运行 0 变更。
+
 - 新脚本 `scripts/migrate_entity_hierarchy_v4.py`：默认 dry-run，按 `entity_id` 重算 `group_entity_id` / `implementing_entity` / `entity_name` / `is_central_soe`；
 - 无 `entity_id` 的行按名称唯一匹配；歧义留报告；
 - apply：`.bak` + SHA256 + 行数断言 + 单事务 + 审计 CSV + 幂等自检；
