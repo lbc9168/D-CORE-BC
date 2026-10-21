@@ -1,0 +1,731 @@
+{
+  "_meta": {
+    "version": 1,
+    "v2_baseline_path": "supporting_docs/company_hierarchy_v2.json",
+    "v2_sha256": "b7bbeac0312e52aac75516b96ba0b88309d8b57d21a173a5749ec738823935a5",
+    "v3_output_path": "supporting_docs/company_hierarchy_v3.json",
+    "v3_sha256": "cfd6480cbf8cfc18f33822c0a3d2c04f7edc38925e54c209fec9b4261e2a18d0",
+    "revision_date": "2026-10-16",
+    "total_changes": 33,
+    "applied_changes_count": 31,
+    "unapplied_suggestions_count": 2
+  },
+  "changes": [
+    {
+      "change_id": "CHG-001",
+      "entity_id": "ent_96737f9277385168a2e9",
+      "v2_location": "groups['中国农业银行股份有限公司'].is_central_soe",
+      "change_type": "status_correction",
+      "before": false,
+      "after": true,
+      "reason": "农行系国务院直管、财政部与中央汇金出资的国有大型商业银行（副部级中管金融央企），与其他四大行（工行、中行、建行）及国开行、进出口行、信保具有完全相同的中央金融企业属性。V2标注false系campaign自动收录遗漏，现予以纠正为true。",
+      "evidence": {
+        "title": "财政部关于印发国有金融资本产权登记管理办法的通知及国有金融企业名录",
+        "authority": "中华人民共和国财政部 / 国务院",
+        "url": "http://jrs.mof.gov.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国农业银行股份有限公司为财政部直管国有大型商业银行，属于中央金融企业。"
+      },
+      "effective_from": "1951-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "历史库中若按 is_central_soe 统计出海金融机构与贷款出资主体，农行相关记录将纳入央企口径。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-002",
+      "entity_id": "ent_3d8eb7a5fea850b4bb28",
+      "v2_location": "groups['中国电力工程顾问集团有限公司'].parent_entity_id",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_405cdb1433d45008b11d",
+      "reason": "中电工程是中国能源建设集团有限公司100%全资控股的二级工程子集团。V2为兼容保留独立顶层组但母公司ID留空，现确立其直接母公司为中国能建，形成合规股权层级。",
+      "evidence": {
+        "title": "中国能源建设股份有限公司上市公告书及历年年报重要子公司说明",
+        "authority": "中国能源建设股份有限公司 / 国务院国资委",
+        "url": "http://www.ceec.net.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国电力工程顾问集团有限公司为中国能源建设集团全资二级子企业。"
+      },
+      "effective_from": "2011-09-29",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "中电工程及其下属院所在上卷统计时可沿 parent_entity_id 追溯至中国能建。",
+      "unresolved_questions": "中电工程在V2中作为独立组存在，其下属各省电力设计院直接归属于该组。现行程序按组解析，后续可评估是否整体收纳为二级结构。"
+    },
+    {
+      "change_id": "CHG-003",
+      "entity_id": "ent_28a6343c256b59dca63d",
+      "v2_location": "groups['中国机械设备工程股份有限公司'].parent_entity_id",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_e825d214717852b2b67d",
+      "reason": "CMEC是中国机械工业集团有限公司旗下的核心工程承包二级子企业（国机工程集团核心成员）。补齐直接控股母公司为国机集团。",
+      "evidence": {
+        "title": "中国机械工业集团有限公司组织架构及CMEC私有化公告",
+        "authority": "中国机械工业集团有限公司 / 香港联交所",
+        "url": "http://www.sinomach.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "CMEC系国机集团控股骨干企业，作为国机工程集团牵头单位。"
+      },
+      "effective_from": "2012-12-21",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "CMEC相关海外工程可沿 parent_entity_id 追溯至国机集团。",
+      "unresolved_questions": "CMEC目前独立成组，国机集团组内亦有国机工程集团条目，存在板块并存关系。"
+    },
+    {
+      "change_id": "CHG-004",
+      "entity_id": "ent_3ea7bebb9e0050858e51",
+      "v2_location": "groups['中国电力建设集团有限公司'].subsidiaries(entity_id=ent_3ea7bebb9e0050858e51)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_c2e4a0dbc10c5a5ead87",
+      "reason": "电建海投系中国电建集团直属海外投资平台，直接股东为中国电建。",
+      "evidence": {
+        "title": "中国电建集团海外投资有限公司官网企业概况及上市公司公告",
+        "authority": "中国电建 / 电建海投",
+        "url": "http://www.powerchina-invest.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国电建集团海外投资有限公司是中国电力建设集团有限公司的重要骨干企业和海外投资平台。"
+      },
+      "effective_from": "2012-07-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国电建集团海外投资有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-005",
+      "entity_id": "ent_14b988f7f212523297a7",
+      "v2_location": "groups['中国电力建设集团有限公司'].subsidiaries(entity_id=ent_14b988f7f212523297a7)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_c2e4a0dbc10c5a5ead87",
+      "reason": "电建国际系中国电建海外业务经营管控平台公司，直接股东为中国电建。",
+      "evidence": {
+        "title": "中国电建集团国际工程有限公司官方简介",
+        "authority": "中国电建国际",
+        "url": "http://www.powerchina-intl.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国电建集团国际工程有限公司为中国电建海外业务归口管理和平台实体。"
+      },
+      "effective_from": "2016-03-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国电建集团国际工程有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-006",
+      "entity_id": "ent_783bdd7d3f5f5bb78130",
+      "v2_location": "groups['中国电力建设集团有限公司'].subsidiaries(entity_id=ent_783bdd7d3f5f5bb78130)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_c2e4a0dbc10c5a5ead87",
+      "reason": "电建新能源系中国电建旗下新能源投资运营主体，中国电建为控股股东。",
+      "evidence": {
+        "title": "中国电建关于分拆电建新能源至A股上市预案公告",
+        "authority": "中国电建 (601669.SH)",
+        "url": "http://www.sse.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中电建新能源集团股份有限公司为中国电建合并报表范围内控股子公司。"
+      },
+      "effective_from": "2021-12-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中电建新能源集团股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-007",
+      "entity_id": "ent_0622081977d2524a87c1",
+      "v2_location": "groups['中国电力建设集团有限公司'].subsidiaries(entity_id=ent_0622081977d2524a87c1)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_c2e4a0dbc10c5a5ead87",
+      "reason": "山东电建三公司系中国电建全资骨干工程子企业，大型出海EPC主力。",
+      "evidence": {
+        "title": "山东电力建设第三工程有限公司企业简介及年报主要子公司披露",
+        "authority": "山东电建三公司 / 中国电建",
+        "url": "http://www.sepco3.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "山东电建三公司为中国电建全资子公司。"
+      },
+      "effective_from": "1985-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 山东电力建设第三工程有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-008",
+      "entity_id": "ent_6b4b8e1a64b457a2ae08",
+      "v2_location": "groups['中国能源建设集团有限公司'].subsidiaries(entity_id=ent_6b4b8e1a64b457a2ae08)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_405cdb1433d45008b11d",
+      "reason": "葛洲坝集团系中国能建全资核心子集团（2021年吸收合并重组设立）。",
+      "evidence": {
+        "title": "中国能源建设股份有限公司吸收合并葛洲坝上市公告书",
+        "authority": "中国能源建设股份有限公司",
+        "url": "http://www.sse.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国葛洲坝集团有限公司为中国能源建设100%持股核心子公司。"
+      },
+      "effective_from": "2021-09-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国葛洲坝集团有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-009",
+      "entity_id": "ent_43a50bbd6a245d828af9",
+      "v2_location": "groups['中国能源建设集团有限公司'].subsidiaries(entity_id=ent_43a50bbd6a245d828af9)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_405cdb1433d45008b11d",
+      "reason": "中能建国际建设集团有限公司为中国能建海外业务平台，直接出资方为中国能建。",
+      "evidence": {
+        "title": "中国能建设立国际建设集团公告及国家企业信用信息公示系统",
+        "authority": "中国能源建设 (601868.SH)",
+        "url": "http://www.ceec.net.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中能建国际建设集团有限公司为中国能建直属二级平台企业。"
+      },
+      "effective_from": "2021-10-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中能建国际建设集团有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-010",
+      "entity_id": "ent_baaaebba956a521481b2",
+      "v2_location": "groups['中国能源建设集团有限公司'].subsidiaries(entity_id=ent_baaaebba956a521481b2)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_405cdb1433d45008b11d",
+      "reason": "中能建海外投资有限公司系中国能建直属海外投资平台。",
+      "evidence": {
+        "title": "中能建海外投资有限公司官方简介及年报披露",
+        "authority": "中能建海投 / 中国能建",
+        "url": "http://www.ceec.net.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中能建海投系中国能建旗下开展海外清洁能源和基础设施投资旗舰公司。"
+      },
+      "effective_from": "2016-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中能建海外投资有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-011",
+      "entity_id": "ent_b9c2b339f4005b76b251",
+      "v2_location": "groups['中国长江三峡集团有限公司'].subsidiaries(entity_id=ent_b9c2b339f4005b76b251)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_04510b34bb145d5487e9",
+      "reason": "中国长江电力股份有限公司控股股东为中国长江三峡集团有限公司。",
+      "evidence": {
+        "title": "长江电力历年年报第一大股东披露",
+        "authority": "长江电力 (600900.SH)",
+        "url": "http://www.cypc.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国长江三峡集团有限公司为公司控股股东及实际控制人。"
+      },
+      "effective_from": "2002-11-04",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国长江电力股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-012",
+      "entity_id": "ent_053702fe614050d2bb11",
+      "v2_location": "groups['中国长江三峡集团有限公司'].subsidiaries(entity_id=ent_053702fe614050d2bb11)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_04510b34bb145d5487e9",
+      "reason": "中国长江三峡集团有限公司为三峡能源控股母公司。",
+      "evidence": {
+        "title": "三峡能源招股说明书及历年年度报告",
+        "authority": "三峡能源 (600905.SH)",
+        "url": "http://www.ctgne.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "三峡集团为公司控股股东。"
+      },
+      "effective_from": "2011-12-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国三峡新能源（集团）股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-013",
+      "entity_id": "ent_ca400db4e0ff5b8c9d2f",
+      "v2_location": "groups['中国长江三峡集团有限公司'].subsidiaries(entity_id=ent_ca400db4e0ff5b8c9d2f)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_04510b34bb145d5487e9",
+      "reason": "三峡国际系三峡集团全资设立的海外清洁能源投资主体。",
+      "evidence": {
+        "title": "三峡国际能源投资集团有限公司企业概况",
+        "authority": "三峡国际",
+        "url": "http://www.ctgintl.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "三峡国际为三峡集团全资子公司，负责三峡集团境外投资开发业务。"
+      },
+      "effective_from": "2011-12-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 三峡国际能源投资集团有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-014",
+      "entity_id": "ent_ae89dfa19ba0508398e0",
+      "v2_location": "groups['中国核工业集团有限公司'].subsidiaries(entity_id=ent_ae89dfa19ba0508398e0)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_cf1b3e7b4da05ea7a420",
+      "reason": "中国核工业集团有限公司为中国核电控股股东。",
+      "evidence": {
+        "title": "中国核电年报第一大股东披露",
+        "authority": "中国核电 (601985.SH)",
+        "url": "http://www.cnnp.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国核工业集团有限公司为控股股东。"
+      },
+      "effective_from": "2008-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国核能电力股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-015",
+      "entity_id": "ent_f33be14a42b152d19d67",
+      "v2_location": "groups['中国华能集团有限公司'].subsidiaries(entity_id=ent_f33be14a42b152d19d67)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_7bd22f9521c15f81b4c4",
+      "reason": "中国华能集团有限公司为华能国际控股母公司。",
+      "evidence": {
+        "title": "华能国际年报披露",
+        "authority": "华能国际 (600011.SH)",
+        "url": "http://www.hpi.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "华能集团为华能国际控股股东及实际控制人。"
+      },
+      "effective_from": "1994-06-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 华能国际电力股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-016",
+      "entity_id": "ent_4fcddbf1a719543e861a",
+      "v2_location": "groups['中国华能集团有限公司'].subsidiaries(entity_id=ent_4fcddbf1a719543e861a)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_7bd22f9521c15f81b4c4",
+      "reason": "华能集团为华能水电控股母公司。",
+      "evidence": {
+        "title": "华能水电年报披露",
+        "authority": "华能水电 (600025.SH)",
+        "url": "http://www.hnlcj.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "华能集团为华能水电控股股东。"
+      },
+      "effective_from": "2001-02-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 华能澜沧江水电股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-017",
+      "entity_id": "ent_2aaa5a9e8ac357bb8169",
+      "v2_location": "groups['中国建筑集团有限公司'].subsidiaries(entity_id=ent_2aaa5a9e8ac357bb8169)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_1b1ed33eb2f55782a890",
+      "reason": "中国建筑集团有限公司为中国建筑股份有限公司控股母公司。",
+      "evidence": {
+        "title": "中国建筑股份有限公司上市公告书及年报第一大股东披露",
+        "authority": "中国建筑 (601668.SH)",
+        "url": "http://www.cscec.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国建筑集团有限公司持有中国建筑股份有限公司控股股权。"
+      },
+      "effective_from": "2007-12-10",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国建筑股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-018",
+      "entity_id": "ent_19fafe9d05e3532ab1c5",
+      "v2_location": "groups['中国建筑集团有限公司'].subsidiaries(entity_id=ent_19fafe9d05e3532ab1c5)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_2aaa5a9e8ac357bb8169",
+      "reason": "中国建筑一局（集团）有限公司系中国建筑股份有限公司100%/控股直属工程与专业子公司。",
+      "evidence": {
+        "title": "中国建筑股份有限公司年度报告主要子公司及企业信用公示",
+        "authority": "中国建筑 (601668.SH)",
+        "url": "http://www.cscec.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国建筑一局（集团）有限公司为中国建筑股份有限公司核心骨干子企业。"
+      },
+      "effective_from": "2007-12-10",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国建筑一局（集团）有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-019",
+      "entity_id": "ent_1c50058ea82650ee9796",
+      "v2_location": "groups['中国建筑集团有限公司'].subsidiaries(entity_id=ent_1c50058ea82650ee9796)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_2aaa5a9e8ac357bb8169",
+      "reason": "中国建筑第三工程局有限公司系中国建筑股份有限公司100%/控股直属工程与专业子公司。",
+      "evidence": {
+        "title": "中国建筑股份有限公司年度报告主要子公司及企业信用公示",
+        "authority": "中国建筑 (601668.SH)",
+        "url": "http://www.cscec.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国建筑第三工程局有限公司为中国建筑股份有限公司核心骨干子企业。"
+      },
+      "effective_from": "2007-12-10",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国建筑第三工程局有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-020",
+      "entity_id": "ent_449db1da04fb5e7b99c8",
+      "v2_location": "groups['中国建筑集团有限公司'].subsidiaries(entity_id=ent_449db1da04fb5e7b99c8)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_2aaa5a9e8ac357bb8169",
+      "reason": "中国建筑第四工程局有限公司系中国建筑股份有限公司100%/控股直属工程与专业子公司。",
+      "evidence": {
+        "title": "中国建筑股份有限公司年度报告主要子公司及企业信用公示",
+        "authority": "中国建筑 (601668.SH)",
+        "url": "http://www.cscec.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国建筑第四工程局有限公司为中国建筑股份有限公司核心骨干子企业。"
+      },
+      "effective_from": "2007-12-10",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国建筑第四工程局有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-021",
+      "entity_id": "ent_4d82f7e71fba5eeea09a",
+      "v2_location": "groups['中国建筑集团有限公司'].subsidiaries(entity_id=ent_4d82f7e71fba5eeea09a)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_2aaa5a9e8ac357bb8169",
+      "reason": "中国建筑第五工程局有限公司系中国建筑股份有限公司100%/控股直属工程与专业子公司。",
+      "evidence": {
+        "title": "中国建筑股份有限公司年度报告主要子公司及企业信用公示",
+        "authority": "中国建筑 (601668.SH)",
+        "url": "http://www.cscec.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国建筑第五工程局有限公司为中国建筑股份有限公司核心骨干子企业。"
+      },
+      "effective_from": "2007-12-10",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国建筑第五工程局有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-022",
+      "entity_id": "ent_f335509930f3531ea3a5",
+      "v2_location": "groups['中国建筑集团有限公司'].subsidiaries(entity_id=ent_f335509930f3531ea3a5)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_2aaa5a9e8ac357bb8169",
+      "reason": "中建西部建设股份有限公司系中国建筑股份有限公司100%/控股直属工程与专业子公司。",
+      "evidence": {
+        "title": "中国建筑股份有限公司年度报告主要子公司及企业信用公示",
+        "authority": "中国建筑 (601668.SH)",
+        "url": "http://www.cscec.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中建西部建设股份有限公司为中国建筑股份有限公司核心骨干子企业。"
+      },
+      "effective_from": "2007-12-10",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中建西部建设股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-023",
+      "entity_id": "ent_a4bb8ba1450a55eb8431",
+      "v2_location": "groups['中国铁道建筑集团有限公司'].subsidiaries(entity_id=ent_a4bb8ba1450a55eb8431)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_2d0b0262d84d5786a44c",
+      "reason": "中国铁道建筑集团有限公司为中国铁建股份有限公司控股股东。",
+      "evidence": {
+        "title": "中国铁建股份有限公司历年年度报告",
+        "authority": "中国铁建 (601186.SH)",
+        "url": "http://www.crcc.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中铁建集团持有中国铁建股份有限公司控股股份。"
+      },
+      "effective_from": "2007-11-05",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国铁建股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-024",
+      "entity_id": "ent_ae07869372e951bf8574",
+      "v2_location": "groups['中国铁道建筑集团有限公司'].subsidiaries(entity_id=ent_ae07869372e951bf8574)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_a4bb8ba1450a55eb8431",
+      "reason": "中国土木工程集团有限公司为中国铁建股份有限公司100%全资控股骨干子企业。",
+      "evidence": {
+        "title": "中国铁建历年年度报告主要子公司列表",
+        "authority": "中国铁建 (601186.SH)",
+        "url": "http://www.crcc.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中国土木工程集团有限公司系中国铁建股份有限公司全资子企业。"
+      },
+      "effective_from": "2008-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国土木工程集团有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-025",
+      "entity_id": "ent_cfdf6bbfe2a4501a938c",
+      "v2_location": "groups['中国铁道建筑集团有限公司'].subsidiaries(entity_id=ent_cfdf6bbfe2a4501a938c)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_a4bb8ba1450a55eb8431",
+      "reason": "中铁二十局集团有限公司为中国铁建股份有限公司100%全资控股骨干子企业。",
+      "evidence": {
+        "title": "中国铁建历年年度报告主要子公司列表",
+        "authority": "中国铁建 (601186.SH)",
+        "url": "http://www.crcc.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中铁二十局集团有限公司系中国铁建股份有限公司全资子企业。"
+      },
+      "effective_from": "2008-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中铁二十局集团有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-026",
+      "entity_id": "ent_c425049aa7865292a83e",
+      "v2_location": "groups['中国铁路工程集团有限公司'].subsidiaries(entity_id=ent_c425049aa7865292a83e)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_9423faa978b65a3490cc",
+      "reason": "中国铁路工程集团有限公司为中国中铁股份有限公司控股母公司。",
+      "evidence": {
+        "title": "中国中铁股份有限公司年度报告",
+        "authority": "中国中铁 (601390.SH)",
+        "url": "http://www.crec.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中铁工为中国中铁股份有限公司控股股东。"
+      },
+      "effective_from": "2007-09-12",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中国中铁股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-027",
+      "entity_id": "ent_b27137f8f9035174ae0f",
+      "v2_location": "groups['中国铁路工程集团有限公司'].subsidiaries(entity_id=ent_b27137f8f9035174ae0f)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_c425049aa7865292a83e",
+      "reason": "中铁资源集团有限公司为中国中铁股份有限公司全资子企业。",
+      "evidence": {
+        "title": "中国中铁历年年报重要全资子公司名单",
+        "authority": "中国中铁 (601390.SH)",
+        "url": "http://www.crec.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中铁资源为中国中铁全资设立的资源投资开发集团。"
+      },
+      "effective_from": "2008-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 中铁资源集团有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-028",
+      "entity_id": "ent_1e3e601c40215e98b04d",
+      "v2_location": "groups['国家开发投资集团有限公司'].subsidiaries(entity_id=ent_1e3e601c40215e98b04d)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_7a6aa34f01935cadbb6b",
+      "reason": "国家开发投资集团有限公司为国投电力控股股东。",
+      "evidence": {
+        "title": "国投电力年度报告",
+        "authority": "国投电力 (600886.SH)",
+        "url": "http://www.sdicpower.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "国投集团为公司控股股东及实际控制人。"
+      },
+      "effective_from": "2002-01-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 国投电力控股股份有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-029",
+      "entity_id": "ent_c4df33b5c46452e89647",
+      "v2_location": "groups['中国机械设备工程股份有限公司'].subsidiaries(entity_id=ent_c4df33b5c46452e89647)",
+      "change_type": "direct_parent_correction",
+      "before": null,
+      "after": "ent_28a6343c256b59dca63d",
+      "reason": "中机六院在国机工程集团（CMEC牵头）整合中由CMEC统筹管理与控股。",
+      "evidence": {
+        "title": "国机工程集团组建及中机六院股权整合公告",
+        "authority": "国机集团 / CMEC",
+        "url": "http://www.sinomach.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "中机六院纳入国机工程集团（CMEC）一体化协同与管理。"
+      },
+      "effective_from": "2021-12-01",
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "确立 机械工业第六设计研究院有限公司 在主库中的直接母公司链路。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-030",
+      "entity_id": "ent_4447c77713be537799df",
+      "v2_location": "groups['中国电力建设集团有限公司'].subsidiaries['中国能源海外投资有限公司']",
+      "change_type": "alias_restriction",
+      "before": {
+        "context_required_names": []
+      },
+      "after": {
+        "context_required_names": [
+          "中国能源海外投资有限公司"
+        ]
+      },
+      "reason": "该名称易与中国能建海投混淆，加入 context_required_names 限制孤立全局匹配。",
+      "evidence": {
+        "title": "中国电建集团海外投资有限公司名称规范",
+        "authority": "中国电建海投",
+        "url": "http://www.powerchina-invest.com/",
+        "verification_date": "2026-10-16",
+        "excerpt": "电建海投全称为中国电建集团海外投资有限公司。"
+      },
+      "effective_from": null,
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "避免跨集团海投实体同名歧义。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-031",
+      "entity_id": "ent_7f835962e58d59538cde",
+      "v2_location": "groups['中国电力建设集团有限公司'].subsidiaries['中国能源建设集团水电十一局有限公司']",
+      "change_type": "alias_restriction",
+      "before": {
+        "context_required_names": []
+      },
+      "after": {
+        "context_required_names": [
+          "中国能源建设集团水电十一局有限公司"
+        ]
+      },
+      "reason": "该条目将中国电建旗下的水电十一局冠上了死对头中国能源建设集团的抬头，系幻觉/错拼名称。保留该原文字符串记录及原有ID，但加入 context_required_names 严格限制无上下文自动全局匹配，防止越级误命中。",
+      "evidence": {
+        "title": "中国水利水电第十一工程局有限公司官方简介与中国电建名录",
+        "authority": "中国水利水电第十一工程局有限公司",
+        "url": "http://11b.powerchina.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "水电十一局系中国电建全资子公司，与中国能建无产权隶属关系。"
+      },
+      "effective_from": null,
+      "effective_to": null,
+      "applied_to_v3": true,
+      "historical_data_implication": "防止解析器将包含'中国能源建设集团'抬头的字符串错误归并在电建名下无条件生效。",
+      "unresolved_questions": "无"
+    },
+    {
+      "change_id": "CHG-032",
+      "entity_id": "ent_d337d1bb39c158ea9c42",
+      "v2_location": "groups['Canadian Solar Inc.'] vs groups['阿特斯阳光电力集团股份有限公司']",
+      "change_type": "pending_merge",
+      "before": {
+        "group_152": "ent_d337d1bb39c158ea9c42",
+        "group_11": "ent_ec70fc6cf93051fe94bb"
+      },
+      "after": {
+        "suggested_canonical_id": "ent_d337d1bb39c158ea9c42",
+        "suggested_sub_id": "ent_ec70fc6cf93051fe94bb"
+      },
+      "reason": "Canadian Solar Inc. (美股母公司) 与 阿特斯阳光电力集团股份有限公司 (CSI Solar，A股上市子公司) 系母子控制关系。目前在名录中各自独立成组，后续可在程序切换支持跨组股权关系时将阿特斯阳光电力作为 Canadian Solar Inc. 的控股子公司收拢归组。本次保留两个独立组及旧ID不变。",
+      "evidence": {
+        "title": "Canadian Solar Inc. 2025 Form 20-F Annual Report 及阿特斯招股说明书",
+        "authority": "US SEC / 上海证券交易所",
+        "url": "https://www.sec.gov/",
+        "verification_date": "2026-10-16",
+        "excerpt": "Canadian Solar Inc. 为 CSI Solar Co., Ltd.（阿特斯阳光电力集团股份有限公司）的控股母公司。"
+      },
+      "effective_from": "2020-07-01",
+      "effective_to": null,
+      "applied_to_v3": false,
+      "historical_data_implication": "未来合并后，历史项目开发商为阿特斯或Canadian Solar时可统一穿透至加拿大太阳能集团控股主体。",
+      "unresolved_questions": "目前S01B与S02B等下游程序依赖现行groups结构，本次不物理合并组以防回归破坏。"
+    },
+    {
+      "change_id": "CHG-033",
+      "entity_id": "ent_9a65fb0055cf5522b115",
+      "v2_location": "groups['中国兵器装备集团有限公司'].subsidiaries['湖南云箭集团有限公司']",
+      "change_type": "pending_review",
+      "before": {
+        "entity_id": "ent_9a65fb0055cf5522b115",
+        "group": "中国兵器装备集团有限公司"
+      },
+      "after": {
+        "status": "retained_needs_further_evidence"
+      },
+      "reason": "湖南云箭历史上涉及兵器装备集团与地方资产调整，2026-09-17复核留作待进一步核查。本次V3保持其原有条目与兵装归组不变，保留审计标记。",
+      "evidence": {
+        "title": "湖南云箭集团有限公司官方简介与兵器装备集团历年年报",
+        "authority": "中国兵器装备集团有限公司",
+        "url": "http://www.csgc.com.cn/",
+        "verification_date": "2026-10-16",
+        "excerpt": "湖南云箭为中国兵器装备集团旗下科研生产骨干企业。"
+      },
+      "effective_from": null,
+      "effective_to": null,
+      "applied_to_v3": false,
+      "historical_data_implication": "暂不影响当前提取判定，后续根据资产划转进展评估归属更新。",
+      "unresolved_questions": "产权是否已从兵装整建制划转至其他地方或专业平台需进一步跟踪监管批复。"
+    }
+  ]
+}
