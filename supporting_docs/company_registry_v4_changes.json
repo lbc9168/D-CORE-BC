@@ -1,0 +1,2733 @@
+{
+ "schema_version": "4.0",
+ "generated_on": "2026-10-21",
+ "sources": {
+  "v3": {
+   "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_hierarchy_v3.json",
+   "sha256": "4db000c78919182c9f7ed1a38184d86a2590cb94f0796681b87a0e62584eb6c9"
+  },
+  "tree": {
+   "path": "E:\\Projects\\BRI_RE_Database_v2\\.agents\\worktrees\\company-registry-v4\\supporting_docs\\company_hierarchy_tree.json",
+   "sha256": "11ffe3b235bdf6c495b606a2c80bdd5555e83168b60e2a68a2f7db42366d42c1"
+  }
+ },
+ "metrics": {
+  "v3_entity_ids": 563,
+  "registry_entities": 688,
+  "accepted_entities": 563,
+  "accepted_roots": 149,
+  "status": {
+   "matched": 276,
+   "v3_only": 250,
+   "parent_unresolved": 37,
+   "provisional_new": 125
+  },
+  "levels": {
+   "1": 149,
+   "2": 150,
+   "3": 129,
+   "4": 10
+  },
+  "tree_nodes": 438,
+  "matched": 313,
+  "crosswalk_id_changes": 153,
+  "ambiguous": 0,
+  "provisional_new": 125,
+  "reparented": 16,
+  "alias_conflicts": 0,
+  "v3_unresolved_entries": 14,
+  "issues": 0
+ },
+ "id_crosswalk": [
+  {
+   "tree_entity_id": "ent_56befd7faed50938097c",
+   "tree_name": "中国电力建设集团有限公司",
+   "entity_id": "ent_c2e4a0dbc10c5a5ead87",
+   "v3_name": "中国电力建设集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国电力建设集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_b2996e8707f86b2d2fc1",
+   "tree_name": "中国能源建设集团有限公司",
+   "entity_id": "ent_405cdb1433d45008b11d",
+   "v3_name": "中国能源建设集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国能源建设集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_26859315147bc0532065",
+   "tree_name": "中国电力工程顾问集团有限公司",
+   "entity_id": "ent_3d8eb7a5fea850b4bb28",
+   "v3_name": "中国电力工程顾问集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国电力工程顾问集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_09e18934b98a31546806",
+   "tree_name": "中国能源建设集团海外投资有限公司",
+   "entity_id": "ent_550bceee42f555c0b760",
+   "v3_name": "中能建海外投资有限公司",
+   "match_type": "alias",
+   "hit_keys": [
+    "能建海投"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_fb395421132f5d7f6eea",
+   "tree_name": "中国建筑集团有限公司",
+   "entity_id": "ent_1b1ed33eb2f55782a890",
+   "v3_name": "中国建筑集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国建筑集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_cf83c64d6aec481d0a36",
+   "tree_name": "中国铁道建筑集团有限公司",
+   "entity_id": "ent_2d0b0262d84d5786a44c",
+   "v3_name": "中国铁道建筑集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国铁道建筑集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_59f4930d11dae18e3286",
+   "tree_name": "中国铁路工程集团有限公司",
+   "entity_id": "ent_9423faa978b65a3490cc",
+   "v3_name": "中国铁路工程集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国铁路工程集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_2000e5d3685a46c2b7f1",
+   "tree_name": "中国交通建设集团有限公司",
+   "entity_id": "ent_36ac391bc81b5d438be2",
+   "v3_name": "中国交通建设集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国交通建设集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d5e1516a8838490f1aeb",
+   "tree_name": "中国长江三峡集团有限公司",
+   "entity_id": "ent_04510b34bb145d5487e9",
+   "v3_name": "中国长江三峡集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国长江三峡集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_e5b788bb22734b091879",
+   "tree_name": "国家电力投资集团有限公司",
+   "entity_id": "ent_7a38603b4ce45cb9acb2",
+   "v3_name": "国家电力投资集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "国家电力投资集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4b0952d7d0a24f0c4048",
+   "tree_name": "国家能源投资集团有限责任公司",
+   "entity_id": "ent_6432fcfeb67d580b8e86",
+   "v3_name": "国家能源投资集团有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "国家能源投资集团有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4a31c5f65e8fa3cf0a86",
+   "tree_name": "中国华能集团有限公司",
+   "entity_id": "ent_7bd22f9521c15f81b4c4",
+   "v3_name": "中国华能集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国华能集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d04dabd97ab3f7ff4d65",
+   "tree_name": "中国大唐集团有限公司",
+   "entity_id": "ent_83897cd1bd5355549cce",
+   "v3_name": "中国大唐集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国大唐集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_39df5a0854ff041263b2",
+   "tree_name": "中国华电集团有限公司",
+   "entity_id": "ent_6864eb2985a453bf8dcb",
+   "v3_name": "中国华电集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国华电集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d1218b3fa291a27d81d0",
+   "tree_name": "中国核工业集团有限公司",
+   "entity_id": "ent_cf1b3e7b4da05ea7a420",
+   "v3_name": "中国核工业集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国核工业集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_7b2fecd720297a1e7352",
+   "tree_name": "中国广核集团有限公司",
+   "entity_id": "ent_997ea66cdf6f547ca510",
+   "v3_name": "中国广核集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国广核集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_ac31d2f3d5bd3696e4ba",
+   "tree_name": "国家电网有限公司",
+   "entity_id": "ent_e913d91a1e3054ba952c",
+   "v3_name": "国家电网有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "国家电网有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_44aa18831dc68639f271",
+   "tree_name": "中国南方电网有限责任公司",
+   "entity_id": "ent_121f68cf25625cc09175",
+   "v3_name": "中国南方电网有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国南方电网有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d4c84e223f3482c3d3b5",
+   "tree_name": "中国机械工业集团有限公司",
+   "entity_id": "ent_e825d214717852b2b67d",
+   "v3_name": "中国机械工业集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国机械工业集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_9112277e0516a55e24cb",
+   "tree_name": "中国机械设备工程股份有限公司",
+   "entity_id": "ent_28a6343c256b59dca63d",
+   "v3_name": "中国机械设备工程股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国机械设备工程股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_996fae5200aab13d1580",
+   "tree_name": "中国东方电气集团有限公司",
+   "entity_id": "ent_3e3cdccf2b2c54aab1d2",
+   "v3_name": "中国东方电气集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国东方电气集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_05e7dbb03fdc8e244925",
+   "tree_name": "哈尔滨电气集团有限公司",
+   "entity_id": "ent_fbc2c4d1dcd95b949595",
+   "v3_name": "哈尔滨电气集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "哈尔滨电气集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_8fac9f69cd71e950a01d",
+   "tree_name": "中国电气装备集团有限公司",
+   "entity_id": "ent_a126f63fc86558d3ab99",
+   "v3_name": "中国电气装备集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国电气装备集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c3c7a8999d60bcb874e9",
+   "tree_name": "国家开发投资集团有限公司",
+   "entity_id": "ent_7a6aa34f01935cadbb6b",
+   "v3_name": "国家开发投资集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "国家开发投资集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_54d8e632be58b004b334",
+   "tree_name": "中国远洋海运集团有限公司",
+   "entity_id": "ent_10418de6cece58549a8a",
+   "v3_name": "中国远洋海运集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国远洋海运集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_31df2e474c432962d586",
+   "tree_name": "中国宝武钢铁集团有限公司",
+   "entity_id": "ent_b5462df3fd0d55baa908",
+   "v3_name": "中国宝武钢铁集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国宝武钢铁集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_12715a0a6636f33b8565",
+   "tree_name": "中国五矿集团有限公司",
+   "entity_id": "ent_8525621b9c125514bc47",
+   "v3_name": "中国五矿集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国五矿集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3722d93fa1f681147db5",
+   "tree_name": "中国通用技术（集团）控股有限责任公司",
+   "entity_id": "ent_d0fe5e43f331505c9730",
+   "v3_name": "中国通用技术（集团）控股有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国通用技术（集团）控股有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_bc2e8e3ad31697a21d5a",
+   "tree_name": "中国建材集团有限公司",
+   "entity_id": "ent_b9aabacd1a065ce5a2ca",
+   "v3_name": "中国建材集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国建材集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_98a8538a91709c3464d2",
+   "tree_name": "中国化学工程集团有限公司",
+   "entity_id": "ent_693a84698d275503a6f5",
+   "v3_name": "中国化学工程集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国化学工程集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_950a3d340efecbba6f43",
+   "tree_name": "中国节能环保集团有限公司",
+   "entity_id": "ent_812d3e8253f951088b10",
+   "v3_name": "中国节能环保集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国节能环保集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_a9fe3444aeda402eb7b6",
+   "tree_name": "中国石油天然气集团有限公司",
+   "entity_id": "ent_48c322b7277b591da5c0",
+   "v3_name": "中国石油天然气集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国石油天然气集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_04e5d9879d71cfbdb893",
+   "tree_name": "中国石油化工集团有限公司",
+   "entity_id": "ent_a8d3fd5265ea5391abb8",
+   "v3_name": "中国石油化工集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国石油化工集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_939f5a0e12a3bdd28dd4",
+   "tree_name": "中国海洋石油集团有限公司",
+   "entity_id": "ent_a19e1d3c3cb25d0b86ff",
+   "v3_name": "中国海洋石油集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国海洋石油集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_146ebe674ddc21330530",
+   "tree_name": "中国兵器工业集团有限公司",
+   "entity_id": "ent_b3561ff4db945e3a9415",
+   "v3_name": "中国兵器工业集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国兵器工业集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_053c2094dd7edaaf7906",
+   "tree_name": "中国兵器装备集团有限公司",
+   "entity_id": "ent_9393d75221aa5a5194af",
+   "v3_name": "中国兵器装备集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国兵器装备集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4ce9681a7b142cf0ef4d",
+   "tree_name": "中国中信集团有限公司",
+   "entity_id": "ent_830da5b0568551af8705",
+   "v3_name": "中国中信集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国中信集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_77ddcf767bad5b39e0a9",
+   "tree_name": "中国光大环境（集团）有限公司",
+   "entity_id": "ent_94ea1028229e551ca10c",
+   "v3_name": "中国光大环境（集团）有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国光大环境（集团）有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_27bb2a8e36d00593bf0f",
+   "tree_name": "国家开发银行",
+   "entity_id": "ent_d9e9542eb65d5cf1b3b0",
+   "v3_name": "国家开发银行",
+   "match_type": "name",
+   "hit_keys": [
+    "国家开发银行"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_bfaa13f70d8cfe41720d",
+   "tree_name": "中国进出口银行",
+   "entity_id": "ent_d852bc23fd6d50eb9b45",
+   "v3_name": "中国进出口银行",
+   "match_type": "name",
+   "hit_keys": [
+    "中国进出口银行"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3f71cbbf4892de74fc17",
+   "tree_name": "中国出口信用保险公司",
+   "entity_id": "ent_a8df7913d3f55c29b0f1",
+   "v3_name": "中国出口信用保险公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国出口信用保险公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_067a3947585d6aa73c56",
+   "tree_name": "中国工商银行股份有限公司",
+   "entity_id": "ent_d31604c525735498ba14",
+   "v3_name": "中国工商银行股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国工商银行股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_b4a77b4b465a0456e1f6",
+   "tree_name": "中国农业银行股份有限公司",
+   "entity_id": "ent_96737f9277385168a2e9",
+   "v3_name": "中国农业银行股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国农业银行股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_81ff87eb403cd4c02c3f",
+   "tree_name": "中国银行股份有限公司",
+   "entity_id": "ent_33df6bb3b90053ddb7fc",
+   "v3_name": "中国银行股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国银行股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0f3b3604e4b523a9e111",
+   "tree_name": "中国建设银行股份有限公司",
+   "entity_id": "ent_082d78070816502c9bf3",
+   "v3_name": "中国建设银行股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国建设银行股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_87cbcbec73abdfc7a553",
+   "tree_name": "Canadian Solar Inc.",
+   "entity_id": "ent_373f225e11cd58deaeb0",
+   "v3_name": "Canadian Solar Inc.",
+   "match_type": "name",
+   "hit_keys": [
+    "Canadian Solar Inc."
+   ]
+  },
+  {
+   "tree_entity_id": "ent_553a4137e65deb6b7296",
+   "tree_name": "阿特斯阳光电力集团股份有限公司",
+   "entity_id": "ent_ed03ba3e93f55e32a06c",
+   "v3_name": "阿特斯阳光电力集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "阿特斯阳光电力集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d3f6e89149eaaf0da39d",
+   "tree_name": "上海电气集团股份有限公司",
+   "entity_id": "ent_2d85682b9f585f1b9dd7",
+   "v3_name": "上海电气集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "上海电气集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d3baaade7466eb196895",
+   "tree_name": "特变电工股份有限公司",
+   "entity_id": "ent_80f0165ec3f55af2a3f4",
+   "v3_name": "特变电工股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "特变电工股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_376da8056e220d80f843",
+   "tree_name": "晶科能源股份有限公司",
+   "entity_id": "ent_724ced2b9edc56a0a02b",
+   "v3_name": "晶科能源股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "晶科能源股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_862ec299f1a46c1a8417",
+   "tree_name": "晶科电力科技股份有限公司",
+   "entity_id": "ent_20de9705f4515a8a9d08",
+   "v3_name": "晶科电力科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "晶科电力科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3a089f95c8de0eae0c8c",
+   "tree_name": "正泰集团股份有限公司",
+   "entity_id": "ent_5454e82385c95ed1bddb",
+   "v3_name": "正泰集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "正泰集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_343c59073bf51ec292ae",
+   "tree_name": "远景科技集团有限公司",
+   "entity_id": "ent_ca4471f64f315d4d93dd",
+   "v3_name": "远景科技集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "远景科技集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_20662dfae8aad458f543",
+   "tree_name": "三一集团有限公司",
+   "entity_id": "ent_3f00a79dffe9512d8671",
+   "v3_name": "三一集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "三一集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_83b04c96f2698e98e5c7",
+   "tree_name": "协鑫集团有限公司",
+   "entity_id": "ent_4fac8d7810ca5db7a922",
+   "v3_name": "协鑫集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "协鑫集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_df5e35b84904778dcc04",
+   "tree_name": "通威集团有限公司",
+   "entity_id": "ent_f73b1ea452c15f35a1d6",
+   "v3_name": "通威集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "通威集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_1e2b7a4480dea4895490",
+   "tree_name": "天合光能股份有限公司",
+   "entity_id": "ent_17675d8b0e9f5b079038",
+   "v3_name": "天合光能股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "天合光能股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_8b8e9b51743d18154223",
+   "tree_name": "湖南建设投资集团有限责任公司",
+   "entity_id": "ent_ed7da4a2dd755ebe9698",
+   "v3_name": "湖南建设投资集团有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "湖南建设投资集团有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d4a72931e60a8a294af2",
+   "tree_name": "阳光电源股份有限公司",
+   "entity_id": "ent_412f16d1c5825ee886bd",
+   "v3_name": "阳光电源股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "阳光电源股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_aada27ed08359307b41e",
+   "tree_name": "湖南军信环保股份有限公司",
+   "entity_id": "ent_2956e1f575405c4ba12e",
+   "v3_name": "湖南军信环保股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "湖南军信环保股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_f07dc1bad2629dab1af9",
+   "tree_name": "紫金矿业集团股份有限公司",
+   "entity_id": "ent_7dfda075990c57279a60",
+   "v3_name": "紫金矿业集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "紫金矿业集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c9f288ecce40a152e2aa",
+   "tree_name": "惠州亿纬锂能股份有限公司",
+   "entity_id": "ent_d286777a03f15f13ab08",
+   "v3_name": "惠州亿纬锂能股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "惠州亿纬锂能股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_e81b1ccfe997ba066e09",
+   "tree_name": "水发集团有限公司",
+   "entity_id": "ent_32f07b519c5e58fcbd41",
+   "v3_name": "水发集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "水发集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_86a6559faad2843c00ff",
+   "tree_name": "江苏蔚蓝锂芯股份有限公司",
+   "entity_id": "ent_a64cf06b21415a84a0d4",
+   "v3_name": "江苏蔚蓝锂芯股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "江苏蔚蓝锂芯股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_38b549ace51c16318f2a",
+   "tree_name": "青山控股集团有限公司",
+   "entity_id": "ent_fe897cb37a8559bf89cc",
+   "v3_name": "青山控股集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "青山控股集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_fed89784535640e681ad",
+   "tree_name": "明阳智慧能源集团股份公司",
+   "entity_id": "ent_0df34cb2ba585e11b064",
+   "v3_name": "明阳智慧能源集团股份公司",
+   "match_type": "name",
+   "hit_keys": [
+    "明阳智慧能源集团股份公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_8f49d2590cc18efe1f32",
+   "tree_name": "东方国际（集团）有限公司",
+   "entity_id": "ent_a72abbe19ff15260b734",
+   "v3_name": "东方国际（集团）有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "东方国际（集团）有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_6a142ed1927d257f4d2f",
+   "tree_name": "上海康恒环境股份有限公司",
+   "entity_id": "ent_af1562ae91995de5b0a2",
+   "v3_name": "上海康恒环境股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "上海康恒环境股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_dc10a1d093cff4ff30e3",
+   "tree_name": "山西建设投资集团有限公司",
+   "entity_id": "ent_b73ac70c703d55988086",
+   "v3_name": "山西建设投资集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "山西建设投资集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_a48261db50a2288abb9d",
+   "tree_name": "伟能集团国际控股有限公司",
+   "entity_id": "ent_16ac942e18f555c9b6cc",
+   "v3_name": "伟能集团国际控股有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "伟能集团国际控股有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4ffede5735a0b86672d9",
+   "tree_name": "北京海博思创科技股份有限公司",
+   "entity_id": "ent_4f9893c06e485b6da3df",
+   "v3_name": "北京海博思创科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "北京海博思创科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_938ec58a5d167ddf908f",
+   "tree_name": "江苏中信博新能源科技股份有限公司",
+   "entity_id": "ent_7611200310755e808667",
+   "v3_name": "江苏中信博新能源科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "江苏中信博新能源科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_56871fa84e587151797f",
+   "tree_name": "中腾微网（北京）科技有限公司",
+   "entity_id": "ent_8921ddc7740e5961a085",
+   "v3_name": "中腾微网（北京）科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中腾微网（北京）科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_88051f67191d8eaf95ef",
+   "tree_name": "隆基绿能科技股份有限公司",
+   "entity_id": "ent_b68921513de45fee9596",
+   "v3_name": "隆基绿能科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "隆基绿能科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_23a6315d8d92f0786f43",
+   "tree_name": "寰泰能源股份有限公司",
+   "entity_id": "ent_310e99ffd10f53508ac9",
+   "v3_name": "寰泰能源股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "寰泰能源股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_e11bfe150b32afd2b64f",
+   "tree_name": "比亚迪股份有限公司",
+   "entity_id": "ent_dba1688b60ab50348103",
+   "v3_name": "比亚迪股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "比亚迪股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d7ffa05fc46d6174c798",
+   "tree_name": "晶澳太阳能科技股份有限公司",
+   "entity_id": "ent_7d55fafb38da5aa4a400",
+   "v3_name": "晶澳太阳能科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "晶澳太阳能科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_9f1f462aa82129f23689",
+   "tree_name": "厦门海辰储能科技股份有限公司",
+   "entity_id": "ent_023bac1a431651309834",
+   "v3_name": "厦门海辰储能科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "厦门海辰储能科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c7cc096b86ba0d86dce2",
+   "tree_name": "联合能源集团有限公司",
+   "entity_id": "ent_831b42a710a2563f9df5",
+   "v3_name": "联合能源集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "联合能源集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_1cb85e26bd5440a6bf7d",
+   "tree_name": "云南省能源投资集团有限公司",
+   "entity_id": "ent_ba4ef10bd0675d858d12",
+   "v3_name": "云南省能源投资集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "云南省能源投资集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_28b3c1a252b9f4a37749",
+   "tree_name": "丝路基金有限责任公司",
+   "entity_id": "ent_641660881f0d5cb092cd",
+   "v3_name": "丝路基金有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "丝路基金有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0a1a238178b9af2e5d0d",
+   "tree_name": "国轩高科股份有限公司",
+   "entity_id": "ent_673a4f11f37a55b8b9c4",
+   "v3_name": "国轩高科股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "国轩高科股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_56255231be09f2c448a9",
+   "tree_name": "东方希望集团有限公司",
+   "entity_id": "ent_ab0a518e22205a15aa79",
+   "v3_name": "东方希望集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "东方希望集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_f442cd327364d6cecf7f",
+   "tree_name": "陕西建工控股集团有限公司",
+   "entity_id": "ent_d721179c3f1d5e179e7c",
+   "v3_name": "陕西建工控股集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "陕西建工控股集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_98d8170c9438e939e459",
+   "tree_name": "开山控股集团股份有限公司",
+   "entity_id": "ent_05d7e06bc49852b5a18e",
+   "v3_name": "开山控股集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "开山控股集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_cd5e8220e92006562ca8",
+   "tree_name": "福建永福电力设计股份有限公司",
+   "entity_id": "ent_e29478f99eb4596f80d7",
+   "v3_name": "福建永福电力设计股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "福建永福电力设计股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_25511b239fe1e970dad6",
+   "tree_name": "中国江西国际经济技术合作有限公司",
+   "entity_id": "ent_73f086973f2d5155a603",
+   "v3_name": "中国江西国际经济技术合作有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国江西国际经济技术合作有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3a6dbfac7b6e5a04b7cd",
+   "tree_name": "英利集团",
+   "entity_id": "ent_887600d697ed540183a3",
+   "v3_name": "英利集团",
+   "match_type": "name",
+   "hit_keys": [
+    "英利集团"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_31f5d9f1b28e42d56065",
+   "tree_name": "汉伏能源（上海）有限公司",
+   "entity_id": "ent_048f3fe6da0e57328cd4",
+   "v3_name": "汉伏能源（上海）有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "汉伏能源（上海）有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3fbe05e20a7a77ed6af3",
+   "tree_name": "中国民生银行股份有限公司",
+   "entity_id": "ent_01e8294e4bc4545ba2d3",
+   "v3_name": "中国民生银行股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国民生银行股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_2b1a4d900633c329f0b6",
+   "tree_name": "海南钧达新能源科技股份有限公司",
+   "entity_id": "ent_9a89083766785c9a9248",
+   "v3_name": "海南钧达新能源科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "海南钧达新能源科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_bfd456577c0c9541ec0d",
+   "tree_name": "福建安泰新能源科技有限公司",
+   "entity_id": "ent_e94675f8317f5c71be89",
+   "v3_name": "福建安泰新能源科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "福建安泰新能源科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_bd991572b02db274b36c",
+   "tree_name": "中盛新能源科技有限公司",
+   "entity_id": "ent_a174e30652ed53d6a638",
+   "v3_name": "中盛新能源科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中盛新能源科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0343f8af218aeadfff8d",
+   "tree_name": "浙江南都电源动力股份有限公司",
+   "entity_id": "ent_b446ee838bdc5909b8bc",
+   "v3_name": "浙江南都电源动力股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "浙江南都电源动力股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_9e77bb54b2a95c967eaf",
+   "tree_name": "中色矿业集团有限公司",
+   "entity_id": "ent_c372bdd9ab1d5ddeb7aa",
+   "v3_name": "中色矿业集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中色矿业集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0d37e7870f46fda42961",
+   "tree_name": "江西赣锋锂业集团股份有限公司",
+   "entity_id": "ent_c4f045ab1b3c535499a7",
+   "v3_name": "江西赣锋锂业集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "江西赣锋锂业集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_7291e469e4b5d8be8610",
+   "tree_name": "惠生控股集团有限公司",
+   "entity_id": "ent_9b2face21b3350e1a011",
+   "v3_name": "惠生控股集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "惠生控股集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c28b01ad4d965415c647",
+   "tree_name": "洲际油气股份有限公司",
+   "entity_id": "ent_02d246b804f05bbc95f9",
+   "v3_name": "洲际油气股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "洲际油气股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_979592b0296851138ba5",
+   "tree_name": "厦门国瑞能新能源技术有限公司",
+   "entity_id": "ent_926e1fd2f0805ac48b97",
+   "v3_name": "厦门国瑞能新能源技术有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "厦门国瑞能新能源技术有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c5eb5fb46a58aa207412",
+   "tree_name": "无锡博达新能科技有限公司",
+   "entity_id": "ent_5ea44480f6a05b71b1c0",
+   "v3_name": "无锡博达新能科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "无锡博达新能科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_f498152a96987bc90ccb",
+   "tree_name": "湖南赢科数字能源科技有限公司",
+   "entity_id": "ent_c762b848740959f6bd38",
+   "v3_name": "湖南赢科数字能源科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "湖南赢科数字能源科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_a8c5fa9c1c00cdd3fdb3",
+   "tree_name": "山东格润内泽姆环保科技有限公司",
+   "entity_id": "ent_f19269ef0e315295aae8",
+   "v3_name": "山东格润内泽姆环保科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "山东格润内泽姆环保科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4ef9ef9358b4a2e0b851",
+   "tree_name": "华为技术有限公司",
+   "entity_id": "ent_7f4753d6c9a55b88976f",
+   "v3_name": "华为技术有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "华为技术有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0ac4a173bfd6ad82e828",
+   "tree_name": "金风科技股份有限公司",
+   "entity_id": "ent_d3c12b8887735e3ba329",
+   "v3_name": "金风科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "金风科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_7bedd0b9dcdff0004197",
+   "tree_name": "东方日升新能源股份有限公司",
+   "entity_id": "ent_d06a4c5f824d509ea239",
+   "v3_name": "东方日升新能源股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "东方日升新能源股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_50df9f5f3b9642901f6c",
+   "tree_name": "中国天楹股份有限公司",
+   "entity_id": "ent_e447c7f3af4d5f93a759",
+   "v3_name": "中国天楹股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国天楹股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_6b1bfea6536ce80fdcae",
+   "tree_name": "中国电子科技集团有限公司",
+   "entity_id": "ent_5db58963da705a97960a",
+   "v3_name": "中国电子科技集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国电子科技集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c239250d12a3676c9696",
+   "tree_name": "宁德时代新能源科技股份有限公司",
+   "entity_id": "ent_4373d61482b954c3a48e",
+   "v3_name": "宁德时代新能源科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "宁德时代新能源科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3753d2fc2b7c6497032b",
+   "tree_name": "中国船舶集团有限公司",
+   "entity_id": "ent_e324a122bce65b40a610",
+   "v3_name": "中国船舶集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国船舶集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c736365490fbdc4012eb",
+   "tree_name": "深圳能源集团股份有限公司",
+   "entity_id": "ent_9077a3553cff566a93d7",
+   "v3_name": "深圳能源集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "深圳能源集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_1a307b81e0556caba999",
+   "tree_name": "上能电气股份有限公司",
+   "entity_id": "ent_fe8a19b82eef590ea066",
+   "v3_name": "上能电气股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "上能电气股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_54746e78a219beaee2c9",
+   "tree_name": "上海风领新能源有限公司",
+   "entity_id": "ent_38da7111b0985d09b368",
+   "v3_name": "上海风领新能源有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "上海风领新能源有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0994b84715eec3938cdb",
+   "tree_name": "旺能环境股份有限公司",
+   "entity_id": "ent_5160f8907c1850629872",
+   "v3_name": "旺能环境股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "旺能环境股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_139cb6cd06e12958c94d",
+   "tree_name": "华西能源工业股份有限公司",
+   "entity_id": "ent_e9b5d9818e3f5c678775",
+   "v3_name": "华西能源工业股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "华西能源工业股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d0c50a0ed356ed3bba83",
+   "tree_name": "盛新锂能集团股份有限公司",
+   "entity_id": "ent_c9f6f2293b375c29af8a",
+   "v3_name": "盛新锂能集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "盛新锂能集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_85fda0523552f257fdeb",
+   "tree_name": "威海国际经济技术合作股份有限公司",
+   "entity_id": "ent_c646e413e47d567f8713",
+   "v3_name": "威海国际经济技术合作股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "威海国际经济技术合作股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_654eda07f1a0b3911005",
+   "tree_name": "苏州钧灏电力有限公司",
+   "entity_id": "ent_961a12561fb5566980cc",
+   "v3_name": "苏州钧灏电力有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "苏州钧灏电力有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_5548dd922335fb3b1853",
+   "tree_name": "TCL中环新能源科技股份有限公司",
+   "entity_id": "ent_c11222b2085554c6a707",
+   "v3_name": "TCL中环新能源科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "TCL中环新能源科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_a49ef65db8d8162f256b",
+   "tree_name": "协合新能源集团有限公司",
+   "entity_id": "ent_4909b23fac6c534eacab",
+   "v3_name": "协合新能源集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "协合新能源集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_d0781141b04dbb2c643d",
+   "tree_name": "山东高速集团有限公司",
+   "entity_id": "ent_98f3504f1f6c585e93b0",
+   "v3_name": "山东高速集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "山东高速集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_2e4362adfe3ada22ca29",
+   "tree_name": "辽宁立德投资控股集团",
+   "entity_id": "ent_446c2383650455e88885",
+   "v3_name": "辽宁立德投资控股集团",
+   "match_type": "name",
+   "hit_keys": [
+    "辽宁立德投资控股集团"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3edc37363ea03f5acdc2",
+   "tree_name": "杭州锦江集团有限公司",
+   "entity_id": "ent_f84e6070d1505983abef",
+   "v3_name": "杭州锦江集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "杭州锦江集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_fa27aec421d1a5a50439",
+   "tree_name": "无锡华光环保能源集团股份有限公司",
+   "entity_id": "ent_2ab118ad62315507bc1c",
+   "v3_name": "无锡华光环保能源集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "无锡华光环保能源集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_ca0d91e8d342fa3ea901",
+   "tree_name": "信息产业电子第十一设计研究院科技工程股份有限公司",
+   "entity_id": "ent_3bf4f556a2e950acbc6f",
+   "v3_name": "信息产业电子第十一设计研究院科技工程股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "信息产业电子第十一设计研究院科技工程股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_e4930877c43f24a9329e",
+   "tree_name": "运达能源科技集团股份有限公司",
+   "entity_id": "ent_07c6b6bb78605b449b00",
+   "v3_name": "运达能源科技集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "运达能源科技集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_7584a62a7bb0dcdd4be5",
+   "tree_name": "中国航空工业集团有限公司",
+   "entity_id": "ent_a43167d6fcba54658418",
+   "v3_name": "中国航空工业集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国航空工业集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4c3ebc8b9db08b112998",
+   "tree_name": "江西省水利水电建设集团有限公司",
+   "entity_id": "ent_22c4bc4643785bd4aaea",
+   "v3_name": "江西省水利水电建设集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "江西省水利水电建设集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_f7419a2128d9f7315dfb",
+   "tree_name": "浙江西子联合工程有限公司",
+   "entity_id": "ent_d89062e19c105c228398",
+   "v3_name": "浙江西子联合工程有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "浙江西子联合工程有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_6edc0c5e957af955a75d",
+   "tree_name": "上海环境集团股份有限公司",
+   "entity_id": "ent_ba05ae0ef64059278491",
+   "v3_name": "上海环境集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "上海环境集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_8dc2b784fbc1c973671b",
+   "tree_name": "北京高能时代环境技术股份有限公司",
+   "entity_id": "ent_02b9730f7572556b862a",
+   "v3_name": "北京高能时代环境技术股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "北京高能时代环境技术股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_1fed639c9a07df29331e",
+   "tree_name": "四川省能源投资集团有限责任公司",
+   "entity_id": "ent_1361419c097a5e34a00e",
+   "v3_name": "四川省能源投资集团有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "四川省能源投资集团有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c28530eedf0476235e62",
+   "tree_name": "浙江华友钴业股份有限公司",
+   "entity_id": "ent_7e827619468554ca8b9c",
+   "v3_name": "浙江华友钴业股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "浙江华友钴业股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_0c90a20cd5bc004bcf44",
+   "tree_name": "洛阳栾川钼业集团股份有限公司",
+   "entity_id": "ent_a3fd90b98a8c54cda6b1",
+   "v3_name": "洛阳栾川钼业集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "洛阳栾川钼业集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_e5f3640a8fdc81ea07d6",
+   "tree_name": "华自科技股份有限公司",
+   "entity_id": "ent_eaae447f93c2560ea8ab",
+   "v3_name": "华自科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "华自科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_fec0fe4a34a1e3641763",
+   "tree_name": "四川省投资集团有限责任公司",
+   "entity_id": "ent_bb34237a213655f796e3",
+   "v3_name": "四川省投资集团有限责任公司",
+   "match_type": "name",
+   "hit_keys": [
+    "四川省投资集团有限责任公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_1f579d6175e7aa618811",
+   "tree_name": "河南省第二建设集团有限公司",
+   "entity_id": "ent_7896ba45b92058ba897c",
+   "v3_name": "河南省第二建设集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "河南省第二建设集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_a311edf0a1a711c50d0e",
+   "tree_name": "安徽华晟新能源科技股份有限公司",
+   "entity_id": "ent_18b6c5f215845a518542",
+   "v3_name": "安徽华晟新能源科技股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "安徽华晟新能源科技股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_93ff82ad8afb127d4047",
+   "tree_name": "双良集团有限公司",
+   "entity_id": "ent_ea87c7e2e46d526d8889",
+   "v3_name": "双良集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "双良集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_9657e7777ea215e55464",
+   "tree_name": "中天科技集团有限公司",
+   "entity_id": "ent_e715d7f63fad5ea1b140",
+   "v3_name": "中天科技集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中天科技集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_b0cc6faa1852674b6f15",
+   "tree_name": "双登集团股份有限公司",
+   "entity_id": "ent_58c459eb9352521bbe24",
+   "v3_name": "双登集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "双登集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_3fdc45bce35a74a6e80d",
+   "tree_name": "深圳远信储能技术股份有限公司",
+   "entity_id": "ent_36952ffd5c405984877b",
+   "v3_name": "深圳远信储能技术股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "深圳远信储能技术股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_82dc05b98d379a322c03",
+   "tree_name": "泰开集团有限公司",
+   "entity_id": "ent_66415e62d7ba5bec99be",
+   "v3_name": "泰开集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "泰开集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_5451c5cfc5a95b863114",
+   "tree_name": "北京中科清风科技有限公司",
+   "entity_id": "ent_94b631f5665852feb6b2",
+   "v3_name": "北京中科清风科技有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "北京中科清风科技有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c2a3fc9f14a82023eed9",
+   "tree_name": "中国国际海运集装箱（集团）股份有限公司",
+   "entity_id": "ent_9b2eae42883a56a092d0",
+   "v3_name": "中国国际海运集装箱（集团）股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国国际海运集装箱（集团）股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_c401f149a3da0ff24766",
+   "tree_name": "江西江联重工股份有限公司",
+   "entity_id": "ent_c7214181aeed52f8a675",
+   "v3_name": "江西江联重工股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "江西江联重工股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_96cb292660169ffce59a",
+   "tree_name": "赛维太阳能科技集团有限公司",
+   "entity_id": "ent_d967c67525975592858e",
+   "v3_name": "赛维太阳能科技集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "赛维太阳能科技集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_867e8d12a19a864ce031",
+   "tree_name": "中国电信集团有限公司",
+   "entity_id": "ent_effc2376a9fa5d74a3e4",
+   "v3_name": "中国电信集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "中国电信集团有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_a355445ed8ffd80b84d6",
+   "tree_name": "广州天赐高新材料股份有限公司",
+   "entity_id": "ent_c9d0c4d9943f55ab8413",
+   "v3_name": "广州天赐高新材料股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "广州天赐高新材料股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_5d0b85ee2ed375e2a15c",
+   "tree_name": "天津泰达投资控股有限公司",
+   "entity_id": "ent_655010489bd356628934",
+   "v3_name": "天津泰达投资控股（集团）有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "天津泰达投资控股有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_05515b992fa3769eddea",
+   "tree_name": "重庆三峰环境集团股份有限公司",
+   "entity_id": "ent_82e6ff70df4d5d2a8b25",
+   "v3_name": "重庆三峰环境集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "重庆三峰环境集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_daa61e763320e6a5c633",
+   "tree_name": "尚德电力控股有限公司",
+   "entity_id": "ent_0be6ae5bfb975f0c973d",
+   "v3_name": "尚德电力控股有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "尚德电力控股有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_4f952acdf30d214b0a7e",
+   "tree_name": "株洲旗滨集团股份有限公司",
+   "entity_id": "ent_af1d415fab2a5961aa4d",
+   "v3_name": "株洲旗滨集团股份有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "株洲旗滨集团股份有限公司"
+   ]
+  },
+  {
+   "tree_entity_id": "ent_934fc7132788335d31dd",
+   "tree_name": "威顿控股集团有限公司",
+   "entity_id": "ent_a564288e09d4583ab549",
+   "v3_name": "威顿控股集团有限公司",
+   "match_type": "name",
+   "hit_keys": [
+    "威顿控股集团有限公司"
+   ]
+  }
+ ],
+ "reparented": [
+  {
+   "entity_id": "ent_8df60b2f2b2752249ff9",
+   "name": "中国葛洲坝集团（甘肃）工程有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_6b4b8e1a64b457a2ae08",
+   "v4_parent_name": "中国葛洲坝集团有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_232cb9d8f0b55c2db806",
+   "name": "中国电力工程顾问集团国际工程有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_3d8eb7a5fea850b4bb28",
+   "v4_parent_name": "中国电力工程顾问集团有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_dfaf919d925f51ed872d",
+   "name": "中国葛洲坝集团国际工程有限公司",
+   "v3_parent": "ent_405cdb1433d45008b11d",
+   "v3_parent_name": "中国能源建设集团有限公司",
+   "v4_parent": "ent_6b4b8e1a64b457a2ae08",
+   "v4_parent_name": "中国葛洲坝集团有限公司",
+   "v4_root": "ent_405cdb1433d45008b11d",
+   "v4_root_name": "中国能源建设集团有限公司"
+  },
+  {
+   "entity_id": "ent_29d46875263751799bac",
+   "name": "上海三菱电梯有限公司",
+   "v3_parent": "ent_6810a59fc6bb5e30b51a",
+   "v3_parent_name": "上海机电股份有限公司",
+   "v4_parent": "ent_2d85682b9f585f1b9dd7",
+   "v4_parent_name": "上海电气集团股份有限公司",
+   "v4_root": "ent_2d85682b9f585f1b9dd7",
+   "v4_root_name": "上海电气集团股份有限公司"
+  },
+  {
+   "entity_id": "ent_2451abec5391535d87c4",
+   "name": "中国建筑第四工程局有限公司",
+   "v3_parent": "ent_1b1ed33eb2f55782a890",
+   "v3_parent_name": "中国建筑集团有限公司",
+   "v4_parent": "ent_2aaa5a9e8ac357bb8169",
+   "v4_parent_name": "中国建筑股份有限公司",
+   "v4_root": "ent_1b1ed33eb2f55782a890",
+   "v4_root_name": "中国建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_6db4fdddb4bf56b68f5e",
+   "name": "中国建筑第五工程局有限公司",
+   "v3_parent": "ent_1b1ed33eb2f55782a890",
+   "v3_parent_name": "中国建筑集团有限公司",
+   "v4_parent": "ent_2aaa5a9e8ac357bb8169",
+   "v4_parent_name": "中国建筑股份有限公司",
+   "v4_root": "ent_1b1ed33eb2f55782a890",
+   "v4_root_name": "中国建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_05bd816286ba55219441",
+   "name": "中国建筑第三工程局有限公司",
+   "v3_parent": "ent_1b1ed33eb2f55782a890",
+   "v3_parent_name": "中国建筑集团有限公司",
+   "v4_parent": "ent_2aaa5a9e8ac357bb8169",
+   "v4_parent_name": "中国建筑股份有限公司",
+   "v4_root": "ent_1b1ed33eb2f55782a890",
+   "v4_root_name": "中国建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_0f1655e405225b9cb30f",
+   "name": "中建西部建设股份有限公司",
+   "v3_parent": "ent_1b1ed33eb2f55782a890",
+   "v3_parent_name": "中国建筑集团有限公司",
+   "v4_parent": "ent_2aaa5a9e8ac357bb8169",
+   "v4_parent_name": "中国建筑股份有限公司",
+   "v4_root": "ent_1b1ed33eb2f55782a890",
+   "v4_root_name": "中国建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_acfd06aab45d5548adc5",
+   "name": "中国建筑一局（集团）有限公司",
+   "v3_parent": "ent_1b1ed33eb2f55782a890",
+   "v3_parent_name": "中国建筑集团有限公司",
+   "v4_parent": "ent_2aaa5a9e8ac357bb8169",
+   "v4_parent_name": "中国建筑股份有限公司",
+   "v4_root": "ent_1b1ed33eb2f55782a890",
+   "v4_root_name": "中国建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_649977c8e4305ec48c80",
+   "name": "许继电气股份有限公司",
+   "v3_parent": "ent_a126f63fc86558d3ab99",
+   "v3_parent_name": "中国电气装备集团有限公司",
+   "v4_parent": "ent_ef61a2ddf0ff57bdb810",
+   "v4_parent_name": "许继集团有限公司",
+   "v4_root": "ent_a126f63fc86558d3ab99",
+   "v4_root_name": "中国电气装备集团有限公司"
+  },
+  {
+   "entity_id": "ent_db65e1a82f2453d78622",
+   "name": "中国西电电气股份有限公司",
+   "v3_parent": "ent_a126f63fc86558d3ab99",
+   "v3_parent_name": "中国电气装备集团有限公司",
+   "v4_parent": "ent_ca651ecc4b395fa0a410",
+   "v4_parent_name": "中国西电集团有限公司",
+   "v4_root": "ent_a126f63fc86558d3ab99",
+   "v4_root_name": "中国电气装备集团有限公司"
+  },
+  {
+   "entity_id": "ent_f876dd21adac5238b409",
+   "name": "中国土木工程集团有限公司",
+   "v3_parent": "ent_2d0b0262d84d5786a44c",
+   "v3_parent_name": "中国铁道建筑集团有限公司",
+   "v4_parent": "ent_f530e3a2d50550208e8b",
+   "v4_parent_name": "中国铁建股份有限公司",
+   "v4_root": "ent_2d0b0262d84d5786a44c",
+   "v4_root_name": "中国铁道建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_c5df14cd7d0d518f9163",
+   "name": "中铁二十局集团有限公司",
+   "v3_parent": "ent_2d0b0262d84d5786a44c",
+   "v3_parent_name": "中国铁道建筑集团有限公司",
+   "v4_parent": "ent_f530e3a2d50550208e8b",
+   "v4_parent_name": "中国铁建股份有限公司",
+   "v4_root": "ent_2d0b0262d84d5786a44c",
+   "v4_root_name": "中国铁道建筑集团有限公司"
+  },
+  {
+   "entity_id": "ent_2152ad6e2486546c9d3a",
+   "name": "中铁资源集团有限公司",
+   "v3_parent": "ent_9423faa978b65a3490cc",
+   "v3_parent_name": "中国铁路工程集团有限公司",
+   "v4_parent": "ent_a63ca8344a385ce3b54b",
+   "v4_parent_name": "中国中铁股份有限公司",
+   "v4_root": "ent_9423faa978b65a3490cc",
+   "v4_root_name": "中国铁路工程集团有限公司"
+  },
+  {
+   "entity_id": "ent_ed03ba3e93f55e32a06c",
+   "name": "阿特斯阳光电力集团股份有限公司",
+   "v3_parent": null,
+   "v3_parent_name": null,
+   "v4_parent": "ent_373f225e11cd58deaeb0",
+   "v4_parent_name": "Canadian Solar Inc.",
+   "v4_root": "ent_373f225e11cd58deaeb0",
+   "v4_root_name": "Canadian Solar Inc."
+  },
+  {
+   "entity_id": "ent_20de9705f4515a8a9d08",
+   "name": "晶科电力科技股份有限公司",
+   "v3_parent": null,
+   "v3_parent_name": null,
+   "v4_parent": "ent_724ced2b9edc56a0a02b",
+   "v4_parent_name": "晶科能源股份有限公司",
+   "v4_root": "ent_724ced2b9edc56a0a02b",
+   "v4_root_name": "晶科能源股份有限公司"
+  }
+ ],
+ "ambiguous": [],
+ "new_nodes": [
+  {
+   "tree_entity_id": "ent_652c6980bba295cd3b42",
+   "tree_name": "中国电力建设股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_56befd7faed50938097c",
+   "provisional_id": "prov_b1fe8127188451e792b4"
+  },
+  {
+   "tree_entity_id": "ent_10b8af547971c48a29a6",
+   "tree_name": "中国水利水电第二工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_dc971f56185359d08b6e"
+  },
+  {
+   "tree_entity_id": "ent_206e43e34842e0f601ce",
+   "tree_name": "中国水利水电第十一工程局有限公司美洲分公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_7f835962e58d59538cde",
+   "provisional_id": "prov_67feffe0c20c595cb952"
+  },
+  {
+   "tree_entity_id": "ent_9f333a35a56d3b0e935f",
+   "tree_name": "山东电力建设第一工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_fed4220883675014bee2"
+  },
+  {
+   "tree_entity_id": "ent_6ddc61defa0db13aa747",
+   "tree_name": "山东电力建设第二工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_a82bf1e211f758b4ba60"
+  },
+  {
+   "tree_entity_id": "ent_dbeac75088f1e7bb142a",
+   "tree_name": "中国电建集团河南工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_6140694a6da4564cb987"
+  },
+  {
+   "tree_entity_id": "ent_f39bfe18690db8425ccd",
+   "tree_name": "中国电建集团河北工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_06ff163e3af7597bb584"
+  },
+  {
+   "tree_entity_id": "ent_4853171410c54a0c2633",
+   "tree_name": "中电建华东院海外工程有限公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_08f60b5c13e151d9931d",
+   "provisional_id": "prov_3a9a0d102e395298abe9"
+  },
+  {
+   "tree_entity_id": "ent_ae98e84dc5915bf81be7",
+   "tree_name": "中国电建集团北京勘测设计研究院有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_978f1f3db00257d08b10"
+  },
+  {
+   "tree_entity_id": "ent_2b14489abe09e7c3d4aa",
+   "tree_name": "中电建生态环境集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_474b238c9eda58c99565"
+  },
+  {
+   "tree_entity_id": "ent_a77bb18278926b120f43",
+   "tree_name": "中国水利水电建设工程咨询西北有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_652c6980bba295cd3b42",
+   "provisional_id": "prov_b6bc6974a0365759989c"
+  },
+  {
+   "tree_entity_id": "ent_9329d77ef8a45e0e37c1",
+   "tree_name": "中国电建集团新能源电力有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_56befd7faed50938097c",
+   "provisional_id": "prov_ee0eff25671852478c30"
+  },
+  {
+   "tree_entity_id": "ent_a0bc6e8bae4dc236bf78",
+   "tree_name": "中国电建集团租赁有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_56befd7faed50938097c",
+   "provisional_id": "prov_6f99df2cd1da5d5f8cf4"
+  },
+  {
+   "tree_entity_id": "ent_27a62192e59200812096",
+   "tree_name": "中国能源建设股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_b2996e8707f86b2d2fc1",
+   "provisional_id": "prov_c389a8fdc2b750cd81c6"
+  },
+  {
+   "tree_entity_id": "ent_237f6167c83dedf6d220",
+   "tree_name": "中国电力工程顾问集团华北电力设计院国际工程有限公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_70ec0dd30f0f5dcba3ff",
+   "provisional_id": "prov_7ac5bf822da553a19f5e"
+  },
+  {
+   "tree_entity_id": "ent_7cdf96f90d560f7ebff0",
+   "tree_name": "中国葛洲坝集团第一工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_6b4b8e1a64b457a2ae08",
+   "provisional_id": "prov_4f4c39f969c3502cacf2"
+  },
+  {
+   "tree_entity_id": "ent_bedcb07d079251f56982",
+   "tree_name": "中国葛洲坝集团第一工程有限公司海外工程分公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_7cdf96f90d560f7ebff0",
+   "provisional_id": "prov_94d174e8789159e9a955"
+  },
+  {
+   "tree_entity_id": "ent_f0e224ecf297e993a0f1",
+   "tree_name": "中国葛洲坝集团第二工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_6b4b8e1a64b457a2ae08",
+   "provisional_id": "prov_578dd3eba6c4532e9edf"
+  },
+  {
+   "tree_entity_id": "ent_ec762f5e026087d202ef",
+   "tree_name": "中国葛洲坝集团三峡建设工程有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_6b4b8e1a64b457a2ae08",
+   "provisional_id": "prov_b57b89ea99895c78a0d7"
+  },
+  {
+   "tree_entity_id": "ent_221d799952d729288e08",
+   "tree_name": "中国葛洲坝集团海外投资有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_6b4b8e1a64b457a2ae08",
+   "provisional_id": "prov_41d18f3cdbef5bac81fb"
+  },
+  {
+   "tree_entity_id": "ent_eb502ddfcf0e2393b449",
+   "tree_name": "中国葛洲坝集团装备工业有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_6b4b8e1a64b457a2ae08",
+   "provisional_id": "prov_b8dc66bd06a25057b0f7"
+  },
+  {
+   "tree_entity_id": "ent_924c1756270e356787b2",
+   "tree_name": "中国建筑第二工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_7d9ee1275bba57d5a5f8"
+  },
+  {
+   "tree_entity_id": "ent_94957a9a4da14eaed03c",
+   "tree_name": "中建三局第一建设工程有限责任公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_05bd816286ba55219441",
+   "provisional_id": "prov_5c6903145e4e51e5ba39"
+  },
+  {
+   "tree_entity_id": "ent_aa6d44107cce8f655518",
+   "tree_name": "中建三局国际工程公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_05bd816286ba55219441",
+   "provisional_id": "prov_c0d881fb515657f3a5d0"
+  },
+  {
+   "tree_entity_id": "ent_72173e64449c59415f17",
+   "tree_name": "中国建筑第六工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_dc3414e8bebd5698af70"
+  },
+  {
+   "tree_entity_id": "ent_89eeb78c00ee82725270",
+   "tree_name": "中国建筑第七工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_6e6b8f4464b25f679f24"
+  },
+  {
+   "tree_entity_id": "ent_e81e0f4d7528d563fb89",
+   "tree_name": "中国建筑第八工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_8911613e312d5fc7a89f"
+  },
+  {
+   "tree_entity_id": "ent_32386d562093f21e2607",
+   "tree_name": "中建八局第一建设有限公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_e81e0f4d7528d563fb89",
+   "provisional_id": "prov_373ef93a3ba45e3e8a25"
+  },
+  {
+   "tree_entity_id": "ent_fd36d03db73f7ea05740",
+   "tree_name": "中建科工集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_13d0169ec4935c94acba"
+  },
+  {
+   "tree_entity_id": "ent_b6bdc5fa2d57e8177ceb",
+   "tree_name": "中建中东有限责任公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_b753b1d5b5b7530090b8"
+  },
+  {
+   "tree_entity_id": "ent_bbc7ec2e2abf60b2038c",
+   "tree_name": "中建交通建设集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_2aaa5a9e8ac357bb8169",
+   "provisional_id": "prov_e12d37aaa1f95abfa2b9"
+  },
+  {
+   "tree_entity_id": "ent_691dfbb351a0ea67614f",
+   "tree_name": "中建国际建设有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_fb395421132f5d7f6eea",
+   "provisional_id": "prov_c64e9fe0c77757208bd7"
+  },
+  {
+   "tree_entity_id": "ent_a8e60abc1aa0fbfda4d5",
+   "tree_name": "中国海外集团有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_fb395421132f5d7f6eea",
+   "provisional_id": "prov_cf07305c62285a749c9e"
+  },
+  {
+   "tree_entity_id": "ent_09d0286f9fdf1f49d316",
+   "tree_name": "中铁十一局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_ecb94cd285775488bcce"
+  },
+  {
+   "tree_entity_id": "ent_29ad808e68ae38dfc1fc",
+   "tree_name": "中铁十二局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_5e8c0f852283585f9f7f"
+  },
+  {
+   "tree_entity_id": "ent_3ae29fdb1d40d492601e",
+   "tree_name": "中铁十四局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_18e2cd2791a55ff4bad7"
+  },
+  {
+   "tree_entity_id": "ent_7da264fd8b478b654399",
+   "tree_name": "中铁十五局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_4dca754c80f55648aa75"
+  },
+  {
+   "tree_entity_id": "ent_00fb2bf04280e2b2c136",
+   "tree_name": "中铁十六局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_0c03181709ae51628a1b"
+  },
+  {
+   "tree_entity_id": "ent_265d46f678e169973fe2",
+   "tree_name": "中铁十七局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_556877dfa0fe58068279"
+  },
+  {
+   "tree_entity_id": "ent_068b28559df0b1dab1a2",
+   "tree_name": "中铁十八局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_c0d5f6669edf5b1e986b"
+  },
+  {
+   "tree_entity_id": "ent_f25108314308fb7e3901",
+   "tree_name": "中铁十九局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_62f2eeda9a3d556ba430"
+  },
+  {
+   "tree_entity_id": "ent_53979566c247cd954511",
+   "tree_name": "中铁二十局集团安哥拉国际工程有限公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_c5df14cd7d0d518f9163",
+   "provisional_id": "prov_eff721b882115cc8885e"
+  },
+  {
+   "tree_entity_id": "ent_b32315dfa1c9b73433e6",
+   "tree_name": "中铁二十一局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_298c1a54d94050479a01"
+  },
+  {
+   "tree_entity_id": "ent_c7fba060515c01b44004",
+   "tree_name": "中铁二十二局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_cbe91ae2676853c68578"
+  },
+  {
+   "tree_entity_id": "ent_23a6c8396e3466540f29",
+   "tree_name": "中铁二十三局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_2bc13a1057c751d5b166"
+  },
+  {
+   "tree_entity_id": "ent_11b71da5c931c0b484ab",
+   "tree_name": "中铁二十四局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_c56fb556871655858568"
+  },
+  {
+   "tree_entity_id": "ent_091df1d3b5cde62425c5",
+   "tree_name": "中铁二十五局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_9b77c2a9b0305ab6bde5"
+  },
+  {
+   "tree_entity_id": "ent_9e65a32eaaa18afa841b",
+   "tree_name": "中铁建设集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_46a435f5ab5b5b238c1c"
+  },
+  {
+   "tree_entity_id": "ent_93aaca335fd6ba0bc5a7",
+   "tree_name": "中铁第一勘察设计院集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_ff09aee58ad25f619011"
+  },
+  {
+   "tree_entity_id": "ent_13f3dd680378305a4815",
+   "tree_name": "中铁第四勘察设计院集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_3f8e57b886335d0d8baa"
+  },
+  {
+   "tree_entity_id": "ent_12f87d2afdf476627634",
+   "tree_name": "中土集团尼日利亚有限公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_f876dd21adac5238b409",
+   "provisional_id": "prov_5c6297f0de2255cdbee8"
+  },
+  {
+   "tree_entity_id": "ent_1b2a7dd4cc0cd645a735",
+   "tree_name": "中国铁建国际集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_f530e3a2d50550208e8b",
+   "provisional_id": "prov_15809fbeaac25e0aa751"
+  },
+  {
+   "tree_entity_id": "ent_da1d2cb3a7b6c842bb26",
+   "tree_name": "中铁一局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_850cac9331b45ccd90d4"
+  },
+  {
+   "tree_entity_id": "ent_8668b4f4eb1e1d6e3784",
+   "tree_name": "中铁二局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_8ffbaa1621b452f2bc7c"
+  },
+  {
+   "tree_entity_id": "ent_0f033279742cff8522db",
+   "tree_name": "中铁三局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_2d48887ac3555c929298"
+  },
+  {
+   "tree_entity_id": "ent_104de628d58f5d3d1f9e",
+   "tree_name": "中铁四局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_4874b6b9cf1258bc9059"
+  },
+  {
+   "tree_entity_id": "ent_cd923fa1b36314eaf6e7",
+   "tree_name": "中铁五局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_093e3050c9655e839dd7"
+  },
+  {
+   "tree_entity_id": "ent_88362a08456b841474b4",
+   "tree_name": "中铁六局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_a2419a1290e0573dae41"
+  },
+  {
+   "tree_entity_id": "ent_526ea72149aa4e896f6b",
+   "tree_name": "中铁七局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_a566eae7fe5f5e989d96"
+  },
+  {
+   "tree_entity_id": "ent_0524f5a3b855b7e88f96",
+   "tree_name": "中铁八局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_ce91c70d18875a169694"
+  },
+  {
+   "tree_entity_id": "ent_e61858ac62877ca9363b",
+   "tree_name": "中铁九局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_66417467dd445eb0b5d7"
+  },
+  {
+   "tree_entity_id": "ent_3d2db22d30efb2eff836",
+   "tree_name": "中铁十局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_6a6cfe72e15a57afaecf"
+  },
+  {
+   "tree_entity_id": "ent_2146a4ab98429d41d968",
+   "tree_name": "中铁大桥局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_21ca9b91bfbc5bdd9dae"
+  },
+  {
+   "tree_entity_id": "ent_d33caf16a0abb5d20add",
+   "tree_name": "中铁隧道局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_af6d1c2557c05c7d8258"
+  },
+  {
+   "tree_entity_id": "ent_ca3ef5af2a7ed7cfd78b",
+   "tree_name": "中铁建工集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_67db57a5866352f29249"
+  },
+  {
+   "tree_entity_id": "ent_8aeb227268d18e75ed28",
+   "tree_name": "中铁电气化局集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_0fc8d42cf08b5fda8186"
+  },
+  {
+   "tree_entity_id": "ent_e595f9a59e52131ae364",
+   "tree_name": "中铁二院工程集团有限责任公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_8a1002db03a552019d9a"
+  },
+  {
+   "tree_entity_id": "ent_000385657d0b101996e5",
+   "tree_name": "中铁国际集团有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_a63ca8344a385ce3b54b",
+   "provisional_id": "prov_51363cbe76f254f2ac92"
+  },
+  {
+   "tree_entity_id": "ent_461cc47ac7bb5b495711",
+   "tree_name": "中国交通建设股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_2000e5d3685a46c2b7f1",
+   "provisional_id": "prov_d6922047801a5731b4c7"
+  },
+  {
+   "tree_entity_id": "ent_56fdc8df167724604c68",
+   "tree_name": "中交第一公路工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_bee9f78179c1517fb751"
+  },
+  {
+   "tree_entity_id": "ent_1f0a0b232f2448b087ef",
+   "tree_name": "中交第二公路工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_32348aa47d5e5f368219"
+  },
+  {
+   "tree_entity_id": "ent_7dd7d3be0b1691adb35d",
+   "tree_name": "中交第三公路工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_cb6ee53b6bbb5be0b91e"
+  },
+  {
+   "tree_entity_id": "ent_45428cb9956d3c03451a",
+   "tree_name": "中交第四公路工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_892cb68cb9fe5a53b9a5"
+  },
+  {
+   "tree_entity_id": "ent_34bcdb2dd174ceb6f6b4",
+   "tree_name": "中交第二航务工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_b41f19eb3c305f8ebf2b"
+  },
+  {
+   "tree_entity_id": "ent_793df174e44409a27f2f",
+   "tree_name": "中交第三航务工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_cec130b7a3535745884c"
+  },
+  {
+   "tree_entity_id": "ent_4a9bbefa7bcf6171aa18",
+   "tree_name": "中交第四航务工程局有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_19df687075fa5ed8860e"
+  },
+  {
+   "tree_entity_id": "ent_70ce06625682ec63126f",
+   "tree_name": "中交水运规划设计院有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_d4ce4c9324c956589eef"
+  },
+  {
+   "tree_entity_id": "ent_da339cf4b79d5a0a3740",
+   "tree_name": "中交公路规划设计院有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_600783a57b545b399e7c"
+  },
+  {
+   "tree_entity_id": "ent_e60a2b0abae5b12ab679",
+   "tree_name": "中交疏浚（集团）股份有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_461cc47ac7bb5b495711",
+   "provisional_id": "prov_f991733a766d5709af10"
+  },
+  {
+   "tree_entity_id": "ent_4e8cbcb72a2c81aad0e1",
+   "tree_name": "国家核电技术公司的工程公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_e5b788bb22734b091879",
+   "provisional_id": "prov_c4a73797ec5c523ab380"
+  },
+  {
+   "tree_entity_id": "ent_99379dec1e337f6e6ba7",
+   "tree_name": "中国华电科工集团有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_39df5a0854ff041263b2",
+   "provisional_id": "prov_cdf1955f64e95526b228"
+  },
+  {
+   "tree_entity_id": "ent_952db87a4f5aa80cabb1",
+   "tree_name": "中国华电集团发电运营有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_39df5a0854ff041263b2",
+   "provisional_id": "prov_d17b2632ca345d21a812"
+  },
+  {
+   "tree_entity_id": "ent_80393ecf9ee62b8f4fe9",
+   "tree_name": "中国核能电力股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d1218b3fa291a27d81d0",
+   "provisional_id": "prov_6272cd8cf7c6535c950f"
+  },
+  {
+   "tree_entity_id": "ent_b714340222e09a47e604",
+   "tree_name": "中国核工业二三建设有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_13b350ea0b67575ab2ed",
+   "provisional_id": "prov_2f24abd5e2075fa19a4a"
+  },
+  {
+   "tree_entity_id": "ent_8e188d8c2b7684baa7af",
+   "tree_name": "中国核工业二四建设有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_13b350ea0b67575ab2ed",
+   "provisional_id": "prov_d401703707b15779bd78"
+  },
+  {
+   "tree_entity_id": "ent_2643f3f32c31e81190f4",
+   "tree_name": "中国核工业华兴建设有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_13b350ea0b67575ab2ed",
+   "provisional_id": "prov_5700d96bfdab56e1a2f5"
+  },
+  {
+   "tree_entity_id": "ent_d3bd084d099817fbc8ef",
+   "tree_name": "中国广核电力股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_7b2fecd720297a1e7352",
+   "provisional_id": "prov_7651d36bc627598ea2e9"
+  },
+  {
+   "tree_entity_id": "ent_fd82690d6053abf2b386",
+   "tree_name": "中广核新能源控股有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_7b2fecd720297a1e7352",
+   "provisional_id": "prov_78f15fa46eba5238888c"
+  },
+  {
+   "tree_entity_id": "ent_81af2a5ac23fb8b82530",
+   "tree_name": "国家电网国际发展有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_ac31d2f3d5bd3696e4ba",
+   "provisional_id": "prov_0dce9e936968515b8ff1"
+  },
+  {
+   "tree_entity_id": "ent_96841d17e343bfc4ab2c",
+   "tree_name": "机械工业第四设计研究院有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_9112277e0516a55e24cb",
+   "provisional_id": "prov_7c5bdb5ce33a56808ee6"
+  },
+  {
+   "tree_entity_id": "ent_131a0d7663b195eabaa1",
+   "tree_name": "东方电气股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_996fae5200aab13d1580",
+   "provisional_id": "prov_0095670a892e58e3a0bf"
+  },
+  {
+   "tree_entity_id": "ent_189e3f283bdf066a583c",
+   "tree_name": "平高电气股份有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_3d44f86a90cc532c9b4c",
+   "provisional_id": "prov_8162e407126d54008f16"
+  },
+  {
+   "tree_entity_id": "ent_f02ce9353714fdfe25bd",
+   "tree_name": "国投矿业投资有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_c3c7a8999d60bcb874e9",
+   "provisional_id": "prov_cccfe740c06b53ae9da8"
+  },
+  {
+   "tree_entity_id": "ent_093c635d8ed451c2a023",
+   "tree_name": "中远海运控股股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_54d8e632be58b004b334",
+   "provisional_id": "prov_57b52fd5609e57409981"
+  },
+  {
+   "tree_entity_id": "ent_1554913c7eea6bb8a6b8",
+   "tree_name": "招商局集团有限公司",
+   "tree_level": 1,
+   "parent_tree_id": null,
+   "provisional_id": "prov_0661556b7de15d9aa533"
+  },
+  {
+   "tree_entity_id": "ent_43a7678a8629d4ab6c6b",
+   "tree_name": "招商局港口控股有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_1554913c7eea6bb8a6b8",
+   "provisional_id": "prov_85cf9cc3211357e2b7f9"
+  },
+  {
+   "tree_entity_id": "ent_6841acd5a37adb33d26d",
+   "tree_name": "招商局轮船有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_1554913c7eea6bb8a6b8",
+   "provisional_id": "prov_122f94ea6e395ecfb818"
+  },
+  {
+   "tree_entity_id": "ent_9573465288ee2688447e",
+   "tree_name": "宝山钢铁股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_31df2e474c432962d586",
+   "provisional_id": "prov_22832b806f755b239169"
+  },
+  {
+   "tree_entity_id": "ent_a573f356194f6d0e1364",
+   "tree_name": "中国冶金科工股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_12715a0a6636f33b8565",
+   "provisional_id": "prov_60a2c3cbbd8c53f7b6aa"
+  },
+  {
+   "tree_entity_id": "ent_143705d68223773747c6",
+   "tree_name": "国开金融有限责任公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_27bb2a8e36d00593bf0f",
+   "provisional_id": "prov_daf25d1596a853d4998c"
+  },
+  {
+   "tree_entity_id": "ent_2acb1806d4f8cf9177cd",
+   "tree_name": "工银金融租赁有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_067a3947585d6aa73c56",
+   "provisional_id": "prov_cc10cb80f1955e12b419"
+  },
+  {
+   "tree_entity_id": "ent_2855d96a2a42ff4ce33e",
+   "tree_name": "工银国际控股有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_067a3947585d6aa73c56",
+   "provisional_id": "prov_63dfe4cb3b2c56139e37"
+  },
+  {
+   "tree_entity_id": "ent_ecb085e1ec297104d210",
+   "tree_name": "农银金融租赁有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_b4a77b4b465a0456e1f6",
+   "provisional_id": "prov_6ee93efa18e654939fd0"
+  },
+  {
+   "tree_entity_id": "ent_cc4285c2b58d561c024f",
+   "tree_name": "农银国际控股有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_b4a77b4b465a0456e1f6",
+   "provisional_id": "prov_e0419d14550e53fb8c9a"
+  },
+  {
+   "tree_entity_id": "ent_4ff637f5f263e4e70d64",
+   "tree_name": "中银航空租赁有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_81ff87eb403cd4c02c3f",
+   "provisional_id": "prov_28d5a22b24e7555e9cda"
+  },
+  {
+   "tree_entity_id": "ent_5d1d8fd75b40f0c09b66",
+   "tree_name": "中银国际控股有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_81ff87eb403cd4c02c3f",
+   "provisional_id": "prov_67da0e619fc450eea3e7"
+  },
+  {
+   "tree_entity_id": "ent_f6d3ee52f0fd83f8aba4",
+   "tree_name": "建信金融租赁有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_0f3b3604e4b523a9e111",
+   "provisional_id": "prov_ebea73813da957d096c6"
+  },
+  {
+   "tree_entity_id": "ent_05f964bdde1a15987619",
+   "tree_name": "建信国际（控股）有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_0f3b3604e4b523a9e111",
+   "provisional_id": "prov_a057b536566a53c6afd1"
+  },
+  {
+   "tree_entity_id": "ent_d98709585b341770fecb",
+   "tree_name": "苏州阿特斯阳光电力科技有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_553a4137e65deb6b7296",
+   "provisional_id": "prov_aca47f9dc01e5c1ba187"
+  },
+  {
+   "tree_entity_id": "ent_53467cb8ee01c4e379ce",
+   "tree_name": "苏州阿特斯户用光伏能源科技有限公司",
+   "tree_level": 4,
+   "parent_tree_id": "ent_d98709585b341770fecb",
+   "provisional_id": "prov_61464a1f3e6e518b8de4"
+  },
+  {
+   "tree_entity_id": "ent_f2ec35c17d4ce5f05d9a",
+   "tree_name": "盐城阿特斯阳光能源科技有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_553a4137e65deb6b7296",
+   "provisional_id": "prov_bc3956d657f3527d8325"
+  },
+  {
+   "tree_entity_id": "ent_38f1d4d0866c7ea40155",
+   "tree_name": "宿迁阿特斯阳光电力科技有限公司",
+   "tree_level": 3,
+   "parent_tree_id": "ent_553a4137e65deb6b7296",
+   "provisional_id": "prov_30952fd55a53576294fb"
+  },
+  {
+   "tree_entity_id": "ent_2945d6054501df1e9ff4",
+   "tree_name": "电站集团",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_ba684d3e91d7540587f7"
+  },
+  {
+   "tree_entity_id": "ent_3438eb26ca13953ccbf8",
+   "tree_name": "输配电集团",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_3fa181fea40d574a8e8a"
+  },
+  {
+   "tree_entity_id": "ent_170a0bec9b1c08c0fe61",
+   "tree_name": "轨道交通集团",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_86093585e14c516fab34"
+  },
+  {
+   "tree_entity_id": "ent_ef199a9939ec45fb4e09",
+   "tree_name": "环保集团",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_4c48ebb0778452979c4a"
+  },
+  {
+   "tree_entity_id": "ent_2bb5542cb91663a9bff4",
+   "tree_name": "上海集优",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_93d6f51d5da859b6b13d"
+  },
+  {
+   "tree_entity_id": "ent_aa96b9a7a4c00f572ed7",
+   "tree_name": "金融集团",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_c91fdb93ad0855ed9a5d"
+  },
+  {
+   "tree_entity_id": "ent_78a27a84c7fb9838f294",
+   "tree_name": "中央研究院",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3f6e89149eaaf0da39d",
+   "provisional_id": "prov_bee6d5594c245ad2abed"
+  },
+  {
+   "tree_entity_id": "ent_02ff3d9facc264af65e4",
+   "tree_name": "新特能源股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_d3baaade7466eb196895",
+   "provisional_id": "prov_ffd2003a1ba059e6a5a7"
+  },
+  {
+   "tree_entity_id": "ent_23e14d1672dbb3043f01",
+   "tree_name": "协鑫科技控股有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_83b04c96f2698e98e5c7",
+   "provisional_id": "prov_7a32fc1f57c4500586fc"
+  },
+  {
+   "tree_entity_id": "ent_1ea550154e6e4122dbbd",
+   "tree_name": "通威股份有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_df5e35b84904778dcc04",
+   "provisional_id": "prov_6c405bf10f10598f8db8"
+  },
+  {
+   "tree_entity_id": "ent_7b16fa00062976aa0e8f",
+   "tree_name": "天合跟踪",
+   "tree_level": 2,
+   "parent_tree_id": "ent_1e2b7a4480dea4895490",
+   "provisional_id": "prov_fc8abfcbea3d537594b2"
+  },
+  {
+   "tree_entity_id": "ent_99a663977ff9893e0764",
+   "tree_name": "威顿控股马来西亚有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_934fc7132788335d31dd",
+   "provisional_id": "prov_4f944de76d1e5264bc47"
+  },
+  {
+   "tree_entity_id": "ent_0019d7f407e844b0d1cb",
+   "tree_name": "威顿马来西亚能源有限公司",
+   "tree_level": 2,
+   "parent_tree_id": "ent_934fc7132788335d31dd",
+   "provisional_id": "prov_fa08d0494ff856f18601"
+  }
+ ],
+ "alias_conflicts": [],
+ "v3_unresolved_entries": [
+  {
+   "group": "中国能源建设集团有限公司",
+   "name": "中国能源建设集团福建公司",
+   "legal": "中国能源建设集团福建公司",
+   "reason": "needs_review"
+  },
+  {
+   "group": "中国电力建设集团有限公司",
+   "name": "中国电建集团尼日利亚代表处",
+   "legal": "中国电建集团尼日利亚代表处",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "电站集团",
+   "legal": "电站集团",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "输配电集团",
+   "legal": "输配电集团",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "轨道交通集团",
+   "legal": "轨道交通集团",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "环保集团",
+   "legal": "环保集团",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "上海集优",
+   "legal": "上海集优",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "金融集团",
+   "legal": "金融集团",
+   "reason": "needs_review"
+  },
+  {
+   "group": "上海电气集团股份有限公司",
+   "name": "中央研究院",
+   "legal": "中央研究院",
+   "reason": "needs_review"
+  },
+  {
+   "group": "天合光能股份有限公司",
+   "name": "天合跟踪",
+   "legal": "天合跟踪",
+   "reason": "needs_review"
+  },
+  {
+   "group": "阿特斯阳光电力集团股份有限公司",
+   "name": "阿特斯储能",
+   "legal": "阿特斯储能",
+   "reason": "needs_review"
+  },
+  {
+   "group": "中国远洋海运集团有限公司",
+   "name": "中远海运物流供应链工程物流事业部",
+   "legal": "中远海运物流供应链有限公司（工程物流事业部为其内设部门）",
+   "reason": "needs_review"
+  },
+  {
+   "group": "威顿控股集团有限公司",
+   "name": "威顿控股马来西亚有限公司",
+   "legal": "威顿控股马来西亚有限公司",
+   "reason": "needs_review"
+  },
+  {
+   "group": "威顿控股集团有限公司",
+   "name": "威顿马来西亚能源有限公司",
+   "legal": "威顿马来西亚能源有限公司",
+   "reason": "needs_review"
+  }
+ ],
+ "issues": [],
+ "root_counts": {
+  "中国能源建设集团有限公司": 75,
+  "中国电力建设集团有限公司": 48,
+  "国家能源投资集团有限责任公司": 33,
+  "中国机械工业集团有限公司": 21,
+  "中国南方电网有限责任公司": 18,
+  "国家电力投资集团有限公司": 16,
+  "中国华能集团有限公司": 15,
+  "中国长江三峡集团有限公司": 14,
+  "哈尔滨电气集团有限公司": 14,
+  "上海电气集团股份有限公司": 13,
+  "中国大唐集团有限公司": 12,
+  "三一集团有限公司": 12,
+  "中国广核集团有限公司": 11,
+  "国家电网有限公司": 11,
+  "中国华电集团有限公司": 10,
+  "中国东方电气集团有限公司": 10,
+  "中国核工业集团有限公司": 9,
+  "中国建筑集团有限公司": 9,
+  "中国建材集团有限公司": 8,
+  "中国电气装备集团有限公司": 8,
+  "中国交通建设集团有限公司": 6,
+  "中国通用技术（集团）控股有限责任公司": 5,
+  "Canadian Solar Inc.": 5,
+  "中国化学工程集团有限公司": 5,
+  "正泰集团股份有限公司": 4,
+  "中国铁道建筑集团有限公司": 4,
+  "特变电工股份有限公司": 3,
+  "中国兵器工业集团有限公司": 3,
+  "中国宝武钢铁集团有限公司": 3,
+  "中国铁路工程集团有限公司": 3
+ }
+}
