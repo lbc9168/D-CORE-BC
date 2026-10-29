@@ -95,7 +95,7 @@ export default function OverviewPage() {
         <div className="max-w-[1400px] mx-auto w-full px-6 py-6 space-y-4">
           {/* 标题行：标题 + 年份胶囊 */}
           <div className="flex items-center justify-between gap-4 flex-wrap">
-            <h1 className="text-xl font-bold text-slate-800">
+            <h1 className="text-2xl font-semibold text-slate-800">
               {t("overview.title")}{" "}
               <span className="text-brand-600 underline decoration-2 underline-offset-4">
                 {year == null ? t("overview.allYears") : year}

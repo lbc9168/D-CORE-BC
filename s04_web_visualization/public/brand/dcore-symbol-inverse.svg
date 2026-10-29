@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs><mask id="rack"><rect width="128" height="128" fill="white"/>
+    <g fill="black"><rect x="12" y="27" width="37" height="16" rx="1"/><rect x="12" y="51" width="37" height="16" rx="1"/><rect x="12" y="75" width="37" height="16" rx="1"/></g>
+  </mask><mask id="link"><rect width="128" height="128" fill="white"/><path d="M6 113Q53 74 109 53" fill="none" stroke="black" stroke-width="7"/></mask></defs>
+  <g fill="#fff" mask="url(#link)">
+    <path d="M6 6H57V120H6Z" mask="url(#rack)"/>
+    <g fill="none" stroke="#fff" stroke-width="4.5"><path d="M55 8C84 5 106 24 116 42M120 60C117 94 93 118 57 118"/><path d="M57 8C76 10 88 34 90 56C93 84 77 116 57 118"/></g>
+    <g><circle cx="19" cy="35" r="3"/><rect x="26" y="33.5" width="17" height="3" rx="1.5"/><circle cx="19" cy="59" r="3"/><rect x="26" y="57.5" width="17" height="3" rx="1.5"/><circle cx="19" cy="83" r="3"/><rect x="26" y="81.5" width="17" height="3" rx="1.5"/></g>
+  </g>
+  <path d="M6 113Q53 74 109 53" fill="none" stroke="#fff" stroke-width="3"/>
+  <circle cx="116" cy="49" r="8" fill="#c5a66a"/>
+</svg>

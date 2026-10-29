@@ -73,7 +73,7 @@ export default function TxMfProjectList({ projects, onSelect, selectedId }: TxMf
               }`}
               onClick={() => onSelect(p)}
             >
-              <div className="text-sm font-medium text-slate-800 leading-tight line-clamp-2 mb-1">
+              <div className="text-sm font-medium text-slate-800 leading-snug line-clamp-2 mb-1.5">
                 {name}
               </div>
 
@@ -81,24 +81,24 @@ export default function TxMfProjectList({ projects, onSelect, selectedId }: TxMf
                 {cat && (
                   <span
                     className="badge text-white"
-                    style={{ backgroundColor: cat.color, fontSize: "10px" }}
+                    style={{ backgroundColor: cat.color, fontSize: "11px" }}
                   >
                     {cat.en}
                   </span>
                 )}
                 <span
                   className="badge"
-                  style={{ backgroundColor: stageColor + "20", color: stageColor, fontSize: "10px" }}
+                  style={{ backgroundColor: stageColor + "20", color: stageColor, fontSize: "11px" }}
                 >
                   {grpMeta?.en ?? "—"}
                 </span>
                 {scale && (
-                  <span className="text-slate-400" style={{ fontSize: "10px" }}>
+                  <span className="text-slate-500" style={{ fontSize: "11px" }}>
                     {scale}
                   </span>
                 )}
                 {p.event_year && (
-                  <span className="text-slate-400 ml-auto" style={{ fontSize: "10px" }}>
+                  <span className="text-slate-500 ml-auto" style={{ fontSize: "11px" }}>
                     {p.event_year}
                   </span>
                 )}

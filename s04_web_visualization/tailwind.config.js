@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter", "Noto Sans SC", "system-ui", "sans-serif"],
+      },
       colors: {
         // 能源类别色板
         category: {

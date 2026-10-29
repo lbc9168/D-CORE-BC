@@ -78,7 +78,7 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
               onClick={() => onSelect(p)}
             >
               {/* 项目名 */}
-              <div className="text-sm font-medium text-slate-800 leading-tight line-clamp-2 mb-1">
+              <div className="text-sm font-medium text-slate-800 leading-snug line-clamp-2 mb-1.5">
                 {name}
               </div>
 
@@ -87,7 +87,7 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
                 {cat && (
                   <span
                     className="badge text-white"
-                    style={{ backgroundColor: cat.color, fontSize: "10px" }}
+                    style={{ backgroundColor: cat.color, fontSize: "11px" }}
                   >
                     {cat.en}
                   </span>
@@ -98,7 +98,7 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
                     style={{
                       color: cat?.color ?? "#64748B",
                       borderColor: (cat?.color ?? "#64748B") + "66",
-                      fontSize: "10px",
+                      fontSize: "11px",
                     }}
                   >
                     {p.subcategory_en}
@@ -110,18 +110,18 @@ export default function ProjectList({ projects, onSelect, selectedId, variant = 
                   style={{
                     backgroundColor: stageColor + "20",
                     color: stageColor,
-                    fontSize: "10px",
+                    fontSize: "11px",
                   }}
                 >
                   {grpMeta?.en ?? "—"}
                 </span>
                 {scaleLabel(p, variant) && (
-                  <span className="text-slate-400" style={{ fontSize: "10px" }}>
+                  <span className="text-slate-500" style={{ fontSize: "11px" }}>
                     {scaleLabel(p, variant)}
                   </span>
                 )}
                 {p.event_year && (
-                  <span className="text-slate-400 ml-auto" style={{ fontSize: "10px" }}>
+                  <span className="text-slate-500 ml-auto" style={{ fontSize: "11px" }}>
                     {p.event_year}
                   </span>
                 )}

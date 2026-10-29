@@ -38,7 +38,7 @@ function writeStorage(value: boolean): void {
   }
 }
 
-/** 左侧导航栏：折叠态仅图标（3.75rem），点击右缘圆钮丝滑展开显示文字（13.5rem） */
+/** Fixed text geometry prevents reflow while the sidebar opens or closes. */
 export default function Sidebar() {
   const { t } = useLang();
   const [expanded, setExpanded] = useState(() => readStorage());
@@ -48,32 +48,18 @@ export default function Sidebar() {
     setExpanded(next);
   };
 
-  const labelClass = `whitespace-nowrap overflow-hidden transition-all duration-200 ${
-    expanded ? "opacity-100 max-w-[9rem] ml-2.5" : "opacity-0 max-w-0 ml-0"
-  }`;
-
-  // 方案 B：标题展开态始终用最终宽度 w-[9rem] 排版，绝不在动画中途的窄宽度下重排（消除展开抖动）；
-  // 仅淡入 opacity，由 header 的 overflow-hidden 在侧栏变宽时把标题横向"擦出"。
-  // flex-shrink-0：窄侧栏阶段标题保持 9rem 被裁剪，而非被压缩重排。收缩态 w-0+nowrap 单行 0 宽、不增高度。
-  const titleClass = `flex-shrink-0 overflow-hidden transition-opacity duration-300 ${
-    expanded ? "opacity-100 w-[9rem] ml-2.5" : "opacity-0 w-0 ml-0 whitespace-nowrap"
-  }`;
-
   return (
     <aside
-      className={`relative h-full bg-brand-700 flex flex-col flex-shrink-0
-                  transition-[width] duration-300 ease-in-out ${
-                    expanded ? "w-[13.5rem]" : "w-[3.75rem]"
-                  }`}
+      data-expanded={expanded}
+      className="sidebar-shell relative h-full bg-brand-700 flex flex-col flex-shrink-0"
     >
       {/* Logo / 标题 */}
-      <div className="flex items-center px-3 py-4 border-b border-white/10 min-h-[3.5rem] overflow-hidden">
-        <div className="w-8 h-8 rounded-lg bg-white/15 text-white flex items-center justify-center
-                        font-bold text-xs flex-shrink-0 select-none">
-          RE
-        </div>
-        <div className={`font-semibold text-white text-sm leading-snug ${titleClass}`}>
-          {t("nav.title")}
+      <div className="relative h-[6.5rem] shrink-0 overflow-hidden border-b border-white/10" aria-label={`D-CORE: ${t("nav.title")}`}>
+        <img src={`${import.meta.env.BASE_URL}brand/dcore-symbol-inverse.svg`} alt="" width={36} height={36} className="absolute left-3 top-3.5 h-9 w-9" />
+        <img src={`${import.meta.env.BASE_URL}brand/dcore-wordmark-inverse.svg`} alt="" width={144} height={28} className="sidebar-reveal absolute left-[3.5rem] top-[1.125rem] h-7 w-36" />
+        <div aria-hidden={!expanded} className="sidebar-reveal absolute left-3 top-[3.375rem] w-48 text-[11.5px] font-normal leading-[1.5] text-white/85">
+          <span className="block whitespace-nowrap">Database of Chinese Overseas</span>
+          <span className="block whitespace-nowrap">Renewable Energy Projects</span>
         </div>
       </div>
 
@@ -82,13 +68,13 @@ export default function Sidebar() {
         onClick={toggle}
         aria-label={expanded ? "collapse sidebar" : "expand sidebar"}
         aria-expanded={expanded}
-        className="absolute -right-3 top-16 z-30 w-6 h-6 rounded-full bg-white border border-slate-200
+        className="absolute -right-3 top-[4.5rem] z-30 w-6 h-6 rounded-full bg-white border border-slate-200
                    shadow-sm flex items-center justify-center text-slate-500 hover:text-brand-600
                    hover:shadow transition-all"
       >
         <ChevronRight
           size={13}
-          className={`transition-transform duration-300 ${expanded ? "rotate-180" : ""}`}
+          className={`transition-transform duration-300 motion-reduce:transition-none ${expanded ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -100,6 +86,7 @@ export default function Sidebar() {
             to={to}
             end={end}
             title={expanded ? undefined : t(labelKey)}
+            aria-label={t(labelKey)}
             className={({ isActive }) =>
               `flex items-center rounded-lg px-2.5 py-2.5 text-sm font-medium transition-colors ${
                 isActive
@@ -109,7 +96,7 @@ export default function Sidebar() {
             }
           >
             <Icon size={17} className="flex-shrink-0" />
-            <span className={labelClass}>{t(labelKey)}</span>
+            <span aria-hidden="true" className="sidebar-reveal ml-2.5 w-40 shrink-0 whitespace-nowrap">{t(labelKey)}</span>
           </NavLink>
         ))}
       </nav>

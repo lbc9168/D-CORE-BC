@@ -11,6 +11,30 @@ export interface Update {
  */
 export const updates: Update[] = [
   {
+    id: "2026-october-reports",
+    date: "2026-10-29",
+    title_en: "Q3 2026 Report and Website Refresh",
+    body_en:
+      "We've got a new report and a few website improvements to share!\n\n" +
+      "📖 Our Q3 2026 report is here\n" +
+      "Head to Reports for our latest look at Chinese overseas renewable energy projects, transmission and clean energy manufacturing.\n\n" +
+      "🤝 More research to explore\n" +
+      "Research Using D-CORE brings together work from researchers and partner organisations, starting with a joint report by CREA and PACS. Have a study that cites D-CORE? We'd love to hear from you and share it here.\n\n" +
+      "✨ A little visual refresh\n" +
+      "We've updated the logo, tidied up the typography and made a few layout tweaks. We hope you'll find the site a little clearer and more enjoyable to explore.",
+  },
+  {
+    id: "2026-q3",
+    date: "2026-10-07",
+    title_en: "2026 Q3 Update",
+    body_en:
+      "We've continued improving D-CORE since our August update.\n\n" +
+      "📊 Q3 data refresh complete\n" +
+      "We've completed the Q3 data refresh, bringing the dataset through September 30, 2026. The quarter added 100 generation and storage projects (118 event records), 33 transmission projects (34 event records), and 22 manufacturing projects (24 event records)—155 projects and 176 event records in total.\n\n" +
+      "🧪 A new Lab page\n" +
+      "We've launched a Lab page for interesting tools and features that are still being explored. It currently features Equipment Supply Links, an interactive view of equipment suppliers and project destinations, with views by country, subregion, and continent. We plan to add more features over time. Have an idea? Get in touch and let us know what you'd like to see.",
+  },
+  {
     id: "2026-august",
     date: "2026-08-16",
     title_en: "2026 August Update",

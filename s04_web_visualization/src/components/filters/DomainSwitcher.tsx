@@ -66,7 +66,7 @@ export default function DomainSwitcher({ showMetrics = true }: { showMetrics?: b
             <span className="text-[10px] text-slate-400 whitespace-nowrap">{zhSub}</span>
             <span className={`badge font-bold ${
               active ? "bg-brand-100 text-brand-700" : "bg-slate-100 text-slate-500"
-            }`} style={{ fontSize: "10px" }}>
+            }`} style={{ fontSize: "11px" }}>
               {counts[key]}
             </span>
 
@@ -80,7 +80,7 @@ export default function DomainSwitcher({ showMetrics = true }: { showMetrics?: b
                   <button
                     key={m}
                     onClick={() => setMetric(m)}
-                    className={`text-[10px] px-2 py-0.5 rounded-full whitespace-nowrap transition-colors ${
+                    className={`text-[11px] px-2 py-0.5 rounded-full whitespace-nowrap transition-colors ${
                       m === metric
                         ? "bg-brand-500 text-white font-semibold"
                         : "text-slate-500 hover:bg-slate-100"

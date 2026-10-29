@@ -21,7 +21,7 @@ export default function TechnologyTagBadges({
     <span
       key={`${project.project_id}-technology-${index}-${label}`}
       className={`badge border border-violet-200 bg-violet-50 text-violet-700 ${className}`}
-      style={{ fontSize: compact ? "10px" : undefined }}
+      style={{ fontSize: compact ? "11px" : undefined }}
     >
       {label}
     </span>

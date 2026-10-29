@@ -194,7 +194,7 @@ export default function MapPage() {
         <div className="w-[26rem] max-w-[42vw] min-w-[20rem] border-l border-slate-200 flex flex-col overflow-hidden bg-slate-50 flex-shrink-0">
           <div className="flex flex-col flex-1 overflow-hidden p-2">
             <div className="card flex flex-col flex-1 overflow-hidden">
-              <div className="px-3 py-2.5 border-b border-slate-100 font-medium text-sm text-slate-700 flex items-center justify-between gap-1.5">
+              <div className="px-3 py-3 border-b border-slate-100 font-semibold text-base text-slate-700 flex items-center justify-between gap-1.5">
                 <span>
                   {selectedProvince === "__no_province__"
                     ? t("map.noProvince")

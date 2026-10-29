@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="660" viewBox="0 0 480 660">
+  <rect width="480" height="660" fill="#243e4b"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#fff">
+    <text x="38" y="66" font-size="30" font-weight="700" letter-spacing="1">D-CORE</text>
+    <path d="M38 91H442" stroke="#96bfbd" stroke-width="1"/>
+    <text x="38" y="124" font-size="12" letter-spacing="2" fill="#c2dddc">LANDSCAPE REPORT</text>
+    <text x="38" y="190" font-size="44" font-weight="700">2022–2025</text>
+    <g font-size="24"><text x="38" y="239">The Landscape of Chinese</text>
+      <text x="38" y="272">Overseas Renewable</text><text x="38" y="305">Energy Projects</text></g>
+  </g>
+  <circle cx="385" cy="395" r="43" fill="#d3bd84"/>
+  <path d="M0 455L78 413L152 450L253 398L360 452L480 407V660H0Z" fill="#386660"/>
+  <path d="M0 505L105 452L213 504L337 452L480 502V660H0Z" fill="#52877a"/>
+  <path d="M0 553L140 496L298 558L480 510V660H0Z" fill="#244e4b"/>
+  <g transform="translate(133 494) scale(0.78)" stroke="#e0eeee" stroke-width="4" stroke-linecap="round" fill="none">
+  <path d="M0 0V-116M0-116L-5-163M0-116L41-94M0-116L-36-90"/>
+</g>
+    <path d="M306 460H420L450 568H289Z" fill="#96bfbd"/><path d="M306 460H420" stroke="#e0eeee" stroke-width="7"/>
+    <path d="M327 477L318 566M354 477V566M381 477L390 566M408 477L428 566" stroke="#386660" stroke-width="5"/>
+    <path d="M282 574Q335 561 383 575T480 572V620H280Z" fill="#639896"/>
+    <path d="M306 588H353M373 601H436M435 584H470" stroke="#c2dddc" stroke-width="2"/>
+    <g transform="translate(4 537) scale(1.2)" stroke="#96bfbd" stroke-width="1.5" fill="#143b43">
+  <path d="M20 0H221L252 67H0Z"/><path d="M36 0L20 67M75 0L65 67M115 0V67M156 0L168 67M196 0L214 67M11 32H236"/>
+</g>
+  <text x="38" y="644" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="1.5" fill="#c2dddc">RESEARCH FOR THE ENERGY TRANSITION</text>
+</svg>

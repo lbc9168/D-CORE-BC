@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="660" viewBox="0 0 480 660">
+  <rect width="480" height="660" fill="#143231"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#fff">
+    <text x="38" y="66" font-size="30" font-weight="700" letter-spacing="1">D-CORE</text>
+    <path d="M38 91H442" stroke="#96bfbd" stroke-width="1"/>
+    <text x="38" y="124" font-size="12" letter-spacing="2" fill="#c2dddc">QUARTERLY REPORT</text>
+    <text x="38" y="190" font-size="44" font-weight="700">Q3 2026</text>
+    <g font-size="24"><text x="38" y="239">The Landscape of Chinese</text>
+      <text x="38" y="272">Overseas Renewable</text><text x="38" y="305">Energy Projects</text></g>
+  </g>
+  <circle cx="385" cy="395" r="43" fill="#d3bd84"/>
+  <path d="M0 455L78 413L152 450L253 398L360 452L480 407V660H0Z" fill="#386660"/>
+  <path d="M0 505L105 452L213 504L337 452L480 502V660H0Z" fill="#52877a"/>
+  <path d="M0 553L140 496L298 558L480 510V660H0Z" fill="#244e4b"/>
+  <g transform="translate(213 470) scale(0.55)" stroke="#e0eeee" stroke-width="4" stroke-linecap="round" fill="none">
+  <path d="M0 0V-116M0-116L-5-163M0-116L41-94M0-116L-36-90"/>
+</g>
+    <g stroke="#c2dddc" stroke-width="3.5" fill="none" stroke-linejoin="round">
+      <path d="M77 546L113 388L149 546M90 487H136M97 453H130M105 419H122M90 487L139 518M136 487L84 518M97 453L136 487M130 453L90 487M78 423H148M86 401H140"/>
+      <path d="M78 423Q41 445 0 437M148 423Q231 454 318 430" stroke-width="2"/>
+    </g>
+    <path d="M240 505L286 482V505L331 482V505L377 482V505H448V600H240Z" fill="#96bfbd"/>
+    <path d="M399 505V459H424V505" fill="#639896"/>
+    <path d="M252 527H438" stroke="#e0eeee" stroke-width="4"/>
+    <g fill="#386660"><rect x="254" y="541" width="34" height="22"/><rect x="301" y="541" width="34" height="22"/><rect x="348" y="541" width="34" height="22"/><rect x="396" y="541" width="30" height="59"/></g>
+    <g transform="translate(10 558) scale(0.78)" stroke="#96bfbd" stroke-width="1.5" fill="#143b43">
+  <path d="M20 0H221L252 67H0Z"/><path d="M36 0L20 67M75 0L65 67M115 0V67M156 0L168 67M196 0L214 67M11 32H236"/>
+</g>
+  <text x="38" y="644" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="1.5" fill="#c2dddc">RESEARCH FOR THE ENERGY TRANSITION</text>
+</svg>
